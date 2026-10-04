@@ -223,6 +223,17 @@
           "secondary_button_label": "#ffffff",
           "shadow": "#000000"
         }
+      },
+      "scheme-warm": {
+        "settings": {
+          "background": "#f4f2ee",
+          "background_gradient": "",
+          "text": "#1a1a1a",
+          "button": "#f5a623",
+          "button_label": "#111111",
+          "secondary_button_label": "#5a5a6a",
+          "shadow": "#001128"
+        }
       }
     }
   },
