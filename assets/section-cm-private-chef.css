@@ -211,7 +211,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
-  align-items: stretch;
+  align-items: start;
 }
 
 .cm-pc__split .cm-heading {
@@ -249,26 +249,22 @@
 }
 
 .cm-pc__quote {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
   margin: 0;
-  padding: 2.8rem;
+  padding: 1.6rem 2rem;
   border: 1px solid var(--pc-line);
   border-left: 4px solid var(--cm-brand);
   border-radius: 1.4rem;
   font-family: var(--cm-display);
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 900;
-  line-height: 1.45;
+  line-height: 1.4;
   color: var(--cm-text);
   background: #fff;
 }
 
 .cm-pc__quote small {
   display: block;
-  margin-top: 1.4rem;
+  margin-top: 1rem;
   font-family: var(--cm-body);
   font-size: 1.3rem;
   font-weight: 600;
