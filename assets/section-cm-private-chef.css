@@ -178,7 +178,7 @@
 
 .cm-pc__head {
   max-width: 56rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2.4rem;
 }
 
 .cm-pc__head .cm-heading {
@@ -214,8 +214,8 @@
 .cm-pc__split {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5.6rem;
-  align-items: start;
+  gap: 4rem;
+  align-items: stretch;
 }
 
 .cm-pc__split .cm-heading {
@@ -253,6 +253,10 @@
 }
 
 .cm-pc__quote {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
   margin: 0;
   padding: 2.8rem;
   border: 1px solid var(--pc-line);
@@ -329,7 +333,7 @@
 .cm-pc__form-grid {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
-  gap: 5.6rem;
+  gap: 4rem;
   align-items: start;
 }
 
