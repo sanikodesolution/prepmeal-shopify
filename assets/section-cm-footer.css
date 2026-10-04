@@ -572,11 +572,14 @@
 
   .cm-footer__cta-actions {
     width: 100%;
+    justify-content: flex-start;
   }
 
   .cm-footer__cta-actions .cm-footer__pm,
   .cm-footer__cta-actions .cm-footer__btn {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
+    width: auto;
+    max-width: 100%;
   }
 }
 
