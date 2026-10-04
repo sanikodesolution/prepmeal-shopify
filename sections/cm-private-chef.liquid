@@ -27,12 +27,12 @@
         {%- if section.settings.text != blank -%}
           <div class="cm-pc__lead">{{ section.settings.text }}</div>
         {%- endif -%}
-        <div class="banner__buttons{% if section.settings.button_label != blank and section.settings.button_label_2 != blank %} banner__buttons--multiple{% endif %} cm-pc__actions">
+        <div class="cm-pc__actions">
           {%- if section.settings.button_label != blank -%}
-            {% render 'pm-button', label: section.settings.button_label, link: '#pc-quote', style: 'brand' %}
+            {% render 'pm-button', label: section.settings.button_label, link: '#pc-quote', style: 'brand', class: 'cm-pc__btn' %}
           {%- endif -%}
           {%- if section.settings.button_label_2 != blank and steps.size > 0 -%}
-            {% render 'pm-button', label: section.settings.button_label_2, link: '#pc-how', style: 'brand' %}
+            {% render 'pm-button', label: section.settings.button_label_2, link: '#pc-how', style: 'outline', class: 'cm-pc__btn' %}
           {%- endif -%}
         </div>
         {%- if section.settings.quiet != blank or section.settings.phone != blank -%}
