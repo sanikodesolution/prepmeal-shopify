@@ -372,6 +372,19 @@
     add(tl, blocks.filter((el) => el !== heading), { autoAlpha: 0, y: 30, duration: 0.8, stagger: 0.12 }, 0.2);
   }
 
+  function collapsibleContent(section) {
+    const root = section.querySelector('.collapsible-content') || section;
+    const tl = timeline(root, 'top 82%');
+    add(
+      tl,
+      all(root, '.collapsible-content__header .caption-with-letter-spacing'),
+      { autoAlpha: 0, y: 12, letterSpacing: '0.35em', duration: 0.8 },
+      0
+    );
+    addSplitHeading(tl, root.querySelector('.collapsible-content__heading'), 0.1);
+    add(tl, all(root, '.accordion'), { autoAlpha: 0, y: 28, duration: 0.65, stagger: 0.1 }, 0.3);
+  }
+
   function cardGrid(section) {
     all(section, '.title-wrapper-with-link, .title-wrapper').forEach((wrapper) => {
       const tl = timeline(wrapper, 'top 88%');
@@ -460,11 +473,31 @@
   }
 
   function cmMap(root) {
-    const tl = timeline(root, 'top 75%');
+    const tl = timeline(root, 'top 78%');
     cmIntro(tl, root.querySelector('.cm-center'), 0);
-    add(tl, all(root, '.cm-map'), { autoAlpha: 0, y: 70, scale: 0.96, duration: 1.1 }, 0.3);
-    add(tl, all(root, '.cm-map__head > *'), { autoAlpha: 0, y: -12, duration: 0.6, stagger: 0.1 }, 0.8);
-    add(tl, all(root, '.cm-map__foot'), { autoAlpha: 0, y: 20, duration: 0.6, stagger: 0.12 }, 0.9);
+    add(
+      tl,
+      all(root, '.cm-map'),
+      { autoAlpha: 0, y: 70, scale: 0.94, duration: 1.15, ease: 'power4.out' },
+      0.25
+    );
+    const canvas = root.querySelector('.cm-map__canvas');
+    if (canvas) {
+      setThenTo(
+        tl,
+        canvas,
+        { clipPath: 'inset(10% 8% 10% 8% round 12px)' },
+        { clipPath: 'inset(0% 0% 0% 0% round 12px)', duration: 1.15, ease: 'power3.inOut' },
+        0.4
+      );
+    }
+    add(tl, all(root, '.cm-map__head > *'), { autoAlpha: 0, y: -14, duration: 0.65, stagger: 0.1 }, 0.75);
+    add(
+      tl,
+      all(root, '.cm-map__foot'),
+      { autoAlpha: 0, y: 22, scale: 0.96, duration: 0.7, stagger: 0.12, ease: 'back.out(1.5)' },
+      0.9
+    );
   }
 
   function cmPlans(root) {
@@ -724,6 +757,196 @@
     });
   }
 
+  function cmGiftCard(root) {
+    const hero = root.querySelector('.cm-gc__hero');
+    if (hero) {
+      const heroTl = timeline(hero, 'top 88%');
+      add(
+        heroTl,
+        all(hero, '.cm-gc__stage'),
+        { autoAlpha: 0, x: -50, rotate: -4, duration: 1.1, ease: 'power3.out' },
+        0
+      );
+      add(
+        heroTl,
+        all(hero, '.cm-gc__label-title, .cm-gc__label-sub, .cm-gc__rule, .cm-gc__amt, .cm-gc__row, .cm-gc__stamp'),
+        { autoAlpha: 0, y: 18, duration: 0.55, stagger: 0.07 },
+        0.25
+      );
+      addSplitHeading(heroTl, hero.querySelector('.cm-gc__title'), 0.15);
+      add(heroTl, all(hero, '.cm-gc__lead'), { autoAlpha: 0, y: 24, duration: 0.75 }, 0.4);
+      add(heroTl, all(hero, '.cm-gc__price'), { autoAlpha: 0, y: 16, duration: 0.6 }, 0.55);
+      add(
+        heroTl,
+        all(hero, '.cm-gc__chips label'),
+        { autoAlpha: 0, scale: 0.85, duration: 0.45, stagger: 0.05, ease: 'back.out(1.7)' },
+        0.65
+      );
+      add(heroTl, all(hero, '.cm-gc__gift, .cm-gc__hint'), { autoAlpha: 0, y: 14, duration: 0.5, stagger: 0.08 }, 0.8);
+      add(
+        heroTl,
+        all(hero, '.cm-gc__cta'),
+        { autoAlpha: 0, y: 20, scale: 0.92, duration: 0.7, ease: 'back.out(1.8)' },
+        0.95
+      );
+      add(heroTl, all(hero, '.cm-gc__fine'), { autoAlpha: 0, y: 12, duration: 0.5 }, 1.1);
+    }
+
+    const strip = root.querySelector('.cm-gc__strip');
+    if (strip) {
+      reveal(strip, { y: 30, duration: 0.8 }, strip, 'top 90%');
+    }
+
+    const how = root.querySelector('.cm-gc__how');
+    if (how) {
+      const howTl = timeline(how, 'top 80%');
+      addSplitHeading(howTl, how.querySelector('.cm-gc__t'), 0);
+      add(
+        howTl,
+        all(how, '.cm-gc__steps li'),
+        { autoAlpha: 0, y: 45, duration: 0.75, stagger: 0.12 },
+        0.25
+      );
+      add(
+        howTl,
+        all(how, '.cm-gc__steps b'),
+        { autoAlpha: 0, scale: 0, rotate: -140, duration: 0.65, stagger: 0.12, ease: 'back.out(2)' },
+        0.4
+      );
+      add(
+        howTl,
+        all(how, '.cm-gc__steps h3, .cm-gc__steps p'),
+        { autoAlpha: 0, y: 14, duration: 0.55, stagger: 0.06 },
+        0.55
+      );
+    }
+
+    const faq = root.querySelector('.cm-gc__faq');
+    if (faq) {
+      const faqTl = timeline(faq, 'top 82%');
+      addSplitHeading(faqTl, faq.querySelector('.cm-gc__t'), 0);
+      add(
+        faqTl,
+        all(faq, 'details'),
+        { autoAlpha: 0, y: 28, duration: 0.65, stagger: 0.1 },
+        0.25
+      );
+    }
+
+    const reviews = root.querySelector('.cm-gc__reviews');
+    if (reviews) {
+      const head = reviews.querySelector('.cm-gc__rv-head');
+      if (head) {
+        const headTl = timeline(head, 'top 84%');
+        addSplitHeading(headTl, head.querySelector('.cm-gc__t'), 0);
+        add(headTl, all(head, '.cm-gc__rv-sum'), { autoAlpha: 0, y: 18, duration: 0.7 }, 0.25);
+      }
+
+      const cards = all(reviews, '.cm-gc__rv-card');
+      if (cards.length) {
+        ScrollTrigger.batch(cards, {
+          start: 'top 90%',
+          once: true,
+          onEnter: (batch) => {
+            gsap.fromTo(
+              batch,
+              { autoAlpha: 0, y: 40, scale: 0.96 },
+              {
+                autoAlpha: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.75,
+                stagger: 0.1,
+                ease: 'power3.out',
+                clearProps: CLEAR,
+              }
+            );
+          },
+        });
+        gsap.set(cards, { autoAlpha: 0 });
+      }
+
+      const form = reviews.querySelector('.cm-gc__rv-form');
+      if (form) {
+        const formTl = timeline(form, 'top 85%');
+        add(formTl, form, { autoAlpha: 0, y: 40, duration: 0.9, ease: 'power3.out' }, 0);
+        add(
+          formTl,
+          all(form, 'h3, fieldset, .cm-gc__rv-f, .cm-gc__drop, .cm-gc__cta'),
+          { autoAlpha: 0, y: 18, duration: 0.55, stagger: 0.07 },
+          0.2
+        );
+      }
+    }
+  }
+
+  function cmContactPage(root) {
+    const head = root.querySelector('.cmc__head');
+    if (head) {
+      const headTl = timeline(head, 'top 88%');
+      addSplitHeading(headTl, head.querySelector('.cmc__title'), 0);
+      add(headTl, all(head, '.cmc__lead'), { autoAlpha: 0, y: 24, duration: 0.8 }, 0.25);
+      add(
+        headTl,
+        all(head, '.cmc__stamp'),
+        { autoAlpha: 0, scale: 0.6, rotate: -18, duration: 1, ease: 'back.out(1.6)' },
+        0.2
+      );
+      add(headTl, all(head, '.cmc__stamp b'), { autoAlpha: 0, y: 14, duration: 0.55 }, 0.55);
+    }
+
+    const panel = root.querySelector('.cmc__panel');
+    if (panel) {
+      const panelTl = timeline(panel, 'top 82%');
+      add(panelTl, panel, { autoAlpha: 0, x: -40, duration: 0.95, ease: 'power3.out' }, 0);
+      add(panelTl, all(panel, 'h3'), { autoAlpha: 0, y: 16, duration: 0.6 }, 0.15);
+      add(
+        panelTl,
+        all(panel, '.cmc__item'),
+        { autoAlpha: 0, x: -20, duration: 0.55, stagger: 0.1 },
+        0.3
+      );
+      add(
+        panelTl,
+        all(panel, '.cmc__ico'),
+        { autoAlpha: 0, scale: 0, duration: 0.5, stagger: 0.1, ease: 'back.out(2)' },
+        0.4
+      );
+      add(panelTl, all(panel, '.cmc__more > *'), { autoAlpha: 0, y: 16, duration: 0.55, stagger: 0.08 }, 0.55);
+      add(
+        panelTl,
+        all(panel, '.cmc__call'),
+        { autoAlpha: 0, y: 18, scale: 0.94, duration: 0.65, ease: 'back.out(1.7)' },
+        0.7
+      );
+    }
+
+    const ticket = root.querySelector('.cmc__ticket');
+    if (ticket) {
+      const ticketTl = timeline(ticket, 'top 82%');
+      add(
+        ticketTl,
+        ticket,
+        { autoAlpha: 0, x: 40, rotate: 1.2, duration: 1, ease: 'power3.out' },
+        0
+      );
+      add(ticketTl, all(ticket, '.cmc__stub > *'), { autoAlpha: 0, y: 14, duration: 0.55, stagger: 0.08 }, 0.2);
+      add(
+        ticketTl,
+        all(ticket, '.cmc__field, .cmc__row'),
+        { autoAlpha: 0, y: 20, duration: 0.5, stagger: 0.07 },
+        0.35
+      );
+      add(
+        ticketTl,
+        all(ticket, '.cmc__send'),
+        { autoAlpha: 0, y: 18, scale: 0.92, duration: 0.65, ease: 'back.out(1.8)' },
+        0.65
+      );
+      add(ticketTl, all(ticket, '.cmc__note'), { autoAlpha: 0, y: 10, duration: 0.45 }, 0.8);
+    }
+  }
+
   const cmHandlers = {
     footer: cmFooter,
     arc: cmArc,
@@ -737,6 +960,8 @@
     cta: cmCta,
     form: cmForm,
     'private-chef': cmPrivateChef,
+    'gift-card': cmGiftCard,
+    'contact-page': cmContactPage,
   };
 
   function chefMatt(section) {
@@ -848,6 +1073,7 @@
     { match: '.banner', run: imageBanner },
     { match: '.product__media-wrapper', run: product },
     { match: '.footer', run: footer },
+    { match: '.collapsible-content', run: collapsibleContent },
     { match: '.rich-text', run: richText },
     { match: '.grid > .grid__item', run: cardGrid },
   ];
