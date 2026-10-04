@@ -156,7 +156,14 @@
         <input type="hidden" name="contact[Form]" value="{{ section.settings.form_heading | default: 'Private chef quote' | escape }}">
         <div class="cm-form__fields">
           {%- if form.posted_successfully? -%}
-            <p class="cm-form__notice cm-form__notice--success" role="status" tabindex="-1" autofocus>
+            <p
+              class="cm-form__notice cm-form__notice--success"
+              role="status"
+              tabindex="-1"
+              autofocus
+              data-cm-auto-hide
+              data-cm-auto-hide-ms="5000"
+            >
               {{ section.settings.success_message | escape }}
             </p>
           {%- elsif form.errors -%}
@@ -238,6 +245,21 @@
     </div>
   </section>
 </div>
+
+<script>
+  (function () {
+    var notice = document.querySelector('[data-cm="private-chef"] [data-cm-auto-hide]');
+    if (!notice) return;
+    var delay = parseInt(notice.getAttribute('data-cm-auto-hide-ms'), 10) || 5000;
+    window.setTimeout(function () {
+      notice.classList.add('cm-form__notice--hiding');
+      window.setTimeout(function () {
+        notice.hidden = true;
+        notice.setAttribute('aria-hidden', 'true');
+      }, 400);
+    }, delay);
+  })();
+</script>
 
 {% schema %}
 {

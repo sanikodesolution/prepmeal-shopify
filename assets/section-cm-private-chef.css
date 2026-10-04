@@ -10,6 +10,21 @@
   padding: 0 1.5rem;
 }
 
+.cm-pc .cm-form__notice--success {
+  transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease, margin 0.4s ease, padding 0.4s ease;
+}
+
+.cm-pc .cm-form__notice--success.cm-form__notice--hiding {
+  opacity: 0;
+  transform: translateY(-6px);
+  max-height: 0;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 @media screen and (min-width: 750px) {
   .cm-pc__wrap {
     padding: 0 3.2rem;
