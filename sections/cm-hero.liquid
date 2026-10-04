@@ -4,6 +4,10 @@
   assign chips = section.blocks | where: 'type', 'chip'
 -%}
 
+{%- if chips.size > 0 -%}
+  <script src="{{ 'cm-ticker.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
 <div class="cm cm-hero" data-cm="hero">
   <div class="cm-hero__glow" aria-hidden="true"></div>
   <div class="page-width section-{{ section.id }}-padding">
@@ -21,23 +25,16 @@
   </div>
 
   {%- if chips.size > 0 -%}
-    <div class="cm-ticker" style="--cm-ticker-speed: {{ section.settings.ticker_speed }}s;">
+    <div class="cm-ticker" data-cm-ticker style="--cm-ticker-speed: {{ section.settings.ticker_speed }}s;">
       <div class="cm-ticker__track">
-        {%- for pass in (1..2) -%}
+        <div class="cm-ticker__group">
           {%- for block in chips -%}
-            <div
-              class="cm-chip"
-              {% if pass == 1 %}
-                {{ block.shopify_attributes }}
-              {% else %}
-                aria-hidden="true"
-              {% endif %}
-            >
+            <div class="cm-chip" {{ block.shopify_attributes }}>
               <span class="cm-chip__num">{{ block.settings.number | escape }}</span>
               <span class="cm-chip__label">{{ block.settings.label | escape }}</span>
             </div>
           {%- endfor -%}
-        {%- endfor -%}
+        </div>
       </div>
     </div>
   {%- endif -%}

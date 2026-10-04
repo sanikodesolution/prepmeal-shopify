@@ -197,6 +197,12 @@
   animation: cm-ticker var(--cm-ticker-speed, 30s) linear infinite;
 }
 
+.cm-ticker__group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: stretch;
+}
+
 .cm-ticker:hover .cm-ticker__track {
   animation-play-state: paused;
 }

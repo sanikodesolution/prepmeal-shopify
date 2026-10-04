@@ -413,7 +413,6 @@
     addSplitHeading(tl, root.querySelector('.cm-hero__heading'), 0.2);
     add(tl, all(root, '.cm-hero__sub'), { autoAlpha: 0, y: 20, duration: 0.8 }, '-=0.5');
     add(tl, all(root, '.cm-ticker'), { autoAlpha: 0, yPercent: 100, duration: 0.8 }, '-=0.6');
-    add(tl, all(root, '.cm-chip'), { autoAlpha: 0, y: 18, duration: 0.5, stagger: 0.04 }, '-=0.4');
   }
 
   function cmStory(root) {
