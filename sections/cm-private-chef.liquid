@@ -28,12 +28,10 @@
         {%- endif -%}
         <div class="cm-pc__actions">
           {%- if section.settings.button_label != blank -%}
-            <a class="cm-btn cm-pc__btn" href="#pc-quote">{{ section.settings.button_label | escape }}</a>
+            {% render 'pm-button', label: section.settings.button_label, link: '#pc-quote', style: 'brand', class: 'cm-pc__btn' %}
           {%- endif -%}
           {%- if section.settings.button_label_2 != blank and steps.size > 0 -%}
-            <a class="cm-btn cm-pc__btn cm-pc__btn--ghost" href="#pc-how">
-              {{- section.settings.button_label_2 | escape -}}
-            </a>
+            {% render 'pm-button', label: section.settings.button_label_2, link: '#pc-how', style: 'outline', class: 'cm-pc__btn' %}
           {%- endif -%}
         </div>
       </div>
@@ -231,9 +229,13 @@
           {%- endfor -%}
         </div>
 
-        <button type="submit" class="cm-btn cm-form__submit">
-          {{- section.settings.form_button_label | escape -}}
-        </button>
+        {% render 'pm-button',
+          label: section.settings.form_button_label,
+          style: 'brand',
+          tag: 'button',
+          type: 'submit',
+          class: 'cm-form__submit cm-pc__btn'
+        %}
       {%- endform -%}
     </div>
   </section>

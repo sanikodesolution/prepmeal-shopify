@@ -81,21 +81,17 @@
   gap: 1rem;
 }
 
-.cm .cm-pc__btn {
-  border-radius: 99rem;
-  padding: 1.5rem 2.8rem;
+.cm-pc__actions .pm.pm-a,
+.cm-pc__form .pm.pm-a {
+  justify-content: space-between;
+  gap: 14px;
+  min-height: calc(4.5rem + var(--buttons-border-width, 1px) * 2);
+  padding: 4px 4px 4px 22px;
 }
 
-.cm .cm-pc__btn--ghost {
-  border: 1px solid var(--cm-brand-ink);
-  color: var(--cm-brand-ink);
-  background: transparent;
-}
-
-.cm .cm-pc__btn--ghost:hover {
-  color: #fff;
-  background: var(--cm-brand-ink);
-  box-shadow: 0 10px 24px rgba(17, 17, 17, 0.2);
+.cm-pc__form .cm-form__submit.pm {
+  width: 100%;
+  max-width: 100%;
 }
 
 .cm-pc__plate {
