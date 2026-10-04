@@ -476,7 +476,7 @@
   margin: 0 0 2rem;
   font-family: var(--cm-display);
   font-size: clamp(2.4rem, 5vw, 4rem);
-  font-weight: 900;
+  font-weight: 600;
   line-height: 1.02;
   letter-spacing: -0.02em;
   color: var(--cm-text);
@@ -665,7 +665,7 @@
   margin: 0 0 1rem;
   font-family: var(--cm-body);
   font-size: clamp(1.8rem, 2.3vw, 2.2rem);
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.01em;
   color: var(--cm-text);
