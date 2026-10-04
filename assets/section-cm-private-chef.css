@@ -11,16 +11,16 @@
 }
 
 .cm-pc .cm-form__notice--success {
-  transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease, margin 0.4s ease, padding 0.4s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease, margin 0.4s ease, padding 0.4s ease;
 }
 
 .cm-pc .cm-form__notice--success.cm-form__notice--hiding {
-  opacity: 0;
+  opacity: 0 !important;
+  visibility: hidden !important;
   transform: translateY(-6px);
-  max-height: 0;
-  margin: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+  margin: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   overflow: hidden;
   pointer-events: none;
 }

@@ -595,6 +595,135 @@
     reveal(all(root, '.cm-footer__bottom'), { y: 20 }, null, 'top 100%');
   }
 
+  function cmPrivateChef(root) {
+    const hero = root.querySelector('.cm-pc__hero');
+    if (hero) {
+      const heroTl = timeline(hero, 'top 88%');
+      add(heroTl, all(hero, '.cm-label'), { autoAlpha: 0, y: 14, letterSpacing: '0.45em', duration: 0.9 }, 0);
+      addSplitHeading(heroTl, hero.querySelector('.cm-pc__title'), 0.12);
+      add(heroTl, all(hero, '.cm-pc__lead'), { autoAlpha: 0, y: 28, duration: 0.85 }, 0.4);
+      add(
+        heroTl,
+        all(hero, '.cm-pc__actions > *'),
+        { autoAlpha: 0, y: 22, scale: 0.9, duration: 0.75, stagger: 0.1, ease: 'back.out(1.8)' },
+        0.55
+      );
+      add(
+        heroTl,
+        all(hero, '.cm-pc__plate'),
+        { autoAlpha: 0, scale: 0.55, rotate: -12, duration: 1.15, ease: 'back.out(1.5)' },
+        0.25
+      );
+      add(heroTl, all(hero, '.cm-pc__plate b'), { autoAlpha: 0, y: 18, duration: 0.7 }, 0.7);
+      add(heroTl, all(hero, '.cm-pc__plate span'), { autoAlpha: 0, y: 10, duration: 0.55 }, 0.85);
+    }
+
+    const strip = root.querySelector('.cm-pc__strip');
+    if (strip) {
+      const stripTl = timeline(strip, 'top 85%');
+      add(
+        stripTl,
+        all(strip, '.cm-pc__strip-grid > *'),
+        { autoAlpha: 0, y: 30, duration: 0.7, stagger: 0.1 },
+        0
+      );
+      add(
+        stripTl,
+        all(strip, '.cm-pc__strip-grid strong'),
+        { autoAlpha: 0, y: 12, duration: 0.55, stagger: 0.1 },
+        0.15
+      );
+    }
+
+    all(root, '.cm-pc__section').forEach((section) => {
+      const head = section.querySelector('.cm-pc__head');
+      if (head) {
+        const headTl = timeline(head, 'top 84%');
+        add(headTl, all(head, '.cm-label'), { autoAlpha: 0, y: 12, letterSpacing: '0.4em', duration: 0.8 }, 0);
+        addSplitHeading(headTl, head.querySelector('.cm-heading'), 0.1);
+      }
+
+      const chips = section.querySelector('.cm-pc__chips');
+      if (chips) {
+        const chipTl = timeline(chips, 'top 88%');
+        add(
+          chipTl,
+          all(chips, '.cm-pc__chip'),
+          { autoAlpha: 0, y: 24, scale: 0.88, duration: 0.55, stagger: 0.06, ease: 'back.out(1.7)' },
+          0
+        );
+      }
+
+      const split = section.querySelector('.cm-pc__split');
+      if (split) {
+        const splitTl = timeline(split, 'top 80%');
+        add(splitTl, all(split, '.cm-label'), { autoAlpha: 0, y: 12, letterSpacing: '0.4em', duration: 0.8 }, 0);
+        addSplitHeading(splitTl, split.querySelector('.cm-heading'), 0.1);
+        add(
+          splitTl,
+          all(split, '.cm-pc__list li'),
+          { autoAlpha: 0, x: -24, duration: 0.55, stagger: 0.08 },
+          0.35
+        );
+        add(
+          splitTl,
+          all(split, '.cm-pc__quote'),
+          { autoAlpha: 0, x: 40, rotate: 1.5, duration: 0.95, ease: 'power3.out' },
+          0.3
+        );
+        add(splitTl, all(split, '.cm-pc__quote small'), { autoAlpha: 0, y: 12, duration: 0.5 }, 0.75);
+      }
+
+      const steps = section.querySelector('.cm-pc__steps');
+      if (steps) {
+        const stepsTl = timeline(steps, 'top 82%');
+        add(
+          stepsTl,
+          all(steps, '.cm-pc__step'),
+          { autoAlpha: 0, y: 50, duration: 0.8, stagger: 0.12 },
+          0
+        );
+        add(
+          stepsTl,
+          all(steps, '.cm-pc__step i'),
+          { autoAlpha: 0, scale: 0, rotate: -120, duration: 0.7, stagger: 0.12, ease: 'back.out(2)' },
+          0.2
+        );
+        add(
+          stepsTl,
+          all(steps, '.cm-pc__step h3, .cm-pc__step p'),
+          { autoAlpha: 0, y: 14, duration: 0.55, stagger: 0.06 },
+          0.4
+        );
+      }
+
+      const formGrid = section.querySelector('.cm-pc__form-grid');
+      if (formGrid) {
+        const formTl = timeline(formGrid, 'top 80%');
+        add(formTl, all(formGrid, '.cm-label'), { autoAlpha: 0, y: 12, letterSpacing: '0.4em', duration: 0.8 }, 0);
+        addSplitHeading(formTl, formGrid.querySelector('.cm-heading'), 0.1);
+        add(
+          formTl,
+          all(formGrid, '.cm-body, .cm-form__cost'),
+          { autoAlpha: 0, y: 22, duration: 0.7, stagger: 0.1 },
+          0.35
+        );
+        add(
+          formTl,
+          all(formGrid, '.cm-pc__form'),
+          { autoAlpha: 0, y: 50, scale: 0.97, duration: 1, ease: 'power3.out' },
+          0.25
+        );
+        add(
+          formTl,
+          all(formGrid, '.cm-form__fields > *:not([data-cm-auto-hide]), .cm-form__submit'),
+          { autoAlpha: 0, y: 20, duration: 0.55, stagger: 0.06 },
+          0.55
+        );
+      }
+    });
+  }
+
   const cmHandlers = {
     footer: cmFooter,
     arc: cmArc,
@@ -607,6 +736,7 @@
     plans: cmPlans,
     cta: cmCta,
     form: cmForm,
+    'private-chef': cmPrivateChef,
   };
 
   function chefMatt(section) {

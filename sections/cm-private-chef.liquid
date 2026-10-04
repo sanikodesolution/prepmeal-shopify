@@ -154,6 +154,7 @@
 
       {%- form 'contact', id: form_id, class: 'cm-pc__form' -%}
         <input type="hidden" name="contact[Form]" value="{{ section.settings.form_heading | default: 'Private chef quote' | escape }}">
+        <input type="hidden" name="return_to" value="{{ request.path }}#pc-quote">
         <div class="cm-form__fields">
           {%- if form.posted_successfully? -%}
             <p
@@ -162,7 +163,7 @@
               tabindex="-1"
               autofocus
               data-cm-auto-hide
-              data-cm-auto-hide-ms="5000"
+              data-cm-auto-hide-ms="4000"
             >
               {{ section.settings.success_message | escape }}
             </p>
@@ -248,16 +249,47 @@
 
 <script>
   (function () {
-    var notice = document.querySelector('[data-cm="private-chef"] [data-cm-auto-hide]');
-    if (!notice) return;
-    var delay = parseInt(notice.getAttribute('data-cm-auto-hide-ms'), 10) || 5000;
-    window.setTimeout(function () {
+    function cleanPostedUrl() {
+      try {
+        var url = new URL(window.location.href);
+        var dirty = url.searchParams.has('contact_posted') || /PcQuoteForm/i.test(url.hash);
+        if (!dirty) return;
+        url.searchParams.delete('contact_posted');
+        var search = url.searchParams.toString();
+        var next = url.pathname + (search ? '?' + search : '') + '#pc-quote';
+        window.history.replaceState({}, '', next);
+      } catch (e) {}
+    }
+
+    function hideNotice(notice) {
       notice.classList.add('cm-form__notice--hiding');
       window.setTimeout(function () {
         notice.hidden = true;
+        notice.style.display = 'none';
         notice.setAttribute('aria-hidden', 'true');
-      }, 400);
-    }, delay);
+      }, 450);
+    }
+
+    function init() {
+      var notice = document.querySelector('[data-cm="private-chef"] [data-cm-auto-hide]');
+      if (!notice) {
+        cleanPostedUrl();
+        return;
+      }
+
+      cleanPostedUrl();
+
+      var delay = parseInt(notice.getAttribute('data-cm-auto-hide-ms'), 10) || 4000;
+      window.setTimeout(function () {
+        hideNotice(notice);
+      }, delay);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   })();
 </script>
 
