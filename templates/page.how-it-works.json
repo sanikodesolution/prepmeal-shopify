@@ -74,9 +74,13 @@
     "steps": {
       "type": "cm-steps",
       "settings": {
+        "layout": "timeline",
         "label": "Four Simple Steps",
         "heading": "From Our Kitchen\nto Your Fridge",
-        "background": "cream",
+        "subheading": "From this week's menu to your door, in a few taps.",
+        "button_label": "Order your meals",
+        "button_link": "/collections/all",
+        "background": "white",
         "padding_top": 64,
         "padding_bottom": 64
       },
@@ -84,29 +88,51 @@
         "step_1": {
           "type": "step",
           "settings": {
-            "title": "Pick Your Meals",
-            "text": "Choose what you want from this week's menu."
+            "icon": "menu",
+            "title": "Browse this week's menu",
+            "text": "View the current menu and select items according to your preference.",
+            "chip": "",
+            "chip_style": "brand"
           }
         },
         "step_2": {
           "type": "step",
           "settings": {
-            "title": "We Cook It Fresh",
-            "text": "Chef Matt makes every meal from scratch. Nothing frozen."
+            "icon": "cart",
+            "title": "Pick your meals",
+            "text": "Select your meals according to your preferred plan, then click",
+            "chip": "Add to cart",
+            "chip_style": "brand"
           }
         },
         "step_3": {
           "type": "step",
           "settings": {
-            "title": "We Deliver It",
-            "text": "Your meals come straight to your door in Hartland."
+            "icon": "calendar",
+            "title": "Choose your delivery dates",
+            "text": "Select your delivery dates, then click",
+            "chip": "Checkout",
+            "chip_style": "navy"
           }
         },
         "step_4": {
           "type": "step",
           "settings": {
-            "title": "Heat and Eat",
-            "text": "2 minutes in the microwave and it's ready. No cooking, no mess."
+            "icon": "user",
+            "title": "Add your details",
+            "text": "Fill out your contact and delivery information.",
+            "chip": "",
+            "chip_style": "brand"
+          }
+        },
+        "step_5": {
+          "type": "step",
+          "settings": {
+            "icon": "pay",
+            "title": "Review and pay",
+            "text": "Review your order summary and total bill, then click",
+            "chip": "Pay now",
+            "chip_style": "brand"
           }
         }
       },
@@ -114,7 +140,8 @@
         "step_1",
         "step_2",
         "step_3",
-        "step_4"
+        "step_4",
+        "step_5"
       ]
     },
     "good_to_know": {
