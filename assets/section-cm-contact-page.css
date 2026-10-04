@@ -19,7 +19,7 @@
     radial-gradient(circle at 92% 8%, rgba(245, 166, 35, 0.16) 0 9em, transparent 9.1em),
     linear-gradient(180deg, #fff8e8 0, #fff 26em);
   color: var(--cmc-ink);
-  font-family: Barlow, system-ui, sans-serif;
+  font-family: var(--font-body-family), var(--cm-body), system-ui, sans-serif;
   line-height: 1.5;
 }
 

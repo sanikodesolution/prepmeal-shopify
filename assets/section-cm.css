@@ -11,8 +11,8 @@
   --cm-text: #1a1a1a;
   --cm-muted: #5a5a6a;
   --cm-border: #dddae5;
-  --cm-display: 'Fraunces', Georgia, serif;
-  --cm-body: 'Barlow', var(--font-body-family), sans-serif;
+  --cm-display: var(--font-heading-family), 'Fraunces', Georgia, serif;
+  --cm-body: var(--font-body-family), 'Barlow', sans-serif;
   --cm-bg: var(--cm-cream);
 
   position: relative;
