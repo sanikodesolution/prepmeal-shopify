@@ -1,0 +1,115 @@
+{{ 'prep-content.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #PrepHero-{{ section.id }} {
+    min-height: {{ section.settings.min_height }}vh;
+  }
+{%- endstyle -%}
+
+<section class="prep prep-hero" id="PrepHero-{{ section.id }}">
+  {%- if section.settings.image != blank -%}
+    <div class="prep-hero__media" aria-hidden="true">
+      {{
+        section.settings.image
+        | image_url: width: 2400
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          widths: '750, 1100, 1500, 1780, 2000, 2400',
+          sizes: '100vw',
+          alt: ''
+      }}
+    </div>
+  {%- endif -%}
+  <div class="prep-hero__shade" aria-hidden="true"></div>
+
+  <div class="prep__wrap">
+    <div class="prep-hero__content">
+      {% render 'section-heading',
+        title: section.settings.heading,
+        text: section.settings.subheading,
+        richtext: false,
+        align: 'left'
+      %}
+
+      {%- if section.settings.button_label != blank or section.settings.secondary_label != blank -%}
+        <div class="prep-hero__actions">
+          {%- if section.settings.button_label != blank -%}
+            <a class="prep__btn" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+              {{ section.settings.button_label | escape }}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.secondary_label != blank -%}
+            <a class="prep__btn prep__btn--ghost" href="{{ section.settings.secondary_link | default: '#' }}">
+              {{ section.settings.secondary_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Prep hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A week of meals, ready."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Chef-cooked, calorie-counted meals delivered across Hartland."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary button label",
+      "default": "View plans"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "How it works"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Minimum height",
+      "default": 70
+    }
+  ],
+  "presets": [
+    {
+      "name": "Prep hero"
+    }
+  ]
+}
+{% endschema %}

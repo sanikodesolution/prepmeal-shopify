@@ -1,0 +1,30 @@
+{%- comment -%}
+  Accessible star rating display.
+  Accepts:
+  - rating: {Number} 0–5
+  - rating_max: {Number} default 5
+  - label: {String} optional accessible label override
+{%- endcomment -%}
+{%- liquid
+  assign rating_value = rating | default: 0 | plus: 0
+  assign max_value = rating_max | default: 5 | plus: 0
+  if rating_value > max_value
+    assign rating_value = max_value
+  endif
+  if rating_value < 0
+    assign rating_value = 0
+  endif
+  assign rounded = rating_value | round
+  if label != blank
+    assign aria_label = label
+  else
+    assign aria_label = 'sections.prep.star_rating_label' | t: rating: rating_value, max: max_value
+  endif
+-%}
+{%- if rating_value > 0 -%}
+  <div class="prep__stars" role="img" aria-label="{{ aria_label | escape }}">
+    {%- for i in (1..max_value) -%}
+      <span class="{% if i > rounded %}prep__star--empty{% endif %}" aria-hidden="true">★</span>
+    {%- endfor -%}
+  </div>
+{%- endif -%}

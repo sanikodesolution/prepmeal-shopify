@@ -1,0 +1,28 @@
+---
+description: Prep meal Shopify theme content system conventions
+alwaysApply: true
+---
+
+# Prep Meal Theme Rules
+
+## Content architecture
+- Every content section supports **Metaobject list** mode and **blocks fallback**.
+- If a `metaobject_list` setting has entries, render from it; otherwise render blocks.
+- Shared snippets render both sources via params — never duplicate markup.
+- Field names must match `docs/CONTENT-GUIDE.md` exactly. Do not invent fields.
+
+## Metaobject types
+- `meal_plan`, `how_it_works_step`, `faq_item`, `testimonial`, `delivery_zone`
+
+## Product metafields (`custom`)
+- `calories`, `protein`, `carbs`, `fat`, `ingredients`, `allergens`, `diet_tags`, `reheat_instructions`
+
+## Coding standards
+- Online Store 2.0, JSON templates, section presets with demo blocks.
+- All merchant-facing strings via `locales/en.default.json` / `en.default.schema.json`.
+- Accessibility: semantic HTML, keyboard accordion, visible focus, alt text.
+- Performance: `image_url` + `image_tag` with widths/sizes; lazy below fold; vanilla JS only.
+- Prices only from product/variant: `{{ price | money }}`.
+- Nil-safe Metaobject access; sort by `sort_order` / `step_number` when present.
+- No apps, external services, or third-party scripts.
+- Prefer scoped CSS in `assets/section-*.css` or `assets/prep-content.css`.

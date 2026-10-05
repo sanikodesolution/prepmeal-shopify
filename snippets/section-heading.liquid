@@ -1,0 +1,31 @@
+{%- comment -%}
+  Shared section heading.
+  Accepts:
+  - eyebrow: {String}
+  - title: {String}
+  - text: {String} plain or HTML (use richtext: true)
+  - richtext: {Boolean}
+  - align: {String} left|center|right
+{%- endcomment -%}
+{%- liquid
+  assign align = align | default: 'left'
+-%}
+{%- if eyebrow != blank or title != blank or text != blank -%}
+  <header class="prep__heading" style="text-align: {{ align }};">
+    {%- if eyebrow != blank -%}
+      <span class="prep__eyebrow">{{ eyebrow | escape }}</span>
+    {%- endif -%}
+    {%- if title != blank -%}
+      <h2 class="prep__title">{{ title | escape }}</h2>
+    {%- endif -%}
+    {%- if text != blank -%}
+      <div class="prep__sub">
+        {%- if richtext -%}
+          {{ text }}
+        {%- else -%}
+          <p>{{ text | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </header>
+{%- endif -%}

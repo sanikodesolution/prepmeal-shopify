@@ -1,0 +1,89 @@
+{%- comment -%}
+  Shared delivery zone card for Metaobject + blocks.
+  Pass either zone: {Metaobject} or flattened fields.
+{%- endcomment -%}
+{%- liquid
+  if zone != blank
+    assign area_name = zone.area_name.value | default: zone.area_name
+    assign postcodes = zone.postcodes.value | default: zone.postcodes | default: zone.areas.value | default: zone.areas
+    assign delivery_days = zone.delivery_days.value | default: zone.delivery_days
+    assign cut_off_time = zone.cut_off_time.value | default: zone.cut_off_time
+    assign delivery_fee = zone.delivery_fee.value | default: zone.delivery_fee
+    assign minimum_order = zone.minimum_order.value | default: zone.minimum_order
+  endif
+
+  if postcodes != blank and postcodes.first == blank
+    assign postcodes = postcodes | split: ','
+  endif
+  if delivery_days != blank and delivery_days.first == blank
+    assign delivery_days = delivery_days | split: ','
+  endif
+-%}
+<article class="prep-zone" {{ shopify_attributes }}>
+  {%- if area_name != blank -%}
+    <h3 class="prep-zone__title">{{ area_name | escape }}</h3>
+  {%- endif -%}
+
+  {%- if postcodes != blank -%}
+    <dl class="prep-zone__row">
+      <dt>{{ 'sections.prep.areas' | t }}</dt>
+      <dd>
+        {%- for code in postcodes -%}
+          {%- assign label = code | strip -%}
+          {%- if label != blank -%}
+            {{ label | escape }}{% unless forloop.last %}, {% endunless %}
+          {%- endif -%}
+        {%- endfor -%}
+      </dd>
+    </dl>
+  {%- endif -%}
+
+  {%- if delivery_days != blank -%}
+    <dl class="prep-zone__row">
+      <dt>{{ 'sections.prep.delivery_days' | t }}</dt>
+      <dd>
+        {%- for day in delivery_days -%}
+          {%- assign label = day | strip -%}
+          {%- if label != blank -%}
+            {{ label | escape }}{% unless forloop.last %}, {% endunless %}
+          {%- endif -%}
+        {%- endfor -%}
+      </dd>
+    </dl>
+  {%- endif -%}
+
+  {%- if cut_off_time != blank -%}
+    <dl class="prep-zone__row">
+      <dt>{{ 'sections.prep.cut_off' | t }}</dt>
+      <dd>{{ cut_off_time | escape }}</dd>
+    </dl>
+  {%- endif -%}
+
+  {%- if delivery_fee != blank -%}
+    <dl class="prep-zone__row">
+      <dt>{{ 'sections.prep.delivery_fee' | t }}</dt>
+      <dd>
+        {%- if delivery_fee == 0 or delivery_fee == '0' -%}
+          {{ 'sections.prep.free' | t }}
+        {%- elsif delivery_fee.amount != blank or delivery_fee.cents != blank -%}
+          {{ delivery_fee | money }}
+        {%- else -%}
+          {{ delivery_fee | escape }}
+        {%- endif -%}
+      </dd>
+    </dl>
+  {%- endif -%}
+
+  {%- if minimum_order != blank -%}
+    <dl class="prep-zone__row">
+      <dt>{{ 'sections.prep.minimum_order' | t }}</dt>
+      <dd>
+        {%- if minimum_order.amount != blank or minimum_order.cents != blank -%}
+          {{ minimum_order | money }}
+        {%- else -%}
+          {{ minimum_order | escape }}
+        {%- endif -%}
+      </dd>
+    </dl>
+  {%- endif -%}
+</article>

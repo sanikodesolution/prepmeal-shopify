@@ -1,0 +1,130 @@
+{%- comment -%}
+  Shared meal plan card for Metaobject + block sources.
+  Pass either:
+  - plan: {Metaobject} type meal_plan
+  Or flattened fields:
+  - name, image, short_description, meals_per_week, calories_per_meal,
+    protein, carbs, fat, tags (array or comma string), product, badge
+  Optional: shopify_attributes, lazy_load (boolean)
+{%- endcomment -%}
+{%- liquid
+  if plan != blank
+    assign name = plan.name.value | default: plan.name
+    assign image = plan.image.value | default: plan.image
+    assign short_description = plan.short_description.value | default: plan.short_description
+    assign meals_per_week = plan.meals_per_week.value | default: plan.meals_per_week
+    assign calories_per_meal = plan.calories_per_meal.value | default: plan.calories_per_meal
+    assign protein = plan.protein.value | default: plan.protein
+    assign carbs = plan.carbs.value | default: plan.carbs
+    assign fat = plan.fat.value | default: plan.fat
+    assign badge = plan.badge.value | default: plan.badge
+    assign product = plan.linked_product.value | default: plan.linked_product
+    assign tags = plan.tags.value | default: plan.tags
+  endif
+
+  if tags != blank and tags.first == blank
+    assign tags = tags | split: ','
+  endif
+
+  assign card_url = '#'
+  if product != blank and product.url != blank
+    assign card_url = product.url
+  endif
+
+  assign loading = 'lazy'
+  if lazy_load == false
+    assign loading = 'eager'
+  endif
+  assign image_alt = name | escape
+  if image.alt != blank
+    assign image_alt = image.alt | escape
+  endif
+-%}
+<article class="prep__card prep-plan-card" {{ shopify_attributes }}>
+  <div class="prep__card-media">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 900
+        | image_tag:
+          loading: loading,
+          widths: '300, 450, 600, 750, 900',
+          sizes: '(min-width: 990px) 25vw, (min-width: 750px) 40vw, 90vw',
+          alt: image_alt
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'prep-plan-card__placeholder' }}
+    {%- endif -%}
+    {%- if badge != blank -%}
+      <span class="prep__badge">{{ badge | escape }}</span>
+    {%- endif -%}
+  </div>
+
+  <div class="prep__card-body">
+    {%- if name != blank -%}
+      <h3 class="prep__card-title">
+        <a href="{{ card_url }}">{{ name | escape }}</a>
+      </h3>
+    {%- endif -%}
+
+    {%- if short_description != blank -%}
+      <p class="prep__card-text">{{ short_description | escape }}</p>
+    {%- endif -%}
+
+    {%- if tags != blank -%}
+      <ul class="prep__tags" role="list">
+        {%- for tag in tags -%}
+          {%- assign tag_label = tag | strip -%}
+          {%- if tag_label != blank -%}
+            <li class="prep__tag">{{ tag_label | escape }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <ul class="prep__nutrition" role="list">
+      {%- if meals_per_week != blank -%}
+        <li>
+          <strong>{{ meals_per_week }}</strong>
+          <span>{{ 'sections.prep.meals_per_week' | t }}</span>
+        </li>
+      {%- endif -%}
+      {%- if calories_per_meal != blank -%}
+        <li>
+          <strong>{{ calories_per_meal }}</strong>
+          <span>{{ 'sections.prep.calories' | t }}</span>
+        </li>
+      {%- endif -%}
+      {%- if protein != blank -%}
+        <li>
+          <strong>{{ protein }}g</strong>
+          <span>{{ 'sections.prep.protein' | t }}</span>
+        </li>
+      {%- endif -%}
+      {%- if carbs != blank or fat != blank -%}
+        <li>
+          <strong>
+            {%- if carbs != blank -%}{{ carbs }}g{%- endif -%}
+            {%- if carbs != blank and fat != blank -%}/{%- endif -%}
+            {%- if fat != blank -%}{{ fat }}g{%- endif -%}
+          </strong>
+          <span>{{ 'sections.prep.carbs_fat' | t }}</span>
+        </li>
+      {%- endif -%}
+    </ul>
+
+    <div class="prep-plan-card__footer">
+      {%- if product != blank and product.price != blank -%}
+        <p class="prep-plan-card__price">
+          {{ product.price | money }}
+          {%- if product.compare_at_price > product.price -%}
+            <s>{{ product.compare_at_price | money }}</s>
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+      <a class="prep__btn" href="{{ card_url }}">
+        {{ 'sections.prep.view_plan' | t }}
+      </a>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,35 @@
+{%- comment -%}
+  Shared How It Works step for Metaobject + blocks.
+  Pass either step: {Metaobject} or flattened fields.
+{%- endcomment -%}
+{%- liquid
+  if step != blank
+    assign step_number = step.step_number.value | default: step.step_number | default: index
+    assign title = step.title.value | default: step.title
+    assign description = step.description.value | default: step.description
+    assign icon = step.icon.value | default: step.icon | default: step.image.value | default: step.image
+  endif
+  assign icon_alt = title | escape
+-%}
+<li class="prep-hiw__item" {{ shopify_attributes }}>
+  {%- if icon != blank -%}
+    {{
+      icon
+      | image_url: width: 120
+      | image_tag:
+        class: 'prep-hiw__icon',
+        loading: 'lazy',
+        widths: '60, 120',
+        sizes: '48px',
+        alt: icon_alt
+    }}
+  {%- else -%}
+    <span class="prep-hiw__num" aria-hidden="true">{{ step_number | default: index }}</span>
+  {%- endif -%}
+  {%- if title != blank -%}
+    <h3 class="prep-hiw__title">{{ title | escape }}</h3>
+  {%- endif -%}
+  {%- if description != blank -%}
+    <p class="prep-hiw__text">{{ description | escape | newline_to_br }}</p>
+  {%- endif -%}
+</li>

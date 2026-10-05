@@ -374,6 +374,28 @@
       "min_error": "This item has a minimum of {{ min }}",
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
+    },
+    "prep": {
+      "star_rating_label": "Rated {{ rating }} out of {{ max }} stars",
+      "meals_per_week": "Meals / week",
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbs_fat": "Carbs / Fat",
+      "carbs": "Carbs",
+      "fat": "Fat",
+      "view_plan": "View plan",
+      "delivery_fee": "Delivery fee",
+      "minimum_order": "Minimum order",
+      "cut_off": "Order by",
+      "delivery_days": "Delivery days",
+      "areas": "Areas",
+      "free": "Free",
+      "nutrition_heading": "Nutrition",
+      "ingredients_heading": "Ingredients",
+      "allergens_heading": "Allergens",
+      "reheat_heading": "Reheat instructions",
+      "diet_tags_heading": "Diet tags",
+      "empty_state": "Add content in the theme editor, or select a Metaobject list."
     }
   },
   "localization": {

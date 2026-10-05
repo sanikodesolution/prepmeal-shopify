@@ -1,0 +1,50 @@
+{%- comment -%}
+  Shared testimonial card for Metaobject + blocks.
+  Pass either item: {Metaobject} or flattened fields.
+{%- endcomment -%}
+{%- liquid
+  if item != blank
+    assign customer_name = item.customer_name.value | default: item.customer_name
+    assign photo = item.photo.value | default: item.photo
+    assign review = item.review.value | default: item.review
+    assign plan_name = item.plan_name.value | default: item.plan_name
+    assign rating_field = item.rating.value | default: item.rating
+    if rating_field.rating != blank
+      assign rating = rating_field.rating
+      assign rating_max = rating_field.scale_max | default: 5
+    else
+      assign rating = rating_field
+      assign rating_max = 5
+    endif
+  endif
+-%}
+<blockquote class="prep-testimonial" {{ shopify_attributes }}>
+  {%- if photo != blank -%}
+    {%- assign photo_alt = customer_name | escape -%}
+    {{
+      photo
+      | image_url: width: 200
+      | image_tag:
+        class: 'prep-testimonial__photo',
+        loading: 'lazy',
+        widths: '112, 200',
+        sizes: '56px',
+        alt: photo_alt
+    }}
+  {%- endif -%}
+
+  {%- render 'star-rating', rating: rating, rating_max: rating_max -%}
+
+  {%- if review != blank -%}
+    <p class="prep-testimonial__review">{{ review | escape | newline_to_br }}</p>
+  {%- endif -%}
+
+  <footer class="prep-testimonial__meta">
+    {%- if customer_name != blank -%}
+      <cite class="prep-testimonial__name">{{ customer_name | escape }}</cite>
+    {%- endif -%}
+    {%- if plan_name != blank -%}
+      <p class="prep-testimonial__plan">{{ plan_name | escape }}</p>
+    {%- endif -%}
+  </footer>
+</blockquote>

@@ -1,0 +1,26 @@
+{%- comment -%}
+  Shared FAQ item for Metaobject + blocks.
+  Pass either item: {Metaobject} or flattened fields.
+{%- endcomment -%}
+{%- liquid
+  if item != blank
+    assign question = item.question.value | default: item.question
+    assign answer = item.answer.value | default: item.answer
+    assign category = item.category.value | default: item.category
+  endif
+-%}
+<details class="prep-faq__item" {{ shopify_attributes }}>
+  <summary>
+    <span>
+      {%- if category != blank -%}
+        <span class="prep-faq__cat">{{ category | escape }}</span><br>
+      {%- endif -%}
+      {{ question | escape }}
+    </span>
+  </summary>
+  <div class="prep-faq__answer">
+    {%- if answer != blank -%}
+      {{ answer }}
+    {%- endif -%}
+  </div>
+</details>

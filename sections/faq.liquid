@@ -1,0 +1,148 @@
+{{ 'prep-content.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign meta_items = section.settings.faq_items
+  assign use_meta = false
+  if meta_items != blank and meta_items.size > 0
+    assign use_meta = true
+  endif
+-%}
+
+<section class="prep prep__section section-{{ section.id }}-padding" id="Faq-{{ section.id }}">
+  <div class="prep__wrap">
+    {% render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.heading,
+      text: section.settings.text,
+      richtext: true,
+      align: section.settings.heading_alignment
+    %}
+
+    {%- if use_meta -%}
+      <div class="prep-faq">
+        {%- for item in meta_items -%}
+          {% render 'faq-item', item: item %}
+        {%- endfor -%}
+      </div>
+    {%- elsif section.blocks.size > 0 -%}
+      <div class="prep-faq">
+        {%- for block in section.blocks -%}
+          {% render 'faq-item',
+            question: block.settings.question,
+            answer: block.settings.answer,
+            category: block.settings.category,
+            shopify_attributes: block.shopify_attributes
+          %}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="prep-empty">{{ 'sections.prep.empty_state' | t }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "metaobject_list",
+      "id": "faq_items",
+      "label": "FAQ items (Metaobject)",
+      "metaobject_type": "faq_item",
+      "info": "When set, Metaobject entries replace blocks."
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FAQ" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Good to know" },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Answers about delivery, meals, allergens, and billing.</p>"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "category", "label": "Category", "default": "Delivery" },
+        { "type": "text", "id": "question", "label": "Question", "default": "When is the order cutoff?" },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Orders need to be in by Friday 8 PM for Sunday delivery.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "category": "Delivery",
+            "question": "When is the order cutoff?",
+            "answer": "<p>Orders need to be in by Friday 8 PM for Sunday delivery.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "category": "Meals",
+            "question": "How long do meals keep in the fridge?",
+            "answer": "<p>Enjoy within 4–5 days. Keep refrigerated and reheat until steaming hot.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "category": "Meals",
+            "question": "Do you list allergens?",
+            "answer": "<p>Yes. Check each meal for allergen details before ordering.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "category": "Billing",
+            "question": "Can I skip a week?",
+            "answer": "<p>Yes — pause or skip from your account before the cutoff.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
