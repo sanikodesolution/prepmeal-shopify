@@ -1,0 +1,855 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;500;600&display=swap">
+<script src="{{ 'cm-meal-plan-page.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign meal_blocks = section.blocks | where: 'type', 'meal'
+  assign benefit_blocks = section.blocks | where: 'type', 'benefit'
+  assign step_blocks = section.blocks | where: 'type', 'step'
+  assign quality_blocks = section.blocks | where: 'type', 'quality'
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign faq_blocks = section.blocks | where: 'type', 'faq'
+  assign related_blocks = section.blocks | where: 'type', 'related'
+-%}
+
+{%- capture foods_json -%}
+[
+{%- for i in (0..9) -%}
+  {%- assign key = 'mp-food-' | append: i | append: '.jpg' -%}
+  "{{ key | asset_url }}"{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+]
+{%- endcapture -%}
+
+{%- capture alts_json -%}
+[
+{%- for block in meal_blocks -%}
+  {{ block.settings.name | json }}{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+]
+{%- endcapture -%}
+
+{%- capture meals_json -%}
+[
+{%- for block in meal_blocks -%}
+  {
+    "name": {{ block.settings.name | json }},
+    "description": {{ block.settings.description | json }},
+    "calories": {{ block.settings.calories | json }},
+    "protein": {{ block.settings.protein | json }},
+    "carbs": {{ block.settings.carbs | json }},
+    "fat": {{ block.settings.fat | json }},
+    "tags": {{ block.settings.tags | json }},
+    "ingredients": {{ block.settings.ingredients | json }},
+    "badge": {{ block.settings.badge | json }},
+    "gluten_free": {{ block.settings.gluten_free | json }},
+    "dairy_free": {{ block.settings.dairy_free | json }},
+    "imageIndex": {{ block.settings.image_index | default: forloop.index0 | json }},
+    "image": {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 900 | json }}{% else %}null{% endif %}
+  }{%- unless forloop.last -%},{%- endunless -%}
+{%- endfor -%}
+]
+{%- endcapture -%}
+
+<main
+  class="mealplan-page"
+  data-mp-page
+  data-cm="meal-plan-page"
+>
+  <script type="application/json" data-mp-foods>{{ foods_json }}</script>
+  <script type="application/json" data-mp-alts>{{ alts_json }}</script>
+  <script type="application/json" data-mp-meals>{{ meals_json }}</script>
+
+  <section class="mph">
+    <div class="mph__inner">
+      <div class="mph__copy">
+        {%- if section.settings.plan_label != blank -%}
+          <p class="mph__plan">{{ section.settings.plan_label | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h1 class="mph__title">{{ section.settings.heading | escape | newline_to_br }}</h1>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <p class="mph__text">{{ section.settings.text | escape }}</p>
+        {%- endif -%}
+        <dl class="mph__facts">
+          {%- if section.settings.fact_1_label != blank -%}
+            <div><dt>{{ section.settings.fact_1_label | escape }}</dt><dd>{{ section.settings.fact_1_value | escape }}</dd></div>
+          {%- endif -%}
+          {%- if section.settings.fact_2_label != blank -%}
+            <div><dt>{{ section.settings.fact_2_label | escape }}</dt><dd>{{ section.settings.fact_2_value | escape }}</dd></div>
+          {%- endif -%}
+          {%- if section.settings.fact_3_label != blank -%}
+            <div><dt>{{ section.settings.fact_3_label | escape }}</dt><dd>{{ section.settings.fact_3_value | escape }}</dd></div>
+          {%- endif -%}
+        </dl>
+        <div class="mph__actions">
+          {%- if section.settings.button_label != blank -%}
+            <a class="mph__btn mph__btn--primary" href="{{ section.settings.button_link | default: '#menu' }}">{{ section.settings.button_label | escape }}</a>
+          {%- endif -%}
+          {%- if section.settings.button_label_2 != blank -%}
+            <a class="mph__btn mph__btn--ghost" href="{{ section.settings.button_link_2 | default: '#menu' }}">{{ section.settings.button_label_2 | escape }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="mph__visual">
+        <div class="mph__main" role="img" aria-label="{{ section.settings.hero_image_1_alt | escape }}">
+          {%- if section.settings.hero_image_1 != blank -%}
+            {{ section.settings.hero_image_1 | image_url: width: 900 | image_tag: class: 'mp-food', loading: 'eager', widths: '400, 700, 900', sizes: '(min-width: 990px) 40vw, 80vw', alt: section.settings.hero_image_1_alt }}
+          {%- else -%}
+            <img class="mp-food" data-f="5" alt="{{ section.settings.hero_image_1_alt | escape }}" width="700" height="700" fetchpriority="high">
+          {%- endif -%}
+        </div>
+        <div class="mph__second" role="img" aria-label="{{ section.settings.hero_image_2_alt | escape }}">
+          {%- if section.settings.hero_image_2 != blank -%}
+            {{ section.settings.hero_image_2 | image_url: width: 700 | image_tag: class: 'mp-food', loading: 'lazy', widths: '300, 500, 700', sizes: '30vw', alt: section.settings.hero_image_2_alt }}
+          {%- else -%}
+            <img class="mp-food" data-f="6" alt="{{ section.settings.hero_image_2_alt | escape }}" width="700" height="700">
+          {%- endif -%}
+        </div>
+        <div class="mph__badge"><strong>{{ section.settings.badge_value | escape }}</strong><span>{{ section.settings.badge_label | escape }}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mealplan-a">
+    <section class="ben"><div class="wrap">
+      <p class="big">
+        <span>{{ section.settings.ben_line_1 | escape }}</span>
+        <span>{{ section.settings.ben_line_2 | escape }}</span>
+        <span class="out">{{ section.settings.ben_line_3 | escape }}</span>
+      </p>
+      {%- if benefit_blocks.size > 0 -%}
+        <ul>
+          {%- for block in benefit_blocks -%}
+            <li {{ block.shopify_attributes }}><b>{{ block.settings.title | escape }}</b><span>{{ block.settings.text | escape }}</span></li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.ben_note != blank -%}
+        <p style="margin:1rem 0 0;opacity:.8">{{ section.settings.ben_note | escape }}</p>
+      {%- endif -%}
+    </div></section>
+
+    <section><div class="wrap">
+      <div class="menu-head">
+        <h2>{{ section.settings.menu_heading | escape }}</h2>
+        <p>{{ section.settings.menu_text | escape }}</p>
+      </div>
+      <div class="mg" id="menu"></div>
+    </div></section>
+
+    <section class="ex"><div class="wrap">
+      <h2>{{ section.settings.explore_heading | escape }}</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter meals"></div>
+      <div class="eg" id="grid"></div>
+      <div class="more"><button type="button" class="btn" id="more">{{ section.settings.load_more_label | escape }}</button></div>
+    </div></section>
+
+    <section id="detail"><div class="wrap dt-grid dt">
+      <div class="dt-img" id="dImg"></div>
+      <div>
+        <h2 id="dName"></h2>
+        <p id="dDesc"></p>
+        <ul class="ing" id="dIng"></ul>
+        <div class="nut">
+          <div class="ring" id="ring"><div><span id="dCal"></span><small>calories</small></div></div>
+          <div class="bars" id="bars"></div>
+        </div>
+        <p class="note">{{ section.settings.detail_note | escape }}</p>
+      </div>
+    </div></section>
+  </div>
+
+  <div class="mealplan">
+    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-chef">
+      <div class="mealplan-img mealplan-big mp-gs" data-p="0"></div>
+      <div class="mealplan-txt mp-gs">
+        <h2 class="mealplan-h">{{ section.settings.chef_heading | escape | newline_to_br }}</h2>
+        <p class="mealplan-p">{{ section.settings.chef_text | escape }}</p>
+      </div>
+      <div class="mealplan-img mealplan-small mp-gs" data-p="1"></div>
+    </div></section>
+
+    <section class="mealplan-sec mealplan-steps"><div class="mealplan-wrap">
+      <h2 class="mealplan-h">{{ section.settings.steps_heading | escape }}</h2>
+      <ol class="mealplan-list">
+        {%- for block in step_blocks -%}
+          <li class="mp-gs" style="--i:{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <span class="mealplan-num">{{ forloop.index }}</span>
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.text | escape }}</p>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div></section>
+
+    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
+      <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
+      <div class="mp-gs">
+        <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
+        <ul class="mealplan-terms" id="qTerms">
+          {%- for block in quality_blocks -%}
+            <li {{ block.shopify_attributes }}><b>{{ block.settings.title | escape }}</b><span>{{ block.settings.text | escape }}</span></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div></section>
+
+    <section class="mealplan-sec" style="padding-inline:0"><div>
+      <div class="mealplan-gal-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem)">
+        <h2 class="mealplan-h">{{ section.settings.gallery_heading | escape | newline_to_br }}</h2>
+        <div class="mealplan-arrows">
+          <button type="button" aria-label="Previous" data-g="-1">&larr;</button>
+          <button type="button" aria-label="Next" data-g="1">&rarr;</button>
+        </div>
+      </div>
+      <div class="mealplan-track" id="gal"></div>
+    </div></section>
+
+    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-del">
+      <div class="mealplan-map mp-gs">
+        <svg viewBox="0 0 400 400" role="img" aria-label="Delivery area map">
+          <rect width="400" height="400" fill="#d3ddcd"/>
+          <path d="M0 260 Q120 220 200 270 T400 230 V400 H0Z" fill="#c1d0c6"/>
+          <g stroke="#fff" stroke-width="6" fill="none" opacity=".8"><path d="M0 120H400M120 0V400M280 0L330 400M0 330L400 80"/></g>
+          <circle class="mealplan-ring" cx="200" cy="190" r="140" fill="#F5A623" opacity=".14"/>
+          <circle class="mealplan-ring" cx="200" cy="190" r="85" fill="#F5A623" opacity=".22"/>
+          <circle cx="200" cy="190" r="12" fill="#15251C"/><circle cx="200" cy="190" r="4" fill="#F5A623"/>
+        </svg>
+      </div>
+      <div class="mp-gs">
+        <h2 class="mealplan-h">{{ section.settings.delivery_heading | escape }}</h2>
+        <p class="mealplan-p">{{ section.settings.delivery_text | escape }}</p>
+        {%- if section.settings.delivery_areas != blank -%}
+          <ul class="mealplan-areas">
+            {%- assign areas = section.settings.delivery_areas | split: ',' -%}
+            {%- for area in areas -%}
+              <li>{{ area | strip | escape }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+        {%- if section.settings.delivery_button_label != blank -%}
+          <a class="mealplan-btn" href="{{ section.settings.delivery_button_link | default: '#' }}">{{ section.settings.delivery_button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div></section>
+
+    <section class="mealplan-sec mealplan-rev"><div class="mealplan-wrap">
+      <h2 class="mealplan-h">{{ section.settings.reviews_heading | escape }}</h2>
+      <div class="mealplan-cols" id="rev">
+        {%- for block in review_blocks -%}
+          <article class="mealplan-r {% if block.settings.show_image == false %}mealplan-r--text{% endif %} mp-gs" {{ block.shopify_attributes }}>
+            {%- if block.settings.show_image -%}
+              <div class="mealplan-img" style="--ar:{{ block.settings.aspect | default: 1 }}">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 700 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', alt: block.settings.name }}
+                {%- else -%}
+                  <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.name | escape }}" width="700" height="700" loading="lazy">
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+            <div>
+              <span class="mealplan-stars" aria-label="{{ block.settings.rating }} stars">{%- for i in (1..5) -%}★{%- endfor -%}</span>
+              <q>{{ block.settings.review | escape }}</q>
+              <small>{{ block.settings.name | escape }}</small>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div></section>
+
+    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-faq">
+      <div><h2 class="mealplan-h">{{ section.settings.faq_heading | escape }}</h2></div>
+      <div id="faq">
+        {%- for block in faq_blocks -%}
+          <div class="mealplan-qi" {{ block.shopify_attributes }}>
+            <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
+              {{ block.settings.question | escape }}<i></i>
+            </button>
+            <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ block.settings.answer | escape }}</p></div></div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div></section>
+
+    <section class="mealplan-sec" style="padding-inline:0"><div>
+      <h2 class="mealplan-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem);margin-bottom:2rem">{{ section.settings.related_heading | escape }}</h2>
+      <div class="mealplan-track" id="plans">
+        {%- for block in related_blocks -%}
+          <article class="mealplan-card" {{ block.shopify_attributes }}>
+            <div class="mealplan-img">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 700 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', alt: block.settings.title }}
+              {%- else -%}
+                <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: forloop.index | append: '.jpg' | asset_url }}" alt="{{ block.settings.title | escape }}" width="700" height="700" loading="lazy">
+              {%- endif -%}
+            </div>
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.text | escape }}</p>
+            {%- if block.settings.price_note != blank -%}<b>{{ block.settings.price_note | escape }}</b>{%- endif -%}
+            <a class="mealplan-btn" href="{{ block.settings.link | default: '#' }}">{{ block.settings.button_label | default: 'View plan' | escape }}</a>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div></section>
+
+    <section class="mealplan-sec"><div class="mealplan-wrap"><div class="mealplan-cta">
+      <div class="mealplan-img" data-p="3"></div>
+      <div class="mealplan-cta-in">
+        <h2 class="mealplan-h">{{ section.settings.cta_heading | escape }}</h2>
+        <p class="mealplan-p">{{ section.settings.cta_text | escape }}</p>
+        {%- if section.settings.cta_button_label != blank -%}
+          <a class="mealplan-btn mealplan-btn--solid" href="{{ section.settings.cta_button_link | default: '#' }}">{{ section.settings.cta_button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div></div></section>
+  </div>
+</main>
+
+{% schema %}
+{
+  "name": "CM meal plan page",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "plan_label", "label": "Plan label", "default": "5 Meal Plan" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Chef-prepared meals.\\nMade for your week." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Calorie counted. High protein. Low oil. Pick five meals from this week's menu and we cook and deliver them." },
+    { "type": "text", "id": "fact_1_label", "label": "Fact 1 label", "default": "Price" },
+    { "type": "text", "id": "fact_1_value", "label": "Fact 1 value", "default": "From $00.00" },
+    { "type": "text", "id": "fact_2_label", "label": "Fact 2 label", "default": "Meals" },
+    { "type": "text", "id": "fact_2_value", "label": "Fact 2 value", "default": "5 per week" },
+    { "type": "text", "id": "fact_3_label", "label": "Fact 3 label", "default": "Menu" },
+    { "type": "text", "id": "fact_3_value", "label": "Fact 3 value", "default": "10+ options" },
+    { "type": "text", "id": "button_label", "label": "Primary button", "default": "Build my 5 meals" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "button_label_2", "label": "Secondary button", "default": "View this week's menu" },
+    { "type": "url", "id": "button_link_2", "label": "Secondary button link" },
+    { "type": "image_picker", "id": "hero_image_1", "label": "Hero image (main)" },
+    { "type": "text", "id": "hero_image_1_alt", "label": "Hero image 1 alt", "default": "Chimichurri Steak" },
+    { "type": "image_picker", "id": "hero_image_2", "label": "Hero image (secondary)" },
+    { "type": "text", "id": "hero_image_2_alt", "label": "Hero image 2 alt", "default": "Orange Basil Salmon" },
+    { "type": "text", "id": "badge_value", "label": "Badge value", "default": "10+" },
+    { "type": "text", "id": "badge_label", "label": "Badge label", "default": "meal options" },
+
+    { "type": "header", "content": "Benefits" },
+    { "type": "text", "id": "ben_line_1", "label": "Line 1", "default": "5 meals." },
+    { "type": "text", "id": "ben_line_2", "label": "Line 2", "default": "1 week." },
+    { "type": "text", "id": "ben_line_3", "label": "Line 3 (outline)", "default": "Zero stress." },
+    { "type": "textarea", "id": "ben_note", "label": "Note", "default": "Flexible menu: choose any five from 10+ options, and change your picks each week." },
+
+    { "type": "header", "content": "Menu" },
+    { "type": "text", "id": "menu_heading", "label": "Menu heading", "default": "This week's menu" },
+    { "type": "textarea", "id": "menu_text", "label": "Menu text", "default": "Featured meals from the weekly rotation. Hover or tap a meal for the details." },
+    { "type": "text", "id": "explore_heading", "label": "Explore heading", "default": "Explore all meals" },
+    { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
+    { "type": "text", "id": "detail_note", "label": "Detail note", "default": "Meal names and nutrition values are from the current menu." },
+
+    { "type": "header", "content": "Chef / Steps / Quality" },
+    { "type": "textarea", "id": "chef_heading", "label": "Chef heading", "default": "40 years in the kitchen. Now cooking for you." },
+    { "type": "textarea", "id": "chef_text", "label": "Chef text", "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you." },
+    { "type": "text", "id": "steps_heading", "label": "Steps heading", "default": "How it works" },
+    { "type": "text", "id": "quality_heading", "label": "Quality heading", "default": "Fresh in, quality out." },
+    { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
+
+    { "type": "header", "content": "Delivery" },
+    { "type": "text", "id": "delivery_heading", "label": "Heading", "default": "Fresh meals, delivered to your door." },
+    { "type": "textarea", "id": "delivery_text", "label": "Text", "default": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you." },
+    { "type": "text", "id": "delivery_areas", "label": "Areas", "info": "Comma-separated", "default": "Hartland, Nearby areas" },
+    { "type": "text", "id": "delivery_button_label", "label": "Button label", "default": "Check my area" },
+    { "type": "url", "id": "delivery_button_link", "label": "Button link" },
+
+    { "type": "header", "content": "Reviews / FAQ / CTA" },
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Loved by people who love good food" },
+    { "type": "text", "id": "faq_heading", "label": "FAQ heading", "default": "Questions, answered" },
+    { "type": "text", "id": "related_heading", "label": "Related heading", "default": "Other ways to eat well" },
+    { "type": "text", "id": "cta_heading", "label": "CTA heading", "default": "Your week just got easier." },
+    { "type": "textarea", "id": "cta_text", "label": "CTA text", "default": "Five chef-prepared meals, delivered. Choose yours and we handle the rest." },
+    { "type": "text", "id": "cta_button_label", "label": "CTA button", "default": "Build my meal plan" },
+    { "type": "url", "id": "cta_button_link", "label": "CTA button link" },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 }
+  ],
+  "blocks": [
+    {
+      "type": "meal",
+      "name": "Meal",
+      "settings": [
+
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "number", "id": "calories", "label": "Calories" },
+        { "type": "number", "id": "protein", "label": "Protein (g)" },
+        { "type": "number", "id": "carbs", "label": "Carbs (g)" },
+        { "type": "number", "id": "fat", "label": "Fat (g)" },
+        { "type": "text", "id": "tags", "label": "Tags", "info": "Comma-separated" },
+        { "type": "text", "id": "ingredients", "label": "Ingredients", "info": "Comma-separated" },
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "checkbox", "id": "gluten_free", "label": "Gluten free", "default": false },
+        { "type": "checkbox", "id": "dairy_free", "label": "Dairy free", "default": false },
+        { "type": "range", "id": "image_index", "min": 0, "max": 9, "step": 1, "label": "Default image index", "default": 0 },
+        { "type": "image_picker", "id": "image", "label": "Custom image" }
+
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Chef prepared" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Every meal is cooked by our chefs, not assembled from a kit." }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Choose your meals" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Pick five from this week's menu." }
+      ]
+    },
+    {
+      "type": "quality",
+      "name": "Quality point",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Fresh ingredients" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Real food, prepared in small batches." }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Customer name" },
+        { "type": "textarea", "id": "review", "label": "Review", "default": "Short review text goes here." },
+        { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "label": "Rating", "default": 5 },
+        { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
+        { "type": "text", "id": "aspect", "label": "Image aspect", "default": "1" },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How does the 5 meal plan work?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Choose five meals from the weekly menu and we prepare and deliver them to you." }
+      ]
+    },
+    {
+      "type": "related",
+      "name": "Related plan",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "6 Meal Plan" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Six meals from the weekly menu." },
+        { "type": "text", "id": "price_note", "label": "Price note", "default": "Price at checkout" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "View plan" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "image_picker", "id": "image", "label": "Image" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CM meal plan page",
+      "blocks": [
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Peri Peri Chicken",
+      "description": "With glazed carrots and roasted Yukon potatoes.",
+      "calories": 633,
+      "protein": 38,
+      "carbs": 37,
+      "fat": 37,
+      "tags": "chicken",
+      "ingredients": "Glazed carrots, Roasted Yukon potatoes",
+      "badge": "New",
+      "gluten_free": false,
+      "dairy_free": false,
+      "image_index": 0
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Ground Beef Enchilada Bowl",
+      "description": "With Mexican rice, salsa and peppers.",
+      "calories": 684,
+      "protein": 62,
+      "carbs": 37,
+      "fat": 32,
+      "tags": "beef",
+      "ingredients": "Mexican rice, Salsa, Peppers",
+      "badge": "New",
+      "gluten_free": false,
+      "dairy_free": false,
+      "image_index": 1
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Bacon-Wrapped Chili Fig-Glazed Pork Tenderloin",
+      "description": "Calorie counted, high protein, low oil.",
+      "calories": 676,
+      "protein": 55,
+      "carbs": 42,
+      "fat": 32,
+      "tags": "pork, gluten free",
+      "ingredients": "",
+      "badge": "New",
+      "gluten_free": true,
+      "dairy_free": false,
+      "image_index": 2
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Oven BBQ Salmon",
+      "description": "Calorie counted, high protein, low oil.",
+      "calories": 421,
+      "protein": 45,
+      "carbs": 40,
+      "fat": 12,
+      "tags": "seafood, gluten free",
+      "ingredients": "",
+      "badge": "New",
+      "gluten_free": true,
+      "dairy_free": false,
+      "image_index": 3
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Teriyaki Chicken Breast",
+      "description": "With cilantro rice, bell peppers and mushrooms.",
+      "calories": 430,
+      "protein": 36,
+      "carbs": 32,
+      "fat": 10,
+      "tags": "chicken, gluten free, dairy free",
+      "ingredients": "Cilantro rice, Bell peppers, Mushrooms",
+      "badge": "",
+      "gluten_free": true,
+      "dairy_free": true,
+      "image_index": 4
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Chimichurri Steak",
+      "description": "With roasted potatoes and glazed carrots.",
+      "calories": 623,
+      "protein": 52,
+      "carbs": 34,
+      "fat": 31,
+      "tags": "beef, gluten free, dairy free",
+      "ingredients": "Roasted potatoes, Glazed carrots",
+      "badge": "Chef's special",
+      "gluten_free": true,
+      "dairy_free": true,
+      "image_index": 5
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Orange Basil Salmon",
+      "description": "With cilantro rice and herbed carrots and celery.",
+      "calories": 435,
+      "protein": 38,
+      "carbs": 36,
+      "fat": 11,
+      "tags": "seafood, gluten free, dairy free",
+      "ingredients": "Cilantro rice, Herbed carrots, Celery",
+      "badge": "",
+      "gluten_free": true,
+      "dairy_free": true,
+      "image_index": 6
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Turkey Meatball Marinara",
+      "description": "With spaghetti squash, marinara and Romano cheese.",
+      "calories": 550,
+      "protein": 38,
+      "carbs": 37,
+      "fat": 31,
+      "tags": "turkey, gluten free",
+      "ingredients": "Spaghetti squash, Marinara, Romano cheese",
+      "badge": "",
+      "gluten_free": true,
+      "dairy_free": false,
+      "image_index": 7
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Balsamic Baked Chicken Thighs",
+      "description": "With sweet potatoes, herbed carrots and celery.",
+      "calories": 585,
+      "protein": 36,
+      "carbs": 35,
+      "fat": 33,
+      "tags": "chicken, gluten free, dairy free",
+      "ingredients": "Sweet potatoes, Herbed carrots, Celery",
+      "badge": "Customer favorite",
+      "gluten_free": true,
+      "dairy_free": true,
+      "image_index": 8
+    }
+  },
+  {
+    "type": "meal",
+    "settings": {
+      "name": "Chicken, Quinoa Taco Bake",
+      "description": "Calorie counted, high protein, low oil.",
+      "calories": 581,
+      "protein": 61,
+      "carbs": 53,
+      "fat": 15,
+      "tags": "chicken, gluten free",
+      "ingredients": "",
+      "badge": "",
+      "gluten_free": true,
+      "dairy_free": false,
+      "image_index": 9
+    }
+  },
+  {
+    "type": "benefit",
+    "settings": {
+      "title": "Chef prepared",
+      "text": "Every meal is cooked by our chefs, not assembled from a kit."
+    }
+  },
+  {
+    "type": "benefit",
+    "settings": {
+      "title": "Fresh weekly",
+      "text": "A new menu each week, made close to your delivery day."
+    }
+  },
+  {
+    "type": "benefit",
+    "settings": {
+      "title": "Easy delivery",
+      "text": "Delivered to your door. Heat and eat in minutes."
+    }
+  },
+  {
+    "type": "step",
+    "settings": {
+      "title": "Choose your meals",
+      "text": "Pick five from this week's menu."
+    }
+  },
+  {
+    "type": "step",
+    "settings": {
+      "title": "We prepare",
+      "text": "Our chefs cook your order."
+    }
+  },
+  {
+    "type": "step",
+    "settings": {
+      "title": "We pack",
+      "text": "Meals are packed ready for delivery."
+    }
+  },
+  {
+    "type": "step",
+    "settings": {
+      "title": "We deliver",
+      "text": "They arrive at your door. Heat and eat."
+    }
+  },
+  {
+    "type": "quality",
+    "settings": {
+      "title": "Fresh ingredients",
+      "text": "Real food, prepared in small batches."
+    }
+  },
+  {
+    "type": "quality",
+    "settings": {
+      "title": "Chef-prepared meals",
+      "text": "Cooked by people who cook for a living."
+    }
+  },
+  {
+    "type": "quality",
+    "settings": {
+      "title": "Weekly menu rotation",
+      "text": "A new lineup keeps the week interesting."
+    }
+  },
+  {
+    "type": "quality",
+    "settings": {
+      "title": "Convenience",
+      "text": "Nothing to chop, nothing to clean."
+    }
+  },
+  {
+    "type": "quality",
+    "settings": {
+      "title": "Quality",
+      "text": "The same standard in every box."
+    }
+  },
+  {
+    "type": "review",
+    "settings": {
+      "name": "Sarah M.",
+      "review": "These meals made weeknights so much easier.",
+      "rating": 5,
+      "show_image": true,
+      "aspect": "1"
+    }
+  },
+  {
+    "type": "review",
+    "settings": {
+      "name": "James R.",
+      "review": "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
+      "rating": 5,
+      "show_image": true,
+      "aspect": "1.3"
+    }
+  },
+  {
+    "type": "review",
+    "settings": {
+      "name": "Priya K.",
+      "review": "Short and sweet.",
+      "rating": 5,
+      "show_image": false,
+      "aspect": "1"
+    }
+  },
+  {
+    "type": "review",
+    "settings": {
+      "name": "Alex T.",
+      "review": "Another placeholder review for the layout.",
+      "rating": 5,
+      "show_image": true,
+      "aspect": "0.8"
+    }
+  },
+  {
+    "type": "faq",
+    "settings": {
+      "question": "How does the 5 meal plan work?",
+      "answer": "Choose five meals from the weekly menu and we prepare and deliver them to you."
+    }
+  },
+  {
+    "type": "faq",
+    "settings": {
+      "question": "How often does the menu change?",
+      "answer": "The menu rotates weekly."
+    }
+  },
+  {
+    "type": "faq",
+    "settings": {
+      "question": "Can I choose my meals?",
+      "answer": "Yes. Pick any five from the available options."
+    }
+  },
+  {
+    "type": "faq",
+    "settings": {
+      "question": "How are meals delivered?",
+      "answer": "Delivered to your door."
+    }
+  },
+  {
+    "type": "faq",
+    "settings": {
+      "question": "How should meals be stored?",
+      "answer": "Keep refrigerated and enjoy within a few days."
+    }
+  },
+  {
+    "type": "faq",
+    "settings": {
+      "question": "How do I heat the meals?",
+      "answer": "Microwave until hot throughout."
+    }
+  },
+  {
+    "type": "faq",
+    "settings": {
+      "question": "What areas do you deliver to?",
+      "answer": "We deliver across Hartland and nearby areas."
+    }
+  },
+  {
+    "type": "faq",
+    "settings": {
+      "question": "Are nutrition facts available?",
+      "answer": "Yes. Calories, protein, carbs and fat are listed for each meal."
+    }
+  },
+  {
+    "type": "related",
+    "settings": {
+      "title": "6 Meal Plan",
+      "text": "Six meals from the weekly menu.",
+      "price_note": "Price at checkout",
+      "button_label": "View plan",
+      "link": "/products/6-meal-plan"
+    }
+  },
+  {
+    "type": "related",
+    "settings": {
+      "title": "7 Meal Plan",
+      "text": "Seven meals from the weekly menu.",
+      "price_note": "Price at checkout",
+      "button_label": "View plan",
+      "link": "/products/7-meal-plan"
+    }
+  },
+  {
+    "type": "related",
+    "settings": {
+      "title": "10 Meal Plan",
+      "text": "Ten meals from the weekly menu.",
+      "price_note": "Price at checkout",
+      "button_label": "View plan",
+      "link": "/products/10-meal-plan"
+    }
+  },
+  {
+    "type": "related",
+    "settings": {
+      "title": "15 Meal Plan",
+      "text": "Fifteen meals from the weekly menu.",
+      "price_note": "Price at checkout",
+      "button_label": "View plan",
+      "link": "/products/15-meal-plan"
+    }
+  }
+]
+    }
+  ]
+}
+{% endschema %}

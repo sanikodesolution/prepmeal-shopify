@@ -1,0 +1,255 @@
+/* Meal plan full page */
+
+.mealplan-page,.mealplan-page *{font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+.mealplan-page{box-sizing:border-box;background:#E3EADF;overflow-x:clip}
+
+  .mph {
+    --mph-forest: #15251C; --mph-sage: #E3EADF; --mph-saffron: #F5A623; --mph-white: #fff;
+    --mph-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --mph-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--mph-sage); color: var(--mph-forest); font-family: var(--mph-body);
+    padding: clamp(2.5rem, 6vw, 6rem) clamp(1.25rem, 4vw, 4rem); overflow: hidden; 
+  }
+  .mph * { box-sizing: border-box; }
+  .mph__inner { max-width: 1320px; margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  @media (min-width: 990px) { .mph__inner { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+  .mph__plan { margin: 0 0 1.25rem; font-size: .95rem; font-weight: 600; letter-spacing: .04em; }
+  .mph__title { margin: 0; font-family: var(--mph-display); font-weight: 500; font-size: clamp(2.75rem, 6.4vw, 5.75rem); line-height: .98; letter-spacing: -.02em; text-wrap: balance; }
+  .mph__text { margin: 1.5rem 0 0; max-width: 46ch; font-size: 1.0625rem; line-height: 1.6; }
+  .mph__facts { display: flex; flex-wrap: wrap; gap: 1.25rem 2.5rem; margin: 2rem 0; padding: 1.25rem 0; border-block: 1px solid rgba(21,37,28,.25); }
+  .mph__facts dt { font-size: .8125rem; opacity: .75; }
+  .mph__facts dd { margin: .2rem 0 0; font-family: var(--mph-display); font-size: 1.5rem; line-height: 1.1; }
+  .mph__actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .mph__btn { display: inline-flex; align-items: center; min-height: 3.25rem; padding: 0 1.75rem; border-radius: 999px; font-weight: 600; font-size: .9375rem; text-decoration: none; border: 1.5px solid var(--mph-forest); transition: background-color .25s, color .25s, transform .25s; }
+  .mph__btn--primary { background: var(--mph-forest); color: #fff; }
+  .mph__btn--primary:hover { background: var(--mph-saffron); border-color: var(--mph-saffron); color: var(--mph-forest); transform: translateY(-2px); }
+  .mph__btn--ghost { color: var(--mph-forest); }
+  .mph__btn--ghost:hover { background: var(--mph-forest); color: #fff; }
+  .mph__btn:focus-visible { outline: 3px solid var(--mph-saffron); outline-offset: 3px; }
+  .mph__visual { position: relative; padding-bottom: 3rem; }
+  .mph__main { aspect-ratio: 4/5; border-radius: 200px 200px 24px 24px; overflow: hidden; background: #cdd8c8; margin-left: 12%; }
+  .mph__main svg, .mph__second svg { width: 100%; height: 100%; display: block; }
+  .mph__second { position: absolute; left: 0; bottom: 0; width: 38%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 8px solid var(--mph-sage); background: #cdd8c8; }
+  .mph__badge { position: absolute; right: 0; top: 12%; display: grid; place-items: center; align-content: center; width: 7.5rem; height: 7.5rem; border-radius: 50%; background: var(--mph-saffron); color: var(--mph-forest); text-align: center; line-height: 1.1; transform: rotate(8deg); }
+  .mph__badge strong { font-family: var(--mph-display); font-size: 1.75rem; font-weight: 600; }
+  .mph__badge span { font-size: .75rem; padding: 0 .5rem; }
+  @media (max-width: 989px) { .mph__main { margin-left: 8%; } .mph__badge { width: 6rem; height: 6rem; } .mph__badge strong { font-size: 1.4rem; } }
+  
+.mealplan-a{
+&{--forest:#15251C;--sage:#E3EADF;--saffron:#F5A623;--paper:#fff;--tomato:#C9533A;--leaf:#6B8F3F;--display:'Fraunces',Georgia,'Times New Roman',serif;--body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;box-sizing:border-box}
+& *{box-sizing:border-box}&{margin:0;background:var(--sage);color:var(--forest);font-family:var(--body)}
+& section{padding:clamp(3rem,7vw,7rem) clamp(1.25rem,4vw,4rem)}
+.wrap{max-width:1320px;margin:0 auto}
+& h2{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;font-size:clamp(2.25rem,5vw,4.5rem);text-wrap:balance}
+& p{line-height:1.6}
+a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-offset:3px}
+.btn{display:inline-flex;align-items:center;min-height:2.75rem;padding:0 1.4rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font:600 .875rem var(--body);cursor:pointer;text-decoration:none;transition:background .25s,color .25s,transform .25s}
+.btn:hover{background:var(--forest);color:#fff}
+.ph{width:100%;height:100%;display:block}
+
+/* 02 benefits */
+.ben{background:var(--forest);color:var(--sage)}
+.ben .big{font-family:var(--display);font-size:clamp(3.5rem,13vw,12rem);line-height:.9;letter-spacing:-.03em;margin:0}
+.ben .big span{display:block}
+.ben .big .out{color:transparent;-webkit-text-stroke:1.5px var(--saffron)}
+.ben ul{list-style:none;margin:3rem 0 0;padding:0;display:grid;gap:0;border-top:1px solid rgba(227,234,223,.3)}
+@media(min-width:760px){.ben ul{grid-template-columns:repeat(3,1fr)}}
+.ben li{padding:1.5rem 1.5rem 1.5rem 0}
+.ben li b{display:block;font:500 1.5rem var(--display);margin-bottom:.4rem}
+.ben li span{opacity:.8;font-size:.95rem}
+
+/* 03 menu */
+.menu-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
+.menu-head p{max-width:38ch;margin:0}
+.mg{display:grid;gap:1.25rem}
+@media(min-width:900px){.mg{grid-template-columns:repeat(12,1fr);grid-auto-rows:minmax(0,auto)}
+.mg .m:nth-child(1){grid-column:1/8;grid-row:1/3}
+.mg .m:nth-child(2){grid-column:8/13}
+.mg .m:nth-child(3){grid-column:8/13}
+.mg .m:nth-child(4){grid-column:1/6}
+.mg .m:nth-child(5){grid-column:6/13}}
+.m{position:relative;overflow:hidden;border-radius:20px;background:#cdd8c8;min-height:300px;cursor:pointer}
+.m:nth-child(1){min-height:560px}
+.m .img{position:absolute;inset:0;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.m:hover .img,.m:focus-within .img{transform:scale(1.07)}
+.m .info{position:absolute;inset:auto 0 0 0;padding:1.5rem;color:#fff;background:linear-gradient(transparent,rgba(10,20,14,.88) 55%)}
+.m .no{font:.85rem var(--body);opacity:.85}
+.m h3{margin:.2rem 0 .4rem;font:500 clamp(1.4rem,2.4vw,2.2rem)/1.05 var(--display)}
+.m:nth-child(1) h3{font-size:clamp(2rem,3.6vw,3.25rem)}
+.reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
+.m:hover .reveal,.m:focus-within .reveal{grid-template-rows:1fr}
+.reveal>div{overflow:hidden}
+.reveal p{margin:.3rem 0 .9rem;font-size:.92rem;opacity:.9}
+.macros{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:.82rem;margin-bottom:1rem}
+.macros b{font-size:1rem}
+.m .btn{border-color:#fff;color:#fff}.m .btn:hover{background:var(--saffron);border-color:var(--saffron);color:var(--forest);transform:translateX(4px)}
+@media(hover:none){.reveal{grid-template-rows:1fr}}
+
+/* 04 explorer */
+.ex{background:var(--paper)}
+.filters{display:flex;gap:.5rem;overflow-x:auto;padding:1.5rem 0 2rem;scrollbar-width:none}
+.filters button{flex:none;min-height:2.5rem;padding:0 1.1rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font:600 .8rem var(--body);cursor:pointer;transition:background .2s,color .2s}
+.filters button[aria-pressed=true]{background:var(--forest);color:#fff}
+.eg{display:grid;gap:2rem 1.25rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.e{transition:opacity .35s,transform .35s}
+.e.out{opacity:0;transform:scale(.96)}
+.e[hidden]{display:none}
+.e .thumb{aspect-ratio:4/5;border-radius:120px 120px 16px 16px;overflow:hidden;background:#cdd8c8}
+.e:nth-child(even) .thumb{border-radius:16px 16px 120px 120px}
+.e .thumb svg{transition:transform .7s}.e:hover .thumb svg{transform:scale(1.06)}
+.e h3{font:500 1.35rem var(--display);margin:1rem 0 .25rem}
+.e small{opacity:.75;display:block;margin-bottom:.6rem}
+.e button{padding:0;border:0;background:none;font:600 .85rem var(--body);color:var(--forest);text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.more{text-align:center;margin-top:3rem}
+
+/* 05 detail */
+.dt-grid{display:grid;gap:3rem;align-items:center}
+@media(min-width:900px){.dt-grid{grid-template-columns:6fr 5fr}}
+.dt-img{aspect-ratio:1;border-radius:50% 50% 24px 24px;overflow:hidden;background:#cdd8c8}
+.dt h2{font-size:clamp(2.25rem,4.5vw,4rem)}
+.ing{display:flex;flex-wrap:wrap;gap:.4rem;padding:0;list-style:none;margin:1rem 0 2rem}
+.ing li{padding:.3rem .8rem;border-radius:999px;background:rgba(21,37,28,.08);font-size:.85rem}
+.nut{display:flex;gap:2rem;align-items:center;flex-wrap:wrap}
+.ring{--p:0;--c:0;--f:0;position:relative;width:180px;aspect-ratio:1;border-radius:50%;background:conic-gradient(var(--tomato) 0 calc(var(--p)*1%),var(--saffron) 0 calc((var(--p) + var(--c))*1%),var(--leaf) 0 100%);display:grid;place-items:center;transition:background .6s}
+.ring::before{content:"";position:absolute;inset:18px;border-radius:50%;background:var(--sage)}
+.ring div{position:relative;text-align:center;font:500 2.4rem/1 var(--display)}
+.ring small{display:block;font:.7rem var(--body);opacity:.75;margin-top:.2rem}
+.bars{flex:1;min-width:200px;display:grid;gap:1rem}
+.bar header{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.35rem}
+.bar i{display:block;height:8px;border-radius:8px;background:rgba(21,37,28,.12);overflow:hidden}
+.bar i b{display:block;height:100%;border-radius:8px;transition:width .6s}
+.note{font-size:.8rem;opacity:.7;margin-top:2rem}
+@media(prefers-reduced-motion:reduce){& *{transition:none!important;animation:none!important}}
+}
+
+
+.mealplan{--f:#15251C;--s:#E3EADF;--y:#F5A623;--w:#fff;--t:#C9533A;--d:'Fraunces',Georgia,'Times New Roman',serif;--b:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-family:var(--b);color:var(--f)}
+.mealplan *{box-sizing:border-box}
+.mealplan-sec{padding:clamp(3rem,7vw,7rem) clamp(1.25rem,4vw,4rem)}
+.mealplan-wrap{max-width:1320px;margin:0 auto}
+.mealplan-h{font-family:var(--d);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;font-size:clamp(2.25rem,5.5vw,5rem);text-wrap:balance}
+.mealplan-p{line-height:1.65;max-width:50ch;margin:1.25rem 0 0}
+.mealplan-btn{display:inline-flex;align-items:center;min-height:3rem;padding:0 1.6rem;border-radius:999px;border:1.5px solid var(--f);background:none;color:var(--f);font:600 .9rem var(--b);text-decoration:none;cursor:pointer;transition:background .25s,color .25s,transform .25s}
+.mealplan-btn:hover{background:var(--f);color:#fff;transform:translateY(-2px)}
+.mealplan-btn--solid{background:var(--f);color:#fff}.mealplan-btn--solid:hover{background:var(--y);border-color:var(--y);color:var(--f)}
+.mealplan a:focus-visible,.mealplan button:focus-visible{outline:3px solid var(--y);outline-offset:3px}
+.mealplan-ph{width:100%;height:100%;display:block;object-fit:cover}
+.mealplan-img{overflow:hidden;background:#cdd8c8}
+.mealplan-stars{color:var(--y);letter-spacing:2px}
+
+/* 06 chef */
+.mealplan-chef{display:grid;gap:2rem;position:relative}
+.mealplan-chef .mealplan-big{aspect-ratio:4/5;border-radius:24px}
+.mealplan-chef .mealplan-small{width:46%;aspect-ratio:1;border-radius:50%;border:8px solid var(--s)}
+@media(min-width:900px){
+ .mealplan-chef{grid-template-columns:repeat(12,1fr);align-items:start}
+ .mealplan-chef .mealplan-big{grid-column:1/8;aspect-ratio:5/4}
+ .mealplan-chef .mealplan-txt{grid-column:7/13;grid-row:1;margin-top:18%;position:relative}
+ .mealplan-chef .mealplan-h{font-size:clamp(3rem,6.5vw,6.5rem);margin-left:-18%;position:relative;z-index:1}
+ .mealplan-chef .mealplan-small{grid-column:9/12;width:100%;margin-top:-4rem}}
+
+/* 07 steps */
+.mealplan-steps{background:var(--f);color:var(--s)}
+.mealplan-list{list-style:none;margin:3.5rem 0 0;padding:0;display:grid;gap:2.5rem;position:relative}
+@media(min-width:900px){.mealplan-list{grid-template-columns:repeat(4,1fr);gap:2rem}
+ .mealplan-list::before{content:"";position:absolute;left:0;right:0;top:2.2rem;height:1px;background:rgba(227,234,223,.3)}}
+.mealplan-list li{position:relative}
+.mealplan-num{display:grid;place-items:center;width:4.4rem;height:4.4rem;border-radius:50%;background:var(--y);color:var(--f);font:500 1.6rem var(--d);margin-bottom:1.25rem;position:relative}
+.mealplan-list h3{font:500 1.5rem var(--d);margin:0 0 .5rem}.mealplan-list p{margin:0;opacity:.8;line-height:1.55}
+
+/* 08 quality */
+.mealplan-q{display:grid;gap:2.5rem;align-items:center}
+@media(min-width:900px){.mealplan-q{grid-template-columns:5fr 6fr}}
+.mealplan-q .mealplan-img{aspect-ratio:4/5;border-radius:200px 200px 24px 24px}
+.mealplan-terms{list-style:none;margin:2rem 0 0;padding:0}
+.mealplan-terms li{display:grid;gap:.2rem;padding:1.1rem 0;border-top:1px solid rgba(21,37,28,.25);transition:padding .35s}
+.mealplan-terms li:hover{padding-left:1rem}
+.mealplan-terms b{font:500 clamp(1.6rem,3.4vw,2.8rem)/1.05 var(--d)}.mealplan-terms span{opacity:.75}
+
+/* 09 gallery */
+.mealplan-gal-h{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.mealplan-gal-h .mealplan-h{font-size:clamp(3.5rem,11vw,10rem);line-height:.88}
+.mealplan-track{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 clamp(1.25rem,4vw,4rem) 1rem;-webkit-overflow-scrolling:touch}
+.mealplan-track::-webkit-scrollbar{display:none}
+.mealplan-slide{flex:0 0 min(78vw,360px);scroll-snap-align:center}
+.mealplan-slide:nth-child(even){margin-top:3rem}
+.mealplan-slide .mealplan-img{aspect-ratio:3/4;border-radius:20px}
+.mealplan-slide .mealplan-ph{transition:transform .7s}.mealplan-slide:hover .mealplan-ph{transform:scale(1.06)}
+.mealplan-slide span{display:block;margin-top:.7rem;font:500 1.2rem var(--d)}
+.mealplan-arrows{display:none;gap:.5rem}@media(min-width:900px){.mealplan-arrows{display:flex}}
+.mealplan-arrows button{width:3rem;height:3rem;border-radius:50%;border:1.5px solid var(--f);background:none;color:var(--f);font-size:1.2rem;cursor:pointer}
+.mealplan-arrows button:hover{background:var(--f);color:#fff}
+
+/* 10 delivery */
+.mealplan-del{display:grid;gap:2.5rem;align-items:center}
+@media(min-width:900px){.mealplan-del{grid-template-columns:6fr 5fr}}
+.mealplan-map{aspect-ratio:1;border-radius:24px;background:#d3ddcd;overflow:hidden}
+.mealplan-map svg{width:100%;height:100%;display:block}
+.mealplan-ring{transform-origin:50% 50%;animation:mealplan-pulse 4s ease-in-out infinite}
+@keyframes mealplan-pulse{50%{transform:scale(1.05);opacity:.7}}
+.mealplan-areas{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0;margin:1.5rem 0}
+.mealplan-areas li{padding:.4rem .9rem;border-radius:999px;background:rgba(21,37,28,.08);font-size:.9rem}
+
+/* 11 reviews */
+.mealplan-rev{background:var(--w)}
+.mealplan-cols{columns:1;gap:1.25rem;margin-top:3rem}
+@media(min-width:640px){.mealplan-cols{columns:2}}@media(min-width:1000px){.mealplan-cols{columns:3}}
+.mealplan-r{break-inside:avoid;margin:0 0 1.25rem;border-radius:20px;overflow:hidden;background:var(--s)}
+.mealplan-r .mealplan-img{aspect-ratio:var(--ar,1)}
+.mealplan-r div:last-child{padding:1.25rem 1.4rem 1.5rem}
+.mealplan-r q{display:block;font:500 1.15rem/1.4 var(--d);quotes:none;margin:.5rem 0 .8rem}
+.mealplan-r--text{background:var(--f);color:var(--s)}
+.mealplan-r small{opacity:.75}
+
+/* 12 faq */
+.mealplan-faq{display:grid;gap:2rem}@media(min-width:900px){.mealplan-faq{grid-template-columns:4fr 7fr}}
+.mealplan-qi{border-top:1px solid rgba(21,37,28,.25)}.mealplan-qi:last-child{border-bottom:1px solid rgba(21,37,28,.25)}
+.mealplan-qb{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:4rem;padding:1rem 0;background:none;border:0;color:var(--f);font:500 clamp(1.1rem,2vw,1.5rem) var(--d);text-align:left;cursor:pointer}
+.mealplan-qb i{flex:none;width:1.6rem;height:1.6rem;position:relative}
+.mealplan-qb i::before,.mealplan-qb i::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--f);transition:transform .35s}
+.mealplan-qb i::after{transform:rotate(90deg)}.mealplan-qb[aria-expanded=true] i::after{transform:rotate(0)}
+.mealplan-qa{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+.mealplan-qa.mealplan-open{grid-template-rows:1fr}.mealplan-qa>div{overflow:hidden}.mealplan-qa p{margin:0 0 1.25rem;line-height:1.65;max-width:60ch}
+
+/* 13 related */
+.mealplan-card{flex:0 0 min(80vw,320px);scroll-snap-align:start}
+.mealplan-card .mealplan-img{aspect-ratio:4/5;border-radius:20px}
+.mealplan-card h3{font:500 1.5rem var(--d);margin:1rem 0 .3rem}.mealplan-card p{margin:0 0 .8rem;opacity:.8;font-size:.92rem;line-height:1.5}
+.mealplan-card b{display:block;margin-bottom:.8rem}
+
+/* 14 cta */
+.mealplan-cta{position:relative;min-height:min(80vh,720px);display:grid;align-items:end;color:#fff;overflow:hidden;border-radius:28px}
+.mealplan-cta .mealplan-img{position:absolute;inset:0}
+.mealplan-cta::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(10,20,14,.15),rgba(10,20,14,.85))}
+.mealplan-cta-in{position:relative;z-index:1;padding:clamp(1.5rem,5vw,4rem)}
+.mealplan-cta .mealplan-h{font-size:clamp(3rem,8vw,7.5rem);max-width:12ch}
+.mealplan-cta .mealplan-btn--solid{background:var(--y);border-color:var(--y);color:var(--f);margin-top:1.75rem}
+.mealplan-cta .mealplan-btn--solid:hover{background:#fff;border-color:#fff}
+@media(prefers-reduced-motion:reduce){.mealplan *{transition:none!important;animation:none!important}}
+
+.mp-food{width:100%;height:100%;object-fit:cover;padding:0;display:block;filter:none}
+.mph__main .mp-food{padding:0;object-fit:cover}.mph__second .mp-food{padding:0;filter:none;object-fit:cover}
+.mealplan-a .m{min-height:380px}.mealplan-a .m:nth-child(1){min-height:560px}
+.mealplan-a .m .mp-food{padding:0;object-fit:cover}
+.mealplan-a .tag{display:inline-block;margin-left:.6rem;padding:.15rem .6rem;border-radius:999px;background:var(--saffron);color:#15251C;font-size:.72rem;font-weight:700}
+.mealplan-a .ing .diet{background:var(--saffron);color:#15251C;font-weight:500}
+.mealplan-cta .mp-food{object-fit:cover;padding:0;filter:none}
+.mealplan-list::before{transform-origin:left;transform:scaleX(var(--prog,1))}
+.mealplan-gal-img,.mealplan-slide .mp-food{padding:0;object-fit:cover}
+.mealplan-a .e .thumb .mp-food,
+.mealplan-chef .mp-food,
+.mealplan-q .mp-food,
+.mealplan-card .mp-food,
+.mealplan-r .mp-food,
+.dt-img .mp-food{object-fit:cover;padding:0;filter:none}
+
+.mealplan-terms li{cursor:pointer;transition:padding .35s,opacity .35s,border-color .35s}
+.mealplan-terms.mp-has li:not(.is-active){opacity:.45}
+.mealplan-terms li.is-active{padding-left:1rem;border-top-color:var(--y)}
+.mealplan-terms li.is-active b::before{content:"";display:inline-block;width:.55em;height:.55em;margin-right:.45em;border-radius:50%;background:var(--y);vertical-align:.1em}
+.mealplan-terms li:focus-visible{outline:3px solid var(--y);outline-offset:4px}
+.mealplan-page #qImg{position:relative}
+.mealplan-page #qImg .mp-qimg{position:absolute;inset:0;opacity:0}
+.mealplan-page #qImg .mp-qimg.is-on{opacity:1}
+.mealplan-page .mph{min-height:0}
+

@@ -1,173 +1,484 @@
 {
   "sections": {
-    "plans": {
-      "type": "cm-plans",
+    "mp_page": {
+      "type": "cm-meal-plan-page",
       "settings": {
-        "label": "Meal Plans",
-        "heading": "Pick the Plan\nThat Fits Your Week",
-        "text": "<p>No subscription. Pick your plan and pay once. Every meal is 24oz, chef-made and never frozen.</p>",
-        "background": "cream",
-        "padding_top": 80,
-        "padding_bottom": 64
+        "plan_label": "5 Meal Plan",
+        "heading": "Chef-prepared meals.\nMade for your week.",
+        "text": "Calorie counted. High protein. Low oil. Pick five meals from this week's menu and we cook and deliver them.",
+        "fact_1_label": "Price",
+        "fact_1_value": "From $00.00",
+        "fact_2_label": "Meals",
+        "fact_2_value": "5 per week",
+        "fact_3_label": "Menu",
+        "fact_3_value": "10+ options",
+        "button_label": "Build my 5 meals",
+        "button_label_2": "View this week's menu",
+        "button_link_2": "#menu",
+        "badge_value": "10+",
+        "badge_label": "meal options",
+        "ben_line_1": "5 meals.",
+        "ben_line_2": "1 week.",
+        "ben_line_3": "Zero stress.",
+        "ben_note": "Flexible menu: choose any five from 10+ options, and change your picks each week.",
+        "menu_heading": "This week's menu",
+        "menu_text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
+        "explore_heading": "Explore all meals",
+        "load_more_label": "Load more",
+        "detail_note": "Meal names and nutrition values are from the current menu.",
+        "chef_heading": "40 years in the kitchen. Now cooking for you.",
+        "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
+        "steps_heading": "How it works",
+        "quality_heading": "Fresh in, quality out.",
+        "gallery_heading": "10+\nmeal options",
+        "delivery_heading": "Fresh meals, delivered to your door.",
+        "delivery_text": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you.",
+        "delivery_areas": "Hartland, Nearby areas",
+        "delivery_button_label": "Check my area",
+        "reviews_heading": "Loved by people who love good food",
+        "faq_heading": "Questions, answered",
+        "related_heading": "Other ways to eat well",
+        "cta_heading": "Your week just got easier.",
+        "cta_text": "Five chef-prepared meals, delivered. Choose yours and we handle the rest.",
+        "cta_button_label": "Build my meal plan",
+        "padding_top": 0,
+        "padding_bottom": 0
       },
       "blocks": {
-        "plan_1": {
-          "type": "plan",
+        "meal_1": {
+          "type": "meal",
           "settings": {
-            "number": "6",
-            "link": "/products/6-meal-plan"
+            "name": "Peri Peri Chicken",
+            "description": "With glazed carrots and roasted Yukon potatoes.",
+            "calories": 633,
+            "protein": 38,
+            "carbs": 37,
+            "fat": 37,
+            "tags": "chicken",
+            "ingredients": "Glazed carrots, Roasted Yukon potatoes",
+            "badge": "New",
+            "gluten_free": false,
+            "dairy_free": false,
+            "image_index": 0
           }
         },
-        "plan_2": {
-          "type": "plan",
+        "meal_2": {
+          "type": "meal",
           "settings": {
-            "number": "7",
-            "link": "/products/7-meal-plan"
+            "name": "Ground Beef Enchilada Bowl",
+            "description": "With Mexican rice, salsa and peppers.",
+            "calories": 684,
+            "protein": 62,
+            "carbs": 37,
+            "fat": 32,
+            "tags": "beef",
+            "ingredients": "Mexican rice, Salsa, Peppers",
+            "badge": "New",
+            "gluten_free": false,
+            "dairy_free": false,
+            "image_index": 1
           }
         },
-        "plan_3": {
-          "type": "plan",
+        "meal_3": {
+          "type": "meal",
           "settings": {
-            "number": "10",
-            "link": "/products/10-meal-plan"
+            "name": "Bacon-Wrapped Chili Fig-Glazed Pork Tenderloin",
+            "description": "Calorie counted, high protein, low oil.",
+            "calories": 676,
+            "protein": 55,
+            "carbs": 42,
+            "fat": 32,
+            "tags": "pork, gluten free",
+            "ingredients": "",
+            "badge": "New",
+            "gluten_free": true,
+            "dairy_free": false,
+            "image_index": 2
           }
         },
-        "plan_4": {
-          "type": "plan",
+        "meal_4": {
+          "type": "meal",
           "settings": {
-            "number": "15",
-            "link": "/products/15-meal-plan"
+            "name": "Oven BBQ Salmon",
+            "description": "Calorie counted, high protein, low oil.",
+            "calories": 421,
+            "protein": 45,
+            "carbs": 40,
+            "fat": 12,
+            "tags": "seafood, gluten free",
+            "ingredients": "",
+            "badge": "New",
+            "gluten_free": true,
+            "dairy_free": false,
+            "image_index": 3
           }
-        }
-      },
-      "block_order": [
-        "plan_1",
-        "plan_2",
-        "plan_3",
-        "plan_4"
-      ]
-    },
-    "steps": {
-      "type": "cm-steps",
-      "settings": {
-        "label": "Simple Process",
-        "heading": "How Your Plan Works",
-        "background": "white",
-        "padding_top": 64,
-        "padding_bottom": 64
-      },
-      "blocks": {
+        },
+        "meal_5": {
+          "type": "meal",
+          "settings": {
+            "name": "Teriyaki Chicken Breast",
+            "description": "With cilantro rice, bell peppers and mushrooms.",
+            "calories": 430,
+            "protein": 36,
+            "carbs": 32,
+            "fat": 10,
+            "tags": "chicken, gluten free, dairy free",
+            "ingredients": "Cilantro rice, Bell peppers, Mushrooms",
+            "badge": "",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 4
+          }
+        },
+        "meal_6": {
+          "type": "meal",
+          "settings": {
+            "name": "Chimichurri Steak",
+            "description": "With roasted potatoes and glazed carrots.",
+            "calories": 623,
+            "protein": 52,
+            "carbs": 34,
+            "fat": 31,
+            "tags": "beef, gluten free, dairy free",
+            "ingredients": "Roasted potatoes, Glazed carrots",
+            "badge": "Chef's special",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 5
+          }
+        },
+        "meal_7": {
+          "type": "meal",
+          "settings": {
+            "name": "Orange Basil Salmon",
+            "description": "With cilantro rice and herbed carrots and celery.",
+            "calories": 435,
+            "protein": 38,
+            "carbs": 36,
+            "fat": 11,
+            "tags": "seafood, gluten free, dairy free",
+            "ingredients": "Cilantro rice, Herbed carrots, Celery",
+            "badge": "",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 6
+          }
+        },
+        "meal_8": {
+          "type": "meal",
+          "settings": {
+            "name": "Turkey Meatball Marinara",
+            "description": "With spaghetti squash, marinara and Romano cheese.",
+            "calories": 550,
+            "protein": 38,
+            "carbs": 37,
+            "fat": 31,
+            "tags": "turkey, gluten free",
+            "ingredients": "Spaghetti squash, Marinara, Romano cheese",
+            "badge": "",
+            "gluten_free": true,
+            "dairy_free": false,
+            "image_index": 7
+          }
+        },
+        "meal_9": {
+          "type": "meal",
+          "settings": {
+            "name": "Balsamic Baked Chicken Thighs",
+            "description": "With sweet potatoes, herbed carrots and celery.",
+            "calories": 585,
+            "protein": 36,
+            "carbs": 35,
+            "fat": 33,
+            "tags": "chicken, gluten free, dairy free",
+            "ingredients": "Sweet potatoes, Herbed carrots, Celery",
+            "badge": "Customer favorite",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 8
+          }
+        },
+        "meal_10": {
+          "type": "meal",
+          "settings": {
+            "name": "Chicken, Quinoa Taco Bake",
+            "description": "Calorie counted, high protein, low oil.",
+            "calories": 581,
+            "protein": 61,
+            "carbs": 53,
+            "fat": 15,
+            "tags": "chicken, gluten free",
+            "ingredients": "",
+            "badge": "",
+            "gluten_free": true,
+            "dairy_free": false,
+            "image_index": 9
+          }
+        },
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "title": "Chef prepared",
+            "text": "Every meal is cooked by our chefs, not assembled from a kit."
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "title": "Fresh weekly",
+            "text": "A new menu each week, made close to your delivery day."
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "title": "Easy delivery",
+            "text": "Delivered to your door. Heat and eat in minutes."
+          }
+        },
         "step_1": {
           "type": "step",
           "settings": {
-            "title": "Pick Your Meals",
-            "text": "Choose what you want from this week's menu."
+            "title": "Choose your meals",
+            "text": "Pick five from this week's menu."
           }
         },
         "step_2": {
           "type": "step",
           "settings": {
-            "title": "We Cook It Fresh",
-            "text": "Chef Matt makes every meal from scratch. Nothing frozen."
+            "title": "We prepare",
+            "text": "Our chefs cook your order."
           }
         },
         "step_3": {
           "type": "step",
           "settings": {
-            "title": "We Deliver It",
-            "text": "Your meals come straight to your door in Hartland."
+            "title": "We pack",
+            "text": "Meals are packed ready for delivery."
           }
         },
         "step_4": {
           "type": "step",
           "settings": {
-            "title": "Heat and Eat",
-            "text": "2 minutes in the microwave and it's ready. No cooking, no mess."
+            "title": "We deliver",
+            "text": "They arrive at your door. Heat and eat."
+          }
+        },
+        "quality_1": {
+          "type": "quality",
+          "settings": {
+            "title": "Fresh ingredients",
+            "text": "Real food, prepared in small batches."
+          }
+        },
+        "quality_2": {
+          "type": "quality",
+          "settings": {
+            "title": "Chef-prepared meals",
+            "text": "Cooked by people who cook for a living."
+          }
+        },
+        "quality_3": {
+          "type": "quality",
+          "settings": {
+            "title": "Weekly menu rotation",
+            "text": "A new lineup keeps the week interesting."
+          }
+        },
+        "quality_4": {
+          "type": "quality",
+          "settings": {
+            "title": "Convenience",
+            "text": "Nothing to chop, nothing to clean."
+          }
+        },
+        "quality_5": {
+          "type": "quality",
+          "settings": {
+            "title": "Quality",
+            "text": "The same standard in every box."
+          }
+        },
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "review": "These meals made weeknights so much easier.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "1"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "name": "James R.",
+            "review": "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "1.3"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "name": "Priya K.",
+            "review": "Short and sweet.",
+            "rating": 5,
+            "show_image": false,
+            "aspect": "1"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "name": "Alex T.",
+            "review": "Another placeholder review for the layout.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "0.8"
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "How does the 5 meal plan work?",
+            "answer": "Choose five meals from the weekly menu and we prepare and deliver them to you."
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How often does the menu change?",
+            "answer": "The menu rotates weekly."
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I choose my meals?",
+            "answer": "Yes. Pick any five from the available options."
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "How are meals delivered?",
+            "answer": "Delivered to your door."
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "How should meals be stored?",
+            "answer": "Keep refrigerated and enjoy within a few days."
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I heat the meals?",
+            "answer": "Microwave until hot throughout."
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "settings": {
+            "question": "What areas do you deliver to?",
+            "answer": "We deliver across Hartland and nearby areas."
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "settings": {
+            "question": "Are nutrition facts available?",
+            "answer": "Yes. Calories, protein, carbs and fat are listed for each meal."
+          }
+        },
+        "related_1": {
+          "type": "related",
+          "settings": {
+            "title": "6 Meal Plan",
+            "text": "Six meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/products/6-meal-plan"
+          }
+        },
+        "related_2": {
+          "type": "related",
+          "settings": {
+            "title": "7 Meal Plan",
+            "text": "Seven meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/products/7-meal-plan"
+          }
+        },
+        "related_3": {
+          "type": "related",
+          "settings": {
+            "title": "10 Meal Plan",
+            "text": "Ten meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/products/10-meal-plan"
+          }
+        },
+        "related_4": {
+          "type": "related",
+          "settings": {
+            "title": "15 Meal Plan",
+            "text": "Fifteen meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/products/15-meal-plan"
           }
         }
       },
       "block_order": [
+        "meal_1",
+        "meal_2",
+        "meal_3",
+        "meal_4",
+        "meal_5",
+        "meal_6",
+        "meal_7",
+        "meal_8",
+        "meal_9",
+        "meal_10",
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
         "step_1",
         "step_2",
         "step_3",
-        "step_4"
+        "step_4",
+        "quality_1",
+        "quality_2",
+        "quality_3",
+        "quality_4",
+        "quality_5",
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "related_1",
+        "related_2",
+        "related_3",
+        "related_4"
       ]
-    },
-    "plan_faq": {
-      "type": "collapsible-content",
-      "settings": {
-        "heading": "Plan Questions",
-        "heading_size": "h2",
-        "heading_alignment": "center",
-        "layout": "none",
-        "container_color_scheme": "scheme-2",
-        "color_scheme": "scheme-1",
-        "open_first_collapsible_row": true,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "caption": ""
-      },
-      "blocks": {
-        "collapsible_row_1": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Is this a subscription?",
-            "icon": "check_mark",
-            "row_content": "<p>No. Pick your plan and pay once. Order again whenever you want another week of meals.</p>"
-          }
-        },
-        "collapsible_row_2": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "When do I need to order?",
-            "icon": "check_mark",
-            "row_content": "<p>Meals are delivered every <strong>Monday</strong> between <strong>10:00 AM – 2:00 PM</strong>. Orders must be placed before the weekly <strong>Friday 11:59 PM cutoff</strong>. A delivery logistics fee may apply depending on your location.</p>"
-          }
-        },
-        "collapsible_row_3": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "What comes in each meal?",
-            "icon": "check_mark",
-            "row_content": "<p>Every meal is built around a lean protein, a smart carb and a serving of veggies. Most meals are under 600 calories with around 45g of protein, packed in a 24oz container.</p>"
-          }
-        },
-        "collapsible_row_4": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "How do I heat the meals?",
-            "icon": "check_mark",
-            "row_content": "<p>Meals are delivered fresh and fully cooked. Most dishes can be microwaved in just a few minutes. Remove any sauce cups before heating and warm until hot throughout.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_1",
-        "collapsible_row_2",
-        "collapsible_row_3",
-        "collapsible_row_4"
-      ]
-    },
-    "cta": {
-      "type": "cm-contact-cta",
-      "settings": {
-        "heading": "Build a Custom Meal Plan",
-        "text": "<p>Special diet, bigger portions or a set number of meals? Tell us what you need and Chef Matt will build it for you.</p>",
-        "button_label": "Request a Custom Plan",
-        "background": "warm",
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "label": "Need Something Different?",
-        "button_link": "/pages/custom-meal-plans"
-      }
     }
   },
   "order": [
-    "plans",
-    "steps",
-    "plan_faq",
-    "cta"
+    "mp_page"
   ]
 }
