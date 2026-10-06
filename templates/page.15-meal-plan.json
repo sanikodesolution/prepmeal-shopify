@@ -3,24 +3,24 @@
     "mp_page": {
       "type": "cm-meal-plan-page",
       "settings": {
-        "plan_label": "5 Meal Plan",
+        "plan_label": "15 Meal Plan",
         "heading": "Chef-prepared meals.\nMade for your week.",
-        "text": "Calorie counted. High protein. Low oil. Pick five meals from this week's menu and we cook and deliver them.",
+        "text": "Calorie counted. High protein. Low oil. Pick fifteen meals from this week's menu and we cook and deliver them.",
         "fact_1_label": "Price",
         "fact_1_value": "From $00.00",
         "fact_2_label": "Meals",
-        "fact_2_value": "5 per week",
+        "fact_2_value": "15 per week",
         "fact_3_label": "Menu",
         "fact_3_value": "10+ options",
-        "button_label": "Build my 5 meals",
+        "button_label": "Build my 15 meals",
         "button_label_2": "View this week's menu",
         "button_link_2": "#menu",
         "badge_value": "10+",
         "badge_label": "meal options",
-        "ben_line_1": "5 meals.",
+        "ben_line_1": "15 meals.",
         "ben_line_2": "1 week.",
         "ben_line_3": "Zero stress.",
-        "ben_note": "Flexible menu: choose any five from 10+ options, and change your picks each week.",
+        "ben_note": "Flexible menu: choose any fifteen from 10+ options, and change your picks each week.",
         "menu_heading": "This week's menu",
         "menu_text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
         "explore_heading": "Explore all meals",
@@ -39,12 +39,12 @@
         "faq_heading": "Questions, answered",
         "related_heading": "Other ways to eat well",
         "cta_heading": "Your week just got easier.",
-        "cta_text": "Five chef-prepared meals, delivered. Choose yours and we handle the rest.",
-        "cta_button_label": "Build my meal plan",
+        "cta_text": "Fifteen chef-prepared meals, delivered. Choose yours and we handle the rest.",
+        "cta_button_label": "Build my 15 meal plan",
         "padding_top": 0,
         "padding_bottom": 0,
-        "button_link": "/products/5-meal-plan",
-        "cta_button_link": "/products/5-meal-plan"
+        "button_link": "/products/15-meal-plan",
+        "cta_button_link": "/products/15-meal-plan"
       },
       "blocks": {
         "meal_1": {
@@ -242,7 +242,7 @@
           "type": "step",
           "settings": {
             "title": "Choose your meals",
-            "text": "Pick five from this week's menu."
+            "text": "Pick fifteen from this week's menu."
           }
         },
         "step_2": {
@@ -344,8 +344,8 @@
         "faq_1": {
           "type": "faq",
           "settings": {
-            "question": "How does the 5 meal plan work?",
-            "answer": "Choose five meals from the weekly menu and we prepare and deliver them to you."
+            "question": "How does the 15 meal plan work?",
+            "answer": "Choose fifteen meals from the weekly menu and we prepare and deliver them to you."
           }
         },
         "faq_2": {
@@ -359,7 +359,7 @@
           "type": "faq",
           "settings": {
             "question": "Can I choose my meals?",
-            "answer": "Yes. Pick any five from the available options."
+            "answer": "Yes. Pick any fifteen from the available options."
           }
         },
         "faq_4": {
@@ -400,6 +400,16 @@
         "related_1": {
           "type": "related",
           "settings": {
+            "title": "5 Meal Plan",
+            "text": "Five meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/pages/meal-plans"
+          }
+        },
+        "related_2": {
+          "type": "related",
+          "settings": {
             "title": "6 Meal Plan",
             "text": "Six meals from the weekly menu.",
             "price_note": "Price at checkout",
@@ -407,7 +417,7 @@
             "link": "/pages/6-meal-plan"
           }
         },
-        "related_2": {
+        "related_3": {
           "type": "related",
           "settings": {
             "title": "7 Meal Plan",
@@ -417,7 +427,7 @@
             "link": "/pages/7-meal-plan"
           }
         },
-        "related_3": {
+        "related_4": {
           "type": "related",
           "settings": {
             "title": "10 Meal Plan",
@@ -425,16 +435,6 @@
             "price_note": "Price at checkout",
             "button_label": "View plan",
             "link": "/pages/10-meal-plan"
-          }
-        },
-        "related_4": {
-          "type": "related",
-          "settings": {
-            "title": "15 Meal Plan",
-            "text": "Fifteen meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/15-meal-plan"
           }
         }
       },
