@@ -185,7 +185,7 @@
       .slice(0, 10)
       .map(
         (n, k) =>
-          `<figure class="mealplan-slide" style="margin:0"><div class="mealplan-img">${foodImg(k)}</div><span>${n}</span></figure>`
+          `<figure class="mealplan-slide" style="margin:0"><div class="mealplan-img">${foodImg(k)}</div><h4>${n}</h4></figure>`
       )
       .join('');
     $$('[data-g]').forEach((b) => {

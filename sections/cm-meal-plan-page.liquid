@@ -209,30 +209,51 @@
     </div></section>
 
     <section class="mealplan-sec"><div class="mealplan-wrap mealplan-del">
+      {%- liquid
+        assign map_query = section.settings.map_query | default: 'Richmond Station Toronto Ontario Canada'
+        assign map_src = section.settings.map_embed_url
+        if map_src == blank
+          assign map_q = map_query | url_encode
+          assign map_src = 'https://maps.google.com/maps?q=' | append: map_q | append: '&z=15&output=embed'
+        endif
+      -%}
       <div class="mealplan-map mp-gs">
-        <svg viewBox="0 0 400 400" role="img" aria-label="Delivery area map">
-          <rect width="400" height="400" fill="#d3ddcd"/>
-          <path d="M0 260 Q120 220 200 270 T400 230 V400 H0Z" fill="#c1d0c6"/>
-          <g stroke="#fff" stroke-width="6" fill="none" opacity=".8"><path d="M0 120H400M120 0V400M280 0L330 400M0 330L400 80"/></g>
-          <circle class="mealplan-ring" cx="200" cy="190" r="140" fill="#F5A623" opacity=".14"/>
-          <circle class="mealplan-ring" cx="200" cy="190" r="85" fill="#F5A623" opacity=".22"/>
-          <circle cx="200" cy="190" r="12" fill="#15251C"/><circle cx="200" cy="190" r="4" fill="#F5A623"/>
-        </svg>
+        <iframe
+          class="mealplan-map__frame"
+          title="{{ section.settings.map_title | default: map_query | escape }}"
+          src="{{ map_src }}"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+        {%- if section.settings.map_title != blank -%}
+          <p class="mealplan-map__label">{{ section.settings.map_title | escape }}</p>
+        {%- endif -%}
       </div>
-      <div class="mp-gs">
+      <div class="mealplan-del__copy mp-gs">
         <h2 class="mealplan-h">{{ section.settings.delivery_heading | escape }}</h2>
         <p class="mealplan-p">{{ section.settings.delivery_text | escape }}</p>
-        {%- if section.settings.delivery_areas != blank -%}
-          <ul class="mealplan-areas">
-            {%- assign areas = section.settings.delivery_areas | split: ',' -%}
-            {%- for area in areas -%}
-              <li>{{ area | strip | escape }}</li>
-            {%- endfor -%}
-          </ul>
-        {%- endif -%}
-        {%- if section.settings.delivery_button_label != blank -%}
-          <a class="mealplan-btn" href="{{ section.settings.delivery_button_link | default: '#' }}">{{ section.settings.delivery_button_label | escape }}</a>
-        {%- endif -%}
+        <div class="mealplan-del__actions">
+          {%- if section.settings.delivery_areas != blank -%}
+            <ul class="mealplan-areas">
+              {%- assign areas = section.settings.delivery_areas | split: ',' -%}
+              {%- for area in areas -%}
+                <li>
+                  <span class="mealplan-areas__pin" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
+                  </span>
+                  {{ area | strip | escape }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if section.settings.delivery_button_label != blank -%}
+            <a class="mealplan-btn mealplan-btn--delivery" href="{{ section.settings.delivery_button_link | default: '#' }}">
+              {{ section.settings.delivery_button_label | escape }}
+              <span class="mealplan-btn__arrow" aria-hidden="true">→</span>
+            </a>
+          {%- endif -%}
+        </div>
       </div>
     </div></section>
 
@@ -361,6 +382,9 @@
     { "type": "text", "id": "delivery_areas", "label": "Areas", "info": "Comma-separated", "default": "Hartland, Nearby areas" },
     { "type": "text", "id": "delivery_button_label", "label": "Button label", "default": "Check my area" },
     { "type": "url", "id": "delivery_button_link", "label": "Button link" },
+    { "type": "text", "id": "map_title", "label": "Map label", "default": "Richmond Station · Toronto, Canada" },
+    { "type": "text", "id": "map_query", "label": "Google Maps search", "default": "Richmond Station Toronto Ontario Canada", "info": "Used when Embed URL is empty." },
+    { "type": "text", "id": "map_embed_url", "label": "Google Maps embed URL", "info": "Optional. Paste full embed src from Google Maps → Share → Embed a map." },
 
     { "type": "header", "content": "Reviews / FAQ / CTA" },
     { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Loved by people who love good food" },

@@ -82,9 +82,22 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .m .img{position:absolute;inset:0;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 .m:hover .img,.m:focus-within .img{transform:scale(1.07)}
 .m .info{position:absolute;inset:auto 0 0 0;padding:1.5rem;color:#fff;background:linear-gradient(transparent,rgba(10,20,14,.88) 55%)}
-.m .no{font:.85rem var(--body);opacity:.85}
-.m h3{margin:.2rem 0 .4rem;font:500 clamp(1.4rem,2.4vw,2.2rem)/1.05 var(--display)}
-.m:nth-child(1) h3{font-size:clamp(2rem,3.6vw,3.25rem)}
+.m .info h3,.m .info p,.m .info .no,.m .info .macros{color:#fff}
+.m .info .tag{color:var(--forest)}
+.m .no{font:.85rem var(--body);opacity:.85;color:#fff}
+.m h3{
+  margin:.2rem 0 .4rem;
+  font:500 clamp(1.4rem,2.2vw,2rem)/1.15 var(--display);
+  color:#fff;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  overflow:hidden;
+  text-wrap:balance;
+  max-width:18ch;
+}
+.m:nth-child(1) h3{font-size:clamp(2rem,3.4vw,3rem);max-width:14ch}
 .reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
 .m:hover .reveal,.m:focus-within .reveal{grid-template-rows:1fr}
 .reveal>div{overflow:hidden}
@@ -97,19 +110,31 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 /* 04 explorer */
 .ex{background:var(--paper)}
 .filters{display:flex;gap:.5rem;overflow-x:auto;padding:1.5rem 0 2rem;scrollbar-width:none}
-.filters button{flex:none;min-height:2.75rem;padding:0 1.2rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font:600 1rem var(--body);cursor:pointer;transition:background .2s,color .2s}
+.filters button{flex:none;min-height:2.9rem;padding:0 1.35rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font:600 1.05rem var(--body);cursor:pointer;transition:background .2s,color .2s}
 .filters button[aria-pressed=true]{background:var(--forest);color:#fff}
-.eg{display:grid;gap:2rem 1.25rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
-.e{transition:opacity .35s,transform .35s}
+.eg{display:grid;gap:2.25rem 1.5rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));align-items:stretch}
+.e{display:flex;flex-direction:column;min-width:0;transition:opacity .35s,transform .35s}
 .e.out{opacity:0;transform:scale(.96)}
 .e[hidden]{display:none}
-.e .thumb{aspect-ratio:4/5;border-radius:120px 120px 16px 16px;overflow:hidden;background:#cdd8c8}
-.e:nth-child(even) .thumb{border-radius:16px 16px 120px 120px}
-.e .thumb svg{transition:transform .7s}.e:hover .thumb svg{transform:scale(1.06)}
-.e h3{font:500 1.35rem var(--display);margin:1rem 0 .25rem}
-.e small{opacity:.75;display:block;margin-bottom:.6rem}
-.e button{padding:0;border:0;background:none;font:600 1rem var(--body);color:var(--forest);text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.e .thumb{aspect-ratio:1;border-radius:1.6rem;overflow:hidden;background:#e8efe4;display:grid;place-items:center}
+.e:nth-child(even) .thumb{border-radius:1.6rem}
+.e .thumb svg,.e .thumb .mp-food,.e .thumb img{width:100%;height:100%;transition:transform .7s}
+.e:hover .thumb svg,.e:hover .thumb .mp-food,.e:hover .thumb img{transform:scale(1.03)}
+.e .thumb .mp-food,.e .thumb img{object-fit:contain;object-position:center;padding:8%}
+.e h3{
+  font:500 1.7rem/1.2 var(--display);
+  margin:1.15rem 0 .45rem;
+  min-height:calc(1.2em * 2);
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  overflow:hidden;
+}
+.e small{opacity:.85;display:block;margin-bottom:.75rem;font-size:1.2rem;line-height:1.4;color:var(--forest)}
+.e button{margin-top:auto;padding:.25rem 0;border:0;background:none;font:600 1.2rem var(--body);color:var(--forest);text-decoration:underline;text-underline-offset:4px;cursor:pointer;text-align:left}
 .more{text-align:center;margin-top:3rem}
+.more .btn{font-size:1.15rem;min-height:3.25rem}
 
 /* 05 detail */
 .dt-grid{display:grid;gap:3rem;align-items:center}
@@ -186,9 +211,25 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-track::-webkit-scrollbar{display:none}
 .mealplan-slide{flex:0 0 min(78vw,360px);scroll-snap-align:center}
 .mealplan-slide:nth-child(even){margin-top:3rem}
-.mealplan-slide .mealplan-img{aspect-ratio:3/4;border-radius:20px}
-.mealplan-slide .mealplan-ph{transition:transform .7s}.mealplan-slide:hover .mealplan-ph{transform:scale(1.06)}
-.mealplan-slide span{display:block;margin-top:.7rem;font:500 1.2rem var(--d)}
+.mealplan-slide .mealplan-img{aspect-ratio:1;border-radius:2rem;background:#e8efe4;display:grid;place-items:center;overflow:hidden}
+.mealplan-slide .mealplan-ph,.mealplan-slide .mp-food,.mealplan-slide img{width:100%;height:100%;transition:transform .7s}
+.mealplan-slide:hover .mealplan-ph,.mealplan-slide:hover .mp-food,.mealplan-slide:hover img{transform:scale(1.03)}
+.mealplan-slide .mp-food,.mealplan-slide img{object-fit:contain;object-position:center;padding:8%;display:block}
+.mealplan-slide h4,.mealplan-slide span{
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  line-clamp:2;
+  overflow:hidden;
+  margin:.9rem 0 0;
+  font-family:var(--d);
+  font-style:var(--font-heading-style, normal);
+  font-weight:500;
+  font-size:2.4rem; /* h4 */
+  line-height:1.2;
+  color:var(--f);
+  text-wrap:balance;
+}
 .mealplan-arrows{display:none;gap:.5rem}@media(min-width:900px){.mealplan-arrows{display:flex}}
 .mealplan-arrows button{width:3rem;height:3rem;border-radius:50%;border:1.5px solid var(--f);background:none;color:var(--f);font-size:1.2rem;cursor:pointer}
 .mealplan-arrows button:hover{background:var(--f);color:#fff}
@@ -196,24 +237,48 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 /* 10 delivery */
 .mealplan-del{display:grid;gap:2.5rem;align-items:center}
 @media(min-width:900px){.mealplan-del{grid-template-columns:6fr 5fr}}
-.mealplan-map{aspect-ratio:1;border-radius:24px;background:#d3ddcd;overflow:hidden}
-.mealplan-map svg{width:100%;height:100%;display:block}
-.mealplan-ring{transform-origin:50% 50%;animation:mealplan-pulse 4s ease-in-out infinite}
-@keyframes mealplan-pulse{50%{transform:scale(1.05);opacity:.7}}
-.mealplan-areas{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0;margin:1.5rem 0}
-.mealplan-areas li{padding:.45rem 1rem;border-radius:999px;background:rgba(21,37,28,.08);font-size:1.05rem}
+.mealplan-map{position:relative;aspect-ratio:1;border-radius:2.4rem;background:#d3ddcd;overflow:hidden;box-shadow:0 1.6rem 3.2rem rgba(21,37,28,.12)}
+.mealplan-map__frame{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.mealplan-map__label{position:absolute;left:1rem;right:1rem;bottom:1rem;z-index:1;margin:0;padding:.75rem 1rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--f);font:600 1.1rem/1.3 var(--b);text-align:center;backdrop-filter:blur(6px)}
+.mealplan-del__copy{display:flex;flex-direction:column;min-width:0}
+.mealplan-del__actions{display:flex;flex-direction:column;align-items:flex-start;gap:1.1rem;margin-top:1.75rem}
+.mealplan-areas{display:flex;flex-wrap:wrap;gap:.7rem;list-style:none;padding:0;margin:0}
+.mealplan-areas li{display:inline-flex;align-items:center;gap:.45rem;min-height:3rem;padding:.65rem 1.25rem .65rem 1rem;border-radius:999px;background:#fff;border:1.5px solid rgba(21,37,28,.12);box-shadow:0 .4rem 1.2rem rgba(21,37,28,.06);color:var(--f);font:700 1.2rem/1.2 var(--b)}
+.mealplan-areas__pin{display:inline-flex;color:var(--y);flex:0 0 auto}
+.mealplan-btn--delivery{min-height:3.5rem;padding:0 1.8rem;font-size:1.2rem;font-weight:700;background:var(--f);color:#fff;border-color:var(--f);gap:.55rem}
+.mealplan-btn--delivery:hover{background:var(--y);border-color:var(--y);color:var(--f)}
+.mealplan-btn__arrow{font-size:1.3em;line-height:1}
 
 /* 11 reviews */
 .mealplan-rev{background:var(--w)}
 .mealplan-cols{columns:1;gap:1.25rem;margin-top:3rem}
 @media(min-width:640px){.mealplan-cols{columns:2}}@media(min-width:1000px){.mealplan-cols{columns:3}}
-.mealplan-r{break-inside:avoid;margin:0 0 1.25rem;border-radius:20px;overflow:hidden;background:var(--s)}
+.mealplan-r{break-inside:avoid;margin:0 0 1.25rem;border-radius:20px;overflow:hidden;background:var(--s);color:var(--f)}
 .mealplan-r .mealplan-img{aspect-ratio:var(--ar,1)}
-.mealplan-r div:last-child{padding:1.25rem 1.4rem 1.5rem}
-.mealplan-r q{display:block;font:500 1.15rem/1.4 var(--d);quotes:none;margin:.5rem 0 .8rem}
+.mealplan-r div:last-child{padding:1.4rem 1.5rem 1.6rem}
+.mealplan-r .mealplan-stars{font-size:1.4rem;letter-spacing:.12em}
+.mealplan-r q{
+  display:block;
+  quotes:none;
+  margin:.65rem 0 .85rem;
+  font-family:inherit;
+  font-size:1.5rem;
+  font-weight:500;
+  line-height:1.45;
+  color:var(--f);
+}
 .mealplan-r--text{background:var(--f);color:var(--s)}
-.mealplan-r--text h3,.mealplan-r--text .mealplan-h{color:var(--s)}
-.mealplan-r small{opacity:.75}
+.mealplan-r--text h3,.mealplan-r--text .mealplan-h,.mealplan-r--text q,.mealplan-r--text small{color:var(--s)}
+.mealplan-r small{
+  display:block;
+  font-family:inherit;
+  font-size:1.25rem;
+  font-weight:600;
+  line-height:1.3;
+  color:var(--f);
+  opacity:1;
+}
+.mealplan-r--text small{opacity:.9}
 
 /* 12 faq */
 .mealplan-faq{display:grid;gap:2rem}@media(min-width:900px){.mealplan-faq{grid-template-columns:4fr 7fr}}
@@ -251,8 +316,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-a .ing .diet{background:var(--saffron);color:#15251C;font-weight:500}
 .mealplan-cta .mp-food{object-fit:cover;padding:0;filter:none}
 .mealplan-list::before{transform-origin:left;transform:scaleX(var(--prog,1))}
-.mealplan-gal-img,.mealplan-slide .mp-food{padding:0;object-fit:cover}
-.mealplan-a .e .thumb .mp-food,
+.mealplan-gal-img{padding:0;object-fit:cover}
+.mealplan-slide .mp-food{object-fit:contain;object-position:center;padding:8%}
+.mealplan-a .e .thumb .mp-food{object-fit:contain;object-position:center;padding:8%;filter:none}
 .mealplan-chef .mp-food,
 .mealplan-q .mp-food,
 .mealplan-card .mp-food,

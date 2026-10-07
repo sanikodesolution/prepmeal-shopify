@@ -20,18 +20,19 @@
 .mp7-cal{position:absolute;top:-4px;right:-8px;z-index:2;white-space:nowrap;box-shadow:0 3px 8px rgba(0,0,0,.2);background:var(--ink);color:#fff;border-radius:99px;font-size:12px;font-weight:700;padding:6px 9px}
 .mp7-tag{display:inline-block;background:var(--a);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.08em;padding:3px 18px;border-radius:6px;margin-bottom:6px}
 .mp7-meal h3{font-size:15px;font-weight:700}
-.mp7-meal p{font-size:12.5px;color:var(--mut);margin-top:3px}
+.mp7-meal p{font-size:13.5px;color:var(--mut);margin-top:3px;line-height:1.4}
 .mp7-btn{display:inline-block;background:var(--a);color:var(--ink);font-weight:700;border:0;border-radius:8px;padding:13px 40px;cursor:pointer;text-decoration:none;font-family:inherit;transition:.25s}
 .mp7-btn:hover{background:var(--ad);transform:translateY(-2px)}
 .mp7-center{text-align:center;margin:22px 0}
 .mp7-side{display:flex;flex-direction:column;gap:18px}
 .mp7-hero{background:var(--ink);color:#fff;padding:26px 20px;text-align:center;border-radius:16px}
-.mp7-hero h2{font-size:22px}.mp7-hero h2 span{color:var(--a)}
-.mp7-icons{display:flex;justify-content:space-around;margin-top:16px;font-size:10px;letter-spacing:.06em;color:var(--a)}
-.mp7-icons i{display:grid;place-items:center;width:42px;height:42px;border:2px solid var(--a);border-radius:50%;margin:0 auto 6px;font-style:normal;font-size:16px}
+#mp7-x .mp7-hero h2{font-size:22px;color:#fff;line-height:1.25}
+#mp7-x .mp7-hero h2 span{color:var(--a)}
+.mp7-icons{display:flex;justify-content:space-around;margin-top:16px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--a)}
+.mp7-icons i{display:grid;place-items:center;width:42px;height:42px;border:2px solid var(--a);border-radius:50%;margin:0 auto 6px;font-style:normal;font-size:16px;color:var(--a)}
 .mp7-side .mp7-card{padding:16px}
 .mp7-side h3{font-size:16px;color:var(--ad);text-transform:uppercase}
-.mp7-side .mp7-sub{font-size:12.5px;color:var(--mut);margin-top:6px}
+.mp7-side .mp7-sub{font-size:14px;color:var(--mut);margin-top:6px;line-height:1.45}
 .mp7-vid{position:relative;border-radius:12px;overflow:hidden;margin-top:12px;aspect-ratio:3/4;background:var(--soft)}
 .mp7-vid img{width:100%;height:100%;object-fit:cover}
 .mp7-play{position:absolute;inset:0;margin:auto;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);display:grid;place-items:center;text-decoration:none;font-size:20px}
