@@ -675,6 +675,111 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "cm_delivery_areas": {
+      "type": "cm-delivery-areas",
+      "blocks": {
+        "area_1": { "type": "area", "settings": { "name": "Hartland" } },
+        "area_2": { "type": "area", "settings": { "name": "Delafield" } },
+        "area_3": { "type": "area", "settings": { "name": "Pewaukee" } },
+        "area_4": { "type": "area", "settings": { "name": "Waukesha" } },
+        "area_5": { "type": "area", "settings": { "name": "Sussex" } },
+        "area_6": { "type": "area", "settings": { "name": "Merton" } },
+        "area_7": { "type": "area", "settings": { "name": "Nashotah" } },
+        "area_8": { "type": "area", "settings": { "name": "Okauchee Lake" } },
+        "area_9": { "type": "area", "settings": { "name": "Oconomowoc" } },
+        "area_10": { "type": "area", "settings": { "name": "Oconomowoc Lake" } },
+        "area_11": { "type": "area", "settings": { "name": "Chenequa" } },
+        "area_12": { "type": "area", "settings": { "name": "Lisbon" } },
+        "area_13": { "type": "area", "settings": { "name": "Lannon" } },
+        "area_14": { "type": "area", "settings": { "name": "Menomonee Falls" } },
+        "area_15": { "type": "area", "settings": { "name": "Brookfield" } },
+        "area_16": { "type": "area", "settings": { "name": "Elm Grove" } },
+        "area_17": { "type": "area", "settings": { "name": "Wales" } },
+        "area_18": { "type": "area", "settings": { "name": "Dousman" } },
+        "area_19": { "type": "area", "settings": { "name": "Summit" } },
+        "area_20": { "type": "area", "settings": { "name": "Lake Country" } },
+        "area_21": { "type": "area", "settings": { "name": "Stone Bank" } },
+        "area_22": { "type": "area", "settings": { "name": "North Lake" } },
+        "area_23": { "type": "area", "settings": { "name": "Mapleton" } },
+        "area_24": { "type": "area", "settings": { "name": "Genesee" } },
+        "area_25": { "type": "area", "settings": { "name": "Mukwonago" } },
+        "feat_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "clock",
+            "title": "On Time Delivery",
+            "text": "Always on schedule"
+          }
+        },
+        "feat_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "heart",
+            "title": "Fresh & Healthy",
+            "text": "Made with care"
+          }
+        },
+        "feat_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "map",
+            "title": "Wide Area Coverage",
+            "text": "Near you always"
+          }
+        },
+        "feat_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "love",
+            "title": "Made With Love",
+            "text": "For a healthier you"
+          }
+        }
+      },
+      "block_order": [
+        "area_1",
+        "area_2",
+        "area_3",
+        "area_4",
+        "area_5",
+        "area_6",
+        "area_7",
+        "area_8",
+        "area_9",
+        "area_10",
+        "area_11",
+        "area_12",
+        "area_13",
+        "area_14",
+        "area_15",
+        "area_16",
+        "area_17",
+        "area_18",
+        "area_19",
+        "area_20",
+        "area_21",
+        "area_22",
+        "area_23",
+        "area_24",
+        "area_25",
+        "feat_1",
+        "feat_2",
+        "feat_3",
+        "feat_4"
+      ],
+      "settings": {
+        "eyebrow": "We Deliver",
+        "heading": "Delivery Areas",
+        "subheading": "Delivering fresh, healthy meals",
+        "subheading_accent": "to your neighborhood",
+        "button_label": "Order Now",
+        "button_link": "shopify://collections/meal-plans",
+        "plate_tl_alt": "Fresh vegetables plate",
+        "plate_tr_alt": "Chef prepared meal",
+        "plate_bl_alt": "Chicken and vegetables plate",
+        "plate_br_alt": "Salad bowl"
+      }
     }
   },
   "order": [
@@ -688,6 +793,7 @@
     "image_banner_tTXiaq",
     "featured_collection1",
     "1757712751e12d8e13",
-    "1763753350cdb419dc"
+    "1763753350cdb419dc",
+    "cm_delivery_areas"
   ]
 }
