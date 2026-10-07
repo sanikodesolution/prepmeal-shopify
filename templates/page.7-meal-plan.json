@@ -1,440 +1,444 @@
 {
   "sections": {
-    "mp_page": {
-      "type": "cm-meal-plan-page",
-      "settings": {
-        "plan_label": "7 Meal Plan",
-        "heading": "Chef-prepared meals.\nMade for your week.",
-        "text": "Calorie counted. High protein. Low oil. Pick seven meals from this week's menu and we cook and deliver them.",
-        "fact_1_label": "Price",
-        "fact_1_value": "From $00.00",
-        "fact_2_label": "Meals",
-        "fact_2_value": "7 per week",
-        "fact_3_label": "Menu",
-        "fact_3_value": "10+ options",
-        "button_label": "Build my 7 meals",
-        "button_label_2": "View this week's menu",
-        "button_link_2": "#menu",
-        "badge_value": "10+",
-        "badge_label": "meal options",
-        "ben_line_1": "7 meals.",
-        "ben_line_2": "1 week.",
-        "ben_line_3": "Zero stress.",
-        "ben_note": "Flexible menu: choose any seven from 10+ options, and change your picks each week.",
-        "menu_heading": "This week's menu",
-        "menu_text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
-        "explore_heading": "Explore all meals",
-        "load_more_label": "Load more",
-        "detail_note": "Meal names and nutrition values are from the current menu.",
-        "chef_heading": "40 years in the kitchen. Now cooking for you.",
-        "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
-        "steps_heading": "How it works",
-        "quality_heading": "Fresh in, quality out.",
-        "gallery_heading": "10+\nmeal options",
-        "delivery_heading": "Fresh meals, delivered to your door.",
-        "delivery_text": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you.",
-        "delivery_areas": "Hartland, Nearby areas",
-        "delivery_button_label": "Check my area",
-        "reviews_heading": "Loved by people who love good food",
-        "faq_heading": "Questions, answered",
-        "related_heading": "Other ways to eat well",
-        "cta_heading": "Your week just got easier.",
-        "cta_text": "Seven chef-prepared meals, delivered. Choose yours and we handle the rest.",
-        "cta_button_label": "Build my 7 meal plan",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "button_link": "/products/7-meal-plan",
-        "cta_button_link": "/products/7-meal-plan"
-      },
+    "mp7": {
+      "type": "cm-mp7",
       "blocks": {
         "meal_1": {
           "type": "meal",
           "settings": {
-            "name": "Peri Peri Chicken",
-            "description": "With glazed carrots and roasted Yukon potatoes.",
-            "calories": 633,
-            "protein": 38,
-            "carbs": 37,
-            "fat": 37,
-            "tags": "chicken",
-            "ingredients": "Glazed carrots, Roasted Yukon potatoes",
-            "badge": "New",
+            "number": "1",
+            "is_new": true,
             "gluten_free": false,
             "dairy_free": false,
-            "image_index": 0
+            "calories": "633",
+            "protein": "38g",
+            "carbs": "37g",
+            "fat": "37g",
+            "title": "Peri Peri Chicken",
+            "description": "With glazed carrots & roasted Yukon potatoes"
           }
         },
         "meal_2": {
           "type": "meal",
           "settings": {
-            "name": "Ground Beef Enchilada Bowl",
-            "description": "With Mexican rice, salsa and peppers.",
-            "calories": 684,
-            "protein": 62,
-            "carbs": 37,
-            "fat": 32,
-            "tags": "beef",
-            "ingredients": "Mexican rice, Salsa, Peppers",
-            "badge": "New",
+            "number": "2",
+            "is_new": true,
             "gluten_free": false,
             "dairy_free": false,
-            "image_index": 1
+            "calories": "684",
+            "protein": "62g",
+            "carbs": "37g",
+            "fat": "32g",
+            "title": "Ground Beef Enchilada Bowl",
+            "description": "With Mexican rice, salsa and peppers"
           }
         },
         "meal_3": {
           "type": "meal",
           "settings": {
-            "name": "Bacon-Wrapped Chili Fig-Glazed Pork Tenderloin",
-            "description": "Calorie counted, high protein, low oil.",
-            "calories": 676,
-            "protein": 55,
-            "carbs": 42,
-            "fat": 32,
-            "tags": "pork, gluten free",
-            "ingredients": "",
-            "badge": "New",
+            "number": "3",
+            "is_new": true,
             "gluten_free": true,
             "dairy_free": false,
-            "image_index": 2
+            "calories": "676",
+            "protein": "55g",
+            "carbs": "42g",
+            "fat": "32g",
+            "title": "Bacon-Wrapped Chili Fig-Glazed Pork Tenderloin"
           }
         },
         "meal_4": {
           "type": "meal",
           "settings": {
-            "name": "Oven BBQ Salmon",
-            "description": "Calorie counted, high protein, low oil.",
-            "calories": 421,
-            "protein": 45,
-            "carbs": 40,
-            "fat": 12,
-            "tags": "seafood, gluten free",
-            "ingredients": "",
-            "badge": "New",
+            "number": "4",
+            "is_new": true,
             "gluten_free": true,
             "dairy_free": false,
-            "image_index": 3
+            "calories": "421",
+            "protein": "45g",
+            "carbs": "40g",
+            "fat": "12g",
+            "title": "Oven BBQ Salmon"
           }
         },
         "meal_5": {
           "type": "meal",
           "settings": {
-            "name": "Teriyaki Chicken Breast",
-            "description": "With cilantro rice, bell peppers and mushrooms.",
-            "calories": 430,
-            "protein": 36,
-            "carbs": 32,
-            "fat": 10,
-            "tags": "chicken, gluten free, dairy free",
-            "ingredients": "Cilantro rice, Bell peppers, Mushrooms",
-            "badge": "",
+            "number": "5",
+            "is_new": false,
             "gluten_free": true,
             "dairy_free": true,
-            "image_index": 4
+            "calories": "430",
+            "protein": "36g",
+            "carbs": "32g",
+            "fat": "10g",
+            "title": "Teriyaki Chicken Breast",
+            "description": "With cilantro rice, bell peppers & mushrooms"
           }
         },
         "meal_6": {
           "type": "meal",
           "settings": {
-            "name": "Chimichurri Steak",
-            "description": "With roasted potatoes and glazed carrots.",
-            "calories": 623,
-            "protein": 52,
-            "carbs": 34,
-            "fat": 31,
-            "tags": "beef, gluten free, dairy free",
-            "ingredients": "Roasted potatoes, Glazed carrots",
-            "badge": "Chef's special",
+            "number": "6",
+            "is_new": false,
             "gluten_free": true,
             "dairy_free": true,
-            "image_index": 5
+            "calories": "623",
+            "protein": "52g",
+            "carbs": "34g",
+            "fat": "31g",
+            "title": "Chimichurri Steak",
+            "description": "With roasted potatoes & glazed carrots"
           }
         },
         "meal_7": {
           "type": "meal",
           "settings": {
-            "name": "Orange Basil Salmon",
-            "description": "With cilantro rice and herbed carrots and celery.",
-            "calories": 435,
-            "protein": 38,
-            "carbs": 36,
-            "fat": 11,
-            "tags": "seafood, gluten free, dairy free",
-            "ingredients": "Cilantro rice, Herbed carrots, Celery",
-            "badge": "",
+            "number": "7",
+            "is_new": false,
             "gluten_free": true,
             "dairy_free": true,
-            "image_index": 6
+            "calories": "435",
+            "protein": "38g",
+            "carbs": "36g",
+            "fat": "11g",
+            "title": "Orange Basil Salmon",
+            "description": "With cilantro rice and herbed carrots and celery"
           }
         },
         "meal_8": {
           "type": "meal",
           "settings": {
-            "name": "Turkey Meatball Marinara",
-            "description": "With spaghetti squash, marinara and Romano cheese.",
-            "calories": 550,
-            "protein": 38,
-            "carbs": 37,
-            "fat": 31,
-            "tags": "turkey, gluten free",
-            "ingredients": "Spaghetti squash, Marinara, Romano cheese",
-            "badge": "",
+            "number": "8",
+            "is_new": false,
             "gluten_free": true,
             "dairy_free": false,
-            "image_index": 7
+            "calories": "550",
+            "protein": "38g",
+            "carbs": "37g",
+            "fat": "31g",
+            "title": "Turkey Meatball Marinara",
+            "description": "With spaghetti squash, marinara and Romano cheese"
           }
         },
         "meal_9": {
           "type": "meal",
           "settings": {
-            "name": "Balsamic Baked Chicken Thighs",
-            "description": "With sweet potatoes, herbed carrots and celery.",
-            "calories": 585,
-            "protein": 36,
-            "carbs": 35,
-            "fat": 33,
-            "tags": "chicken, gluten free, dairy free",
-            "ingredients": "Sweet potatoes, Herbed carrots, Celery",
-            "badge": "Customer favorite",
+            "number": "9",
+            "is_new": false,
             "gluten_free": true,
             "dairy_free": true,
-            "image_index": 8
+            "calories": "585",
+            "protein": "36g",
+            "carbs": "35g",
+            "fat": "33g",
+            "title": "Balsamic Baked Chicken Thighs",
+            "description": "With sweet potatoes, herbed carrots & celery"
           }
         },
         "meal_10": {
           "type": "meal",
           "settings": {
-            "name": "Chicken, Quinoa Taco Bake",
-            "description": "Calorie counted, high protein, low oil.",
-            "calories": 581,
-            "protein": 61,
-            "carbs": 53,
-            "fat": 15,
-            "tags": "chicken, gluten free",
-            "ingredients": "",
-            "badge": "",
+            "number": "10",
+            "is_new": false,
             "gluten_free": true,
             "dairy_free": false,
-            "image_index": 9
+            "calories": "581",
+            "protein": "61g",
+            "carbs": "53g",
+            "fat": "15g",
+            "title": "Chicken, Quinoa Taco Bake"
           }
         },
-        "benefit_1": {
-          "type": "benefit",
+        "way_meal_11": {
+          "type": "way_meal",
           "settings": {
-            "title": "Chef prepared",
-            "text": "Every meal is cooked by our chefs, not assembled from a kit."
+            "calories": "470",
+            "tag": "LUNCH",
+            "title": "Lemon Herb Salmon",
+            "description": "Quinoa, asparagus & tomatoes"
           }
         },
-        "benefit_2": {
-          "type": "benefit",
+        "way_meal_12": {
+          "type": "way_meal",
           "settings": {
-            "title": "Fresh weekly",
-            "text": "A new menu each week, made close to your delivery day."
+            "calories": "480",
+            "tag": "DINNER",
+            "title": "Grilled Chicken Bowl",
+            "description": "Brown rice, avocado, black beans"
           }
         },
-        "benefit_3": {
-          "type": "benefit",
+        "way_meal_13": {
+          "type": "way_meal",
           "settings": {
-            "title": "Easy delivery",
-            "text": "Delivered to your door. Heat and eat in minutes."
+            "calories": "460",
+            "tag": "DINNER",
+            "title": "Turkey Meatballs",
+            "description": "Zucchini noodles, marinara"
           }
         },
-        "step_1": {
+        "way_meal_14": {
+          "type": "way_meal",
+          "settings": {
+            "calories": "420",
+            "tag": "LUNCH",
+            "title": "Garden Veggie Bowl",
+            "description": "Chickpeas, kale, quinoa"
+          }
+        },
+        "feature_15": {
+          "type": "feature",
+          "settings": {
+            "icon": "❀",
+            "title": "Fresh ingredients",
+            "text": "Sourced locally & prepared with care."
+          }
+        },
+        "feature_16": {
+          "type": "feature",
+          "settings": {
+            "icon": "♥",
+            "title": "Balanced nutrition",
+            "text": "High protein, low oil, calorie counted."
+          }
+        },
+        "feature_17": {
+          "type": "feature",
+          "settings": {
+            "icon": "⛟",
+            "title": "Weekly delivery",
+            "text": "Straight to your door."
+          }
+        },
+        "feature_18": {
+          "type": "feature",
+          "settings": {
+            "icon": "↻",
+            "title": "No commitment",
+            "text": "Pause, skip or cancel anytime."
+          }
+        },
+        "testimonial_19": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Fresh, flavorful and so convenient. I never have to think about lunch anymore!",
+            "name": "Rafiq H.",
+            "dark": false
+          }
+        },
+        "testimonial_20": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Portions are perfect and the calories are right on target for my goals.",
+            "name": "Anna K.",
+            "dark": false
+          }
+        },
+        "testimonial_21": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Best meal prep service in the area. Delivery is always on time.",
+            "name": "Daniel P.",
+            "dark": true
+          }
+        },
+        "testimonial_22": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The meals are always fresh, delicious and perfectly portioned. A game changer for my busy week!",
+            "name": "Sarah M.",
+            "dark": false
+          }
+        },
+        "testimonial_23": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "As a fitness coach, I recommend this to all my clients. Clean, balanced and satisfying.",
+            "name": "James T.",
+            "dark": true
+          }
+        },
+        "testimonial_24": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Love the variety and the quality. It feels like restaurant meals at home.",
+            "name": "Emily R.",
+            "dark": false
+          }
+        },
+        "step_25": {
           "type": "step",
           "settings": {
-            "title": "Choose your meals",
-            "text": "Pick seven from this week's menu."
+            "title": "Choose your plan",
+            "text": "Select the plan that fits your lifestyle."
           }
         },
-        "step_2": {
+        "step_26": {
           "type": "step",
           "settings": {
-            "title": "We prepare",
-            "text": "Our chefs cook your order."
+            "title": "We cook fresh",
+            "text": "Our chef prepares your meals with care."
           }
         },
-        "step_3": {
-          "type": "step",
-          "settings": {
-            "title": "We pack",
-            "text": "Meals are packed ready for delivery."
-          }
-        },
-        "step_4": {
+        "step_27": {
           "type": "step",
           "settings": {
             "title": "We deliver",
-            "text": "They arrive at your door. Heat and eat."
+            "text": "Your meals arrive fresh at your doorstep."
           }
         },
-        "quality_1": {
-          "type": "quality",
+        "step_28": {
+          "type": "step",
           "settings": {
-            "title": "Fresh ingredients",
-            "text": "Real food, prepared in small batches."
+            "title": "Heat & enjoy",
+            "text": "Ready in 2 minutes. Eat healthy!"
           }
         },
-        "quality_2": {
-          "type": "quality",
+        "popular_29": {
+          "type": "popular",
           "settings": {
-            "title": "Chef-prepared meals",
-            "text": "Cooked by people who cook for a living."
+            "title": "Grilled Chicken Bowl",
+            "calories": "480 CAL"
           }
         },
-        "quality_3": {
-          "type": "quality",
+        "popular_30": {
+          "type": "popular",
           "settings": {
-            "title": "Weekly menu rotation",
-            "text": "A new lineup keeps the week interesting."
+            "title": "Honey Garlic Salmon",
+            "calories": "510 CAL"
           }
         },
-        "quality_4": {
-          "type": "quality",
+        "popular_31": {
+          "type": "popular",
           "settings": {
-            "title": "Convenience",
-            "text": "Nothing to chop, nothing to clean."
+            "title": "Steak & Veggies",
+            "calories": "530 CAL"
           }
         },
-        "quality_5": {
-          "type": "quality",
+        "popular_32": {
+          "type": "popular",
           "settings": {
-            "title": "Quality",
-            "text": "The same standard in every box."
+            "title": "Greek Chicken Salad",
+            "calories": "450 CAL"
           }
         },
-        "review_1": {
-          "type": "review",
+        "popular_33": {
+          "type": "popular",
           "settings": {
-            "name": "Sarah M.",
-            "review": "These meals made weeknights so much easier.",
-            "rating": 5,
-            "show_image": true,
-            "aspect": "1"
+            "title": "BBQ Chicken Plate",
+            "calories": "500 CAL"
           }
         },
-        "review_2": {
-          "type": "review",
+        "popular_34": {
+          "type": "popular",
           "settings": {
-            "name": "James R.",
-            "review": "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
-            "rating": 5,
-            "show_image": true,
-            "aspect": "1.3"
+            "title": "Turkey Chili Bowl",
+            "calories": "460 CAL"
           }
         },
-        "review_3": {
-          "type": "review",
+        "popular_35": {
+          "type": "popular",
           "settings": {
-            "name": "Priya K.",
-            "review": "Short and sweet.",
-            "rating": 5,
-            "show_image": false,
-            "aspect": "1"
+            "title": "Beef Stir Fry",
+            "calories": "520 CAL"
           }
         },
-        "review_4": {
-          "type": "review",
+        "popular_36": {
+          "type": "popular",
           "settings": {
-            "name": "Alex T.",
-            "review": "Another placeholder review for the layout.",
-            "rating": 5,
-            "show_image": true,
-            "aspect": "0.8"
+            "title": "Pesto Chicken Pasta",
+            "calories": "490 CAL"
           }
         },
-        "faq_1": {
+        "popular_37": {
+          "type": "popular",
+          "settings": {
+            "title": "Veggie Power Mash",
+            "calories": "440 CAL"
+          }
+        },
+        "popular_38": {
+          "type": "popular",
+          "settings": {
+            "title": "Teriyaki Chicken",
+            "calories": "440 CAL"
+          }
+        },
+        "popular_39": {
+          "type": "popular",
+          "settings": {
+            "title": "Spicy Shrimp Bowl",
+            "calories": "480 CAL"
+          }
+        },
+        "popular_40": {
+          "type": "popular",
+          "settings": {
+            "title": "Roasted Veg Plate",
+            "calories": "430 CAL"
+          }
+        },
+        "faq_41": {
           "type": "faq",
           "settings": {
-            "question": "How does the 7 meal plan work?",
-            "answer": "Choose seven meals from the weekly menu and we prepare and deliver them to you."
+            "question": "How does the meal delivery work?",
+            "answer": "Answer goes here."
           }
         },
-        "faq_2": {
+        "faq_42": {
           "type": "faq",
           "settings": {
-            "question": "How often does the menu change?",
-            "answer": "The menu rotates weekly."
+            "question": "How long do meals stay fresh?",
+            "answer": "Answer goes here."
           }
         },
-        "faq_3": {
+        "faq_43": {
           "type": "faq",
           "settings": {
-            "question": "Can I choose my meals?",
-            "answer": "Yes. Pick any seven from the available options."
+            "question": "Can I customise my plan?",
+            "answer": "Answer goes here."
           }
         },
-        "faq_4": {
+        "faq_44": {
           "type": "faq",
           "settings": {
-            "question": "How are meals delivered?",
-            "answer": "Delivered to your door."
+            "question": "Do you offer vegetarian or vegan options?",
+            "answer": "Answer goes here."
           }
         },
-        "faq_5": {
-          "type": "faq",
+        "favorite_45": {
+          "type": "favorite",
           "settings": {
-            "question": "How should meals be stored?",
-            "answer": "Keep refrigerated and enjoy within a few days."
+            "title": "Protein Pancakes (5 Meals)",
+            "price": "$34.99"
           }
         },
-        "faq_6": {
-          "type": "faq",
+        "favorite_46": {
+          "type": "favorite",
           "settings": {
-            "question": "How do I heat the meals?",
-            "answer": "Microwave until hot throughout."
+            "title": "Overnight Oats (5 Jars)",
+            "price": "$24.99"
           }
         },
-        "faq_7": {
-          "type": "faq",
+        "favorite_47": {
+          "type": "favorite",
           "settings": {
-            "question": "What areas do you deliver to?",
-            "answer": "We deliver across Hartland and nearby areas."
+            "title": "Smoothie Packs (5 Packs)",
+            "price": "$29.99"
           }
         },
-        "faq_8": {
-          "type": "faq",
+        "favorite_48": {
+          "type": "favorite",
           "settings": {
-            "question": "Are nutrition facts available?",
-            "answer": "Yes. Calories, protein, carbs and fat are listed for each meal."
+            "title": "Detox Soup Pack (5 Meals)",
+            "price": "$27.99"
           }
         },
-        "related_1": {
-          "type": "related",
+        "favorite_49": {
+          "type": "favorite",
           "settings": {
-            "title": "5 Meal Plan",
-            "text": "Five meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/5-meal-plan"
-          }
-        },
-        "related_2": {
-          "type": "related",
-          "settings": {
-            "title": "6 Meal Plan",
-            "text": "Six meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/6-meal-plan"
-          }
-        },
-        "related_3": {
-          "type": "related",
-          "settings": {
-            "title": "10 Meal Plan",
-            "text": "Ten meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/10-meal-plan"
-          }
-        },
-        "related_4": {
-          "type": "related",
-          "settings": {
-            "title": "15 Meal Plan",
-            "text": "Fifteen meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/15-meal-plan"
+            "title": "Snack Box (5 Boxes)",
+            "price": "$19.99"
           }
         }
       },
@@ -449,38 +453,50 @@
         "meal_8",
         "meal_9",
         "meal_10",
-        "benefit_1",
-        "benefit_2",
-        "benefit_3",
-        "step_1",
-        "step_2",
-        "step_3",
-        "step_4",
-        "quality_1",
-        "quality_2",
-        "quality_3",
-        "quality_4",
-        "quality_5",
-        "review_1",
-        "review_2",
-        "review_3",
-        "review_4",
-        "faq_1",
-        "faq_2",
-        "faq_3",
-        "faq_4",
-        "faq_5",
-        "faq_6",
-        "faq_7",
-        "faq_8",
-        "related_1",
-        "related_2",
-        "related_3",
-        "related_4"
-      ]
+        "way_meal_11",
+        "way_meal_12",
+        "way_meal_13",
+        "way_meal_14",
+        "feature_15",
+        "feature_16",
+        "feature_17",
+        "feature_18",
+        "testimonial_19",
+        "testimonial_20",
+        "testimonial_21",
+        "testimonial_22",
+        "testimonial_23",
+        "testimonial_24",
+        "step_25",
+        "step_26",
+        "step_27",
+        "step_28",
+        "popular_29",
+        "popular_30",
+        "popular_31",
+        "popular_32",
+        "popular_33",
+        "popular_34",
+        "popular_35",
+        "popular_36",
+        "popular_37",
+        "popular_38",
+        "popular_39",
+        "popular_40",
+        "faq_41",
+        "faq_42",
+        "faq_43",
+        "faq_44",
+        "favorite_45",
+        "favorite_46",
+        "favorite_47",
+        "favorite_48",
+        "favorite_49"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "mp_page"
+    "mp7"
   ]
 }

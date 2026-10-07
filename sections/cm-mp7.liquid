@@ -1,0 +1,1382 @@
+{{ 'section-cm-mp7.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-mp7.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  #mp7-x .mp7-ph{font-size:clamp(28px,5vw,44px);font-weight:700;line-height:1;text-transform:uppercase;background:radial-gradient(circle,#ffe9b8 0%,#f5a623 130%)}
+  #mp7-x .mp7-pi .mp7-ph,#mp7-x .mp7-map .mp7-ph,#mp7-x .mp7-vid .mp7-ph{border-radius:0}
+  #mp7-x .mp7-rnd .mp7-ph{font-size:clamp(24px,4vw,40px)}
+  #mp7-x .mp7-fav .mp7-rnd .mp7-ph{font-size:28px}
+  #mp7-x .mp7-rnd--wide{border-radius:12px;aspect-ratio:16/10}
+  #mp7-x .mp7-rnd--wide .mp7-ph{border-radius:0}
+  #mp7-x .mp7-title-sm{font-size:22px}
+  #mp7-x .mp7-title-xs{font-size:18px;text-transform:uppercase;text-align:center;margin-bottom:16px}
+  {%- if request.design_mode -%}
+  #mp7-x .mp7-rev{opacity:1;transform:none}
+  {%- endif -%}
+</style>
+
+{%- liquid
+  assign s = section.settings
+  assign cta_url = s.cta_button_url | default: '#'
+-%}
+
+<div id="mp7-x" {{ section.shopify_attributes }}>
+  <div class="mp7-wrap">
+    <div class="mp7-top">
+      <div>
+        <div class="mp7-head mp7-rev">
+          {%- if s.heading != blank -%}<h1>{{ s.heading | escape }}</h1>{%- endif -%}
+          {%- if s.subheading != blank -%}<p>{{ s.subheading | escape }}</p>{%- endif -%}
+          <div class="mp7-tabs" data-tabs>
+            {%- if s.tab_1 != blank -%}<button type="button" class="mp7-tab is-on">{{ s.tab_1 | escape }}</button>{%- endif -%}
+            {%- if s.tab_2 != blank -%}<button type="button" class="mp7-tab">{{ s.tab_2 | escape }}</button>{%- endif -%}
+            {%- if s.tab_3 != blank -%}<button type="button" class="mp7-tab">{{ s.tab_3 | escape }}</button>{%- endif -%}
+          </div>
+        </div>
+
+        <div class="mp7-grid">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'meal' -%}
+              {%- assign b = block.settings -%}
+              <article class="mp7-card mp7-meal mp7-rev" {{ block.shopify_attributes }}>
+                <div class="mp7-img">
+                  {%- if b.image != blank -%}
+                    {{ b.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: b.title, widths: '250, 375, 500', sizes: '(min-width: 990px) 20vw, 40vw' }}
+                  {%- else -%}
+                    <div class="mp7-ph" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
+                  {%- endif -%}
+                  {%- if b.number != blank -%}<span class="mp7-num">{{ b.number | escape }}</span>{%- endif -%}
+                  {%- if b.is_new -%}<span class="mp7-new">NEW</span>{%- endif -%}
+                  {%- if b.gluten_free -%}<span class="mp7-diet mp7-gf">GF</span>{%- endif -%}
+                  {%- if b.dairy_free -%}<span class="mp7-diet mp7-df">DF</span>{%- endif -%}
+                </div>
+                <div class="mp7-macro">
+                  <span><small>Calories</small>{{ b.calories | escape }}</span>
+                  <span><small>Protein</small>{{ b.protein | escape }}</span>
+                  <span><small>Carbs</small>{{ b.carbs | escape }}</span>
+                  <span><small>Fat</small>{{ b.fat | escape }}</span>
+                </div>
+                {%- if b.title != blank -%}<h3>{{ b.title | escape }}</h3>{%- endif -%}
+                {%- if b.description != blank -%}<p>{{ b.description | escape }}</p>{%- endif -%}
+              </article>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if s.add_to_cart_label != blank -%}
+          <div class="mp7-center"><a class="mp7-btn" href="{{ s.add_to_cart_url | default: '#' }}">{{ s.add_to_cart_label | escape }}</a></div>
+        {%- endif -%}
+      </div>
+
+      <aside class="mp7-side">
+        <div class="mp7-hero mp7-rev">
+          <h2>
+            {{- s.hero_heading | escape -}}
+            {%- if s.hero_highlight != blank %} <span>{{ s.hero_highlight | escape }}</span>{% endif -%}
+            {%- if s.hero_heading_after != blank %} {{ s.hero_heading_after | escape }}{% endif -%}
+          </h2>
+          <div class="mp7-icons">
+            {%- if s.icon_1_label != blank -%}<div><i>{{ s.icon_1_char | escape }}</i>{{ s.icon_1_label | escape }}</div>{%- endif -%}
+            {%- if s.icon_2_label != blank -%}<div><i>{{ s.icon_2_char | escape }}</i>{{ s.icon_2_label | escape }}</div>{%- endif -%}
+            {%- if s.icon_3_label != blank -%}<div><i>{{ s.icon_3_char | escape }}</i>{{ s.icon_3_label | escape }}</div>{%- endif -%}
+          </div>
+        </div>
+
+        <div class="mp7-card mp7-rev">
+          {%- if s.chef_heading != blank -%}<h3>{{ s.chef_heading | escape }}</h3>{%- endif -%}
+          {%- if s.chef_text != blank -%}<p class="mp7-sub">{{ s.chef_text | escape }}</p>{%- endif -%}
+          <div class="mp7-vid">
+            {%- if s.video_image != blank -%}
+              {{ s.video_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.chef_heading }}
+            {%- else -%}
+              <div class="mp7-ph" style="width:100%;height:100%" aria-hidden="true">{{ s.chef_heading | strip | slice: 0 | escape }}</div>
+            {%- endif -%}
+            <a class="mp7-play" href="{{ s.video_url | default: '#' }}" aria-label="Play video">&#9654;</a>
+          </div>
+          {%- if s.ingredients_heading != blank -%}<h3 style="margin-top:14px">{{ s.ingredients_heading | escape }}</h3>{%- endif -%}
+          <div class="mp7-rnd">
+            {%- if s.ingredients_image != blank -%}
+              {{ s.ingredients_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: s.ingredients_heading }}
+            {%- else -%}
+              <div class="mp7-ph" aria-hidden="true">{{ s.ingredients_heading | strip | slice: 0 | escape }}</div>
+            {%- endif -%}
+          </div>
+          {%- if s.ingredients_text != blank -%}<p class="mp7-sub">{{ s.ingredients_text | escape }}</p>{%- endif -%}
+        </div>
+
+        <div class="mp7-card mp7-rev">
+          {%- if s.heat_heading != blank -%}<h3>{{ s.heat_heading | escape }}</h3>{%- endif -%}
+          <div class="mp7-rnd mp7-rnd--wide" style="border-radius:12px;aspect-ratio:16/10">
+            {%- if s.heat_image != blank -%}
+              {{ s.heat_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.heat_heading }}
+            {%- else -%}
+              <div class="mp7-ph" aria-hidden="true">{{ s.heat_heading | strip | slice: 0 | escape }}</div>
+            {%- endif -%}
+          </div>
+          {%- if s.delivery_side_heading != blank -%}<h3 style="margin-top:14px">{{ s.delivery_side_heading | escape }}</h3>{%- endif -%}
+          <div class="mp7-rnd mp7-rnd--wide" style="border-radius:12px;aspect-ratio:16/10">
+            {%- if s.delivery_side_image != blank -%}
+              {{ s.delivery_side_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.delivery_side_heading }}
+            {%- else -%}
+              <div class="mp7-ph" aria-hidden="true">{{ s.delivery_side_heading | strip | slice: 0 | escape }}</div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <div class="mp7-card mp7-rev">
+          {%- if s.menu_big != blank -%}<div class="mp7-big">{{ s.menu_big | escape }}</div>{%- endif -%}
+          {%- if s.menu_heading != blank -%}<h3>{{ s.menu_heading | escape }}</h3>{%- endif -%}
+          {%- if s.menu_text != blank -%}<p class="mp7-sub">{{ s.menu_text | escape }}</p>{%- endif -%}
+        </div>
+      </aside>
+    </div>
+
+    <section class="mp7-sec mp7-card mp7-way mp7-rev">
+      {%- if s.way_heading != blank -%}<h2 class="mp7-title-sm" style="font-size:22px">{{ s.way_heading | escape }}</h2>{%- endif -%}
+      <div class="mp7-head">
+        <div class="mp7-tabs" data-tabs>
+          {%- if s.way_tab_1 != blank -%}<button type="button" class="mp7-tab is-on">{{ s.way_tab_1 | escape }}</button>{%- endif -%}
+          {%- if s.way_tab_2 != blank -%}<button type="button" class="mp7-tab">{{ s.way_tab_2 | escape }}</button>{%- endif -%}
+        </div>
+      </div>
+      <div class="mp7-car" data-car>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'way_meal' -%}
+            {%- assign b = block.settings -%}
+            <div class="mp7-meal" {{ block.shopify_attributes }}>
+              <div class="mp7-img">
+                {%- if b.image != blank -%}
+                  {{ b.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: b.title, widths: '250, 375, 500', sizes: '(min-width: 990px) 25vw, 60vw' }}
+                {%- else -%}
+                  <div class="mp7-ph" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
+                {%- endif -%}
+                {%- if b.calories != blank -%}<span class="mp7-cal">{{ b.calories | escape }}</span>{%- endif -%}
+              </div>
+              {%- if b.tag != blank -%}<span class="mp7-tag">{{ b.tag | escape }}</span>{%- endif -%}
+              {%- if b.title != blank -%}<h3>{{ b.title | escape }}</h3>{%- endif -%}
+              {%- if b.description != blank -%}<p>{{ b.description | escape }}</p>{%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div class="mp7-nav"><button type="button" data-prev aria-label="Previous">&lsaquo;</button><button type="button" data-next aria-label="Next">&rsaquo;</button></div>
+    </section>
+
+    <div class="mp7-sec mp7-card mp7-feat mp7-rev">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'feature' -%}
+          <div {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}<span>{{ block.settings.icon | escape }}</span>{%- endif -%}
+            {%- if block.settings.title != blank -%}<b>{{ block.settings.title | escape }}</b>{%- endif -%}
+            {{ block.settings.text | escape }}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <section class="mp7-sec mp7-card mp7-tst mp7-rev">
+      {%- if s.reviews_heading != blank -%}<h2 style="font-size:22px;text-align:center">{{ s.reviews_heading | escape }}</h2>{%- endif -%}
+      {%- if s.reviews_stars != blank -%}<div class="mp7-stars" aria-hidden="true">{{ s.reviews_stars | escape }}</div>{%- endif -%}
+      <div class="mp7-car" data-car data-auto>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'testimonial' -%}
+            <div class="mp7-q{% if block.settings.dark %} mp7-dark{% endif %}" {{ block.shopify_attributes }}>
+              {{- block.settings.quote | escape -}}
+              {%- if block.settings.name != blank -%}<b>&ndash; {{ block.settings.name | escape }}</b>{%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div class="mp7-nav"><button type="button" data-prev aria-label="Previous">&lsaquo;</button><button type="button" data-next aria-label="Next">&rsaquo;</button></div>
+      <div class="mp7-dots"></div>
+    </section>
+
+    <div class="mp7-sec mp7-two">
+      <div class="mp7-card mp7-how mp7-rev">
+        {%- if s.how_heading != blank -%}<h2>{{ s.how_heading | escape }}</h2>{%- endif -%}
+        {%- assign step_n = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'step' -%}
+            {%- assign step_n = step_n | plus: 1 -%}
+            <div class="mp7-st" {{ block.shopify_attributes }}>
+              <i>{{ step_n }}</i>
+              <div>
+                {%- if block.settings.title != blank -%}<b>{{ block.settings.title | escape }}</b>{%- endif -%}
+                <span>{{ block.settings.text | escape }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="mp7-card mp7-area mp7-rev">
+        {%- if s.delivery_heading != blank -%}<h2>{{ s.delivery_heading | escape }}</h2>{%- endif -%}
+        <div class="mp7-map">
+          {%- if s.map_image != blank -%}
+            {{ s.map_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: s.delivery_heading }}
+          {%- else -%}
+            <div class="mp7-ph" style="width:100%;height:100%" aria-hidden="true">{{ s.delivery_heading | strip | slice: 0 | escape }}</div>
+          {%- endif -%}
+        </div>
+        {%- if s.delivery_button_label != blank -%}
+          <a class="mp7-btn" style="padding:11px 26px" href="{{ s.delivery_button_url | default: '#' }}">{{ s.delivery_button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="mp7-sec mp7-cta mp7-rev">
+      <div>
+        {%- if s.cta_heading != blank -%}<h2>{{ s.cta_heading | escape }}</h2>{%- endif -%}
+        {%- if s.cta_text != blank -%}<p style="font-size:13px;opacity:.8;margin-top:4px">{{ s.cta_text | escape }}</p>{%- endif -%}
+        <div class="mp7-stats">
+          {%- if s.stat_1_value != blank -%}<div><b>{{ s.stat_1_value | escape }}</b><span>{{ s.stat_1_label | escape }}</span></div>{%- endif -%}
+          {%- if s.stat_2_value != blank -%}<div><b>{{ s.stat_2_value | escape }}</b><span>{{ s.stat_2_label | escape }}</span></div>{%- endif -%}
+          {%- if s.stat_3_value != blank -%}<div><b>{{ s.stat_3_value | escape }}</b><span>{{ s.stat_3_label | escape }}</span></div>{%- endif -%}
+          {%- if s.stat_4_value != blank -%}<div><b>{{ s.stat_4_value | escape }}</b><span>{{ s.stat_4_label | escape }}</span></div>{%- endif -%}
+        </div>
+        {%- if s.cta_button_label != blank -%}<a class="mp7-btn" href="{{ cta_url }}">{{ s.cta_button_label | escape }}</a>{%- endif -%}
+      </div>
+      <div class="mp7-q2">
+        {%- if s.cta_contact_heading != blank -%}<h2 style="color:#fff;font-size:20px">{{ s.cta_contact_heading | escape }}</h2>{%- endif -%}
+        {%- if s.cta_contact_text != blank -%}<p style="margin:6px 0 14px;font-size:13px">{{ s.cta_contact_text | escape }}</p>{%- endif -%}
+        {%- if s.cta_contact_label != blank -%}<a class="mp7-btn" href="{{ s.cta_contact_url | default: '#' }}">{{ s.cta_contact_label | escape }}</a>{%- endif -%}
+      </div>
+    </div>
+
+    <section class="mp7-sec">
+      {%- if s.popular_heading != blank -%}<h2>{{ s.popular_heading | escape }}</h2>{%- endif -%}
+      <div class="mp7-pop">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'popular' -%}
+            {%- assign b = block.settings -%}
+            <figure class="mp7-rev" {{ block.shopify_attributes }}>
+              <div class="mp7-pi">
+                {%- if b.image != blank -%}
+                  {{ b.image | image_url: width: 400 | image_tag: loading: 'lazy', alt: b.title, widths: '200, 300, 400', sizes: '(min-width: 990px) 15vw, 30vw' }}
+                {%- else -%}
+                  <div class="mp7-ph" style="width:100%;height:100%" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
+                {%- endif -%}
+              </div>
+              <figcaption>
+                {{- b.title | escape -}}
+                {%- if b.calories != blank -%}<small>{{ b.calories | escape }}</small>{%- endif -%}
+              </figcaption>
+            </figure>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if s.popular_button_label != blank -%}
+        <div class="mp7-center"><a class="mp7-btn" style="padding:11px 28px" href="{{ s.popular_button_url | default: '#' }}">{{ s.popular_button_label | escape }}</a></div>
+      {%- endif -%}
+    </section>
+
+    <div class="mp7-sec mp7-two mp7-faqrow">
+      <div class="mp7-faq mp7-rev">
+        {%- if s.faq_heading != blank -%}<h2 class="mp7-title-xs" style="font-size:18px;text-transform:uppercase;text-align:center;margin-bottom:16px">{{ s.faq_heading | escape }}</h2>{%- endif -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq' -%}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.question | escape }}</summary>
+              <p>{{ block.settings.answer | escape }}</p>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="mp7-rev">
+        {%- if s.favorites_heading != blank -%}<h2 class="mp7-title-xs" style="font-size:18px;text-transform:uppercase;text-align:center;margin-bottom:16px">{{ s.favorites_heading | escape }}</h2>{%- endif -%}
+        <div class="mp7-card mp7-fav">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'favorite' -%}
+              {%- assign b = block.settings -%}
+              <div {{ block.shopify_attributes }}>
+                <div class="mp7-rnd">
+                  {%- if b.image != blank -%}
+                    {{ b.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: b.title }}
+                  {%- else -%}
+                    <div class="mp7-ph" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
+                  {%- endif -%}
+                </div>
+                {{ b.title | escape }}
+                {%- if b.price != blank -%}<b>{{ b.price | escape }}</b>{%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "7 Meal Plan",
+  "tag": "section",
+  "class": "cm-mp7-section",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "7 Meal Plan"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Chef-prepared meals. Delivered weekly."
+    },
+    {
+      "type": "text",
+      "id": "tab_1",
+      "label": "Person tab 1",
+      "default": "1 Person"
+    },
+    {
+      "type": "text",
+      "id": "tab_2",
+      "label": "Person tab 2",
+      "default": "2 People"
+    },
+    {
+      "type": "text",
+      "id": "tab_3",
+      "label": "Person tab 3",
+      "default": "Family Plan (4 Meals)"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Add to cart label",
+      "default": "Add to cart"
+    },
+    {
+      "type": "url",
+      "id": "add_to_cart_url",
+      "label": "Add to cart link"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar: hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero heading (before highlight)",
+      "default": "Calorie Counted Meals."
+    },
+    {
+      "type": "text",
+      "id": "hero_highlight",
+      "label": "Hero highlight (orange)",
+      "default": "High Protein, Low Oil."
+    },
+    {
+      "type": "text",
+      "id": "hero_heading_after",
+      "label": "Hero heading (after highlight)",
+      "default": "Delivered Across Hartland."
+    },
+    {
+      "type": "text",
+      "id": "icon_1_char",
+      "label": "Icon 1 character",
+      "default": "◆"
+    },
+    {
+      "type": "text",
+      "id": "icon_1_label",
+      "label": "Icon 1 text",
+      "default": "HIGH PROTEIN"
+    },
+    {
+      "type": "text",
+      "id": "icon_2_char",
+      "label": "Icon 2 character",
+      "default": "●"
+    },
+    {
+      "type": "text",
+      "id": "icon_2_label",
+      "label": "Icon 2 text",
+      "default": "LOW OIL"
+    },
+    {
+      "type": "text",
+      "id": "icon_3_char",
+      "label": "Icon 3 character",
+      "default": "✓"
+    },
+    {
+      "type": "text",
+      "id": "icon_3_label",
+      "label": "Icon 3 text",
+      "default": "CALORIE COUNTED"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar: chef card"
+    },
+    {
+      "type": "text",
+      "id": "chef_heading",
+      "label": "Chef heading",
+      "default": "43 years in the kitchen. Every cooked for you."
+    },
+    {
+      "type": "textarea",
+      "id": "chef_text",
+      "label": "Chef text",
+      "default": "Our meals are crafted with 43 years of culinary experience using real ingredients."
+    },
+    {
+      "type": "image_picker",
+      "id": "video_image",
+      "label": "Video cover image"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video link"
+    },
+    {
+      "type": "text",
+      "id": "ingredients_heading",
+      "label": "Ingredients heading",
+      "default": "We use fresh wholesome ingredients"
+    },
+    {
+      "type": "image_picker",
+      "id": "ingredients_image",
+      "label": "Ingredients image"
+    },
+    {
+      "type": "textarea",
+      "id": "ingredients_text",
+      "label": "Ingredients text",
+      "default": "No preservatives. No shortcuts. Just real food, prepared fresh weekly."
+    },
+    {
+      "type": "header",
+      "content": "Sidebar: heat & delivery"
+    },
+    {
+      "type": "text",
+      "id": "heat_heading",
+      "label": "Heat heading",
+      "default": "Heat & eat in 2 minutes"
+    },
+    {
+      "type": "image_picker",
+      "id": "heat_image",
+      "label": "Heat image"
+    },
+    {
+      "type": "text",
+      "id": "delivery_side_heading",
+      "label": "Delivery heading",
+      "default": "Delivered fresh. Right to your door."
+    },
+    {
+      "type": "image_picker",
+      "id": "delivery_side_image",
+      "label": "Delivery image"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar: menu count"
+    },
+    {
+      "type": "text",
+      "id": "menu_big",
+      "label": "Big number",
+      "default": "10+"
+    },
+    {
+      "type": "text",
+      "id": "menu_heading",
+      "label": "Heading",
+      "default": "Menu options every week"
+    },
+    {
+      "type": "textarea",
+      "id": "menu_text",
+      "label": "Text",
+      "default": "From high-protein classics to plant-based favorites, we have something for everyone."
+    },
+    {
+      "type": "header",
+      "content": "Get it your way"
+    },
+    {
+      "type": "text",
+      "id": "way_heading",
+      "label": "Heading",
+      "default": "Get it your way"
+    },
+    {
+      "type": "text",
+      "id": "way_tab_1",
+      "label": "Tab 1",
+      "default": "GLUTEN FREE"
+    },
+    {
+      "type": "text",
+      "id": "way_tab_2",
+      "label": "Tab 2",
+      "default": "DAIRY FREE"
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "reviews_heading",
+      "label": "Heading",
+      "default": "What our customers say"
+    },
+    {
+      "type": "text",
+      "id": "reviews_stars",
+      "label": "Stars text",
+      "default": "★★★★★"
+    },
+    {
+      "type": "header",
+      "content": "How it works"
+    },
+    {
+      "type": "text",
+      "id": "how_heading",
+      "label": "Heading",
+      "default": "How it works"
+    },
+    {
+      "type": "header",
+      "content": "Delivery area"
+    },
+    {
+      "type": "text",
+      "id": "delivery_heading",
+      "label": "Heading",
+      "default": "We deliver across Hartland & nearby areas"
+    },
+    {
+      "type": "image_picker",
+      "id": "map_image",
+      "label": "Map image"
+    },
+    {
+      "type": "text",
+      "id": "delivery_button_label",
+      "label": "Button label",
+      "default": "View full delivery area"
+    },
+    {
+      "type": "url",
+      "id": "delivery_button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Heading",
+      "default": "Your health journey starts here"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Text",
+      "default": "Real food. Real results."
+    },
+    {
+      "type": "text",
+      "id": "stat_1_value",
+      "label": "Stat 1 value",
+      "default": "6+"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 label",
+      "default": "Years of service"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_value",
+      "label": "Stat 2 value",
+      "default": "7"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 label",
+      "default": "Days per week"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_value",
+      "label": "Stat 3 value",
+      "default": "10+"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 label",
+      "default": "Meal options weekly"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_value",
+      "label": "Stat 4 value",
+      "default": "15"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_label",
+      "label": "Stat 4 label",
+      "default": "Local areas"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "Button label",
+      "default": "Get your meals now"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "cta_contact_heading",
+      "label": "Contact heading",
+      "default": "Have questions?"
+    },
+    {
+      "type": "text",
+      "id": "cta_contact_text",
+      "label": "Contact text",
+      "default": "We're here to help!"
+    },
+    {
+      "type": "text",
+      "id": "cta_contact_label",
+      "label": "Contact button label",
+      "default": "Contact us"
+    },
+    {
+      "type": "url",
+      "id": "cta_contact_url",
+      "label": "Contact button link"
+    },
+    {
+      "type": "header",
+      "content": "Popular meals"
+    },
+    {
+      "type": "text",
+      "id": "popular_heading",
+      "label": "Heading",
+      "default": "Popular meals"
+    },
+    {
+      "type": "text",
+      "id": "popular_button_label",
+      "label": "Button label",
+      "default": "View full menu"
+    },
+    {
+      "type": "url",
+      "id": "popular_button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "FAQ & favorites"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "FAQ heading",
+      "default": "Frequently asked questions"
+    },
+    {
+      "type": "text",
+      "id": "favorites_heading",
+      "label": "Favorites heading",
+      "default": "Other healthy favorites"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "meal",
+      "name": "Meal",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_new",
+          "label": "Show NEW badge",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "gluten_free",
+          "label": "Gluten free (GF)",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "dairy_free",
+          "label": "Dairy free (DF)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "calories",
+          "label": "Calories"
+        },
+        {
+          "type": "text",
+          "id": "protein",
+          "label": "Protein"
+        },
+        {
+          "type": "text",
+          "id": "carbs",
+          "label": "Carbs"
+        },
+        {
+          "type": "text",
+          "id": "fat",
+          "label": "Fat"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "way_meal",
+      "name": "Get it your way meal",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "calories",
+          "label": "Calories"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag (e.g. LUNCH)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon / character"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "checkbox",
+          "id": "dark",
+          "label": "Dark style",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "popular",
+      "name": "Popular meal",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "calories",
+          "label": "Calories label"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    },
+    {
+      "type": "favorite",
+      "name": "Favorite",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "7 Meal Plan",
+      "blocks": [
+        {
+          "type": "meal",
+          "settings": {
+            "number": "1",
+            "is_new": true,
+            "gluten_free": false,
+            "dairy_free": false,
+            "calories": "633",
+            "protein": "38g",
+            "carbs": "37g",
+            "fat": "37g",
+            "title": "Peri Peri Chicken",
+            "description": "With glazed carrots & roasted Yukon potatoes"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "2",
+            "is_new": true,
+            "gluten_free": false,
+            "dairy_free": false,
+            "calories": "684",
+            "protein": "62g",
+            "carbs": "37g",
+            "fat": "32g",
+            "title": "Ground Beef Enchilada Bowl",
+            "description": "With Mexican rice, salsa and peppers"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "3",
+            "is_new": true,
+            "gluten_free": true,
+            "dairy_free": false,
+            "calories": "676",
+            "protein": "55g",
+            "carbs": "42g",
+            "fat": "32g",
+            "title": "Bacon-Wrapped Chili Fig-Glazed Pork Tenderloin"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "4",
+            "is_new": true,
+            "gluten_free": true,
+            "dairy_free": false,
+            "calories": "421",
+            "protein": "45g",
+            "carbs": "40g",
+            "fat": "12g",
+            "title": "Oven BBQ Salmon"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "5",
+            "is_new": false,
+            "gluten_free": true,
+            "dairy_free": true,
+            "calories": "430",
+            "protein": "36g",
+            "carbs": "32g",
+            "fat": "10g",
+            "title": "Teriyaki Chicken Breast",
+            "description": "With cilantro rice, bell peppers & mushrooms"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "6",
+            "is_new": false,
+            "gluten_free": true,
+            "dairy_free": true,
+            "calories": "623",
+            "protein": "52g",
+            "carbs": "34g",
+            "fat": "31g",
+            "title": "Chimichurri Steak",
+            "description": "With roasted potatoes & glazed carrots"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "7",
+            "is_new": false,
+            "gluten_free": true,
+            "dairy_free": true,
+            "calories": "435",
+            "protein": "38g",
+            "carbs": "36g",
+            "fat": "11g",
+            "title": "Orange Basil Salmon",
+            "description": "With cilantro rice and herbed carrots and celery"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "8",
+            "is_new": false,
+            "gluten_free": true,
+            "dairy_free": false,
+            "calories": "550",
+            "protein": "38g",
+            "carbs": "37g",
+            "fat": "31g",
+            "title": "Turkey Meatball Marinara",
+            "description": "With spaghetti squash, marinara and Romano cheese"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "9",
+            "is_new": false,
+            "gluten_free": true,
+            "dairy_free": true,
+            "calories": "585",
+            "protein": "36g",
+            "carbs": "35g",
+            "fat": "33g",
+            "title": "Balsamic Baked Chicken Thighs",
+            "description": "With sweet potatoes, herbed carrots & celery"
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "number": "10",
+            "is_new": false,
+            "gluten_free": true,
+            "dairy_free": false,
+            "calories": "581",
+            "protein": "61g",
+            "carbs": "53g",
+            "fat": "15g",
+            "title": "Chicken, Quinoa Taco Bake"
+          }
+        },
+        {
+          "type": "way_meal",
+          "settings": {
+            "calories": "470",
+            "tag": "LUNCH",
+            "title": "Lemon Herb Salmon",
+            "description": "Quinoa, asparagus & tomatoes"
+          }
+        },
+        {
+          "type": "way_meal",
+          "settings": {
+            "calories": "480",
+            "tag": "DINNER",
+            "title": "Grilled Chicken Bowl",
+            "description": "Brown rice, avocado, black beans"
+          }
+        },
+        {
+          "type": "way_meal",
+          "settings": {
+            "calories": "460",
+            "tag": "DINNER",
+            "title": "Turkey Meatballs",
+            "description": "Zucchini noodles, marinara"
+          }
+        },
+        {
+          "type": "way_meal",
+          "settings": {
+            "calories": "420",
+            "tag": "LUNCH",
+            "title": "Garden Veggie Bowl",
+            "description": "Chickpeas, kale, quinoa"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "❀",
+            "title": "Fresh ingredients",
+            "text": "Sourced locally & prepared with care."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "♥",
+            "title": "Balanced nutrition",
+            "text": "High protein, low oil, calorie counted."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "⛟",
+            "title": "Weekly delivery",
+            "text": "Straight to your door."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "↻",
+            "title": "No commitment",
+            "text": "Pause, skip or cancel anytime."
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Fresh, flavorful and so convenient. I never have to think about lunch anymore!",
+            "name": "Rafiq H.",
+            "dark": false
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Portions are perfect and the calories are right on target for my goals.",
+            "name": "Anna K.",
+            "dark": false
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Best meal prep service in the area. Delivery is always on time.",
+            "name": "Daniel P.",
+            "dark": true
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "The meals are always fresh, delicious and perfectly portioned. A game changer for my busy week!",
+            "name": "Sarah M.",
+            "dark": false
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "As a fitness coach, I recommend this to all my clients. Clean, balanced and satisfying.",
+            "name": "James T.",
+            "dark": true
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Love the variety and the quality. It feels like restaurant meals at home.",
+            "name": "Emily R.",
+            "dark": false
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Choose your plan",
+            "text": "Select the plan that fits your lifestyle."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "We cook fresh",
+            "text": "Our chef prepares your meals with care."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "We deliver",
+            "text": "Your meals arrive fresh at your doorstep."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Heat & enjoy",
+            "text": "Ready in 2 minutes. Eat healthy!"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Grilled Chicken Bowl",
+            "calories": "480 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Honey Garlic Salmon",
+            "calories": "510 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Steak & Veggies",
+            "calories": "530 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Greek Chicken Salad",
+            "calories": "450 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "BBQ Chicken Plate",
+            "calories": "500 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Turkey Chili Bowl",
+            "calories": "460 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Beef Stir Fry",
+            "calories": "520 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Pesto Chicken Pasta",
+            "calories": "490 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Veggie Power Mash",
+            "calories": "440 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Teriyaki Chicken",
+            "calories": "440 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Spicy Shrimp Bowl",
+            "calories": "480 CAL"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "title": "Roasted Veg Plate",
+            "calories": "430 CAL"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How does the meal delivery work?",
+            "answer": "Answer goes here."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How long do meals stay fresh?",
+            "answer": "Answer goes here."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I customise my plan?",
+            "answer": "Answer goes here."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer vegetarian or vegan options?",
+            "answer": "Answer goes here."
+          }
+        },
+        {
+          "type": "favorite",
+          "settings": {
+            "title": "Protein Pancakes (5 Meals)",
+            "price": "$34.99"
+          }
+        },
+        {
+          "type": "favorite",
+          "settings": {
+            "title": "Overnight Oats (5 Jars)",
+            "price": "$24.99"
+          }
+        },
+        {
+          "type": "favorite",
+          "settings": {
+            "title": "Smoothie Packs (5 Packs)",
+            "price": "$29.99"
+          }
+        },
+        {
+          "type": "favorite",
+          "settings": {
+            "title": "Detox Soup Pack (5 Meals)",
+            "price": "$27.99"
+          }
+        },
+        {
+          "type": "favorite",
+          "settings": {
+            "title": "Snack Box (5 Boxes)",
+            "price": "$19.99"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
