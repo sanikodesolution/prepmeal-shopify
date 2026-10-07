@@ -62,7 +62,12 @@
         </div>
       {%- endif -%}
       <div class="drawer__header">
-        <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}</h2>
+        <div class="drawer__heading-group">
+          <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}</h2>
+          {%- if cart != empty -%}
+            <span class="drawer__item-count" aria-live="polite">{{ cart.item_count }}</span>
+          {%- endif -%}
+        </div>
         <button
           class="drawer__close"
           type="button"
@@ -73,6 +78,10 @@
             {{- 'icon-close.svg' | inline_asset_content -}}
           </span>
         </button>
+      </div>
+      <div class="cart-drawer__added-banner" hidden>
+        <span class="cart-drawer__added-banner-dot" aria-hidden="true"></span>
+        <span class="cart-drawer__added-banner-text">Added to cart</span>
       </div>
       <cart-drawer-items
         {% if cart == empty %}

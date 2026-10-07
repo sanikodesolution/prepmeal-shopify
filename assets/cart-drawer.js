@@ -86,7 +86,31 @@ class CartDrawer extends HTMLElement {
     setTimeout(() => {
       this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
       this.open();
+      this.showAddedBanner(parsedState);
     });
+  }
+
+  showAddedBanner(parsedState) {
+    const banner = this.querySelector('.cart-drawer__added-banner');
+    if (!banner) return;
+
+    const title = parsedState?.product_title || parsedState?.title || '';
+    const textEl = banner.querySelector('.cart-drawer__added-banner-text');
+    if (textEl) {
+      textEl.textContent = title ? `${title} added to cart` : 'Added to cart';
+    }
+
+    banner.hidden = false;
+    banner.classList.remove('is-visible');
+    // Force reflow so the enter animation restarts on every add
+    void banner.offsetWidth;
+    banner.classList.add('is-visible');
+
+    clearTimeout(this._addedBannerTimer);
+    this._addedBannerTimer = setTimeout(() => {
+      banner.classList.remove('is-visible');
+      banner.hidden = true;
+    }, 2800);
   }
 
   getSectionInnerHTML(html, selector = '.shopify-section') {
