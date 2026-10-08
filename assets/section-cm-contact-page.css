@@ -1,644 +1,644 @@
 /*
-  Chef Matt's – Contact preview styles
-  Preview rem assumes 16px root. Dawn uses ~10px root (62.5%),
-  so this section locks 16px and uses em to match the preview sizes.
+ Chef Matt's – Contact preview styles
+ Preview rem assumes 16px root. Dawn uses ~10px root (62.5%),
+ so this section locks 16px and uses em to match the preview sizes.
 */
 .cmc {
-  --cmc-amber: #f5a623;
-  --cmc-amber-deep: #e8920c;
-  --cmc-navy: #0b1b36;
-  --cmc-ink: #14161c;
-  --cmc-paper: #fffdf8;
-  --cmc-line: #e9e2d2;
-  --cmc-muted: #5d6472;
-  position: relative;
-  overflow: hidden;
-  font-size: 16px;
-  padding: clamp(7em, 12vw, 9.5em) 1.25em clamp(4em, 8vw, 6.5em);
-  background:
-    radial-gradient(circle at 92% 8%, rgba(245, 166, 35, 0.16) 0 9em, transparent 9.1em),
-    linear-gradient(180deg, #fff8e8 0, #fff 26em);
-  color: var(--cmc-ink);
-  font-family: var(--font-body-family), var(--cm-body), system-ui, sans-serif;
-  line-height: 1.5;
+ --cmc-amber: #f5a623;
+ --cmc-amber-deep: #e8920c;
+ --cmc-navy: #0b1b36;
+ --cmc-ink: #14161c;
+ --cmc-paper: #fffdf8;
+ --cmc-line: #e9e2d2;
+ --cmc-muted: #5d6472;
+ position: relative;
+ overflow: hidden;
+ 
+ padding: clamp(7em, 12vw, 9.5em) 1.25em clamp(4em, 8vw, 6.5em);
+ background:
+ radial-gradient(circle at 92% 8%, rgba(245, 166, 35, 0.16) 0 9em, transparent 9.1em),
+ linear-gradient(180deg, #fff8e8 0, #fff 26em);
+ color: var(--cmc-ink);
+ font-family: var(--font-body-family), var(--cm-body), system-ui, sans-serif;
+ line-height: 1.5;
 }
 
 .cmc * {
-  box-sizing: border-box;
+ box-sizing: border-box;
 }
 
 .cmc__wrap {
-  max-width: 1120px;
-  margin: 0 auto;
-  width: 100%;
-  min-width: 0;
+ max-width: 1120px;
+ margin: 0 auto;
+ width: 100%;
+ min-width: 0;
 }
 
 .cmc__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2em;
-  margin-bottom: clamp(2em, 4vw, 3.25em);
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 2em;
+ margin-bottom: clamp(2em, 4vw, 3.25em);
 }
 
 .cmc__head-text {
-  max-width: 44em;
+ max-width: 44em;
 }
 
 .cmc__stamp {
-  flex: none;
-  width: 158px;
-  height: 158px;
-  border-radius: 50%;
-  background: var(--cmc-amber);
-  color: var(--cmc-ink);
-  display: grid;
-  place-items: center;
-  text-align: center;
-  transform: rotate(-9deg);
-  box-shadow: 0 18px 32px -16px rgba(232, 146, 12, 0.9);
-  position: relative;
-  margin-right: clamp(0em, 3vw, 2.5em);
+ flex: none;
+ width: 158px;
+ height: 158px;
+ border-radius: 50%;
+ background: var(--cmc-amber);
+ color: var(--cmc-ink);
+ display: grid;
+ place-items: center;
+ text-align: center;
+ transform: rotate(-9deg);
+ box-shadow: 0 18px 32px -16px rgba(232, 146, 12, 0.9);
+ position: relative;
+ margin-right: clamp(0em, 3vw, 2.5em);
 }
 
 .cmc__stamp::before {
-  content: '';
-  position: absolute;
-  inset: 8px;
-  border-radius: 50%;
-  border: 2px dashed rgba(20, 22, 28, 0.45);
+ content: '';
+ position: absolute;
+ inset: 8px;
+ border-radius: 50%;
+ border: 2px dashed rgba(20, 22, 28, 0.45);
 }
 
 .cmc__stamp span {
-  font-size: 0.9em; /* 14.4px — preview 0.9rem */
-  line-height: 1.25;
-  font-weight: 600;
+ /* 14.4px — preview 0.9rem */
+ line-height: 1.25;
+ font-weight: 600;
 }
 
 .cmc__stamp b {
-  display: block;
-  font-family: 'Gloock', Georgia, serif;
-  font-weight: 400;
-  /* preview 2.4rem on root; compensate for parent span 0.9em */
-  font-size: 2.6667em;
-  line-height: 1;
+ display: block;
+ font-family: 'Gloock', Georgia, serif;
+ font-weight: 400;
+ /* preview 2.4rem on root; compensate for parent span 0.9em */
+ 
+ line-height: 1;
 }
 
 .cmc h1.cmc__title,
 .cmc__title {
-  font-family: 'Gloock', 'DM Serif Display', Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(2.2em, 4.4vw, 3.4em);
-  line-height: 1.04;
-  letter-spacing: -0.01em;
-  /* px so gap matches preview 1rem (not scaled by heading size) */
-  margin: 0 0 16px;
-  color: var(--cmc-ink);
+ font-family: 'Gloock', 'DM Serif Display', Georgia, serif;
+ font-weight: 400;
+ 
+ line-height: 1.04;
+ letter-spacing: -0.01em;
+ /* px so gap matches preview 1rem (not scaled by heading size) */
+ margin: 0 0 16px;
+ color: var(--cmc-ink);
 }
 
 .cmc__lead {
-  font-size: 1.1em;
-  line-height: 1.6;
-  color: var(--cmc-muted);
-  margin: 0;
-  max-width: 34em;
+ 
+ line-height: 1.6;
+ color: var(--cmc-muted);
+ margin: 0;
+ max-width: 34em;
 }
 
 .cmc__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(1.25em, 3vw, 2.5em);
-  align-items: stretch;
+ display: grid;
+ grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+ gap: clamp(1.25em, 3vw, 2.5em);
+ align-items: stretch;
 }
 
 .cmc__panel {
-  display: flex;
-  flex-direction: column;
-  background: var(--cmc-navy);
-  color: #fff;
-  border-radius: 28px;
-  padding: clamp(1.75em, 3vw, 2.5em);
-  position: relative;
-  overflow: hidden;
+ display: flex;
+ flex-direction: column;
+ background: var(--cmc-navy);
+ color: #fff;
+ border-radius: 28px;
+ padding: clamp(1.75em, 3vw, 2.5em);
+ position: relative;
+ overflow: hidden;
 }
 
 .cmc__panel::after {
-  content: '';
-  position: absolute;
-  right: -70px;
-  top: -70px;
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  border: 34px solid rgba(245, 166, 35, 0.3);
-  pointer-events: none;
+ content: '';
+ position: absolute;
+ right: -70px;
+ top: -70px;
+ width: 220px;
+ height: 220px;
+ border-radius: 50%;
+ border: 34px solid rgba(245, 166, 35, 0.3);
+ pointer-events: none;
 }
 
 .cmc__panel h3 {
-  position: relative;
-  z-index: 1;
-  font-family: 'Gloock', Georgia, serif;
-  font-weight: 400;
-  font-size: 1.6em;
-  line-height: 1.2;
-  margin: 0 0 24px; /* preview 1.5rem */
-  color: #fff;
-  letter-spacing: normal;
+ position: relative;
+ z-index: 1;
+ font-family: 'Gloock', Georgia, serif;
+ font-weight: 400;
+ 
+ line-height: 1.2;
+ margin: 0 0 24px; /* preview 1.5rem */
+ color: #fff;
+ letter-spacing: normal;
 }
 
 .cmc__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 1.1em;
-  position: relative;
-  z-index: 1;
+ list-style: none;
+ margin: 0;
+ padding: 0;
+ display: grid;
+ gap: 1.1em;
+ position: relative;
+ z-index: 1;
 }
 
 .cmc__item {
-  display: flex;
-  gap: 1em;
-  align-items: flex-start;
+ display: flex;
+ gap: 1em;
+ align-items: flex-start;
 }
 
 .cmc__ico {
-  flex: none;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  display: grid;
-  place-items: center;
-  color: var(--cmc-amber);
+ flex: none;
+ width: 46px;
+ height: 46px;
+ border-radius: 14px;
+ background: rgba(255, 255, 255, 0.07);
+ border: 1px solid rgba(255, 255, 255, 0.12);
+ display: grid;
+ place-items: center;
+ color: var(--cmc-amber);
 }
 
 .cmc__ico svg {
-  width: 20px;
-  height: 20px;
+ width: 20px;
+ height: 20px;
 }
 
 .cmc__item b {
-  display: block;
-  font-weight: 600;
-  font-size: 0.82em;
-  color: rgba(255, 255, 255, 0.62);
-  margin-bottom: 0.15em;
-  letter-spacing: 0.02em;
+ display: block;
+ font-weight: 600;
+ 
+ color: rgba(255, 255, 255, 0.62);
+ margin-bottom: 0.15em;
+ letter-spacing: 0.02em;
 }
 
 .cmc__item a,
 .cmc__item span {
-  color: #fff;
-  font-size: 1.05em;
-  line-height: 1.45;
-  text-decoration: none;
+ color: #fff;
+ 
+ line-height: 1.45;
+ text-decoration: none;
 }
 
 .cmc__item a:hover {
-  color: var(--cmc-amber);
+ color: var(--cmc-amber);
 }
 
 .cmc__call {
-  position: relative;
-  z-index: 1;
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6em;
-  background: var(--cmc-amber);
-  color: var(--cmc-ink);
-  font-size: 1em;
-  font-weight: 700;
-  border-radius: 999px;
-  padding: 0.95em 1.25em;
-  text-decoration: none;
-  transition: background 0.2s;
+ position: relative;
+ z-index: 1;
+ margin-top: auto;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.6em;
+ background: var(--cmc-amber);
+ color: var(--cmc-ink);
+ 
+ font-weight: 700;
+ border-radius: 999px;
+ padding: 0.95em 1.25em;
+ text-decoration: none;
+ transition: background 0.2s;
 }
 
 .cmc__call:hover {
-  background: #ffbb45;
+ background: #ffbb45;
 }
 
 .cmc__more {
-  position: relative;
-  z-index: 1;
-  margin: 1.75em 0;
-  padding-top: 1.5em;
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+ position: relative;
+ z-index: 1;
+ margin: 1.75em 0;
+ padding-top: 1.5em;
+ border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .cmc__more p {
-  margin: 0 0 1.1em;
-  font-size: 0.98em;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.75);
+ margin: 0 0 1.1em;
+ 
+ line-height: 1.6;
+ color: rgba(255, 255, 255, 0.75);
 }
 
 .cmc__social {
-  display: flex;
-  gap: 0.6em;
+ display: flex;
+ gap: 0.6em;
 }
 
 .cmc__social a {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  transition: background 0.2s, color 0.2s;
+ width: 42px;
+ height: 42px;
+ border-radius: 50%;
+ border: 1px solid rgba(255, 255, 255, 0.2);
+ display: grid;
+ place-items: center;
+ color: #fff;
+ transition: background 0.2s, color 0.2s;
 }
 
 .cmc__social a:hover {
-  background: var(--cmc-amber);
-  color: var(--cmc-ink);
+ background: var(--cmc-amber);
+ color: var(--cmc-ink);
 }
 
 .cmc__social svg {
-  width: 18px;
-  height: 18px;
+ width: 18px;
+ height: 18px;
 }
 
 .cmc__ticket {
-  position: relative;
-  background: var(--cmc-paper);
-  border-radius: 22px;
-  box-shadow:
-    0 30px 60px -28px rgba(11, 27, 54, 0.35),
-    0 0 0 1px var(--cmc-line);
-  padding: 0 clamp(1.5em, 3vw, 2.5em) clamp(1.75em, 3vw, 2.5em);
-  display: flex;
-  flex-direction: column;
+ position: relative;
+ background: var(--cmc-paper);
+ border-radius: 22px;
+ box-shadow:
+ 0 30px 60px -28px rgba(11, 27, 54, 0.35),
+ 0 0 0 1px var(--cmc-line);
+ padding: 0 clamp(1.5em, 3vw, 2.5em) clamp(1.75em, 3vw, 2.5em);
+ display: flex;
+ flex-direction: column;
 }
 
 .cmc__ticket form {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+ flex: 1;
+ display: flex;
+ flex-direction: column;
 }
 
 .cmc__field--grow {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+ flex: 1;
+ display: flex;
+ flex-direction: column;
 }
 
 .cmc__field--grow textarea {
-  flex: 1;
+ flex: 1;
 }
 
 .cmc__stub {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1em;
-  padding: 1.4em 0 1.25em;
-  margin-bottom: 1.5em;
-  border-bottom: 2px dashed var(--cmc-line);
-  position: relative;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ gap: 1em;
+ padding: 1.4em 0 1.25em;
+ margin-bottom: 1.5em;
+ border-bottom: 2px dashed var(--cmc-line);
+ position: relative;
 }
 
 .cmc__stub strong {
-  font-family: 'Gloock', Georgia, serif;
-  font-weight: 400;
-  font-size: 1.35em;
-  color: var(--cmc-ink);
+ font-family: 'Gloock', Georgia, serif;
+ font-weight: 400;
+ 
+ color: var(--cmc-ink);
 }
 
 .cmc__stub small {
-  font-size: 0.85em;
-  color: var(--cmc-muted);
+ 
+ color: var(--cmc-muted);
 }
 
 .cmc__ticket::before,
 .cmc__ticket::after {
-  content: '';
-  position: absolute;
-  top: calc(4.1em - 13px);
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: inset 0 0 0 1px var(--cmc-line);
+ content: '';
+ position: absolute;
+ top: calc(4.1em - 13px);
+ width: 26px;
+ height: 26px;
+ border-radius: 50%;
+ background: #fff;
+ box-shadow: inset 0 0 0 1px var(--cmc-line);
 }
 
 .cmc__ticket::before {
-  left: -13px;
+ left: -13px;
 }
 
 .cmc__ticket::after {
-  right: -13px;
+ right: -13px;
 }
 
 .cmc__row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1em;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 1em;
 }
 
 .cmc__field {
-  position: relative;
-  margin-bottom: 1em;
+ position: relative;
+ margin-bottom: 1em;
 }
 
 .cmc__field input,
 .cmc__field textarea {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  min-height: 0;
-  margin: 0;
-  font: inherit;
-  font-size: 1em;
-  color: var(--cmc-ink);
-  background: #fff;
-  border: 1.5px solid var(--cmc-line);
-  border-radius: 14px;
-  padding: 1.55em 1em 0.6em;
-  outline: 0;
-  box-shadow: none;
-  -webkit-appearance: none;
-  appearance: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+ width: 100%;
+ max-width: 100%;
+ height: auto;
+ min-height: 0;
+ margin: 0;
+ 
+ 
+ color: var(--cmc-ink);
+ background: #fff;
+ border: 1.5px solid var(--cmc-line);
+ border-radius: 14px;
+ padding: 1.55em 1em 0.6em;
+ outline: 0;
+ box-shadow: none;
+ -webkit-appearance: none;
+ appearance: none;
+ transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .cmc__field textarea {
-  min-height: 140px;
-  resize: vertical;
+ min-height: 140px;
+ resize: vertical;
 }
 
 .cmc__field label {
-  position: absolute;
-  left: 1em;
-  top: 1.05em;
-  font-size: 1em;
-  font-weight: 400;
-  color: var(--cmc-muted);
-  pointer-events: none;
-  transform-origin: left top;
-  transition: transform 0.18s, color 0.18s;
+ position: absolute;
+ left: 1em;
+ top: 1.05em;
+ 
+ font-weight: 400;
+ color: var(--cmc-muted);
+ pointer-events: none;
+ transform-origin: left top;
+ transition: transform 0.18s, color 0.18s;
 }
 
 .cmc__field input:focus ~ label,
 .cmc__field textarea:focus ~ label,
 .cmc__field input:not(:placeholder-shown) ~ label,
 .cmc__field textarea:not(:placeholder-shown) ~ label {
-  transform: translateY(-0.62em) scale(0.78);
+ transform: translateY(-0.62em) scale(0.78);
 }
 
 .cmc__field input:focus,
 .cmc__field textarea:focus {
-  border-color: var(--cmc-amber);
-  box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.22);
+ border-color: var(--cmc-amber);
+ box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.22);
 }
 
 .cmc__field input:focus ~ label,
 .cmc__field textarea:focus ~ label {
-  color: var(--cmc-amber-deep);
+ color: var(--cmc-amber-deep);
 }
 
 .cmc__send {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6em;
-  border: 0;
-  cursor: pointer;
-  font: inherit;
-  font-size: 1em;
-  font-weight: 700;
-  line-height: inherit;
-  letter-spacing: normal;
-  text-transform: none;
-  background: var(--cmc-amber);
-  color: var(--cmc-ink);
-  border-radius: 999px;
-  padding: 1em 2.1em;
-  min-height: 0;
-  box-shadow: 0 12px 24px -12px rgba(232, 146, 12, 0.8);
-  transition: transform 0.15s, background 0.2s;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.6em;
+ border: 0;
+ cursor: pointer;
+ 
+ 
+ font-weight: 700;
+ line-height: inherit;
+ letter-spacing: normal;
+ text-transform: none;
+ background: var(--cmc-amber);
+ color: var(--cmc-ink);
+ border-radius: 999px;
+ padding: 1em 2.1em;
+ min-height: 0;
+ box-shadow: 0 12px 24px -12px rgba(232, 146, 12, 0.8);
+ transition: transform 0.15s, background 0.2s;
 }
 
 .cmc__send:hover {
-  background: #ffbb45;
-  transform: translateY(-2px);
+ background: #ffbb45;
+ transform: translateY(-2px);
 }
 
 .cmc__send:focus-visible,
 .cmc__call:focus-visible {
-  outline: 3px solid var(--cmc-navy);
-  outline-offset: 3px;
+ outline: 3px solid var(--cmc-navy);
+ outline-offset: 3px;
 }
 
 .cmc__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1em;
-  flex-wrap: wrap;
-  margin-top: 0.5em;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 1em;
+ flex-wrap: wrap;
+ margin-top: 0.5em;
 }
 
 .cmc__note {
-  font-size: 0.88em;
-  color: var(--cmc-muted);
+ 
+ color: var(--cmc-muted);
 }
 
 .cmc__msg {
-  border-radius: 14px;
-  padding: 1em 1.15em;
-  margin-bottom: 1.25em;
-  font-size: 0.98em;
+ border-radius: 14px;
+ padding: 1em 1.15em;
+ margin-bottom: 1.25em;
+ 
 }
 
 .cmc__msg--ok {
-  background: #eaf8ef;
-  color: #12633a;
-  border: 1px solid #bfe6cd;
+ background: #eaf8ef;
+ color: #12633a;
+ border: 1px solid #bfe6cd;
 }
 
 .cmc__msg--err {
-  background: #fdeeee;
-  color: #9b1c1c;
-  border: 1px solid #f4c4c4;
+ background: #fdeeee;
+ color: #9b1c1c;
+ border: 1px solid #f4c4c4;
 }
 
 .cmc__msg ul {
-  margin: 0;
-  padding-left: 1.1em;
+ margin: 0;
+ padding-left: 1.1em;
 }
 
 /* Tablet: shrink stamp before it disappears */
 @media (max-width: 990px) {
-  .cmc__stamp {
-    width: 128px;
-    height: 128px;
-    margin-right: 0;
-  }
+ .cmc__stamp {
+ width: 128px;
+ height: 128px;
+ margin-right: 0;
+ }
 
-  .cmc__stamp span {
-    font-size: 0.78em;
-  }
+ .cmc__stamp span {
+ 
+ }
 
-  .cmc h1.cmc__title,
-  .cmc__title {
-    font-size: clamp(2em, 4vw, 2.8em);
-  }
+ .cmc h1.cmc__title,
+ .cmc__title {
+ 
+ }
 }
 
 /* Stacked layout — form first, kitchen panel below */
 @media (max-width: 860px) {
-  .cmc {
-    padding: clamp(3.25em, 9vw, 5em) 1.15em clamp(3em, 7vw, 4.5em);
-  }
+ .cmc {
+ padding: clamp(3.25em, 9vw, 5em) 1.15em clamp(3em, 7vw, 4.5em);
+ }
 
-  .cmc__head {
-    margin-bottom: 1.75em;
-  }
+ .cmc__head {
+ margin-bottom: 1.75em;
+ }
 
-  .cmc__stamp {
-    display: none;
-  }
+ .cmc__stamp {
+ display: none;
+ }
 
-  .cmc__grid {
-    grid-template-columns: 1fr;
-    gap: 1.25em;
-  }
+ .cmc__grid {
+ grid-template-columns: 1fr;
+ gap: 1.25em;
+ }
 
-  .cmc__ticket {
-    order: 1;
-  }
+ .cmc__ticket {
+ order: 1;
+ }
 
-  .cmc__panel {
-    order: 2;
-  }
+ .cmc__panel {
+ order: 2;
+ }
 
-  /* Punch holes stick out and cause horizontal scroll when full-width */
-  .cmc__ticket::before,
-  .cmc__ticket::after {
-    display: none;
-  }
+ /* Punch holes stick out and cause horizontal scroll when full-width */
+ .cmc__ticket::before,
+ .cmc__ticket::after {
+ display: none;
+ }
 
-  .cmc__panel::after {
-    width: 180px;
-    height: 180px;
-    border-width: 28px;
-    right: -60px;
-    top: -60px;
-  }
+ .cmc__panel::after {
+ width: 180px;
+ height: 180px;
+ border-width: 28px;
+ right: -60px;
+ top: -60px;
+ }
 }
 
 /* Phone */
 @media (max-width: 520px) {
-  .cmc {
-    padding: 2.75em 1em 2.75em;
-  }
+ .cmc {
+ padding: 2.75em 1em 2.75em;
+ }
 
-  .cmc h1.cmc__title,
-  .cmc__title {
-    font-size: clamp(1.85em, 8.2vw, 2.35em);
-    margin-bottom: 12px;
-  }
+ .cmc h1.cmc__title,
+ .cmc__title {
+ 
+ margin-bottom: 12px;
+ }
 
-  .cmc__lead {
-    font-size: 1.05em;
-  }
+ .cmc__lead {
+ 
+ }
 
-  /* Keep inputs ≥16px so iOS does not zoom on focus */
-  .cmc__field input,
-  .cmc__field textarea {
-    font-size: 16px;
-  }
+ /* Keep inputs ≥16px so iOS does not zoom on focus */
+ .cmc__field input,
+ .cmc__field textarea {
+ 
+ }
 
-  .cmc__panel {
-    border-radius: 22px;
-    padding: 1.5em;
-  }
+ .cmc__panel {
+ border-radius: 22px;
+ padding: 1.5em;
+ }
 
-  .cmc__panel h3 {
-    font-size: 1.45em;
-    margin-bottom: 1.15em;
-  }
+ .cmc__panel h3 {
+ 
+ margin-bottom: 1.15em;
+ }
 
-  .cmc__ico {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-  }
+ .cmc__ico {
+ width: 42px;
+ height: 42px;
+ border-radius: 12px;
+ }
 
-  .cmc__ticket {
-    border-radius: 18px;
-    padding: 0 1.25em 1.5em;
-  }
+ .cmc__ticket {
+ border-radius: 18px;
+ padding: 0 1.25em 1.5em;
+ }
 
-  .cmc__stub {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35em;
-    padding: 1.2em 0 1.05em;
-    margin-bottom: 1.15em;
-  }
+ .cmc__stub {
+ flex-direction: column;
+ align-items: flex-start;
+ gap: 0.35em;
+ padding: 1.2em 0 1.05em;
+ margin-bottom: 1.15em;
+ }
 
-  .cmc__stub small {
-    text-align: left;
-  }
+ .cmc__stub small {
+ text-align: left;
+ }
 
-  .cmc__row {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
+ .cmc__row {
+ grid-template-columns: 1fr;
+ gap: 0;
+ }
 
-  .cmc__field textarea {
-    min-height: 120px;
-  }
+ .cmc__field textarea {
+ min-height: 120px;
+ }
 
-  .cmc__foot {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75em;
-  }
+ .cmc__foot {
+ flex-direction: column;
+ align-items: stretch;
+ gap: 0.75em;
+ }
 
-  .cmc__send,
-  .cmc__call {
-    width: 100%;
-    justify-content: center;
-  }
+ .cmc__send,
+ .cmc__call {
+ width: 100%;
+ justify-content: center;
+ }
 
-  .cmc__note {
-    text-align: center;
-  }
+ .cmc__note {
+ text-align: center;
+ }
 
-  .cmc__social a {
-    width: 40px;
-    height: 40px;
-  }
+ .cmc__social a {
+ width: 40px;
+ height: 40px;
+ }
 }
 
 @media (max-width: 360px) {
-  .cmc {
-    padding-left: 0.85em;
-    padding-right: 0.85em;
-  }
+ .cmc {
+ padding-left: 0.85em;
+ padding-right: 0.85em;
+ }
 
-  .cmc__item {
-    gap: 0.75em;
-  }
+ .cmc__item {
+ gap: 0.75em;
+ }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cmc__field label,
-  .cmc__send,
-  .cmc__field input,
-  .cmc__field textarea {
-    transition: none;
-  }
+ .cmc__field label,
+ .cmc__send,
+ .cmc__field input,
+ .cmc__field textarea {
+ transition: none;
+ }
 
-  .cmc__send:hover {
-    transform: none;
-  }
+ .cmc__send:hover {
+ transform: none;
+ }
 }

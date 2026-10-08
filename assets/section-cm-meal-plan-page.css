@@ -3,69 +3,69 @@
 .mealplan-page,.mealplan-page *{font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
 .mealplan-page{box-sizing:border-box;background:#E3EADF;overflow-x:clip}
 
-  .mph {
-    --mph-forest: #15251C; --mph-sage: #E3EADF; --mph-saffron: #F5A623; --mph-white: #fff;
-    --mph-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-    --mph-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    background: var(--mph-sage); color: var(--mph-forest); font-family: var(--mph-body);
-    padding: clamp(2.5rem, 6vw, 6rem) clamp(1.25rem, 4vw, 4rem); overflow: hidden; 
-  }
-  .mph * { box-sizing: border-box; }
-  .mph__inner { max-width: 1320px; margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-  @media (min-width: 990px) { .mph__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
-  .mph__plan { margin: 0 0 1.25rem; font-size: 1.05rem; font-weight: 600; letter-spacing: .04em; }
-  .mph__title { margin: 0; font-family: var(--mph-display); font-weight: 500; font-size: clamp(2.4rem, 3.8vw, 3.75rem); line-height: 1.12; letter-spacing: -.02em; max-width: 22ch; }
-  .mph__title br { display: block; }
-  .mph__text { margin: 1.5rem 0 0; max-width: 46ch; font-size: 1.125rem; line-height: 1.6; }
-  .mph__facts { display: flex; flex-wrap: wrap; gap: 1.25rem 2.5rem; margin: 2rem 0; padding: 1.25rem 0; border-block: 1px solid rgba(21,37,28,.25); }
-  .mph__facts dt { font-size: 1rem; opacity: .8; font-weight: 600; }
-  .mph__facts dd { margin: .25rem 0 0; font-family: var(--mph-display); font-size: 1.65rem; line-height: 1.15; }
-  .mph__actions { display: flex; flex-wrap: wrap; gap: .85rem; align-items: stretch; }
-  .mph__btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.4rem; padding: 0 1.75rem; border-radius: 999px; font-family: var(--mph-body); font-weight: 600; font-size: 1.05rem; line-height: 1.2; letter-spacing: 0; text-decoration: none; border: 1.5px solid var(--mph-forest); transition: background-color .25s, color .25s, transform .25s; }
-  .mph__btn--primary,
-  .mph__btn--ghost { font-size: 1.05rem; }
-  .mph__btn--primary { background: var(--mph-forest); color: #fff; }
-  .mph__btn--primary:hover { background: var(--mph-saffron); border-color: var(--mph-saffron); color: var(--mph-forest); transform: translateY(-2px); }
-  .mph__btn--ghost { color: var(--mph-forest); background: transparent; }
-  .mph__btn--ghost:hover { background: var(--mph-forest); color: #fff; }
-  .mph__btn:focus-visible { outline: 3px solid var(--mph-saffron); outline-offset: 3px; }
-  .mph__visual { position: relative; padding-bottom: 3rem; }
-  .mph__main { aspect-ratio: 1 / 1.05; border-radius: 200px 200px 24px 24px; overflow: hidden; background: #cdd8c8; margin-left: 12%; display: grid; place-items: center; }
-  .mph__main svg, .mph__second svg { width: 100%; height: 100%; display: block; }
-  .mph__second { position: absolute; left: 0; bottom: 0; width: 38%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 8px solid var(--mph-sage); background: #cdd8c8; }
-  .mph__badge { position: absolute; right: 0; top: 10%; display: grid; place-items: center; align-content: center; gap: .15rem; width: 9rem; height: 9rem; border-radius: 50%; background: var(--mph-saffron); color: var(--mph-forest); text-align: center; line-height: 1.15; transform: rotate(8deg); padding: .6rem; }
-  .mph__badge strong { font-family: var(--mph-display); font-size: 2rem; font-weight: 600; }
-  .mph__badge span { font-size: 1rem; font-weight: 600; padding: 0 .55rem; line-height: 1.2; }
-  @media (max-width: 989px) {
-    .mph__main { margin-left: 8%; }
-    .mph__badge { width: 7.75rem; height: 7.75rem; }
-    .mph__badge strong { font-size: 1.7rem; }
-    .mph__badge span { font-size: .95rem; }
-    .mph__btn { font-size: 1.05rem; width: 100%; max-width: 22rem; }
-  }
-  
+ .mph {
+ --mph-forest: #15251C; --mph-sage: #E3EADF; --mph-saffron: #F5A623; --mph-white: #fff;
+ --mph-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+ --mph-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+ background: var(--mph-sage); color: var(--mph-forest); font-family: var(--mph-body);
+ padding: clamp(2.5rem, 6vw, 6rem) clamp(1.25rem, 4vw, 4rem); overflow: hidden; 
+ }
+ .mph * { box-sizing: border-box; }
+ .mph__inner { max-width: 1320px; margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+ @media (min-width: 990px) { .mph__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
+ .mph__plan { margin: 0 0 1.25rem; font-weight: 600; letter-spacing: .04em; }
+ .mph__title { margin: 0; font-family: var(--mph-display); font-weight: 500; line-height: 1.12; letter-spacing: -.02em; max-width: 22ch; }
+ .mph__title br { display: block; }
+ .mph__text { margin: 1.5rem 0 0; max-width: 46ch; line-height: 1.6; }
+ .mph__facts { display: flex; flex-wrap: wrap; gap: 1.25rem 2.5rem; margin: 2rem 0; padding: 1.25rem 0; border-block: 1px solid rgba(21,37,28,.25); }
+ .mph__facts dt { opacity: .8; font-weight: 600; }
+ .mph__facts dd { margin: .25rem 0 0; font-family: var(--mph-display); line-height: 1.15; }
+ .mph__actions { display: flex; flex-wrap: wrap; gap: .85rem; align-items: stretch; }
+ .mph__btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.4rem; padding: 0 1.75rem; border-radius: 999px; font-family: var(--mph-body); font-weight: 600; line-height: 1.2; letter-spacing: 0; text-decoration: none; border: 1.5px solid var(--mph-forest); transition: background-color .25s, color .25s, transform .25s; }
+ .mph__btn--primary,
+ .mph__btn--ghost {}
+ .mph__btn--primary { background: var(--mph-forest); color: #fff; }
+ .mph__btn--primary:hover { background: var(--mph-saffron); border-color: var(--mph-saffron); color: var(--mph-forest); transform: translateY(-2px); }
+ .mph__btn--ghost { color: var(--mph-forest); background: transparent; }
+ .mph__btn--ghost:hover { background: var(--mph-forest); color: #fff; }
+ .mph__btn:focus-visible { outline: 3px solid var(--mph-saffron); outline-offset: 3px; }
+ .mph__visual { position: relative; padding-bottom: 3rem; }
+ .mph__main { aspect-ratio: 1 / 1.05; border-radius: 200px 200px 24px 24px; overflow: hidden; background: #cdd8c8; margin-left: 12%; display: grid; place-items: center; }
+ .mph__main svg, .mph__second svg { width: 100%; height: 100%; display: block; }
+ .mph__second { position: absolute; left: 0; bottom: 0; width: 38%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 8px solid var(--mph-sage); background: #cdd8c8; }
+ .mph__badge { position: absolute; right: 0; top: 10%; display: grid; place-items: center; align-content: center; gap: .15rem; width: 9rem; height: 9rem; border-radius: 50%; background: var(--mph-saffron); color: var(--mph-forest); text-align: center; line-height: 1.15; transform: rotate(8deg); padding: .6rem; }
+ .mph__badge strong { font-family: var(--mph-display); font-weight: 600; }
+ .mph__badge span { font-weight: 600; padding: 0 .55rem; line-height: 1.2; }
+ @media (max-width: 989px) {
+ .mph__main { margin-left: 8%; }
+ .mph__badge { width: 7.75rem; height: 7.75rem; }
+ .mph__badge strong {}
+ .mph__badge span {}
+ .mph__btn { width: 100%; max-width: 22rem; }
+ }
+ 
 .mealplan-a{
 &{--forest:#15251C;--sage:#E3EADF;--saffron:#F5A623;--paper:#fff;--tomato:#C9533A;--leaf:#6B8F3F;--display:'Fraunces',Georgia,'Times New Roman',serif;--body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;box-sizing:border-box}
 & *{box-sizing:border-box}&{margin:0;background:var(--sage);color:var(--forest);font-family:var(--body)}
 & section{padding:clamp(3rem,7vw,7rem) clamp(1.25rem,4vw,4rem)}
 .wrap{max-width:1320px;margin:0 auto}
-& h2{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;font-size:clamp(2.25rem,5vw,4.5rem);text-wrap:balance}
+& h2{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 & p{line-height:1.6}
 a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-offset:3px}
-.btn{display:inline-flex;align-items:center;min-height:3.1rem;padding:0 1.5rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font:600 1.05rem var(--body);cursor:pointer;text-decoration:none;transition:background .25s,color .25s,transform .25s}
+.btn{display:inline-flex;align-items:center;min-height:3.1rem;padding:0 1.5rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font-weight:600;cursor:pointer;text-decoration:none;transition:background .25s,color .25s,transform .25s}
 .btn:hover{background:var(--forest);color:#fff}
 .ph{width:100%;height:100%;display:block}
 
 /* 02 benefits */
 .ben{background:var(--forest);color:var(--sage)}
-.ben .big{font-family:var(--display);font-size:clamp(3.5rem,13vw,12rem);line-height:.9;letter-spacing:-.03em;margin:0}
+.ben .big{font-family:var(--display);line-height:.9;letter-spacing:-.03em;margin:0}
 .ben .big span{display:block}
 .ben .big .out{color:transparent;-webkit-text-stroke:1.5px var(--saffron)}
 .ben ul{list-style:none;margin:3rem 0 0;padding:0;display:grid;gap:0;border-top:1px solid rgba(227,234,223,.3)}
 @media(min-width:760px){.ben ul{grid-template-columns:repeat(3,1fr)}}
 .ben li{padding:1.5rem 1.5rem 1.5rem 0}
-.ben li b{display:block;font:500 1.5rem var(--display);margin-bottom:.4rem}
-.ben li span{opacity:.85;font-size:1.05rem}
+.ben li b{display:block;font-weight:500;margin-bottom:.4rem}
+.ben li span{opacity:.85;}
 
 /* 03 menu */
 .menu-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
@@ -84,33 +84,33 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .m .info{position:absolute;inset:auto 0 0 0;padding:1.5rem;color:#fff;background:linear-gradient(transparent,rgba(10,20,14,.88) 55%)}
 .m .info h3,.m .info p,.m .info .no,.m .info .macros{color:#fff}
 .m .info .tag{color:var(--forest)}
-.m .no{font:.85rem var(--body);opacity:.85;color:#fff}
+.m .no{opacity:.85;color:#fff}
 .m h3{
-  margin:.2rem 0 .4rem;
-  font:500 clamp(1.4rem,2.2vw,2rem)/1.15 var(--display);
-  color:#fff;
-  display:-webkit-box;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:2;
-  line-clamp:2;
-  overflow:hidden;
-  text-wrap:balance;
-  max-width:18ch;
+ margin:.2rem 0 .4rem;
+ font-weight:500;line-height:1.15;
+ color:#fff;
+ display:-webkit-box;
+ -webkit-box-orient:vertical;
+ -webkit-line-clamp:2;
+ line-clamp:2;
+ overflow:hidden;
+ text-wrap:balance;
+ max-width:18ch;
 }
-.m:nth-child(1) h3{font-size:clamp(2rem,3.4vw,3rem);max-width:14ch}
+.m:nth-child(1) h3{max-width:14ch}
 .reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
 .m:hover .reveal,.m:focus-within .reveal{grid-template-rows:1fr}
 .reveal>div{overflow:hidden}
-.reveal p{margin:.3rem 0 .9rem;font-size:1.05rem;opacity:.9}
-.macros{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;font-size:1rem;margin-bottom:1rem}
-.macros b{font-size:1rem}
+.reveal p{margin:.3rem 0 .9rem;opacity:.9}
+.macros{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin-bottom:1rem}
+.macros b{}
 .m .btn{border-color:#fff;color:#fff}.m .btn:hover{background:var(--saffron);border-color:var(--saffron);color:var(--forest);transform:translateX(4px)}
 @media(hover:none){.reveal{grid-template-rows:1fr}}
 
 /* 04 explorer */
 .ex{background:var(--paper)}
 .filters{display:flex;gap:.5rem;overflow-x:auto;padding:1.5rem 0 2rem;scrollbar-width:none}
-.filters button{flex:none;min-height:2.9rem;padding:0 1.35rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font:600 1.05rem var(--body);cursor:pointer;transition:background .2s,color .2s}
+.filters button{flex:none;min-height:2.9rem;padding:0 1.35rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font-weight:600;cursor:pointer;transition:background .2s,color .2s}
 .filters button[aria-pressed=true]{background:var(--forest);color:#fff}
 .eg{display:grid;gap:2.25rem 1.5rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));align-items:stretch}
 .e{display:flex;flex-direction:column;min-width:0;transition:opacity .35s,transform .35s}
@@ -122,37 +122,37 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .e:hover .thumb svg,.e:hover .thumb .mp-food,.e:hover .thumb img{transform:scale(1.03)}
 .e .thumb .mp-food,.e .thumb img{object-fit:contain;object-position:center;padding:8%}
 .e h3{
-  font:500 1.7rem/1.2 var(--display);
-  margin:1.15rem 0 .45rem;
-  min-height:calc(1.2em * 2);
-  display:-webkit-box;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:2;
-  line-clamp:2;
-  overflow:hidden;
+ font-weight:500;line-height:1.2;
+ margin:1.15rem 0 .45rem;
+ min-height:calc(1.2em * 2);
+ display:-webkit-box;
+ -webkit-box-orient:vertical;
+ -webkit-line-clamp:2;
+ line-clamp:2;
+ overflow:hidden;
 }
-.e small{opacity:.85;display:block;margin-bottom:.75rem;font-size:1.2rem;line-height:1.4;color:var(--forest)}
-.e button{margin-top:auto;padding:.25rem 0;border:0;background:none;font:600 1.2rem var(--body);color:var(--forest);text-decoration:underline;text-underline-offset:4px;cursor:pointer;text-align:left}
+.e small{opacity:.85;display:block;margin-bottom:.75rem;line-height:1.4;color:var(--forest)}
+.e button{margin-top:auto;padding:.25rem 0;border:0;background:none;font-weight:600;color:var(--forest);text-decoration:underline;text-underline-offset:4px;cursor:pointer;text-align:left}
 .more{text-align:center;margin-top:3rem}
-.more .btn{font-size:1.15rem;min-height:3.25rem}
+.more .btn{min-height:3.25rem}
 
 /* 05 detail */
 .dt-grid{display:grid;gap:3rem;align-items:center}
 @media(min-width:900px){.dt-grid{grid-template-columns:6fr 5fr}}
 .dt-img{aspect-ratio:1;border-radius:50% 50% 24px 24px;overflow:hidden;background:#cdd8c8}
-.dt h2{font-size:clamp(2.25rem,4.5vw,4rem)}
+.dt h2{}
 .ing{display:flex;flex-wrap:wrap;gap:.4rem;padding:0;list-style:none;margin:1rem 0 2rem}
-.ing li{padding:.4rem .9rem;border-radius:999px;background:rgba(21,37,28,.08);font-size:1rem}
+.ing li{padding:.4rem .9rem;border-radius:999px;background:rgba(21,37,28,.08);}
 .nut{display:flex;gap:2rem;align-items:center;flex-wrap:wrap}
 .ring{--p:0;--c:0;--f:0;position:relative;width:180px;aspect-ratio:1;border-radius:50%;background:conic-gradient(var(--tomato) 0 calc(var(--p)*1%),var(--saffron) 0 calc((var(--p) + var(--c))*1%),var(--leaf) 0 100%);display:grid;place-items:center;transition:background .6s}
 .ring::before{content:"";position:absolute;inset:18px;border-radius:50%;background:var(--sage)}
-.ring div{position:relative;text-align:center;font:500 2.4rem/1 var(--display)}
-.ring small{display:block;font:.7rem var(--body);opacity:.75;margin-top:.2rem}
+.ring div{position:relative;text-align:center;font-weight:500;line-height:1;}
+.ring small{display:block;opacity:.75;margin-top:.2rem}
 .bars{flex:1;min-width:200px;display:grid;gap:1rem}
-.bar header{display:flex;justify-content:space-between;font-size:1rem;margin-bottom:.35rem}
+.bar header{display:flex;justify-content:space-between;margin-bottom:.35rem}
 .bar i{display:block;height:8px;border-radius:8px;background:rgba(21,37,28,.12);overflow:hidden}
 .bar i b{display:block;height:100%;border-radius:8px;transition:width .6s}
-.note{font-size:1rem;opacity:.75;margin-top:2rem}
+.note{opacity:.75;margin-top:2rem}
 @media(prefers-reduced-motion:reduce){& *{transition:none!important;animation:none!important}}
 }
 
@@ -161,9 +161,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan *{box-sizing:border-box}
 .mealplan-sec{padding:clamp(3rem,7vw,7rem) clamp(1.25rem,4vw,4rem)}
 .mealplan-wrap{max-width:1320px;margin:0 auto}
-.mealplan-h{font-family:var(--d);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;font-size:clamp(2.25rem,5.5vw,5rem);text-wrap:balance}
+.mealplan-h{font-family:var(--d);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 .mealplan-p{line-height:1.65;max-width:50ch;margin:1.25rem 0 0}
-.mealplan-btn{display:inline-flex;align-items:center;min-height:3.25rem;padding:0 1.6rem;border-radius:999px;border:1.5px solid var(--f);background:none;color:var(--f);font:600 1.05rem var(--b);text-decoration:none;cursor:pointer;transition:background .25s,color .25s,transform .25s}
+.mealplan-btn{display:inline-flex;align-items:center;min-height:3.25rem;padding:0 1.6rem;border-radius:999px;border:1.5px solid var(--f);background:none;color:var(--f);font-weight:600;text-decoration:none;cursor:pointer;transition:background .25s,color .25s,transform .25s}
 .mealplan-btn:hover{background:var(--f);color:#fff;transform:translateY(-2px)}
 .mealplan-btn--solid{background:var(--f);color:#fff}.mealplan-btn--solid:hover{background:var(--y);border-color:var(--y);color:var(--f)}
 .mealplan a:focus-visible,.mealplan button:focus-visible{outline:3px solid var(--y);outline-offset:3px}
@@ -179,7 +179,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
  .mealplan-chef{grid-template-columns:repeat(12,1fr);align-items:start}
  .mealplan-chef .mealplan-big{grid-column:1/8;aspect-ratio:5/4}
  .mealplan-chef .mealplan-txt{grid-column:7/13;grid-row:1;margin-top:18%;position:relative}
- .mealplan-chef .mealplan-h{font-size:clamp(3rem,6.5vw,6.5rem);margin-left:-18%;position:relative;z-index:1}
+ .mealplan-chef .mealplan-h{margin-left:-18%;position:relative;z-index:1}
  .mealplan-chef .mealplan-small{grid-column:9/12;width:100%;margin-top:-4rem}}
 
 /* 07 steps */
@@ -192,8 +192,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 @media(min-width:900px){.mealplan-list{grid-template-columns:repeat(4,1fr);gap:2rem}
  .mealplan-list::before{content:"";position:absolute;left:0;right:0;top:2.2rem;height:1px;background:rgba(227,234,223,.3)}}
 .mealplan-list li{position:relative}
-.mealplan-num{display:grid;place-items:center;width:4.4rem;height:4.4rem;border-radius:50%;background:var(--y);color:var(--f);font:500 1.6rem var(--d);margin-bottom:1.25rem;position:relative}
-.mealplan-list h3{font:500 1.5rem var(--d);margin:0 0 .5rem}.mealplan-list p{margin:0;opacity:.8;line-height:1.55;color:var(--s)}
+.mealplan-num{display:grid;place-items:center;width:4.4rem;height:4.4rem;border-radius:50%;background:var(--y);color:var(--f);font-weight:500;margin-bottom:1.25rem;position:relative}
+.mealplan-list h3{font-weight:500;margin:0 0 .5rem}.mealplan-list p{margin:0;opacity:.8;line-height:1.55;color:var(--s)}
 
 /* 08 quality */
 .mealplan-q{display:grid;gap:2.5rem;align-items:center}
@@ -202,11 +202,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-terms{list-style:none;margin:2rem 0 0;padding:0}
 .mealplan-terms li{display:grid;gap:.2rem;padding:1.1rem 0;border-top:1px solid rgba(21,37,28,.25);transition:padding .35s}
 .mealplan-terms li:hover{padding-left:1rem}
-.mealplan-terms b{font:500 clamp(1.6rem,3.4vw,2.8rem)/1.05 var(--d)}.mealplan-terms span{opacity:.75}
+.mealplan-terms b{font-weight:500;line-height:1.05;}.mealplan-terms span{opacity:.75}
 
 /* 09 gallery */
 .mealplan-gal-h{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
-.mealplan-gal-h .mealplan-h{font-size:clamp(3.5rem,11vw,10rem);line-height:.88}
+.mealplan-gal-h .mealplan-h{line-height:.88}
 .mealplan-track{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 clamp(1.25rem,4vw,4rem) 1rem;-webkit-overflow-scrolling:touch}
 .mealplan-track::-webkit-scrollbar{display:none}
 .mealplan-slide{flex:0 0 min(78vw,360px);scroll-snap-align:center}
@@ -216,22 +216,22 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-slide:hover .mealplan-ph,.mealplan-slide:hover .mp-food,.mealplan-slide:hover img{transform:scale(1.03)}
 .mealplan-slide .mp-food,.mealplan-slide img{object-fit:contain;object-position:center;padding:8%;display:block}
 .mealplan-slide h4,.mealplan-slide span{
-  display:-webkit-box;
-  -webkit-box-orient:vertical;
-  -webkit-line-clamp:2;
-  line-clamp:2;
-  overflow:hidden;
-  margin:.9rem 0 0;
-  font-family:var(--d);
-  font-style:var(--font-heading-style, normal);
-  font-weight:500;
-  font-size:2.4rem; /* h4 */
-  line-height:1.2;
-  color:var(--f);
-  text-wrap:balance;
+ display:-webkit-box;
+ -webkit-box-orient:vertical;
+ -webkit-line-clamp:2;
+ line-clamp:2;
+ overflow:hidden;
+ margin:.9rem 0 0;
+ font-family:var(--d);
+ font-style:var(--font-heading-style, normal);
+ font-weight:500;
+ /* h4 */
+ line-height:1.2;
+ color:var(--f);
+ text-wrap:balance;
 }
 .mealplan-arrows{display:none;gap:.5rem}@media(min-width:900px){.mealplan-arrows{display:flex}}
-.mealplan-arrows button{width:3rem;height:3rem;border-radius:50%;border:1.5px solid var(--f);background:none;color:var(--f);font-size:1.2rem;cursor:pointer}
+.mealplan-arrows button{width:3rem;height:3rem;border-radius:50%;border:1.5px solid var(--f);background:none;color:var(--f);cursor:pointer}
 .mealplan-arrows button:hover{background:var(--f);color:#fff}
 
 /* 10 delivery */
@@ -239,15 +239,15 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 @media(min-width:900px){.mealplan-del{grid-template-columns:6fr 5fr}}
 .mealplan-map{position:relative;aspect-ratio:1;border-radius:2.4rem;background:#d3ddcd;overflow:hidden;box-shadow:0 1.6rem 3.2rem rgba(21,37,28,.12)}
 .mealplan-map__frame{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
-.mealplan-map__label{position:absolute;left:1rem;right:1rem;bottom:1rem;z-index:1;margin:0;padding:.75rem 1rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--f);font:600 1.1rem/1.3 var(--b);text-align:center;backdrop-filter:blur(6px)}
+.mealplan-map__label{position:absolute;left:1rem;right:1rem;bottom:1rem;z-index:1;margin:0;padding:.75rem 1rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--f);font-weight:600;line-height:1.3;text-align:center;backdrop-filter:blur(6px)}
 .mealplan-del__copy{display:flex;flex-direction:column;min-width:0}
 .mealplan-del__actions{display:flex;flex-direction:column;align-items:flex-start;gap:1.1rem;margin-top:1.75rem}
 .mealplan-areas{display:flex;flex-wrap:wrap;gap:.7rem;list-style:none;padding:0;margin:0}
-.mealplan-areas li{display:inline-flex;align-items:center;gap:.45rem;min-height:3rem;padding:.65rem 1.25rem .65rem 1rem;border-radius:999px;background:#fff;border:1.5px solid rgba(21,37,28,.12);box-shadow:0 .4rem 1.2rem rgba(21,37,28,.06);color:var(--f);font:700 1.2rem/1.2 var(--b)}
+.mealplan-areas li{display:inline-flex;align-items:center;gap:.45rem;min-height:3rem;padding:.65rem 1.25rem .65rem 1rem;border-radius:999px;background:#fff;border:1.5px solid rgba(21,37,28,.12);box-shadow:0 .4rem 1.2rem rgba(21,37,28,.06);color:var(--f);font-weight:700;line-height:1.2;}
 .mealplan-areas__pin{display:inline-flex;color:var(--y);flex:0 0 auto}
-.mealplan-btn--delivery{min-height:3.5rem;padding:0 1.8rem;font-size:1.2rem;font-weight:700;background:var(--f);color:#fff;border-color:var(--f);gap:.55rem}
+.mealplan-btn--delivery{min-height:3.5rem;padding:0 1.8rem;font-weight:700;background:var(--f);color:#fff;border-color:var(--f);gap:.55rem}
 .mealplan-btn--delivery:hover{background:var(--y);border-color:var(--y);color:var(--f)}
-.mealplan-btn__arrow{font-size:1.3em;line-height:1}
+.mealplan-btn__arrow{line-height:1}
 
 /* 11 reviews */
 .mealplan-rev{background:var(--w)}
@@ -256,34 +256,34 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-r{break-inside:avoid;margin:0 0 1.25rem;border-radius:20px;overflow:hidden;background:var(--s);color:var(--f)}
 .mealplan-r .mealplan-img{aspect-ratio:var(--ar,1)}
 .mealplan-r div:last-child{padding:1.4rem 1.5rem 1.6rem}
-.mealplan-r .mealplan-stars{font-size:1.4rem;letter-spacing:.12em}
+.mealplan-r .mealplan-stars{letter-spacing:.12em}
 .mealplan-r q{
-  display:block;
-  quotes:none;
-  margin:.65rem 0 .85rem;
-  font-family:inherit;
-  font-size:1.5rem;
-  font-weight:500;
-  line-height:1.45;
-  color:var(--f);
+ display:block;
+ quotes:none;
+ margin:.65rem 0 .85rem;
+ font-family:inherit;
+ 
+ font-weight:500;
+ line-height:1.45;
+ color:var(--f);
 }
 .mealplan-r--text{background:var(--f);color:var(--s)}
 .mealplan-r--text h3,.mealplan-r--text .mealplan-h,.mealplan-r--text q,.mealplan-r--text small{color:var(--s)}
 .mealplan-r small{
-  display:block;
-  font-family:inherit;
-  font-size:1.25rem;
-  font-weight:600;
-  line-height:1.3;
-  color:var(--f);
-  opacity:1;
+ display:block;
+ font-family:inherit;
+ 
+ font-weight:600;
+ line-height:1.3;
+ color:var(--f);
+ opacity:1;
 }
 .mealplan-r--text small{opacity:.9}
 
 /* 12 faq */
 .mealplan-faq{display:grid;gap:2rem}@media(min-width:900px){.mealplan-faq{grid-template-columns:4fr 7fr}}
 .mealplan-qi{border-top:1px solid rgba(21,37,28,.25)}.mealplan-qi:last-child{border-bottom:1px solid rgba(21,37,28,.25)}
-.mealplan-qb{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:4rem;padding:1rem 0;background:none;border:0;color:var(--f);font:500 clamp(1.1rem,2vw,1.5rem) var(--d);text-align:left;cursor:pointer}
+.mealplan-qb{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:4rem;padding:1rem 0;background:none;border:0;color:var(--f);font-weight:500;text-align:left;cursor:pointer}
 .mealplan-qb i{flex:none;width:1.6rem;height:1.6rem;position:relative}
 .mealplan-qb i::before,.mealplan-qb i::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--f);transition:transform .35s}
 .mealplan-qb i::after{transform:rotate(90deg)}.mealplan-qb[aria-expanded=true] i::after{transform:rotate(0)}
@@ -293,7 +293,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 /* 13 related */
 .mealplan-card{flex:0 0 min(80vw,320px);scroll-snap-align:start}
 .mealplan-card .mealplan-img{aspect-ratio:4/5;border-radius:20px}
-.mealplan-card h3{font:500 1.5rem var(--d);margin:1rem 0 .3rem}.mealplan-card p{margin:0 0 .8rem;opacity:.8;font-size:1.05rem;line-height:1.5}
+.mealplan-card h3{font-weight:500;margin:1rem 0 .3rem}.mealplan-card p{margin:0 0 .8rem;opacity:.8;line-height:1.5}
 .mealplan-card b{display:block;margin-bottom:.8rem}
 
 /* 14 cta */
@@ -302,7 +302,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-cta::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(10,20,14,.15),rgba(10,20,14,.85))}
 .mealplan-cta-in{position:relative;z-index:1;padding:clamp(1.5rem,5vw,4rem)}
 .mealplan-cta .mealplan-h,.mealplan-cta .mealplan-p{color:#fff}
-.mealplan-cta .mealplan-h{font-size:clamp(3rem,8vw,7.5rem);max-width:12ch}
+.mealplan-cta .mealplan-h{max-width:12ch}
 .mealplan-cta .mealplan-btn--solid{background:var(--y);border-color:var(--y);color:var(--f);margin-top:1.75rem}
 .mealplan-cta .mealplan-btn--solid:hover{background:#fff;border-color:#fff}
 @media(prefers-reduced-motion:reduce){.mealplan *{transition:none!important;animation:none!important}}
@@ -312,7 +312,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mph__second .mp-food{padding:0;filter:none;object-fit:cover}
 .mealplan-a .m{min-height:380px}.mealplan-a .m:nth-child(1){min-height:560px}
 .mealplan-a .m .mp-food{padding:0;object-fit:cover}
-.mealplan-a .tag{display:inline-block;margin-left:.6rem;padding:.25rem .7rem;border-radius:999px;background:var(--saffron);color:#15251C;font-size:.95rem;font-weight:700}
+.mealplan-a .tag{display:inline-block;margin-left:.6rem;padding:.25rem .7rem;border-radius:999px;background:var(--saffron);color:#15251C;font-weight:700}
 .mealplan-a .ing .diet{background:var(--saffron);color:#15251C;font-weight:500}
 .mealplan-cta .mp-food{object-fit:cover;padding:0;filter:none}
 .mealplan-list::before{transform-origin:left;transform:scaleX(var(--prog,1))}
