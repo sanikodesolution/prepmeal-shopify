@@ -9,8 +9,8 @@
  --da-cream: #f7f1e6;
  --da-card: #fffdf8;
  --da-border: #e8c07a;
- --da-script: 'Great Vibes', 'Segoe Script', cursive;
- --da-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --da-script: var(--font-heading-family), sans-serif;
+  --da-sans: var(--font-body-family), sans-serif;
  position: relative;
  overflow: hidden;
  background: var(--da-cream);

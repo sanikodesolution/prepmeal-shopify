@@ -7,8 +7,8 @@
  --food-ink: #111111;
  --food-muted: color-mix(in srgb, var(--food-text) 64%, transparent);
  --food-border: color-mix(in srgb, var(--food-text) 11%, transparent);
- --food-display: 'Oswald', var(--font-heading-family), sans-serif;
- --food-body: 'Poppins', var(--font-body-family), sans-serif;
+ --food-display: var(--font-heading-family), sans-serif;
+ --food-body: var(--font-body-family), sans-serif;
  position: relative;
  background: var(--food-bg);
  color: var(--food-text);

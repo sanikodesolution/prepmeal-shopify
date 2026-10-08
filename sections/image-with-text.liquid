@@ -1,12 +1,4 @@
 {{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
-{%- if section.settings.overlay_heading != blank or section.settings.overlay_text != blank -%}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Montserrat:ital,wght@1,500&display=swap"
-  >
-{%- endif -%}
 
 {%- style -%}
   .section-{{ section.id }}-padding {

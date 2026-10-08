@@ -1,12 +1,11 @@
 /* Meal plan full page */
 
-.mealplan-page,.mealplan-page *{font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
 .mealplan-page{box-sizing:border-box;background:#E3EADF;overflow-x:clip}
 
  .mph {
  --mph-forest: #15251C; --mph-sage: #E3EADF; --mph-saffron: #F5A623; --mph-white: #fff;
- --mph-display: 'Fraunces', Georgia, 'Times New Roman', serif;
- --mph-body: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+ --mph-display: var(--font-heading-family), sans-serif;
+ --mph-body: var(--font-body-family), sans-serif;
  background: var(--mph-sage); color: var(--mph-forest); font-family: var(--mph-body);
  padding: clamp(2.5rem, 6vw, 6rem) clamp(1.25rem, 4vw, 4rem); overflow: hidden; 
  }
@@ -45,7 +44,7 @@
  }
  
 .mealplan-a{
-&{--forest:#15251C;--sage:#E3EADF;--saffron:#F5A623;--paper:#fff;--tomato:#C9533A;--leaf:#6B8F3F;--display:'Fraunces',Georgia,'Times New Roman',serif;--body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;box-sizing:border-box}
+&{--forest:#15251C;--sage:#E3EADF;--saffron:#F5A623;--paper:#fff;--tomato:#C9533A;--leaf:#6B8F3F;--display:var(--font-heading-family),sans-serif;--body:var(--font-body-family),sans-serif;box-sizing:border-box}
 & *{box-sizing:border-box}&{margin:0;background:var(--sage);color:var(--forest);font-family:var(--body)}
 & section{padding:clamp(3rem,7vw,7rem) clamp(1.25rem,4vw,4rem)}
 .wrap{max-width:1320px;margin:0 auto}
@@ -157,7 +156,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 }
 
 
-.mealplan{--f:#15251C;--s:#E3EADF;--y:#F5A623;--w:#fff;--t:#C9533A;--d:'Fraunces',Georgia,'Times New Roman',serif;--b:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-family:var(--b);color:var(--f)}
+.mealplan{--f:#15251C;--s:#E3EADF;--y:#F5A623;--w:#fff;--t:#C9533A;--d:var(--font-heading-family),sans-serif;--b:var(--font-body-family),sans-serif;font-family:var(--font-body-family),sans-serif;color:var(--f)}
 .mealplan *{box-sizing:border-box}
 .mealplan-sec{padding:clamp(3rem,7vw,7rem) clamp(1.25rem,4vw,4rem)}
 .mealplan-wrap{max-width:1320px;margin:0 auto}

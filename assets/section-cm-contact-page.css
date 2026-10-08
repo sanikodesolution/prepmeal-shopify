@@ -78,7 +78,7 @@
 
 .cmc__stamp b {
  display: block;
- font-family: 'Gloock', Georgia, serif;
+ font-family: var(--font-heading-family), sans-serif;
  font-weight: 400;
  /* preview 2.4rem on root; compensate for parent span 0.9em */
  
@@ -87,7 +87,7 @@
 
 .cmc h1.cmc__title,
 .cmc__title {
- font-family: 'Gloock', 'DM Serif Display', Georgia, serif;
+ font-family: var(--font-heading-family), sans-serif;
  font-weight: 400;
  
  line-height: 1.04;
@@ -138,7 +138,7 @@
 .cmc__panel h3 {
  position: relative;
  z-index: 1;
- font-family: 'Gloock', Georgia, serif;
+ font-family: var(--font-heading-family), sans-serif;
  font-weight: 400;
  
  line-height: 1.2;
@@ -304,7 +304,7 @@
 }
 
 .cmc__stub strong {
- font-family: 'Gloock', Georgia, serif;
+ font-family: var(--font-heading-family), sans-serif;
  font-weight: 400;
  
  color: var(--cmc-ink);
