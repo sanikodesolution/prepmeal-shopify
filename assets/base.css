@@ -295,37 +295,37 @@ h5,
 
 h1,
 .h1 {
-  font-size: calc(var(--font-heading-scale) * 3rem);
+  font-size: 4rem;
 }
 
 @media only screen and (min-width: 750px) {
   h1,
   .h1 {
-    font-size: calc(var(--font-heading-scale) * 4rem);
+    font-size: 4rem;
   }
 }
 
 h2,
 .h2 {
-  font-size: 5rem; /* 50px at 10px root */
+  font-size: 3rem;
 }
 
 @media only screen and (min-width: 750px) {
   h2,
   .h2 {
-    font-size: 5rem;
+    font-size: 3rem;
   }
 }
 
 h3,
 .h3 {
-  font-size: calc(var(--font-heading-scale) * 1.7rem);
+  font-size: 3.25rem;
 }
 
 @media only screen and (min-width: 750px) {
   h3,
   .h3 {
-    font-size: calc(var(--font-heading-scale) * 1.8rem);
+    font-size: 3.25rem;
   }
 }
 
@@ -333,23 +333,24 @@ h4,
 .h4 {
   font-family: var(--font-heading-family);
   font-style: var(--font-heading-style);
-  font-size: 2.4rem; /* 24px at 10px root */
+  font-size: 1.5rem;
 }
 
 h5,
 .h5 {
-  font-size: calc(var(--font-heading-scale) * 1.2rem);
+  font-size: 1.25rem;
 }
 
 @media only screen and (min-width: 750px) {
   h5,
   .h5 {
-    font-size: calc(var(--font-heading-scale) * 1.3rem);
+    font-size: 1.25rem;
   }
 }
 
 h6,
 .h6 {
+  font-size: 0.8rem;
   color: rgba(var(--color-foreground), 0.75);
   margin-block-start: 1.67em;
   margin-block-end: 1.67em;
