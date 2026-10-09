@@ -195,7 +195,7 @@
         "text_EiwWca": {
           "type": "text",
           "settings": {
-            "text": "<p>✓ <strong>GLOBAL FLAVOURS, CLASSICAL TECHNIQUE</strong> – With over 40 years of experience, Matt blends classical training with decades spent in diverse kitchens to create dishes inspired by many cultures while still feeling familiar and enjoyable.</p><p>✓ <strong>PREMIUM, HONEST INGREDIENTS</strong> – Every meal starts with clean, thoughtful components, including some organic and locally sourced items, chosen for real flavor and quality.</p><p>✓ <strong>MEAL PREP MADE EASY FOR REAL LIFE</strong> – Skip the prep. Get fully prepared meals brought to your door each week, ready to heat and enjoy when you need something easy and good.</p>",
+            "text": "<p>\u2713 <strong>GLOBAL FLAVOURS, CLASSICAL TECHNIQUE</strong> \u2013 With over 40 years of experience, Matt blends classical training with decades spent in diverse kitchens to create dishes inspired by many cultures while still feeling familiar and enjoyable.</p><p>\u2713 <strong>PREMIUM, HONEST INGREDIENTS</strong> \u2013 Every meal starts with clean, thoughtful components, including some organic and locally sourced items, chosen for real flavor and quality.</p><p>\u2713 <strong>MEAL PREP MADE EASY FOR REAL LIFE</strong> \u2013 Skip the prep. Get fully prepared meals brought to your door each week, ready to heat and enjoy when you need something easy and good.</p>",
             "text_style": "body"
           }
         },
@@ -420,60 +420,6 @@
         "padding_bottom": 72
       }
     },
-    "image_banner_tTXiaq": {
-      "type": "image-banner",
-      "blocks": {
-        "heading_x8BHhL": {
-          "type": "heading",
-          "settings": {
-            "heading": "DELIVERY AREAS",
-            "heading_size": "h2"
-          }
-        },
-        "text_MfQy8r": {
-          "type": "text",
-          "settings": {
-            "text": "📍 Hartland📍 Delafield📍 Pewaukee📍 Waukesha📍 Sussex📍 Merton📍 Nashotah📍 Okauchee Lake📍 Oconomowoc📍 Oconomowoc Lake📍 Chenequa📍 Lisbon📍 Lannon📍 Menomonee Falls📍 Brookfield📍 Elm Grove📍 Wales📍 Dousman📍 Summit📍 Lake Country📍 Stone Bank📍 North Lake📍 Mapleton📍 Genesee📍 Mukwonago",
-            "text_style": "body"
-          }
-        },
-        "buttons_6zkx8m": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Order now",
-            "button_link_1": "shopify://collections/meal-plans",
-            "button_style_secondary_1": false,
-            "button_animated_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_x8BHhL",
-        "text_MfQy8r",
-        "buttons_6zkx8m"
-      ],
-      "name": "t:sections.image-banner.presets.name",
-      "settings": {
-        "image": "",
-        "image_asset": "cm-delivery-banner.jpg",
-        "image_asset_alt": "Fresh meals ready for delivery",
-        "image_asset_width": 1800,
-        "image_asset_height": 800,
-        "image_overlay_opacity": 0,
-        "image_height": "medium",
-        "image_behavior": "none",
-        "desktop_content_position": "middle-center",
-        "desktop_content_alignment": "center",
-        "show_text_box": true,
-        "color_scheme": "scheme-b4f16753-5e7b-4814-897f-6645cc992ad0",
-        "stack_images_on_mobile": true,
-        "mobile_content_alignment": "center",
-        "show_text_below": true
-      }
-    },
     "featured_collection1": {
       "type": "featured-collection",
       "disabled": true,
@@ -660,7 +606,7 @@
         "image_style": "card",
         "full_width": true,
         "item_width": 320,
-        "gap": 12,
+        "gap": 16,
         "curve": 0,
         "tilt": 0,
         "autoplay": true,
@@ -679,31 +625,156 @@
     "cm_delivery_areas": {
       "type": "cm-delivery-areas",
       "blocks": {
-        "area_1": { "type": "area", "settings": { "name": "Hartland" } },
-        "area_2": { "type": "area", "settings": { "name": "Delafield" } },
-        "area_3": { "type": "area", "settings": { "name": "Pewaukee" } },
-        "area_4": { "type": "area", "settings": { "name": "Waukesha" } },
-        "area_5": { "type": "area", "settings": { "name": "Sussex" } },
-        "area_6": { "type": "area", "settings": { "name": "Merton" } },
-        "area_7": { "type": "area", "settings": { "name": "Nashotah" } },
-        "area_8": { "type": "area", "settings": { "name": "Okauchee Lake" } },
-        "area_9": { "type": "area", "settings": { "name": "Oconomowoc" } },
-        "area_10": { "type": "area", "settings": { "name": "Oconomowoc Lake" } },
-        "area_11": { "type": "area", "settings": { "name": "Chenequa" } },
-        "area_12": { "type": "area", "settings": { "name": "Lisbon" } },
-        "area_13": { "type": "area", "settings": { "name": "Lannon" } },
-        "area_14": { "type": "area", "settings": { "name": "Menomonee Falls" } },
-        "area_15": { "type": "area", "settings": { "name": "Brookfield" } },
-        "area_16": { "type": "area", "settings": { "name": "Elm Grove" } },
-        "area_17": { "type": "area", "settings": { "name": "Wales" } },
-        "area_18": { "type": "area", "settings": { "name": "Dousman" } },
-        "area_19": { "type": "area", "settings": { "name": "Summit" } },
-        "area_20": { "type": "area", "settings": { "name": "Lake Country" } },
-        "area_21": { "type": "area", "settings": { "name": "Stone Bank" } },
-        "area_22": { "type": "area", "settings": { "name": "North Lake" } },
-        "area_23": { "type": "area", "settings": { "name": "Mapleton" } },
-        "area_24": { "type": "area", "settings": { "name": "Genesee" } },
-        "area_25": { "type": "area", "settings": { "name": "Mukwonago" } },
+        "area_1": {
+          "type": "area",
+          "settings": {
+            "name": "Hartland"
+          }
+        },
+        "area_2": {
+          "type": "area",
+          "settings": {
+            "name": "Delafield"
+          }
+        },
+        "area_3": {
+          "type": "area",
+          "settings": {
+            "name": "Pewaukee"
+          }
+        },
+        "area_4": {
+          "type": "area",
+          "settings": {
+            "name": "Waukesha"
+          }
+        },
+        "area_5": {
+          "type": "area",
+          "settings": {
+            "name": "Sussex"
+          }
+        },
+        "area_6": {
+          "type": "area",
+          "settings": {
+            "name": "Merton"
+          }
+        },
+        "area_7": {
+          "type": "area",
+          "settings": {
+            "name": "Nashotah"
+          }
+        },
+        "area_8": {
+          "type": "area",
+          "settings": {
+            "name": "Okauchee Lake"
+          }
+        },
+        "area_9": {
+          "type": "area",
+          "settings": {
+            "name": "Oconomowoc"
+          }
+        },
+        "area_10": {
+          "type": "area",
+          "settings": {
+            "name": "Oconomowoc Lake"
+          }
+        },
+        "area_11": {
+          "type": "area",
+          "settings": {
+            "name": "Chenequa"
+          }
+        },
+        "area_12": {
+          "type": "area",
+          "settings": {
+            "name": "Lisbon"
+          }
+        },
+        "area_13": {
+          "type": "area",
+          "settings": {
+            "name": "Lannon"
+          }
+        },
+        "area_14": {
+          "type": "area",
+          "settings": {
+            "name": "Menomonee Falls"
+          }
+        },
+        "area_15": {
+          "type": "area",
+          "settings": {
+            "name": "Brookfield"
+          }
+        },
+        "area_16": {
+          "type": "area",
+          "settings": {
+            "name": "Elm Grove"
+          }
+        },
+        "area_17": {
+          "type": "area",
+          "settings": {
+            "name": "Wales"
+          }
+        },
+        "area_18": {
+          "type": "area",
+          "settings": {
+            "name": "Dousman"
+          }
+        },
+        "area_19": {
+          "type": "area",
+          "settings": {
+            "name": "Summit"
+          }
+        },
+        "area_20": {
+          "type": "area",
+          "settings": {
+            "name": "Lake Country"
+          }
+        },
+        "area_21": {
+          "type": "area",
+          "settings": {
+            "name": "Stone Bank"
+          }
+        },
+        "area_22": {
+          "type": "area",
+          "settings": {
+            "name": "North Lake"
+          }
+        },
+        "area_23": {
+          "type": "area",
+          "settings": {
+            "name": "Mapleton"
+          }
+        },
+        "area_24": {
+          "type": "area",
+          "settings": {
+            "name": "Genesee"
+          }
+        },
+        "area_25": {
+          "type": "area",
+          "settings": {
+            "name": "Mukwonago"
+          }
+        },
         "feat_1": {
           "type": "feature",
           "settings": {
@@ -790,7 +861,6 @@
     "ss_feature_1_hNtGNi",
     "cm_arc_carousel",
     "featured_product_F3HaEM",
-    "image_banner_tTXiaq",
     "featured_collection1",
     "1757712751e12d8e13",
     "1763753350cdb419dc",

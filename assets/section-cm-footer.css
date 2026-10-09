@@ -458,7 +458,7 @@
  overflow: hidden;
  font-family: var(--cm-display);
  font-optical-sizing: auto;
- 
+ font-size: clamp(8rem, 16vw, 18rem);
  font-weight: 900;
  line-height: 1;
  letter-spacing: -0.02em;
