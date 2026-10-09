@@ -29,7 +29,7 @@
         "chef_heading": "40 years in the kitchen. Now cooking for you.",
         "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
         "steps_heading": "How it works",
-        "quality_heading": "Fresh in, quality out.",
+        "quality_heading": "This Week's Menu",
         "gallery_heading": "10+\nmeal options",
         "delivery_heading": "Fresh meals, delivered to your door.",
         "delivery_text": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you.",
@@ -269,38 +269,53 @@
         "quality_1": {
           "type": "quality",
           "settings": {
-            "title": "Fresh ingredients",
-            "text": "Real food, prepared in small batches."
+            "title": "Chicken Biryani with Raita",
+            "text": "Basmati rice and raita.",
+            "detail": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
           }
         },
         "quality_2": {
           "type": "quality",
           "settings": {
-            "title": "Chef-prepared meals",
-            "text": "Cooked by people who cook for a living."
+            "title": "Tandoori Chicken Leg",
+            "text": "Veg jalfrezi, basmati rice and 2 roti.",
+            "detail": "Every tray is cooked, seasoned, and finished by the kitchen team. The same care goes into a Tuesday lunch as a Saturday dinner."
           }
         },
         "quality_3": {
           "type": "quality",
           "settings": {
-            "title": "Weekly menu rotation",
-            "text": "A new lineup keeps the week interesting."
+            "title": "Butter Chicken",
+            "text": "Aloo methi, basmati rice and 2 roti.",
+            "detail": "The menu changes so the week does not taste the same five times. New dishes, familiar portions, and the same standard in every box."
           }
         },
         "quality_4": {
           "type": "quality",
           "settings": {
-            "title": "Convenience",
-            "text": "Nothing to chop, nothing to clean."
+            "title": "Coconut Fish Curry",
+            "text": "Jeera aloo, basmati rice and 2 roti.",
+            "detail": "Open, heat for a few minutes, and eat. No prep, no pans, and no guessing what a portion should look like."
           }
         },
         "quality_5": {
           "type": "quality",
           "settings": {
-            "title": "Quality",
-            "text": "The same standard in every box."
+            "title": "Lamb Korma",
+            "text": "Green salad and basmati rice.",
+            "detail": "Recipes are cooked the same way every time: the same seasoning, the same portions, and the same finish before a box leaves the kitchen."
           }
         },
+        "menu_1": { "type": "menu_item", "settings": { "name": "Chicken Biryani with Raita" } },
+        "menu_2": { "type": "menu_item", "settings": { "name": "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti" } },
+        "menu_3": { "type": "menu_item", "settings": { "name": "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti" } },
+        "menu_4": { "type": "menu_item", "settings": { "name": "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti" } },
+        "menu_5": { "type": "menu_item", "settings": { "name": "Lamb Korma with Green Salad and Basmati Rice" } },
+        "menu_6": { "type": "menu_item", "settings": { "name": "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti" } },
+        "menu_7": { "type": "menu_item", "settings": { "name": "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti" } },
+        "menu_8": { "type": "menu_item", "settings": { "name": "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti" } },
+        "menu_9": { "type": "menu_item", "settings": { "name": "Malai Kofta with Rajma, Basmati Rice and 2 Roti" } },
+        "menu_10": { "type": "menu_item", "settings": { "name": "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti" } },
         "review_1": {
           "type": "review",
           "settings": {
@@ -461,6 +476,16 @@
         "quality_3",
         "quality_4",
         "quality_5",
+        "menu_1",
+        "menu_2",
+        "menu_3",
+        "menu_4",
+        "menu_5",
+        "menu_6",
+        "menu_7",
+        "menu_8",
+        "menu_9",
+        "menu_10",
         "review_1",
         "review_2",
         "review_3",

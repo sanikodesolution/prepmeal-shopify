@@ -211,16 +211,34 @@
       qBox.append(im);
       return im;
     });
+    const qDetail = document.getElementById('qDetail');
+    const qMenu = qDetail?.querySelector('.mealplan-q__menu');
+    const writeDetail = (i) => {
+      const li = items[i];
+      if (!qDetail || !li) return;
+      const showMenu = li.dataset.showMenu === '1' && qMenu;
+      qDetail.classList.toggle('is-menu', Boolean(showMenu));
+      if (qMenu) qMenu.hidden = !showMenu;
+      if (showMenu) return;
+      const note = qDetail.querySelector('.mealplan-q__note');
+      if (!note) return;
+      note.querySelector('b').textContent = li.querySelector('b')?.textContent || '';
+      note.querySelector('p').textContent = li.dataset.detail || li.querySelector('span')?.textContent || '';
+    };
     let cur = 0;
     if (imgs[0]) imgs[0].classList.add('is-on');
     qUl.classList.add('mp-has');
     if (items[0]) items[0].classList.add('is-active');
+    writeDetail(0);
     const set = (i) => {
       if (i === cur || !imgs[i]) return;
       imgs[cur]?.classList.remove('is-on');
       items[cur]?.classList.remove('is-active');
+      imgs[i].classList.remove('is-on');
+      void imgs[i].offsetWidth;
       imgs[i].classList.add('is-on');
       items[i].classList.add('is-active');
+      writeDetail(i);
       cur = i;
     };
     items.forEach((li, i) => {

@@ -7,6 +7,7 @@
   assign benefit_blocks = section.blocks | where: 'type', 'benefit'
   assign step_blocks = section.blocks | where: 'type', 'step'
   assign quality_blocks = section.blocks | where: 'type', 'quality'
+  assign menu_blocks = section.blocks | where: 'type', 'menu_item'
   assign review_blocks = section.blocks | where: 'type', 'review'
   assign faq_blocks = section.blocks | where: 'type', 'faq'
   assign related_blocks = section.blocks | where: 'type', 'related'
@@ -186,13 +187,28 @@
 
     <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
       <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
-      <div class="mp-gs">
+      <div class="mp-gs mealplan-q__copy">
         <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
-        <ul class="mealplan-terms" id="qTerms">
-          {%- for block in quality_blocks -%}
-            <li {{ block.shopify_attributes }}><b>{{ block.settings.title | escape }}</b><span>{{ block.settings.text | escape }}</span></li>
-          {%- endfor -%}
-        </ul>
+        <div class="mealplan-q__split">
+          <ul class="mealplan-terms" id="qTerms">
+            {%- for block in quality_blocks -%}
+              <li data-detail="{{ block.settings.detail | default: block.settings.text | escape }}"{% if menu_blocks.size > 0 %}{% if forloop.index > 1 %} data-show-menu="1"{% endif %}{% endif %} {{ block.shopify_attributes }}>
+                <b>{{ block.settings.title | escape }}</b>
+                <span>{{ block.settings.text | escape }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+          <aside class="mealplan-q__detail" id="qDetail">
+            <div class="mealplan-q__note"><b></b><p></p></div>
+            {%- if menu_blocks.size > 0 -%}
+              <ol class="mealplan-q__menu" hidden>
+                {%- for block in menu_blocks -%}
+                  <li {{ block.shopify_attributes }}>{{ block.settings.name | escape }}</li>
+                {%- endfor -%}
+              </ol>
+            {%- endif -%}
+          </aside>
+        </div>
       </div>
     </div></section>
 
@@ -441,7 +457,15 @@
       "name": "Quality point",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Fresh ingredients" },
-        { "type": "textarea", "id": "text", "label": "Text", "default": "Real food, prepared in small batches." }
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Real food, prepared in small batches." },
+        { "type": "textarea", "id": "detail", "label": "Detail", "default": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot." }
+      ]
+    },
+    {
+      "type": "menu_item",
+      "name": "Menu item",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" }
       ]
     },
     {
