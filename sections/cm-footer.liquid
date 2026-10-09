@@ -140,7 +140,7 @@
       {%- for block in section.blocks -%}
         <div class="cm-footer__col cm-footer__col--{{ block.type }}" {{ block.shopify_attributes }}>
           {%- if block.settings.heading != blank -%}
-            <h3 class="cm-footer__heading">{{ block.settings.heading | escape }}</h3>
+            <h5 class="cm-footer__heading">{{ block.settings.heading | escape }}</h5>
           {%- endif -%}
 
           {%- case block.type -%}
@@ -222,7 +222,7 @@
       {%- if section.settings.show_newsletter -%}
         <div class="cm-footer__col cm-footer__news">
           {%- if section.settings.newsletter_heading != blank -%}
-            <h3 class="cm-footer__heading">{{ section.settings.newsletter_heading | escape }}</h3>
+            <h5 class="cm-footer__heading">{{ section.settings.newsletter_heading | escape }}</h5>
           {%- endif -%}
           {%- if section.settings.newsletter_text != blank -%}
             <div class="cm-footer__news-text">{{ section.settings.newsletter_text }}</div>
