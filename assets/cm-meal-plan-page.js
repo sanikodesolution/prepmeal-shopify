@@ -257,6 +257,31 @@
     });
   }
 
+  const qTitle = document.querySelector('.mealplan-q__title');
+  const qPeek = document.querySelector('.mealplan-q__peek');
+  const qLightbox = document.getElementById('qLightbox');
+  if (qTitle && qPeek && qLightbox) {
+    const closeLightbox = () => {
+      qLightbox.hidden = true;
+      document.body.style.overflow = '';
+    };
+    qTitle.addEventListener('click', (e) => {
+      if (e.target.closest('.mealplan-q__peek')) return;
+      qPeek.classList.toggle('is-on');
+    });
+    qPeek.addEventListener('click', (e) => {
+      e.stopPropagation();
+      qLightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+    });
+    qLightbox.addEventListener('click', (e) => {
+      if (e.target === qLightbox || e.target.closest('[data-q-close]')) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !qLightbox.hidden) closeLightbox();
+    });
+  }
+
   // Reviews (static from markup — no rebuild needed if liquid rendered)
   // FAQ accordion
   const faq = $('#faq');

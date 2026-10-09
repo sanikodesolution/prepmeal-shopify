@@ -188,7 +188,14 @@
     <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
       <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
       <div class="mp-gs mealplan-q__copy">
-        <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
+        <h2 class="mealplan-h mealplan-q__title">
+          {{ section.settings.quality_heading | escape }}
+          {%- if menu_blocks.size > 0 -%}
+            <button type="button" class="mealplan-q__peek" aria-label="Open this week's menu image">
+              <img src="{{ '10-meal-together.png' | asset_url }}" alt="" width="90" height="90">
+            </button>
+          {%- endif -%}
+        </h2>
         <div class="mealplan-q__split">
           <ul class="mealplan-terms" id="qTerms">
             {%- for block in quality_blocks -%}
@@ -211,6 +218,13 @@
         </div>
       </div>
     </div></section>
+
+    {%- if menu_blocks.size > 0 -%}
+      <div class="mealplan-q__lightbox" id="qLightbox" hidden>
+        <button type="button" class="mealplan-q__lightbox-close" data-q-close aria-label="Close">×</button>
+        <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu">
+      </div>
+    {%- endif -%}
 
     <section class="mealplan-sec" style="padding-inline:0"><div>
       <div class="mealplan-gal-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem)">
