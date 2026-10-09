@@ -108,7 +108,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 
 /* 04 explorer */
 .ex{background:var(--paper)}
-.filters{display:flex;gap:.5rem;overflow-x:auto;padding:1.5rem 0 2rem;scrollbar-width:none}
+.ex > h2{margin-bottom:6rem}
+.filters{display:flex;gap:.5rem;overflow-x:auto;padding:0 0 2rem;scrollbar-width:none}
 .filters button{flex:none;min-height:2.9rem;padding:0 1.35rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font-weight:600;cursor:pointer;transition:background .2s,color .2s}
 .filters button[aria-pressed=true]{background:var(--forest);color:#fff}
 .eg{display:grid;gap:2.25rem 1.5rem;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));align-items:stretch}
@@ -120,9 +121,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .e .thumb svg,.e .thumb .mp-food,.e .thumb img{width:100%;height:100%;transition:transform .7s}
 .e:hover .thumb svg,.e:hover .thumb .mp-food,.e:hover .thumb img{transform:scale(1.03)}
 .e .thumb .mp-food,.e .thumb img{object-fit:contain;object-position:center;padding:8%}
-.e h3{
+.e h4{
  font-weight:500;line-height:1.2;
- margin:1.15rem 0 .45rem;
+ margin:1.6rem 0 1.2rem;
  min-height:calc(1.2em * 2);
  display:-webkit-box;
  -webkit-box-orient:vertical;
