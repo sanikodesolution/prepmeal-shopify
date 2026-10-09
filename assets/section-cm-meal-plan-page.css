@@ -297,7 +297,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 /* 12 faq */
 .mealplan-faq{display:grid;gap:2rem}@media(min-width:900px){.mealplan-faq{grid-template-columns:4fr 7fr}}
 .mealplan-qi{border-top:1px solid rgba(21,37,28,.25)}.mealplan-qi:last-child{border-bottom:1px solid rgba(21,37,28,.25)}
-.mealplan-qb{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:4rem;padding:1rem 0;background:none;border:0;color:var(--f);font-weight:500;text-align:left;cursor:pointer}
+.mealplan-qb{width:100%;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:4rem;padding:1rem 0;background:none;border:0;color:var(--f);font-size:1.8rem;font-weight:500;text-align:left;cursor:pointer}
 .mealplan-qb i{flex:none;width:1.6rem;height:1.6rem;position:relative}
 .mealplan-qb i::before,.mealplan-qb i::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:var(--f);transition:transform .35s}
 .mealplan-qb i::after{transform:rotate(90deg)}.mealplan-qb[aria-expanded=true] i::after{transform:rotate(0)}
