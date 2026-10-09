@@ -150,9 +150,10 @@
       const itemWidth = this.originals[0].offsetWidth;
       if (!width || !itemWidth) return;
 
-      const gap = this.gap * (width < 750 ? 0.5 : 1);
-      this.spacing = itemWidth * 0.92 + gap;
-      this.style.setProperty('--cm-arc-gap', `${gap}px`);
+      this.itemWidth = itemWidth;
+      this.visualGap = this.gap;
+      this.spacing = this.centerX(1);
+      this.style.setProperty('--cm-arc-gap', `${this.visualGap}px`);
 
       const needed = Math.ceil(width / this.spacing) + 4;
       const sets = Math.max(1, Math.ceil(needed / this.originals.length));
@@ -185,10 +186,10 @@
         const distance = Math.abs(offset);
         const focus = Math.max(0, 1 - distance);
 
-        const x = offset * this.spacing;
+        const x = this.centerX(offset);
         const y = Math.sin(offset * WAVE_FREQUENCY) * this.wave;
         const rotate = this.tilt * (0.72 + 0.28 * Math.sin(offset * 1.3));
-        const scale = 0.96 - Math.min(distance, 8) * 0.01 + 0.14 * focus * focus;
+        const scale = this.scaleAt(distance);
         const brightness = focus + (1 - focus) * Math.max(0.3, 0.62 - distance * 0.035);
         const edge = Math.min(1, (total / 2 - distance) / 0.75);
 
@@ -208,6 +209,28 @@
         this.activeIndex = active;
         this.updateInfo(!initial);
       }
+    }
+
+    scaleAt(distance) {
+      const focus = Math.max(0, 1 - distance);
+      return 0.96 - Math.min(distance, 8) * 0.01 + 0.14 * focus * focus;
+    }
+
+    centerX(offset) {
+      const sign = offset < 0 ? -1 : 1;
+      const abs = Math.abs(offset);
+      const steps = Math.floor(abs);
+      const t = abs - steps;
+      const at = (n) => {
+        let x = 0;
+        const width = this.itemWidth || 0;
+        const gap = this.visualGap || 0;
+        for (let i = 0; i < n; i++) {
+          x += (width * this.scaleAt(i)) / 2 + gap + (width * this.scaleAt(i + 1)) / 2;
+        }
+        return x;
+      };
+      return sign * (at(steps) + (at(steps + 1) - at(steps)) * t);
     }
 
     animate() {
