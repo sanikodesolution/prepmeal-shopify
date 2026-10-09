@@ -351,73 +351,81 @@
       }
     },
     "featured_product_F3HaEM": {
-      "type": "featured-product",
+      "type": "cm-featured-plan",
       "blocks": {
-        "text_zqQHFF": {
-          "type": "text",
+        "fact_1": {
+          "type": "fact",
           "settings": {
-            "text": "{{ section.settings.product.vendor }}",
-            "text_style": "uppercase"
+            "title": "Chef-made",
+            "text": "Cooked from scratch each week"
           }
         },
-        "title_P8rgXx": {
-          "type": "title",
+        "fact_2": {
+          "type": "fact",
           "settings": {
-            "heading_size": "h1"
+            "title": "Heat and eat",
+            "text": "Ready in 2 to 3 minutes"
           }
         },
-        "price_Kiq3AD": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker_gPgtXp": {
-          "type": "variant_picker",
+        "fact_3": {
+          "type": "fact",
           "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
+            "title": "Local delivery",
+            "text": "Hartland and nearby areas"
           }
         },
-        "quantity_selector_eB6hzX": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons_VRKJCR": {
-          "type": "buy_buttons",
+        "plan_5": {
+          "type": "plan",
           "settings": {
-            "show_dynamic_checkout": false,
-            "show_gift_card_recipient": false
+            "count": "5",
+            "label": "Meal plan",
+            "link": "shopify://products/5-meal-plan"
           }
         },
-        "share_zX7T6A": {
-          "type": "share",
+        "plan_7": {
+          "type": "plan",
           "settings": {
-            "share_label": "Share"
+            "count": "7",
+            "label": "Meal plan",
+            "link": "shopify://pages/7-meal-plan"
+          }
+        },
+        "plan_10": {
+          "type": "plan",
+          "settings": {
+            "count": "10",
+            "label": "Meal plan",
+            "link": "shopify://products/10-meal-plan"
+          }
+        },
+        "plan_15": {
+          "type": "plan",
+          "settings": {
+            "count": "15",
+            "label": "Meal plan",
+            "link": "shopify://products/15-meal-plan"
           }
         }
       },
       "block_order": [
-        "text_zqQHFF",
-        "title_P8rgXx",
-        "price_Kiq3AD",
-        "variant_picker_gPgtXp",
-        "quantity_selector_eB6hzX",
-        "buy_buttons_VRKJCR",
-        "share_zX7T6A"
+        "fact_1",
+        "fact_2",
+        "fact_3",
+        "plan_5",
+        "plan_7",
+        "plan_10",
+        "plan_15"
       ],
-      "name": "t:sections.featured-product.presets.name",
       "settings": {
-        "product": "5-meal-plan",
-        "color_scheme": "scheme-1",
-        "secondary_background": false,
-        "media_size": "medium",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": false,
-        "enable_video_looping": false,
-        "padding_top": 72,
-        "padding_bottom": 72
+        "eyebrow": "Weekly meal plans",
+        "heading": "Real meals, ready when you are",
+        "text": "<p>Pick a plan, we cook it from scratch, and it arrives at your door. No subscription.</p>",
+        "badge": "Delivered fresh",
+        "image_alt": "Chef prepared meal",
+        "button_label": "Order your plan",
+        "button_link": "shopify://collections/meal-plans",
+        "link_label": "How it works",
+        "link_url": "shopify://pages/how-it-works"
       }
     },
     "featured_collection1": {
