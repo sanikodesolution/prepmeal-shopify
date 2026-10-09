@@ -151,7 +151,7 @@
       if (!width || !itemWidth) return;
 
       const gap = this.gap * (width < 750 ? 0.5 : 1);
-      this.spacing = itemWidth * 1.02 + gap;
+      this.spacing = itemWidth * 0.92 + gap;
       this.style.setProperty('--cm-arc-gap', `${gap}px`);
 
       const needed = Math.ceil(width / this.spacing) + 4;
@@ -188,7 +188,7 @@
         const x = offset * this.spacing;
         const y = Math.sin(offset * WAVE_FREQUENCY) * this.wave;
         const rotate = this.tilt * (0.72 + 0.28 * Math.sin(offset * 1.3));
-        const scale = 0.86 - Math.min(distance, 8) * 0.012 + 0.28 * focus * focus;
+        const scale = 0.96 - Math.min(distance, 8) * 0.01 + 0.14 * focus * focus;
         const brightness = focus + (1 - focus) * Math.max(0.3, 0.62 - distance * 0.035);
         const edge = Math.min(1, (total / 2 - distance) / 0.75);
 

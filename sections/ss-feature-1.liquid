@@ -63,8 +63,6 @@
     margin: 0 auto;
     padding-top: {{ padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ padding_bottom | times: 0.75 | round: 0 }}px;
-    padding-left: {{ padding_horizontal_mobile }}rem;
-    padding-right: {{ padding_horizontal_mobile }}rem;
   }
 
   .feature-{{ section.id }} .box__title {
@@ -139,11 +137,8 @@
     }
     
     .section-{{ section.id }}-settings {
-      padding: 0 5rem;
       padding-top: {{ padding_top }}px;
       padding-bottom: {{ padding_bottom }}px;
-      padding-left: {{ padding_horizontal }}rem;
-      padding-right: {{ padding_horizontal }}rem;
     }
 
     .feature-{{ section.id }} .wrapper-box {
@@ -195,13 +190,21 @@
   </style>
 {% endif %}
 
-{% unless full_width %}
+{% if full_width %}
   <style>
     .section-{{ section.id }}-settings {
-      max-width: {{ content_width }}rem;
+      max-width: none;
+      padding-left: {{ padding_horizontal_mobile }}rem;
+      padding-right: {{ padding_horizontal_mobile }}rem;
+    }
+    @media (min-width: 768px) {
+      .section-{{ section.id }}-settings {
+        padding-left: {{ padding_horizontal }}rem;
+        padding-right: {{ padding_horizontal }}rem;
+      }
     }
   </style>
-{% endunless %}
+{% endif %}
 
 {% if feature_shadow %}
   <style>
@@ -225,7 +228,7 @@
 {% endcapture %}
 
 <div class="section-{{ section.id }} feature-{{ section.id }}" style="background-color:{{ background_color }}; background-image: {{ background_gradient }};">
-    <div class="section-{{ section.id }}-settings ">
+    <div class="section-{{ section.id }}-settings{% unless full_width %} page-width{% endunless %}">
       <div class="wrapper-box">
           {%- for block in section.blocks -%}
               <{% if block.settings.feature_url != blank %}a href="{{ block.settings.feature_url }}"{% else %}div{% endif %} class="box"{% if block.settings.animate_icon_only %} data-icon-motion{% endif %}>

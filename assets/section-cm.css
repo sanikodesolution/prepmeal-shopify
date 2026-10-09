@@ -1281,7 +1281,7 @@ a.cm-map__foot:hover {
 
 /* 3D wave product carousel */
 .cm-arc {
- --cm-arc-w: min(var(--cm-arc-w-max, 170px), 22vw);
+ --cm-arc-w: min(var(--cm-arc-w-max, 280px), 34vw);
  color: var(--cm-arc-text);
  background: radial-gradient(ellipse 90% 80% at 50% 42%, var(--cm-arc-bg-1) 0%, var(--cm-arc-bg-2) 78%);
 }
