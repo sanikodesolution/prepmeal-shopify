@@ -1,4 +1,5 @@
 {{ 'section-cm-delivery-areas.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-da.js' | asset_url }}" defer></script>
 
 {%- liquid
   assign s = section.settings
@@ -6,67 +7,55 @@
   assign features = section.blocks | where: 'type', 'feature'
 -%}
 
-<section class="cm-da" id="DeliveryAreas-{{ section.id }}" {{ section.shopify_attributes }}>
-  <div class="cm-da__bg" aria-hidden="true"></div>
-  <span class="cm-da__brush cm-da__brush--1" aria-hidden="true"></span>
-  <span class="cm-da__brush cm-da__brush--2" aria-hidden="true"></span>
-  <span class="cm-da__leaf cm-da__leaf--1" aria-hidden="true"></span>
-  <span class="cm-da__leaf cm-da__leaf--2" aria-hidden="true"></span>
-  <span class="cm-da__dot cm-da__dot--1" aria-hidden="true"></span>
-  <span class="cm-da__dot cm-da__dot--2" aria-hidden="true"></span>
-  <span class="cm-da__dot cm-da__dot--3" aria-hidden="true"></span>
-
-  {%- assign plate_positions = 'tl,tr,bl,br' | split: ',' -%}
-  {%- for pos in plate_positions -%}
+<section class="da" id="DeliveryAreas-{{ section.id }}" aria-labelledby="da-title-{{ section.id }}" {{ section.shopify_attributes }}>
+  {%- assign plates = 'tl,tr,bl,br' | split: ',' -%}
+  {%- for pos in plates -%}
     {%- assign img_key = 'plate_' | append: pos -%}
-    {%- assign alt_key = 'plate_' | append: pos | append: '_alt' -%}
-    <div class="cm-da__plate cm-da__plate--{{ pos }}" aria-hidden="true">
+    {%- assign alt_key = img_key | append: '_alt' -%}
+    {%- assign fallback = 'cm-da-plate-' | append: pos | append: '.webp' -%}
+    <div class="da__corner da__corner--{{ pos }}" aria-hidden="true">
       {%- if section.settings[img_key] != blank -%}
-        {{ section.settings[img_key] | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 400, 600', sizes: '28vw', alt: section.settings[alt_key] }}
+        {{ section.settings[img_key] | image_url: width: 800 | image_tag: loading: 'lazy', widths: '260, 400, 600, 800', sizes: '31vw', alt: section.settings[alt_key] }}
       {%- else -%}
-        <div class="cm-da__plate-ph">✦</div>
+        <img src="{{ fallback | asset_url }}" alt="{{ section.settings[alt_key] | escape }}" width="640" height="640" loading="lazy">
       {%- endif -%}
     </div>
   {%- endfor -%}
 
-  <div class="cm-da__inner">
-    <div class="cm-da__card">
-      <div class="cm-da__icon" aria-hidden="true">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6 30h22c1.5 0 2.5-.7 3.2-1.8L36 18h6v10h2v3H8l-2-1z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
-          <circle cx="14" cy="36" r="3.5" stroke="currentColor" stroke-width="2.2"/>
-          <circle cx="34" cy="36" r="3.5" stroke="currentColor" stroke-width="2.2"/>
-          <path d="M8 30V16c0-1.5 1-2.5 2.5-2.5H24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-          <path d="M28 14h6l3 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
+  <div class="da__stage">
+    <div class="da__card">
+      <div class="da__deco da__deco--brush-l" aria-hidden="true"><img src="{{ 'cm-da-brush-l.webp' | asset_url }}" alt="" width="200" height="120"></div>
+      <div class="da__deco da__deco--brush-r" aria-hidden="true"><img src="{{ 'cm-da-brush-r.webp' | asset_url }}" alt="" width="180" height="110"></div>
+      <div class="da__leaf da__leaf--tr" aria-hidden="true"><img src="{{ 'cm-da-leaf-tr.webp' | asset_url }}" alt="" width="54" height="70"></div>
+      <div class="da__leaf da__leaf--bl" aria-hidden="true"><img src="{{ 'cm-da-leaf-bl.webp' | asset_url }}" alt="" width="100" height="120"></div>
 
       {%- if s.eyebrow != blank -%}
-        <p class="cm-da__script">{{ s.eyebrow | escape }}</p>
+        <span class="da__script">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h12M2 26h10M6 32h8"/><path d="M18 14h14l4 12h6"/><path d="M18 14l-2 14h24"/><circle cx="16" cy="36" r="5"/><circle cx="38" cy="36" r="5"/><path d="M26 8h8"/></svg>
+          {{ s.eyebrow | escape }}
+        </span>
       {%- endif -%}
 
       {%- if s.heading != blank -%}
-        <h2 class="cm-da__title">{{ s.heading | escape }}</h2>
+        <h2 class="da__title" id="da-title-{{ section.id }}">{{ s.heading | escape }}</h2>
       {%- endif -%}
 
       {%- if s.subheading != blank or s.subheading_accent != blank -%}
-        <p class="cm-da__sub">
-          {{- s.subheading | escape -}}
-          {%- if s.subheading_accent != blank -%}
-            <em>{{ s.subheading_accent | escape }}</em>
-          {%- endif -%}
+        <p class="da__sub">
+          <span>
+            {{- s.subheading | escape -}}
+            {%- if s.subheading_accent != blank -%}
+              <em>{{ s.subheading_accent | escape }}</em>
+            {%- endif -%}
+          </span>
         </p>
       {%- endif -%}
 
       {%- if areas.size > 0 -%}
-        <ul class="cm-da__areas" role="list">
+        <ul class="da__areas">
           {%- for block in areas -%}
-            <li class="cm-da__area" {{ block.shopify_attributes }}>
-              <span class="cm-da__pin" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/>
-                </svg>
-              </span>
+            <li class="da__pill" style="--i:{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+              <svg viewBox="0 0 16 22" aria-hidden="true"><path d="M8 0C3.6 0 0 3.5 0 7.9 0 13.8 8 22 8 22s8-8.2 8-14.1C16 3.5 12.4 0 8 0zm0 11a3.1 3.1 0 110-6.2A3.1 3.1 0 018 11z"/></svg>
               {{ block.settings.name | escape }}
             </li>
           {%- endfor -%}
@@ -74,44 +63,45 @@
       {%- endif -%}
 
       {%- if s.button_label != blank -%}
-        <a class="cm-da__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">
-          <span>{{ s.button_label | escape }}</span>
-          <span class="cm-da__cta-arrow" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <a class="da__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">
+          {{ s.button_label | escape | upcase }}
+          <span class="da__cta-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
           </span>
         </a>
       {%- endif -%}
     </div>
+    <div class="da__deco da__deco--dots" aria-hidden="true"><img src="{{ 'cm-da-dots.webp' | asset_url }}" alt="" width="105" height="80"></div>
+    <div class="da__leaf da__leaf--top" aria-hidden="true"><img src="{{ 'cm-da-leaf-top.webp' | asset_url }}" alt="" width="54" height="70"></div>
+    <div class="da__leaf da__leaf--right" aria-hidden="true"><img src="{{ 'cm-da-leaf-right.webp' | asset_url }}" alt="" width="72" height="90"></div>
   </div>
 
   {%- if features.size > 0 -%}
-    <div class="cm-da__bar-wrap">
-      <div class="cm-da__bar">
-        {%- for block in features -%}
-          <div class="cm-da__feat" {{ block.shopify_attributes }}>
-            <span class="cm-da__feat-icon" aria-hidden="true">
-              {%- case block.settings.icon -%}
-                {%- when 'heart' -%}
-                  <svg viewBox="0 0 48 48" fill="none"><path d="M24 40s-14-8.8-14-18a8 8 0 0 1 14-5 8 8 0 0 1 14 5c0 9.2-14 18-14 18z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M18 16c1.5-2 3.5-3 6-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                {%- when 'map' -%}
-                  <svg viewBox="0 0 48 48" fill="none"><path d="M10 14l10-4 10 4 8-3v26l-8 3-10-4-10 4V14z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M20 10v26M30 14v26" stroke="currentColor" stroke-width="2"/><circle cx="34" cy="18" r="4" fill="currentColor"/></svg>
-                {%- when 'love' -%}
-                  <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="2.2"/><path d="M24 33s-8-5-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 32 23c0 5-8 10-8 10z" fill="currentColor"/></svg>
-                {%- else -%}
-                  <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="15" stroke="currentColor" stroke-width="2.2"/><path d="M24 14v12l7 4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              {%- endcase -%}
-            </span>
+    <div class="da__bar">
+      {%- for block in features -%}
+        <div class="da__feat" {{ block.shopify_attributes }}>
+          <span class="da__feat-icon" aria-hidden="true">
+            {%- case block.settings.icon -%}
+              {%- when 'heart' -%}
+                <svg viewBox="0 0 48 48"><path class="w" d="M24 41C14 38 8 30 10 23c2-6 9-5 14-1 5-4 12-5 14 1 2 7-4 15-14 18z" stroke-width="2.5"/><path class="w" d="M24 20c-1-5 0-9 4-12 1 4 0 9-4 12zM24 14c-2-3-5-4-8-3 1 3 4 5 8 3z" stroke-width="2"/><path class="o" d="M14 41c6 3 15 3 23-2" stroke-width="4"/></svg>
+              {%- when 'map' -%}
+                <svg viewBox="0 0 48 48"><path class="w" d="M5 19l12-4 14 4 12-4v24l-12 4-14-4-12 4zM17 15v24M31 19v24" stroke-width="2.5"/><path class="o fo" d="M24 3a6.5 6.5 0 00-6.5 6.5C17.5 15 24 22 24 22s6.5-7 6.5-12.5A6.5 6.5 0 0024 3z" stroke-width="1.5"/><circle cx="24" cy="9.5" r="2.4" fill="#0f1f3d" stroke="none"/></svg>
+              {%- when 'love' -%}
+                <svg viewBox="0 0 48 48"><path class="w" d="M24 5a19 19 0 1019 19" stroke-width="3"/><path class="o" d="M24 5a19 19 0 0113 5" stroke-width="3"/><path class="o fo" d="M24 33s-9-5.5-9-12a5 5 0 019-3 5 5 0 019 3c0 6.5-9 12-9 12z" stroke-width="2"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 48 48"><circle class="o" cx="24" cy="24" r="19" stroke-width="3.5"/><path class="w" d="M24 13v12h10" stroke-width="3.5"/></svg>
+            {%- endcase -%}
+          </span>
+          <span>
             {%- if block.settings.title != blank -%}
-              <strong>{{ block.settings.title | escape }}</strong>
+              <span class="da__feat-title">{{ block.settings.title | escape }}</span>
             {%- endif -%}
             {%- if block.settings.text != blank -%}
-              <span>{{ block.settings.text | escape }}</span>
+              <span class="da__feat-text">{{ block.settings.text | escape }}</span>
             {%- endif -%}
-          </div>
-        {%- endfor -%}
-      </div>
+          </span>
+        </div>
+      {%- endfor -%}
     </div>
   {%- endif -%}
 </section>
@@ -144,7 +134,7 @@
     {
       "type": "text",
       "id": "subheading_accent",
-      "label": "Subheading accent (script)",
+      "label": "Subheading accent",
       "default": "to your neighborhood"
     },
     {
@@ -281,38 +271,10 @@
         { "type": "area", "settings": { "name": "Mapleton" } },
         { "type": "area", "settings": { "name": "Genesee" } },
         { "type": "area", "settings": { "name": "Mukwonago" } },
-        {
-          "type": "feature",
-          "settings": {
-            "icon": "clock",
-            "title": "On Time Delivery",
-            "text": "Always on schedule"
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "icon": "heart",
-            "title": "Fresh & Healthy",
-            "text": "Made with care"
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "icon": "map",
-            "title": "Wide Area Coverage",
-            "text": "Near you always"
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "icon": "love",
-            "title": "Made With Love",
-            "text": "For a healthier you"
-          }
-        }
+        { "type": "feature", "settings": { "icon": "clock", "title": "On Time Delivery", "text": "Always on schedule" } },
+        { "type": "feature", "settings": { "icon": "heart", "title": "Fresh & Healthy", "text": "Made with care" } },
+        { "type": "feature", "settings": { "icon": "map", "title": "Wide Area Coverage", "text": "Near you always" } },
+        { "type": "feature", "settings": { "icon": "love", "title": "Made With Love", "text": "For a healthier you" } }
       ]
     }
   ]
