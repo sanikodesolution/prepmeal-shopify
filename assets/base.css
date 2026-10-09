@@ -77,9 +77,10 @@
 /* base */
 
 .page-width {
-  max-width: var(--page-width);
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1.2rem;
 }
 
 body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
@@ -96,19 +97,49 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 }
 
 .utility-bar__grid.page-width {
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+
+@media screen and (min-width: 576px) {
+  .page-width {
+    max-width: 54rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .page-width {
+    max-width: 72rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .page-width {
+    max-width: 96rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .page-width {
+    max-width: 114rem;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .page-width {
+    max-width: 132rem;
+  }
 }
 
 @media screen and (min-width: 750px) {
   .page-width {
-    padding: 0 5rem;
+    padding: 0 1.2rem;
   }
 
   .header.page-width,
   .utility-bar__grid.page-width {
-    padding-left: 3.2rem;
-    padding-right: 3.2rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
   }
 
   .page-width--narrow {
@@ -126,8 +157,8 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
 
 @media screen and (min-width: 990px) {
   .header:not(.drawer-menu).page-width {
-    padding-left: 5rem;
-    padding-right: 5rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
   }
 
   .page-width--narrow {
@@ -136,8 +167,20 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   }
 
   .page-width-desktop {
-    max-width: var(--page-width);
-    padding: 0 5rem;
+    max-width: 96rem;
+    padding: 0 1.2rem;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .page-width-desktop {
+    max-width: 114rem;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .page-width-desktop {
+    max-width: 132rem;
   }
 }
 
@@ -2211,8 +2254,8 @@ input[type='checkbox'] {
 
 @media screen and (min-width: 990px) {
   body:has(.section-header .header:not(.drawer-menu)) .utility-bar .page-width {
-    padding-left: 5rem;
-    padding-right: 5rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
   }
 
   .announcement-bar-slider {
