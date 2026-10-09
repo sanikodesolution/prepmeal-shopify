@@ -353,79 +353,46 @@
     "featured_product_F3HaEM": {
       "type": "cm-featured-plan",
       "blocks": {
-        "fact_1": {
-          "type": "fact",
+        "dish_1": {
+          "type": "dish",
           "settings": {
-            "title": "Chef-made",
-            "text": "Cooked from scratch each week"
+            "name": "Peri peri chicken",
+            "note": "Citrus, chilli, and herbs",
+            "tag": "High protein"
           }
         },
-        "fact_2": {
-          "type": "fact",
+        "dish_2": {
+          "type": "dish",
           "settings": {
-            "title": "Heat and eat",
-            "text": "Ready in 2 to 3 minutes"
+            "name": "Herb roasted vegetables",
+            "note": "Seasonal, bright, and clean",
+            "tag": "Plant forward"
           }
         },
-        "fact_3": {
-          "type": "fact",
+        "dish_3": {
+          "type": "dish",
           "settings": {
-            "title": "Local delivery",
-            "text": "Hartland and nearby areas"
-          }
-        },
-        "plan_5": {
-          "type": "plan",
-          "settings": {
-            "count": "5",
-            "label": "Meal plan",
-            "link": "shopify://products/5-meal-plan"
-          }
-        },
-        "plan_7": {
-          "type": "plan",
-          "settings": {
-            "count": "7",
-            "label": "Meal plan",
-            "link": "shopify://pages/7-meal-plan"
-          }
-        },
-        "plan_10": {
-          "type": "plan",
-          "settings": {
-            "count": "10",
-            "label": "Meal plan",
-            "link": "shopify://products/10-meal-plan"
-          }
-        },
-        "plan_15": {
-          "type": "plan",
-          "settings": {
-            "count": "15",
-            "label": "Meal plan",
-            "link": "shopify://products/15-meal-plan"
+            "name": "Garlic butter salmon",
+            "note": "Rich, light, and satisfying",
+            "tag": "Omega rich"
           }
         }
       },
       "block_order": [
-        "fact_1",
-        "fact_2",
-        "fact_3",
-        "plan_5",
-        "plan_7",
-        "plan_10",
-        "plan_15"
+        "dish_1",
+        "dish_2",
+        "dish_3"
       ],
       "settings": {
-        "eyebrow": "Weekly meal plans",
-        "heading": "Real meals, ready when you are",
-        "text": "<p>Pick a plan, we cook it from scratch, and it arrives at your door. No subscription.</p>",
-        "badge": "Delivered fresh",
-        "image_alt": "Chef prepared meal",
-        "button_label": "Order your plan",
-        "button_link": "shopify://collections/meal-plans",
-        "link_label": "How it works",
-        "link_url": "shopify://pages/how-it-works"
+        "stamp_value": "Week 14",
+        "stamp_label": "On the pass",
+        "eyebrow": "This week at the table",
+        "heading": "Food worth\ncoming home to",
+        "text": "<p>A short menu, cooked from scratch and packed for the week. Heat, eat, and get on with your evening.</p>",
+        "meta_title": "From 5 meals",
+        "meta_text": "No subscription. New menu every week.",
+        "button_label": "See the menu",
+        "button_link": "shopify://collections/meal-plans"
       }
     },
     "featured_collection1": {
