@@ -74,26 +74,36 @@
     placeOrbit(animate) {
       const count = this.originals.length;
       const reduce = reduceMotion.matches;
+      const h = this.stage.clientHeight || 640;
+      const w = this.stage.clientWidth || 480;
+      const size = Math.max(180, Math.min(280, w * 0.52));
       this.originals.forEach((item, index) => {
         let delta = index - this.orbitIndex;
         if (delta > count / 2) delta -= count;
         if (delta < -count / 2) delta += count;
-        delta *= this.orbitDir === -1 ? 1 : -1;
         const visible = Math.abs(delta) <= 1.05;
-        const y = 50 + delta * 44;
-        const x = 46 + Math.sin(delta * 0.95) * 14;
-        const scale = Math.abs(delta) < 0.05 ? 1 : 0.58;
+        const scale = Math.abs(delta) < 0.05 ? 1 : 0.62;
+        const x = w * (0.46 + Math.sin(delta * 0.9) * 0.12);
+        const y = h * (0.5 + delta * 0.42);
         item.classList.toggle('is-active', index === this.orbitIndex);
+        item.style.width = `${size}px`;
+        item.style.height = `${size}px`;
         item.style.transition = animate && !reduce ? 'left 1.15s cubic-bezier(.22,.7,.2,1), top 1.15s cubic-bezier(.22,.7,.2,1), transform 1.15s cubic-bezier(.22,.7,.2,1), opacity .7s ease' : 'none';
-        item.style.left = `${x}%`;
-        item.style.top = `${y}%`;
+        item.style.left = `${x}px`;
+        item.style.top = `${y}px`;
         item.style.opacity = visible ? '1' : '0';
         item.style.zIndex = Math.abs(delta) < 0.05 ? '3' : '1';
         item.style.pointerEvents = visible ? 'auto' : 'none';
         item.style.transform = `translate(-50%, -50%) scale(${scale})`;
       });
       const active = this.originals[this.orbitIndex];
-      if (this.nameEl && active) this.nameEl.textContent = active.dataset.title || '';
+      if (this.nameEl && active) {
+        this.nameEl.textContent = active.dataset.title || '';
+        const y = h * 0.5 + size / 2 + 16;
+        const x = w * 0.46;
+        this.nameEl.style.top = `${y}px`;
+        this.nameEl.style.left = `${x}px`;
+      }
     }
 
     disconnectedCallback() {
@@ -336,6 +346,11 @@
       this.originals.splice(index, 1);
       item.remove();
       if (!this.originals.length) return this.hideSection();
+      if (this.dataset.orbit === '1') {
+        if (this.orbitIndex >= this.originals.length) this.orbitIndex = 0;
+        this.placeOrbit(false);
+        return;
+      }
 
       this.items = [];
       this.activeIndex = -1;
