@@ -26,6 +26,13 @@
             "heading_size": "h0"
           }
         },
+        "subtext": {
+          "type": "text",
+          "settings": {
+            "text": "Chef-crafted meals from around the world, delivered fresh to your door every week.",
+            "text_style": "body"
+          }
+        },
         "button": {
           "type": "buttons",
           "settings": {
@@ -37,13 +44,6 @@
             "button_link_2": "shopify://pages/how-it-works",
             "button_style_secondary_2": false,
             "button_animated_2": true
-          }
-        },
-        "subtext": {
-          "type": "text",
-          "settings": {
-            "text": "Chef-crafted meals from around the world, delivered fresh to your door every week.",
-            "text_style": "body"
           }
         }
       },
@@ -57,7 +57,6 @@
         "hero_style": "prep",
         "badge_text": "Delivered fresh",
         "show_visual": true,
-        "image": "",
         "image_asset": "cm-hero-banner.jpg",
         "image_asset_alt": "Chef-crafted gourmet meals on plates",
         "image_asset_width": 1800,
@@ -82,10 +81,11 @@
           "settings": {
             "feature_title": "Order Online",
             "feature_text": "<p>Select from our menu each week and place your order online. </p>",
-            "feature_image": "",
             "feature_image_asset": "cm-step-order.gif",
+            "feature_image_alt": "",
             "feature_url": "shopify://collections/meal-plans",
-            "hide_image": false
+            "hide_image": false,
+            "animate_icon_only": false
           }
         },
         "image_8fUBJ9": {
@@ -93,10 +93,11 @@
           "settings": {
             "feature_title": "We Cook For You",
             "feature_text": "<p>Our chefs will prepare your meals made with authentic ingredients.</p>",
-            "feature_image": "",
             "feature_image_asset": "cm-step-cook.gif",
+            "feature_image_alt": "",
             "feature_url": "shopify://collections/meal-plans",
-            "hide_image": false
+            "hide_image": false,
+            "animate_icon_only": false
           }
         },
         "image_8cpN8t": {
@@ -104,10 +105,11 @@
           "settings": {
             "feature_title": "Doorstep Delivery",
             "feature_text": "<p>We deliver to your doorstep throughout the Hartland and surrounding areas.</p>",
-            "feature_image": "",
             "feature_image_asset": "cm-step-delivery.gif",
+            "feature_image_alt": "",
             "feature_url": "shopify://collections/meal-plans",
-            "hide_image": false
+            "hide_image": false,
+            "animate_icon_only": false
           }
         },
         "image_kwNqAe": {
@@ -115,10 +117,11 @@
           "settings": {
             "feature_title": "Quick Heat Plans",
             "feature_text": "<p>Just heat up for 2-3 minutes and enjoy fresh bites.</p>",
-            "feature_image": "",
             "feature_image_asset": "cm-step-heat.gif",
+            "feature_image_alt": "",
             "feature_url": "shopify://collections/meal-plans",
-            "hide_image": false
+            "hide_image": false,
+            "animate_icon_only": false
           }
         }
       },
@@ -216,7 +219,6 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "",
         "image_asset": "cm-healthy-meals-bg.jpg",
         "image_asset_alt": "Healthy ChefMatts meals served on a kitchen counter",
         "image_asset_width": 1024,
@@ -240,200 +242,6 @@
         "color_scheme": "scheme-b4f16753-5e7b-4814-897f-6645cc992ad0",
         "padding_top": 36,
         "padding_bottom": 80
-      }
-    },
-    "ss_feature_1_hNtGNi": {
-      "type": "ss-feature-1",
-      "blocks": {
-        "image_fAJ9wx": {
-          "type": "image",
-          "settings": {
-            "feature_title": "Chef-Crafted Meals",
-            "feature_text": "",
-            "feature_image": "",
-            "feature_image_asset": "cm-badge-icon-1-yellow.png",
-            "feature_image_alt": "Chef-Crafted Meals",
-            "feature_url": "",
-            "hide_image": false,
-            "animate_icon_only": true
-          }
-        },
-        "image_DDUVzQ": {
-          "type": "image",
-          "settings": {
-            "feature_title": "Low-Calorie & High Protein Meals",
-            "feature_text": "",
-            "feature_image": "",
-            "feature_image_asset": "cm-badge-icon-2-yellow.png",
-            "feature_image_alt": "Low-Calorie & High Protein Meals",
-            "feature_url": "shopify://collections/meal-plans",
-            "hide_image": false,
-            "animate_icon_only": true
-          }
-        },
-        "image_DVrxK4": {
-          "type": "image",
-          "settings": {
-            "feature_title": "Clean Ingredients",
-            "feature_text": "",
-            "feature_image": "",
-            "feature_image_asset": "cm-badge-icon-3-yellow.png",
-            "feature_image_alt": "Clean Ingredients",
-            "feature_url": "shopify://collections/meal-plans",
-            "hide_image": false,
-            "animate_icon_only": true
-          }
-        },
-        "image_abqaFA": {
-          "type": "image",
-          "settings": {
-            "feature_title": "Delivered Fresh Weekly",
-            "feature_text": "",
-            "feature_image": "",
-            "feature_image_asset": "cm-badge-icon-4-yellow.png",
-            "feature_image_alt": "Delivered Fresh Weekly",
-            "feature_url": "shopify://collections/meal-plans",
-            "hide_image": false,
-            "animate_icon_only": true
-          }
-        }
-      },
-      "block_order": [
-        "image_fAJ9wx",
-        "image_DDUVzQ",
-        "image_DVrxK4",
-        "image_abqaFA"
-      ],
-      "name": "SS - Feature #1",
-      "settings": {
-        "feature_row": 4,
-        "feature_row_mobile": 2,
-        "feature_gap": 20,
-        "feature_gap_mobile": 20,
-        "feature_padding_horizontal": 0,
-        "feature_padding_vertical": 0,
-        "feature_radius": 16,
-        "feature_border_thickness": 0,
-        "feature_shadow": false,
-        "feature_heading_custom": false,
-        "feature_heading_font": "josefin_sans_n4",
-        "feature_heading_size": 18,
-        "feature_heading_size_mobile": 14,
-        "feature_heading_height": 130,
-        "feature_heading_mt": 14,
-        "feature_text_custom": false,
-        "feature_text_font": "josefin_sans_n4",
-        "feature_text_size": 16,
-        "feature_text_size_mobile": 16,
-        "feature_text_height": 130,
-        "feature_text_mt": 4,
-        "feature_icon_size": 150,
-        "feature_icon_size_mobile": 104,
-        "feature_bg": "#ffffff",
-        "feature_border_color": "#000000",
-        "feature_shadow_color": "#000000",
-        "feature_heading_color": "#111111",
-        "feature_text_color": "#000000",
-        "feature_icon_color": "#000000",
-        "background_color": "#ffffff",
-        "background_gradient": "",
-        "border_color": "#000000",
-        "margin_top": 0,
-        "margin_bottom": 0,
-        "padding_top": 52,
-        "padding_bottom": 52,
-        "padding_horizontal": 5,
-        "padding_horizontal_mobile": 1.5,
-        "full_width": false,
-        "content_width": 120,
-        "border_thickness": 0,
-        "lazy": true
-      }
-    },
-    "featured_product_F3HaEM": {
-      "type": "cm-featured-plan",
-      "blocks": {
-        "dish_1": {
-          "type": "dish",
-          "settings": {
-            "name": "Peri peri chicken",
-            "note": "Citrus, chilli, and herbs",
-            "tag": "High protein"
-          }
-        },
-        "dish_2": {
-          "type": "dish",
-          "settings": {
-            "name": "Herb roasted vegetables",
-            "note": "Seasonal, bright, and clean",
-            "tag": "Plant forward"
-          }
-        },
-        "dish_3": {
-          "type": "dish",
-          "settings": {
-            "name": "Garlic butter salmon",
-            "note": "Rich, light, and satisfying",
-            "tag": "Omega rich"
-          }
-        }
-      },
-      "block_order": [
-        "dish_1",
-        "dish_2",
-        "dish_3"
-      ],
-      "settings": {
-        "stamp_value": "Week 14",
-        "stamp_label": "On the pass",
-        "eyebrow": "This week at the table",
-        "heading": "Food worth\ncoming home to",
-        "text": "<p>A short menu, cooked from scratch and packed for the week. Heat, eat, and get on with your evening.</p>",
-        "meta_title": "From 5 meals",
-        "meta_text": "No subscription. New menu every week.",
-        "button_label": "See the menu",
-        "button_link": "shopify://collections/meal-plans"
-      }
-    },
-    "featured_collection1": {
-      "type": "featured-collection",
-      "disabled": true,
-      "settings": {
-        "collection": "butcher-market-meats",
-        "products_to_show": 5,
-        "title": "Butcher Market Meats",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 5,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": false,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "bulk",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 52
-      }
-    },
-    "1757712751e12d8e13": {
-      "type": "apps",
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "1763753350cdb419dc": {
-      "type": "apps",
-      "settings": {
-        "include_margins": true
       }
     },
     "cm_parallax_gallery": {
@@ -494,6 +302,110 @@
         "background": "beige",
         "padding_top": 80,
         "padding_bottom": 80
+      }
+    },
+    "ss_feature_1_hNtGNi": {
+      "type": "ss-feature-1",
+      "blocks": {
+        "image_fAJ9wx": {
+          "type": "image",
+          "settings": {
+            "feature_title": "Chef-Crafted Meals",
+            "feature_text": "",
+            "feature_image_asset": "cm-badge-icon-1-yellow.png",
+            "feature_image_alt": "Chef-Crafted Meals",
+            "feature_url": "",
+            "hide_image": false,
+            "animate_icon_only": true
+          }
+        },
+        "image_DDUVzQ": {
+          "type": "image",
+          "settings": {
+            "feature_title": "Low-Calorie & High Protein Meals",
+            "feature_text": "",
+            "feature_image_asset": "cm-badge-icon-2-yellow.png",
+            "feature_image_alt": "Low-Calorie & High Protein Meals",
+            "feature_url": "shopify://collections/meal-plans",
+            "hide_image": false,
+            "animate_icon_only": true
+          }
+        },
+        "image_DVrxK4": {
+          "type": "image",
+          "settings": {
+            "feature_title": "Clean Ingredients",
+            "feature_text": "",
+            "feature_image_asset": "cm-badge-icon-3-yellow.png",
+            "feature_image_alt": "Clean Ingredients",
+            "feature_url": "shopify://collections/meal-plans",
+            "hide_image": false,
+            "animate_icon_only": true
+          }
+        },
+        "image_abqaFA": {
+          "type": "image",
+          "settings": {
+            "feature_title": "Delivered Fresh Weekly",
+            "feature_text": "",
+            "feature_image_asset": "cm-badge-icon-4-yellow.png",
+            "feature_image_alt": "Delivered Fresh Weekly",
+            "feature_url": "shopify://collections/meal-plans",
+            "hide_image": false,
+            "animate_icon_only": true
+          }
+        }
+      },
+      "block_order": [
+        "image_fAJ9wx",
+        "image_DDUVzQ",
+        "image_DVrxK4",
+        "image_abqaFA"
+      ],
+      "name": "SS - Feature #1",
+      "settings": {
+        "feature_row": 4,
+        "feature_row_mobile": 2,
+        "feature_gap": 20,
+        "feature_gap_mobile": 20,
+        "feature_padding_horizontal": 0,
+        "feature_padding_vertical": 0,
+        "feature_radius": 16,
+        "feature_border_thickness": 0,
+        "feature_shadow": false,
+        "feature_heading_custom": false,
+        "feature_heading_font": "josefin_sans_n4",
+        "feature_heading_size": 18,
+        "feature_heading_size_mobile": 14,
+        "feature_heading_height": 130,
+        "feature_heading_mt": 14,
+        "feature_text_custom": false,
+        "feature_text_font": "josefin_sans_n4",
+        "feature_text_size": 16,
+        "feature_text_size_mobile": 16,
+        "feature_text_height": 130,
+        "feature_text_mt": 4,
+        "feature_icon_size": 150,
+        "feature_icon_size_mobile": 104,
+        "feature_bg": "#ffffff",
+        "feature_border_color": "#000000",
+        "feature_shadow_color": "#000000",
+        "feature_heading_color": "#111111",
+        "feature_text_color": "#000000",
+        "feature_icon_color": "#000000",
+        "background_color": "#ffffff",
+        "background_gradient": "",
+        "border_color": "#000000",
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "padding_top": 52,
+        "padding_bottom": 52,
+        "padding_horizontal": 5,
+        "padding_horizontal_mobile": 1.5,
+        "full_width": false,
+        "content_width": 120,
+        "border_thickness": 0,
+        "lazy": true
       }
     },
     "cm_arc_carousel": {
@@ -581,7 +493,7 @@
         "image_style": "card",
         "full_width": true,
         "item_width": 320,
-        "gap": 16,
+        "gap": 10,
         "curve": 0,
         "tilt": 0,
         "autoplay": true,
@@ -596,6 +508,347 @@
         "padding_top": 64,
         "padding_bottom": 64
       }
+    },
+    "featured_product_F3HaEM": {
+      "type": "featured-product",
+      "blocks": {
+        "text_zqQHFF": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_P8rgXx": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_Kiq3AD": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_gPgtXp": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_eB6hzX": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_VRKJCR": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": false
+          }
+        },
+        "share_zX7T6A": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_zqQHFF",
+        "title_P8rgXx",
+        "price_Kiq3AD",
+        "variant_picker_gPgtXp",
+        "quantity_selector_eB6hzX",
+        "buy_buttons_VRKJCR",
+        "share_zX7T6A"
+      ],
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "5-meal-plan",
+        "color_scheme": "scheme-1",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "featured_collection1": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "collection": "butcher-market-meats",
+        "products_to_show": 5,
+        "title": "Butcher Market Meats",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 5,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "bulk",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 52
+      }
+    },
+    "1757712751e12d8e13": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1763753350cdb419dc": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "cm_delivery_areas": {
+      "type": "cm-delivery-areas",
+      "blocks": {
+        "area_1": {
+          "type": "area",
+          "settings": {
+            "name": "Hartland"
+          }
+        },
+        "area_2": {
+          "type": "area",
+          "settings": {
+            "name": "Delafield"
+          }
+        },
+        "area_3": {
+          "type": "area",
+          "settings": {
+            "name": "Pewaukee"
+          }
+        },
+        "area_4": {
+          "type": "area",
+          "settings": {
+            "name": "Waukesha"
+          }
+        },
+        "area_5": {
+          "type": "area",
+          "settings": {
+            "name": "Sussex"
+          }
+        },
+        "area_6": {
+          "type": "area",
+          "settings": {
+            "name": "Merton"
+          }
+        },
+        "area_7": {
+          "type": "area",
+          "settings": {
+            "name": "Nashotah"
+          }
+        },
+        "area_8": {
+          "type": "area",
+          "settings": {
+            "name": "Okauchee Lake"
+          }
+        },
+        "area_9": {
+          "type": "area",
+          "settings": {
+            "name": "Oconomowoc"
+          }
+        },
+        "area_10": {
+          "type": "area",
+          "settings": {
+            "name": "Oconomowoc Lake"
+          }
+        },
+        "area_11": {
+          "type": "area",
+          "settings": {
+            "name": "Chenequa"
+          }
+        },
+        "area_12": {
+          "type": "area",
+          "settings": {
+            "name": "Lisbon"
+          }
+        },
+        "area_13": {
+          "type": "area",
+          "settings": {
+            "name": "Lannon"
+          }
+        },
+        "area_14": {
+          "type": "area",
+          "settings": {
+            "name": "Menomonee Falls"
+          }
+        },
+        "area_15": {
+          "type": "area",
+          "settings": {
+            "name": "Brookfield"
+          }
+        },
+        "area_16": {
+          "type": "area",
+          "settings": {
+            "name": "Elm Grove"
+          }
+        },
+        "area_17": {
+          "type": "area",
+          "settings": {
+            "name": "Wales"
+          }
+        },
+        "area_18": {
+          "type": "area",
+          "settings": {
+            "name": "Dousman"
+          }
+        },
+        "area_19": {
+          "type": "area",
+          "settings": {
+            "name": "Summit"
+          }
+        },
+        "area_20": {
+          "type": "area",
+          "settings": {
+            "name": "Lake Country"
+          }
+        },
+        "area_21": {
+          "type": "area",
+          "settings": {
+            "name": "Stone Bank"
+          }
+        },
+        "area_22": {
+          "type": "area",
+          "settings": {
+            "name": "North Lake"
+          }
+        },
+        "area_23": {
+          "type": "area",
+          "settings": {
+            "name": "Mapleton"
+          }
+        },
+        "area_24": {
+          "type": "area",
+          "settings": {
+            "name": "Genesee"
+          }
+        },
+        "area_25": {
+          "type": "area",
+          "settings": {
+            "name": "Mukwonago"
+          }
+        },
+        "feat_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "clock",
+            "title": "On Time Delivery",
+            "text": "Always on schedule"
+          }
+        },
+        "feat_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "heart",
+            "title": "Fresh & Healthy",
+            "text": "Made with care"
+          }
+        },
+        "feat_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "map",
+            "title": "Wide Area Coverage",
+            "text": "Near you always"
+          }
+        },
+        "feat_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "love",
+            "title": "Made With Love",
+            "text": "For a healthier you"
+          }
+        }
+      },
+      "block_order": [
+        "area_1",
+        "area_2",
+        "area_3",
+        "area_4",
+        "area_5",
+        "area_6",
+        "area_7",
+        "area_8",
+        "area_9",
+        "area_10",
+        "area_11",
+        "area_12",
+        "area_13",
+        "area_14",
+        "area_15",
+        "area_16",
+        "area_17",
+        "area_18",
+        "area_19",
+        "area_20",
+        "area_21",
+        "area_22",
+        "area_23",
+        "area_24",
+        "area_25",
+        "feat_1",
+        "feat_2",
+        "feat_3",
+        "feat_4"
+      ],
+      "settings": {
+        "eyebrow": "We Deliver",
+        "heading": "Delivery Areas",
+        "subheading": "Delivering fresh, healthy meals",
+        "subheading_accent": "to your neighborhood",
+        "button_label": "Order Now",
+        "button_link": "shopify://collections/meal-plans",
+        "plate_tl_alt": "Fresh vegetables plate",
+        "plate_tr_alt": "Chef prepared meal",
+        "plate_bl_alt": "Chicken and vegetables plate",
+        "plate_br_alt": "Salad bowl"
+      }
     }
   },
   "order": [
@@ -608,6 +861,7 @@
     "featured_product_F3HaEM",
     "featured_collection1",
     "1757712751e12d8e13",
-    "1763753350cdb419dc"
+    "1763753350cdb419dc",
+    "cm_delivery_areas"
   ]
 }
