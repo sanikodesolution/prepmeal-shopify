@@ -185,45 +185,82 @@
       </ol>
     </div></section>
 
-    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
-      <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
-      <div class="mp-gs mealplan-q__copy">
-        <h2 class="mealplan-h mealplan-q__title">
-          {{ section.settings.quality_heading | escape }}
-          {%- if menu_blocks.size > 0 -%}
-            <button type="button" class="mealplan-q__peek" aria-label="Open this week's menu image">
-              <img src="{{ '10-meal-together.png' | asset_url }}" alt="" width="90" height="90">
-            </button>
-          {%- endif -%}
-        </h2>
-        <div class="mealplan-q__split">
-          <ul class="mealplan-terms" id="qTerms">
-            {%- for block in quality_blocks -%}
-              <li data-detail="{{ block.settings.detail | default: block.settings.text | escape }}"{% if menu_blocks.size > 0 %} data-show-menu="1"{% endif %} {{ block.shopify_attributes }}>
-                <b>{{ block.settings.title | escape }}</b>
-                <span>{{ block.settings.text | escape }}</span>
+    {%- if menu_blocks.size > 0 -%}
+      <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
+        <div class="mealplan-wrap mealplan-menu__inner">
+          <div class="mealplan-menu__head">
+            <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
+            {%- if section.settings.quality_text != blank -%}
+              <p class="mealplan-menu__sub">{{ section.settings.quality_text | escape }}</p>
+            {%- endif -%}
+          </div>
+          <div class="mealplan-menu__stage">
+            <div class="mealplan-menu__frame">
+              {%- for block in menu_blocks -%}
+                <div class="mealplan-menu__slide{% if forloop.first %} is-active{% endif %}" data-mp-slide>
+                  <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.short | default: block.settings.name | escape }}" width="800" height="860"{% unless forloop.first %} loading="lazy"{% endunless %}>
+                </div>
+              {%- endfor -%}
+              <div class="mealplan-menu__caption" aria-hidden="true">
+                <span class="mealplan-menu__count" data-mp-count>1</span>
+                <span class="mealplan-menu__caption-text">
+                  <span class="mealplan-menu__caption-name" data-mp-caption>{{ menu_blocks.first.settings.short | default: menu_blocks.first.settings.name | escape }}</span>
+                  <span class="mealplan-menu__caption-sub">Fresh, ready to heat</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <ol class="mealplan-menu__list" role="tablist">
+            {%- for block in menu_blocks -%}
+              <li {{ block.shopify_attributes }}>
+                <button type="button" class="mealplan-menu__item{% if forloop.first %} is-active{% endif %}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
+                  <span class="mealplan-menu__num">{{ forloop.index }}</span>
+                  <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
+                </button>
               </li>
             {%- endfor -%}
-          </ul>
-          <aside class="mealplan-q__detail" id="qDetail">
-            <div class="mealplan-q__note"><b></b><p></p></div>
-            {%- if menu_blocks.size > 0 -%}
-              <ol class="mealplan-q__menu" hidden>
-                {%- for block in menu_blocks -%}
-                  <li {{ block.shopify_attributes }}>{{ block.settings.name | escape }}</li>
-                {%- endfor -%}
-              </ol>
-            {%- endif -%}
-          </aside>
+          </ol>
+          <div class="mealplan-menu__detail">
+            <ol class="mealplan-menu__full">
+              {%- for block in menu_blocks -%}
+                <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
+              {%- endfor -%}
+            </ol>
+            <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ section.settings.quality_button | default: 'See all plans' | escape }}</button>
+          </div>
         </div>
-      </div>
-    </div></section>
-
-    {%- if menu_blocks.size > 0 -%}
-      <div class="mealplan-q__lightbox" id="qLightbox" hidden>
-        <button type="button" class="mealplan-q__lightbox-close" data-q-close aria-label="Close">×</button>
-        <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu">
-      </div>
+        <div class="mealplan-menu__modal" data-mp-modal role="dialog" aria-modal="true" aria-label="All meals" hidden>
+          <div class="mealplan-menu__modal-backdrop" data-mp-close></div>
+          <div class="mealplan-menu__modal-box">
+            <button type="button" class="mealplan-menu__modal-close" data-mp-close aria-label="Close">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <div class="mealplan-menu__modal-scroll">
+              <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu">
+            </div>
+          </div>
+        </div>
+      </section>
+    {%- else -%}
+      <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
+        <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
+        <div class="mp-gs mealplan-q__copy">
+          <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
+          <div class="mealplan-q__split">
+            <ul class="mealplan-terms" id="qTerms">
+              {%- for block in quality_blocks -%}
+                <li data-detail="{{ block.settings.detail | default: block.settings.text | escape }}" {{ block.shopify_attributes }}>
+                  <b>{{ block.settings.title | escape }}</b>
+                  <span>{{ block.settings.text | escape }}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+            <aside class="mealplan-q__detail" id="qDetail">
+              <div class="mealplan-q__note"><b></b><p></p></div>
+            </aside>
+          </div>
+        </div>
+      </div></section>
     {%- endif -%}
 
     <section class="mealplan-sec" style="padding-inline:0"><div>
@@ -403,6 +440,8 @@
     { "type": "textarea", "id": "chef_text", "label": "Chef text", "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you." },
     { "type": "text", "id": "steps_heading", "label": "Steps heading", "default": "How it works" },
     { "type": "text", "id": "quality_heading", "label": "Quality heading", "default": "Fresh in, quality out." },
+    { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
+    { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
     { "type": "header", "content": "Delivery" },
@@ -479,6 +518,7 @@
       "type": "menu_item",
       "name": "Menu item",
       "settings": [
+        { "type": "text", "id": "short", "label": "Short name" },
         { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" }
       ]
     },

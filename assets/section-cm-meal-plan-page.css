@@ -357,3 +357,65 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-page #qImg .mp-qimg.is-on{opacity:1}
 .mealplan-page .mph{min-height:0}
 
+/* This Week's Menu */
+.mealplan-menu{--mp-accent:#F5A623;--mp-accent-soft:#fff4e3;--mp-ink:#15251C;--mp-muted:#5c675f;--mp-line:#e4e8e1;background:#fff;color:var(--mp-ink)}
+.mealplan-menu__inner{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr) minmax(0,1fr);column-gap:clamp(24px,3vw,56px);row-gap:0;align-items:start}
+.mealplan-menu__head{grid-column:1 / -1;grid-row:1;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px 48px;margin-bottom:clamp(28px,3.4vw,52px);padding-bottom:clamp(18px,2vw,26px);border-bottom:1px solid var(--mp-line)}
+.mealplan-menu__head .mealplan-h{margin:0}
+.mealplan-menu__sub{margin:0 0 8px;max-width:42ch;font-size:16px;line-height:1.6;color:var(--mp-muted)}
+.mealplan-menu__stage{grid-column:1;grid-row:2;position:sticky;top:40px}
+.mealplan-menu__frame{position:relative;aspect-ratio:4/4.3;border-radius:36px 220px 36px 36px;overflow:hidden;background:#f1f0ec;box-shadow:0 40px 80px -40px rgba(21,37,28,.35)}
+.mealplan-menu__slide{position:absolute;inset:0;opacity:0;transform:scale(1.06);transition:opacity .55s ease,transform .8s ease}
+.mealplan-menu__slide.is-active{opacity:1;transform:scale(1);z-index:1}
+.mealplan-menu__slide img{width:100%;height:100%;object-fit:cover;display:block}
+.mealplan-menu__frame::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,0) 62%,rgba(0,0,0,.38) 100%);pointer-events:none}
+.mealplan-menu__caption{position:absolute;left:22px;right:22px;bottom:22px;z-index:3;display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:18px;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6)}
+.mealplan-menu__count{flex:none;min-width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--mp-accent);color:#1b1204;font-weight:700;font-size:18px}
+.mealplan-menu__caption-name{display:block;font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mealplan-menu__caption-sub{display:block;font-size:14px;color:#55534d}
+.mealplan-menu__list{grid-column:2;grid-row:2;list-style:none;margin:0;padding:0;border-top:1px solid var(--mp-line);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#d3d0c7 transparent}
+.mealplan-menu__item{position:relative;width:100%;display:grid;grid-template-columns:1.8rem minmax(0,1fr);align-items:center;gap:8px;padding:17px 8px 17px 12px;background:none;border:0;border-bottom:1px solid var(--mp-line);text-align:left;font:inherit;color:var(--mp-ink);cursor:pointer}
+.mealplan-menu__item::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--mp-accent);transform:scaleY(0);transition:transform .35s ease}
+.mealplan-menu__num,.mealplan-menu__name{transition:transform .35s ease,color .3s ease}
+.mealplan-menu__num{text-align:right;font-size:15px;font-weight:600;color:#8d928c}
+.mealplan-menu__name{font-size:18px;line-height:1.25;font-weight:500}
+.mealplan-menu__item.is-active{background:linear-gradient(90deg,var(--mp-accent-soft),rgba(255,255,255,0) 85%)}
+.mealplan-menu__item.is-active::before{transform:scaleY(1)}
+.mealplan-menu__item.is-active .mealplan-menu__num{color:var(--mp-accent)}
+.mealplan-menu__item.is-active .mealplan-menu__num,.mealplan-menu__item.is-active .mealplan-menu__name{transform:translateX(5px)}
+.mealplan-menu__item:focus-visible{outline:2px solid var(--mp-accent);outline-offset:-2px}
+.mealplan-menu__detail{grid-column:3;grid-row:2;position:sticky;top:40px;border:1px solid var(--mp-line);border-radius:28px;background:#fff;box-shadow:0 24px 50px -34px rgba(21,37,28,.3);overflow:hidden}
+.mealplan-menu__detail::before{content:"";display:block;height:5px;background:var(--mp-accent)}
+.mealplan-menu__full{margin:0;padding:16px 18px 8px 36px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#d3d0c7 transparent}
+.mealplan-menu__full li{padding:9px 10px 9px 6px;border-radius:10px;font-size:16px;line-height:1.45;font-weight:500;color:#3a3833;cursor:pointer}
+.mealplan-menu__full li::marker{color:#8d928c;font-weight:600}
+.mealplan-menu__full li.is-active{background:var(--mp-accent-soft);color:var(--mp-ink)}
+.mealplan-menu__full li.is-active::marker{color:var(--mp-accent)}
+.mealplan-menu__cta{display:inline-flex;align-items:center;margin:8px 0 22px 22px;padding:14px 24px;border:0;border-radius:99px;background:var(--mp-ink);color:#fff;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
+.mealplan-menu__cta:hover{background:var(--mp-accent);color:#1b1204}
+.mealplan-menu__modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:clamp(16px,4vw,48px)}
+.mealplan-menu__modal.is-open{display:flex}
+.mealplan-menu__modal[hidden]{display:none}
+.mealplan-menu__modal-backdrop{position:absolute;inset:0;background:rgba(21,37,28,.72)}
+.mealplan-menu__modal-box{position:relative;display:flex;max-width:min(1200px,100%);max-height:100%;border-radius:24px;overflow:hidden;background:#fff}
+.mealplan-menu__modal-scroll{overflow-y:auto;max-height:calc(100vh - 64px)}
+.mealplan-menu__modal-scroll img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(100vh - 64px);object-fit:contain}
+.mealplan-menu__modal.is-tall .mealplan-menu__modal-box{width:min(620px,100%)}
+.mealplan-menu__modal.is-tall .mealplan-menu__modal-scroll,.mealplan-menu__modal.is-tall .mealplan-menu__modal-scroll img{width:100%}
+.mealplan-menu__modal.is-tall .mealplan-menu__modal-scroll img{max-height:none}
+.mealplan-menu__modal-close{position:absolute;top:14px;right:14px;z-index:2;width:44px;height:44px;border:0;border-radius:50%;display:grid;place-items:center;cursor:pointer;background:rgba(255,255,255,.92);color:#15251C}
+.mealplan-menu__modal-close svg{width:20px;height:20px}
+@media(max-width:1100px){
+  .mealplan-menu__inner{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+  .mealplan-menu__stage{grid-column:1;grid-row:2 / 4}
+  .mealplan-menu__list{grid-column:2;grid-row:2}
+  .mealplan-menu__detail{grid-column:2;grid-row:3;margin-top:20px;position:relative;top:0}
+}
+@media(max-width:860px){
+  .mealplan-menu__inner{grid-template-columns:minmax(0,1fr)}
+  .mealplan-menu__stage{grid-column:1;grid-row:2;position:relative;top:0;margin-bottom:28px}
+  .mealplan-menu__frame{aspect-ratio:4/3.6;border-radius:28px 120px 28px 28px}
+  .mealplan-menu__list{grid-column:1;grid-row:3}
+  .mealplan-menu__detail{grid-column:1;grid-row:4;position:relative;top:0}
+}
+

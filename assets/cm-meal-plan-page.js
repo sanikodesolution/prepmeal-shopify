@@ -282,6 +282,87 @@
     });
   }
 
+  const week = document.querySelector('.mealplan-menu');
+  if (week) {
+    const items = [...week.querySelectorAll('[data-mp-item]')];
+    const slides = [...week.querySelectorAll('[data-mp-slide]')];
+    const rows = [...week.querySelectorAll('[data-mp-row]')];
+    const count = week.querySelector('[data-mp-count]');
+    const cap = week.querySelector('[data-mp-caption]');
+    const listEl = week.querySelector('.mealplan-menu__list');
+    const fullEl = week.querySelector('.mealplan-menu__full');
+    const modal = week.querySelector('[data-mp-modal]');
+    const canHover = matchMedia('(hover: hover) and (pointer: fine)');
+    let current = 0;
+    const fit = (box, full, half) => {
+      if (!box) return;
+      const kids = [...box.children];
+      box.style.maxHeight = '';
+      if (kids.length <= full + (half ? 1 : 0)) return;
+      let h = 0;
+      for (let k = 0; k < full; k++) h += kids[k].getBoundingClientRect().height;
+      if (half && kids[full]) h += kids[full].getBoundingClientRect().height * 0.5;
+      const cs = getComputedStyle(box);
+      h += (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+      box.style.maxHeight = `${Math.round(h)}px`;
+    };
+    const fitAll = () => {
+      fit(listEl, 7, false);
+      fit(fullEl, 5, true);
+    };
+    const reveal = (box, el) => {
+      if (!box || !el) return;
+      const b = box.getBoundingClientRect();
+      const r = el.getBoundingClientRect();
+      let d = 0;
+      if (r.top < b.top) d = r.top - b.top - 8;
+      else if (r.bottom > b.bottom) d = r.bottom - b.bottom + 8;
+      if (d) box.scrollTo({ top: box.scrollTop + d, behavior: 'smooth' });
+    };
+    const set = (i, src) => {
+      if (i === current || i < 0 || i >= items.length) return;
+      current = i;
+      items.forEach((el, k) => {
+        const on = k === i;
+        el.classList.toggle('is-active', on);
+        el.setAttribute('aria-selected', on ? 'true' : 'false');
+        el.tabIndex = on ? 0 : -1;
+      });
+      slides.forEach((el, k) => el.classList.toggle('is-active', k === i));
+      rows.forEach((el, k) => el.classList.toggle('is-active', k === i));
+      if (count) count.textContent = String(i + 1);
+      if (cap) cap.textContent = items[i].querySelector('.mealplan-menu__name')?.textContent || '';
+      if (src !== 'list') reveal(listEl, items[i]);
+      if (src !== 'rows') reveal(fullEl, rows[i]);
+    };
+    items.forEach((el, i) => {
+      el.addEventListener('mouseenter', () => { if (canHover.matches) set(i, 'list'); });
+      el.addEventListener('focus', () => set(i, 'list'));
+      el.addEventListener('click', () => set(i, 'list'));
+    });
+    rows.forEach((el, i) => {
+      el.addEventListener('mouseenter', () => { if (canHover.matches) set(i, 'rows'); });
+      el.addEventListener('click', () => set(i, 'rows'));
+    });
+    fitAll();
+    window.addEventListener('resize', fitAll);
+    if (modal) {
+      const img = modal.querySelector('img');
+      const markTall = () => {
+        if (img && img.naturalWidth && img.naturalHeight / img.naturalWidth > 1.25) modal.classList.add('is-tall');
+      };
+      if (img) {
+        if (img.complete) markTall();
+        else img.addEventListener('load', markTall);
+      }
+      const open = () => { modal.hidden = false; modal.classList.add('is-open'); document.documentElement.style.overflow = 'hidden'; };
+      const close = () => { modal.classList.remove('is-open'); modal.hidden = true; document.documentElement.style.overflow = ''; };
+      week.querySelector('[data-mp-open]')?.addEventListener('click', open);
+      modal.querySelectorAll('[data-mp-close]').forEach((el) => el.addEventListener('click', close));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) close(); });
+    }
+  }
+
   // Reviews (static from markup — no rebuild needed if liquid rendered)
   // FAQ accordion
   const faq = $('#faq');

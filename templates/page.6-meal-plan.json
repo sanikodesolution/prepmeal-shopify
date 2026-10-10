@@ -44,7 +44,9 @@
         "padding_top": 0,
         "padding_bottom": 0,
         "button_link": "/products/6-meal-plan",
-        "cta_button_link": "/products/6-meal-plan"
+        "cta_button_link": "/products/6-meal-plan",
+        "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
+        "quality_button": "See all plans"
       },
       "blocks": {
         "meal_1": {
@@ -306,16 +308,76 @@
             "detail": "Recipes are cooked the same way every time: the same seasoning, the same portions, and the same finish before a box leaves the kitchen."
           }
         },
-        "menu_1": { "type": "menu_item", "settings": { "name": "Chicken Biryani with Raita" } },
-        "menu_2": { "type": "menu_item", "settings": { "name": "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti" } },
-        "menu_3": { "type": "menu_item", "settings": { "name": "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti" } },
-        "menu_4": { "type": "menu_item", "settings": { "name": "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti" } },
-        "menu_5": { "type": "menu_item", "settings": { "name": "Lamb Korma with Green Salad and Basmati Rice" } },
-        "menu_6": { "type": "menu_item", "settings": { "name": "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti" } },
-        "menu_7": { "type": "menu_item", "settings": { "name": "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti" } },
-        "menu_8": { "type": "menu_item", "settings": { "name": "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti" } },
-        "menu_9": { "type": "menu_item", "settings": { "name": "Malai Kofta with Rajma, Basmati Rice and 2 Roti" } },
-        "menu_10": { "type": "menu_item", "settings": { "name": "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti" } },
+        "menu_1": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Chicken Biryani with Raita",
+            "short": "Chicken Biryani with Raita"
+          }
+        },
+        "menu_2": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti",
+            "short": "Tandoori Chicken Leg with Veg Jalfrezi"
+          }
+        },
+        "menu_3": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti",
+            "short": "Butter Chicken with Aloo Methi"
+          }
+        },
+        "menu_4": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti",
+            "short": "Coconut Fish Curry with Jeera Aloo"
+          }
+        },
+        "menu_5": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Lamb Korma with Green Salad and Basmati Rice",
+            "short": "Lamb Korma with Green Salad"
+          }
+        },
+        "menu_6": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti",
+            "short": "Chana Masala with Jeera Aloo"
+          }
+        },
+        "menu_7": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti",
+            "short": "Palak Paneer with Aloo Gobi"
+          }
+        },
+        "menu_8": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti",
+            "short": "Dal Makhani with Bhindi Masala"
+          }
+        },
+        "menu_9": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Malai Kofta with Rajma, Basmati Rice and 2 Roti",
+            "short": "Malai Kofta with Rajma"
+          }
+        },
+        "menu_10": {
+          "type": "menu_item",
+          "settings": {
+            "name": "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti",
+            "short": "Baingan Bharta with Rajma Masala"
+          }
+        },
         "review_1": {
           "type": "review",
           "settings": {
