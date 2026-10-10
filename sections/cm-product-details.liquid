@@ -36,6 +36,23 @@
             </div>
           {%- endif -%}
         </div>
+        <div class="mealplan-pd__plates" aria-hidden="true">
+          {%- if section.settings.plate_1 != blank -%}
+            {{ section.settings.plate_1 | image_url: width: 480 | image_tag: alt: '', class: 'mealplan-pd__plate', loading: 'lazy' }}
+          {%- else -%}
+            <img class="mealplan-pd__plate" src="{{ 'cm-pd-plate-1.png' | asset_url }}" alt="" width="180" height="180">
+          {%- endif -%}
+          {%- if section.settings.plate_2 != blank -%}
+            {{ section.settings.plate_2 | image_url: width: 480 | image_tag: alt: '', class: 'mealplan-pd__plate', loading: 'lazy' }}
+          {%- else -%}
+            <img class="mealplan-pd__plate" src="{{ 'cm-pd-plate-2.png' | asset_url }}" alt="" width="180" height="180">
+          {%- endif -%}
+          {%- if section.settings.plate_3 != blank -%}
+            {{ section.settings.plate_3 | image_url: width: 480 | image_tag: alt: '', class: 'mealplan-pd__plate', loading: 'lazy' }}
+          {%- else -%}
+            <img class="mealplan-pd__plate" src="{{ 'cm-pd-plate-3.png' | asset_url }}" alt="" width="180" height="180">
+          {%- endif -%}
+        </div>
       </div>
       {%- if product != blank and product.images.size > 1 -%}
         <div class="mealplan-pd__thumbs" role="tablist" aria-label="Product images">
@@ -173,7 +190,10 @@
     { "type": "text", "id": "cal", "label": "Calories", "default": "540" },
     { "type": "text", "id": "protein", "label": "Protein", "default": "42g" },
     { "type": "text", "id": "carbs", "label": "Carbs", "default": "48g" },
-    { "type": "text", "id": "fat", "label": "Fat", "default": "16g" }
+    { "type": "text", "id": "fat", "label": "Fat", "default": "16g" },
+    { "type": "image_picker", "id": "plate_1", "label": "Meal plate 1" },
+    { "type": "image_picker", "id": "plate_2", "label": "Meal plate 2" },
+    { "type": "image_picker", "id": "plate_3", "label": "Meal plate 3" }
   ],
   "blocks": [
     {
