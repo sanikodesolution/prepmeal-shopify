@@ -512,73 +512,51 @@
       }
     },
     "featured_product_F3HaEM": {
-      "type": "featured-product",
+      "type": "cm-product-details",
       "blocks": {
-        "text_zqQHFF": {
-          "type": "text",
+        "acc_1": {
+          "type": "accordion",
           "settings": {
-            "text": "{{ section.settings.product.vendor }}",
-            "text_style": "uppercase"
+            "title": "What's included",
+            "text": "<p>Main dish, sides, basmati rice and 2 roti. Packed fresh in a microwave-safe tray.</p>",
+            "open": true
           }
         },
-        "title_P8rgXx": {
-          "type": "title",
+        "acc_2": {
+          "type": "accordion",
           "settings": {
-            "heading_size": "h1"
+            "title": "Reheating",
+            "text": "<p>Microwave for 2 to 3 minutes, stir halfway, and enjoy.</p>",
+            "open": false
           }
         },
-        "price_Kiq3AD": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker_gPgtXp": {
-          "type": "variant_picker",
+        "acc_3": {
+          "type": "accordion",
           "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "quantity_selector_eB6hzX": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons_VRKJCR": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": false,
-            "show_gift_card_recipient": false
-          }
-        },
-        "share_zX7T6A": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
+            "title": "Storage & allergens",
+            "text": "<p>Keep refrigerated and eat within 5 days. Check the label for allergens.</p>",
+            "open": false
           }
         }
       },
       "block_order": [
-        "text_zqQHFF",
-        "title_P8rgXx",
-        "price_Kiq3AD",
-        "variant_picker_gPgtXp",
-        "quantity_selector_eB6hzX",
-        "buy_buttons_VRKJCR",
-        "share_zX7T6A"
+        "acc_1",
+        "acc_2",
+        "acc_3"
       ],
-      "name": "t:sections.featured-product.presets.name",
       "settings": {
         "product": "5-meal-plan",
-        "color_scheme": "scheme-1",
-        "secondary_background": false,
-        "media_size": "medium",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": false,
-        "enable_video_looping": false,
-        "padding_top": 72,
-        "padding_bottom": 72
+        "eyebrow": "Chef cooked, fresh weekly",
+        "badge": "Fresh • Chef cooked • Never frozen • ",
+        "text": "Cooked fresh by our chefs, packed the same day and ready in minutes.",
+        "chip_1": "Fresh, never frozen",
+        "chip_2": "Ready in 3 minutes",
+        "chip_3": "Chef cooked",
+        "note": "Free delivery on weekly plans over $60",
+        "cal": "540",
+        "protein": "42g",
+        "carbs": "48g",
+        "fat": "16g"
       }
     },
     "featured_collection1": {
