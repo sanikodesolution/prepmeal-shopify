@@ -25,7 +25,7 @@
 {%- if item_count > 0 -%}
 
 <div
-  class="cm cm-arc cm-arc--{{ section.settings.image_style }}"
+  class="cm cm-arc cm-arc--orbit cm-arc--{{ section.settings.image_style }}"
   data-cm="arc"
   style="
     --cm-arc-bg-1: {{ section.settings.bg_color_1 }};
@@ -43,22 +43,9 @@
     <div class="cm-arc__frame" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
   {%- endif -%}
   <div class="cm-arc__content section-{{ section.id }}-padding">
-    {%- if section.settings.label != blank or section.settings.heading != blank or section.settings.text != blank -%}
-      <div class="cm-center page-width">
-        {%- if section.settings.label != blank -%}
-          <span class="cm-label">{{ section.settings.label | escape }}</span>
-        {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h2 class="cm-heading">{{ section.settings.heading | escape | newline_to_br }}</h2>
-        {%- endif -%}
-        {%- if section.settings.text != blank -%}
-          <div class="cm-body">{{ section.settings.text }}</div>
-        {%- endif -%}
-      </div>
-    {%- endif -%}
-
+    <div class="cm-arc__layout page-width">
     <cm-arc-carousel
-      class="{% if section.settings.full_width %}cm-arc--full{% else %}page-width{% endif %}"
+      data-orbit="1"
       data-gap="{{ section.settings.gap }}"
       data-curve="{{ section.settings.curve }}"
       data-tilt="{{ section.settings.tilt }}"
@@ -115,7 +102,8 @@
         {%- endif -%}
       </div>
 
-      <div class="cm-arc__info page-width" aria-live="polite">
+      <p class="cm-arc__orbit-name" aria-live="polite"></p>
+      <div class="cm-arc__info" hidden aria-live="polite">
         <h3 class="cm-arc__title"></h3>
         <p class="cm-arc__subtitle"></p>
         <div class="cm-arc__progress" aria-hidden="true">
@@ -148,6 +136,28 @@
         {%- endif -%}
       </div>
     </cm-arc-carousel>
+    <div class="cm-arc__copy">
+      {%- if section.settings.label != blank -%}
+        <span class="cm-label">{{ section.settings.label | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="cm-heading">
+          {%- if section.settings.heading_accent != blank and section.settings.heading contains section.settings.heading_accent -%}
+            {%- assign heading_bits = section.settings.heading | split: section.settings.heading_accent -%}
+            {{ heading_bits[0] | escape }}<em>{{ section.settings.heading_accent | escape }}</em>{{ heading_bits[1] | escape }}
+          {%- else -%}
+            {{ section.settings.heading | escape | newline_to_br }}
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="cm-body">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <a class="cm-arc__orbit-btn" href="{{ section.settings.button_link | default: section.settings.button_link_2 | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+      {%- endif -%}
+    </div>
+    </div>
   </div>
 </div>
 {%- endif -%}
@@ -185,6 +195,8 @@
   "settings": [
     { "type": "text", "id": "label", "label": "Label", "default": "This Week's Menu" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Pick Your Flavor" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent word", "info": "This word in the heading is shown in gold italic." },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
     { "type": "richtext", "id": "text", "label": "Text" },
     {
       "type": "header",

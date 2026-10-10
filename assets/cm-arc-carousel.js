@@ -44,10 +44,56 @@
       });
       if (!this.originals.length) return this.hideSection();
 
+      if (this.dataset.orbit === '1') {
+        this.startOrbit();
+        return;
+      }
+
       this.bindEvents();
       this.build();
       this.resizeObserver = new ResizeObserver(() => this.build());
       this.resizeObserver.observe(this.stage);
+    }
+
+    startOrbit() {
+      this.nameEl = this.querySelector('.cm-arc__orbit-name');
+      this.orbitIndex = 0;
+      this.orbitDir = -1;
+      this.placeOrbit(false);
+      const wait = (parseFloat(this.dataset.autoplay) || 5) * 1000;
+      if (wait > 0 && !reduceMotion.matches && this.originals.length > 1) {
+        this.timer = setInterval(() => {
+          this.orbitIndex = mod(this.orbitIndex + 1, this.originals.length);
+          this.placeOrbit(true);
+        }, wait);
+      }
+      this.resizeObserver = new ResizeObserver(() => this.placeOrbit(false));
+      this.resizeObserver.observe(this.stage);
+    }
+
+    placeOrbit(animate) {
+      const count = this.originals.length;
+      const reduce = reduceMotion.matches;
+      this.originals.forEach((item, index) => {
+        let delta = index - this.orbitIndex;
+        if (delta > count / 2) delta -= count;
+        if (delta < -count / 2) delta += count;
+        delta *= this.orbitDir === -1 ? 1 : -1;
+        const visible = Math.abs(delta) <= 1.05;
+        const y = 50 + delta * 44;
+        const x = 46 + Math.sin(delta * 0.95) * 14;
+        const scale = Math.abs(delta) < 0.05 ? 1 : 0.58;
+        item.classList.toggle('is-active', index === this.orbitIndex);
+        item.style.transition = animate && !reduce ? 'left 1.15s cubic-bezier(.22,.7,.2,1), top 1.15s cubic-bezier(.22,.7,.2,1), transform 1.15s cubic-bezier(.22,.7,.2,1), opacity .7s ease' : 'none';
+        item.style.left = `${x}%`;
+        item.style.top = `${y}%`;
+        item.style.opacity = visible ? '1' : '0';
+        item.style.zIndex = Math.abs(delta) < 0.05 ? '3' : '1';
+        item.style.pointerEvents = visible ? 'auto' : 'none';
+        item.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      });
+      const active = this.originals[this.orbitIndex];
+      if (this.nameEl && active) this.nameEl.textContent = active.dataset.title || '';
     }
 
     disconnectedCallback() {
