@@ -85,18 +85,75 @@
       )
       .join('');
 
-    const apply = () => {
+    const apply = (animate) => {
+      const cards = [...gridEl.querySelectorAll('.e')];
+      const prev = new Map();
+      if (animate) {
+        cards.forEach((el) => {
+          if (!el.hidden) prev.set(el, el.getBoundingClientRect());
+        });
+      }
+      const gridBox = gridEl.getBoundingClientRect();
       let n = 0;
       let match = 0;
-      $$('.e', gridEl).forEach((e) => {
-        const ok = cur === 'all' || e.dataset.t.split('|').includes(cur);
+      const nextShow = new Set();
+      cards.forEach((el) => {
+        const ok = cur === 'all' || el.dataset.t.split('|').includes(cur);
         if (ok) match++;
         const show = ok && n < shown;
-        if (show) n++;
-        e.classList.toggle('out', !show);
-        setTimeout(() => (e.hidden = !show), show ? 0 : 300);
-        if (show) e.hidden = false;
+        if (show) {
+          n += 1;
+          nextShow.add(el);
+        }
       });
+      cards.forEach((el) => {
+        const show = nextShow.has(el);
+        const was = !el.hidden;
+        if (!show && was && animate && prev.has(el)) {
+          const r = prev.get(el);
+          el.style.position = 'absolute';
+          el.style.top = `${r.top - gridBox.top}px`;
+          el.style.left = `${r.left - gridBox.left}px`;
+          el.style.width = `${r.width}px`;
+          el.style.margin = '0';
+          el.classList.add('is-leave');
+          const done = () => {
+            el.hidden = true;
+            el.classList.remove('is-leave', 'is-gone');
+            el.style.cssText = '';
+          };
+          el.addEventListener('transitionend', done, { once: true });
+          requestAnimationFrame(() => el.classList.add('is-gone'));
+        } else if (show) {
+          el.hidden = false;
+          if (!was) el.classList.add('is-enter');
+        } else {
+          el.hidden = true;
+        }
+      });
+      if (animate) {
+        cards.forEach((el) => {
+          if (!nextShow.has(el) || !prev.has(el)) return;
+          const a = prev.get(el);
+          const b = el.getBoundingClientRect();
+          const dx = a.left - b.left;
+          const dy = a.top - b.top;
+          if (!dx && !dy) return;
+          el.style.transform = `translate(${dx}px, ${dy}px)`;
+          el.style.transition = 'none';
+        });
+        gridEl.getBoundingClientRect();
+        cards.forEach((el) => {
+          if (!nextShow.has(el)) return;
+          el.style.transition = '';
+          el.style.transform = '';
+        });
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            cards.forEach((el) => el.classList.remove('is-enter'));
+          });
+        });
+      }
       if (moreBtn) moreBtn.style.display = match > shown ? '' : 'none';
     };
 
@@ -106,10 +163,10 @@
       cur = b.dataset.t;
       shown = 6;
       $$('button', filtersEl).forEach((x) => x.setAttribute('aria-pressed', x === b));
-      apply();
+      apply(true);
     });
-    if (moreBtn) moreBtn.addEventListener('click', () => { shown += 6; apply(); });
-    apply();
+    if (moreBtn) moreBtn.addEventListener('click', () => { shown += 6; apply(true); });
+    apply(false);
   }
 
   function showMeal(k) {
