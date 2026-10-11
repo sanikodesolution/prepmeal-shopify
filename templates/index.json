@@ -409,7 +409,7 @@
       }
     },
     "cm_arc_carousel": {
-      "type": "cm-arc-carousel",
+      "type": "cm-thali-wheel",
       "blocks": {
         "item_1": {
           "type": "item",
