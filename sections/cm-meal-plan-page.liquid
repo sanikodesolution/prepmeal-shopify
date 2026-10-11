@@ -61,6 +61,85 @@
   <script type="application/json" data-mp-alts>{{ alts_json }}</script>
   <script type="application/json" data-mp-meals>{{ meals_json }}</script>
 
+  {%- if menu_blocks.size > 0 -%}
+    <div class="mealplan">
+      <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
+        <div class="mealplan-wrap mealplan-menu__inner">
+          <div class="mealplan-menu__head">
+            <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
+            {%- if section.settings.quality_text != blank -%}
+              <p class="mealplan-menu__sub">{{ section.settings.quality_text | escape }}</p>
+            {%- endif -%}
+          </div>
+          <div class="mealplan-menu__stage">
+            <div class="mealplan-menu__frame">
+              {%- for block in menu_blocks -%}
+                <div class="mealplan-menu__slide{% if forloop.first %} is-active{% endif %}" data-mp-slide>
+                  <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.short | default: block.settings.name | escape }}" width="800" height="860"{% unless forloop.first %} loading="lazy"{% endunless %}>
+                </div>
+              {%- endfor -%}
+              <div class="mealplan-menu__caption" aria-hidden="true">
+                <span class="mealplan-menu__count" data-mp-count>1</span>
+                <span class="mealplan-menu__caption-text">
+                  <span class="mealplan-menu__caption-name" data-mp-caption>{{ menu_blocks.first.settings.short | default: menu_blocks.first.settings.name | escape }}</span>
+                  <span class="mealplan-menu__caption-sub">Fresh, ready to heat</span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <ol class="mealplan-menu__list" role="tablist">
+            {%- for block in menu_blocks -%}
+              <li {{ block.shopify_attributes }}>
+                <button type="button" class="mealplan-menu__item{% if forloop.first %} is-active{% endif %}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
+                  <span class="mealplan-menu__num">{{ forloop.index }}</span>
+                  <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
+                </button>
+              </li>
+            {%- endfor -%}
+          </ol>
+          <div class="mealplan-menu__detail">
+            <ol class="mealplan-menu__full">
+              {%- for block in menu_blocks -%}
+                <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
+              {%- endfor -%}
+            </ol>
+            <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ section.settings.quality_button | default: 'See all plans' | escape }}</button>
+          </div>
+        </div>
+        <div class="mealplan-menu__modal" data-mp-modal role="dialog" aria-modal="true" aria-label="This week's menu" hidden>
+          <div class="mealplan-menu__modal-backdrop" data-mp-close></div>
+          <div class="mealplan-menu__modal-box">
+            <header class="mealplan-menu__modal-head">
+              <h3>This Week's Menu</h3>
+              <button type="button" class="mealplan-menu__modal-close" data-mp-close aria-label="Close">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </button>
+            </header>
+            <div class="mealplan-menu__modal-scroll">
+              <ul class="mealplan-menu__cards">
+                {%- for block in menu_blocks -%}
+                  {%- assign full = block.settings.name | default: block.settings.short -%}
+                  {%- assign bits = full | split: ' with ' -%}
+                  {%- assign dish = bits | first -%}
+                  <li class="mealplan-menu__card">
+                    <div class="mealplan-menu__card-photo">
+                      <span class="mealplan-menu__card-num">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                      <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ dish | escape }}" width="320" height="320" loading="lazy">
+                    </div>
+                    <h4>{{ dish | escape }}</h4>
+                    {%- if bits.size > 1 -%}
+                      <p>with {{ bits | last | escape }}</p>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  {%- endif -%}
+
   <section class="mph">
     <div class="mph__inner">
       <div class="mph__copy">
@@ -185,82 +264,7 @@
       </ol>
     </div></section>
 
-    {%- if menu_blocks.size > 0 -%}
-      <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
-        <div class="mealplan-wrap mealplan-menu__inner">
-          <div class="mealplan-menu__head">
-            <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
-            {%- if section.settings.quality_text != blank -%}
-              <p class="mealplan-menu__sub">{{ section.settings.quality_text | escape }}</p>
-            {%- endif -%}
-          </div>
-          <div class="mealplan-menu__stage">
-            <div class="mealplan-menu__frame">
-              {%- for block in menu_blocks -%}
-                <div class="mealplan-menu__slide{% if forloop.first %} is-active{% endif %}" data-mp-slide>
-                  <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.short | default: block.settings.name | escape }}" width="800" height="860"{% unless forloop.first %} loading="lazy"{% endunless %}>
-                </div>
-              {%- endfor -%}
-              <div class="mealplan-menu__caption" aria-hidden="true">
-                <span class="mealplan-menu__count" data-mp-count>1</span>
-                <span class="mealplan-menu__caption-text">
-                  <span class="mealplan-menu__caption-name" data-mp-caption>{{ menu_blocks.first.settings.short | default: menu_blocks.first.settings.name | escape }}</span>
-                  <span class="mealplan-menu__caption-sub">Fresh, ready to heat</span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <ol class="mealplan-menu__list" role="tablist">
-            {%- for block in menu_blocks -%}
-              <li {{ block.shopify_attributes }}>
-                <button type="button" class="mealplan-menu__item{% if forloop.first %} is-active{% endif %}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
-                  <span class="mealplan-menu__num">{{ forloop.index }}</span>
-                  <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
-                </button>
-              </li>
-            {%- endfor -%}
-          </ol>
-          <div class="mealplan-menu__detail">
-            <ol class="mealplan-menu__full">
-              {%- for block in menu_blocks -%}
-                <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
-              {%- endfor -%}
-            </ol>
-            <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ section.settings.quality_button | default: 'See all plans' | escape }}</button>
-          </div>
-        </div>
-        <div class="mealplan-menu__modal" data-mp-modal role="dialog" aria-modal="true" aria-label="This week's menu" hidden>
-          <div class="mealplan-menu__modal-backdrop" data-mp-close></div>
-          <div class="mealplan-menu__modal-box">
-            <header class="mealplan-menu__modal-head">
-              <h3>This Week's Menu</h3>
-              <button type="button" class="mealplan-menu__modal-close" data-mp-close aria-label="Close">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-              </button>
-            </header>
-            <div class="mealplan-menu__modal-scroll">
-              <ul class="mealplan-menu__cards">
-                {%- for block in menu_blocks -%}
-                  {%- assign full = block.settings.name | default: block.settings.short -%}
-                  {%- assign bits = full | split: ' with ' -%}
-                  {%- assign dish = bits | first -%}
-                  <li class="mealplan-menu__card">
-                    <div class="mealplan-menu__card-photo">
-                      <span class="mealplan-menu__card-num">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
-                      <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ dish | escape }}" width="320" height="320" loading="lazy">
-                    </div>
-                    <h4>{{ dish | escape }}</h4>
-                    {%- if bits.size > 1 -%}
-                      <p>with {{ bits | last | escape }}</p>
-                    {%- endif -%}
-                  </li>
-                {%- endfor -%}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-    {%- else -%}
+    {%- if menu_blocks.size == 0 -%}
       <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
         <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
         <div class="mp-gs mealplan-q__copy">

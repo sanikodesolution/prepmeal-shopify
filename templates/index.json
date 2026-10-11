@@ -414,61 +414,71 @@
         "item_1": {
           "type": "item",
           "settings": {
-            "image_asset": "cm-healthy-meals.jpg",
-            "title": "Healthy Meals",
-            "subtitle": "Chef-crafted daily",
-            "link": "shopify://collections/meal-plans",
-            "accent": "#f5a623"
+            "image_asset": "mp-food-0.jpg",
+            "title": "Chicken Biryani with Raita"
           }
         },
         "item_2": {
           "type": "item",
           "settings": {
-            "image_asset": "cm-usp-balance.jpg",
-            "title": "Balanced Nutrition",
-            "subtitle": "Macro friendly",
-            "link": "shopify://collections/meal-plans",
-            "accent": "#27ae60"
+            "image_asset": "mp-food-1.jpg",
+            "title": "Tandoori Chicken Leg with Veg Jalfrezi"
           }
         },
         "item_3": {
           "type": "item",
           "settings": {
-            "image_asset": "cm-usp-portions.jpg",
-            "title": "Generous Portions",
-            "subtitle": "24oz meals",
-            "link": "shopify://collections/meal-plans",
-            "accent": "#e67e22"
+            "image_asset": "mp-food-2.jpg",
+            "title": "Butter Chicken with Aloo Methi"
           }
         },
         "item_4": {
           "type": "item",
           "settings": {
-            "image_asset": "cm-usp-eco.jpg",
-            "title": "Eco Packaging",
-            "subtitle": "Clean food, clean packaging",
-            "link": "shopify://collections/meal-plans",
-            "accent": "#16a085"
+            "image_asset": "mp-food-3.jpg",
+            "title": "Coconut Fish Curry with Jeera Aloo"
           }
         },
         "item_5": {
           "type": "item",
           "settings": {
-            "image_asset": "cm-hero-banner.jpg",
-            "title": "Global Flavors",
-            "subtitle": "New menu every week",
-            "link": "shopify://collections/meal-plans",
-            "accent": "#c0392b"
+            "image_asset": "mp-food-4.jpg",
+            "title": "Lamb Korma with Green Salad"
           }
         },
         "item_6": {
           "type": "item",
           "settings": {
-            "image_asset": "cm-delivery-banner.jpg",
-            "title": "Delivered Fresh",
-            "subtitle": "Straight to your door",
-            "link": "shopify://collections/meal-plans",
-            "accent": "#8e44ad"
+            "image_asset": "mp-food-5.jpg",
+            "title": "Chana Masala with Jeera Aloo"
+          }
+        },
+        "item_7": {
+          "type": "item",
+          "settings": {
+            "image_asset": "mp-food-6.jpg",
+            "title": "Palak Paneer with Aloo Gobi"
+          }
+        },
+        "item_8": {
+          "type": "item",
+          "settings": {
+            "image_asset": "mp-food-7.jpg",
+            "title": "Dal Makhani with Bhindi Masala"
+          }
+        },
+        "item_9": {
+          "type": "item",
+          "settings": {
+            "image_asset": "mp-food-8.jpg",
+            "title": "Malai Kofta with Rajma"
+          }
+        },
+        "item_10": {
+          "type": "item",
+          "settings": {
+            "image_asset": "mp-food-9.jpg",
+            "title": "Baingan Bharta with Rajma Masala"
           }
         }
       },
@@ -478,7 +488,11 @@
         "item_3",
         "item_4",
         "item_5",
-        "item_6"
+        "item_6",
+        "item_7",
+        "item_8",
+        "item_9",
+        "item_10"
       ],
       "settings": {
         "label": "This Week at ChefMatts",
