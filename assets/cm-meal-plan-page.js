@@ -404,14 +404,6 @@
     fitAll();
     window.addEventListener('resize', fitAll);
     if (modal) {
-      const img = modal.querySelector('img');
-      const markTall = () => {
-        if (img && img.naturalWidth && img.naturalHeight / img.naturalWidth > 1.25) modal.classList.add('is-tall');
-      };
-      if (img) {
-        if (img.complete) markTall();
-        else img.addEventListener('load', markTall);
-      }
       const open = () => { modal.hidden = false; modal.classList.add('is-open'); document.documentElement.style.overflow = 'hidden'; };
       const close = () => { modal.classList.remove('is-open'); modal.hidden = true; document.documentElement.style.overflow = ''; };
       week.querySelector('[data-mp-open]')?.addEventListener('click', open);
