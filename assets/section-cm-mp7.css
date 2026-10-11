@@ -27,12 +27,12 @@
 .mp7-center{text-align:center;margin:22px 0}
 .mp7-side{display:flex;flex-direction:column;gap:18px}
 .mp7-hero{background:var(--ink);color:#fff;padding:26px 20px;text-align:center;border-radius:16px}
-#mp7-x .mp7-hero h2{color:#fff;line-height:1.25}
+#mp7-x .mp7-hero h2{color:#fff;line-height:1.25;font-size:2rem;letter-spacing:.01em}
 #mp7-x .mp7-hero h2 span{color:var(--a)}
 .mp7-icons{display:flex;justify-content:space-around;margin-top:16px;font-weight:700;letter-spacing:.06em;color:var(--a)}
 .mp7-icons i{display:grid;place-items:center;width:42px;height:42px;border:2px solid var(--a);border-radius:50%;margin:0 auto 6px;font-style:normal;color:var(--a)}
 .mp7-side .mp7-card{padding:16px}
-.mp7-side h3{color:var(--ad);text-transform:uppercase}
+.mp7-side h3{color:var(--ad);text-transform:uppercase;font-size:1.5rem;line-height:1.3;letter-spacing:.02em}
 .mp7-side .mp7-sub{color:var(--mut);margin-top:6px;line-height:1.45}
 .mp7-vid{position:relative;border-radius:12px;overflow:hidden;margin-top:12px;aspect-ratio:3/4;background:var(--soft)}
 .mp7-vid img{width:100%;height:100%;object-fit:cover}
