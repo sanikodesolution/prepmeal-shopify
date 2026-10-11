@@ -32,10 +32,12 @@
   position: absolute;
   left: 0;
   top: 0;
+  z-index: 1;
   border-radius: 50%;
-  border: 1px solid rgba(245, 166, 35, .22);
+  border: 1px solid rgba(240, 169, 59, .55);
   pointer-events: none;
 }
+.tw__ring--inner { border-color: rgba(240, 169, 59, .32); }
 .tw__plate {
   position: absolute;
   left: 0;

@@ -11,7 +11,7 @@
     <div class="tw__stage" data-tw-stage>
       <div class="tw__glow" aria-hidden="true"></div>
       <div class="tw__ring" data-tw-ring></div>
-      <div class="tw__ring" data-tw-ring2></div>
+      <div class="tw__ring tw__ring--inner" data-tw-ring2></div>
       {%- for block in plates -%}
         {%- if block.settings.image == blank and block.settings.image_asset == blank -%}{%- continue -%}{%- endif -%}
         <div class="tw__plate" tabindex="0" role="button" aria-label="{{ block.settings.title | escape }}" {{ block.shopify_attributes }}>
