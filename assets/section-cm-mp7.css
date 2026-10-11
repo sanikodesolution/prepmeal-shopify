@@ -6,7 +6,7 @@
 .mp7-top{display:grid;grid-template-columns:1fr 340px;gap:28px}
 .mp7-card{background:#fff;border:1px solid var(--bd);border-radius:16px;box-shadow:0 6px 24px rgba(28,26,23,.06)}
 .mp7-head{text-align:center;margin-bottom:32px}
-.mp7-head h2{text-transform:uppercase;letter-spacing:.02em;font-size:clamp(3.4rem,8vw,7.43rem)}
+.mp7-head h2{text-transform:uppercase;letter-spacing:.02em}
 #mp7-x .mp7-head p{color:var(--mut);margin:8px 0 40px}
 .mp7-tabs{display:inline-flex;border:1px solid var(--a);border-radius:99px;overflow:hidden}
 .mp7-tab{border:0;background:#fff;padding:8px 18px;font-family:inherit;font-weight:700;cursor:pointer;transition:.25s}
