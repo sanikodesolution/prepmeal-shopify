@@ -6,7 +6,7 @@
 .mp7-top{display:grid;grid-template-columns:1fr 340px;gap:28px}
 .mp7-card{background:#fff;border:1px solid var(--bd);border-radius:16px;box-shadow:0 6px 24px rgba(28,26,23,.06)}
 .mp7-head{text-align:center;margin-bottom:32px}
-.mp7-head h2{text-transform:uppercase;letter-spacing:.02em;font-size:7.43rem}
+.mp7-head h2{text-transform:uppercase;letter-spacing:.02em;font-size:clamp(3.4rem,8vw,7.43rem)}
 #mp7-x .mp7-head p{color:var(--mut);margin:8px 0 40px}
 .mp7-tabs{display:inline-flex;border:1px solid var(--a);border-radius:99px;overflow:hidden}
 .mp7-tab{border:0;background:#fff;padding:8px 18px;font-family:inherit;font-weight:700;cursor:pointer;transition:.25s}
@@ -72,7 +72,7 @@
 .mp7-q b{display:block;margin-top:10px;}
 .mp7-two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .mp7-how,.mp7-area{padding:28px 28px 48px}
-#mp7-x .mp7-how h3,#mp7-x .mp7-area h3{font-size:4rem;line-height:1.15;text-transform:uppercase;margin:0 0 22px}
+#mp7-x .mp7-how h3,#mp7-x .mp7-area h3{font-size:clamp(2.4rem,4.5vw,4rem);line-height:1.15;text-transform:uppercase;margin:0 0 22px}
 .mp7-st{display:flex;align-items:center;gap:14px;margin-bottom:22px}
 .mp7-st:last-child{margin-bottom:0}
 .mp7-st i{flex:0 0 32px;width:32px;height:32px;border-radius:50%;background:var(--a);color:var(--ink);font-style:normal;font-weight:700;display:grid;place-items:center}
@@ -83,14 +83,16 @@
 #mp7-x .mp7-map img,#mp7-x .mp7-map iframe{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;border:0}
 .mp7-cta{background:var(--ink);color:#fff;border-radius:16px;padding:30px;display:grid;grid-template-columns:2fr 1fr;gap:30px;align-items:center}
 .mp7-cta h2{color:var(--a);}
+#mp7-x .mp7-q2 h2{font-size:clamp(2.2rem,4vw,3rem);line-height:1.15;color:#fff}
+#mp7-x .mp7-sec>h2,#mp7-x .mp7-way>h2,#mp7-x .mp7-tst>h2,#mp7-x .mp7-cta h2{font-size:clamp(2.8rem,5vw,4.8rem)}
 .mp7-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0;text-align:center}
-.mp7-stats b{display:block;color:var(--a)}
+.mp7-stats b{display:block;color:var(--a);font-size:clamp(2.6rem,5vw,3.6rem);line-height:1.1;font-weight:700}
 .mp7-stats span{text-transform:uppercase;letter-spacing:.06em}
 .mp7-q2{text-align:center;border-left:1px solid #3a362f;padding-left:30px}
 .mp7-pop{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
 .mp7-pop figure{margin:0}
-.mp7-pop .mp7-pi{aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--soft)}
-.mp7-pop img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.22,.7,.2,1)}
+.mp7-pop .mp7-pi{position:relative;aspect-ratio:4/3;border-radius:10px;overflow:hidden;background:var(--soft)}
+#mp7-x .mp7-pop .mp7-pi img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:center;transition:transform .8s cubic-bezier(.22,.7,.2,1)}
 .mp7-pop figure:hover img{transform:scale(1.08)}
 .mp7-pop figcaption{font-weight:700;margin-top:6px;font-size:1.35rem;line-height:1.3}.mp7-pop small{display:block;color:var(--mut);font-weight:400}
 .mp7-faq details{border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin-bottom:10px;background:#fff}
@@ -127,7 +129,10 @@
  .mp7-img{width:90%}
  .mp7-cta{padding:24px 18px}
  .mp7-stats{grid-template-columns:1fr 1fr;gap:16px}
- .mp7-way,.mp7-tst,.mp7-how,.mp7-area{padding:18px}
+ .mp7-way,.mp7-tst{padding:18px}
+ .mp7-how,.mp7-area{padding:22px 16px 32px}
+ .mp7-st{gap:10px;margin-bottom:16px}
+ .mp7-macro{font-size:1.2rem}
  .mp7-tabs{flex-wrap:wrap;justify-content:center;border-radius:16px}
 }
 @media(max-width:600px){
@@ -138,7 +143,7 @@
  .mp7-pop{grid-template-columns:1fr 1fr}.mp7-feat{grid-template-columns:1fr;gap:14px;padding:18px}
  .mp7-fav{grid-template-columns:1fr 1fr}
  .mp7-head h2{}.mp7-sec>h2{}
- .mp7-btn{width:100%;text-align:center}.mp7-center .mp7-btn,.mp7-center form{display:block}.mp7-center form .mp7-btn{width:100%}
+ .mp7-btn{width:auto;max-width:100%;text-align:center}.mp7-center .mp7-btn{min-width:12rem}
  .mp7-tab{padding:8px 14px;flex:1 1 auto}
 }
 @media(max-width:380px){.mp7-grid{gap:8px}.mp7-pop{gap:10px}.mp7-stats b{}}

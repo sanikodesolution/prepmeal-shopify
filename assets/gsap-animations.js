@@ -1068,11 +1068,17 @@
     if (!root) return;
     root.classList.add('mp7-motion');
 
-    const head = root.querySelector('.mp7-head');
+    const playHeading = (heading, start = 'top 88%') => {
+      if (!heading || !hasText(heading)) return;
+      const tl = timeline(heading, start);
+      addSplitHeading(tl, heading, 0);
+    };
+
+    const head = root.querySelector('.mp7-top .mp7-head');
     if (head) {
       const tl = timeline(head, 'top 90%');
       addSplitHeading(tl, head.querySelector('h2'), 0);
-      add(tl, all(head, 'p, .mp7-tabs'), { autoAlpha: 0, y: 22, duration: 0.8, stagger: 0.08 }, 0.12);
+      add(tl, all(head, 'p, .mp7-tabs'), { autoAlpha: 0, y: 24, duration: 0.85, stagger: 0.1, ease: 'power3.out' }, 0.15);
     }
 
     const grid = root.querySelector('.mp7-grid');
@@ -1081,35 +1087,124 @@
       const photos = meals.map((meal) => meal.querySelector('.mp7-img img, .mp7-img .mp7-ph')).filter(Boolean);
       gsap.set(photos, { transformOrigin: 'center center' });
       const tl = timeline(grid, 'top 84%');
-      add(tl, meals, { autoAlpha: 0, y: 42, scale: 0.94, duration: 0.95, stagger: 0.07, ease: 'power3.out' }, 0);
-      add(tl, photos, { scale: 1.16, duration: 1.2, stagger: 0.07, ease: 'power3.out' }, 0);
+      add(tl, meals, { autoAlpha: 0, y: 48, scale: 0.94, duration: 1, stagger: 0.08, ease: 'power3.out' }, 0);
+      add(tl, photos, { scale: 1.18, duration: 1.25, stagger: 0.08, ease: 'power3.out' }, 0);
     }
 
     all(root, '.mp7-side > .mp7-rev').forEach((card, index) => {
-      reveal(card, { x: 32, y: 0, duration: 0.9, delay: index * 0.07, ease: 'power3.out' }, card, 'top 88%');
+      const tl = timeline(card, 'top 88%');
+      add(tl, card, { autoAlpha: 0, x: 40, duration: 0.9, delay: index * 0.06, ease: 'power3.out' }, 0);
+      add(tl, all(card, 'img'), { scale: 1.12, duration: 1.15, ease: 'power3.out' }, 0);
     });
 
     const way = root.querySelector('.mp7-way');
-    const wayMeals = all(way, '.mp7-meal');
-    if (wayMeals.length) reveal(wayMeals, { y: 28, stagger: 0.1, duration: 0.8 }, way, 'top 86%');
+    if (way) {
+      playHeading(way.querySelector('h2'));
+      const wayMeals = all(way, '.mp7-meal');
+      const wayPhotos = wayMeals.map((meal) => meal.querySelector('img')).filter(Boolean);
+      gsap.set(wayPhotos, { transformOrigin: 'center center' });
+      const tl = timeline(way.querySelector('.mp7-car') || way, 'top 84%');
+      add(tl, way.querySelector('.mp7-tabs'), { autoAlpha: 0, y: 16, duration: 0.6 }, 0);
+      add(tl, wayMeals, { autoAlpha: 0, y: 36, duration: 0.9, stagger: 0.12, ease: 'power3.out' }, 0.1);
+      add(tl, wayPhotos, { scale: 1.14, duration: 1.15, stagger: 0.12, ease: 'power3.out' }, 0.1);
+    }
 
     const feat = root.querySelector('.mp7-feat');
-    reveal(all(feat, ':scope > div'), { y: 22, stagger: 0.08, duration: 0.7 }, feat, 'top 86%');
+    if (feat) {
+      const items = all(feat, ':scope > div');
+      const icons = all(feat, '.mp7-feat__icon');
+      gsap.set(icons, { transformOrigin: 'center center' });
+      const tl = timeline(feat, 'top 86%');
+      add(tl, items, { autoAlpha: 0, y: 28, duration: 0.8, stagger: 0.1, ease: 'power3.out' }, 0);
+      add(tl, icons, { scale: 0, rotation: -12, duration: 0.7, stagger: 0.1, ease: 'back.out(1.8)' }, 0.05);
+    }
 
-    const quotes = all(root, '.mp7-tst .mp7-q');
-    if (quotes.length) reveal(quotes, { y: 24, stagger: 0.1, duration: 0.75 }, root.querySelector('.mp7-tst'), 'top 86%');
+    const tst = root.querySelector('.mp7-tst');
+    if (tst) {
+      playHeading(tst.querySelector('h2'));
+      reveal(all(tst, '.mp7-q'), { y: 30, stagger: 0.12, duration: 0.85, ease: 'power3.out' }, tst.querySelector('.mp7-car') || tst, 'top 86%');
+    }
 
-    ['.mp7-how', '.mp7-area', '.mp7-cta', '.mp7-faq'].forEach((selector) => {
-      const block = root.querySelector(selector);
-      if (block) reveal(block, { y: 32, duration: 0.85 }, block, 'top 88%');
-    });
+    const how = root.querySelector('.mp7-how');
+    if (how) {
+      playHeading(how.querySelector('h3'));
+      const steps = all(how, '.mp7-st');
+      const nums = all(how, '.mp7-st i');
+      gsap.set(nums, { transformOrigin: 'center center' });
+      const tl = timeline(steps[0] || how, 'top 86%');
+      add(tl, steps, { autoAlpha: 0, x: -28, duration: 0.75, stagger: 0.12, ease: 'power3.out' }, 0);
+      add(tl, nums, { scale: 0, duration: 0.55, stagger: 0.12, ease: 'back.out(2)' }, 0.08);
+    }
+
+    const area = root.querySelector('.mp7-area');
+    if (area) {
+      playHeading(area.querySelector('h3'));
+      const frame = area.querySelector('.mp7-map');
+      const photo = area.querySelector('.mp7-map img');
+      if (photo) gsap.set(photo, { transformOrigin: 'center center' });
+      const tl = timeline(frame || area, 'top 84%');
+      add(tl, frame, { autoAlpha: 0, y: 24, duration: 0.8, ease: 'power3.out' }, 0);
+      add(tl, photo, { scale: 1.16, duration: 1.3, ease: 'power3.out' }, 0);
+      add(tl, area.querySelector('.mp7-btn'), { autoAlpha: 0, y: 16, duration: 0.6 }, 0.25);
+    }
+
+    const cta = root.querySelector('.mp7-cta');
+    if (cta) {
+      const cols = Array.from(cta.children);
+      const tl = timeline(cta, 'top 82%');
+      add(tl, cols[0], { autoAlpha: 0, x: -36, duration: 0.9, ease: 'power3.out' }, 0);
+      add(tl, cols[1], { autoAlpha: 0, x: 36, duration: 0.9, ease: 'power3.out' }, 0.08);
+      all(cta, '.mp7-stats > div').forEach((stat, index) => {
+        const number = stat.querySelector('b');
+        const label = stat.querySelector('span');
+        if (!number) return;
+        const raw = number.textContent.trim();
+        const match = raw.match(/\d+/);
+        add(tl, stat, { autoAlpha: 0, y: 18, duration: 0.6 }, 0.2 + index * 0.08);
+        if (!match) return;
+        const target = parseInt(match[0], 10);
+        const suffix = raw.slice(match.index + match[0].length);
+        const prefix = raw.slice(0, match.index);
+        const counter = { n: 0 };
+        tl.to(counter, {
+          n: target,
+          duration: 1.35,
+          ease: 'power2.out',
+          onUpdate: () => {
+            number.textContent = `${prefix}${Math.round(counter.n)}${suffix}`;
+          },
+        }, 0.25 + index * 0.08);
+        if (label) add(tl, label, { autoAlpha: 0, y: 8, duration: 0.45 }, 0.35 + index * 0.08);
+      });
+    }
+
+    const faq = root.querySelector('.mp7-faq');
+    if (faq) {
+      playHeading(faq.querySelector('h2'));
+      reveal(all(faq, 'details'), { y: 20, stagger: 0.08, duration: 0.65 }, faq, 'top 86%');
+    }
 
     const popular = root.querySelector('.mp7-pop');
-    const dishes = all(popular, 'figure');
-    if (dishes.length) reveal(dishes, { y: 26, stagger: 0.05, duration: 0.7 }, popular, 'top 86%');
+    if (popular) {
+      playHeading(popular.previousElementSibling);
+      const dishes = all(popular, 'figure');
+      const shots = all(popular, 'img');
+      gsap.set(shots, { transformOrigin: 'center center' });
+      const tl = timeline(popular, 'top 86%');
+      add(tl, dishes, { autoAlpha: 0, y: 30, duration: 0.75, stagger: 0.06, ease: 'power3.out' }, 0);
+      add(tl, shots, { scale: 1.12, duration: 1, stagger: 0.06, ease: 'power3.out' }, 0);
+    }
 
     const favorites = root.querySelector('.mp7-fav');
-    reveal(all(favorites, ':scope > div'), { y: 20, scale: 0.96, stagger: 0.06, duration: 0.7 }, favorites, 'top 88%');
+    if (favorites) {
+      playHeading(favorites.previousElementSibling);
+      const items = all(favorites, ':scope > div');
+      const shots = all(favorites, 'img');
+      gsap.set(shots, { transformOrigin: 'center center' });
+      const tl = timeline(favorites, 'top 88%');
+      add(tl, items, { autoAlpha: 0, y: 24, scale: 0.96, duration: 0.7, stagger: 0.07, ease: 'power3.out' }, 0);
+      add(tl, shots, { scale: 1.12, duration: 0.9, stagger: 0.07, ease: 'power3.out' }, 0);
+    }
   }
 
   const handlers = [
