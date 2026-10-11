@@ -100,8 +100,9 @@
         fillOpacity: 0.08,
         interactive: false
       }).addTo(map);
+      var marks = {};
       pointsFor(el).forEach(function (c) {
-        L.circleMarker([c.lat, c.lng], {
+        marks[norm(c.n)] = L.circleMarker([c.lat, c.lng], {
           radius: 6,
           color: '#ffffff',
           weight: 1.5,
@@ -111,6 +112,7 @@
           .bindTooltip(esc(c.n), { direction: 'top', offset: [0, -6] })
           .bindPopup('<b>' + esc(c.n) + '</b><br>We deliver here');
       });
+      el._daState = { map: map, marks: marks };
       L.circleMarker([HUB.lat, HUB.lng], {
         radius: 9,
         color: '#ffffff',
@@ -130,7 +132,75 @@
     });
   }
 
+  function miles(a, b) {
+    var r = Math.PI / 180, dLat = (b[0] - a[0]) * r, dLng = (b[1] - a[1]) * r;
+    var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    return 2 * 3958.8 * Math.asin(Math.sqrt(h));
+  }
+  function findPlace(q) {
+    var k = norm(q);
+    if (COORDS[k]) return k;
+    var keys = Object.keys(COORDS);
+    for (var i = 0; i < keys.length; i++) {
+      if (k.indexOf(keys[i]) !== -1 || keys[i].indexOf(k) === 0) return keys[i];
+    }
+    return '';
+  }
+  function showResult(box, miss, html) {
+    box.hidden = false;
+    box.className = 'da__check-result' + (miss ? ' is-miss' : '');
+    box.innerHTML = html;
+  }
+  function focusPlace(mapEl, key) {
+    var state = mapEl && mapEl._daState;
+    var mark = state && state.marks[key];
+    if (!state || !mark) return;
+    state.map.setView(mark.getLatLng(), 12, { animate: true });
+    mark.openPopup();
+  }
+  function bindCheck(block) {
+    if (block._daCheck) return;
+    var form = block.querySelector('[data-da-form]');
+    var box = block.querySelector('[data-da-result]');
+    var mapEl = block.parentElement && block.parentElement.querySelector('[data-da-map]');
+    if (!form || !box) return;
+    block._daCheck = true;
+    var input = form.querySelector('input');
+    var btn = form.querySelector('button');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = input.value.trim();
+      if (!q) return;
+      var key = findPlace(q);
+      if (key) {
+        var label = key.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+        showResult(box, false, '<strong>Yes, we deliver to ' + esc(label) + '.</strong>Your meals can be delivered to this area.');
+        focusPlace(mapEl, key);
+        return;
+      }
+      btn.disabled = true;
+      showResult(box, false, '<strong>Checking your address...</strong>');
+      var url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q=' + encodeURIComponent(q + ', Wisconsin');
+      fetch(url, { headers: { Accept: 'application/json' } }).then(function (r) { return r.json(); }).then(function (rows) {
+        var hit = rows && rows[0];
+        if (!hit) {
+          showResult(box, true, '<strong>We could not find that address.</strong>Try a city we deliver to, such as Hartland or Delafield.');
+          return;
+        }
+        var d = miles([HUB.lat, HUB.lng], [+hit.lat, +hit.lon]);
+        if (d <= RADIUS_MI) {
+          showResult(box, false, '<strong>Yes, we deliver to ' + esc(q) + '.</strong>About ' + d.toFixed(1) + ' miles from our Hartland kitchen.');
+        } else {
+          showResult(box, true, '<strong>' + esc(q) + ' is about ' + d.toFixed(1) + ' miles from our kitchen.</strong>That is outside our regular delivery area.');
+        }
+      }).catch(function () {
+        showResult(box, true, '<strong>We could not find that address.</strong>Try a city we deliver to, such as Hartland or Delafield.');
+      }).then(function () { btn.disabled = false; });
+    });
+  }
+
   function boot() {
+    document.querySelectorAll('[data-da-check]').forEach(bindCheck);
     document.querySelectorAll('[data-da-map]').forEach(function (el) {
       if (!('IntersectionObserver' in window)) { draw(el); return; }
       var io = new IntersectionObserver(function (entries) {
