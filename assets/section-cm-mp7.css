@@ -34,8 +34,8 @@
 .mp7-side .mp7-card{padding:16px}
 .mp7-side h3{color:var(--ad);text-transform:uppercase;font-size:1.5rem;line-height:1.3;letter-spacing:.02em}
 .mp7-side .mp7-sub{color:var(--mut);margin-top:6px;line-height:1.45}
-.mp7-vid{position:relative;border-radius:12px;overflow:hidden;margin-top:12px;aspect-ratio:3/4;background:var(--soft)}
-.mp7-vid img{width:100%;height:100%;object-fit:cover}
+.mp7-vid{position:relative;border-radius:12px;overflow:hidden;margin-top:12px;background:transparent}
+#mp7-x .mp7-vid img{width:100%;height:auto;display:block;object-fit:cover}
 .mp7-play{position:absolute;inset:0;margin:auto;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);display:grid;place-items:center;text-decoration:none;}
 .mp7-rnd{width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;margin-top:10px;background:var(--soft)}
 .mp7-rnd img{width:100%;height:100%;object-fit:cover}
