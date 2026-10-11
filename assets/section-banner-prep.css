@@ -8,9 +8,9 @@
  background: linear-gradient(
  90deg,
  rgba(var(--bp-navy), 1) 0%,
- rgba(var(--bp-navy), 0.88) 22%,
- rgba(var(--bp-navy), 0.42) 40%,
- rgba(var(--bp-navy), 0) 50%
+ rgba(var(--bp-navy), 0.88) 33%,
+ rgba(var(--bp-navy), 0.42) 60%,
+ rgba(var(--bp-navy), 0) 75%
  );
 }
 
@@ -199,9 +199,9 @@
  background: linear-gradient(
  90deg,
  rgba(var(--bp-navy), 0.95) 0%,
- rgba(var(--bp-navy), 0.72) 28%,
- rgba(var(--bp-navy), 0.28) 42%,
- rgba(var(--bp-navy), 0) 50%
+ rgba(var(--bp-navy), 0.72) 42%,
+ rgba(var(--bp-navy), 0.28) 63%,
+ rgba(var(--bp-navy), 0) 75%
  );
  }
 

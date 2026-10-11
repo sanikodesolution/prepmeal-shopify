@@ -8,6 +8,25 @@
   }
 
   gsap.registerPlugin(ScrollTrigger);
+
+  const useSmoothScroll =
+    window.ScrollSmoother &&
+    document.getElementById('smooth-wrapper') &&
+    !(window.Shopify && window.Shopify.designMode) &&
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  if (useSmoothScroll) {
+    gsap.registerPlugin(ScrollSmoother);
+    document.documentElement.classList.add('gsap-smooth');
+    ScrollSmoother.create({
+      wrapper: '#smooth-wrapper',
+      content: '#smooth-content',
+      smooth: 1.15,
+      effects: false,
+      smoothTouch: false,
+    });
+  }
+
   const hasSplitText = typeof window.SplitText !== 'undefined';
   if (hasSplitText) gsap.registerPlugin(SplitText);
 
