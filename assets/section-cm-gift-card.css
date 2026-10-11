@@ -408,7 +408,7 @@
 
 .cm-gc__how,
 .cm-gc__faq {
- max-width: 1200px;
+ max-width: var(--page-width);
  margin: 0 auto;
  padding-right: clamp(16px, 6vw, 96px);
  padding-left: clamp(16px, 6vw, 96px);
@@ -509,7 +509,7 @@
 /* Reviews */
 
 .cm-gc__reviews {
- max-width: 1200px;
+ max-width: var(--page-width);
  margin: 0 auto;
  padding: clamp(40px, 6vw, 88px) clamp(16px, 6vw, 96px);
  border-top: 3px solid var(--gc-ink);

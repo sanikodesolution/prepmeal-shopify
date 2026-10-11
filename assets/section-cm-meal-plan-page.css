@@ -10,7 +10,7 @@
  padding: clamp(2.5rem, 6vw, 6rem) clamp(1.25rem, 4vw, 4rem); overflow: hidden; 
  }
  .mph * { box-sizing: border-box; }
- .mph__inner { max-width: 1320px; margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+ .mph__inner { max-width: var(--page-width); margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
  @media (min-width: 990px) { .mph__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
  .mph__plan { margin: 0 0 1.25rem; font-weight: 600; letter-spacing: .04em; }
  .mph__title { margin: 0; font-family: var(--mph-display); font-weight: 500; line-height: 1.12; letter-spacing: -.02em; max-width: 22ch; }
@@ -47,7 +47,7 @@
 &{--forest:#15251C;--sage:#E3EADF;--saffron:#F5A623;--paper:#fff;--tomato:#C9533A;--leaf:#6B8F3F;--display:var(--font-heading-family),sans-serif;--body:var(--font-body-family),sans-serif;box-sizing:border-box}
 & *{box-sizing:border-box}&{margin:0;background:var(--sage);color:var(--forest);font-family:var(--body)}
 & section{padding:clamp(3rem,7vw,7rem) clamp(1.25rem,4vw,4rem)}
-.wrap{max-width:1320px;margin:0 auto}
+.wrap{max-width:var(--page-width);margin:0 auto}
 & h2{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 & p{line-height:1.6}
 a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-offset:3px}
@@ -162,7 +162,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan{--f:#15251C;--s:#E3EADF;--y:#F5A623;--w:#fff;--t:#C9533A;--d:var(--font-heading-family),sans-serif;--b:var(--font-body-family),sans-serif;font-family:var(--font-body-family),sans-serif;color:var(--f)}
 .mealplan *{box-sizing:border-box}
 .mealplan-sec{padding:clamp(3rem,7vw,7rem) clamp(1.25rem,4vw,4rem)}
-.mealplan-wrap{max-width:1320px;margin:0 auto}
+.mealplan-wrap{max-width:var(--page-width);margin:0 auto}
 .mealplan-h{font-family:var(--d);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 .mealplan-p{line-height:1.65;max-width:50ch;margin:1.25rem 0 0}
 .mealplan-btn{display:inline-flex;align-items:center;min-height:3.25rem;padding:0 1.6rem;border-radius:999px;border:1.5px solid var(--f);background:none;color:var(--f);font-weight:600;text-decoration:none;cursor:pointer;transition:background .25s,color .25s,transform .25s}

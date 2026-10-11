@@ -2,7 +2,7 @@
 #mp7-x *{box-sizing:border-box}
 #mp7-x h1,#mp7-x h2,#mp7-x h3{margin:0;line-height:1.15}
 #mp7-x p{margin:0}
-.mp7-wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.mp7-wrap{max-width:var(--page-width);margin:0 auto;padding:0 20px}
 .mp7-top{display:grid;grid-template-columns:1fr 340px;gap:28px}
 .mp7-card{background:#fff;border:1px solid var(--bd);border-radius:16px;box-shadow:0 6px 24px rgba(28,26,23,.06)}
 .mp7-head{text-align:center;margin-bottom:32px}

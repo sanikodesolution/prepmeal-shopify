@@ -1,6 +1,6 @@
 .da {
   --da-bg: #fbf5e9; --da-card: #fffaf0; --da-navy: #0f1f3d; --da-orange: #f7931e;
-  --sw: clamp(860px, calc(100vw - 280px), 1340px);
+  --sw: clamp(860px, calc(100vw - 280px), var(--page-width));
   position: relative; overflow: hidden; isolation: isolate;
   background: var(--da-bg);
   padding: 70px 20px 50px;
