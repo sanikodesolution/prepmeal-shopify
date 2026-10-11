@@ -69,21 +69,30 @@
         <form class="da__check" data-da-form novalidate>
           <span class="da__check-label">Check your address or postal code</span>
           <div class="da__check-row">
-            <input class="da__check-input" type="text" name="address" placeholder="e.g. 100 E Capitol Dr, Hartland or 53029" aria-label="Check your address or postal code">
+            <div class="da__check-field">
+              <input class="da__check-input" type="text" name="address" placeholder="Search a delivery area" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="Search a delivery area">
+              <ul class="da__suggest" data-da-suggest role="listbox" hidden></ul>
+            </div>
             <button class="da__check-btn" type="submit">Check</button>
           </div>
           <div class="da__check-result" data-da-result role="status" aria-live="polite" hidden></div>
         </form>
-        {%- if areas.size > 0 -%}
-          <details class="da__more">
-            <summary>See every city and neighbourhood we serve <span class="da__more-plus" aria-hidden="true">+</span></summary>
-            <p>
-              {%- for block in areas -%}
-                {{ block.settings.name | escape }}{%- unless forloop.last -%}, {% endunless -%}
-              {%- endfor -%}
-            </p>
-          </details>
-        {%- endif -%}
+        <details class="da__more">
+          <summary>See every city and neighbourhood we serve <span class="da__more-plus" aria-hidden="true">+</span></summary>
+          <div class="da__more-body">
+            <div class="da__region"><h5>Toronto</h5><p>Downtown Toronto, CityPlace, Liberty Village, King West, Queen West, Financial District, St. Lawrence, Distillery District, Yorkville, The Annex, Little Italy, Parkdale, Roncesvalles, High Park, Bloor West Village, The Junction, Leslieville, Riverdale, The Danforth, The Beaches, East York, Leaside, Thorncliffe Park, Flemingdon Park, Midtown, Davisville, Forest Hill, York, Weston, Mount Dennis</p></div>
+            <div class="da__region"><h5>North York</h5><p>North York, Willowdale, Bayview Village, Don Mills, Don Valley Village, Downsview, Yorkdale, Lawrence Heights, Jane and Finch, York Mills, Newtonbrook, Bathurst Manor</p></div>
+            <div class="da__region"><h5>Scarborough</h5><p>Scarborough, Agincourt, Malvern, Rouge, Woburn, Morningside, West Hill, Guildwood, Scarborough Village, Birch Cliff, Cliffside, Wexford, Dorset Park, L'Amoreaux, Steeles, Milliken</p></div>
+            <div class="da__region"><h5>Etobicoke</h5><p>Etobicoke, Islington-City Centre, Kingsway, Mimico, New Toronto, Long Branch, Alderwood, Humber Bay, Rexdale, Thistletown, Richview, Eatonville</p></div>
+            <div class="da__region"><h5>Mississauga</h5><p>Mississauga, City Centre, Square One, Port Credit, Cooksville, Streetsville, Meadowvale, Erin Mills, Churchill Meadows, Malton, Hurontario, Clarkson, Lorne Park, Lisgar</p></div>
+            <div class="da__region"><h5>Brampton</h5><p>Brampton, Bramalea, Springdale, Heart Lake, Castlemore, Mount Pleasant, Fletcher's Meadow, Sandringham-Wellington, Gore Meadows</p></div>
+            <div class="da__region"><h5>Vaughan</h5><p>Vaughan, Woodbridge, Maple, Concord, Thornhill Woods, Kleinburg, Vellore Village, Vaughan Metropolitan Centre</p></div>
+            <div class="da__region"><h5>Markham</h5><p>Markham, Unionville, Cornell, Markham Village, Milliken Mills, Cathedraltown, Berczy Village, Thornhill</p></div>
+            <div class="da__region"><h5>Richmond Hill</h5><p>Richmond Hill, Oak Ridges, Bayview Hill, Mill Pond, Jefferson, Langstaff, Elgin Mills</p></div>
+            <div class="da__region"><h5>Pickering</h5><p>Pickering, Bay Ridges, Amberlea, Liverpool, Rosebank, Duffin Heights, Seaton</p></div>
+            <p class="da__more-note">Don't see your neighbourhood? Call us at (416) 482-3434 or reach out on our contact page and we will let you know if we can deliver to you.</p>
+          </div>
+        </details>
       </div>
 
       <div class="da__mapwrap">

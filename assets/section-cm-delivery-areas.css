@@ -48,7 +48,7 @@
 .da .da__script svg { width: 42px; height: 42px; }
 .da .da__title {
   font-family: var(--font-heading-family), sans-serif; font-weight: 700;
-  font-size: clamp(48px, 8vw, 92px); line-height: 1; letter-spacing: .01em;
+  line-height: 1; letter-spacing: .01em;
   margin: 8px 0 14px; color: var(--da-navy);
 }
 .da .da__sub {
@@ -80,11 +80,17 @@
 .da .da__deliver-label { margin: 0 0 16px; font-size: 13px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: #6e1f36; }
 .da .da__deliver-pills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 12px; }
 .da .da__zone { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; background: #fff; border: 1px solid #eadfd8; color: #4d3d42; font-size: 14px; font-weight: 500; line-height: 1.2; }
-.da .da__zone svg { width: 12px; height: 12px; flex: none; fill: #6e1f36; }
+.da .da__zone svg { width: 12px; height: 12px; flex: none; fill: #6e1f36; transform-origin: 50% 100%; }
+.da .da__zone:hover svg { animation: da-pin .6s ease; }
 .da .da__check { margin-top: 22px; padding-top: 18px; border-top: 1px solid #eadfd8; }
 .da .da__check-label { display: block; margin-bottom: 12px; font-size: 12px; font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; color: #8a736c; }
-.da .da__check-row { display: flex; gap: 10px; }
-.da .da__check-input { flex: 1; min-width: 0; border: 0; border-radius: 4px; background: #f6ebe6; color: #2a1a1f; font: inherit; font-size: 15px; padding: 14px 16px; }
+.da .da__check-row { display: flex; gap: 10px; align-items: flex-start; }
+.da .da__check-field { position: relative; flex: 1; min-width: 0; }
+.da .da__check-input { width: 100%; border: 0; border-radius: 4px; background: #f6ebe6; color: #2a1a1f; font: inherit; font-size: 15px; padding: 14px 16px; }
+.da .da__suggest { position: absolute; z-index: 5; left: 0; right: 0; top: calc(100% + 6px); margin: 0; padding: 6px; list-style: none; max-height: 240px; overflow-y: auto; background: #fff; border: 1px solid #eadfd8; border-radius: 8px; box-shadow: 0 16px 36px rgba(42, 26, 31, .12); }
+.da .da__suggest button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 0; border-radius: 6px; background: transparent; color: #2a1a1f; font: inherit; font-size: 15px; text-align: left; cursor: pointer; }
+.da .da__suggest button:hover, .da .da__suggest button.is-active { background: #f6ebe6; }
+.da .da__suggest button svg { width: 12px; height: 12px; flex: none; fill: #6e1f36; }
 .da .da__check-input:focus { outline: 2px solid #6e1f36; outline-offset: 1px; }
 .da .da__check-btn { flex: none; border: 0; border-radius: 4px; background: #6e1f36; color: #fff; font: inherit; font-size: 15px; font-weight: 600; padding: 14px 28px; cursor: pointer; }
 .da .da__check-btn:hover { background: #521627; }
@@ -97,7 +103,11 @@
 .da .da__more summary::-webkit-details-marker { display: none; }
 .da .da__more-plus { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #f6ebe6; border: 1px solid #eadfd8; color: #6e1f36; font-size: 18px; line-height: 1; }
 .da .da__more[open] .da__more-plus { background: #6e1f36; border-color: #6e1f36; color: #fff; transform: rotate(45deg); }
-.da .da__more p { margin: 14px 0 0; font-size: 14px; line-height: 1.7; color: #4d3d42; }
+.da .da__more-body { padding-top: 16px; }
+.da .da__region { margin-bottom: 16px; }
+.da .da__region h5 { margin: 0 0 6px; font-family: var(--font-heading-family), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #6e1f36; }
+.da .da__region p, .da .da__more-note { margin: 0; font-size: 14px; line-height: 1.7; color: #4d3d42; }
+.da .da__more-note { margin-top: 16px; padding-top: 14px; border-top: 1px solid #eadfd8; color: #8a736c; }
 .da .da__areas { list-style: none; margin: 0 auto; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 16px; max-width: 980px; }
 .da .da__pill {
   display: inline-flex; align-items: center; gap: 12px; background: #fff;
@@ -265,7 +275,7 @@
   .da .da__card { padding: 26px 14px 32px; border-radius: 44px; }
   .da .da__script { font-size: 20px; gap: 6px; }
   .da .da__script svg { width: 32px; height: 32px; }
-  .da .da__title { font-size: clamp(40px, 13vw, 58px); margin: 6px 0 10px; }
+  .da .da__title { margin: 6px 0 10px; }
   .da .da__sub { margin-bottom: 22px; gap: 8px; }
   .da .da__sub::before, .da .da__sub::after { flex-basis: 18px; }
   .da .da__areas { gap: 8px; }

@@ -158,22 +158,93 @@
     state.map.setView(mark.getLatLng(), 12, { animate: true });
     mark.openPopup();
   }
+  function mapPlaces(block) {
+    var node = block.parentElement && block.parentElement.querySelector('[data-da-points]');
+    var names = [];
+    try { names = JSON.parse(node ? node.textContent : '[]'); } catch (e) { names = []; }
+    var seen = {};
+    return names.map(function (item) { return (item.n || '').trim(); }).filter(function (name) {
+      var k = norm(name);
+      if (!k || seen[k]) return false;
+      seen[k] = true;
+      return true;
+    });
+  }
   function bindCheck(block) {
     if (block._daCheck) return;
     var form = block.querySelector('[data-da-form]');
     var box = block.querySelector('[data-da-result]');
+    var list = block.querySelector('[data-da-suggest]');
     var mapEl = block.parentElement && block.parentElement.querySelector('[data-da-map]');
-    if (!form || !box) return;
+    if (!form || !box || !list) return;
     block._daCheck = true;
     var input = form.querySelector('input');
     var btn = form.querySelector('button');
+    var places = mapPlaces(block);
+    var active = -1;
+
+    function hideList() {
+      list.hidden = true;
+      list.innerHTML = '';
+      input.setAttribute('aria-expanded', 'false');
+      active = -1;
+    }
+    function showList(items) {
+      if (!items.length) { hideList(); return; }
+      list.innerHTML = items.map(function (name) {
+        return '<li><button type="button" role="option" data-place="' + esc(name) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>' + esc(name) + '</button></li>';
+      }).join('');
+      list.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+      active = -1;
+    }
+    function matches(q) {
+      var k = norm(q);
+      if (!k) return places.slice();
+      return places.filter(function (name) { return norm(name).indexOf(k) !== -1; });
+    }
+    function pick(name) {
+      input.value = name;
+      hideList();
+      var key = findPlace(name);
+      if (!key) return;
+      showResult(box, false, '<strong>Yes, we deliver to ' + esc(name) + '.</strong>Your meals can be delivered to this area.');
+      focusPlace(mapEl, key);
+    }
+
+    input.addEventListener('input', function () { showList(matches(input.value)); });
+    input.addEventListener('focus', function () { showList(matches(input.value)); });
+    input.addEventListener('keydown', function (e) {
+      var options = list.querySelectorAll('button');
+      if (e.key === 'Escape') { hideList(); return; }
+      if (!options.length || list.hidden) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        active = e.key === 'ArrowDown' ? Math.min(active + 1, options.length - 1) : Math.max(active - 1, 0);
+        options.forEach(function (opt, i) { opt.classList.toggle('is-active', i === active); });
+        options[active].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter' && active >= 0) {
+        e.preventDefault();
+        pick(options[active].getAttribute('data-place'));
+      }
+    });
+    list.addEventListener('click', function (e) {
+      var opt = e.target.closest('button');
+      if (opt) pick(opt.getAttribute('data-place'));
+    });
+    document.addEventListener('click', function (e) {
+      if (!form.contains(e.target)) hideList();
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      hideList();
       var q = input.value.trim();
       if (!q) return;
       var key = findPlace(q);
       if (key) {
-        var label = key.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+        var chosen = places.filter(function (name) { return norm(name) === key; })[0];
+        var label = chosen || key.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
         showResult(box, false, '<strong>Yes, we deliver to ' + esc(label) + '.</strong>Your meals can be delivered to this area.');
         focusPlace(mapEl, key);
         return;
