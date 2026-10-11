@@ -16,15 +16,20 @@
     window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   if (useSmoothScroll) {
-    gsap.registerPlugin(ScrollSmoother);
-    document.documentElement.classList.add('gsap-smooth');
-    ScrollSmoother.create({
-      wrapper: '#smooth-wrapper',
-      content: '#smooth-content',
-      smooth: 1.15,
-      effects: false,
-      smoothTouch: false,
-    });
+    try {
+      gsap.registerPlugin(ScrollSmoother);
+      document.documentElement.classList.add('gsap-smooth');
+      ScrollSmoother.create({
+        wrapper: '#smooth-wrapper',
+        content: '#smooth-content',
+        smooth: 1.15,
+        effects: false,
+        smoothTouch: false,
+      });
+    } catch (error) {
+      document.documentElement.classList.remove('gsap-smooth');
+      console.warn('Smooth scroll skipped', error);
+    }
   }
 
   const hasSplitText = typeof window.SplitText !== 'undefined';

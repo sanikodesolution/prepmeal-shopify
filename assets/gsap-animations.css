@@ -2,12 +2,6 @@
   --gsap-accent: var(--color-button);
 }
 
-html.gsap-smooth,
-html.gsap-smooth body {
-  height: 100%;
-  overflow: hidden;
-}
-
 html.gsap-smooth #smooth-wrapper {
   position: fixed;
   inset: 0;

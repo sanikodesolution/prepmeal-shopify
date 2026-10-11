@@ -8,8 +8,8 @@
  background: linear-gradient(
  90deg,
  rgba(var(--bp-navy), 1) 0%,
- rgba(var(--bp-navy), 0.88) 33%,
- rgba(var(--bp-navy), 0.42) 60%,
+ rgba(var(--bp-navy), 0.96) 33%,
+ rgba(var(--bp-navy), 0.62) 60%,
  rgba(var(--bp-navy), 0) 75%
  );
 }
@@ -198,9 +198,9 @@
  .banner--prep-plates::after {
  background: linear-gradient(
  90deg,
- rgba(var(--bp-navy), 0.95) 0%,
- rgba(var(--bp-navy), 0.72) 42%,
- rgba(var(--bp-navy), 0.28) 63%,
+ rgba(var(--bp-navy), 1) 0%,
+ rgba(var(--bp-navy), 0.9) 42%,
+ rgba(var(--bp-navy), 0.5) 63%,
  rgba(var(--bp-navy), 0) 75%
  );
  }
