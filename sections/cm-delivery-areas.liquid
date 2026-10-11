@@ -113,14 +113,6 @@
         </script>
       </div>
 
-      {%- if s.button_label != blank -%}
-        <a class="da__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">
-          {{ s.button_label | escape | upcase }}
-          <span class="da__cta-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
-          </span>
-        </a>
-      {%- endif -%}
     </div>
     <div class="da__deco da__deco--dots" aria-hidden="true"><img src="{{ 'cm-da-dots.webp' | asset_url }}" alt="" width="105" height="80"></div>
     <div class="da__leaf da__leaf--top" aria-hidden="true"><img src="{{ 'cm-da-leaf-top.webp' | asset_url }}" alt="" width="54" height="70"></div>
