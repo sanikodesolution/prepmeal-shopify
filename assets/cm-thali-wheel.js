@@ -29,7 +29,8 @@
       var h = stage.clientHeight;
       var m = window.innerWidth < 990;
       var size = m ? Math.max(160, Math.min(w * 0.5, 240)) : Math.max(220, Math.min(h * 0.38, 340));
-      var R = m ? Math.min(h * 0.46, 250) : h * 0.42;
+      var slot = Math.min(step, 90) * Math.PI / 180;
+      var R = (h / 2) / Math.sin(slot);
       var ax = m ? w * 0.5 : w * 0.62;
       g = { size: size, R: R, cx: ax - R, cy: h / 2 };
       stage.style.setProperty('--s', size + 'px');
@@ -48,8 +49,8 @@
         var rad = a * Math.PI / 180;
         var x = g.cx + g.R * Math.cos(rad) - g.size / 2;
         var y = g.cy + g.R * Math.sin(rad) - g.size / 2;
-        var sc = Math.max(0.55, 1 - ab / 120);
-        var op = Math.max(0, 1 - Math.pow(ab / 80, 2));
+        var sc = Math.max(0.75, 1 - ab / 240);
+        var op = Math.max(0, 1 - Math.pow(ab / 140, 2));
         var el = plates[i];
         var label = el.querySelector('.tw__label');
         el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')';
