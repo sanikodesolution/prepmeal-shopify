@@ -40,7 +40,13 @@
  {%- if b.image != blank -%}
  {{ b.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: b.title, widths: '250, 375, 500', sizes: '(min-width: 990px) 20vw, 40vw' }}
  {%- else -%}
+ {%- assign meal_handle = b.title | handleize -%}
+ {%- assign meal_files = 'peri-peri-chicken|ground-beef-enchilada-bowl|bacon-wrapped-chili-fig-glazed-pork-tenderloin|oven-bbq-salmon|teriyaki-chicken-breast|chimichurri-steak|orange-basil-salmon|turkey-meatball-marinara|balsamic-baked-chicken-thighs|chicken-quinoa-taco-bake' | split: '|' -%}
+ {%- if meal_files contains meal_handle -%}
+ <img src="{{ meal_handle | append: '.jpg' | asset_url }}" alt="{{ b.title | escape }}" width="500" height="500" loading="lazy">
+ {%- else -%}
  <div class="mp7-ph" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
+ {%- endif -%}
  {%- endif -%}
  {%- if b.number != blank -%}<span class="mp7-num">{{ b.number | escape }}</span>{%- endif -%}
  {%- if b.is_new -%}<span class="mp7-new">NEW</span>{%- endif -%}

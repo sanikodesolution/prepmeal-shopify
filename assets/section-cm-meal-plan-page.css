@@ -394,7 +394,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__full li::marker{color:#8d928c;font-weight:600}
 .mealplan-menu__full li.is-active{background:var(--mp-accent-soft);color:var(--mp-ink)}
 .mealplan-menu__full li.is-active::marker{color:var(--mp-accent)}
-.mealplan-menu__cta{display:inline-flex;align-items:center;margin:8px 0 22px 22px;padding:14px 24px;border:0;border-radius:99px;background:var(--mp-ink);color:#fff;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
+.mealplan-menu__cta{display:inline-flex;align-items:center;margin:22px 0 22px 22px;padding:8px 22px;border:0;border-radius:99px;background:var(--mp-ink);color:#fff;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
 .mealplan-menu__cta:hover{background:var(--mp-accent);color:#1b1204}
 .mealplan-menu__modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:clamp(16px,4vw,48px);background:rgba(21,37,28,.62)}
 .mealplan-menu__modal.is-open{display:flex}
