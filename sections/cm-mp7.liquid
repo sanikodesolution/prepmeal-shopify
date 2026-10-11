@@ -40,13 +40,7 @@
  {%- if b.image != blank -%}
  {{ b.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: b.title, widths: '250, 375, 500', sizes: '(min-width: 990px) 20vw, 40vw' }}
  {%- else -%}
- {%- assign meal_handle = b.title | handleize -%}
- {%- assign meal_files = 'peri-peri-chicken|ground-beef-enchilada-bowl|bacon-wrapped-chili-fig-glazed-pork-tenderloin|oven-bbq-salmon|teriyaki-chicken-breast|chimichurri-steak|orange-basil-salmon|turkey-meatball-marinara|balsamic-baked-chicken-thighs|chicken-quinoa-taco-bake' | split: '|' -%}
- {%- if meal_files contains meal_handle -%}
- <img src="{{ meal_handle | append: '.jpg' | asset_url }}" alt="{{ b.title | escape }}" width="500" height="500" loading="lazy">
- {%- else -%}
- <div class="mp7-ph" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
- {%- endif -%}
+ {%- render 'mp7-meal-photo', title: b.title, index: forloop.index0, width: 500, sizes: '(min-width: 990px) 20vw, 40vw' -%}
  {%- endif -%}
  {%- if b.number != blank -%}<span class="mp7-num">{{ b.number | escape }}</span>{%- endif -%}
  {%- if b.is_new -%}<span class="mp7-new">NEW</span>{%- endif -%}
@@ -92,7 +86,7 @@
  {%- if s.video_image != blank -%}
  {{ s.video_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.chef_heading }}
  {%- else -%}
- <div class="mp7-ph" style="width:100%;height:100%" aria-hidden="true">{{ s.chef_heading | strip | slice: 0 | escape }}</div>
+ {%- render 'mp7-meal-photo', title: s.chef_heading, photo: 'peri-peri-chicken.jpg', width: 600 -%}
  {%- endif -%}
  <a class="mp7-play" href="{{ s.video_url | default: '#' }}" aria-label="Play video">&#9654;</a>
  </div>
@@ -101,7 +95,7 @@
  {%- if s.ingredients_image != blank -%}
  {{ s.ingredients_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: s.ingredients_heading }}
  {%- else -%}
- <div class="mp7-ph" aria-hidden="true">{{ s.ingredients_heading | strip | slice: 0 | escape }}</div>
+ {%- render 'mp7-meal-photo', title: s.ingredients_heading, photo: 'chicken-quinoa-taco-bake.jpg', width: 500 -%}
  {%- endif -%}
  </div>
  {%- if s.ingredients_text != blank -%}<p class="mp7-sub">{{ s.ingredients_text | escape }}</p>{%- endif -%}
@@ -113,7 +107,7 @@
  {%- if s.heat_image != blank -%}
  {{ s.heat_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.heat_heading }}
  {%- else -%}
- <div class="mp7-ph" aria-hidden="true">{{ s.heat_heading | strip | slice: 0 | escape }}</div>
+ {%- render 'mp7-meal-photo', title: s.heat_heading, photo: 'oven-bbq-salmon.jpg', width: 600 -%}
  {%- endif -%}
  </div>
  {%- if s.delivery_side_heading != blank -%}<h3 style="margin-top:14px">{{ s.delivery_side_heading | escape }}</h3>{%- endif -%}
@@ -121,7 +115,7 @@
  {%- if s.delivery_side_image != blank -%}
  {{ s.delivery_side_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: s.delivery_side_heading }}
  {%- else -%}
- <div class="mp7-ph" aria-hidden="true">{{ s.delivery_side_heading | strip | slice: 0 | escape }}</div>
+ {%- render 'mp7-meal-photo', title: s.delivery_side_heading, photo: 'balsamic-baked-chicken-thighs.jpg', width: 600 -%}
  {%- endif -%}
  </div>
  </div>
@@ -151,7 +145,7 @@
  {%- if b.image != blank -%}
  {{ b.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: b.title, widths: '250, 375, 500', sizes: '(min-width: 990px) 25vw, 60vw' }}
  {%- else -%}
- <div class="mp7-ph" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
+ {%- render 'mp7-meal-photo', title: b.title, index: forloop.index0, width: 500, sizes: '(min-width: 990px) 25vw, 60vw' -%}
  {%- endif -%}
  {%- if b.calories != blank -%}<span class="mp7-cal">{{ b.calories | escape }}</span>{%- endif -%}
  </div>
@@ -218,7 +212,7 @@
  {%- if s.map_image != blank -%}
  {{ s.map_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: s.delivery_heading }}
  {%- else -%}
- <div class="mp7-ph" style="width:100%;height:100%" aria-hidden="true">{{ s.delivery_heading | strip | slice: 0 | escape }}</div>
+ <img src="{{ 'cm-delivery-banner.jpg' | asset_url }}" alt="{{ s.delivery_heading | escape }}" width="700" height="440" loading="lazy">
  {%- endif -%}
  </div>
  {%- if s.delivery_button_label != blank -%}
@@ -257,7 +251,7 @@
  {%- if b.image != blank -%}
  {{ b.image | image_url: width: 400 | image_tag: loading: 'lazy', alt: b.title, widths: '200, 300, 400', sizes: '(min-width: 990px) 15vw, 30vw' }}
  {%- else -%}
- <div class="mp7-ph" style="width:100%;height:100%" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
+ {%- render 'mp7-meal-photo', title: b.title, index: forloop.index0, width: 400, sizes: '(min-width: 990px) 15vw, 30vw' -%}
  {%- endif -%}
  </div>
  <figcaption>
@@ -297,7 +291,7 @@
  {%- if b.image != blank -%}
  {{ b.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: b.title }}
  {%- else -%}
- <div class="mp7-ph" aria-hidden="true">{{ b.title | strip | slice: 0 | escape }}</div>
+ {%- render 'mp7-meal-photo', title: b.title, index: forloop.index0, width: 200 -%}
  {%- endif -%}
  </div>
  {{ b.title | escape }}

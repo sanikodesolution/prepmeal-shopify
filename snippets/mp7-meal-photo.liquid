@@ -1,0 +1,70 @@
+{%- comment -%}
+  Meal photo for the 7-meal-plan page.
+  Uses a name match when we have one, otherwise rotates through the meal photos.
+  Accepts: title, index, width, sizes, photo
+{%- endcomment -%}
+{%- liquid
+  assign photo_file = photo
+  assign photo_key = title | default: '' | handleize
+  if photo_file == blank
+    case photo_key
+      when 'peri-peri-chicken'
+        assign photo_file = 'peri-peri-chicken.jpg'
+      when 'grilled-chicken-bowl'
+        assign photo_file = 'peri-peri-chicken.jpg'
+      when 'greek-chicken-salad'
+        assign photo_file = 'peri-peri-chicken.jpg'
+      when 'ground-beef-enchilada-bowl'
+        assign photo_file = 'ground-beef-enchilada-bowl.jpg'
+      when 'turkey-chili-bowl'
+        assign photo_file = 'ground-beef-enchilada-bowl.jpg'
+      when 'bacon-wrapped-chili-fig-glazed-pork-tenderloin'
+        assign photo_file = 'bacon-wrapped-chili-fig-glazed-pork-tenderloin.jpg'
+      when 'roasted-veg-plate'
+        assign photo_file = 'bacon-wrapped-chili-fig-glazed-pork-tenderloin.jpg'
+      when 'oven-bbq-salmon'
+        assign photo_file = 'oven-bbq-salmon.jpg'
+      when 'honey-garlic-salmon'
+        assign photo_file = 'oven-bbq-salmon.jpg'
+      when 'lemon-herb-salmon'
+        assign photo_file = 'oven-bbq-salmon.jpg'
+      when 'teriyaki-chicken-breast'
+        assign photo_file = 'teriyaki-chicken-breast.jpg'
+      when 'teriyaki-chicken'
+        assign photo_file = 'teriyaki-chicken-breast.jpg'
+      when 'pesto-chicken-pasta'
+        assign photo_file = 'teriyaki-chicken-breast.jpg'
+      when 'chimichurri-steak'
+        assign photo_file = 'chimichurri-steak.jpg'
+      when 'steak-veggies'
+        assign photo_file = 'chimichurri-steak.jpg'
+      when 'beef-stir-fry'
+        assign photo_file = 'chimichurri-steak.jpg'
+      when 'orange-basil-salmon'
+        assign photo_file = 'orange-basil-salmon.jpg'
+      when 'spicy-shrimp-bowl'
+        assign photo_file = 'orange-basil-salmon.jpg'
+      when 'turkey-meatball-marinara'
+        assign photo_file = 'turkey-meatball-marinara.jpg'
+      when 'turkey-meatballs'
+        assign photo_file = 'turkey-meatball-marinara.jpg'
+      when 'balsamic-baked-chicken-thighs'
+        assign photo_file = 'balsamic-baked-chicken-thighs.jpg'
+      when 'bbq-chicken-plate'
+        assign photo_file = 'balsamic-baked-chicken-thighs.jpg'
+      when 'chicken-quinoa-taco-bake'
+        assign photo_file = 'chicken-quinoa-taco-bake.jpg'
+      when 'garden-veggie-bowl'
+        assign photo_file = 'chicken-quinoa-taco-bake.jpg'
+      when 'veggie-power-mash'
+        assign photo_file = 'chicken-quinoa-taco-bake.jpg'
+    endcase
+  endif
+  if photo_file == blank
+    assign photo_pool = 'peri-peri-chicken.jpg|ground-beef-enchilada-bowl.jpg|bacon-wrapped-chili-fig-glazed-pork-tenderloin.jpg|oven-bbq-salmon.jpg|teriyaki-chicken-breast.jpg|chimichurri-steak.jpg|orange-basil-salmon.jpg|turkey-meatball-marinara.jpg|balsamic-baked-chicken-thighs.jpg|chicken-quinoa-taco-bake.jpg' | split: '|'
+    assign photo_i = index | default: 0 | modulo: 10
+    assign photo_file = photo_pool[photo_i]
+  endif
+  assign photo_w = width | default: 500
+-%}
+<img src="{{ photo_file | asset_url }}" alt="{{ title | escape }}" width="{{ photo_w }}" height="{{ photo_w }}" loading="lazy"{% if sizes != blank %} sizes="{{ sizes }}"{% endif %}>
