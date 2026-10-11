@@ -1071,7 +1071,7 @@
     const head = root.querySelector('.mp7-head');
     if (head) {
       const tl = timeline(head, 'top 90%');
-      addSplitHeading(tl, head.querySelector('h1'), 0);
+      addSplitHeading(tl, head.querySelector('h2'), 0);
       add(tl, all(head, 'p, .mp7-tabs'), { autoAlpha: 0, y: 22, duration: 0.8, stagger: 0.08 }, 0.12);
     }
 

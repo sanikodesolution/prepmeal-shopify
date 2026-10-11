@@ -6,7 +6,7 @@
 .mp7-top{display:grid;grid-template-columns:1fr 340px;gap:28px}
 .mp7-card{background:#fff;border:1px solid var(--bd);border-radius:16px;box-shadow:0 6px 24px rgba(28,26,23,.06)}
 .mp7-head{text-align:center;margin-bottom:32px}
-.mp7-head h1{text-transform:uppercase;letter-spacing:.02em}
+.mp7-head h2{text-transform:uppercase;letter-spacing:.02em;font-size:7.43rem}
 #mp7-x .mp7-head p{color:var(--mut);margin:8px 0 40px}
 .mp7-tabs{display:inline-flex;border:1px solid var(--a);border-radius:99px;overflow:hidden}
 .mp7-tab{border:0;background:#fff;padding:8px 18px;font-family:inherit;font-weight:700;cursor:pointer;transition:.25s}
@@ -123,7 +123,7 @@
  .mp7-car>*{flex-basis:88%}
  .mp7-pop{grid-template-columns:1fr 1fr}.mp7-feat{grid-template-columns:1fr;gap:14px;padding:18px}
  .mp7-fav{grid-template-columns:1fr 1fr}
- .mp7-head h1{}.mp7-sec>h2{}
+ .mp7-head h2{}.mp7-sec>h2{}
  .mp7-btn{width:100%;text-align:center}.mp7-center .mp7-btn,.mp7-center form{display:block}.mp7-center form .mp7-btn{width:100%}
  .mp7-tab{padding:8px 14px;flex:1 1 auto}
 }
@@ -133,9 +133,9 @@
 .mp7-diet{position:absolute;bottom:-4px;z-index:2;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--a);display:grid;place-items:center;font-weight:800}
 .mp7-gf{left:2px}.mp7-df{right:2px}
 .mp7-macro{display:inline-flex;margin:4px 0 8px;background:var(--a);color:var(--ink);border-radius:10px;padding:6px 4px;max-width:100%}
-.mp7-macro span{display:flex;flex-direction:column;padding:0 9px;font-weight:700;line-height:1.2}
-.mp7-macro span+span{border-left:1px solid rgba(28,26,23,.35)}
+.mp7-macro>span{display:flex;flex-direction:column;padding:0 9px;font-weight:700;line-height:1.2}
+.mp7-macro>span+span{border-left:1px solid rgba(28,26,23,.35)}
 .mp7-macro small{font-weight:500;opacity:.8}
 .mp7-meal h3{text-transform:uppercase;letter-spacing:.01em}
 @media(min-width:769px){.mp7-grid>.mp7-meal:last-child:nth-child(3n+1){grid-column:2}}
-@media(max-width:600px){.mp7-macro span{padding:0 5px;}.mp7-macro small{}.mp7-num{width:28px;height:28px;}.mp7-diet{width:24px;height:24px;}}
+@media(max-width:600px){.mp7-macro>span{padding:0 5px;}.mp7-macro small{}.mp7-num{width:28px;height:28px;}.mp7-diet{width:24px;height:24px;}}

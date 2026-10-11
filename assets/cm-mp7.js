@@ -3,7 +3,26 @@
   var r=document.getElementById('mp7-x');if(!r)return;
   r.querySelectorAll('[data-tabs]').forEach(function(g){
     g.addEventListener('click',function(e){var b=e.target.closest('.mp7-tab');if(!b)return;
-      g.querySelectorAll('.mp7-tab').forEach(function(x){x.classList.remove('is-on')});b.classList.add('is-on')})});
+      g.querySelectorAll('.mp7-tab').forEach(function(x){x.classList.remove('is-on');x.setAttribute('aria-pressed','false')});
+      b.classList.add('is-on');b.setAttribute('aria-pressed','true');
+      if(g.hasAttribute('data-mp7-filter')) applyServings(b);
+    })});
+  function servingsOf(btn){
+    var m=(btn.textContent||'').match(/\d+/);
+    var n=m?parseInt(m[0],10):1;
+    return n>0?n:1;
+  }
+  function applyServings(btn){
+    var n=servingsOf(btn);
+    r.querySelectorAll('.mp7-grid .mp7-val').forEach(function(el){
+      if(!el.hasAttribute('data-base')) el.setAttribute('data-base',el.textContent.trim());
+      var raw=el.getAttribute('data-base');
+      var num=parseFloat(String(raw).replace(/[^0-9.]/g,''));
+      if(!isFinite(num)) return;
+      var suffix=(String(raw).match(/[^0-9.\s]+$/)||[''])[0];
+      el.textContent=Math.round(num*n)+suffix;
+    });
+  }
   var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   r.querySelectorAll('[data-car]').forEach(function(c){
     var n=c.nextElementSibling,d=n&&n.nextElementSibling&&n.nextElementSibling.classList.contains('mp7-dots')?n.nextElementSibling:null,t;

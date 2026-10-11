@@ -22,12 +22,12 @@
  <div class="mp7-top">
  <div>
  <div class="mp7-head mp7-rev">
- {%- if s.heading != blank -%}<h1>{{ s.heading | escape }}</h1>{%- endif -%}
+ {%- if s.heading != blank -%}<h2>{{ s.heading | escape }}</h2>{%- endif -%}
  {%- if s.subheading != blank -%}<p>{{ s.subheading | escape }}</p>{%- endif -%}
- <div class="mp7-tabs" data-tabs>
- {%- if s.tab_1 != blank -%}<button type="button" class="mp7-tab is-on">{{ s.tab_1 | escape }}</button>{%- endif -%}
- {%- if s.tab_2 != blank -%}<button type="button" class="mp7-tab">{{ s.tab_2 | escape }}</button>{%- endif -%}
- {%- if s.tab_3 != blank -%}<button type="button" class="mp7-tab">{{ s.tab_3 | escape }}</button>{%- endif -%}
+ <div class="mp7-tabs" data-tabs data-mp7-filter>
+ {%- if s.tab_1 != blank -%}<button type="button" class="mp7-tab is-on" aria-pressed="true">{{ s.tab_1 | escape }}</button>{%- endif -%}
+ {%- if s.tab_2 != blank -%}<button type="button" class="mp7-tab" aria-pressed="false">{{ s.tab_2 | escape }}</button>{%- endif -%}
+ {%- if s.tab_3 != blank -%}<button type="button" class="mp7-tab" aria-pressed="false">{{ s.tab_3 | escape }}</button>{%- endif -%}
  </div>
  </div>
 
@@ -54,10 +54,10 @@
  {%- if b.dairy_free -%}<span class="mp7-diet mp7-df">DF</span>{%- endif -%}
  </div>
  <div class="mp7-macro">
- <span><small>Calories</small>{{ b.calories | escape }}</span>
- <span><small>Protein</small>{{ b.protein | escape }}</span>
- <span><small>Carbs</small>{{ b.carbs | escape }}</span>
- <span><small>Fat</small>{{ b.fat | escape }}</span>
+ <span><small>Calories</small><span class="mp7-val">{{ b.calories | escape }}</span></span>
+ <span><small>Protein</small><span class="mp7-val">{{ b.protein | escape }}</span></span>
+ <span><small>Carbs</small><span class="mp7-val">{{ b.carbs | escape }}</span></span>
+ <span><small>Fat</small><span class="mp7-val">{{ b.fat | escape }}</span></span>
  </div>
  {%- if b.title != blank -%}<h3>{{ b.title | escape }}</h3>{%- endif -%}
  {%- if b.description != blank -%}<p>{{ b.description | escape }}</p>{%- endif -%}
