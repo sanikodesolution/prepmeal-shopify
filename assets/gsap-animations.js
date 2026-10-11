@@ -1063,7 +1063,57 @@
     reveal(items.length ? items : section, { y: 40, stagger: 0.12 }, section, 'top 85%');
   }
 
+  function mealPlan7(section) {
+    const root = section.querySelector('#mp7-x');
+    if (!root) return;
+    root.classList.add('mp7-motion');
+
+    const head = root.querySelector('.mp7-head');
+    if (head) {
+      const tl = timeline(head, 'top 90%');
+      addSplitHeading(tl, head.querySelector('h1'), 0);
+      add(tl, all(head, 'p, .mp7-tabs'), { autoAlpha: 0, y: 22, duration: 0.8, stagger: 0.08 }, 0.12);
+    }
+
+    const grid = root.querySelector('.mp7-grid');
+    const meals = all(grid, '.mp7-meal');
+    if (meals.length) {
+      const photos = meals.map((meal) => meal.querySelector('.mp7-img img, .mp7-img .mp7-ph')).filter(Boolean);
+      gsap.set(photos, { transformOrigin: 'center center' });
+      const tl = timeline(grid, 'top 84%');
+      add(tl, meals, { autoAlpha: 0, y: 42, scale: 0.94, duration: 0.95, stagger: 0.07, ease: 'power3.out' }, 0);
+      add(tl, photos, { scale: 1.16, duration: 1.2, stagger: 0.07, ease: 'power3.out' }, 0);
+    }
+
+    all(root, '.mp7-side > .mp7-rev').forEach((card, index) => {
+      reveal(card, { x: 32, y: 0, duration: 0.9, delay: index * 0.07, ease: 'power3.out' }, card, 'top 88%');
+    });
+
+    const way = root.querySelector('.mp7-way');
+    const wayMeals = all(way, '.mp7-meal');
+    if (wayMeals.length) reveal(wayMeals, { y: 28, stagger: 0.1, duration: 0.8 }, way, 'top 86%');
+
+    const feat = root.querySelector('.mp7-feat');
+    reveal(all(feat, ':scope > div'), { y: 22, stagger: 0.08, duration: 0.7 }, feat, 'top 86%');
+
+    const quotes = all(root, '.mp7-tst .mp7-q');
+    if (quotes.length) reveal(quotes, { y: 24, stagger: 0.1, duration: 0.75 }, root.querySelector('.mp7-tst'), 'top 86%');
+
+    ['.mp7-how', '.mp7-area', '.mp7-cta', '.mp7-faq'].forEach((selector) => {
+      const block = root.querySelector(selector);
+      if (block) reveal(block, { y: 32, duration: 0.85 }, block, 'top 88%');
+    });
+
+    const popular = root.querySelector('.mp7-pop');
+    const dishes = all(popular, 'figure');
+    if (dishes.length) reveal(dishes, { y: 26, stagger: 0.05, duration: 0.7 }, popular, 'top 86%');
+
+    const favorites = root.querySelector('.mp7-fav');
+    reveal(all(favorites, ':scope > div'), { y: 20, scale: 0.96, stagger: 0.06, duration: 0.7 }, favorites, 'top 88%');
+  }
+
   const handlers = [
+    { match: '#mp7-x', run: mealPlan7 },
     { match: '[data-food]', run: food },
     { match: '[data-cm]', run: chefMatt },
     { match: '.announcement-bar-section', run: announcementBar },
