@@ -16,18 +16,18 @@
   filter: drop-shadow(0 18px 22px rgba(15, 31, 61, .24));
 }
 .da .da__corner img { width: 100%; height: 100%; object-fit: contain; display: block; will-change: transform; }
-.da .da__corner--tl { top: calc(var(--pw) * -.30); left: calc(var(--pw) * -.45); }
-.da .da__corner--tr { top: calc(var(--pw) * -.28); right: calc(var(--pw) * -.45); }
-.da .da__corner--bl { bottom: calc(var(--pw) * -.12); left: calc(var(--pw) * -.45); }
-.da .da__corner--br { bottom: calc(var(--pw) * -.20); right: calc(var(--pw) * -.45); }
+.da .da__corner--tl { top: calc(var(--pw) * -.40); left: calc(var(--pw) * -.58); }
+.da .da__corner--tr { top: calc(var(--pw) * -.38); right: calc(var(--pw) * -.58); }
+.da .da__corner--bl { bottom: calc(var(--pw) * -.24); left: calc(var(--pw) * -.58); }
+.da .da__corner--br { bottom: calc(var(--pw) * -.32); right: calc(var(--pw) * -.58); }
 
 /* desktop: plates sit in the side gutters like the reference - top pair high, bottom pair low, clear gap between */
 @media (min-width: 990px) {
   .da .da__corner { --pw: clamp(250px, 27vw, 540px); --gut: calc((100vw - var(--sw)) / 2); --ov: clamp(40px, calc((var(--sw) - 980px) / 2 + 24px), 110px); }
-  .da .da__corner--tl { top: calc(35% - var(--pw)); left: calc(var(--gut) + var(--ov) - var(--pw)); }
-  .da .da__corner--tr { top: calc(33% - var(--pw)); right: calc(var(--gut) + var(--ov) - var(--pw)); }
-  .da .da__corner--bl { bottom: auto; top: 56%; left: calc(var(--gut) + var(--ov) - 10px - var(--pw)); }
-  .da .da__corner--br { bottom: auto; top: 58%; right: calc(var(--gut) + var(--ov) - 10px - var(--pw)); }
+  .da .da__corner--tl { top: calc(35% - var(--pw) - 16px); left: calc(var(--gut) + var(--ov) - var(--pw) - 52px); }
+  .da .da__corner--tr { top: calc(33% - var(--pw) - 16px); right: calc(var(--gut) + var(--ov) - var(--pw) - 52px); }
+  .da .da__corner--bl { bottom: auto; top: 58%; left: calc(var(--gut) + var(--ov) - var(--pw) - 62px); }
+  .da .da__corner--br { bottom: auto; top: 60%; right: calc(var(--gut) + var(--ov) - var(--pw) - 62px); }
 }
 
 /* ---------- stage + card ---------- */
