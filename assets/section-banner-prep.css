@@ -8,9 +8,9 @@
  background: linear-gradient(
  90deg,
  rgba(var(--bp-navy), 1) 0%,
- rgba(var(--bp-navy), 0.85) 28%,
- rgba(var(--bp-navy), 0.3) 58%,
- rgba(var(--bp-navy), 0) 82%
+ rgba(var(--bp-navy), 0.88) 22%,
+ rgba(var(--bp-navy), 0.42) 40%,
+ rgba(var(--bp-navy), 0) 50%
  );
 }
 
@@ -198,10 +198,10 @@
  .banner--prep-plates::after {
  background: linear-gradient(
  90deg,
- rgba(var(--bp-navy), 0.8) 0%,
- rgba(var(--bp-navy), 0.5) 35%,
- rgba(var(--bp-navy), 0.18) 62%,
- rgba(var(--bp-navy), 0.06) 100%
+ rgba(var(--bp-navy), 0.95) 0%,
+ rgba(var(--bp-navy), 0.72) 28%,
+ rgba(var(--bp-navy), 0.28) 42%,
+ rgba(var(--bp-navy), 0) 50%
  );
  }
 
