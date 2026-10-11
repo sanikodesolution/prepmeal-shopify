@@ -14,7 +14,7 @@
  position: relative;
  overflow: hidden;
  
- padding: clamp(7em, 12vw, 9.5em) 1.25em clamp(4em, 8vw, 6.5em);
+ padding: 70px 1.25em;
  background:
  radial-gradient(circle at 92% 8%, rgba(245, 166, 35, 0.16) 0 9em, transparent 9.1em),
  linear-gradient(180deg, #fff8e8 0, #fff 26em);
@@ -494,7 +494,7 @@
 /* Stacked layout — form first, kitchen panel below */
 @media (max-width: 860px) {
  .cmc {
- padding: clamp(3.25em, 9vw, 5em) 1.15em clamp(3em, 7vw, 4.5em);
+ padding: 70px 1.15em;
  }
 
  .cmc__head {
@@ -536,7 +536,7 @@
 /* Phone */
 @media (max-width: 520px) {
  .cmc {
- padding: 2.75em 1em 2.75em;
+ padding: 70px 1em;
  }
 
  .cmc h1.cmc__title,

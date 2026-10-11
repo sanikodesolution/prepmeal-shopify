@@ -169,6 +169,11 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   }
 }
 
+.shopify-section:not(.section-header):not(.announcement-bar-section):not(.shopify-section-group-footer-group) [class$="-padding"] {
+  padding-top: 70px !important;
+  padding-bottom: 70px !important;
+}
+
 .element-margin-top {
   margin-top: 5rem;
 }

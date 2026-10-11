@@ -3,7 +3,7 @@
   --sw: clamp(860px, calc(100vw - 280px), var(--page-width));
   position: relative; overflow: hidden; isolation: isolate;
   background: var(--da-bg);
-  padding: 70px 20px 50px;
+  padding: 70px 20px;
   font-family: var(--font-body-family), sans-serif; color: var(--da-navy);
   display: flex; flex-direction: column;
 }
@@ -224,7 +224,7 @@
   .da .da__leaf--bl { width: 74px; left: 48px; }
 }
 @media (max-width: 749px) {
-  .da { padding: 49px 12px 35px; }
+  .da { padding: 70px 12px; }
   .da .da__corner { --pw: 130px; }
   .da .da__stage { margin-top: 36px; }
   .da .da__card { padding: 26px 14px 32px; border-radius: 44px; }

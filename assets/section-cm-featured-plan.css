@@ -6,7 +6,7 @@
     radial-gradient(90rem 40rem at 10% 0%, rgba(227, 154, 60, 0.16), transparent 60%),
     var(--paper);
   color: var(--ink);
-  padding: 7.2rem 0;
+  padding: 70px 0;
   font-family: var(--font-body-family), sans-serif;
 }
 
@@ -232,7 +232,7 @@
 
 @media screen and (max-width: 989px) {
   .cm-table {
-    padding: 4.8rem 0;
+    padding: 70px 0;
   }
 
   .cm-table__layout {

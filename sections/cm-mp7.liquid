@@ -204,7 +204,7 @@
 
  <div class="mp7-sec mp7-two">
  <div class="mp7-card mp7-how mp7-rev">
- {%- if s.how_heading != blank -%}<h2>{{ s.how_heading | escape }}</h2>{%- endif -%}
+ {%- if s.how_heading != blank -%}<h3>{{ s.how_heading | escape }}</h3>{%- endif -%}
  {%- assign step_n = 0 -%}
  {%- for block in section.blocks -%}
  {%- if block.type == 'step' -%}
@@ -221,7 +221,7 @@
  </div>
 
  <div class="mp7-card mp7-area mp7-rev">
- {%- if s.delivery_heading != blank -%}<h2>{{ s.delivery_heading | escape }}</h2>{%- endif -%}
+ {%- if s.delivery_heading != blank -%}<h3>{{ s.delivery_heading | escape }}</h3>{%- endif -%}
  <div class="mp7-map">
  {%- if s.map_image != blank -%}
  {{ s.map_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: s.delivery_heading }}

@@ -7,7 +7,7 @@
   --pd-soft: #f5f4f0;
   background: #fff;
   color: var(--pd-ink);
-  padding: clamp(40px, 6vw, 96px) 0;
+  padding: 70px 0;
   font-family: var(--font-body-family), sans-serif;
 }
 .mealplan-pd__inner {
