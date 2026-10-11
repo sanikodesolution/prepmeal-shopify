@@ -1,5 +1,6 @@
 {{ 'section-cm-delivery-areas.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'cm-da.js' | asset_url }}" defer></script>
+<script src="{{ 'cm-da-map.js' | asset_url }}" defer></script>
 
 {%- liquid
   assign s = section.settings
@@ -51,16 +52,23 @@
         </p>
       {%- endif -%}
 
-      {%- if areas.size > 0 -%}
-        <ul class="da__areas">
-          {%- for block in areas -%}
-            <li class="da__pill" style="--i:{{ forloop.index0 }}" {{ block.shopify_attributes }}>
-              <svg viewBox="0 0 16 22" aria-hidden="true"><path d="M8 0C3.6 0 0 3.5 0 7.9 0 13.8 8 22 8 22s8-8.2 8-14.1C16 3.5 12.4 0 8 0zm0 11a3.1 3.1 0 110-6.2A3.1 3.1 0 018 11z"/></svg>
-              {{ block.settings.name | escape }}
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
+      <div class="da__mapwrap">
+        <div class="da__map" id="da-map-{{ section.id }}" role="img" aria-label="Delivery areas around Hartland" data-da-map>
+          <div class="da__map-fallback">Loading our delivery map...</div>
+        </div>
+        <div class="da__legend">
+          <span><i class="da__dot da__dot--hub"></i> Our kitchen</span>
+          <span><i class="da__dot da__dot--city"></i> Delivery areas</span>
+          <span><i class="da__dot da__dot--ring"></i> Delivery zone</span>
+        </div>
+        <script type="application/json" data-da-points>
+          [
+            {%- for block in areas -%}
+              {"n":{{ block.settings.name | json }}}{%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}
+          ]
+        </script>
+      </div>
 
       {%- if s.button_label != blank -%}
         <a class="da__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">

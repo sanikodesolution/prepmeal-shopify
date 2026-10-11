@@ -62,6 +62,19 @@
 .da .da__sub::after { transform-origin: left center; }
 .da .da__sub em { font-style: normal; color: var(--da-orange); }
 
+/* ---------- map (replaces the city pill box) ---------- */
+.da .da__mapwrap { width: min(980px, 100%); margin: 8px auto 0; border: 1px solid rgba(15, 31, 61, .1); border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 8px 24px rgba(15, 31, 61, .06); }
+.da .da__map { height: 380px; width: 100%; background: #f4f1ea; }
+.da .da__map .leaflet-container { z-index: 0; font-family: inherit; background: #f4f1ea; }
+.da .da__map .leaflet-container a { color: var(--da-orange); }
+.da .da__legend { display: flex; flex-wrap: wrap; gap: 16px 22px; justify-content: center; padding: 12px 16px; border-top: 1px solid rgba(15, 31, 61, .08); background: #fff; }
+.da .da__legend span { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--da-navy); }
+.da .da__dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.da .da__dot--hub { background: var(--da-navy); }
+.da .da__dot--city { background: var(--da-orange); }
+.da .da__dot--ring { background: transparent; border: 2px solid var(--da-orange); }
+.da .da__map-fallback { padding: 24px 18px; text-align: center; font-size: 15px; color: #5c675f; }
+
 /* ---------- pills ---------- */
 .da .da__areas { list-style: none; margin: 0 auto; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 16px; max-width: 980px; }
 .da .da__pill {
@@ -234,6 +247,7 @@
   .da .da__sub { margin-bottom: 22px; gap: 8px; }
   .da .da__sub::before, .da .da__sub::after { flex-basis: 18px; }
   .da .da__areas { gap: 8px; }
+  .da .da__map { height: 300px; }
   .da .da__pill { font-size: 12.5px; padding: 8px 14px 8px 11px; gap: 7px; }
   .da .da__pill svg { width: 12px; height: 16px; }
   .da .da__cta { font-size: 15px; gap: 16px; padding: 6px 6px 6px 30px; margin-top: 26px; }
