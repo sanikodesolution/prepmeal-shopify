@@ -49,7 +49,8 @@
         var rad = a * Math.PI / 180;
         var x = g.cx + g.R * Math.cos(rad) - g.size / 2;
         var y = g.cy + g.R * Math.sin(rad) - g.size / 2;
-        var sc = Math.max(0.75, 1 - ab / 240);
+        var neighbor = Math.abs(ab - step) < 10;
+        var sc = ab < 8 ? 1 : (neighbor ? 0.96 : Math.max(0.7, 1 - ab / 200));
         var op = Math.max(0, 1 - Math.pow(ab / 140, 2));
         var el = plates[i];
         var label = el.querySelector('.tw__label');
