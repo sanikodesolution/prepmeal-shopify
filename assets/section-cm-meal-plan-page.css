@@ -366,13 +366,14 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__head .mealplan-h{margin:0}
 .mealplan-menu__sub{margin:0 0 8px;max-width:42ch;font-size:16px;line-height:1.6;color:var(--mp-muted)}
 .mealplan-menu__stage{grid-column:1;grid-row:2;position:sticky;top:40px}
-.mealplan-menu__frame{position:relative;aspect-ratio:4/4.3;border-radius:36px 220px 36px 36px;overflow:hidden;background:#f1f0ec;box-shadow:0 40px 80px -40px rgba(21,37,28,.35)}
+.mealplan-menu__frame{position:relative;aspect-ratio:4/4.3;border-radius:36px;overflow:hidden;background:#f1f0ec;box-shadow:0 40px 80px -40px rgba(21,37,28,.35)}
 .mealplan-menu__slide{position:absolute;inset:0;opacity:0;transform:scale(1.06);transition:opacity .55s ease,transform .8s ease}
 .mealplan-menu__slide.is-active{opacity:1;transform:scale(1);z-index:1}
 .mealplan-menu__slide img{width:100%;height:100%;object-fit:cover;display:block}
 .mealplan-menu__frame::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,0) 62%,rgba(0,0,0,.38) 100%);pointer-events:none}
-.mealplan-menu__caption{position:absolute;left:22px;right:22px;bottom:22px;z-index:3;display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:18px;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6)}
+.mealplan-menu__caption{position:absolute;left:22px;right:22px;bottom:22px;z-index:3;display:flex;align-items:center;gap:14px;min-width:0;padding:14px 18px;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6)}
 .mealplan-menu__count{flex:none;min-width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--mp-accent);color:#1b1204;font-weight:700;font-size:18px}
+.mealplan-menu__caption-text{min-width:0;flex:1;overflow:hidden}
 .mealplan-menu__caption-name{display:block;font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mealplan-menu__caption-sub{display:block;font-size:14px;color:#55534d}
 .mealplan-menu__list{grid-column:2;grid-row:2;list-style:none;margin:0;padding:0;border-top:1px solid var(--mp-line);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#d3d0c7 transparent}
@@ -437,7 +438,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 @media(max-width:860px){
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr)}
   .mealplan-menu__stage{grid-column:1;grid-row:2;position:relative;top:0;margin-bottom:28px}
-  .mealplan-menu__frame{aspect-ratio:4/3.6;border-radius:28px 120px 28px 28px}
+  .mealplan-menu__frame{aspect-ratio:4/3.6;border-radius:28px}
   .mealplan-menu__list{grid-column:1;grid-row:3}
   .mealplan-menu__detail{grid-column:1;grid-row:4;position:relative;top:0}
 }
