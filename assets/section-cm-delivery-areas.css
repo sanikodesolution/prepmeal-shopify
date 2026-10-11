@@ -124,7 +124,8 @@
 
 /* ---------- CTA ---------- */
 .da .da__cta {
-  position: relative; display: inline-flex; align-items: center; gap: 22px; margin-top: 34px;
+  display: none !important;
+  position: relative; align-items: center; gap: 22px; margin-top: 34px;
   padding: 8px 8px 8px 48px;
   background: linear-gradient(180deg, #fbab3a, var(--da-orange)); color: #fff;
   border-radius: 999px; font-weight: 600; font-size: 18px; letter-spacing: .02em; text-decoration: none;
