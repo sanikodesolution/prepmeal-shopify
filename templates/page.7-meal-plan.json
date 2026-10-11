@@ -164,6 +164,8 @@
           "settings": {
             "calories": "470",
             "tag": "LUNCH",
+            "gluten_free": true,
+            "dairy_free": true,
             "title": "Lemon Herb Salmon",
             "description": "Quinoa, asparagus & tomatoes"
           }
@@ -173,6 +175,8 @@
           "settings": {
             "calories": "480",
             "tag": "DINNER",
+            "gluten_free": true,
+            "dairy_free": false,
             "title": "Grilled Chicken Bowl",
             "description": "Brown rice, avocado, black beans"
           }
@@ -182,6 +186,8 @@
           "settings": {
             "calories": "460",
             "tag": "DINNER",
+            "gluten_free": false,
+            "dairy_free": false,
             "title": "Turkey Meatballs",
             "description": "Zucchini noodles, marinara"
           }
@@ -191,6 +197,8 @@
           "settings": {
             "calories": "420",
             "tag": "LUNCH",
+            "gluten_free": true,
+            "dairy_free": true,
             "title": "Garden Veggie Bowl",
             "description": "Chickpeas, kale, quinoa"
           }
