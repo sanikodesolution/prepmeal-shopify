@@ -101,8 +101,10 @@
 .da .da__more { margin-top: 18px; padding-top: 16px; border-top: 1px solid #eadfd8; }
 .da .da__more summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; list-style: none; color: #6e1f36; font-size: 15px; }
 .da .da__more summary::-webkit-details-marker { display: none; }
-.da .da__more-plus { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #f6ebe6; border: 1px solid #eadfd8; color: #6e1f36; font-size: 18px; line-height: 1; }
-.da .da__more[open] .da__more-plus { background: #6e1f36; border-color: #6e1f36; color: #fff; transform: rotate(45deg); }
+.da .da__more-plus { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #f6ebe6; border: 1px solid #eadfd8; color: #6e1f36; }
+.da .da__more-plus svg { width: 14px; height: 14px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.da .da__more[open] .da__more-plus { background: #6e1f36; border-color: #6e1f36; color: #fff; }
+.da .da__more[open] .da__more-plus svg { transform: rotate(45deg); transform-origin: center; }
 .da .da__more-body { padding-top: 16px; }
 .da .da__region { margin-bottom: 16px; }
 .da .da__region h5 { margin: 0 0 6px; font-family: var(--font-heading-family), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #6e1f36; }
@@ -257,7 +259,7 @@
   .da .da__leaf--right { display: none; }
 }
 @media (max-width: 989px) {
-  .da { padding-left: 16px; padding-right: 16px; }
+  .da { --sw: 100%; padding-left: 16px; padding-right: 16px; }
   .da .da__corner { --pw: 190px; }
   .da .da__card { padding: 34px 24px 42px; border-radius: 64px; }
   .da .da__bar { grid-template-columns: repeat(2, 1fr); gap: 24px 0; padding: 34px 28px; }
@@ -277,10 +279,20 @@
   .da .da__script svg { width: 32px; height: 32px; }
   .da .da__title { margin: 6px 0 10px; }
   .da .da__sub { margin-bottom: 22px; gap: 8px; }
+  .da .da__sub span { min-width: 0; }
   .da .da__sub::before, .da .da__sub::after { flex-basis: 18px; }
   .da .da__areas { gap: 8px; }
-  .da .da__map { height: 300px; }
-  .da .da__check-row { flex-direction: column; }
+  .da .da__deliver-label, .da .da__check-label { letter-spacing: 1.2px; }
+  .da .da__deliver-pills { gap: 8px; }
+  .da .da__zone { font-size: 13px; padding: 6px 12px; }
+  .da .da__map { height: 280px; }
+  .da .da__legend { gap: 8px 14px; padding: 10px 12px; }
+  .da .da__legend span { letter-spacing: .04em; font-size: 11px; }
+  .da .da__check-row { flex-direction: column; align-items: stretch; }
+  .da .da__check-btn { width: 100%; }
+  .da .da__suggest { max-height: 180px; }
+  .da .da__more summary { font-size: 14px; align-items: flex-start; }
+  .da .da__more-plus { flex: none; }
   .da .da__pill { font-size: 12.5px; padding: 8px 14px 8px 11px; gap: 7px; }
   .da .da__pill svg { width: 12px; height: 16px; }
   .da .da__cta { font-size: 15px; gap: 16px; padding: 6px 6px 6px 30px; margin-top: 26px; }

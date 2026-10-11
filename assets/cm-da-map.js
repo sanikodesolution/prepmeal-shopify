@@ -126,6 +126,7 @@
       map.on('focus click', function () { map.scrollWheelZoom.enable(); });
       map.on('blur mouseout', function () { map.scrollWheelZoom.disable(); });
       setTimeout(function () { map.invalidateSize(); }, 300);
+      window.addEventListener('resize', function () { map.invalidateSize(); });
     }).catch(function () {
       el.innerHTML = '<div class="da__map-fallback">The map could not load.</div>';
       el._daMap = false;
