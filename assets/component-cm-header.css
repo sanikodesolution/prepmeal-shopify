@@ -70,7 +70,7 @@
  --cmh-seal: calc(var(--cmh-seal-max, 108px) * 0.7);
  --cmh-hang: calc(var(--cmh-seal) * 0.4);
 
- z-index: 2;
+ z-index: 5;
  border-bottom: 0;
  box-shadow: 0 0.4rem 1.8rem rgba(13, 26, 46, 0.07);
 }
