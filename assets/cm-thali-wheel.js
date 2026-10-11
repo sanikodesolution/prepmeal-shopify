@@ -29,7 +29,7 @@
       var h = stage.clientHeight;
       var m = window.innerWidth < 990;
       var size = m ? Math.max(160, Math.min(w * 0.5, 240)) : Math.max(220, Math.min(h * 0.38, 340));
-      var R = m ? Math.min(h * 0.62 * 1.1, 340) : h * 0.62;
+      var R = m ? Math.min(h * 0.46, 250) : h * 0.42;
       var ax = m ? w * 0.5 : w * 0.62;
       g = { size: size, R: R, cx: ax - R, cy: h / 2 };
       stage.style.setProperty('--s', size + 'px');
