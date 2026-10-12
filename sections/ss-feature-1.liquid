@@ -89,7 +89,7 @@
 
   .feature-{{ section.id }} .wrapper-box {
     display: grid;
-    grid-template-columns: repeat({{ feature_row_mobile}}, 1fr);
+    grid-template-columns: repeat({{ feature_row_mobile}}, minmax(0, 1fr));
     background-color: {{ feature_bg }}; 
     border: {{ feature_border_thickness }}px solid {{ feature_border_color }};
     border-radius: {{ feature_radius }}px;
@@ -109,27 +109,30 @@
     text-align: center;
     text-decoration: none;
     gap: 5px;
+    min-width: 0;
   }
   
   .feature-{{ section.id }} .box__image {
     display:flex;
-    margin-right: 10px;
-    flex: 0 0 {{ feature_icon_size_mobile }}px;
-    height: {{ feature_icon_size_mobile }}px;
+    margin-right: 0;
+    width: min(100%, {{ feature_icon_size_mobile }}px);
+    aspect-ratio: 1;
+    height: auto;
   }
 
   .feature-{{ section.id }} .box__image img,
   .feature-{{ section.id }} .box__image svg {
+    width: 100%;
     height: 100%;
     display: block;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .feature-{{ section.id }} .box__image svg path {
     fill: {{ feature_icon_color }};
   }
 
-  @media(min-width: 768px) {
+  @media(min-width: 990px) {
 
     .section-{{ section.id }} {
       margin-top: {{ margin_top }}px;
@@ -142,13 +145,14 @@
     }
 
     .feature-{{ section.id }} .wrapper-box {
-      grid-template-columns: repeat({{ feature_row }}, 1fr);
+      grid-template-columns: repeat({{ feature_row }}, minmax(0, 1fr));
       padding: {{ feature_padding_vertical }}px {{ feature_padding_horizontal }}px;
       gap: {{ feature_gap }}px;
     }
 
     .feature-{{ section.id }} .box {
-      flex: 1 0 auto;
+      flex: 1 1 auto;
+      min-width: 0;
     }
     
     .feature-{{ section.id }} .box__title {
@@ -164,8 +168,8 @@
     }
 
     .section-{{ section.id }}-settings .box__image {
-      flex: 0 0 {{ feature_icon_size }}px;
-      height: {{ feature_icon_size }}px;
+      width: min(100%, {{ feature_icon_size }}px);
+      height: auto;
     }
   }
 {% endstyle %}
@@ -242,7 +246,6 @@
                           alt="{{ block.settings.feature_title | default: block.settings.feature_image_alt | escape }}"
                           width="400"
                           height="400"
-                          style="width: auto;"
                           {% if lazy %}loading="lazy"{% endif %}
                         >
                       {%- else -%}

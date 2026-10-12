@@ -24,6 +24,7 @@
     let cur = Math.max(0, slides.findIndex((s) => s.classList.contains('is-active')));
 
     const thumbsEl = root.querySelector('.mealplan-pd__thumbs');
+    let lockHover = false;
     const markThumbs = (i) => {
       thumbs.forEach((t, k) => {
         t.classList.toggle('is-active', k === i);
@@ -31,49 +32,41 @@
       });
       const thumb = thumbs[i];
       if (!thumb || !thumbsEl) return;
-      const left = thumb.getBoundingClientRect().left - thumbsEl.getBoundingClientRect().left + thumbsEl.scrollLeft;
-      thumbsEl.scrollTo({ left: Math.max(0, left), behavior: reduce ? 'auto' : 'smooth' });
+      const view = thumbsEl.getBoundingClientRect();
+      const box = thumb.getBoundingClientRect();
+      let delta = 0;
+      if (box.left < view.left + 2) delta = box.left - view.left - 8;
+      else if (box.right > view.right - 2) delta = box.right - view.right + 8;
+      if (!delta) return;
+      lockHover = true;
+      thumbsEl.scrollTo({ left: thumbsEl.scrollLeft + delta, behavior: reduce ? 'auto' : 'smooth' });
+      window.setTimeout(() => { lockHover = false; }, reduce ? 0 : 450);
     };
-    let fx = false;
     let slideTl = null;
     const mediaOf = (slide) => slide.querySelector('img, svg');
     const show = (i) => {
       if (i < 0 || i >= slides.length || i === cur) return;
-      const prev = cur;
       cur = i;
       markThumbs(i);
-      if (!fx || !window.gsap || reduce) {
-        slides.forEach((s, k) => s.classList.toggle('is-active', k === i));
-        return;
+      if (slideTl) {
+        slideTl.kill();
+        slideTl = null;
       }
-      const dir = i > prev ? 1 : -1;
-      const base = slides[prev];
-      const incoming = slides[i];
-      if (slideTl) slideTl.kill();
       slides.forEach((s, k) => {
         s.classList.remove('is-incoming');
-        if (k !== prev) s.classList.remove('is-active');
-        gsap.set(s, { clearProps: 'clipPath' });
-        gsap.set(mediaOf(s), { scale: 1, yPercent: 0 });
+        s.classList.toggle('is-active', k === i);
+        if (window.gsap) {
+          gsap.set(s, { clearProps: 'clipPath' });
+          const media = mediaOf(s);
+          if (media) gsap.set(media, { clearProps: 'transform' });
+        }
       });
-      base.classList.add('is-active');
-      incoming.classList.add('is-incoming');
-      slideTl = gsap.timeline({
-        onComplete: () => {
-          base.classList.remove('is-active');
-          incoming.classList.remove('is-incoming');
-          incoming.classList.add('is-active');
-          gsap.set(incoming, { clearProps: 'clipPath' });
-        },
-      });
-      slideTl
-        .fromTo(incoming, { clipPath: dir > 0 ? 'inset(100% 0% 0% 0%)' : 'inset(0% 0% 100% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'expo.inOut' }, 0)
-        .fromTo(mediaOf(incoming), { scale: 1.3, yPercent: dir * 6 }, { scale: 1, yPercent: 0, duration: 1.4, ease: 'expo.out' }, 0)
-        .to(mediaOf(base), { scale: 1.08, yPercent: -dir * 3, duration: 0.9, ease: 'expo.inOut' }, 0);
     };
     markThumbs(cur);
     thumbs.forEach((thumb, i) => {
-      thumb.addEventListener('mouseenter', () => { if (canHover.matches) show(i); });
+      thumb.addEventListener('mouseenter', () => {
+        if (canHover.matches && !lockHover) show(i);
+      });
       thumb.addEventListener('click', () => show(i));
       thumb.addEventListener('focus', () => show(i));
     });
@@ -255,9 +248,40 @@
     }
 
     const qty = root.querySelector('[data-pd-qty]');
-    const setQty = (n) => { if (qty) qty.value = String(Math.max(1, n || 1)); };
-    root.querySelector('[data-pd-minus]')?.addEventListener('click', () => setQty((parseInt(qty.value, 10) || 1) - 1));
-    root.querySelector('[data-pd-plus]')?.addEventListener('click', () => setQty((parseInt(qty.value, 10) || 1) + 1));
+    const qtyValue = () => Math.max(1, parseInt(qty?.value, 10) || 1);
+    const macroEls = [...root.querySelectorAll('[data-pd-count]')];
+    const macros = macroEls.map((el) => {
+      const match = el.textContent.trim().match(/^(\D*)([\d.]+)(.*)$/);
+      return {
+        el,
+        prefix: match ? match[1] : '',
+        num: match ? parseFloat(match[2]) : null,
+        decimals: match ? (match[2].split('.')[1] || '').length : 0,
+        suffix: match ? match[3] : '',
+      };
+    });
+    let macroToken = 0;
+    const writeMacros = () => {
+      const q = qtyValue();
+      macros.forEach((macro) => {
+        if (macro.num == null) return;
+        const value = macro.num * q;
+        const shown = macro.decimals ? value.toFixed(macro.decimals) : String(value);
+        macro.el.textContent = macro.prefix + shown + macro.suffix;
+      });
+    };
+    const setQty = (n) => {
+      if (!qty) return;
+      qty.value = String(Math.max(1, n || 1));
+      macroToken += 1;
+      writeMacros();
+    };
+    root.querySelector('[data-pd-minus]')?.addEventListener('click', () => setQty(qtyValue() - 1));
+    root.querySelector('[data-pd-plus]')?.addEventListener('click', () => setQty(qtyValue() + 1));
+    qty?.addEventListener('input', () => {
+      macroToken += 1;
+      writeMacros();
+    });
 
     root.querySelectorAll('[data-pd-acc]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -269,21 +293,25 @@
       });
     });
 
-    const counters = [...root.querySelectorAll('[data-pd-count]')];
+    const counters = macroEls;
     const countUp = (el) => {
-      const original = el.textContent.trim();
-      const match = original.match(/^(\D*)([\d.]+)(.*)$/);
-      if (!match || reduce) return;
-      const end = parseFloat(match[2]);
-      const decimals = (match[2].split('.')[1] || '').length;
+      const macro = macros.find((item) => item.el === el);
+      if (!macro || macro.num == null || reduce) return;
+      const token = macroToken;
+      const end = macro.num * qtyValue();
       let started = null;
       const step = (ts) => {
+        if (token !== macroToken) return;
         if (!started) started = ts;
         const progress = Math.min(1, (ts - started) / 1100);
         const eased = 1 - (1 - progress) ** 3;
-        el.textContent = match[1] + (end * eased).toFixed(decimals) + match[3];
+        const shown = (end * eased).toFixed(macro.decimals);
+        el.textContent = macro.prefix + shown + macro.suffix;
         if (progress < 1) requestAnimationFrame(step);
-        else el.textContent = original;
+        else {
+          const finalShown = macro.decimals ? end.toFixed(macro.decimals) : String(end);
+          el.textContent = macro.prefix + finalShown + macro.suffix;
+        }
       };
       requestAnimationFrame(step);
     };
@@ -299,12 +327,11 @@
     }
 
     if (window.gsap && !reduce && root.getAttribute('data-anim') !== 'false') {
-      fx = true;
       root.classList.add('mealplan-pd-fx');
       const active = slides[cur];
       if (stage && active) {
         gsap.fromTo(stage, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: 'expo.inOut', clearProps: 'clipPath' });
-        gsap.fromTo(mediaOf(active), { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'expo.out' });
+        gsap.fromTo(mediaOf(active), { scale: 1.3 }, { scale: 1, duration: 1.8, ease: 'expo.out', clearProps: 'transform' });
       }
     }
 

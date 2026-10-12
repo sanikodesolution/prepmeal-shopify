@@ -62,9 +62,20 @@
   }
   .mealplan-pd--blend .mealplan-pd__slide img { mix-blend-mode: multiply; }
   .mealplan-pd__stage.is-zoom .mealplan-pd__slide.is-active img { transform: scale(1.7); }
-  .mealplan-pd-fx .mealplan-pd__slide { opacity: 1; transition: none; visibility: hidden; }
-  .mealplan-pd-fx .mealplan-pd__slide.is-active { visibility: visible; z-index: 1; }
-  .mealplan-pd-fx .mealplan-pd__slide.is-incoming { visibility: visible; z-index: 2; }
+  .mealplan-pd-fx .mealplan-pd__slide {
+    opacity: 0;
+    visibility: hidden;
+    z-index: 0;
+    transition: opacity .55s var(--pd-ease), visibility 0s linear .55s;
+  }
+  .mealplan-pd-fx .mealplan-pd__slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+    transition: opacity .55s var(--pd-ease), visibility 0s linear 0s;
+  }
+  .mealplan-pd-fx .mealplan-pd__slide img { transform: scale(1.05); }
+  .mealplan-pd-fx .mealplan-pd__slide.is-active img { transform: scale(1); }
 
   .mealplan-pd__badge {
     position: absolute;
