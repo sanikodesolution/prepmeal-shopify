@@ -361,9 +361,17 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 
 /* This Week's Menu */
 .mealplan-menu{--mp-accent:#F5A623;--mp-accent-soft:#fff4e3;--mp-ink:#15251C;--mp-muted:#5c675f;--mp-line:#e4e8e1;background:#fff;color:var(--mp-ink)}
-.mealplan-menu__inner{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1fr) minmax(0,1fr);column-gap:clamp(24px,3vw,56px);row-gap:0;align-items:start}
+.mealplan-menu__inner{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);column-gap:clamp(12px,1.4vw,22px);row-gap:0;align-items:start;max-width:calc(var(--page-width) + 100px)}
 .mealplan-menu__head{grid-column:1 / -1;grid-row:1;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px 48px;margin-bottom:clamp(28px,3.4vw,52px);padding-bottom:clamp(18px,2vw,26px);border-bottom:1px solid var(--mp-line)}
 .mealplan-menu__head .mealplan-h{margin:0}
+.mealplan-menu__title{margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:left;cursor:pointer}
+.mealplan-menu__cursor{position:fixed;left:0;top:0;z-index:90;width:80px;height:80px;margin:16px 0 0 18px;border-radius:12px;overflow:hidden;pointer-events:none;box-shadow:0 12px 28px rgba(21,37,28,.32);background:#fff}
+.mealplan-menu__cursor[hidden]{display:none}
+.mealplan-menu__cursor img{width:80px;height:80px;object-fit:contain;display:block}
+.mealplan-menu__sheet{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;background:#fff}
+.mealplan-menu__sheet[hidden]{display:none}
+.mealplan-menu__sheet img{width:100%;height:100%;object-fit:contain;display:block}
+.mealplan-menu__frame.is-sheet .mealplan-menu__caption{opacity:0}
 .mealplan-menu__sub{margin:0 0 8px;max-width:42ch;font-size:16px;line-height:1.6;color:var(--mp-muted)}
 .mealplan-menu__stage{grid-column:1;grid-row:2;position:sticky;top:40px}
 .mealplan-menu__frame{position:relative;aspect-ratio:4/4.3;border-radius:36px;overflow:hidden;background:#f1f0ec;box-shadow:0 40px 80px -40px rgba(21,37,28,.35)}

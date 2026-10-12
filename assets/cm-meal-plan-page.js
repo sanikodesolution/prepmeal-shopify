@@ -377,6 +377,11 @@
       if (d) box.scrollTo({ top: box.scrollTop + d, behavior: 'smooth' });
     };
     const set = (i, src) => {
+      const sheet = week.querySelector('[data-mp-sheet]');
+      if (sheet) {
+        sheet.hidden = true;
+        sheet.closest('.mealplan-menu__frame')?.classList.remove('is-sheet');
+      }
       if (i === current || i < 0 || i >= items.length) return;
       current = i;
       items.forEach((el, k) => {
@@ -410,6 +415,29 @@
       week.querySelector('[data-mp-open]')?.addEventListener('click', open);
       modal.querySelectorAll('[data-mp-close]').forEach((el) => el.addEventListener('click', close));
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) close(); });
+    }
+
+    const posterTitle = week.querySelector('[data-mp-poster]');
+    const cursorImg = week.querySelector('[data-mp-cursor]');
+    const sheet = week.querySelector('[data-mp-sheet]');
+    if (posterTitle && cursorImg) {
+      document.body.appendChild(cursorImg);
+      const placeCursor = (event) => {
+        cursorImg.hidden = false;
+        cursorImg.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
+      };
+      const hideCursor = () => { cursorImg.hidden = true; };
+      if (canHover.matches) {
+        posterTitle.addEventListener('pointerenter', placeCursor);
+        posterTitle.addEventListener('pointermove', placeCursor);
+        posterTitle.addEventListener('pointerleave', hideCursor);
+      }
+      posterTitle.addEventListener('click', () => {
+        hideCursor();
+        if (!sheet) return;
+        sheet.hidden = false;
+        sheet.closest('.mealplan-menu__frame')?.classList.add('is-sheet');
+      });
     }
 
     const orderForm = week.querySelector('[data-mp-order]');

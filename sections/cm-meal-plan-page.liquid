@@ -66,7 +66,13 @@
       <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
         <div class="mealplan-wrap mealplan-menu__inner">
           <div class="mealplan-menu__head">
-            <h3 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h3>
+            {%- if section.settings.picker_count > 0 -%}
+              <h3 class="mealplan-h">
+                <button type="button" class="mealplan-menu__title" data-mp-poster>{{ section.settings.quality_heading | escape }}</button>
+              </h3>
+            {%- else -%}
+              <h3 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h3>
+            {%- endif -%}
             {%- if section.settings.quality_text != blank -%}
               <p class="mealplan-menu__sub">{{ section.settings.quality_text | escape }}</p>
             {%- endif -%}
@@ -78,6 +84,11 @@
                   <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.short | default: block.settings.name | escape }}" width="800" height="860"{% unless forloop.first %} loading="lazy"{% endunless %}>
                 </div>
               {%- endfor -%}
+              {%- if section.settings.picker_count > 0 -%}
+                <div class="mealplan-menu__sheet" data-mp-sheet hidden>
+                  <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all 10 meals" width="800" height="1400">
+                </div>
+              {%- endif -%}
               <div class="mealplan-menu__caption" aria-hidden="true">
                 <span class="mealplan-menu__count" data-mp-count>1</span>
                 <span class="mealplan-menu__caption-text">
@@ -128,6 +139,11 @@
             {%- endif -%}
           </div>
         </div>
+        {%- if section.settings.picker_count > 0 -%}
+          <div class="mealplan-menu__cursor" data-mp-cursor hidden>
+            <img src="{{ '10-meal-together.png' | asset_url }}" alt="" width="80" height="80">
+          </div>
+        {%- endif -%}
         <div class="mealplan-menu__modal" data-mp-modal role="dialog" aria-modal="true" aria-label="This week's menu" hidden>
           <div class="mealplan-menu__modal-backdrop" data-mp-close></div>
           <div class="mealplan-menu__modal-box">
