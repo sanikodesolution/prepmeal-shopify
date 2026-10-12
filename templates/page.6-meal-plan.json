@@ -55,7 +55,9 @@
         "button_link": "/products/6-meal-plan",
         "cta_button_link": "/products/6-meal-plan",
         "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
-        "quality_button": "See all plans"
+        "quality_button": "Order 6 meals",
+        "picker_count": 6,
+        "plan_product": "6-meal-plan"
       },
       "blocks": {
         "meal_1": {

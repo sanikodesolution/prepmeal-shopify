@@ -411,6 +411,63 @@
       modal.querySelectorAll('[data-mp-close]').forEach((el) => el.addEventListener('click', close));
       document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) close(); });
     }
+
+    const orderForm = week.querySelector('[data-mp-order]');
+    if (orderForm) {
+      const orderMsg = orderForm.querySelector('[data-mp-order-msg]');
+      const orderBtn = orderForm.querySelector('[type="submit"]');
+      const say = (text, ok) => {
+        if (!orderMsg) return;
+        orderMsg.hidden = !text;
+        orderMsg.textContent = text || '';
+        orderMsg.classList.toggle('is-ok', Boolean(ok));
+      };
+      orderForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const picks = [...orderForm.querySelectorAll('[data-mp-pick]')];
+        if (picks.some((select) => !select.value)) {
+          say('Choose a meal in every dropdown.');
+          return;
+        }
+        const id = orderForm.querySelector('[name="id"]')?.value;
+        if (!id) {
+          say('This plan is not available to order yet.');
+          return;
+        }
+        const properties = {};
+        picks.forEach((select, index) => {
+          properties[`Meal ${index + 1}`] = select.value;
+        });
+        const drawer = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+        const sections = drawer && typeof drawer.getSectionsToRender === 'function'
+          ? drawer.getSectionsToRender().map((section) => section.id)
+          : ['cart-icon-bubble'];
+        if (orderBtn) orderBtn.disabled = true;
+        say('');
+        try {
+          const response = await fetch(`${(window.routes && window.routes.cart_add_url) || '/cart/add'}.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              items: [{ id: Number(id), quantity: 1, properties }],
+              sections,
+              sections_url: window.location.pathname,
+            }),
+          });
+          const data = await response.json();
+          if (!response.ok || data.status) throw new Error(data.description || data.message || 'Could not add to cart');
+          if (drawer && typeof drawer.renderContents === 'function') {
+            drawer.classList.remove('is-empty');
+            drawer.renderContents({ ...(data.items ? data.items[0] : data), sections: data.sections });
+          }
+          say('Added to your cart.', true);
+        } catch (error) {
+          say(error.message || 'Could not add to cart');
+        } finally {
+          if (orderBtn) orderBtn.disabled = false;
+        }
+      });
+    }
   }
 
   // Reviews (static from markup — no rebuild needed if liquid rendered)

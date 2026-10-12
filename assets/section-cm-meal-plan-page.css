@@ -394,7 +394,17 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__full li::marker{color:#8d928c;font-weight:600}
 .mealplan-menu__full li.is-active{background:var(--mp-accent-soft);color:var(--mp-ink)}
 .mealplan-menu__full li.is-active::marker{color:var(--mp-accent)}
+.mealplan-menu__order{display:grid;gap:12px;padding:18px 18px 20px}
+.mealplan-menu__field{display:grid;gap:6px}
+.mealplan-menu__field span{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mp-muted)}
+.mealplan-menu__field select{width:100%;appearance:none;border:1px solid var(--mp-line);border-radius:12px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%2315251C' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E") no-repeat right 14px center;padding:12px 36px 12px 14px;font:inherit;font-size:15px;line-height:1.35;color:var(--mp-ink);cursor:pointer}
+.mealplan-menu__field select:hover{border-color:#c9cfc6}
+.mealplan-menu__field select:focus{outline:2px solid var(--mp-accent);outline-offset:2px}
+.mealplan-menu__order-msg{margin:0;font-size:14px;line-height:1.4;color:#b3200a}
+.mealplan-menu__order-msg.is-ok{color:#1f7a3a}
+.mealplan-menu__order .mealplan-menu__cta{justify-content:center;margin:6px 0 0;width:100%}
 .mealplan-menu__cta{display:inline-flex;align-items:center;margin:22px 0 22px 22px;padding:8px 22px;border:0;border-radius:99px;background:var(--mp-ink);color:#fff;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
+.mealplan-menu__cta:disabled{opacity:.55;cursor:not-allowed}
 .mealplan-menu__cta:hover{background:var(--mp-accent);color:#1b1204}
 .mealplan-menu__modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:clamp(16px,4vw,48px);background:rgba(21,37,28,.62)}
 .mealplan-menu__modal.is-open{display:flex}

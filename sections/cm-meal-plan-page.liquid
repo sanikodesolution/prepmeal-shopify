@@ -98,12 +98,34 @@
             {%- endfor -%}
           </ol>
           <div class="mealplan-menu__detail">
-            <ol class="mealplan-menu__full">
-              {%- for block in menu_blocks -%}
-                <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
-              {%- endfor -%}
-            </ol>
-            <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ section.settings.quality_button | default: 'See all plans' | escape }}</button>
+            {%- if section.settings.picker_count > 0 -%}
+              {%- assign plan_variant = section.settings.plan_product.selected_or_first_available_variant -%}
+              <form class="mealplan-menu__order" data-mp-order action="{{ routes.cart_add_url }}" method="post">
+                {%- if plan_variant != blank -%}
+                  <input type="hidden" name="id" value="{{ plan_variant.id }}">
+                {%- endif -%}
+                {%- for slot in (1..section.settings.picker_count) -%}
+                  <label class="mealplan-menu__field">
+                    <span>Meal {{ slot }}</span>
+                    <select name="properties[Meal {{ slot }}]" data-mp-pick required>
+                      <option value="" selected disabled>Choose a meal</option>
+                      {%- for block in menu_blocks -%}
+                        <option value="{{ block.settings.name | escape }}">{{ block.settings.name | escape }}</option>
+                      {%- endfor -%}
+                    </select>
+                  </label>
+                {%- endfor -%}
+                <p class="mealplan-menu__order-msg" data-mp-order-msg hidden></p>
+                <button type="submit" class="mealplan-menu__cta"{% if plan_variant == blank or plan_variant.available == false %} disabled{% endif %}>{{ section.settings.quality_button | default: 'Order' | escape }}</button>
+              </form>
+            {%- else -%}
+              <ol class="mealplan-menu__full">
+                {%- for block in menu_blocks -%}
+                  <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
+                {%- endfor -%}
+              </ol>
+              <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ section.settings.quality_button | default: 'See all plans' | escape }}</button>
+            {%- endif -%}
           </div>
         </div>
         <div class="mealplan-menu__modal" data-mp-modal role="dialog" aria-modal="true" aria-label="This week's menu" hidden>
@@ -465,6 +487,8 @@
     { "type": "text", "id": "quality_heading", "label": "Quality heading", "default": "Fresh in, quality out." },
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
+    { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
+    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Added to the cart with the meals chosen in the dropdowns." },
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
     { "type": "header", "content": "Delivery" },
