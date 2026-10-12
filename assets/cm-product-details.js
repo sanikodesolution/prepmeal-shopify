@@ -41,7 +41,7 @@
       thumb.addEventListener('click', () => show(i));
       thumb.addEventListener('focus', () => show(i));
     });
-    if (stage && canHover.matches) {
+    if (stage && canHover.matches && !root.classList.contains('mealplan-pd--plate')) {
       stage.addEventListener('mousemove', (e) => {
         const r = stage.getBoundingClientRect();
         stage.style.setProperty('--zx', `${((e.clientX - r.left) / r.width) * 100}%`);
@@ -128,12 +128,17 @@
       input.setAttribute('aria-controls', customBox.id);
       input.setAttribute('aria-expanded', 'false');
     });
+    let armedCollapse = false;
+    if (customInput) {
+      customInput.addEventListener('pointerdown', () => {
+        armedCollapse = customOn();
+      });
+    }
     fieldsets.forEach((fs) => {
       fs.addEventListener('click', (event) => {
-        if (customInput && event.target === customInput && prevOn) {
-          customCollapsed = !customCollapsed;
-          syncCustom();
-        }
+        if (event.target !== customInput || !armedCollapse) return;
+        customCollapsed = !customCollapsed;
+        syncCustom();
       });
     });
     syncCustom();

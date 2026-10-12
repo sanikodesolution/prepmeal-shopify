@@ -28,8 +28,8 @@
 }
 .mealplan-pd__slide { position: absolute; inset: 0; opacity: 0; transition: opacity .55s ease; }
 .mealplan-pd__slide.is-active { opacity: 1; z-index: 1; }
-.mealplan-pd__slide img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: var(--zx, 50%) var(--zy, 50%); transition: transform .5s ease; }
-.mealplan-pd__stage.is-zoom .mealplan-pd__slide.is-active img { transform: scale(1.7); }
+.mealplan-pd__slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mealplan-pd--plate .mealplan-pd__stage.is-zoom .mealplan-pd__slide.is-active img { transform: none; }
 .mealplan-pd--plate .mealplan-pd__slide { padding: 6%; }
 .mealplan-pd--plate .mealplan-pd__slide img {
   border-radius: 50%;
@@ -56,6 +56,8 @@
   overflow: hidden; background: var(--pd-soft); cursor: pointer; opacity: .72;
 }
 .mealplan-pd__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mealplan-pd__thumb { transition: opacity .3s ease, border-color .3s ease; }
+.mealplan-pd__thumb:hover { opacity: 1; }
 .mealplan-pd__thumb.is-active { border-color: var(--pd-accent); opacity: 1; }
 .mealplan-pd--plate .mealplan-pd__thumb { padding: 7px; }
 .mealplan-pd--plate .mealplan-pd__thumb img { border-radius: 50%; box-shadow: 0 8px 14px -8px rgba(21, 19, 15, .5); }
@@ -83,6 +85,8 @@
   background: var(--pd-accent-soft); color: #8a5a00;
 }
 .mealplan-pd__chip-ico svg { width: 17px; height: 17px; }
+.mealplan-pd__chip { transition: border-color .3s ease, background-color .3s ease; }
+.mealplan-pd__chip:hover { border-color: var(--pd-accent); background: var(--pd-accent-soft); }
 .mealplan-pd__form { margin-top: 30px; padding-top: 28px; border-top: 1px solid var(--pd-line); }
 .mealplan-pd__opt { border: 0; padding: 0; margin: 0 0 22px; min-width: 0; }
 .mealplan-pd__optHead { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; font-size: 15px; font-weight: 600; }
@@ -105,11 +109,14 @@
   transform: scale(0);
   transition: transform .35s ease;
 }
+.mealplan-pd__valBox { transition: border-color .3s ease, background-color .3s ease, box-shadow .3s ease; }
+.mealplan-pd__val:hover .mealplan-pd__valBox { border-color: var(--pd-ink); box-shadow: 0 16px 30px -20px rgba(21, 19, 15, .5); }
 .mealplan-pd__val input:checked + .mealplan-pd__valBox { border-color: var(--pd-accent); background: var(--pd-accent-soft); }
 .mealplan-pd__val input:checked + .mealplan-pd__valBox::after { transform: scale(1); }
 .mealplan-pd__buy { display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap; margin-top: 8px; }
 .mealplan-pd__qty { display: inline-flex; align-items: center; height: 58px; border: 1.5px solid var(--pd-line); border-radius: 99px; padding: 0 6px; }
-.mealplan-pd__qbtn { width: 44px; height: 44px; border: 0; border-radius: 50%; background: none; color: var(--pd-ink); cursor: pointer; display: grid; place-items: center; }
+.mealplan-pd__qbtn { width: 44px; height: 44px; border: 0; border-radius: 50%; background: none; color: var(--pd-ink); cursor: pointer; display: grid; place-items: center; transition: background-color .3s ease; }
+.mealplan-pd__qbtn:hover { background: var(--pd-accent); }
 .mealplan-pd__qbtn svg { width: 16px; height: 16px; }
 .mealplan-pd__qinput { width: 44px; border: 0; background: none; text-align: center; font: inherit; font-weight: 600; font-size: 17px; color: var(--pd-ink); }
 .mealplan-pd__btn {
@@ -125,13 +132,15 @@
 .mealplan-pd__btn:hover:not(:disabled) { color: #1b1204; }
 .mealplan-pd__btn:hover:not(:disabled)::before { transform: scaleX(1); }
 .mealplan-pd__btn:disabled { background: #f6d9a0; color: #8a7a58; cursor: not-allowed; }
-.mealplan-pd__btnArrow { width: 20px; height: 20px; }
+.mealplan-pd__btnArrow { width: 20px; height: 20px; transition: transform .4s ease; }
+.mealplan-pd__btn:hover:not(:disabled) .mealplan-pd__btnArrow { transform: translateX(5px); }
 .mealplan-pd__btn .loading__spinner { width: 18px; height: 18px; }
 .mealplan-pd__msg { margin: 12px 0 0; min-height: 1.2em; font-size: 15px; color: #b3261e; }
 .mealplan-pd__note { display: flex; align-items: center; gap: 10px; margin: 14px 0 0; font-size: 15px; color: var(--pd-muted); }
 .mealplan-pd__note svg { width: 18px; height: 18px; flex: none; color: #8a5a00; }
 .mealplan-pd__macros { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 30px 0 0; }
-.mealplan-pd__macro { display: flex; flex-direction: column-reverse; padding: 18px 16px 16px; border-radius: 20px; background: var(--pd-soft); }
+.mealplan-pd__macro { display: flex; flex-direction: column-reverse; padding: 18px 16px 16px; border-radius: 20px; background: var(--pd-soft); transition: background-color .3s ease, box-shadow .3s ease; }
+.mealplan-pd__macro:hover { background: #fff; box-shadow: 0 20px 36px -24px rgba(21, 19, 15, .5); }
 .mealplan-pd__macro dd { margin: 0; font-size: 25px; font-weight: 600; }
 .mealplan-pd__macro dt { margin: 4px 0 0; font-size: 14px; color: var(--pd-muted); }
 .mealplan-pd__acc { margin-top: 30px; border-top: 1px solid var(--pd-line); }
@@ -171,14 +180,8 @@
 }
 .mealplan-pd-js [data-pd-reveal].is-in { opacity: 1; transform: none; }
 
-.mealplan-pd__custom {
-  display: grid;
-  grid-template-rows: 0fr;
-  margin: -10px 0 0;
-  transition: grid-template-rows .6s ease, margin .6s ease;
-}
-.mealplan-pd__custom.is-open { grid-template-rows: 1fr; margin: 0 0 22px; }
-.mealplan-pd__customInner { overflow: hidden; min-height: 0; }
+.mealplan-pd__custom { display: none; margin: 0 0 22px; }
+.mealplan-pd__custom.is-open { display: block; }
 .mealplan-pd__customBox {
   padding: 20px;
   border-radius: 20px;
@@ -200,8 +203,9 @@
 .mealplan-pd__dstep { display: inline-flex; align-items: center; gap: 4px; flex: none; }
 .mealplan-pd__dstep button {
   width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--pd-soft); color: var(--pd-ink);
-  cursor: pointer; display: grid; place-items: center;
+  cursor: pointer; display: grid; place-items: center; transition: background-color .3s ease;
 }
+.mealplan-pd__dstep button:hover { background: var(--pd-accent); }
 .mealplan-pd__dstep button svg { width: 14px; height: 14px; }
 .mealplan-pd__dstep output { min-width: 26px; text-align: center; font-weight: 600; }
 .mealplan-pd__dish:not(.has-n) output { color: #a5a39c; }
