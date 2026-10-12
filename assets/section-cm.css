@@ -1160,7 +1160,15 @@ a.cm-map__foot:hover {
 }
 
 .cm-pg__intro {
- margin-bottom: 2rem;
+ margin-bottom: 64px;
+}
+
+.cm-pg__intro .cm-heading {
+ margin-bottom: 0;
+}
+
+.cm-pg__intro .cm-body {
+ margin-top: 16px;
 }
 
 .cm-pg__item {
@@ -1168,6 +1176,10 @@ a.cm-map__foot:hover {
  gap: 2.4rem;
  align-items: center;
  padding-top: 7rem;
+}
+
+.cm-pg__item:first-child {
+ padding-top: 0;
 }
 
 .cm-pg__media {
@@ -1263,6 +1275,10 @@ a.cm-map__foot:hover {
  grid-template-columns: 7fr 4fr;
  gap: 6rem;
  padding-top: 12rem;
+ }
+
+ .cm-pg__item:first-child {
+ padding-top: 0;
  }
 
  .cm-pg__item:nth-child(even) {

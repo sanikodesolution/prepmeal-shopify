@@ -6,15 +6,15 @@
 {%- assign current = product.selected_or_first_available_variant -%}
 
 {%- assign dishes = section.blocks | where: 'type', 'dish' -%}
-<section class="mealplan-pd mealplan-pd--plate" id="MealplanPd-{{ section.id }}" data-mealplan-pd>
-  <div class="mealplan-pd__inner page-width">
-    <div class="mealplan-pd__gallery" data-pd-reveal>
+<section class="mealplan-pd mealplan-pd--plate" id="MealplanPd-{{ section.id }}" data-mealplan-pd data-anim="true">
+  <div class="mealplan-pd__inner">
+    <div class="mealplan-pd__gallery">
       <div class="mealplan-pd__stagewrap">
         {%- if section.settings.badge != blank -%}
           <div class="mealplan-pd__badge" aria-hidden="true">
             <svg class="mealplan-pd__ring" viewBox="0 0 120 120">
               <defs><path id="mealplan-pd-circ-{{ section.id }}" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"/></defs>
-              <text><textPath href="#mealplan-pd-circ-{{ section.id }}">{{ section.settings.badge | escape }}</textPath></text>
+              <text><textPath href="#mealplan-pd-circ-{{ section.id }}" textLength="280">{{ section.settings.badge | escape }}</textPath></text>
             </svg>
             <span class="mealplan-pd__badge-core">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-5 6-8 10-10"/></svg>
@@ -23,7 +23,7 @@
         {%- endif -%}
         <div class="mealplan-pd__stage" data-pd-stage>
           {%- if dishes.size > 0 -%}
-            {%- for block in dishes limit: 3 -%}
+            {%- for block in dishes -%}
               {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
               <div class="mealplan-pd__slide{% if forloop.first %} is-active{% endif %}" data-pd-slide>
                 <img src="{{ photo | asset_url }}" alt="{{ block.settings.name | escape }}" width="900" height="900"{% unless forloop.first %} loading="lazy"{% endunless %}>
@@ -40,7 +40,7 @@
       </div>
       <div class="mealplan-pd__thumbs" role="tablist" aria-label="Meal photos">
         {%- if dishes.size > 0 -%}
-          {%- for block in dishes limit: 3 -%}
+          {%- for block in dishes -%}
             {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
             <button type="button" class="mealplan-pd__thumb{% if forloop.first %} is-active{% endif %}" role="tab" aria-label="{{ block.settings.name | escape }}" data-pd-thumb>
               <img src="{{ photo | asset_url }}" alt="" width="120" height="120" loading="lazy">
@@ -62,12 +62,18 @@
       {%- endif -%}
       <h2 class="mealplan-pd__title" data-pd-reveal>{{ section.settings.heading | default: product.title | default: 'Chicken Biryani with Raita' | escape }}</h2>
       <div class="mealplan-pd__priceRow" data-pd-reveal>
-        <span class="mealplan-pd__price" data-pd-price>{{ current.price | money }}</span>
-        <s class="mealplan-pd__compare" data-pd-compare {% unless current.compare_at_price > current.price %}hidden{% endunless %}>
-          {%- if current.compare_at_price > current.price -%}{{ current.compare_at_price | money }}{%- endif -%}
-        </s>
+        {%- if product != blank -%}
+          <span class="mealplan-pd__price" data-pd-price>{{ current.price | money }}</span>
+          <s class="mealplan-pd__compare" data-pd-compare {% unless current.compare_at_price > current.price %}hidden{% endunless %}>
+            {%- if current.compare_at_price > current.price -%}{{ current.compare_at_price | money }}{%- endif -%}
+          </s>
+          <span class="mealplan-pd__sold" data-pd-sold {% if current.available %}hidden{% endif %}>Sold out</span>
+        {%- else -%}
+          <span class="mealplan-pd__price" data-pd-price>$64.99</span>
+          <s class="mealplan-pd__compare" data-pd-compare hidden></s>
+          <span class="mealplan-pd__sold" data-pd-sold hidden>Sold out</span>
+        {%- endif -%}
         <span class="mealplan-pd__save" data-pd-save hidden></span>
-        <span class="mealplan-pd__sold" data-pd-sold {% if current.available %}hidden{% endif %}>Sold out</span>
       </div>
       {%- if section.settings.text != blank -%}
         <p class="mealplan-pd__desc" data-pd-reveal>{{ section.settings.text | escape }}</p>
@@ -88,11 +94,8 @@
       </div>
 
       {%- capture mealplan_form_id -%}MealplanPdForm-{{ section.id }}{%- endcapture -%}
-      {%- if product != blank -%}
-        <product-form class="product-form" data-section-id="{{ section.id }}">
-          {%- form 'product', product, id: mealplan_form_id, class: 'mealplan-pd__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-            <input type="hidden" name="id" class="product-variant-id" value="{{ current.id }}" data-pd-vid {% unless current.available %}disabled{% endunless %}>
-            {%- unless product.has_only_default_variant -%}
+      {%- capture mealplan_fields -%}
+            {%- if product != blank and product.has_only_default_variant == false -%}
               {%- for option in product.options_with_values -%}
                 <fieldset class="mealplan-pd__opt" data-pd-reveal data-pd-option>
                   <legend class="mealplan-pd__optHead">{{ option.name | escape }} <span data-pd-selected>{{ option.selected_value | escape }}</span></legend>
@@ -106,9 +109,19 @@
                   </div>
                 </fieldset>
               {%- endfor -%}
-            {%- endunless -%}
+            {%- else -%}
+              <fieldset class="mealplan-pd__opt" data-pd-reveal data-pd-plan>
+                <legend class="mealplan-pd__optHead">Meal plan <span data-pd-selected>5 Meals</span></legend>
+                <div class="mealplan-pd__vals">
+                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="5 Meals" checked><span class="mealplan-pd__valBox">5 Meals</span></label>
+                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="10 Meals"><span class="mealplan-pd__valBox">10 Meals</span></label>
+                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="{{ section.settings.custom_label | escape }}"><span class="mealplan-pd__valBox">{{ section.settings.custom_label | escape }}</span></label>
+                </div>
+              </fieldset>
+            {%- endif -%}
             {%- if dishes.size > 0 -%}
-              <div class="mealplan-pd__custom" data-pd-custom data-label="{{ section.settings.custom_label | escape }}" data-min="1" hidden>
+              <div class="mealplan-pd__custom" data-pd-custom data-label="{{ section.settings.custom_label | escape }}" data-min="1" aria-hidden="true">
+                <div class="mealplan-pd__customInner">
                 <div class="mealplan-pd__customBox">
                   <div class="mealplan-pd__customHead">
                     <strong>{{ section.settings.custom_heading | escape }}</strong>
@@ -135,6 +148,7 @@
                   <textarea id="MealplanPdNotes-{{ section.id }}" name="properties[Special requests]" rows="3" placeholder="e.g. less spicy, no peanuts, extra roti." data-pd-custom-text disabled></textarea>
                   <p class="mealplan-pd__customHint">Pick the dishes and how many of each. We will confirm your order before cooking.</p>
                 </div>
+                </div>
               </div>
             {%- endif -%}
             <div class="mealplan-pd__buy" data-pd-reveal>
@@ -143,16 +157,22 @@
                 <input class="mealplan-pd__qinput" type="number" name="quantity" value="1" min="1" inputmode="numeric" aria-label="Quantity" data-pd-qty>
                 <button type="button" class="mealplan-pd__qbtn" data-pd-plus aria-label="Increase quantity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
               </div>
-              <button type="submit" name="add" class="mealplan-pd__btn" data-pd-btn {% unless current.available %}disabled{% endunless %}>
-                <span data-pd-btnlabel>{% if current.available %}Add to cart{% else %}Sold out{% endif %}</span>
+              <button type="submit" name="add" class="mealplan-pd__btn" data-pd-btn data-label="Add to cart" {% if product != blank and current.available == false %}disabled{% endif %}>
+                <span data-pd-btnlabel>{% if product == blank or current.available %}Add to cart{% else %}Sold out{% endif %}</span>
                 <svg class="mealplan-pd__btnArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 {%- render 'loading-spinner' -%}
               </button>
             </div>
             <p class="mealplan-pd__msg" role="alert" data-pd-msg></p>
             {%- if section.settings.note != blank -%}
-              <p class="mealplan-pd__note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>{{ section.settings.note | escape }}</p>
+              <p class="mealplan-pd__note" data-pd-reveal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>{{ section.settings.note | escape }}</p>
             {%- endif -%}
+      {%- endcapture -%}
+      {%- if product != blank -%}
+        <product-form class="product-form" data-section-id="{{ section.id }}">
+          {%- form 'product', product, id: mealplan_form_id, class: 'mealplan-pd__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+            <input type="hidden" name="id" class="product-variant-id" value="{{ current.id }}" data-pd-vid {% unless current.available %}disabled{% endunless %}>
+            {{ mealplan_fields }}
           {%- endform -%}
         </product-form>
         <script type="application/json" data-pd-variants>
@@ -170,18 +190,23 @@
             {%- endfor -%}
           ]
         </script>
+      {%- else -%}
+        <form class="mealplan-pd__form" id="{{ mealplan_form_id }}" data-pd-static>
+          {{ mealplan_fields }}
+        </form>
+        <script type="application/json" data-pd-variants>[{"id":1,"options":["5 Meals"],"available":true,"price":"$64.99","compare":null,"save":0,"media":0},{"id":2,"options":["10 Meals"],"available":true,"price":"$119.99","compare":"$139.99","save":14,"media":0},{"id":3,"options":["{{ section.settings.custom_label | escape }}"],"available":true,"price":"$99.99","compare":null,"save":0,"media":0}]</script>
       {%- endif -%}
 
-      <dl class="mealplan-pd__macros">
-        <div class="mealplan-pd__macro"><dt>Calories</dt><dd>{{ section.settings.cal | escape }}</dd></div>
-        <div class="mealplan-pd__macro"><dt>Protein</dt><dd>{{ section.settings.protein | escape }}</dd></div>
-        <div class="mealplan-pd__macro"><dt>Carbs</dt><dd>{{ section.settings.carbs | escape }}</dd></div>
-        <div class="mealplan-pd__macro"><dt>Fat</dt><dd>{{ section.settings.fat | escape }}</dd></div>
+      <dl class="mealplan-pd__macros" data-pd-reveal>
+        <div class="mealplan-pd__macro"><dt>Calories</dt><dd data-pd-count>{{ section.settings.cal | escape }}</dd></div>
+        <div class="mealplan-pd__macro"><dt>Protein</dt><dd data-pd-count>{{ section.settings.protein | escape }}</dd></div>
+        <div class="mealplan-pd__macro"><dt>Carbs</dt><dd data-pd-count>{{ section.settings.carbs | escape }}</dd></div>
+        <div class="mealplan-pd__macro"><dt>Fat</dt><dd data-pd-count>{{ section.settings.fat | escape }}</dd></div>
       </dl>
 
       {%- assign details = section.blocks | where: 'type', 'accordion' -%}
       {%- if details.size > 0 -%}
-        <div class="mealplan-pd__acc">
+        <div class="mealplan-pd__acc" data-pd-reveal>
           {%- for block in details -%}
             <div class="mealplan-pd__accItem{% if block.settings.open %} is-open{% endif %}" {{ block.shopify_attributes }}>
               <button type="button" class="mealplan-pd__accBtn" aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}" data-pd-acc>
