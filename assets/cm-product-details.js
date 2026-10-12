@@ -95,18 +95,18 @@
     };
     const syncCustom = () => {
       if (!customBox) return;
-      const on = customOn();
+      const on = !customInput || customOn();
       if (on && !prevOn) customCollapsed = false;
-      prevOn = on;
-      const open = on && !customCollapsed;
+      prevOn = !!customOn();
+      const open = !customCollapsed;
       customBox.classList.toggle('is-open', open);
       customBox.setAttribute('aria-hidden', open ? 'false' : 'true');
       if ('inert' in customBox) customBox.inert = !open;
-      if (customLabelEl) customLabelEl.classList.toggle('is-open', open);
+      if (customLabelEl) customLabelEl.classList.toggle('is-open', open && !!customOn());
       if (customInput) customInput.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (customText) customText.disabled = !on;
-      if (customSum) customSum.disabled = !on;
-      customBox.querySelectorAll('button').forEach((button) => { button.disabled = !on; });
+      if (customText) customText.disabled = false;
+      if (customSum) customSum.disabled = false;
+      customBox.querySelectorAll('button').forEach((button) => { button.disabled = false; });
     };
 
     dishes.forEach((li) => {
