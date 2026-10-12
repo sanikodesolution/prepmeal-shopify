@@ -439,6 +439,20 @@
         sheet.closest('.mealplan-menu__frame')?.classList.add('is-sheet');
       });
     }
+    if (sheet && canHover.matches) {
+      const zoomAt = (event) => {
+        const box = sheet.getBoundingClientRect();
+        if (!box.width || !box.height) return;
+        const x = Math.min(100, Math.max(0, ((event.clientX - box.left) / box.width) * 100));
+        const y = Math.min(100, Math.max(0, ((event.clientY - box.top) / box.height) * 100));
+        sheet.style.setProperty('--mp-zoom-x', `${x}%`);
+        sheet.style.setProperty('--mp-zoom-y', `${y}%`);
+        sheet.classList.add('is-zoom');
+      };
+      sheet.addEventListener('pointerenter', zoomAt);
+      sheet.addEventListener('pointermove', zoomAt);
+      sheet.addEventListener('pointerleave', () => sheet.classList.remove('is-zoom'));
+    }
 
     const orderForm = week.querySelector('[data-mp-order]');
     if (orderForm) {

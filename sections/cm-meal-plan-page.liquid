@@ -125,7 +125,10 @@
                   </label>
                 {%- endfor -%}
                 <p class="mealplan-menu__order-msg" data-mp-order-msg hidden></p>
-                <button type="submit" class="mealplan-menu__cta"{% if plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>{{ section.settings.quality_button | default: 'Order' | escape }}</button>
+                <button type="submit" class="mealplan-menu__cta"{% if plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>
+                  <span>{{ section.settings.quality_button | default: 'Order' | escape }}</span>
+                  <svg class="mealplan-menu__cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
               </form>
             {%- else -%}
               <ol class="mealplan-menu__full">
