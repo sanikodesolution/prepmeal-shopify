@@ -165,19 +165,18 @@
       input.setAttribute('aria-controls', customBox.id);
       input.setAttribute('aria-expanded', 'false');
     });
-    let armedCollapse = false;
-    if (customInput) {
-      customInput.addEventListener('pointerdown', () => {
-        armedCollapse = customOn();
+    let wasCustomOn = false;
+    if (customLabelEl && customInput) {
+      customLabelEl.addEventListener('pointerdown', () => {
+        wasCustomOn = customOn();
       });
-    }
-    [...fieldsets, ...planSets].forEach((fs) => {
-      fs.addEventListener('click', (event) => {
-        if (event.target !== customInput || !armedCollapse) return;
+      customLabelEl.addEventListener('click', (event) => {
+        if (!wasCustomOn) return;
+        event.preventDefault();
         customCollapsed = !customCollapsed;
         syncCustom();
       });
-    });
+    }
     syncCustom();
     dishTotal();
 

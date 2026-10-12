@@ -461,12 +461,12 @@
   .mealplan-pd__customBox .mealplan-pd__notes { margin-top: 4px; }
 
   /* ---------- Custom meal toggle chevron ---------- */
-  .mealplan-pd__val.has-toggle .mealplan-pd__valBox { padding-right: 46px; }
+  .mealplan-pd__val.has-toggle .mealplan-pd__valBox { padding-right: 72px; }
   .mealplan-pd__val.has-toggle .mealplan-pd__valBox::after { display: none; }
   .mealplan-pd__chev {
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 14px;
     width: 28px;
     height: 28px;
     margin-top: -14px;

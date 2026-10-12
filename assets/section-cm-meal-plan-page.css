@@ -403,9 +403,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__order-msg{margin:0;font-size:14px;line-height:1.4;color:#b3200a}
 .mealplan-menu__order-msg.is-ok{color:#1f7a3a}
 .mealplan-menu__order .mealplan-menu__cta{justify-content:center;margin:6px 0 0;width:100%}
-.mealplan-menu__cta{display:inline-flex;align-items:center;margin:22px 0 22px 22px;padding:8px 22px;border:0;border-radius:99px;background:var(--mp-ink);color:#fff;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
-.mealplan-menu__cta:disabled{opacity:.55;cursor:not-allowed}
-.mealplan-menu__cta:hover{background:var(--mp-accent);color:#1b1204}
+.mealplan-menu__cta{display:inline-flex;align-items:center;justify-content:center;margin:22px 0 22px 22px;padding:12px 22px;border:0;border-radius:99px;background:var(--mp-ink);color:#fff;font-family:inherit;font-weight:600;font-size:16px;line-height:1.2;letter-spacing:0;text-shadow:none;white-space:nowrap;cursor:pointer;appearance:none}
+.mealplan-menu__cta:hover:not(:disabled){background:var(--mp-accent);color:#1b1204}
+.mealplan-menu__cta:disabled{background:#ead9b0;color:#6d5c40;opacity:1;cursor:not-allowed}
 .mealplan-menu__modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:clamp(16px,4vw,48px);background:rgba(21,37,28,.62)}
 .mealplan-menu__modal.is-open{display:flex}
 .mealplan-menu__modal[hidden]{display:none}
