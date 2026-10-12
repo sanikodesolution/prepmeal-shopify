@@ -60,7 +60,7 @@
       {%- if section.settings.eyebrow != blank -%}
         <span class="mealplan-pd__eyebrow" data-pd-reveal>{{ section.settings.eyebrow | escape }}</span>
       {%- endif -%}
-      <h2 class="mealplan-pd__title" data-pd-reveal>{{ product.title | default: 'Meal plan' | escape }}</h2>
+      <h2 class="mealplan-pd__title" data-pd-reveal>{{ section.settings.heading | default: product.title | default: 'Chicken Biryani with Raita' | escape }}</h2>
       <div class="mealplan-pd__priceRow" data-pd-reveal>
         <span class="mealplan-pd__price" data-pd-price>{{ current.price | money }}</span>
         <s class="mealplan-pd__compare" data-pd-compare {% unless current.compare_at_price > current.price %}hidden{% endunless %}>
@@ -88,37 +88,6 @@
       </div>
 
       {%- capture mealplan_form_id -%}MealplanPdForm-{{ section.id }}{%- endcapture -%}
-      {%- if dishes.size > 0 -%}
-        <div class="mealplan-pd__custom is-open" data-pd-custom data-label="{{ section.settings.custom_label | escape }}" data-min="1">
-          <div class="mealplan-pd__customBox">
-            <div class="mealplan-pd__customHead">
-              <strong>{{ section.settings.custom_heading | escape }}</strong>
-              <span class="mealplan-pd__total"><span data-pd-custom-total>0</span> meals selected</span>
-            </div>
-            <ul class="mealplan-pd__dishes">
-              {%- for block in dishes -%}
-                {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
-                <li class="mealplan-pd__dish" data-dish="{{ block.settings.name | escape }}" data-n="0" {{ block.shopify_attributes }}>
-                  <span class="mealplan-pd__dishMain">
-                    <img class="mealplan-pd__dishPhoto" src="{{ photo | asset_url }}" alt="{{ block.settings.name | escape }}" width="84" height="84" loading="lazy">
-                    <span class="mealplan-pd__dishName">{{ block.settings.name | escape }}</span>
-                  </span>
-                  <span class="mealplan-pd__dstep">
-                    <button type="button" data-d-minus aria-label="Remove one {{ block.settings.name | escape }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
-                    <output data-d-count>0</output>
-                    <button type="button" data-d-plus aria-label="Add one {{ block.settings.name | escape }}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
-                  </span>
-                </li>
-              {%- endfor -%}
-            </ul>
-            <input type="hidden" name="properties[Custom order]" value="" data-pd-custom-summary{% if product != blank %} form="{{ mealplan_form_id }}"{% endif %}>
-            <label for="MealplanPdNotes-{{ section.id }}">Special requests (optional)</label>
-            <textarea id="MealplanPdNotes-{{ section.id }}" name="properties[Special requests]" rows="3" placeholder="e.g. less spicy, no peanuts, extra roti." data-pd-custom-text{% if product != blank %} form="{{ mealplan_form_id }}"{% endif %}></textarea>
-            <p class="mealplan-pd__customHint">Pick the dishes and how many of each. We will confirm your order before cooking.</p>
-          </div>
-        </div>
-      {%- endif -%}
-
       {%- if product != blank -%}
         <product-form class="product-form" data-section-id="{{ section.id }}">
           {%- form 'product', product, id: mealplan_form_id, class: 'mealplan-pd__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
@@ -138,6 +107,36 @@
                 </fieldset>
               {%- endfor -%}
             {%- endunless -%}
+            {%- if dishes.size > 0 -%}
+              <div class="mealplan-pd__custom" data-pd-custom data-label="{{ section.settings.custom_label | escape }}" data-min="1" hidden>
+                <div class="mealplan-pd__customBox">
+                  <div class="mealplan-pd__customHead">
+                    <strong>{{ section.settings.custom_heading | escape }}</strong>
+                    <span class="mealplan-pd__total"><span data-pd-custom-total>0</span> meals selected</span>
+                  </div>
+                  <ul class="mealplan-pd__dishes">
+                    {%- for block in dishes -%}
+                      {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
+                      <li class="mealplan-pd__dish" data-dish="{{ block.settings.name | escape }}" data-n="0" {{ block.shopify_attributes }}>
+                        <span class="mealplan-pd__dishMain">
+                          <img class="mealplan-pd__dishPhoto" src="{{ photo | asset_url }}" alt="" width="84" height="84" loading="lazy">
+                          <span class="mealplan-pd__dishName">{{ block.settings.name | escape }}</span>
+                        </span>
+                        <span class="mealplan-pd__dstep">
+                          <button type="button" data-d-minus aria-label="Remove one {{ block.settings.name | escape }}" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+                          <output data-d-count>0</output>
+                          <button type="button" data-d-plus aria-label="Add one {{ block.settings.name | escape }}" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+                        </span>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  <input type="hidden" name="properties[Custom order]" value="" data-pd-custom-summary disabled>
+                  <label for="MealplanPdNotes-{{ section.id }}">Special requests (optional)</label>
+                  <textarea id="MealplanPdNotes-{{ section.id }}" name="properties[Special requests]" rows="3" placeholder="e.g. less spicy, no peanuts, extra roti." data-pd-custom-text disabled></textarea>
+                  <p class="mealplan-pd__customHint">Pick the dishes and how many of each. We will confirm your order before cooking.</p>
+                </div>
+              </div>
+            {%- endif -%}
             <div class="mealplan-pd__buy" data-pd-reveal>
               <div class="mealplan-pd__qty">
                 <button type="button" class="mealplan-pd__qbtn" data-pd-minus aria-label="Decrease quantity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
@@ -205,6 +204,7 @@
   "settings": [
     { "type": "product", "id": "product", "label": "Product" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Chef cooked, fresh weekly" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Chicken Biryani with Raita" },
     { "type": "text", "id": "badge", "label": "Badge text", "default": "Fresh • Chef cooked • Never frozen • " },
     { "type": "textarea", "id": "text", "label": "Fallback description", "default": "Cooked fresh by our chefs, packed the same day and ready in minutes." },
     { "type": "text", "id": "chip_1", "label": "Chip 1", "default": "Fresh, never frozen" },

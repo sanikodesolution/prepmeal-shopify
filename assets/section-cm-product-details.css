@@ -180,8 +180,8 @@
 }
 .mealplan-pd-js [data-pd-reveal].is-in { opacity: 1; transform: none; }
 
-.mealplan-pd__custom { display: block; margin: 0 0 22px; }
-.mealplan-pd__custom:not(.is-open) { display: none; }
+.mealplan-pd__custom { display: none; margin: 0 0 22px; }
+.mealplan-pd__custom.is-open { display: block; }
 .mealplan-pd__customBox {
   padding: 20px;
   border-radius: 20px;
