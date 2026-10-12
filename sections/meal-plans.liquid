@@ -40,7 +40,11 @@
       <ul class="prep__grid prep__grid--{{ columns }}" role="list">
         {%- for plan in meta_items -%}
           <li>
-            {% render 'meal-plan-card', plan: plan, lazy_load: forloop.index0 > 0 %}
+            {%- assign lazy_load = false -%}
+            {%- if forloop.index0 > 0 -%}
+              {%- assign lazy_load = true -%}
+            {%- endif -%}
+            {% render 'meal-plan-card', plan: plan, lazy_load: lazy_load %}
           </li>
         {%- endfor -%}
       </ul>
@@ -48,6 +52,10 @@
       <ul class="prep__grid prep__grid--{{ columns }}" role="list">
         {%- for block in section.blocks -%}
           <li>
+            {%- assign lazy_load = false -%}
+            {%- if forloop.index0 > 0 -%}
+              {%- assign lazy_load = true -%}
+            {%- endif -%}
             {% render 'meal-plan-card',
               name: block.settings.name,
               image: block.settings.image,
@@ -61,7 +69,7 @@
               product: block.settings.product,
               badge: block.settings.badge,
               shopify_attributes: block.shopify_attributes,
-              lazy_load: forloop.index0 > 0
+              lazy_load: lazy_load
             %}
           </li>
         {%- endfor -%}

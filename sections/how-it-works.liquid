@@ -40,8 +40,9 @@
     {%- elsif section.blocks.size > 0 -%}
       <ol class="prep__grid prep__grid--{{ section.settings.columns }} list-unstyled" role="list">
         {%- for block in section.blocks -%}
+          {%- assign step_number = block.settings.step_number | default: forloop.index -%}
           {% render 'how-it-works-step',
-            step_number: block.settings.step_number | default: forloop.index,
+            step_number: step_number,
             title: block.settings.title,
             description: block.settings.description,
             icon: block.settings.icon,
