@@ -225,7 +225,7 @@
     width: 20px; height: 20px;
     margin-top: -10px;
     border-radius: 50%;
-    background: var(--pd-accent) url(IMG) center / 12px no-repeat;
+    background: var(--pd-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='none' stroke='%231b1204' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' d='M2.2 6.2 4.8 8.8 9.8 3.2'/%3E%3C/svg%3E") center / 11px no-repeat;
     transform: scale(0);
     transition: transform .4s var(--pd-ease);
   }
@@ -461,15 +461,21 @@
   .mealplan-pd__customBox .mealplan-pd__notes { margin-top: 4px; }
 
   /* ---------- Custom meal toggle chevron ---------- */
-  .mealplan-pd__val.has-toggle .mealplan-pd__valBox { padding-right: 72px; }
+  .mealplan-pd__val.has-toggle { justify-self: start; }
+  .mealplan-pd__val.has-toggle .mealplan-pd__valBox {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    width: auto;
+    padding-right: 14px;
+  }
   .mealplan-pd__val.has-toggle .mealplan-pd__valBox::after { display: none; }
   .mealplan-pd__chev {
-    position: absolute;
-    top: 50%;
-    right: 14px;
+    position: static;
+    flex: none;
     width: 28px;
     height: 28px;
-    margin-top: -14px;
+    margin: 0;
     padding: 7px;
     box-sizing: border-box;
     border-radius: 50%;
