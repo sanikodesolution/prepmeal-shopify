@@ -16,7 +16,12 @@
   gap: clamp(32px, 5vw, 72px);
   align-items: start;
 }
-.mealplan-pd__gallery { position: sticky; top: 40px; }
+.mealplan-pd__gallery {
+  position: sticky;
+  top: calc(var(--header-height, 80px) + 16px);
+  align-self: start;
+  z-index: 2;
+}
 .mealplan-pd__stagewrap { position: relative; }
 .mealplan-pd__stage {
   position: relative;

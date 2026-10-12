@@ -198,7 +198,35 @@
         const open = !item.classList.contains('is-open');
         item.classList.toggle('is-open', open);
         button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
       });
     });
+
+    const gallery = root.querySelector('.mealplan-pd__gallery');
+    const info = root.querySelector('.mealplan-pd__info');
+    const desktop = matchMedia('(min-width: 901px)');
+    let pin;
+    const headerOffset = () => {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
+      return (parseFloat(raw) || 80) + 16;
+    };
+    const setupPin = () => {
+      if (pin) {
+        pin.kill();
+        pin = null;
+      }
+      if (!gallery || !info || !window.ScrollTrigger || !desktop.matches) return;
+      pin = ScrollTrigger.create({
+        trigger: gallery,
+        start: () => `top ${headerOffset()}px`,
+        endTrigger: info,
+        end: () => `bottom ${headerOffset() + gallery.offsetHeight}px`,
+        pin: true,
+        pinSpacing: false,
+        invalidateOnRefresh: true,
+      });
+    };
+    setupPin();
+    desktop.addEventListener('change', setupPin);
   });
 })();
