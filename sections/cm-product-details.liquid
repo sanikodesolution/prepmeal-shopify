@@ -5,9 +5,10 @@
 {%- assign product = section.settings.product -%}
 {%- assign current = product.selected_or_first_available_variant -%}
 
-<section class="mealplan-pd" id="MealplanPd-{{ section.id }}" data-mealplan-pd>
+{%- assign dishes = section.blocks | where: 'type', 'dish' -%}
+<section class="mealplan-pd mealplan-pd--plate" id="MealplanPd-{{ section.id }}" data-mealplan-pd>
   <div class="mealplan-pd__inner page-width">
-    <div class="mealplan-pd__gallery">
+    <div class="mealplan-pd__gallery" data-pd-reveal>
       <div class="mealplan-pd__stagewrap">
         {%- if section.settings.badge != blank -%}
           <div class="mealplan-pd__badge" aria-hidden="true">
@@ -21,56 +22,46 @@
           </div>
         {%- endif -%}
         <div class="mealplan-pd__stage" data-pd-stage>
-          {%- if product != blank and product.media.size > 0 -%}
-            {%- for media in product.media limit: 6 -%}
-              {%- if media.media_type == 'image' -%}
-                <div class="mealplan-pd__slide{% if forloop.first %} is-active{% endif %}" data-pd-slide data-media-id="{{ media.id }}">
-                  {%- assign media_alt = media.alt | default: product.title -%}
-                  {{ media | image_url: width: 1200 | image_tag: alt: media_alt, loading: 'lazy', widths: '400, 700, 1000, 1200' }}
-                </div>
-              {%- endif -%}
+          {%- if dishes.size > 0 -%}
+            {%- for block in dishes limit: 3 -%}
+              {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
+              <div class="mealplan-pd__slide{% if forloop.first %} is-active{% endif %}" data-pd-slide>
+                <img src="{{ photo | asset_url }}" alt="{{ block.settings.name | escape }}" width="900" height="900"{% unless forloop.first %} loading="lazy"{% endunless %}>
+              </div>
             {%- endfor -%}
           {%- else -%}
-            <div class="mealplan-pd__slide is-active" data-pd-slide>
-              <img src="{{ 'cm-healthy-meals.jpg' | asset_url }}" alt="{{ product.title | default: 'Meal' | escape }}" width="900" height="900">
-            </div>
-          {%- endif -%}
-        </div>
-        <div class="mealplan-pd__plates" aria-hidden="true">
-          {%- if section.settings.plate_1 != blank -%}
-            {{ section.settings.plate_1 | image_url: width: 480 | image_tag: alt: '', class: 'mealplan-pd__plate', loading: 'lazy' }}
-          {%- else -%}
-            <img class="mealplan-pd__plate" src="{{ 'cm-pd-plate-1.png' | asset_url }}" alt="" width="180" height="180">
-          {%- endif -%}
-          {%- if section.settings.plate_2 != blank -%}
-            {{ section.settings.plate_2 | image_url: width: 480 | image_tag: alt: '', class: 'mealplan-pd__plate', loading: 'lazy' }}
-          {%- else -%}
-            <img class="mealplan-pd__plate" src="{{ 'cm-pd-plate-2.png' | asset_url }}" alt="" width="180" height="180">
-          {%- endif -%}
-          {%- if section.settings.plate_3 != blank -%}
-            {{ section.settings.plate_3 | image_url: width: 480 | image_tag: alt: '', class: 'mealplan-pd__plate', loading: 'lazy' }}
-          {%- else -%}
-            <img class="mealplan-pd__plate" src="{{ 'cm-pd-plate-3.png' | asset_url }}" alt="" width="180" height="180">
+            {%- for i in (0..2) -%}
+              <div class="mealplan-pd__slide{% if forloop.first %} is-active{% endif %}" data-pd-slide>
+                <img src="{{ 'mp-food-' | append: i | append: '.jpg' | asset_url }}" alt="{{ product.title | default: 'Meal' | escape }}" width="900" height="900"{% unless forloop.first %} loading="lazy"{% endunless %}>
+              </div>
+            {%- endfor -%}
           {%- endif -%}
         </div>
       </div>
-      {%- if product != blank and product.images.size > 1 -%}
-        <div class="mealplan-pd__thumbs" role="tablist" aria-label="Product images">
-          {%- for image in product.images limit: 6 -%}
-            <button type="button" class="mealplan-pd__thumb{% if forloop.first %} is-active{% endif %}" role="tab" aria-label="Image {{ forloop.index }}" data-pd-thumb>
-              {{ image | image_url: width: 160 | image_tag: alt: '', loading: 'lazy' }}
+      <div class="mealplan-pd__thumbs" role="tablist" aria-label="Meal photos">
+        {%- if dishes.size > 0 -%}
+          {%- for block in dishes limit: 3 -%}
+            {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
+            <button type="button" class="mealplan-pd__thumb{% if forloop.first %} is-active{% endif %}" role="tab" aria-label="{{ block.settings.name | escape }}" data-pd-thumb>
+              <img src="{{ photo | asset_url }}" alt="" width="120" height="120" loading="lazy">
             </button>
           {%- endfor -%}
-        </div>
-      {%- endif -%}
+        {%- else -%}
+          {%- for i in (0..2) -%}
+            <button type="button" class="mealplan-pd__thumb{% if forloop.first %} is-active{% endif %}" role="tab" aria-label="Image {{ forloop.index }}" data-pd-thumb>
+              <img src="{{ 'mp-food-' | append: i | append: '.jpg' | asset_url }}" alt="" width="120" height="120" loading="lazy">
+            </button>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
     </div>
 
     <div class="mealplan-pd__info">
       {%- if section.settings.eyebrow != blank -%}
-        <span class="mealplan-pd__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        <span class="mealplan-pd__eyebrow" data-pd-reveal>{{ section.settings.eyebrow | escape }}</span>
       {%- endif -%}
-      <h2 class="mealplan-pd__title">{{ product.title | default: 'Meal plan' | escape }}</h2>
-      <div class="mealplan-pd__priceRow">
+      <h2 class="mealplan-pd__title" data-pd-reveal>{{ product.title | default: 'Meal plan' | escape }}</h2>
+      <div class="mealplan-pd__priceRow" data-pd-reveal>
         <span class="mealplan-pd__price" data-pd-price>{{ current.price | money }}</span>
         <s class="mealplan-pd__compare" data-pd-compare {% unless current.compare_at_price > current.price %}hidden{% endunless %}>
           {%- if current.compare_at_price > current.price -%}{{ current.compare_at_price | money }}{%- endif -%}
@@ -78,13 +69,13 @@
         <span class="mealplan-pd__save" data-pd-save hidden></span>
         <span class="mealplan-pd__sold" data-pd-sold {% if current.available %}hidden{% endif %}>Sold out</span>
       </div>
-      {%- if product.description != blank -%}
-        <div class="mealplan-pd__desc">{{ product.description }}</div>
-      {%- elsif section.settings.text != blank -%}
-        <p class="mealplan-pd__desc">{{ section.settings.text | escape }}</p>
+      {%- if section.settings.text != blank -%}
+        <p class="mealplan-pd__desc" data-pd-reveal>{{ section.settings.text | escape }}</p>
+      {%- elsif product.description != blank -%}
+        <div class="mealplan-pd__desc" data-pd-reveal>{{ product.description }}</div>
       {%- endif -%}
 
-      <div class="mealplan-pd__chips">
+      <div class="mealplan-pd__chips" data-pd-reveal>
         {%- if section.settings.chip_1 != blank -%}
           <span class="mealplan-pd__chip"><span class="mealplan-pd__chip-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-5 6-8 10-10"/></svg></span>{{ section.settings.chip_1 | escape }}</span>
         {%- endif -%}
@@ -102,7 +93,7 @@
             <input type="hidden" name="id" class="product-variant-id" value="{{ current.id }}" data-pd-vid {% unless current.available %}disabled{% endunless %}>
             {%- unless product.has_only_default_variant -%}
               {%- for option in product.options_with_values -%}
-                <fieldset class="mealplan-pd__opt" data-pd-option>
+                <fieldset class="mealplan-pd__opt" data-pd-reveal data-pd-option>
                   <legend class="mealplan-pd__optHead">{{ option.name | escape }} <span data-pd-selected>{{ option.selected_value | escape }}</span></legend>
                   <div class="mealplan-pd__vals">
                     {%- for value in option.values -%}
@@ -115,7 +106,39 @@
                 </fieldset>
               {%- endfor -%}
             {%- endunless -%}
-            <div class="mealplan-pd__buy">
+            {%- if dishes.size > 0 -%}
+              <div class="mealplan-pd__custom" data-pd-custom data-label="{{ section.settings.custom_label | escape }}" data-min="1" aria-hidden="true">
+                <div class="mealplan-pd__customInner">
+                  <div class="mealplan-pd__customBox">
+                    <div class="mealplan-pd__customHead">
+                      <strong>{{ section.settings.custom_heading | escape }}</strong>
+                      <span class="mealplan-pd__total"><span data-pd-custom-total>0</span> meals selected</span>
+                    </div>
+                    <ul class="mealplan-pd__dishes">
+                      {%- for block in dishes -%}
+                        {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
+                        <li class="mealplan-pd__dish" data-dish="{{ block.settings.name | escape }}" data-n="0" {{ block.shopify_attributes }}>
+                          <span class="mealplan-pd__dishMain">
+                            <img class="mealplan-pd__dishPhoto" src="{{ photo | asset_url }}" alt="" width="84" height="84" loading="lazy">
+                            <span class="mealplan-pd__dishName">{{ block.settings.name | escape }}</span>
+                          </span>
+                          <span class="mealplan-pd__dstep">
+                            <button type="button" data-d-minus aria-label="Remove one {{ block.settings.name | escape }}" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+                            <output data-d-count>0</output>
+                            <button type="button" data-d-plus aria-label="Add one {{ block.settings.name | escape }}" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+                          </span>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                    <input type="hidden" name="properties[Custom order]" value="" data-pd-custom-summary disabled>
+                    <label for="MealplanPdNotes-{{ section.id }}">Special requests (optional)</label>
+                    <textarea id="MealplanPdNotes-{{ section.id }}" name="properties[Special requests]" rows="3" placeholder="e.g. less spicy, no peanuts, extra roti." data-pd-custom-text disabled></textarea>
+                    <p class="mealplan-pd__customHint">Pick the dishes and how many of each. We will confirm your order before cooking.</p>
+                  </div>
+                </div>
+              </div>
+            {%- endif -%}
+            <div class="mealplan-pd__buy" data-pd-reveal>
               <div class="mealplan-pd__qty">
                 <button type="button" class="mealplan-pd__qbtn" data-pd-minus aria-label="Decrease quantity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
                 <input class="mealplan-pd__qinput" type="number" name="quantity" value="1" min="1" inputmode="numeric" aria-label="Quantity" data-pd-qty>
@@ -157,9 +180,10 @@
         <div class="mealplan-pd__macro"><dt>Fat</dt><dd>{{ section.settings.fat | escape }}</dd></div>
       </dl>
 
-      {%- if section.blocks.size > 0 -%}
+      {%- assign details = section.blocks | where: 'type', 'accordion' -%}
+      {%- if details.size > 0 -%}
         <div class="mealplan-pd__acc">
-          {%- for block in section.blocks -%}
+          {%- for block in details -%}
             <div class="mealplan-pd__accItem{% if block.settings.open %} is-open{% endif %}" {{ block.shopify_attributes }}>
               <button type="button" class="mealplan-pd__accBtn" aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}" data-pd-acc>
                 {{ block.settings.title | escape }}<span class="mealplan-pd__plus" aria-hidden="true"></span>
@@ -187,15 +211,22 @@
     { "type": "text", "id": "chip_2", "label": "Chip 2", "default": "Ready in 3 minutes" },
     { "type": "text", "id": "chip_3", "label": "Chip 3", "default": "Chef cooked" },
     { "type": "text", "id": "note", "label": "Delivery note", "default": "Free delivery on weekly plans over $60" },
+    { "type": "text", "id": "custom_label", "label": "Custom option name", "default": "Custom Meal", "info": "The variant option value that opens the dish picker." },
+    { "type": "text", "id": "custom_heading", "label": "Custom picker heading", "default": "Build your custom meal" },
     { "type": "text", "id": "cal", "label": "Calories", "default": "540" },
     { "type": "text", "id": "protein", "label": "Protein", "default": "42g" },
     { "type": "text", "id": "carbs", "label": "Carbs", "default": "48g" },
-    { "type": "text", "id": "fat", "label": "Fat", "default": "16g" },
-    { "type": "image_picker", "id": "plate_1", "label": "Meal plate 1" },
-    { "type": "image_picker", "id": "plate_2", "label": "Meal plate 2" },
-    { "type": "image_picker", "id": "plate_3", "label": "Meal plate 3" }
+    { "type": "text", "id": "fat", "label": "Fat", "default": "16g" }
   ],
   "blocks": [
+    {
+      "type": "dish",
+      "name": "Dish",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Chicken Biryani with Raita" },
+        { "type": "text", "id": "image_asset", "label": "Theme image filename", "default": "mp-food-0.jpg", "info": "File in the theme assets folder, such as mp-food-0.jpg." }
+      ]
+    },
     {
       "type": "accordion",
       "name": "Detail",

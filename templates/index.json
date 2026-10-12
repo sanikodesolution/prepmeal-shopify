@@ -198,7 +198,7 @@
         "text_EiwWca": {
           "type": "text",
           "settings": {
-            "text": "<p>✓ <strong>GLOBAL FLAVOURS, CLASSICAL TECHNIQUE</strong> – With over 40 years of experience, Matt blends classical training with decades spent in diverse kitchens to create dishes inspired by many cultures while still feeling familiar and enjoyable.</p><p>✓ <strong>PREMIUM, HONEST INGREDIENTS</strong> – Every meal starts with clean, thoughtful components, including some organic and locally sourced items, chosen for real flavor and quality.</p><p>✓ <strong>MEAL PREP MADE EASY FOR REAL LIFE</strong> – Skip the prep. Get fully prepared meals brought to your door each week, ready to heat and enjoy when you need something easy and good.</p>",
+            "text": "<p>\u2713 <strong>GLOBAL FLAVOURS, CLASSICAL TECHNIQUE</strong> \u2013 With over 40 years of experience, Matt blends classical training with decades spent in diverse kitchens to create dishes inspired by many cultures while still feeling familiar and enjoyable.</p><p>\u2713 <strong>PREMIUM, HONEST INGREDIENTS</strong> \u2013 Every meal starts with clean, thoughtful components, including some organic and locally sourced items, chosen for real flavor and quality.</p><p>\u2713 <strong>MEAL PREP MADE EASY FOR REAL LIFE</strong> \u2013 Skip the prep. Get fully prepared meals brought to your door each week, ready to heat and enjoy when you need something easy and good.</p>",
             "text_style": "body"
           }
         },
@@ -525,54 +525,6 @@
         "padding_bottom": 64
       }
     },
-    "featured_product_F3HaEM": {
-      "type": "cm-product-details",
-      "blocks": {
-        "acc_1": {
-          "type": "accordion",
-          "settings": {
-            "title": "What's included",
-            "text": "<p>Main dish, sides, basmati rice and 2 roti. Packed fresh in a microwave-safe tray.</p>",
-            "open": true
-          }
-        },
-        "acc_2": {
-          "type": "accordion",
-          "settings": {
-            "title": "Reheating",
-            "text": "<p>Microwave for 2 to 3 minutes, stir halfway, and enjoy.</p>",
-            "open": false
-          }
-        },
-        "acc_3": {
-          "type": "accordion",
-          "settings": {
-            "title": "Storage & allergens",
-            "text": "<p>Keep refrigerated and eat within 5 days. Check the label for allergens.</p>",
-            "open": false
-          }
-        }
-      },
-      "block_order": [
-        "acc_1",
-        "acc_2",
-        "acc_3"
-      ],
-      "settings": {
-        "product": "5-meal-plan",
-        "eyebrow": "Chef cooked, fresh weekly",
-        "badge": "Fresh • Chef cooked • Never frozen • ",
-        "text": "Cooked fresh by our chefs, packed the same day and ready in minutes.",
-        "chip_1": "Fresh, never frozen",
-        "chip_2": "Ready in 3 minutes",
-        "chip_3": "Chef cooked",
-        "note": "Free delivery on weekly plans over $60",
-        "cal": "540",
-        "protein": "42g",
-        "carbs": "48g",
-        "fat": "16g"
-      }
-    },
     "featured_collection1": {
       "type": "featured-collection",
       "disabled": true,
@@ -842,6 +794,136 @@
         "plate_tr_alt": "Chef prepared meal",
         "plate_bl_alt": "Chicken and vegetables plate",
         "plate_br_alt": "Salad bowl"
+      }
+    },
+    "featured_product_F3HaEM": {
+      "type": "cm-product-details",
+      "blocks": {
+        "dish_1": {
+          "type": "dish",
+          "settings": {
+            "name": "Chicken Biryani with Raita",
+            "image_asset": "mp-food-0.jpg"
+          }
+        },
+        "dish_2": {
+          "type": "dish",
+          "settings": {
+            "name": "Tandoori Chicken Leg with Veg Jalfrezi",
+            "image_asset": "mp-food-1.jpg"
+          }
+        },
+        "dish_3": {
+          "type": "dish",
+          "settings": {
+            "name": "Butter Chicken with Aloo Methi",
+            "image_asset": "mp-food-2.jpg"
+          }
+        },
+        "dish_4": {
+          "type": "dish",
+          "settings": {
+            "name": "Coconut Fish Curry with Jeera Aloo",
+            "image_asset": "mp-food-3.jpg"
+          }
+        },
+        "dish_5": {
+          "type": "dish",
+          "settings": {
+            "name": "Lamb Korma with Green Salad",
+            "image_asset": "mp-food-4.jpg"
+          }
+        },
+        "dish_6": {
+          "type": "dish",
+          "settings": {
+            "name": "Chana Masala with Jeera Aloo",
+            "image_asset": "mp-food-5.jpg"
+          }
+        },
+        "dish_7": {
+          "type": "dish",
+          "settings": {
+            "name": "Palak Paneer with Aloo Gobi",
+            "image_asset": "mp-food-6.jpg"
+          }
+        },
+        "dish_8": {
+          "type": "dish",
+          "settings": {
+            "name": "Dal Makhani with Bhindi Masala",
+            "image_asset": "mp-food-7.jpg"
+          }
+        },
+        "dish_9": {
+          "type": "dish",
+          "settings": {
+            "name": "Malai Kofta with Rajma",
+            "image_asset": "mp-food-8.jpg"
+          }
+        },
+        "dish_10": {
+          "type": "dish",
+          "settings": {
+            "name": "Baingan Bharta with Rajma Masala",
+            "image_asset": "mp-food-9.jpg"
+          }
+        },
+        "acc_1": {
+          "type": "accordion",
+          "settings": {
+            "title": "What's included",
+            "text": "<p>Main dish, sides, basmati rice and 2 roti. Packed fresh in a microwave-safe tray.</p>",
+            "open": true
+          }
+        },
+        "acc_2": {
+          "type": "accordion",
+          "settings": {
+            "title": "Reheating",
+            "text": "<p>Microwave for 2 to 3 minutes, stir halfway, and enjoy.</p>",
+            "open": false
+          }
+        },
+        "acc_3": {
+          "type": "accordion",
+          "settings": {
+            "title": "Storage & allergens",
+            "text": "<p>Keep refrigerated and eat within 5 days. Check the label for allergens.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "dish_1",
+        "dish_2",
+        "dish_3",
+        "dish_4",
+        "dish_5",
+        "dish_6",
+        "dish_7",
+        "dish_8",
+        "dish_9",
+        "dish_10",
+        "acc_1",
+        "acc_2",
+        "acc_3"
+      ],
+      "settings": {
+        "product": "5-meal-plan",
+        "eyebrow": "Chef cooked, fresh weekly",
+        "badge": "Fresh \u2022 Chef cooked \u2022 Never frozen \u2022 ",
+        "text": "Fragrant basmati rice layered with tender spiced chicken, served with cooling raita. Cooked fresh by our chefs, packed the same day and ready in minutes.",
+        "chip_1": "Fresh, never frozen",
+        "chip_2": "Ready in 3 minutes",
+        "chip_3": "Chef cooked",
+        "note": "Free delivery on weekly plans over $60",
+        "custom_label": "Custom Meal",
+        "custom_heading": "Build your custom meal",
+        "cal": "540",
+        "protein": "42g",
+        "carbs": "48g",
+        "fat": "16g"
       }
     }
   },

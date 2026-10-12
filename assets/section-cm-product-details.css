@@ -21,17 +21,23 @@
 .mealplan-pd__stage {
   position: relative;
   aspect-ratio: 1 / 1.04;
-  border-radius: 36px 200px 36px 36px;
+  border-radius: 36px;
   overflow: hidden;
   background: var(--pd-soft);
-  box-shadow: 0 40px 80px -44px rgba(21, 37, 28, .4);
+  box-shadow: 0 40px 80px -44px rgba(21, 19, 15, .4);
 }
 .mealplan-pd__slide { position: absolute; inset: 0; opacity: 0; transition: opacity .55s ease; }
 .mealplan-pd__slide.is-active { opacity: 1; z-index: 1; }
 .mealplan-pd__slide img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: var(--zx, 50%) var(--zy, 50%); transition: transform .5s ease; }
 .mealplan-pd__stage.is-zoom .mealplan-pd__slide.is-active img { transform: scale(1.7); }
+.mealplan-pd--plate .mealplan-pd__slide { padding: 6%; }
+.mealplan-pd--plate .mealplan-pd__slide img {
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 38px 64px -24px rgba(21, 19, 15, .55), 0 12px 24px -12px rgba(21, 19, 15, .3);
+}
 .mealplan-pd__badge {
-  position: absolute; top: -16px; left: -16px; z-index: 5;
+  position: absolute; top: -16px; right: -16px; z-index: 5;
   width: 108px; height: 108px; border-radius: 50%; background: #fff;
   box-shadow: 0 18px 40px -16px rgba(21, 37, 28, .35);
   display: grid; place-items: center;
@@ -43,25 +49,6 @@
   display: grid; place-items: center;
 }
 .mealplan-pd__badge-core svg { width: 22px; height: 22px; }
-.mealplan-pd__plates {
-  position: absolute;
-  z-index: 4;
-  right: -6%;
-  top: 28%;
-  width: 22%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  pointer-events: none;
-}
-.mealplan-pd__plate {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 18px 36px -18px rgba(21, 37, 28, .5);
-}
 @keyframes mealplanPdSpin { to { transform: rotate(360deg); } }
 .mealplan-pd__thumbs { display: flex; gap: 12px; margin-top: 20px; overflow-x: auto; scrollbar-width: none; }
 .mealplan-pd__thumb {
@@ -70,6 +57,8 @@
 }
 .mealplan-pd__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .mealplan-pd__thumb.is-active { border-color: var(--pd-accent); opacity: 1; }
+.mealplan-pd--plate .mealplan-pd__thumb { padding: 7px; }
+.mealplan-pd--plate .mealplan-pd__thumb img { border-radius: 50%; box-shadow: 0 8px 14px -8px rgba(21, 19, 15, .5); }
 .mealplan-pd__eyebrow {
   display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 99px;
   background: var(--pd-accent-soft); font-size: 14px; font-weight: 600; color: #8a5a00;
@@ -102,10 +91,22 @@
 .mealplan-pd__val { position: relative; display: block; cursor: pointer; }
 .mealplan-pd__val input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
 .mealplan-pd__valBox {
-  display: block; padding: 16px 18px; border: 1.5px solid var(--pd-line); border-radius: 18px;
+  display: flex; align-items: center; min-height: 58px; padding: 16px 44px 16px 16px; border: 1.5px solid var(--pd-line); border-radius: 18px;
   background: #fff; font-weight: 600; font-size: 16px; line-height: 1.3;
 }
+.mealplan-pd__valBox::after {
+  content: "";
+  position: absolute;
+  top: 50%; right: 14px;
+  width: 20px; height: 20px;
+  margin-top: -10px;
+  border-radius: 50%;
+  background: var(--pd-accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231b1204' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 12px no-repeat;
+  transform: scale(0);
+  transition: transform .35s ease;
+}
 .mealplan-pd__val input:checked + .mealplan-pd__valBox { border-color: var(--pd-accent); background: var(--pd-accent-soft); }
+.mealplan-pd__val input:checked + .mealplan-pd__valBox::after { transform: scale(1); }
 .mealplan-pd__buy { display: flex; gap: 14px; align-items: stretch; flex-wrap: wrap; margin-top: 8px; }
 .mealplan-pd__qty { display: inline-flex; align-items: center; height: 58px; border: 1.5px solid var(--pd-line); border-radius: 99px; padding: 0 6px; }
 .mealplan-pd__qbtn { width: 44px; height: 44px; border: 0; border-radius: 50%; background: none; color: var(--pd-ink); cursor: pointer; display: grid; place-items: center; }
@@ -153,10 +154,67 @@
 @media (max-width: 900px) {
   .mealplan-pd__inner { grid-template-columns: minmax(0, 1fr); }
   .mealplan-pd__gallery { position: relative; top: 0; }
-  .mealplan-pd__stage { border-radius: 28px 120px 28px 28px; }
-  .mealplan-pd__plates { right: 4%; top: auto; bottom: 6%; width: 22%; gap: 8px; }
+  .mealplan-pd__stage { border-radius: 28px; aspect-ratio: 1 / .92; }
+  .mealplan-pd__badge { width: 92px; height: 92px; top: -12px; right: -6px; }
   .mealplan-pd__macros { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .mealplan-pd__ring { animation: none; }
+  .mealplan-pd-js [data-pd-reveal] { opacity: 1; transform: none; }
 }
+
+.mealplan-pd-js [data-pd-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .8s ease, transform .9s ease;
+  transition-delay: var(--d, 0ms);
+}
+.mealplan-pd-js [data-pd-reveal].is-in { opacity: 1; transform: none; }
+
+.mealplan-pd__custom {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin: -10px 0 0;
+  transition: grid-template-rows .6s ease, margin .6s ease;
+}
+.mealplan-pd__custom.is-open { grid-template-rows: 1fr; margin: 0 0 22px; }
+.mealplan-pd__customInner { overflow: hidden; min-height: 0; }
+.mealplan-pd__customBox {
+  padding: 20px;
+  border-radius: 20px;
+  background: var(--pd-accent-soft);
+  border: 1.5px dashed var(--pd-accent);
+}
+.mealplan-pd__customHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.mealplan-pd__customHead strong { font-size: 16px; font-weight: 600; }
+.mealplan-pd__total { padding: 5px 12px; border-radius: 99px; background: var(--pd-accent); color: #1b1204; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.mealplan-pd__dishes { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 8px; max-height: 320px; overflow-y: auto; }
+.mealplan-pd__dish {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 10px 8px 8px; border-radius: 14px; background: #fff; border: 1.5px solid transparent;
+}
+.mealplan-pd__dish.has-n { border-color: var(--pd-accent); }
+.mealplan-pd__dishMain { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.mealplan-pd__dishPhoto { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; flex: none; }
+.mealplan-pd__dishName { font-size: 15px; font-weight: 500; line-height: 1.3; }
+.mealplan-pd__dstep { display: inline-flex; align-items: center; gap: 4px; flex: none; }
+.mealplan-pd__dstep button {
+  width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--pd-soft); color: var(--pd-ink);
+  cursor: pointer; display: grid; place-items: center;
+}
+.mealplan-pd__dstep button svg { width: 14px; height: 14px; }
+.mealplan-pd__dstep output { min-width: 26px; text-align: center; font-weight: 600; }
+.mealplan-pd__dish:not(.has-n) output { color: #a5a39c; }
+.mealplan-pd__customBox label { display: block; margin-bottom: 10px; font-size: 15px; font-weight: 600; }
+.mealplan-pd__customBox textarea {
+  display: block; width: 100%; min-height: 96px; padding: 14px 16px; border: 1.5px solid var(--pd-line);
+  border-radius: 16px; background: #fff; color: var(--pd-ink); font: inherit; font-size: 16px; line-height: 1.55; resize: vertical;
+}
+.mealplan-pd__customHint { margin: 10px 0 0; font-size: 14px; color: var(--pd-muted); }
+.mealplan-pd__val.has-toggle .mealplan-pd__valBox { padding-right: 46px; }
+.mealplan-pd__val.has-toggle .mealplan-pd__valBox::after { display: none; }
+.mealplan-pd__chev {
+  position: absolute; top: 50%; right: 10px; width: 28px; height: 28px; margin-top: -14px; padding: 7px;
+  box-sizing: border-box; border-radius: 50%; background: var(--pd-soft); color: var(--pd-ink); pointer-events: none;
+}
+.mealplan-pd__val.is-open .mealplan-pd__chev { transform: rotate(180deg); }
