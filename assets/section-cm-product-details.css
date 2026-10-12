@@ -106,19 +106,24 @@
   @keyframes mealplanPdSpin { to { transform: rotate(360deg); } }
 
   .mealplan-pd__thumbs {
+    --pd-thumb-gap: 12px;
     display: flex;
-    gap: 12px;
+    gap: var(--pd-thumb-gap);
     margin-top: 20px;
     overflow-x: auto;
     padding: 6px 2px 8px;
     scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
   }
   .mealplan-pd__thumbs::-webkit-scrollbar { display: none; }
   .mealplan-pd__thumb {
-    flex: none;
-    width: 76px;
-    height: 76px;
+    flex: 0 0 calc((100% - 3 * var(--pd-thumb-gap) - 22px) / 4);
+    width: calc((100% - 3 * var(--pd-thumb-gap) - 22px) / 4);
+    aspect-ratio: 1;
+    height: auto;
     padding: 0;
+    scroll-snap-align: start;
     border: 2px solid transparent;
     border-radius: 10px;
     overflow: hidden;

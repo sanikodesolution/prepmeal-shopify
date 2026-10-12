@@ -23,11 +23,16 @@
     const canHover = matchMedia('(hover: hover) and (pointer: fine)');
     let cur = Math.max(0, slides.findIndex((s) => s.classList.contains('is-active')));
 
+    const thumbsEl = root.querySelector('.mealplan-pd__thumbs');
     const markThumbs = (i) => {
       thumbs.forEach((t, k) => {
         t.classList.toggle('is-active', k === i);
         t.setAttribute('aria-selected', k === i ? 'true' : 'false');
       });
+      const thumb = thumbs[i];
+      if (!thumb || !thumbsEl) return;
+      const left = thumb.getBoundingClientRect().left - thumbsEl.getBoundingClientRect().left + thumbsEl.scrollLeft;
+      thumbsEl.scrollTo({ left: Math.max(0, left), behavior: reduce ? 'auto' : 'smooth' });
     };
     let fx = false;
     let slideTl = null;

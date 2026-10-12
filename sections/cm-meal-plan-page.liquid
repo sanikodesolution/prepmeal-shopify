@@ -66,7 +66,7 @@
       <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
         <div class="mealplan-wrap mealplan-menu__inner">
           <div class="mealplan-menu__head">
-            <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
+            <h3 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h3>
             {%- if section.settings.quality_text != blank -%}
               <p class="mealplan-menu__sub">{{ section.settings.quality_text | escape }}</p>
             {%- endif -%}
