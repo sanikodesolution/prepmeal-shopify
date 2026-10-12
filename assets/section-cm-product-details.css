@@ -8,7 +8,7 @@
     --pd-ease: cubic-bezier(.22, .7, .2, 1);
     background: #fff;
     color: var(--pd-ink);
-    padding: clamp(40px, 6vw, 96px) 0;
+    padding: clamp(40px, 6vw, 96px) 0 120px;
     font-family: inherit;
   }
   .mealplan-pd *,
@@ -141,7 +141,7 @@
     padding: 7px 14px;
     border-radius: 99px;
     background: var(--pd-accent-soft);
-    font-size: .9rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: #8a5a00;
   }
@@ -155,17 +155,17 @@
     letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
   }
   .mealplan-pd__priceRow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; margin-top: 20px; }
-  .mealplan-pd__price { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-  .mealplan-pd__compare { font-size: 1.1rem; color: var(--pd-muted); text-decoration: line-through; }
+  .mealplan-pd__price { font-size: 3.2rem; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .mealplan-pd__compare { font-size: 2rem; color: var(--pd-muted); text-decoration: line-through; }
   .mealplan-pd__save, .mealplan-pd__sold {
     padding: 6px 12px;
     border-radius: 99px;
-    font-size: .85rem;
+    font-size: 1.5rem;
     font-weight: 600;
   }
   .mealplan-pd__save { background: var(--pd-accent); color: #1b1204; }
   .mealplan-pd__sold { background: #e9e5dc; color: #6b5d45; }
-  .mealplan-pd__desc { margin: 18px 0 0; max-width: 56ch; font-size: 1.08rem; line-height: 1.65; color: var(--pd-muted); }
+  .mealplan-pd__desc { margin: 18px 0 0; max-width: 56ch; font-size: 1.8rem; line-height: 1.65; color: var(--pd-muted); }
 
   .mealplan-pd__chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
   .mealplan-pd__chip {
@@ -175,7 +175,7 @@
     padding: 9px 16px 9px 10px;
     border-radius: 99px;
     border: 1px solid var(--pd-line);
-    font-size: .95rem;
+    font-size: 1.6rem;
     font-weight: 500;
     background: #fff;
     transition: transform .4s var(--pd-ease), background-color .3s ease, border-color .3s ease;
@@ -193,7 +193,7 @@
   /* ---------- Form ---------- */
   .mealplan-pd__form { margin-top: 30px; padding-top: 28px; border-top: 1px solid var(--pd-line); }
   .mealplan-pd__opt { border: 0; padding: 0; margin: 0 0 22px; min-width: 0; }
-  .mealplan-pd__optHead { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; padding: 0; font-size: .95rem; font-weight: 600; }
+  .mealplan-pd__optHead { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; padding: 0; font-size: 1.6rem; font-weight: 600; }
   .mealplan-pd__optHead span { color: var(--pd-muted); font-weight: 500; }
   .mealplan-pd__vals { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
   .mealplan-pd__val { position: relative; display: block; cursor: pointer; }
@@ -209,7 +209,7 @@
     border-radius: 18px;
     background: #fff;
     font-weight: 600;
-    font-size: 1.02rem;
+    font-size: 1.8rem;
     line-height: 1.3;
     transition: transform .4s var(--pd-ease), border-color .3s ease, background-color .3s ease, box-shadow .4s var(--pd-ease);
   }
@@ -250,7 +250,7 @@
   .mealplan-pd__qbtn svg { width: 16px; height: 16px; }
   .mealplan-pd__qinput {
     width: 44px; border: 0; background: none; text-align: center;
-    font: inherit; font-weight: 600; font-size: 1.05rem; color: var(--pd-ink);
+    font: inherit; font-weight: 600; font-size: 1.8rem; color: var(--pd-ink);
     -moz-appearance: textfield; appearance: textfield;
   }
   .mealplan-pd__qinput::-webkit-outer-spin-button,
@@ -268,7 +268,7 @@
     color: #fff;
     font: inherit;
     font-weight: 600;
-    font-size: 1.05rem;
+    font-size: 1.8rem;
     cursor: pointer;
     overflow: hidden;
     isolation: isolate;
@@ -297,8 +297,8 @@
   .mealplan-pd__btn.is-loading { pointer-events: none; opacity: .8; }
   .mealplan-pd__btn.is-added { background: #2f7d4f; color: #fff; }
   .mealplan-pd__btn.is-added::before { display: none; }
-  .mealplan-pd__msg { margin: 12px 0 0; min-height: 1.2em; font-size: .92rem; color: #b3261e; }
-  .mealplan-pd__note { display: flex; align-items: center; gap: 10px; margin: 14px 0 0; font-size: .95rem; color: var(--pd-muted); }
+  .mealplan-pd__msg { margin: 12px 0 0; min-height: 1.2em; font-size: 1.6rem; color: #b3261e; }
+  .mealplan-pd__note { display: flex; align-items: center; gap: 10px; margin: 14px 0 0; font-size: 1.6rem; color: var(--pd-muted); }
   .mealplan-pd__note svg { width: 18px; height: 18px; flex: none; color: #8a5a00; }
 
   /* ---------- Macros ---------- */
@@ -330,8 +330,8 @@
   }
   .mealplan-pd__macro:hover { transform: translateY(-4px); background: #fff; box-shadow: 0 20px 36px -24px rgba(21, 19, 15, .5); }
   .mealplan-pd__macro:hover::after { transform: scaleX(1); }
-  .mealplan-pd__macro dd { margin: 0; font-size: 1.55rem; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
-  .mealplan-pd__macro dt { margin: 4px 0 0; font-size: .88rem; color: var(--pd-muted); }
+  .mealplan-pd__macro dd { margin: 0; font-size: 3.2rem; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .mealplan-pd__macro dt { margin: 4px 0 0; font-size: 1.5rem; color: var(--pd-muted); }
 
   /* ---------- Accordion ---------- */
   .mealplan-pd__acc { margin-top: 30px; border-top: 1px solid var(--pd-line); }
@@ -346,7 +346,7 @@
     background: none;
     border: 0;
     font: inherit;
-    font-size: 1.1rem;
+    font-size: 2rem;
     font-weight: 600;
     color: var(--pd-ink);
     text-align: left;
@@ -380,7 +380,7 @@
   .mealplan-pd__accPanel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s var(--pd-ease); }
   .mealplan-pd__accItem.is-open .mealplan-pd__accPanel { grid-template-rows: 1fr; }
   .mealplan-pd__accInner { overflow: hidden; }
-  .mealplan-pd__accBody { padding: 0 4px 22px; font-size: 1.02rem; line-height: 1.7; color: var(--pd-muted); }
+  .mealplan-pd__accBody { padding: 0 4px 22px; font-size: 1.8rem; line-height: 1.7; color: var(--pd-muted); }
   .mealplan-pd__accBody > :first-child { margin-top: 0; }
   .mealplan-pd__accBody > :last-child { margin-bottom: 0; }
 
@@ -408,7 +408,7 @@
     transition: opacity .5s ease .1s, transform .6s var(--pd-ease) .1s;
   }
   .mealplan-pd__custom.is-open .mealplan-pd__customBox { opacity: 1; transform: none; }
-  .mealplan-pd__customBox label { display: block; margin-bottom: 10px; font-size: .98rem; font-weight: 600; }
+  .mealplan-pd__customBox label { display: block; margin-bottom: 10px; font-size: 1.6rem; font-weight: 600; }
   .mealplan-pd__customBox textarea {
     display: block;
     width: 100%;
@@ -419,7 +419,7 @@
     background: #fff;
     color: var(--pd-ink);
     font: inherit;
-    font-size: 1rem;
+    font-size: 1.6rem;
     line-height: 1.55;
     resize: vertical;
     transition: border-color .3s ease, box-shadow .3s ease;
@@ -427,12 +427,12 @@
   .mealplan-pd__customBox textarea::placeholder { color: #9a978f; }
   .mealplan-pd__customBox textarea:hover { border-color: var(--pd-ink); }
   .mealplan-pd__customBox textarea:focus { outline: none; border-color: var(--pd-accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--pd-accent) 25%, transparent); }
-  .mealplan-pd__customHint { margin: 10px 0 0; font-size: .9rem; color: var(--pd-muted); }
+  .mealplan-pd__customHint { margin: 10px 0 0; font-size: 1.5rem; color: var(--pd-muted); }
 
   /* ---------- Custom meal: dish picker ---------- */
   .mealplan-pd__customHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
-  .mealplan-pd__customHead strong { font-size: 1.02rem; font-weight: 600; }
-  .mealplan-pd__total { padding: 5px 12px; border-radius: 99px; background: var(--pd-accent); color: #1b1204; font-size: .85rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .mealplan-pd__customHead strong { font-size: 1.8rem; font-weight: 600; }
+  .mealplan-pd__total { padding: 5px 12px; border-radius: 99px; background: var(--pd-accent); color: #1b1204; font-size: 1.5rem; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .mealplan-pd__dishes { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 8px; max-height: 296px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
   .mealplan-pd__dish {
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -442,7 +442,7 @@
   }
   .mealplan-pd__dish:hover { border-color: var(--pd-line); box-shadow: 0 12px 24px -20px rgba(21, 19, 15, .6); }
   .mealplan-pd__dish.has-n { border-color: var(--pd-accent); }
-  .mealplan-pd__dishName { font-size: .98rem; font-weight: 500; line-height: 1.3; }
+  .mealplan-pd__dishName { font-size: 1.6rem; font-weight: 500; line-height: 1.3; }
   .mealplan-pd__dstep { display: inline-flex; align-items: center; gap: 4px; flex: none; }
   .mealplan-pd__dstep button {
     width: 32px; height: 32px; border: 0; border-radius: 50%; background: var(--pd-soft); color: var(--pd-ink);
@@ -451,7 +451,7 @@
   }
   .mealplan-pd__dstep button:hover { background: var(--pd-accent); transform: scale(1.08); }
   .mealplan-pd__dstep button svg { width: 14px; height: 14px; }
-  .mealplan-pd__dstep output { min-width: 26px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .mealplan-pd__dstep output { min-width: 26px; text-align: center; font-size: 1.6rem; font-weight: 600; font-variant-numeric: tabular-nums; }
   .mealplan-pd__dish:not(.has-n) output { color: #a5a39c; }
   .mealplan-pd__customBox .mealplan-pd__notes { margin-top: 4px; }
 

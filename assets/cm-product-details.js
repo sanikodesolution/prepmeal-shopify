@@ -346,7 +346,7 @@
         trigger: gallery,
         start: () => `top ${headerOffset()}px`,
         endTrigger: root,
-        end: () => `bottom ${headerOffset() + gallery.offsetHeight}px`,
+        end: () => `bottom ${headerOffset() + gallery.offsetHeight + 120}px`,
         pin: true,
         pinSpacing: false,
         anticipatePin: 1,
