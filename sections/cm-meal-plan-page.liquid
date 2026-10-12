@@ -112,9 +112,7 @@
             {%- if section.settings.picker_count > 0 -%}
               {%- assign plan_variant = section.settings.plan_product.selected_or_first_available_variant -%}
               <form class="mealplan-menu__order" data-mp-order action="{{ routes.cart_add_url }}" method="post">
-                {%- if plan_variant != blank -%}
-                  <input type="hidden" name="id" value="{{ plan_variant.id }}">
-                {%- endif -%}
+                <input type="hidden" name="id" value="{{ plan_variant.id | default: 67956374241586 }}">
                 {%- for slot in (1..section.settings.picker_count) -%}
                   <label class="mealplan-menu__field">
                     <span>Meal {{ slot }}</span>
@@ -127,7 +125,7 @@
                   </label>
                 {%- endfor -%}
                 <p class="mealplan-menu__order-msg" data-mp-order-msg hidden></p>
-                <button type="submit" class="mealplan-menu__cta"{% if plan_variant == blank or plan_variant.available == false %} disabled{% endif %}>{{ section.settings.quality_button | default: 'Order' | escape }}</button>
+                <button type="submit" class="mealplan-menu__cta"{% if plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>{{ section.settings.quality_button | default: 'Order' | escape }}</button>
               </form>
             {%- else -%}
               <ol class="mealplan-menu__full">

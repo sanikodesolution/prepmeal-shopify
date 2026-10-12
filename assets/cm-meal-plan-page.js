@@ -483,7 +483,13 @@
             }),
           });
           const data = await response.json();
-          if (!response.ok || data.status) throw new Error(data.description || data.message || 'Could not add to cart');
+          if (!response.ok || data.status) {
+            const description = data.description || data.message || 'Could not add to cart';
+            if (/cannot find variant/i.test(description)) {
+              throw new Error('Publish the 6 Meal Plan product to the Online Store, then try again.');
+            }
+            throw new Error(description);
+          }
           if (drawer && typeof drawer.renderContents === 'function') {
             drawer.classList.remove('is-empty');
             drawer.renderContents({ ...(data.items ? data.items[0] : data), sections: data.sections });
