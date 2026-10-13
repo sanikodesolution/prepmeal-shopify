@@ -454,7 +454,8 @@
         pin = null;
       }
       root.classList.remove('mealplan-pd--pin');
-      if (!gallery || !info || !window.ScrollTrigger || !desktop.matches || reduce) return;
+      const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
+      if (!gallery || !info || !window.ScrollTrigger || !desktop.matches || reduce || smoother) return;
       root.classList.add('mealplan-pd--pin');
       pin = ScrollTrigger.create({
         trigger: gallery,

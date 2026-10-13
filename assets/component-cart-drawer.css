@@ -1,6 +1,6 @@
 .drawer {
   position: fixed;
-  z-index: 1000;
+  z-index: 10000;
   left: 0;
   top: 0;
   width: 100vw;
@@ -9,10 +9,12 @@
   justify-content: flex-end;
   background-color: rgba(0, 17, 40, 0.45);
   transition: visibility var(--duration-default) ease;
+  pointer-events: none;
 }
 
 .drawer.active {
   visibility: visible;
+  pointer-events: auto;
 }
 
 .drawer__inner {

@@ -46,17 +46,33 @@ class CartDrawer extends HTMLElement {
       { once: true }
     );
 
-    document.body.classList.add('overflow-hidden');
     const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
-    if (smoother) smoother.paused(true);
+    if (smoother) {
+      this._savedScroll = smoother.scrollTop();
+      if (!this._blockBackgroundScroll) {
+        this._blockBackgroundScroll = (event) => {
+          if (!this.classList.contains('active')) return;
+          if (event.target.closest('.drawer__inner')) return;
+          event.preventDefault();
+        };
+      }
+      window.addEventListener('wheel', this._blockBackgroundScroll, { passive: false });
+      window.addEventListener('touchmove', this._blockBackgroundScroll, { passive: false });
+    } else {
+      document.body.classList.add('overflow-hidden');
+    }
   }
 
   close() {
     this.classList.remove('active');
     removeTrapFocus(this.activeElement);
     document.body.classList.remove('overflow-hidden');
+    if (this._blockBackgroundScroll) {
+      window.removeEventListener('wheel', this._blockBackgroundScroll);
+      window.removeEventListener('touchmove', this._blockBackgroundScroll);
+    }
     const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
-    if (smoother) smoother.paused(false);
+    if (smoother && this._savedScroll != null) smoother.scrollTop(this._savedScroll);
   }
 
   setSummaryAccessibility(cartDrawerNote) {
