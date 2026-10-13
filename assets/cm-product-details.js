@@ -219,12 +219,32 @@
       }
       if (soldEl) soldEl.hidden = v.available;
     };
+    const applyPlan = (input) => {
+      if (!input) return;
+      const nextId = input.dataset.variantId;
+      if (vid && nextId) {
+        vid.value = nextId;
+        vid.disabled = false;
+      }
+      const available = input.dataset.available !== 'false';
+      if (priceEl && input.dataset.price) priceEl.textContent = input.dataset.price;
+      if (compareEl) {
+        compareEl.hidden = !input.dataset.compare;
+        if (input.dataset.compare) compareEl.textContent = input.dataset.compare;
+      }
+      if (soldEl) soldEl.hidden = available;
+      if (btn && btnLabel) {
+        btn.disabled = !available || !nextId;
+        btnLabel.textContent = available && nextId ? 'Add to cart' : 'Sold out';
+      }
+    };
     planSets.forEach((fs) => {
       fs.addEventListener('change', () => {
         const label = fs.querySelector('[data-pd-selected]');
         const checked = fs.querySelector('input:checked');
         if (label && checked) label.textContent = checked.value;
-        paintVariant(variants.find((item) => item.options.includes(checked?.value)));
+        if (checked?.dataset.variantId) applyPlan(checked);
+        else paintVariant(variants.find((item) => item.options.includes(checked?.value)));
         if (msg) msg.textContent = '';
         syncCustom();
       });
@@ -238,17 +258,17 @@
         if (msg) msg.textContent = `Please choose at least ${customMin} ${customMin === 1 ? 'meal' : 'meals'} for your custom order.`;
         return;
       }
-      if (form.hasAttribute('data-pd-static')) return;
-
       event.preventDefault();
       event.stopImmediatePropagation();
       if (!btn || btn.classList.contains('loading')) return;
 
+      const selectedPlan = form.querySelector('[data-pd-plan] input:checked, [data-pd-option] input:checked');
       const idInput = form.querySelector('[name="id"]');
       if (idInput) idInput.disabled = false;
-      const variantId = idInput?.value;
+      if (selectedPlan?.dataset.variantId && idInput) idInput.value = selectedPlan.dataset.variantId;
+      const variantId = selectedPlan?.dataset.variantId || idInput?.value;
       if (!variantId) {
-        if (msg) msg.textContent = 'This meal is not available to order yet.';
+        if (msg) msg.textContent = 'Choose a meal plan, then add it to the cart.';
         return;
       }
 
@@ -304,14 +324,6 @@
         if (!btn.disabled) btn.removeAttribute('aria-disabled');
       }
     }, true);
-    if (form?.hasAttribute('data-pd-static')) {
-      form.addEventListener('submit', (event) => {
-        if (event.defaultPrevented) return;
-        event.preventDefault();
-        if (!btn) return;
-        if (msg) msg.textContent = 'This meal is not available to order yet.';
-      });
-    }
 
     const qty = root.querySelector('[data-pd-qty]');
     const qtyValue = () => Math.max(1, parseInt(qty?.value, 10) || 1);
