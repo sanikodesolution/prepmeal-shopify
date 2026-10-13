@@ -47,12 +47,16 @@ class CartDrawer extends HTMLElement {
     );
 
     document.body.classList.add('overflow-hidden');
+    const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
+    if (smoother) smoother.paused(true);
   }
 
   close() {
     this.classList.remove('active');
     removeTrapFocus(this.activeElement);
     document.body.classList.remove('overflow-hidden');
+    const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
+    if (smoother) smoother.paused(false);
   }
 
   setSummaryAccessibility(cartDrawerNote) {
@@ -79,12 +83,13 @@ class CartDrawer extends HTMLElement {
         ? document.querySelector(section.selector)
         : document.getElementById(section.id);
 
-      if (!sectionElement) return;
-      sectionElement.innerHTML = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
+      if (!sectionElement || !parsedState.sections) return;
+      const html = this.getSectionInnerHTML(parsedState.sections[section.id], section.selector);
+      if (html) sectionElement.innerHTML = html;
     });
 
     setTimeout(() => {
-      this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
+      this.querySelector('#CartDrawer-Overlay')?.addEventListener('click', this.close.bind(this));
       this.open();
       this.showAddedBanner(parsedState);
     });
@@ -114,7 +119,9 @@ class CartDrawer extends HTMLElement {
   }
 
   getSectionInnerHTML(html, selector = '.shopify-section') {
-    return new DOMParser().parseFromString(html, 'text/html').querySelector(selector).innerHTML;
+    if (!html) return '';
+    const parsed = new DOMParser().parseFromString(html, 'text/html').querySelector(selector);
+    return parsed ? parsed.innerHTML : '';
   }
 
   getSectionsToRender() {

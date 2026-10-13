@@ -8,7 +8,7 @@ if (!customElements.get('product-form')) {
         this.form = this.querySelector('form');
         this.variantIdInput.disabled = false;
         this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
-        this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+        this.cart = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
         this.submitButton = this.querySelector('[type="submit"]');
         this.submitButtonText = this.submitButton.querySelector('span');
 
@@ -25,24 +25,44 @@ if (!customElements.get('product-form')) {
 
         this.submitButton.setAttribute('aria-disabled', true);
         this.submitButton.classList.add('loading');
-        this.querySelector('.loading__spinner').classList.remove('hidden');
+        const spinner = this.querySelector('.loading__spinner');
+        spinner?.classList.remove('hidden');
 
-        const config = fetchConfig('javascript');
-        config.headers['X-Requested-With'] = 'XMLHttpRequest';
-        delete config.headers['Content-Type'];
+        const release = () => {
+          this.submitButton.classList.remove('loading');
+          if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
+          if (!this.error) this.submitButton.removeAttribute('aria-disabled');
+          spinner?.classList.add('hidden');
+        };
 
-        const formData = new FormData(this.form);
-        if (this.cart) {
-          formData.append(
-            'sections',
-            this.cart.getSectionsToRender().map((section) => section.id)
-          );
-          formData.append('sections_url', window.location.pathname);
-          this.cart.setActiveElement(document.activeElement);
+        let config;
+        try {
+          config = fetchConfig('javascript');
+          config.headers['X-Requested-With'] = 'XMLHttpRequest';
+          delete config.headers['Content-Type'];
+
+          const formData = new FormData(this.form);
+          const canRenderCart = this.cart && typeof this.cart.getSectionsToRender === 'function';
+          if (canRenderCart) {
+            formData.append(
+              'sections',
+              this.cart.getSectionsToRender().map((section) => section.id)
+            );
+            formData.append('sections_url', window.location.pathname);
+            if (typeof this.cart.setActiveElement === 'function') this.cart.setActiveElement(document.activeElement);
+          }
+          config.body = formData;
+          this._formData = formData;
+        } catch (error) {
+          console.error(error);
+          release();
+          return;
         }
-        config.body = formData;
 
-        fetch(`${routes.cart_add_url}`, config)
+        const formData = this._formData;
+        const cartAddUrl = (window.routes && window.routes.cart_add_url) || (typeof routes !== 'undefined' && routes.cart_add_url) || '/cart/add';
+
+        fetch(cartAddUrl, config)
           .then((response) => response.json())
           .then((response) => {
             if (response.status) {
@@ -61,7 +81,7 @@ if (!customElements.get('product-form')) {
               soldOutMessage.classList.remove('hidden');
               this.error = true;
               return;
-            } else if (!this.cart) {
+            } else if (!this.cart || typeof this.cart.renderContents !== 'function') {
               window.location = window.routes.cart_url;
               return;
             }
@@ -100,12 +120,8 @@ if (!customElements.get('product-form')) {
             console.error(e);
           })
           .finally(() => {
-            this.submitButton.classList.remove('loading');
-            if (this.cart && this.cart.classList.contains('is-empty')) this.cart.classList.remove('is-empty');
-            if (!this.error) this.submitButton.removeAttribute('aria-disabled');
-            this.querySelector('.loading__spinner').classList.add('hidden');
-
-            CartPerformance.measureFromEvent("add:user-action", evt);
+            release();
+            if (typeof CartPerformance !== 'undefined') CartPerformance.measureFromEvent('add:user-action', evt);
           });
       }
 

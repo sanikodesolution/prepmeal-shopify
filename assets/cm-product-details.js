@@ -231,19 +231,85 @@
     });
 
     const form = root.querySelector('form');
-    form?.addEventListener('submit', (event) => {
-      if (!customOn() || dishTotal() >= customMin) return;
+    form?.addEventListener('submit', async (event) => {
+      if (customOn() && dishTotal() < customMin) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (msg) msg.textContent = `Please choose at least ${customMin} ${customMin === 1 ? 'meal' : 'meals'} for your custom order.`;
+        return;
+      }
+      if (form.hasAttribute('data-pd-static')) return;
+
       event.preventDefault();
       event.stopImmediatePropagation();
-      if (msg) msg.textContent = `Please choose at least ${customMin} ${customMin === 1 ? 'meal' : 'meals'} for your custom order.`;
+      if (!btn || btn.classList.contains('loading')) return;
+
+      const idInput = form.querySelector('[name="id"]');
+      if (idInput) idInput.disabled = false;
+      const variantId = idInput?.value;
+      if (!variantId) {
+        if (msg) msg.textContent = 'This meal is not available to order yet.';
+        return;
+      }
+
+      const drawer = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+      const sections = drawer && typeof drawer.getSectionsToRender === 'function'
+        ? drawer.getSectionsToRender().map((section) => section.id)
+        : ['cart-icon-bubble'];
+
+      btn.classList.add('loading');
+      btn.setAttribute('aria-disabled', 'true');
+      if (msg) msg.textContent = '';
+
+      try {
+        const response = await fetch(`${(window.routes && window.routes.cart_add_url) || '/cart/add'}.js`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            items: [{
+              id: Number(variantId),
+              quantity: Math.max(1, parseInt(form.querySelector('[name="quantity"]')?.value, 10) || 1),
+              properties: Object.fromEntries(
+                [...new FormData(form).entries()]
+                  .filter(([key, value]) => key.startsWith('properties[') && value)
+                  .map(([key, value]) => [key.slice(11, -1), value])
+              ),
+            }],
+            sections,
+            sections_url: window.location.pathname,
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok || data.status) {
+          const description = typeof data.description === 'string' ? data.description : data.message;
+          throw new Error(description || 'Could not add to cart');
+        }
+        if (drawer && typeof drawer.renderContents === 'function') {
+          drawer.classList.remove('is-empty');
+          const item = data.items ? data.items[0] : data;
+          try {
+            drawer.renderContents({ ...item, sections: data.sections });
+          } catch (renderError) {
+            console.error(renderError);
+          }
+        } else if (window.routes && window.routes.cart_url) {
+          window.location = window.routes.cart_url;
+        }
+        btn.dataset.cartOk = 'true';
+      } catch (error) {
+        btn.dataset.cartOk = '';
+        if (msg) msg.textContent = error.message || 'Could not add to cart';
+      } finally {
+        btn.classList.remove('loading');
+        if (!btn.disabled) btn.removeAttribute('aria-disabled');
+      }
     }, true);
     if (form?.hasAttribute('data-pd-static')) {
       form.addEventListener('submit', (event) => {
         if (event.defaultPrevented) return;
         event.preventDefault();
         if (!btn) return;
-        btn.classList.add('loading');
-        window.setTimeout(() => btn.classList.remove('loading'), 450);
+        if (msg) msg.textContent = 'This meal is not available to order yet.';
       });
     }
 
@@ -344,7 +410,8 @@
         }
         const wasLoading = btn.classList.contains('is-loading');
         btn.classList.remove('is-loading');
-        if (!wasLoading || !btnLabel) return;
+        if (!wasLoading || !btnLabel || btn.dataset.cartOk !== 'true') return;
+        btn.dataset.cartOk = '';
         btn.classList.add('is-added');
         const previous = btnLabel.textContent;
         btnLabel.textContent = 'Added to cart';
