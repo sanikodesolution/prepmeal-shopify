@@ -3,7 +3,9 @@ class CartDrawer extends HTMLElement {
     super();
 
     this.addEventListener('keyup', (evt) => evt.code === 'Escape' && this.close());
-    this.querySelector('#CartDrawer-Overlay').addEventListener('click', this.close.bind(this));
+    this.addEventListener('click', (event) => {
+      if (event.target === this || event.target.id === 'CartDrawer-Overlay') this.close();
+    });
     this.setHeaderCartIconAccessibility();
   }
 
@@ -47,32 +49,16 @@ class CartDrawer extends HTMLElement {
     );
 
     const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
-    if (smoother) {
-      this._savedScroll = smoother.scrollTop();
-      if (!this._blockBackgroundScroll) {
-        this._blockBackgroundScroll = (event) => {
-          if (!this.classList.contains('active')) return;
-          if (event.target.closest('.drawer__inner')) return;
-          event.preventDefault();
-        };
-      }
-      window.addEventListener('wheel', this._blockBackgroundScroll, { passive: false });
-      window.addEventListener('touchmove', this._blockBackgroundScroll, { passive: false });
-    } else {
-      document.body.classList.add('overflow-hidden');
-    }
+    if (!smoother) document.body.classList.add('overflow-hidden');
   }
 
   close() {
     this.classList.remove('active');
     removeTrapFocus(this.activeElement);
     document.body.classList.remove('overflow-hidden');
-    if (this._blockBackgroundScroll) {
-      window.removeEventListener('wheel', this._blockBackgroundScroll);
-      window.removeEventListener('touchmove', this._blockBackgroundScroll);
-    }
     const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
-    if (smoother && this._savedScroll != null) smoother.scrollTop(this._savedScroll);
+    if (smoother && smoother.paused) smoother.paused(false);
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
   }
 
   setSummaryAccessibility(cartDrawerNote) {

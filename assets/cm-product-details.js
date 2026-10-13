@@ -440,38 +440,6 @@
       watch.observe(btn, { attributes: true, attributeFilter: ['class'] });
     }
 
-    const gallery = root.querySelector('.mealplan-pd__gallery');
-    const info = root.querySelector('.mealplan-pd__info');
-    const desktop = matchMedia('(min-width: 901px)');
-    let pin;
-    const headerOffset = () => {
-      const raw = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
-      return (parseFloat(raw) || 80) + 16;
-    };
-    const setupPin = () => {
-      if (pin) {
-        pin.kill();
-        pin = null;
-      }
-      root.classList.remove('mealplan-pd--pin');
-      const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
-      if (!gallery || !info || !window.ScrollTrigger || !desktop.matches || reduce || smoother) return;
-      root.classList.add('mealplan-pd--pin');
-      pin = ScrollTrigger.create({
-        trigger: gallery,
-        start: () => `top ${headerOffset()}px`,
-        endTrigger: root,
-        end: () => `bottom ${headerOffset() + gallery.offsetHeight + 120}px`,
-        pin: true,
-        pinSpacing: false,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      });
-    };
-    setupPin();
-    desktop.addEventListener('change', setupPin);
-    root.querySelectorAll('img').forEach((img) => {
-      if (!img.complete) img.addEventListener('load', () => window.ScrollTrigger && ScrollTrigger.refresh(), { once: true });
-    });
+    root.classList.remove('mealplan-pd--pin');
   });
 })();
