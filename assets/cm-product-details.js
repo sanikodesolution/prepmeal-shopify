@@ -262,11 +262,15 @@
       event.stopImmediatePropagation();
       if (!btn || btn.classList.contains('loading')) return;
 
-      const selectedPlan = form.querySelector('[data-pd-plan] input:checked, [data-pd-option] input:checked');
+      const checkedPlans = [...form.querySelectorAll('[data-pd-plan] input:checked, [data-pd-option] input:checked')];
       const idInput = form.querySelector('[name="id"]');
       if (idInput) idInput.disabled = false;
-      if (selectedPlan?.dataset.variantId && idInput) idInput.value = selectedPlan.dataset.variantId;
-      const variantId = selectedPlan?.dataset.variantId || idInput?.value;
+      const selectedValues = checkedPlans.map((input) => input.value);
+      const exact = variants.find((item) => item.options.length === selectedValues.length && item.options.every((option, index) => option === selectedValues[index]));
+      const named = variants.find((item) => selectedValues.some((value) => item.options.includes(value)));
+      const fromRadio = checkedPlans.map((input) => input.getAttribute('data-variant-id')).find((id) => id);
+      const variantId = exact?.id || fromRadio || named?.id || idInput?.value || variants.find((item) => item.id)?.id;
+      if (idInput && variantId) idInput.value = variantId;
       if (!variantId) {
         if (msg) msg.textContent = 'Choose a meal plan, then add it to the cart.';
         return;

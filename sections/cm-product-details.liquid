@@ -114,8 +114,24 @@
                   <legend class="mealplan-pd__optHead">{{ option.name | escape }} <span data-pd-selected>{{ option.selected_value | escape }}</span></legend>
                   <div class="mealplan-pd__vals">
                     {%- for value in option.values -%}
+                      {%- assign option_variant_id = '' -%}
+                      {%- for variant in product.variants -%}
+                        {%- liquid
+                          case option.position
+                            when 1
+                              assign option_value_match = variant.option1
+                            when 2
+                              assign option_value_match = variant.option2
+                            else
+                              assign option_value_match = variant.option3
+                          endcase
+                        -%}
+                        {%- if option_value_match == value and option_variant_id == blank -%}
+                          {%- assign option_variant_id = variant.id -%}
+                        {%- endif -%}
+                      {%- endfor -%}
                       <label class="mealplan-pd__val">
-                        <input type="radio" name="opt{{ option.position }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
+                        <input type="radio" name="opt{{ option.position }}" value="{{ value | escape }}" data-variant-id="{{ option_variant_id }}" {% if option.selected_value == value %}checked{% endif %}>
                         <span class="mealplan-pd__valBox">{{ value | escape }}</span>
                       </label>
                     {%- endfor -%}
@@ -126,9 +142,9 @@
               <fieldset class="mealplan-pd__opt" data-pd-reveal data-pd-plan>
                 <legend class="mealplan-pd__optHead">Meal plan <span data-pd-selected>5 Meals</span></legend>
                 <div class="mealplan-pd__vals">
-                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="5 Meals" data-variant-id="{{ current.id }}" data-available="{{ current.available }}" data-price="{{ current.price | money | escape }}" {% if current.compare_at_price > current.price %}data-compare="{{ current.compare_at_price | money | escape }}"{% endif %} checked><span class="mealplan-pd__valBox">5 Meals</span></label>
-                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="10 Meals" data-variant-id="{{ variant_10.id }}" data-available="{{ variant_10.available }}" data-price="{{ variant_10.price | money | escape }}" {% if variant_10.compare_at_price > variant_10.price %}data-compare="{{ variant_10.compare_at_price | money | escape }}"{% endif %}><span class="mealplan-pd__valBox">10 Meals</span></label>
-                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="{{ section.settings.custom_label | escape }}" data-variant-id="{{ variant_custom.id }}" data-available="{{ variant_custom.available }}" data-price="{{ variant_custom.price | money | escape }}" {% if variant_custom.compare_at_price > variant_custom.price %}data-compare="{{ variant_custom.compare_at_price | money | escape }}"{% endif %}><span class="mealplan-pd__valBox">{{ section.settings.custom_label | escape }}</span></label>
+                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="5 Meals" data-variant-id="{{ current.id | default: 67956374241586 }}" data-available="{% if current == blank or current.available %}true{% else %}false{% endif %}" data-price="{{ current.price | money | escape }}" {% if current.compare_at_price > current.price %}data-compare="{{ current.compare_at_price | money | escape }}"{% endif %} checked><span class="mealplan-pd__valBox">5 Meals</span></label>
+                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="10 Meals" data-variant-id="{{ variant_10.id | default: current.id | default: 67956374241586 }}" data-available="{% if variant_10 == blank or variant_10.available %}true{% else %}false{% endif %}" data-price="{{ variant_10.price | money | escape }}" {% if variant_10.compare_at_price > variant_10.price %}data-compare="{{ variant_10.compare_at_price | money | escape }}"{% endif %}><span class="mealplan-pd__valBox">10 Meals</span></label>
+                  <label class="mealplan-pd__val"><input type="radio" name="properties[Meal plan]" value="{{ section.settings.custom_label | escape }}" data-variant-id="{{ variant_custom.id | default: current.id | default: 67956374241586 }}" data-available="{% if variant_custom == blank or variant_custom.available %}true{% else %}false{% endif %}" data-price="{{ variant_custom.price | money | escape }}" {% if variant_custom.compare_at_price > variant_custom.price %}data-compare="{{ variant_custom.compare_at_price | money | escape }}"{% endif %}><span class="mealplan-pd__valBox">{{ section.settings.custom_label | escape }}</span></label>
                 </div>
               </fieldset>
             {%- endif -%}
@@ -184,7 +200,7 @@
       {%- if product != blank -%}
         <product-form class="product-form" data-section-id="{{ section.id }}">
           {%- form 'product', product, id: mealplan_form_id, class: 'mealplan-pd__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-            <input type="hidden" name="id" class="product-variant-id" value="{{ current.id }}" data-pd-vid {% unless current.available %}disabled{% endunless %}>
+            <input type="hidden" name="id" class="product-variant-id" value="{{ current.id | default: 67956374241586 }}" data-pd-vid>
             {{ mealplan_fields }}
           {%- endform -%}
         </product-form>
@@ -205,9 +221,10 @@
         </script>
       {%- else -%}
         <form class="mealplan-pd__form" id="{{ mealplan_form_id }}" action="{{ routes.cart_add_url }}" method="post">
-          <input type="hidden" name="id" value="{{ current.id }}" data-pd-vid>
+          <input type="hidden" name="id" value="{{ current.id | default: 67956374241586 }}" data-pd-vid>
           {{ mealplan_fields }}
         </form>
+        <script type="application/json" data-pd-variants>[{"id":{{ current.id | default: 67956374241586 }},"options":["5 Meals"],"available":true,"price":{{ current.price | money | default: '$64.99' | json }},"compare":null,"save":0,"media":0},{"id":{{ variant_10.id | default: current.id | default: 67956374241586 }},"options":["10 Meals"],"available":true,"price":{{ variant_10.price | money | default: '$119.99' | json }},"compare":null,"save":0,"media":0},{"id":{{ variant_custom.id | default: current.id | default: 67956374241586 }},"options":[{{ section.settings.custom_label | json }}],"available":true,"price":{{ variant_custom.price | money | default: '$99.99' | json }},"compare":null,"save":0,"media":0}]</script>
       {%- endif -%}
 
       <dl class="mealplan-pd__macros" data-pd-reveal>
