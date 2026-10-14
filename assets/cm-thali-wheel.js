@@ -30,16 +30,11 @@
       var w = stage.clientWidth;
       var h = stage.clientHeight;
       var m = window.innerWidth < 990;
-      var edgeScale = 0.5;
-      var pad = m ? 10 : 18;
-      var gap = m ? 16 : 36;
-      var size = m ? Math.min(w * 0.55, h * 0.46) : Math.min(h * 0.42, w * 0.56);
-      var maxSize = (h / 2 - gap - pad) / (0.5 + edgeScale / 2);
-      size = Math.max(140, Math.min(size, maxSize));
-      var reach = h / 2 - (size * edgeScale / 2 + pad);
+      var edgeScale = 0.9;
+      var size = m ? Math.max(160, Math.min(w * 0.5, 240)) : Math.max(220, Math.min(h * 0.4, 340));
       var slot = Math.min(step, 90) * Math.PI / 180;
-      var R = reach / Math.sin(slot);
-      var ax = m ? w * 0.52 : Math.min(w * 0.58, w - size * 0.2);
+      var R = (h / 2) / Math.sin(slot);
+      var ax = m ? w * 0.5 : w * 0.62;
       g = { size: size, R: R, cx: ax - R, cy: h / 2, edgeScale: edgeScale };
       stage.style.setProperty('--s', size + 'px');
       var outer = R + size * 0.65;
@@ -61,7 +56,7 @@
         var t = step ? ab / step : 0;
         var sc = t <= 1
           ? 1 - t * (1 - g.edgeScale)
-          : Math.max(0.36, g.edgeScale - (t - 1) * 0.22);
+          : Math.max(0.7, g.edgeScale - (t - 1) * 0.2);
         var op = t <= 1.05 ? 1 : Math.max(0, 1 - (t - 1.05) / 0.7);
         var el = plates[i];
         var label = el.querySelector('.tw__label');
