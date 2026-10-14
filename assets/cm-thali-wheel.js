@@ -51,14 +51,16 @@
         var rad = a * Math.PI / 180;
         var x = g.cx + g.R * Math.cos(rad) - g.size / 2;
         var y = g.cy + g.R * Math.sin(rad) - g.size / 2;
-        var neighbor = Math.abs(ab - step) < 10;
         var front = ab < 8;
-        var sc = front ? 1 : (neighbor ? 0.96 : Math.max(0.7, 1 - ab / 200));
+        var near = Math.min(ab / step, 1);
+        var far = Math.max(0, Math.min(1, (ab - step) / Math.max(120 - step, 1)));
+        var sc = Math.max(0.7, 1 - near * 0.04 - far * 0.26);
         var op = Math.max(0, 1 - Math.pow(ab / 140, 2));
         var el = plates[i];
         var label = el.querySelector('.tw__label');
         el.classList.toggle('is-active', front);
         el.classList.toggle('is-zoomed', hovered === plates[i] && front);
+        el.style.setProperty('--tw-shade', Math.max(0, 1 - ab / (step * 0.55)).toFixed(3));
         el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')';
         el.style.opacity = op.toFixed(3);
         el.style.zIndex = String(200 - Math.round(ab));
