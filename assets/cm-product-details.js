@@ -276,11 +276,6 @@
         return;
       }
 
-      const drawer = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
-      const sections = drawer && typeof drawer.getSectionsToRender === 'function'
-        ? drawer.getSectionsToRender().map((section) => section.id)
-        : ['cart-icon-bubble'];
-
       btn.classList.add('loading');
       btn.setAttribute('aria-disabled', 'true');
       if (msg) msg.textContent = '';
@@ -299,7 +294,7 @@
                   .map(([key, value]) => [key.slice(11, -1), value])
               ),
             }],
-            sections,
+            sections: ['cart-icon-bubble'],
             sections_url: window.location.pathname,
           }),
         });
@@ -308,17 +303,16 @@
           const description = typeof data.description === 'string' ? data.description : data.message;
           throw new Error(description || 'Could not add to cart');
         }
-        if (drawer && typeof drawer.renderContents === 'function') {
-          drawer.classList.remove('is-empty');
-          const item = data.items ? data.items[0] : data;
-          try {
-            drawer.renderContents({ ...item, sections: data.sections });
-          } catch (renderError) {
-            console.error(renderError);
-          }
-        } else if (window.routes && window.routes.cart_url) {
-          window.location = window.routes.cart_url;
+        const bubbleHtml = data.sections && data.sections['cart-icon-bubble'];
+        const bubble = document.getElementById('cart-icon-bubble');
+        if (bubbleHtml && bubble) {
+          const parsed = new DOMParser().parseFromString(bubbleHtml, 'text/html');
+          const source = parsed.querySelector('.shopify-section') || parsed.body;
+          if (source) bubble.innerHTML = source.innerHTML;
         }
+        document.body.classList.remove('overflow-hidden');
+        const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
+        if (smoother && smoother.paused) smoother.paused(false);
         btn.dataset.cartOk = 'true';
       } catch (error) {
         btn.dataset.cartOk = '';

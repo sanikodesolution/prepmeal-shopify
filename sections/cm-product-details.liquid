@@ -4,11 +4,17 @@
 
 {%- assign product = section.settings.product -%}
 {%- if product == blank -%}
+  {%- assign product = all_products['6-meal-plan'] -%}
+{%- endif -%}
+{%- if product == blank -%}
   {%- assign product = all_products['5-meal-plan'] -%}
 {%- endif -%}
 {%- assign plan_10 = section.settings.product_10 -%}
 {%- if plan_10 == blank -%}
   {%- assign plan_10 = all_products['10-meal-plan'] -%}
+{%- endif -%}
+{%- if plan_10 == blank -%}
+  {%- assign plan_10 = product -%}
 {%- endif -%}
 {%- assign plan_custom = section.settings.product_custom -%}
 {%- if plan_custom == blank -%}
