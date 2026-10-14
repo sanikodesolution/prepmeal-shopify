@@ -510,6 +510,27 @@
       watch.observe(btn, { attributes: true, attributeFilter: ['class'] });
     }
 
-    root.classList.remove('mealplan-pd--pin');
+    const gallery = root.querySelector('.mealplan-pd__gallery');
+    const inner = root.querySelector('.mealplan-pd__inner');
+    if (gallery && inner && window.gsap && window.ScrollTrigger && window.gsap.matchMedia) {
+      gsap.registerPlugin(ScrollTrigger);
+      const headerOffset = () => {
+        const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height'));
+        return (Number.isFinite(header) ? header : 80) + 16;
+      };
+      gsap.matchMedia().add('(min-width: 901px)', () => {
+        root.classList.add('mealplan-pd--pin');
+        ScrollTrigger.create({
+          trigger: gallery,
+          start: () => 'top top+=' + headerOffset(),
+          end: () => '+=' + Math.max(0, inner.offsetHeight - gallery.offsetHeight),
+          pin: true,
+          pinSpacing: false,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        });
+        return () => root.classList.remove('mealplan-pd--pin');
+      });
+    }
   });
 })();
