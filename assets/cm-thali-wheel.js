@@ -54,10 +54,10 @@
         var neighbor = Math.abs(ab - step) < 10;
         var front = ab < 8;
         var sc = front ? 1 : (neighbor ? 0.96 : Math.max(0.7, 1 - ab / 200));
-        if (hovered === plates[i] && front) sc = 1.1;
         var op = Math.max(0, 1 - Math.pow(ab / 140, 2));
         var el = plates[i];
         var label = el.querySelector('.tw__label');
+        el.classList.toggle('is-zoomed', hovered === plates[i] && front);
         el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')';
         el.style.opacity = op.toFixed(3);
         el.style.zIndex = String(200 - Math.round(ab));

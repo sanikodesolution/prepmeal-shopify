@@ -56,7 +56,10 @@
   object-fit: cover;
   border-radius: 50%;
   filter: drop-shadow(0 26px 34px rgba(0, 0, 0, .55));
+  transform: scale(1);
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
 }
+.tw__plate.is-zoomed .tw__photo { transform: scale(1.1); }
 .tw__label {
   position: absolute;
   top: calc(100% + 16px);
@@ -115,5 +118,5 @@
   .tw__content { padding: 8px 0 48px; max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .tw__btn { transition: none; }
+  .tw__btn, .tw__photo { transition: none; }
 }
