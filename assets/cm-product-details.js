@@ -414,13 +414,15 @@
     if (btn) {
       let addedTimer = 0;
       const watch = new MutationObserver(() => {
+        // classList.add/remove rewrite the attribute even when nothing changes,
+        // which re-triggers this observer forever. Only touch classes on a real change.
         if (btn.classList.contains('loading')) {
-          btn.classList.add('is-loading');
+          if (!btn.classList.contains('is-loading')) btn.classList.add('is-loading');
           return;
         }
-        const wasLoading = btn.classList.contains('is-loading');
+        if (!btn.classList.contains('is-loading')) return;
         btn.classList.remove('is-loading');
-        if (!wasLoading || !btnLabel || btn.dataset.cartOk !== 'true') return;
+        if (!btnLabel || btn.dataset.cartOk !== 'true') return;
         btn.dataset.cartOk = '';
         btn.classList.add('is-added');
         const previous = btnLabel.textContent;
