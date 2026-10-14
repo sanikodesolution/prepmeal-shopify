@@ -281,6 +281,12 @@
       btn.classList.add('loading');
       btn.setAttribute('aria-disabled', 'true');
       if (msg) msg.textContent = '';
+      const afterAdd = root.getAttribute('data-after-add') || 'stay';
+      const drawer = document.querySelector('cart-drawer');
+      const drawerSections = drawer && typeof drawer.getSectionsToRender === 'function'
+        ? drawer.getSectionsToRender().map((section) => section.id)
+        : [];
+      const sectionIds = [...new Set(['cart-icon-bubble', ...drawerSections])];
 
       try {
         const response = await fetch(`${(window.routes && window.routes.cart_add_url) || '/cart/add'}.js`, {
@@ -296,7 +302,7 @@
                   .map(([key, value]) => [key.slice(11, -1), value])
               ),
             }],
-            sections: ['cart-icon-bubble'],
+            sections: sectionIds,
             sections_url: window.location.pathname,
           }),
         });
@@ -312,10 +318,26 @@
           const source = parsed.querySelector('.shopify-section') || parsed.body;
           if (source) bubble.innerHTML = source.innerHTML;
         }
+        // Keep the cart drawer in sync so it never shows stale contents.
+        if (drawer && data.sections && data.sections['cart-drawer']) {
+          const drawerHtml = new DOMParser().parseFromString(data.sections['cart-drawer'], 'text/html').querySelector('#CartDrawer');
+          const drawerEl = document.getElementById('CartDrawer');
+          if (drawerHtml && drawerEl) drawerEl.innerHTML = drawerHtml.innerHTML;
+          drawer.classList.remove('is-empty');
+          drawer.querySelector('.drawer__inner')?.classList.remove('is-empty');
+        }
         document.body.classList.remove('overflow-hidden');
         const smoother = window.ScrollSmoother && window.ScrollSmoother.get && window.ScrollSmoother.get();
         if (smoother && smoother.paused) smoother.paused(false);
         btn.dataset.cartOk = 'true';
+        document.dispatchEvent(new CustomEvent('cart:updated', { detail: data }));
+        if (afterAdd === 'cart') {
+          window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+        } else if (afterAdd === 'drawer' && drawer && typeof drawer.open === 'function') {
+          drawer.querySelector('#CartDrawer-Overlay')?.addEventListener('click', () => drawer.close(), { once: true });
+          drawer.open(btn);
+          if (typeof drawer.showAddedBanner === 'function') drawer.showAddedBanner(data.items && data.items[0]);
+        }
       } catch (error) {
         btn.dataset.cartOk = '';
         if (msg) msg.textContent = error.message || 'Could not add to cart';
