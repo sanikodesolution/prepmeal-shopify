@@ -82,3 +82,12 @@ html.gsap-smooth #smooth-content {
   color: rgb(var(--gsap-accent));
   font-weight: 700;
 }
+
+/* Sticky header while ScrollSmoother is active (pinned by gsap-animations.js) */
+html.gsap-smooth .pin-spacer:has(> .section-header) {
+  position: relative;
+  z-index: 400;
+}
+html.gsap-smooth .section-header.gsap-sticky-header {
+  z-index: 400;
+}

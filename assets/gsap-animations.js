@@ -26,6 +26,24 @@
         effects: false,
         smoothTouch: false,
       });
+
+      // Sticky header: position: sticky can't work inside ScrollSmoother's
+      // transformed wrapper, so pin the header with ScrollTrigger instead.
+      const stickyHeader = document.querySelector('sticky-header[data-sticky-type]');
+      const headerSection = document.querySelector('.section-header');
+      if (stickyHeader && headerSection && stickyHeader.getAttribute('data-sticky-type') !== 'none') {
+        headerSection.classList.add('gsap-sticky-header');
+        ScrollTrigger.create({
+          trigger: headerSection,
+          start: 'top top',
+          endTrigger: '#smooth-content',
+          end: 'bottom top',
+          pin: true,
+          pinSpacing: false,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        });
+      }
     } catch (error) {
       document.documentElement.classList.remove('gsap-smooth');
       console.warn('Smooth scroll skipped', error);
