@@ -343,6 +343,8 @@
   if (week) {
     const items = [...week.querySelectorAll('[data-mp-item]')];
     const slides = [...week.querySelectorAll('[data-mp-slide]')];
+    const allSlide = week.querySelector('[data-mp-all]');
+    const frame = week.querySelector('.mealplan-menu__frame');
     const rows = [...week.querySelectorAll('[data-mp-row]')];
     const count = week.querySelector('[data-mp-count]');
     const cap = week.querySelector('[data-mp-caption]');
@@ -350,7 +352,26 @@
     const fullEl = week.querySelector('.mealplan-menu__full');
     const modal = week.querySelector('[data-mp-modal]');
     const canHover = matchMedia('(hover: hover) and (pointer: fine)');
-    let current = 0;
+    let current = -1;
+    let lastIndex = 0;
+    const showDefault = () => {
+      current = -1;
+      items.forEach((el) => {
+        el.classList.remove('is-active');
+        el.setAttribute('aria-selected', 'false');
+      });
+      slides.forEach((el) => el.classList.remove('is-active'));
+      rows.forEach((el) => el.classList.remove('is-active'));
+      if (allSlide) allSlide.classList.add('is-active');
+      frame?.classList.add('is-all');
+      frame?.classList.remove('is-hover');
+      const poster = week.querySelector('[data-mp-sheet]');
+      if (poster) {
+        poster.hidden = true;
+        poster.classList.remove('is-zoom');
+        frame?.classList.remove('is-sheet');
+      }
+    };
     const fit = (box, full, half) => {
       if (!box) return;
       const kids = [...box.children];
@@ -364,7 +385,7 @@
       box.style.maxHeight = `${Math.round(h)}px`;
     };
     const fitAll = () => {
-      fit(listEl, 7, false);
+      fit(listEl, 10, false);
       fit(fullEl, 5, true);
     };
     const reveal = (box, el) => {
@@ -384,6 +405,10 @@
       }
       if (i === current || i < 0 || i >= items.length) return;
       current = i;
+      lastIndex = i;
+      if (allSlide) allSlide.classList.remove('is-active');
+      frame?.classList.remove('is-all');
+      frame?.classList.add('is-hover');
       items.forEach((el, k) => {
         const on = k === i;
         el.classList.toggle('is-active', on);
@@ -402,6 +427,98 @@
       el.addEventListener('focus', () => set(i, 'list'));
       el.addEventListener('click', () => set(i, 'list'));
     });
+    if (canHover.matches && listEl) listEl.addEventListener('mouseleave', showDefault);
+
+    const gallery = week.querySelector('[data-mp-gallery]');
+    if (gallery && frame && (slides.length || allSlide)) {
+      document.body.appendChild(gallery);
+      const gImg = gallery.querySelector('[data-mp-gallery-img]');
+      const gName = gallery.querySelector('[data-mp-gallery-name]');
+      const gCount = gallery.querySelector('[data-mp-gallery-count]');
+      const photos = [];
+      if (allSlide) {
+        const img = allSlide.querySelector('img');
+        if (img) photos.push({ src: img.currentSrc || img.src, name: img.alt || "This week's meals" });
+      }
+      slides.forEach((slide, index) => {
+        const img = slide.querySelector('img');
+        if (!img) return;
+        photos.push({
+          src: img.currentSrc || img.src,
+          name: items[index]?.querySelector('.mealplan-menu__name')?.textContent.trim() || img.alt || '',
+        });
+      });
+      let gIndex = 0;
+      let swapTimer = 0;
+      const paint = (i, animate) => {
+        const total = photos.length;
+        if (!total) return;
+        const next = (i + total) % total;
+        const photo = photos[next];
+        const apply = () => {
+          gIndex = next;
+          if (gImg) {
+            gImg.src = photo.src;
+            gImg.alt = photo.name;
+          }
+          if (gName) gName.textContent = photo.name;
+          if (gCount) gCount.textContent = `${gIndex + 1} / ${total}`;
+        };
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!animate || reduce || !gImg || next === gIndex) {
+          window.clearTimeout(swapTimer);
+          gImg?.classList.remove('is-out', 'is-next', 'is-prev');
+          gallery.classList.remove('is-swapping');
+          apply();
+          return;
+        }
+        const forward = (next - gIndex + total) % total <= total / 2;
+        gImg.classList.toggle('is-next', forward);
+        gImg.classList.toggle('is-prev', !forward);
+        gImg.classList.add('is-out');
+        gallery.classList.add('is-swapping');
+        window.clearTimeout(swapTimer);
+        swapTimer = window.setTimeout(() => {
+          apply();
+          requestAnimationFrame(() => {
+            gImg.classList.remove('is-out', 'is-next', 'is-prev');
+            gallery.classList.remove('is-swapping');
+          });
+        }, 180);
+      };
+      const openGallery = (i) => {
+        paint(i);
+        gallery.hidden = false;
+        document.documentElement.style.overflow = 'hidden';
+        gallery.querySelector('[data-mp-gallery-close]')?.focus();
+      };
+      const closeGallery = () => {
+        if (gallery.hidden) return;
+        gallery.hidden = true;
+        document.documentElement.style.overflow = '';
+        frame.focus();
+      };
+      const openFromFrame = () => openGallery(current >= 0 ? current + (allSlide ? 1 : 0) : 0);
+      frame.addEventListener('click', openFromFrame);
+      frame.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        openFromFrame();
+      });
+      gallery.querySelector('[data-mp-gallery-prev]')?.addEventListener('click', () => paint(gIndex - 1, true));
+      gallery.querySelector('[data-mp-gallery-next]')?.addEventListener('click', () => paint(gIndex + 1, true));
+      gallery.querySelector('[data-mp-gallery-close]')?.addEventListener('click', closeGallery);
+      gallery.addEventListener('click', (event) => {
+        if (event.target === gallery) closeGallery();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (gallery.hidden) return;
+        if (event.key === 'Escape') closeGallery();
+        else if (event.key === 'ArrowLeft') paint(gIndex - 1, true);
+        else if (event.key === 'ArrowRight') paint(gIndex + 1, true);
+      });
+    }
+
     rows.forEach((el, i) => {
       el.addEventListener('mouseenter', () => { if (canHover.matches) set(i, 'rows'); });
       el.addEventListener('click', () => set(i, 'rows'));

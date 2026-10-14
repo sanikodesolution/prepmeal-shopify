@@ -67,20 +67,23 @@
         <div class="mealplan-wrap mealplan-menu__inner">
           <div class="mealplan-menu__head">
             {%- if section.settings.picker_count > 0 -%}
-              <h3 class="mealplan-h">
+              <h4 class="mealplan-h">
                 <button type="button" class="mealplan-menu__title" data-mp-poster>{{ section.settings.quality_heading | escape }}</button>
-              </h3>
+              </h4>
             {%- else -%}
-              <h3 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h3>
+              <h4 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h4>
             {%- endif -%}
             {%- if section.settings.quality_text != blank -%}
               <p class="mealplan-menu__sub">{{ section.settings.quality_text | escape }}</p>
             {%- endif -%}
           </div>
           <div class="mealplan-menu__stage">
-            <div class="mealplan-menu__frame">
+            <div class="mealplan-menu__frame is-all" data-mp-frame role="button" tabindex="0" aria-label="Open meal gallery">
+              <div class="mealplan-menu__slide is-active" data-mp-all>
+                <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all meals" width="800" height="860">
+              </div>
               {%- for block in menu_blocks -%}
-                <div class="mealplan-menu__slide{% if forloop.first %} is-active{% endif %}" data-mp-slide>
+                <div class="mealplan-menu__slide" data-mp-slide>
                   <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.short | default: block.settings.name | escape }}" width="800" height="860"{% unless forloop.first %} loading="lazy"{% endunless %}>
                 </div>
               {%- endfor -%}
@@ -101,7 +104,7 @@
           <ol class="mealplan-menu__list" role="tablist">
             {%- for block in menu_blocks -%}
               <li {{ block.shopify_attributes }}>
-                <button type="button" class="mealplan-menu__item{% if forloop.first %} is-active{% endif %}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
+                <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
                   <span class="mealplan-menu__num">{{ forloop.index }}</span>
                   <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
                 </button>
@@ -145,6 +148,24 @@
             <img src="{{ '10-meal-together.png' | asset_url }}" alt="" width="80" height="80">
           </div>
         {%- endif -%}
+        <div class="mealplan-menu__gallery" data-mp-gallery hidden role="dialog" aria-modal="true" aria-label="Meal gallery">
+          <button type="button" class="mealplan-menu__gallery-close" data-mp-gallery-close aria-label="Close">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+          <button type="button" class="mealplan-menu__gallery-nav mealplan-menu__gallery-nav--prev" data-mp-gallery-prev aria-label="Previous meal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+          </button>
+          <figure class="mealplan-menu__gallery-figure">
+            <img data-mp-gallery-img alt="" width="900" height="900">
+            <figcaption class="mealplan-menu__gallery-caption">
+              <span data-mp-gallery-count></span>
+              <strong data-mp-gallery-name></strong>
+            </figcaption>
+          </figure>
+          <button type="button" class="mealplan-menu__gallery-nav mealplan-menu__gallery-nav--next" data-mp-gallery-next aria-label="Next meal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
         <div class="mealplan-menu__modal" data-mp-modal role="dialog" aria-modal="true" aria-label="This week's menu" hidden>
           <div class="mealplan-menu__modal-backdrop" data-mp-close></div>
           <div class="mealplan-menu__modal-box">
