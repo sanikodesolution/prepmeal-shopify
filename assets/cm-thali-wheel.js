@@ -17,7 +17,8 @@
     var target = 0;
     var anim = 0;
     var timer = 0;
-    var hover = false;
+    var scrubbing = false;
+    var drive = 0;
     var vis = true;
     var drag = null;
     var justDragged = false;
@@ -78,8 +79,32 @@
 
     function sched() {
       clearTimeout(timer);
-      if (reduce || !vis || document.hidden || drag || hover) return;
-      timer = setTimeout(function () { go(target + step); sched(); }, 5000);
+      if (reduce || !vis || document.hidden || drag || scrubbing) return;
+      timer = setTimeout(function () { go(target + step); sched(); }, 3500);
+    }
+
+    function steer(e) {
+      if (drag || reduce || e.pointerType === 'touch') return;
+      var rect = stage.getBoundingClientRect();
+      if (!rect.height) return;
+      var fromCenter = (e.clientY - rect.top) / rect.height - 0.5;
+      var dead = 0.11;
+      if (Math.abs(fromCenter) <= dead) {
+        if (!scrubbing) return;
+        scrubbing = false;
+        drive = 0;
+        target = rot;
+        sched();
+        return;
+      }
+      if (!scrubbing) {
+        scrubbing = true;
+        cancelAnimationFrame(anim);
+        clearTimeout(timer);
+      }
+      var mag = (Math.abs(fromCenter) - dead) / (0.5 - dead);
+      mag = mag * mag * (3 - 2 * mag);
+      drive = (fromCenter > 0 ? 1 : -1) * mag * 280;
     }
 
     plates.forEach(function (el, i) {
@@ -100,10 +125,15 @@
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       cancelAnimationFrame(anim);
       clearTimeout(timer);
+      drive = 0;
+      scrubbing = false;
       drag = { id: e.pointerId, x: e.clientX, y: e.clientY, rot: rot, moved: false, vel: 0, lt: performance.now(), lr: rot };
     });
     stage.addEventListener('pointermove', function (e) {
-      if (!drag || e.pointerId !== drag.id) return;
+      if (!drag || e.pointerId !== drag.id) {
+        steer(e);
+        return;
+      }
       var d = window.innerWidth < 990 ? e.clientX - drag.x : e.clientY - drag.y;
       if (!drag.moved) {
         if (Math.abs(d) < 6) return;
@@ -133,8 +163,23 @@
     }
     stage.addEventListener('pointerup', endDrag);
     stage.addEventListener('pointercancel', endDrag);
-    stage.addEventListener('mouseenter', function () { hover = true; sched(); });
-    stage.addEventListener('mouseleave', function () { hover = false; sched(); });
+    stage.addEventListener('mouseleave', function () {
+      drive = 0;
+      scrubbing = false;
+      sched();
+    });
+    var lastTick = performance.now();
+    (function frame(now) {
+      var dt = Math.min(0.05, (now - lastTick) / 1000);
+      lastTick = now;
+      if (!drag && !reduce && Math.abs(drive) > 0.01) {
+        cancelAnimationFrame(anim);
+        rot += drive * dt;
+        target = rot;
+        render();
+      }
+      requestAnimationFrame(frame);
+    })(lastTick);
     document.addEventListener('visibilitychange', sched);
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
