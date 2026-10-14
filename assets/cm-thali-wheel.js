@@ -36,12 +36,13 @@
       var ax = m ? w * 0.5 : w * 0.62;
       g = { size: size, R: R, cx: ax - R, cy: h / 2 };
       stage.style.setProperty('--s', size + 'px');
-      var rr = R + size * 0.65;
-      ring.style.width = ring.style.height = rr * 2 + 'px';
-      ring.style.transform = 'translate(' + (g.cx - rr) + 'px,' + (g.cy - rr) + 'px)';
-      var ir = Math.max(rr - 200, 0);
-      ring2.style.width = ring2.style.height = ir * 2 + 'px';
-      ring2.style.transform = 'translate(' + (g.cx - ir) + 'px,' + (g.cy - ir) + 'px)';
+      var gap = 22;
+      var outer = R + size / 2 + gap;
+      var inner = Math.max(R - size / 2 - gap, 0);
+      ring.style.width = ring.style.height = outer * 2 + 'px';
+      ring.style.transform = 'translate(' + (g.cx - outer) + 'px,' + (g.cy - outer) + 'px)';
+      ring2.style.width = ring2.style.height = inner * 2 + 'px';
+      ring2.style.transform = 'translate(' + (g.cx - inner) + 'px,' + (g.cy - inner) + 'px)';
     }
 
     function render() {
