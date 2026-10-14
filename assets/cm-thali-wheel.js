@@ -20,6 +20,7 @@
     var scrubbing = false;
     var drive = 0;
     var vis = true;
+    var hovered = null;
     var drag = null;
     var justDragged = false;
     var g = { size: 300, R: 200, cx: 0, cy: 0 };
@@ -51,7 +52,9 @@
         var x = g.cx + g.R * Math.cos(rad) - g.size / 2;
         var y = g.cy + g.R * Math.sin(rad) - g.size / 2;
         var neighbor = Math.abs(ab - step) < 10;
-        var sc = ab < 8 ? 1 : (neighbor ? 0.96 : Math.max(0.7, 1 - ab / 200));
+        var front = ab < 8;
+        var sc = front ? 1 : (neighbor ? 0.96 : Math.max(0.7, 1 - ab / 200));
+        if (hovered === plates[i] && front) sc = 1.1;
         var op = Math.max(0, 1 - Math.pow(ab / 140, 2));
         var el = plates[i];
         var label = el.querySelector('.tw__label');
@@ -114,6 +117,11 @@
         if (Math.abs(a) > 0.01) go(target + a);
         sched();
       }
+      el.addEventListener('pointerenter', function () { hovered = el; render(); });
+      el.addEventListener('pointerleave', function () {
+        if (hovered === el) hovered = null;
+        render();
+      });
       el.addEventListener('click', pick);
       el.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); }
