@@ -28,16 +28,17 @@
   background: radial-gradient(ellipse 55% 60% at 62% 50%, rgba(245, 166, 35, .12), transparent 70%);
   pointer-events: none;
 }
-.tw__ring {
+.tw__stage > .tw__ring {
+  display: block;
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 0;
   border-radius: 50%;
-  border: 1px solid rgba(240, 169, 59, .55);
+  border: 1px solid rgba(253, 243, 231, .28);
   pointer-events: none;
 }
-.tw__ring--inner { border-color: rgba(240, 169, 59, .32); }
+.tw__ring--inner { border-color: rgba(253, 243, 231, .22); }
 .tw__plate {
   position: absolute;
   left: 0;
@@ -55,9 +56,12 @@
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  filter: drop-shadow(0 26px 34px rgba(0, 0, 0, .55));
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transform: scale(1);
-  transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1), box-shadow .45s ease;
+}
+.tw__plate.is-active .tw__photo {
+  box-shadow: 0 26px 34px rgba(0, 0, 0, .55);
 }
 .tw__plate.is-zoomed .tw__photo { transform: scale(1.1); }
 .tw__label {

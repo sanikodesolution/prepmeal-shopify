@@ -36,9 +36,8 @@
       var ax = m ? w * 0.5 : w * 0.62;
       g = { size: size, R: R, cx: ax - R, cy: h / 2 };
       stage.style.setProperty('--s', size + 'px');
-      var gap = 22;
-      var outer = R + size / 2 + gap;
-      var inner = Math.max(R - size / 2 - gap, 0);
+      var outer = R + size * 0.65;
+      var inner = Math.max(outer - 200, 0);
       ring.style.width = ring.style.height = outer * 2 + 'px';
       ring.style.transform = 'translate(' + (g.cx - outer) + 'px,' + (g.cy - outer) + 'px)';
       ring2.style.width = ring2.style.height = inner * 2 + 'px';
@@ -58,6 +57,7 @@
         var op = Math.max(0, 1 - Math.pow(ab / 140, 2));
         var el = plates[i];
         var label = el.querySelector('.tw__label');
+        el.classList.toggle('is-active', front);
         el.classList.toggle('is-zoomed', hovered === plates[i] && front);
         el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + sc.toFixed(3) + ')';
         el.style.opacity = op.toFixed(3);
