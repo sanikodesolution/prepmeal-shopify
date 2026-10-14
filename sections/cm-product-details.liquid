@@ -25,6 +25,12 @@
 {%- assign variant_custom = plan_custom.selected_or_first_available_variant | default: current -%}
 
 {%- assign dishes = section.blocks | where: 'type', 'dish' -%}
+{%- comment -%} Dynamic fallbacks: section setting -> product metafield (custom.*) -> product data {%- endcomment -%}
+{%- assign pd_title = section.settings.heading | default: product.title | default: 'Chicken Biryani with Raita' -%}
+{%- assign pd_cal = product.metafields.custom.calories.value | default: section.settings.cal -%}
+{%- assign pd_protein = product.metafields.custom.protein.value | default: section.settings.protein -%}
+{%- assign pd_carbs = product.metafields.custom.carbs.value | default: section.settings.carbs -%}
+{%- assign pd_fat = product.metafields.custom.fat.value | default: section.settings.fat -%}
 <section class="mealplan-pd mealplan-pd--plate" id="MealplanPd-{{ section.id }}" data-mealplan-pd data-anim="true">
   <div class="mealplan-pd__inner">
     <div class="mealplan-pd__gallery">
@@ -43,9 +49,25 @@
         <div class="mealplan-pd__stage" data-pd-stage>
           {%- if dishes.size > 0 -%}
             {%- for block in dishes -%}
-              {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
-              <div class="mealplan-pd__slide{% if forloop.first %} is-active{% endif %}" data-pd-slide>
-                <img src="{{ photo | asset_url }}" alt="{{ block.settings.name | escape }}" width="900" height="900"{% unless forloop.first %} loading="lazy"{% endunless %}>
+              {%- liquid
+                assign fallback_i = forloop.index0 | modulo: 10
+                assign fallback_asset = 'mp-food-' | append: fallback_i | append: '.jpg'
+                assign photo_asset = block.settings.image_asset | default: fallback_asset
+                if block.settings.image != blank
+                  assign photo_url = block.settings.image | image_url: width: 1100
+                else
+                  assign photo_url = photo_asset | asset_url
+                endif
+                assign dish_name = block.settings.name | default: pd_title
+              -%}
+              <div class="mealplan-pd__slide{% if forloop.first %} is-active{% endif %}" data-pd-slide
+                data-name="{{ dish_name | escape }}"
+                data-desc="{{ block.settings.description | escape }}"
+                data-cal="{{ block.settings.cal | default: pd_cal | escape }}"
+                data-protein="{{ block.settings.protein | default: pd_protein | escape }}"
+                data-carbs="{{ block.settings.carbs | default: pd_carbs | escape }}"
+                data-fat="{{ block.settings.fat | default: pd_fat | escape }}">
+                <img src="{{ photo_url }}" alt="{{ block.settings.image.alt | default: dish_name | escape }}" width="900" height="900"{% unless forloop.first %} loading="lazy"{% endunless %}>
               </div>
             {%- endfor -%}
           {%- else -%}
@@ -60,9 +82,18 @@
       <div class="mealplan-pd__thumbs" role="tablist" aria-label="Meal photos">
         {%- if dishes.size > 0 -%}
           {%- for block in dishes -%}
-            {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
-            <button type="button" class="mealplan-pd__thumb{% if forloop.first %} is-active{% endif %}" role="tab" aria-label="{{ block.settings.name | escape }}" data-pd-thumb>
-              <img src="{{ photo | asset_url }}" alt="" width="120" height="120" loading="lazy">
+            {%- liquid
+              assign fallback_i = forloop.index0 | modulo: 10
+              assign fallback_asset = 'mp-food-' | append: fallback_i | append: '.jpg'
+              assign photo_asset = block.settings.image_asset | default: fallback_asset
+              if block.settings.image != blank
+                assign thumb_url = block.settings.image | image_url: width: 240
+              else
+                assign thumb_url = photo_asset | asset_url
+              endif
+            -%}
+            <button type="button" class="mealplan-pd__thumb{% if forloop.first %} is-active{% endif %}" role="tab" aria-label="{{ block.settings.name | default: pd_title | escape }}" data-pd-thumb>
+              <img src="{{ thumb_url }}" alt="" width="120" height="120" loading="lazy">
             </button>
           {%- endfor -%}
         {%- else -%}
@@ -79,7 +110,8 @@
       {%- if section.settings.eyebrow != blank -%}
         <span class="mealplan-pd__eyebrow" data-pd-reveal>{{ section.settings.eyebrow | escape }}</span>
       {%- endif -%}
-      <h2 class="mealplan-pd__title" data-pd-reveal>{{ section.settings.heading | default: product.title | default: 'Chicken Biryani with Raita' | escape }}</h2>
+      {%- assign first_dish = dishes | first -%}
+      <h2 class="mealplan-pd__title" data-pd-reveal data-pd-title>{{ first_dish.settings.name | default: pd_title | escape }}</h2>
       <div class="mealplan-pd__priceRow" data-pd-reveal>
         {%- if product != blank -%}
           <span class="mealplan-pd__price" data-pd-price>{{ current.price | money }}</span>
@@ -94,10 +126,14 @@
         {%- endif -%}
         <span class="mealplan-pd__save" data-pd-save hidden></span>
       </div>
-      {%- if section.settings.text != blank -%}
-        <p class="mealplan-pd__desc" data-pd-reveal>{{ section.settings.text | escape }}</p>
+      {%- if first_dish.settings.description != blank -%}
+        <p class="mealplan-pd__desc" data-pd-reveal data-pd-desc>{{ first_dish.settings.description | escape }}</p>
+      {%- elsif section.settings.text != blank -%}
+        <p class="mealplan-pd__desc" data-pd-reveal data-pd-desc>{{ section.settings.text | escape }}</p>
       {%- elsif product.description != blank -%}
-        <div class="mealplan-pd__desc" data-pd-reveal>{{ product.description }}</div>
+        <div class="mealplan-pd__desc" data-pd-reveal data-pd-desc>{{ product.description }}</div>
+      {%- else -%}
+        <p class="mealplan-pd__desc" data-pd-reveal data-pd-desc hidden></p>
       {%- endif -%}
 
       <div class="mealplan-pd__chips" data-pd-reveal>
@@ -164,10 +200,19 @@
                   </div>
                   <ul class="mealplan-pd__dishes">
                     {%- for block in dishes -%}
-                      {%- assign photo = block.settings.image_asset | default: 'mp-food-0.jpg' -%}
+                      {%- liquid
+                        assign fallback_i = forloop.index0 | modulo: 10
+                        assign fallback_asset = 'mp-food-' | append: fallback_i | append: '.jpg'
+                        assign photo_asset = block.settings.image_asset | default: fallback_asset
+                        if block.settings.image != blank
+                          assign dish_url = block.settings.image | image_url: width: 200
+                        else
+                          assign dish_url = photo_asset | asset_url
+                        endif
+                      -%}
                       <li class="mealplan-pd__dish" data-dish="{{ block.settings.name | escape }}" data-n="0" {{ block.shopify_attributes }}>
                         <span class="mealplan-pd__dishMain">
-                          <img class="mealplan-pd__dishPhoto" src="{{ photo | asset_url }}" alt="" width="84" height="84" loading="lazy">
+                          <img class="mealplan-pd__dishPhoto" src="{{ dish_url }}" alt="" width="84" height="84" loading="lazy">
                           <span class="mealplan-pd__dishName">{{ block.settings.name | escape }}</span>
                         </span>
                         <span class="mealplan-pd__dstep">
@@ -233,12 +278,20 @@
         <script type="application/json" data-pd-variants>[{"id":{{ current.id | default: 67956374241586 }},"options":["5 Meals"],"available":true,"price":{{ current.price | money | default: '$64.99' | json }},"compare":null,"save":0,"media":0},{"id":{{ variant_10.id | default: current.id | default: 67956374241586 }},"options":["10 Meals"],"available":true,"price":{{ variant_10.price | money | default: '$119.99' | json }},"compare":null,"save":0,"media":0},{"id":{{ variant_custom.id | default: current.id | default: 67956374241586 }},"options":[{{ section.settings.custom_label | json }}],"available":true,"price":{{ variant_custom.price | money | default: '$99.99' | json }},"compare":null,"save":0,"media":0}]</script>
       {%- endif -%}
 
-      <dl class="mealplan-pd__macros" data-pd-reveal>
-        <div class="mealplan-pd__macro"><dt>Calories</dt><dd data-pd-count>{{ section.settings.cal | escape }}</dd></div>
-        <div class="mealplan-pd__macro"><dt>Protein</dt><dd data-pd-count>{{ section.settings.protein | escape }}</dd></div>
-        <div class="mealplan-pd__macro"><dt>Carbs</dt><dd data-pd-count>{{ section.settings.carbs | escape }}</dd></div>
-        <div class="mealplan-pd__macro"><dt>Fat</dt><dd data-pd-count>{{ section.settings.fat | escape }}</dd></div>
-      </dl>
+      {%- liquid
+        assign m_cal = first_dish.settings.cal | default: pd_cal
+        assign m_protein = first_dish.settings.protein | default: pd_protein
+        assign m_carbs = first_dish.settings.carbs | default: pd_carbs
+        assign m_fat = first_dish.settings.fat | default: pd_fat
+      -%}
+      {%- if m_cal != blank or m_protein != blank or m_carbs != blank or m_fat != blank -%}
+        <dl class="mealplan-pd__macros" data-pd-reveal>
+          <div class="mealplan-pd__macro"><dt>Calories</dt><dd data-pd-count data-pd-macro="cal">{{ m_cal | escape }}</dd></div>
+          <div class="mealplan-pd__macro"><dt>Protein</dt><dd data-pd-count data-pd-macro="protein">{{ m_protein | escape }}</dd></div>
+          <div class="mealplan-pd__macro"><dt>Carbs</dt><dd data-pd-count data-pd-macro="carbs">{{ m_carbs | escape }}</dd></div>
+          <div class="mealplan-pd__macro"><dt>Fat</dt><dd data-pd-count data-pd-macro="fat">{{ m_fat | escape }}</dd></div>
+        </dl>
+      {%- endif -%}
 
       {%- assign details = section.blocks | where: 'type', 'accordion' -%}
       {%- if details.size > 0 -%}
@@ -267,15 +320,17 @@
     { "type": "product", "id": "product_10", "label": "10 meal product", "info": "Added when 10 Meals is selected. Defaults to the 10-meal-plan product." },
     { "type": "product", "id": "product_custom", "label": "Custom meal product", "info": "Added for Custom Meal, with the chosen dishes. Defaults to the 5 meal product." },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Chef cooked, fresh weekly" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Chicken Biryani with Raita" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Chicken Biryani with Raita", "info": "Used when a dish has no name. Leave blank to use the product title." },
     { "type": "text", "id": "badge", "label": "Badge text", "default": "Fresh • Chef cooked • Never frozen • " },
-    { "type": "textarea", "id": "text", "label": "Fallback description", "default": "Cooked fresh by our chefs, packed the same day and ready in minutes." },
+    { "type": "textarea", "id": "text", "label": "Fallback description", "default": "Cooked fresh by our chefs, packed the same day and ready in minutes.", "info": "Shown when a dish has no description. Leave blank to use the product description." },
     { "type": "text", "id": "chip_1", "label": "Chip 1", "default": "Fresh, never frozen" },
     { "type": "text", "id": "chip_2", "label": "Chip 2", "default": "Ready in 3 minutes" },
     { "type": "text", "id": "chip_3", "label": "Chip 3", "default": "Chef cooked" },
     { "type": "text", "id": "note", "label": "Delivery note", "default": "Free delivery on weekly plans over $60" },
     { "type": "text", "id": "custom_label", "label": "Custom option name", "default": "Custom Meal", "info": "The variant option value that opens the dish picker." },
     { "type": "text", "id": "custom_heading", "label": "Custom picker heading", "default": "Build your custom meal" },
+    { "type": "header", "content": "Default nutrition" },
+    { "type": "paragraph", "content": "Order used: dish block value, then product metafields custom.calories / custom.protein / custom.carbs / custom.fat, then these fields." },
     { "type": "text", "id": "cal", "label": "Calories", "default": "540" },
     { "type": "text", "id": "protein", "label": "Protein", "default": "42g" },
     { "type": "text", "id": "carbs", "label": "Carbs", "default": "48g" },
@@ -287,7 +342,14 @@
       "name": "Dish",
       "settings": [
         { "type": "text", "id": "name", "label": "Name", "default": "Chicken Biryani with Raita" },
-        { "type": "text", "id": "image_asset", "label": "Theme image filename", "default": "mp-food-0.jpg", "info": "File in the theme assets folder, such as mp-food-0.jpg." }
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Optional. When empty, the theme image below is used." },
+        { "type": "text", "id": "image_asset", "label": "Theme image filename", "default": "mp-food-0.jpg", "info": "Fallback file in the theme assets folder, such as mp-food-0.jpg." },
+        { "type": "textarea", "id": "description", "label": "Description", "info": "Shown when this dish is active. Leave blank for the section description." },
+        { "type": "header", "content": "Nutrition (optional)" },
+        { "type": "text", "id": "cal", "label": "Calories", "placeholder": "540" },
+        { "type": "text", "id": "protein", "label": "Protein", "placeholder": "42g" },
+        { "type": "text", "id": "carbs", "label": "Carbs", "placeholder": "48g" },
+        { "type": "text", "id": "fat", "label": "Fat", "placeholder": "16g" }
       ]
     },
     {

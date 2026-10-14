@@ -43,6 +43,7 @@
       window.setTimeout(() => { lockHover = false; }, reduce ? 0 : 450);
     };
     let slideTl = null;
+    let onDish = null;
     const mediaOf = (slide) => slide.querySelector('img, svg');
     const show = (i) => {
       if (i < 0 || i >= slides.length || i === cur) return;
@@ -61,6 +62,7 @@
           if (media) gsap.set(media, { clearProps: 'transform' });
         }
       });
+      if (onDish) onDish(slides[i]);
     };
     markThumbs(cur);
     thumbs.forEach((thumb, i) => {
@@ -368,6 +370,56 @@
         if (window.ScrollTrigger) ScrollTrigger.refresh();
       });
     });
+
+    // Swap title, description and nutrition to the active dish.
+    const titleEl = root.querySelector('[data-pd-title]');
+    const descEl = root.querySelector('[data-pd-desc]');
+    const baseDesc = descEl ? descEl.innerHTML : '';
+    const baseDescHidden = descEl ? descEl.hidden : true;
+    const swap = (el) => {
+      if (!el || reduce) return;
+      el.classList.remove('is-swap');
+      void el.offsetWidth;
+      el.classList.add('is-swap');
+    };
+    const escapeHtml = (text) => text.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    onDish = (slide) => {
+      if (!slide || !slide.dataset) return;
+      const d = slide.dataset;
+      if (titleEl && d.name && titleEl.textContent !== d.name) {
+        titleEl.textContent = d.name;
+        swap(titleEl);
+      }
+      if (descEl) {
+        const next = d.desc ? escapeHtml(d.desc) : baseDesc;
+        if (descEl.innerHTML !== next) {
+          descEl.innerHTML = next;
+          descEl.hidden = d.desc ? false : baseDescHidden;
+          swap(descEl);
+        }
+      }
+      let changed = false;
+      macros.forEach((macro) => {
+        const key = macro.el.getAttribute('data-pd-macro');
+        if (!key || d[key] === undefined) return;
+        const match = String(d[key]).trim().match(/^(\D*)([\d.]+)(.*)$/);
+        const next = {
+          prefix: match ? match[1] : '',
+          num: match ? parseFloat(match[2]) : null,
+          decimals: match ? (match[2].split('.')[1] || '').length : 0,
+          suffix: match ? match[3] : '',
+        };
+        if (next.num === macro.num && next.prefix === macro.prefix && next.suffix === macro.suffix) return;
+        Object.assign(macro, next);
+        if (macro.num == null) macro.el.textContent = String(d[key]).trim() || '–';
+        changed = true;
+      });
+      if (changed) {
+        macroToken += 1;
+        writeMacros();
+        macros.forEach((macro) => swap(macro.el));
+      }
+    };
 
     const counters = macroEls;
     const countUp = (el) => {
