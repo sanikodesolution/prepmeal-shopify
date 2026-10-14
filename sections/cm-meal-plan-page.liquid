@@ -399,10 +399,8 @@
             </ul>
           {%- endif -%}
           {%- if section.settings.delivery_button_label != blank -%}
-            <a class="mealplan-btn mealplan-btn--delivery" href="{{ section.settings.delivery_button_link | default: '#' }}">
-              {{ section.settings.delivery_button_label | escape }}
-              <span class="mealplan-btn__arrow" aria-hidden="true">→</span>
-            </a>
+            {%- assign delivery_link = section.settings.delivery_button_link | default: '#' -%}
+            {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand' %}
           {%- endif -%}
         </div>
       </div>

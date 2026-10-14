@@ -53,8 +53,10 @@
 & h2{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 & p{line-height:1.6}
 a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-offset:3px}
-.btn{display:inline-flex;align-items:center;min-height:3.1rem;padding:0 1.5rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font-weight:600;cursor:pointer;text-decoration:none;transition:background .25s,color .25s,transform .25s}
-.btn:hover{background:var(--forest);color:#fff}
+.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;min-height:3.1rem;padding:0 1.5rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font-weight:600;cursor:pointer;text-decoration:none;transition:color .4s ease,transform .4s cubic-bezier(.22,.7,.2,1),box-shadow .4s cubic-bezier(.22,.7,.2,1),border-color .4s}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--saffron);transform:scaleX(0);transform-origin:left center;transition:transform .6s cubic-bezier(.22,.7,.2,1)}
+.btn:hover{background:none;color:#1b1204;border-color:var(--saffron);transform:translateY(-2px);box-shadow:0 20px 36px -20px rgba(245,166,35,.9)}
+.btn:hover::before{transform:scaleX(1)}
 .ph{width:100%;height:100%;display:block}
 
 /* 02 benefits */
@@ -106,12 +108,12 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .reveal p{margin:.3rem 0 .9rem;opacity:.9}
 .macros{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin-bottom:1rem}
 .macros b{}
-.m .btn{border-color:#fff;color:#fff}.m .btn:hover{background:var(--saffron);border-color:var(--saffron);color:var(--forest);transform:translateX(4px)}
+.m .btn{border-color:#fff;color:#fff}.m .btn:hover{background:none;border-color:var(--saffron);color:#1b1204;transform:translateY(-2px)}
 @media(hover:none){.reveal{grid-template-rows:1fr}}
 
 /* 04 explorer */
 .ex{background:var(--paper)}
-.ex > h2{margin-bottom:30px}
+.ex h2{margin:0 0 30px}
 .filters{display:flex;gap:.5rem;overflow-x:auto;padding:0;margin:0 0 30px;scrollbar-width:none}
 .filters button{flex:none;min-height:2.9rem;padding:0 1.35rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font-weight:600;cursor:pointer;transition:background .2s,color .2s}
 .filters button[aria-pressed=true]{background:var(--forest);color:#fff}
@@ -121,30 +123,33 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .e.is-leave.is-gone{opacity:0;transform:scale(.92)}
 .e.is-enter{opacity:0;transform:scale(.96)}
 .e[hidden]{display:none}
-.e .thumb{aspect-ratio:1;border-radius:1.6rem;overflow:hidden;background:#e8efe4;display:grid;place-items:center}
+.e .thumb{aspect-ratio:1;border-radius:1.6rem;overflow:hidden;background:#e8efe4;display:grid;place-items:center;transition:box-shadow .55s cubic-bezier(.22,.7,.2,1),transform .55s cubic-bezier(.22,.7,.2,1)}
 .e:nth-child(even) .thumb{border-radius:1.6rem}
-.e .thumb svg,.e .thumb .mp-food,.e .thumb img{width:100%;height:100%;transition:transform .7s}
-.e:hover .thumb svg,.e:hover .thumb .mp-food,.e:hover .thumb img{transform:scale(1.03)}
+.e .thumb svg,.e .thumb .mp-food,.e .thumb img{width:100%;height:100%;transition:transform .7s cubic-bezier(.22,.7,.2,1)}
+.e:hover .thumb{transform:translateY(-6px);box-shadow:0 24px 40px -22px rgba(21,37,28,.45)}
+.e:hover .thumb svg,.e:hover .thumb .mp-food,.e:hover .thumb img{transform:scale(1.08)}
 .e .thumb .mp-food,.e .thumb img{object-fit:contain;object-position:center;padding:8%}
 .e h4{
  font-weight:500;line-height:1.2;
  margin:1.6rem 0 1.2rem;
- min-height:calc(1.2em * 2);
- display:-webkit-box;
- -webkit-box-orient:vertical;
- -webkit-line-clamp:2;
- line-clamp:2;
+ white-space:nowrap;
  overflow:hidden;
+ text-overflow:ellipsis;
 }
 .e small{opacity:.85;display:block;margin-bottom:.75rem;line-height:1.4;color:var(--forest)}
 .e button{margin-top:auto;padding:.25rem 0;border:0;background:none;font-weight:600;color:var(--forest);text-decoration:underline;text-underline-offset:4px;cursor:pointer;text-align:left}
 .more{text-align:center;margin-top:3rem}
-.more .btn{min-height:3.25rem}
+.more .btn{position:relative;isolation:isolate;overflow:hidden;min-height:3.25rem;padding:0 2rem;background:var(--forest);color:#fff;border-color:var(--forest);transition:color .4s ease,transform .4s cubic-bezier(.22,.7,.2,1),box-shadow .4s cubic-bezier(.22,.7,.2,1)}
+.more .btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--saffron);transform:scaleX(0);transform-origin:left center;transition:transform .6s cubic-bezier(.22,.7,.2,1)}
+.more .btn:hover{background:var(--forest);color:#1b1204;transform:translateY(-2px);box-shadow:0 20px 36px -20px rgba(245,166,35,.9)}
+.more .btn:hover::before{transform:scaleX(1)}
 
 /* 05 detail */
 .dt-grid{display:grid;gap:3rem;align-items:center}
 @media(min-width:900px){.dt-grid{grid-template-columns:6fr 5fr}}
 .dt-img{aspect-ratio:1;border-radius:50% 50% 24px 24px;overflow:hidden;background:#cdd8c8}
+.dt-img img,.dt-img .mp-food{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.22,.7,.2,1)}
+.dt-img:hover img,.dt-img:hover .mp-food{transform:scale(1.08)}
 .dt h2{}
 .ing{display:flex;flex-wrap:wrap;gap:.4rem;padding:0;list-style:none;margin:1rem 0 2rem}
 .ing li{padding:.4rem .9rem;border-radius:999px;background:rgba(21,37,28,.08);}
@@ -168,12 +173,16 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-wrap{max-width:var(--page-width);margin:0 auto}
 .mealplan-h{font-family:var(--d);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 .mealplan-p{line-height:1.65;max-width:50ch;margin:1.25rem 0 0}
-.mealplan-btn{display:inline-flex;align-items:center;min-height:3.25rem;padding:0 1.6rem;border-radius:999px;border:1.5px solid var(--f);background:none;color:var(--f);font-weight:600;text-decoration:none;cursor:pointer;transition:background .25s,color .25s,transform .25s}
-.mealplan-btn:hover{background:var(--f);color:#fff;transform:translateY(-2px)}
-.mealplan-btn--solid{background:var(--f);color:#fff}.mealplan-btn--solid:hover{background:var(--y);border-color:var(--y);color:var(--f)}
+.mealplan-btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;min-height:3.25rem;padding:0 1.6rem;border-radius:999px;border:1.5px solid var(--f);background:none;color:var(--f);font-weight:600;text-decoration:none;cursor:pointer;transition:color .4s ease,transform .4s cubic-bezier(.22,.7,.2,1),box-shadow .4s cubic-bezier(.22,.7,.2,1),border-color .4s}
+.mealplan-btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--y);transform:scaleX(0);transform-origin:left center;transition:transform .6s cubic-bezier(.22,.7,.2,1)}
+.mealplan-btn:hover{background:none;color:#1b1204;border-color:var(--y);transform:translateY(-2px);box-shadow:0 20px 36px -20px rgba(245,166,35,.9)}
+.mealplan-btn:hover::before{transform:scaleX(1)}
+.mealplan-btn--solid{background:var(--f);color:#fff}.mealplan-btn--solid::before{content:none}.mealplan-btn--solid:hover{background:var(--y);border-color:var(--y);color:var(--f);box-shadow:none}
 .mealplan a:focus-visible,.mealplan button:focus-visible{outline:3px solid var(--y);outline-offset:3px}
 .mealplan-ph{width:100%;height:100%;display:block;object-fit:cover}
 .mealplan-img{overflow:hidden;background:#cdd8c8}
+.mealplan-img img,.mealplan-img .mp-ph,.mealplan-ph{transition:transform .7s cubic-bezier(.22,.7,.2,1)}
+.mealplan-img:hover img,.mealplan-img:hover .mp-ph,.mealplan-img:hover .mealplan-ph{transform:scale(1.06)}
 .mealplan-stars{color:var(--y);letter-spacing:2px}
 
 /* 06 chef */
@@ -198,13 +207,13 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
  .mealplan-list::before{content:"";position:absolute;left:0;right:0;top:2.2rem;height:1px;background:rgba(227,234,223,.3)}}
 .mealplan-list li{position:relative}
 .mealplan-num{display:grid;place-items:center;width:4.4rem;height:4.4rem;border-radius:50%;background:var(--y);color:var(--f);font-weight:500;margin-bottom:1.25rem;position:relative}
-.mealplan-list h3{font-weight:500;margin:0 0 .5rem}.mealplan-list p{margin:0;opacity:.8;line-height:1.55;color:var(--s)}
+.mealplan-list h3{font-size:24px;font-weight:500;margin:0 0 .5rem}.mealplan-list p{margin:0;opacity:.8;line-height:1.55;color:var(--s)}
 
 /* 08 quality */
 .mealplan-q{display:grid;gap:2.5rem;align-items:start}
 @media(min-width:900px){.mealplan-q{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}}
 .mealplan-q .mealplan-img{position:relative;width:100%;height:auto;aspect-ratio:1/1.05;min-height:0;align-self:start;border-radius:200px 200px 24px 24px;background:#fff;overflow:hidden}
-.mealplan-q .mp-qimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;padding:0;opacity:0;transform:none;transition:opacity .35s ease}
+.mealplan-q .mp-qimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;padding:0;opacity:0;transform:none;transition:opacity .35s ease,transform .7s cubic-bezier(.22,.7,.2,1)}
 .mealplan-q .mp-qimg.is-on{opacity:1}
 .mealplan-sec:has(.mealplan-q){padding-bottom:70px;background:#fff}
 .mealplan-q__title{position:relative;display:inline-block}
@@ -270,11 +279,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-del__copy{display:flex;flex-direction:column;min-width:0}
 .mealplan-del__actions{display:flex;flex-direction:column;align-items:flex-start;gap:1.1rem;margin-top:1.75rem}
 .mealplan-areas{display:flex;flex-wrap:wrap;gap:.7rem;list-style:none;padding:0;margin:0}
-.mealplan-areas li{display:inline-flex;align-items:center;gap:.45rem;min-height:3rem;padding:.65rem 1.25rem .65rem 1rem;border-radius:999px;background:#fff;border:1.5px solid rgba(21,37,28,.12);box-shadow:0 .4rem 1.2rem rgba(21,37,28,.06);color:var(--f);font-weight:700;line-height:1.2;}
+.mealplan-areas li{display:inline-flex;align-items:center;gap:.45rem;min-height:3rem;padding:.65rem 1.25rem .65rem 1rem;border-radius:999px;background:#fff;border:1.5px solid rgba(21,37,28,.12);box-shadow:0 .4rem 1.2rem rgba(21,37,28,.06);color:var(--f);font-weight:700;line-height:1.2;transition:transform .35s cubic-bezier(.22,.7,.2,1),border-color .35s,box-shadow .35s}
+.mealplan-areas li:hover{transform:translateY(-2px);border-color:var(--y);box-shadow:0 14px 28px -16px rgba(245,166,35,.85)}
 .mealplan-areas__pin{display:inline-flex;color:var(--y);flex:0 0 auto}
-.mealplan-btn--delivery{min-height:3.5rem;padding:0 1.8rem;font-weight:700;background:var(--f);color:#fff;border-color:var(--f);gap:.55rem}
-.mealplan-btn--delivery:hover{background:var(--y);border-color:var(--y);color:var(--f)}
-.mealplan-btn__arrow{line-height:1}
+.mealplan-del__actions .pm{font-size:1.6rem}
 
 /* 11 reviews */
 .mealplan-rev{background:var(--w)}
@@ -320,7 +328,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 /* 13 related */
 .mealplan-card{flex:0 0 min(80vw,320px);scroll-snap-align:start}
 .mealplan-card .mealplan-img{aspect-ratio:4/5;border-radius:20px}
-.mealplan-card h3{font-weight:500;margin:1rem 0 .3rem}.mealplan-card p{margin:0 0 .8rem;opacity:.8;line-height:1.5}
+.mealplan-card h3{font-size:24px;font-weight:500;margin:1rem 0 .3rem}.mealplan-card p{margin:0 0 .8rem;opacity:.8;line-height:1.5}
 .mealplan-card b{display:block;margin-bottom:.8rem}
 
 /* 14 cta */
