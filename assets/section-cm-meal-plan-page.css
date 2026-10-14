@@ -12,14 +12,16 @@
  .mph * { box-sizing: border-box; }
  .mph__inner { max-width: var(--page-width); margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
  @media (min-width: 990px) { .mph__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); } }
+ .mph__copy { container-type: inline-size; }
  .mph__plan { margin: 0 0 1.25rem; font-weight: 600; letter-spacing: .04em; }
- .mph__title { margin: 0; font-family: var(--mph-display); font-weight: 500; line-height: 1.12; letter-spacing: -.02em; max-width: 22ch; }
+ .mph__title { margin: 0; max-width: none; font-family: var(--mph-display); font-weight: 500; font-size: clamp(1.7rem, 9.2cqi, 5.25rem); line-height: 1.08; letter-spacing: -.02em; white-space: nowrap; }
  .mph__title br { display: block; }
  .mph__text { margin: 1.5rem 0 0; max-width: 46ch; line-height: 1.6; }
  .mph__facts { display: flex; flex-wrap: wrap; gap: 1.25rem 2.5rem; margin: 2rem 0; padding: 1.25rem 0; border-block: 1px solid rgba(21,37,28,.25); }
  .mph__facts dt { opacity: .8; font-weight: 600; }
  .mph__facts dd { margin: .25rem 0 0; font-family: var(--mph-display); line-height: 1.15; }
- .mph__actions { display: flex; flex-wrap: wrap; gap: .85rem; align-items: stretch; }
+ .mph__actions { display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; }
+ .mph__actions .pm { flex: 0 0 auto; font-size: 1.6rem; }
  .mph__btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.4rem; padding: 0 1.75rem; border-radius: 999px; font-family: var(--mph-body); font-weight: 600; line-height: 1.2; letter-spacing: 0; text-decoration: none; border: 1.5px solid var(--mph-forest); transition: background-color .25s, color .25s, transform .25s; }
  .mph__btn--primary,
  .mph__btn--ghost {}
@@ -40,7 +42,7 @@
  .mph__badge { width: 7.75rem; height: 7.75rem; }
  .mph__badge strong {}
  .mph__badge span {}
- .mph__btn { width: 100%; max-width: 22rem; }
+ .mph__actions { width: 100%; }
  }
  
 .mealplan-a{
@@ -86,6 +88,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .m .no{opacity:.85;color:#fff}
 .m h3{
  margin:.2rem 0 .4rem;
+ font-size:2.4rem;
  font-weight:500;line-height:1.15;
  color:#fff;
  display:-webkit-box;
@@ -96,7 +99,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
  text-wrap:balance;
  max-width:18ch;
 }
-.m:nth-child(1) h3{max-width:14ch}
+.m:nth-child(1) h3{max-width:14ch;font-size:2.8rem}
 .reveal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
 .m:hover .reveal,.m:focus-within .reveal{grid-template-rows:1fr}
 .reveal>div{overflow:hidden}

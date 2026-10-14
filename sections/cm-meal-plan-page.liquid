@@ -225,10 +225,12 @@
         </dl>
         <div class="mph__actions">
           {%- if section.settings.button_label != blank -%}
-            <a class="mph__btn mph__btn--primary" href="{{ section.settings.button_link | default: '#menu' }}">{{ section.settings.button_label | escape }}</a>
+            {%- assign mph_link = section.settings.button_link | default: '#menu' -%}
+            {% render 'pm-button', label: section.settings.button_label, link: mph_link, style: 'light' %}
           {%- endif -%}
           {%- if section.settings.button_label_2 != blank -%}
-            <a class="mph__btn mph__btn--ghost" href="{{ section.settings.button_link_2 | default: '#menu' }}">{{ section.settings.button_label_2 | escape }}</a>
+            {%- assign mph_link_2 = section.settings.button_link_2 | default: '#menu' -%}
+            {% render 'pm-button', label: section.settings.button_label_2, link: mph_link_2, style: 'brand' %}
           {%- endif -%}
         </div>
       </div>
