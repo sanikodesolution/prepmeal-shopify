@@ -445,7 +445,7 @@
     </div></section>
 
     <section class="mealplan-sec" style="padding-inline:0"><div>
-      <h2 class="mealplan-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem);margin-bottom:2rem">{{ section.settings.related_heading | escape }}</h2>
+      <h2 class="mealplan-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem);margin-bottom:60px">{{ section.settings.related_heading | escape }}</h2>
       <div class="mealplan-track" id="plans">
         {%- for block in related_blocks -%}
           <article class="mealplan-card" {{ block.shopify_attributes }}>
