@@ -31,7 +31,7 @@
         class="announcement-bar{% if section.settings.show_social %} announcement-bar--one-announcement{% endif %}"
         role="region"
         aria-label="{{ 'sections.header.announcement' | t }}"
-        {{ section.blocks.first.shopify_attributes }}
+        {{ section.b locks.first.shopify_attributes }}
       >
         {%- render 'cm-announcement-message', block: section.blocks.first -%}
       </div>
