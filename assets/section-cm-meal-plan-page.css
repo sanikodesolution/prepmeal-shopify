@@ -197,7 +197,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
  .mealplan-chef .mealplan-small{grid-column:9/12;width:100%;margin-top:-4rem}}
 
 /* 07 steps */
-.mealplan-steps{background:var(--f);color:var(--s)}
+.mealplan-steps{background:var(--f);color:var(--s);padding-top:80px}
 .mealplan-steps .mealplan-h,
 .mealplan-steps h2,
 .mealplan-steps h3,
