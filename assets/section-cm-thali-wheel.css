@@ -113,10 +113,20 @@
 }
 .tw__btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, .35); }
 @media (max-width: 989px) {
-  .tw { --tw-h: 520px; }
+  .tw { --tw-h: clamp(380px, 58vh, 520px); }
   .tw__inner { grid-template-columns: 1fr; min-height: 0; }
   .tw__stage { height: var(--tw-h); touch-action: pan-y; }
   .tw__content { padding: 8px 0 48px; max-width: none; }
+  .tw__label {
+    left: 50%;
+    max-width: 86vw;
+    white-space: normal;
+    text-align: center;
+    transform: translateX(-50%);
+    font-size: 11px;
+    letter-spacing: .14em;
+    line-height: 1.35;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .tw__btn, .tw__photo { transition: none; }
