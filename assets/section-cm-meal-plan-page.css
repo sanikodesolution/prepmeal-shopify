@@ -7,7 +7,7 @@
  --mph-display: var(--font-heading-family), sans-serif;
  --mph-body: var(--font-body-family), sans-serif;
  background: var(--mph-sage); color: var(--mph-forest); font-family: var(--mph-body);
- padding: 70px clamp(1.25rem, 4vw, 4rem); overflow: hidden; 
+ padding: 80px clamp(1.25rem, 4vw, 4rem); overflow: hidden; 
  }
  .mph * { box-sizing: border-box; }
  .mph__inner { max-width: var(--page-width); margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
@@ -48,7 +48,7 @@
 .mealplan-a{
 &{--forest:#15251C;--sage:#E3EADF;--saffron:#F5A623;--paper:#fff;--tomato:#C9533A;--leaf:#6B8F3F;--display:var(--font-heading-family),sans-serif;--body:var(--font-body-family),sans-serif;box-sizing:border-box}
 & *{box-sizing:border-box}&{margin:0;background:var(--sage);color:var(--forest);font-family:var(--body)}
-& section{padding:70px clamp(1.25rem, 4vw, 4rem)}
+& section{padding:80px clamp(1.25rem, 4vw, 4rem)}
 .wrap{max-width:var(--page-width);margin:0 auto}
 & h2{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 & p{line-height:1.6}
@@ -169,7 +169,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 
 .mealplan{--f:#15251C;--s:#E3EADF;--y:#F5A623;--w:#fff;--t:#C9533A;--d:var(--font-heading-family),sans-serif;--b:var(--font-body-family),sans-serif;font-family:var(--font-body-family),sans-serif;color:var(--f)}
 .mealplan *{box-sizing:border-box}
-.mealplan-sec{padding:0 clamp(1.25rem,4vw,4rem) 70px}
+.mealplan-sec{padding:80px clamp(1.25rem,4vw,4rem)}
 .mealplan-wrap{max-width:var(--page-width);margin:0 auto}
 .mealplan-h{font-family:var(--d);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 .mealplan-p{line-height:1.65;max-width:50ch;margin:1.25rem 0 0}
@@ -197,7 +197,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
  .mealplan-chef .mealplan-small{grid-column:9/12;width:100%;margin-top:-4rem}}
 
 /* 07 steps */
-.mealplan-steps{background:var(--f);color:var(--s);padding-top:80px}
+.mealplan-steps{background:var(--f);color:var(--s)}
 .mealplan-steps .mealplan-h,
 .mealplan-steps h2,
 .mealplan-steps h3,
@@ -215,7 +215,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-q .mealplan-img{position:relative;width:100%;height:auto;aspect-ratio:1/1.05;min-height:0;align-self:start;border-radius:200px 200px 24px 24px;background:#fff;overflow:hidden}
 .mealplan-q .mp-qimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;padding:0;opacity:0;transform:none;transition:opacity .35s ease,transform .7s cubic-bezier(.22,.7,.2,1)}
 .mealplan-q .mp-qimg.is-on{opacity:1}
-.mealplan-sec:has(.mealplan-q){padding-bottom:70px;background:#fff}
+.mealplan-sec:has(.mealplan-q){padding-bottom:80px;background:#fff}
 .mealplan-q__title{position:relative;display:inline-block}
 .mealplan-q__peek{position:absolute;left:50%;top:50%;z-index:2;width:90px;height:90px;margin:0;padding:0;border:0;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 8px 24px rgba(21,37,28,.2);transform:translate(-50%,-50%);opacity:0;pointer-events:none;cursor:pointer}
 .mealplan-q__title:hover .mealplan-q__peek,.mealplan-q__title:focus-within .mealplan-q__peek,.mealplan-q__peek.is-on{opacity:1;pointer-events:auto}
@@ -371,7 +371,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-page .mph{min-height:0}
 
 /* This Week's Menu */
-.mealplan-menu{--mp-accent:#F5A623;--mp-accent-soft:#fff4e3;--mp-ink:#15251C;--mp-muted:#5c675f;--mp-line:#e4e8e1;background:#fff;color:var(--mp-ink);padding-top:110px}
+.mealplan-menu{--mp-accent:#F5A623;--mp-accent-soft:#fff4e3;--mp-ink:#15251C;--mp-muted:#5c675f;--mp-line:#e4e8e1;background:#fff;color:var(--mp-ink)}
 .mealplan-menu__inner{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);column-gap:clamp(12px,1.4vw,22px);row-gap:0;align-items:start;max-width:calc(var(--page-width) + 100px)}
 .mealplan-menu__head{grid-column:1 / -1;grid-row:1;display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:14px 48px;margin-bottom:clamp(28px,3.4vw,52px);padding-bottom:clamp(18px,2vw,26px);border-bottom:1px solid var(--mp-line)}
 .mealplan-menu__head .mealplan-h{grid-column:1 / -1;grid-row:1;margin:0;text-align:center;font-size:24px}
