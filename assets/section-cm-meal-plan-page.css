@@ -61,14 +61,14 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 
 /* 02 benefits */
 .ben{background:var(--forest);color:var(--sage)}
-.ben .big{font-family:var(--display);line-height:.9;letter-spacing:-.03em;margin:0}
+.ben .big{font-family:var(--display);font-weight:500;font-size:clamp(2.1rem,6vw,4.75rem);line-height:1.04;letter-spacing:-.03em;margin:0;text-wrap:balance}
 .ben .big span{display:block}
-.ben .big .out{color:transparent;-webkit-text-stroke:1.5px var(--saffron)}
-.ben ul{list-style:none;margin:3rem 0 0;padding:0;display:grid;gap:0;border-top:1px solid rgba(227,234,223,.3)}
-@media(min-width:760px){.ben ul{grid-template-columns:repeat(3,1fr)}}
-.ben li{padding:1.5rem 1.5rem 1.5rem 0}
-.ben li b{display:block;font-weight:500;margin-bottom:.4rem}
-.ben li span{opacity:.85;}
+.ben .big .out{color:var(--saffron)}
+.ben ul{list-style:none;margin:clamp(2.5rem,5vw,4rem) 0 0;padding:0;display:grid;gap:0 2.5rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid rgba(227,234,223,.28)}
+.ben li{padding:1.75rem clamp(1.5rem,3vw,3rem) 1.75rem 0;border-bottom:1px solid rgba(227,234,223,.16)}
+.ben li b{display:block;font-weight:600;margin-bottom:.5rem;color:#fff}
+.ben li span{opacity:.8;line-height:1.6}
+.ben__note{margin:1.75rem 0 0;opacity:.75;line-height:1.6;max-width:62ch}
 
 /* 03 menu */
 .menu-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
