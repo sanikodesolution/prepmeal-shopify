@@ -169,7 +169,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 
 .mealplan{--f:#15251C;--s:#E3EADF;--y:#F5A623;--w:#fff;--t:#C9533A;--d:var(--font-heading-family),sans-serif;--b:var(--font-body-family),sans-serif;font-family:var(--font-body-family),sans-serif;color:var(--f)}
 .mealplan *{box-sizing:border-box}
-.mealplan-sec{padding:70px clamp(1.25rem,4vw,4rem)}
+.mealplan-sec{padding:0 clamp(1.25rem,4vw,4rem) 70px}
 .mealplan-wrap{max-width:var(--page-width);margin:0 auto}
 .mealplan-h{font-family:var(--d);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 .mealplan-p{line-height:1.65;max-width:50ch;margin:1.25rem 0 0}
@@ -192,7 +192,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 @media(min-width:900px){
  .mealplan-chef{grid-template-columns:repeat(12,1fr);align-items:start}
  .mealplan-chef .mealplan-big{grid-column:1/8;aspect-ratio:5/4}
- .mealplan-chef .mealplan-txt{grid-column:7/13;grid-row:1;margin-top:18%;position:relative}
+ .mealplan-chef .mealplan-txt{grid-column:7/13;grid-row:1;margin-top:0;margin-bottom:70px;position:relative}
  .mealplan-chef .mealplan-h{margin-left:-18%;position:relative;z-index:1}
  .mealplan-chef .mealplan-small{grid-column:9/12;width:100%;margin-top:-4rem}}
 
@@ -267,7 +267,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
  text-wrap:balance;
 }
 .mealplan-arrows{display:none;gap:.5rem}@media(min-width:900px){.mealplan-arrows{display:flex}}
-.mealplan-arrows button{width:3rem;height:3rem;border-radius:50%;border:1.5px solid var(--f);background:none;color:var(--f);cursor:pointer}
+.mealplan-arrows button{width:4.5rem;height:4.5rem;border-radius:50%;border:1.5px solid var(--f);background:none;color:var(--f);font-size:1.75rem;line-height:1;cursor:pointer}
 .mealplan-arrows button:hover{background:var(--f);color:#fff}
 
 /* 10 delivery */
