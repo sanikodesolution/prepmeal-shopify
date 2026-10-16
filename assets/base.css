@@ -256,6 +256,18 @@ body:has(.section-header .drawer-menu) .announcement-bar-section .page-width {
   background-color: rgba(var(--color-foreground), 0.2);
 }
 
+/* Touch devices: suppress the browser's default blue tap highlight on controls */
+a,
+button,
+summary,
+label,
+input,
+select,
+textarea,
+[role='button'] {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .text-body {
   font-size: 1.6rem;
   letter-spacing: 0.06rem;

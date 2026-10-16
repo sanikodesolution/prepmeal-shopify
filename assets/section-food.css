@@ -21,6 +21,20 @@
  box-sizing: border-box;
 }
 
+/* Kill the browser's blue tap highlight on touch devices (replaced with our own states) */
+.food,
+.food-tab,
+.food-tabs__pill,
+.food-btn,
+.food-card__add,
+.food-card__heart,
+.food-card__select,
+.food-spot__tool,
+.food-spot__stage,
+.food-spot__add {
+ -webkit-tap-highlight-color: transparent;
+}
+
 food-menu {
  display: block;
 }
@@ -666,6 +680,10 @@ food-menu {
  transform: scale(1.18) rotate(-8deg);
 }
 
+.food-tab:active {
+ background: color-mix(in srgb, var(--food-text) 10%, transparent);
+}
+
 .food-tab.is-active,
 .food-tab.is-active:hover {
  color: var(--food-ink);
@@ -690,7 +708,7 @@ food-menu {
  .food-tab {
  min-height: 4.4rem;
  padding: 0.8rem 1.8rem;
- 
+ font-size: 13px;
  }
 
  .food-tab .food-icon {
