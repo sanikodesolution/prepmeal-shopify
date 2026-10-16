@@ -56,3 +56,16 @@
 .accordion__content img {
   max-width: 100%;
 }
+
+@media screen and (max-width: 749px) {
+  .accordion__title,
+  .accordion__title.h4,
+  h3.accordion__title {
+    font-size: 17px;
+    line-height: 1.35;
+  }
+
+  .accordion summary {
+    padding: 1.3rem 0;
+  }
+}
