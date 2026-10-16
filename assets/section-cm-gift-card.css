@@ -845,6 +845,56 @@
  }
 }
 
+@media screen and (max-width: 749px) {
+ .cm-gc__title {
+  font-size: 30px;
+  letter-spacing: -0.5px;
+ }
+
+ .cm-gc .cm-gc__t {
+  font-size: 24px;
+  margin-bottom: 18px;
+  letter-spacing: -0.4px;
+ }
+
+ .cm-gc .cm-gc__steps h3 {
+  font-size: 19px;
+  letter-spacing: -0.2px;
+ }
+
+ .cm-gc .cm-gc__steps li {
+  padding: 18px 0 6px;
+ }
+
+ .cm-gc .cm-gc__steps b {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 10px;
+  font-size: 15px;
+ }
+
+ .cm-gc__label-title {
+  font-size: 20px;
+  letter-spacing: -0.3px;
+ }
+
+ .cm-gc .cm-gc__lead,
+ .cm-gc .cm-gc__lead p,
+ .cm-gc .cm-gc__steps p,
+ .cm-gc__label-sub {
+  font-size: 15px;
+  line-height: 1.55;
+ }
+
+ .cm-gc .cm-gc__faq summary {
+  font-size: 17px;
+ }
+
+ .cm-gc .cm-gc__rv-form h3 {
+  font-size: 20px;
+ }
+}
+
 @media screen and (max-width: 480px) {
  .cm-gc__gf {
  grid-template-columns: 1fr;
