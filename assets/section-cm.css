@@ -412,14 +412,14 @@
 .cm .cm-step__title {
  margin: 0 0 0.6rem;
  font-family: var(--cm-body);
- 
+ font-size: 2.2rem;
  font-weight: 700;
  line-height: 1.3;
  color: var(--cm-text);
 }
 
 .cm-step__text {
- 
+ font-size: 1.5rem;
  line-height: 1.6;
  color: var(--cm-muted);
 }
@@ -1873,4 +1873,8 @@ cm-arc-carousel {
  .cm-arc--orbit .cm-heading { font-size: 30px; }
  .cm .cm-pg__title { font-size: 22px; }
  .cm-arc--orbit .cm-heading { max-width: none; }
+
+ .cm .cm-step__title { font-size: 17px; }
+ .cm-step { padding: 2.2rem 1.6rem; }
+ .cm-step__num { width: 4.2rem; height: 4.2rem; margin-bottom: 1rem; }
 }
