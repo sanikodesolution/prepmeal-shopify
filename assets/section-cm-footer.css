@@ -578,6 +578,14 @@
   letter-spacing: 0.01em;
  }
 
+ .cm-footer__watermark {
+  margin-top: 3.2rem !important;
+  font-size: clamp(3.2rem, 15vw, 7rem);
+  white-space: normal;
+  overflow-wrap: break-word;
+  line-height: 0.95;
+ }
+
  .cm-footer__col {
  grid-column: 1 / -1;
  }
