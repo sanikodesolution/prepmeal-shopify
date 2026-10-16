@@ -328,14 +328,14 @@
 .cm .cm-pc__step h3 {
  margin: 0 0 0.6rem;
  font-family: var(--cm-body);
- 
+ font-size: 2rem;
  font-weight: 700;
  line-height: 1.3;
  color: var(--cm-text);
 }
 
 .cm-pc__step p {
- 
+ font-size: 1.5rem;
  color: var(--cm-muted);
 }
 
@@ -410,5 +410,24 @@
 
  .cm-pc__form {
  padding: 2.2rem;
+ }
+}
+
+@media screen and (max-width: 749px) {
+ .cm .cm-pc__step h3 {
+  font-size: 19px;
+ }
+
+ .cm .cm-pc__step p {
+  font-size: 15px;
+ }
+
+ .cm-pc__step {
+  padding: 2rem 1.8rem;
+ }
+
+ .cm .cm-pc__step i {
+  margin-bottom: 1rem;
+  font-size: 15px;
  }
 }
