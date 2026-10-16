@@ -664,7 +664,7 @@
  position: relative;
  margin: 0 0 1rem;
  font-family: var(--cm-body);
- 
+ font-size: 2.4rem;
  font-weight: 600;
  line-height: 1.15;
  letter-spacing: -0.01em;
@@ -675,7 +675,7 @@
  position: relative;
  max-width: 44ch;
  margin: 0;
- 
+ font-size: 1.6rem;
  line-height: 1.6;
  color: rgba(22, 22, 22, 0.72);
 }
@@ -1877,4 +1877,9 @@ cm-arc-carousel {
  .cm .cm-step__title { font-size: 17px; }
  .cm-step { padding: 2.2rem 1.6rem; }
  .cm-step__num { width: 4.2rem; height: 4.2rem; margin-bottom: 1rem; }
+
+ .cm .cm-hiw-step__title { font-size: 20px; }
+ .cm .cm-hiw-step__text { font-size: 15px; }
+ .cm-hiw-step { column-gap: 1.2rem; }
+ .cm-hiw-step__panel { padding: 1.6rem; }
 }
