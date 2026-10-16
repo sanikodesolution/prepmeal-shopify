@@ -1866,11 +1866,11 @@ cm-arc-carousel {
 /* Mobile: reduce section titles (base h2 is a flat 4.8rem with no mobile step) */
 @media screen and (max-width: 749px) {
  .cm .cm-heading,
- .cm .cm-pg__title,
  .cm .cm-hiw__title,
  .cm .cm-arc__title,
  .cm .cm-pc__title,
  .cm .cm-usp__title,
  .cm-arc--orbit .cm-heading { font-size: 30px; }
+ .cm .cm-pg__title { font-size: 22px; }
  .cm-arc--orbit .cm-heading { max-width: none; }
 }

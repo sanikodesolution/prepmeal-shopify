@@ -26,6 +26,9 @@
         </div>
       {%- endfor -%}
     </div>
+    <div class="tw__caption" data-tw-caption aria-live="polite">
+      <span class="tw__caption-label" data-tw-caption-text></span>
+    </div>
     <div class="tw__content">
       {%- if s.label != blank -%}
         <p class="tw__eyebrow">{{ s.label | escape }}</p>

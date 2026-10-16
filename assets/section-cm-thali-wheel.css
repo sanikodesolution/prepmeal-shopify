@@ -75,6 +75,7 @@
   pointer-events: none;
 }
 .tw__content { padding: 48px clamp(24px, 4vw, 72px) 48px 0; max-width: 640px; }
+.tw__caption { display: none; }
 .tw__eyebrow {
   display: flex;
   align-items: center;
@@ -113,23 +114,31 @@
 }
 .tw__btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, .35); }
 @media (max-width: 989px) {
-  .tw { --tw-h: clamp(380px, 58vh, 520px); }
+  .tw { --tw-h: clamp(340px, 52vh, 480px); }
   .tw__inner { grid-template-columns: 1fr; min-height: 0; }
   .tw__stage { height: var(--tw-h); touch-action: pan-y; }
-  .tw__content { padding: 8px 0 48px; max-width: none; }
-  .tw__label {
-    left: 50%;
-    max-width: 86vw;
-    white-space: normal;
+  .tw__label { display: none; }
+  .tw__caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin-top: 20px;
+    padding: 0 20px;
     text-align: center;
-    transform: translateX(-50%);
-    font-size: 11px;
-    letter-spacing: .14em;
-    line-height: 1.35;
   }
+  .tw__caption-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--tw-accent, #f5a623);
+  }
+  .tw__content { padding: 4px 0 44px; max-width: none; }
 }
 @media (max-width: 749px) {
-  .tw h2 { font-size: 30px; }
+  .tw h2 { font-size: 30px; margin-bottom: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .tw__btn, .tw__photo { transition: none; }

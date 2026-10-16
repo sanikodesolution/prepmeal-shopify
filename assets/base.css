@@ -3616,3 +3616,20 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* Mobile: cap section titles at 30px (base h2/h1 ship a flat fixed size with no mobile step) */
+@media only screen and (max-width: 749px) {
+  h1:not(.banner__heading):not(.email-signup-banner__heading),
+  h2:not(.banner__heading):not(.email-signup-banner__heading),
+  .h1:not(.banner__heading):not(.email-signup-banner__heading),
+  .h2:not(.banner__heading):not(.email-signup-banner__heading),
+  .h0:not(.banner__heading):not(.email-signup-banner__heading),
+  .hxl:not(.banner__heading):not(.email-signup-banner__heading),
+  .hxxl:not(.banner__heading):not(.email-signup-banner__heading),
+  .image-with-text__heading,
+  .blog__title,
+  .article-template__title,
+  .related-products__heading {
+    font-size: 30px;
+  }
+}

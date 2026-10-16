@@ -517,7 +517,28 @@
     .mealplan-pd__badge { width: 92px; height: 92px; top: -12px; right: -6px; }
   }
   @media (max-width: 749px) {
-    .mealplan-pd__title { font-size: 3.2rem; }
+    .mealplan-pd__title { font-size: 24px; line-height: 1.12; margin-top: 14px; }
+    .mealplan-pd__priceRow { margin-top: 14px; }
+    .mealplan-pd__price { font-size: 22px; }
+    .mealplan-pd__compare { font-size: 16px; }
+    .mealplan-pd__eyebrow { font-size: 13px; padding: 6px 12px; }
+    .mealplan-pd__desc { font-size: 15px; margin-top: 14px; }
+
+    /* Keep all four macros on a single row */
+    .mealplan-pd__macros {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .mealplan-pd__macro { padding: 12px 6px 14px; border-radius: 14px; align-items: center; text-align: center; }
+    .mealplan-pd__macro dd { font-size: 20px; }
+    .mealplan-pd__macro dt { margin-top: 2px; font-size: 11px; }
+
+    /* Tighter accordion */
+    .mealplan-pd__acc { margin-top: 20px; }
+    .mealplan-pd__accBtn { padding: 14px 4px; font-size: 16px; }
+    .mealplan-pd__accBtn:hover { padding-left: 4px; }
+    .mealplan-pd__accBody { padding-bottom: 14px; font-size: 15px; line-height: 1.6; }
   }
   @media (max-width: 480px) {
     .mealplan-pd__qty { width: 100%; justify-content: space-between; }

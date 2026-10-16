@@ -8,6 +8,8 @@
     var ring = root.querySelector('[data-tw-ring]');
     var ring2 = root.querySelector('[data-tw-ring2]');
     var plates = [].slice.call(root.querySelectorAll('.tw__plate'));
+    var caption = root.querySelector('[data-tw-caption-text]');
+    var lastCaption = null;
     if (!stage || plates.length < 2) return;
     root._tw = true;
 
@@ -46,6 +48,8 @@
     }
 
     function render() {
+      var frontIdx = -1;
+      var frontAb = 999;
       for (var i = 0; i < n; i++) {
         var a = mod(i * step - rot + 180, 360) - 180;
         var ab = Math.abs(a);
@@ -68,6 +72,18 @@
         el.style.zIndex = String(200 - Math.round(ab));
         el.style.pointerEvents = op < 0.15 ? 'none' : 'auto';
         if (label) label.style.opacity = Math.max(0, 1 - ab / (step * 0.55)).toFixed(3);
+        if (ab < frontAb) { frontAb = ab; frontIdx = i; }
+      }
+      if (caption) {
+        var capText = '';
+        if (frontIdx > -1) {
+          var activeLabel = plates[frontIdx].querySelector('.tw__label');
+          capText = activeLabel ? activeLabel.textContent : '';
+        }
+        if (capText !== lastCaption) {
+          caption.textContent = capText;
+          lastCaption = capText;
+        }
       }
     }
 
