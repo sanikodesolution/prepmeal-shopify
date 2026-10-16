@@ -516,6 +516,9 @@
     .mealplan-pd__stage { border-radius: 28px; aspect-ratio: 1 / .92; width: 100%; }
     .mealplan-pd__badge { width: 92px; height: 92px; top: -12px; right: -6px; }
   }
+  @media (max-width: 749px) {
+    .mealplan-pd__title { font-size: 3.2rem; }
+  }
   @media (max-width: 480px) {
     .mealplan-pd__qty { width: 100%; justify-content: space-between; }
     .mealplan-pd__qinput { flex: 1; }

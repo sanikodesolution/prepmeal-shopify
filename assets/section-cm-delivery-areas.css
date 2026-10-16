@@ -278,7 +278,7 @@
   .da .da__card { padding: 26px 14px 32px; border-radius: 44px; }
   .da .da__script { font-size: 20px; gap: 6px; }
   .da .da__script svg { width: 32px; height: 32px; }
-  .da .da__title { margin: 6px 0 10px; }
+  .da .da__title { font-size: 30px; margin: 6px 0 10px; }
   .da .da__sub { margin-bottom: 22px; gap: 8px; }
   .da .da__sub span { min-width: 0; }
   .da .da__sub::before, .da .da__sub::after { flex-basis: 18px; }
