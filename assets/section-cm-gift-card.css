@@ -846,6 +846,10 @@
 }
 
 @media screen and (max-width: 749px) {
+ .cm-gc .cm-gc__how {
+  padding-bottom: 100px;
+ }
+
  .cm-gc__title {
   font-size: 30px;
   letter-spacing: -0.5px;
