@@ -388,11 +388,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__frame.is-all::after{opacity:0}
 .mealplan-menu__sub{grid-column:3;grid-row:1;justify-self:end;margin:0;max-width:28ch;font-size:16px;line-height:1.6;color:var(--mp-muted);text-align:center}
 .mealplan-menu__stage{grid-column:1;grid-row:2;position:sticky;top:40px}
-.mealplan-menu__frame{position:relative;aspect-ratio:4/4.3;border-radius:36px;overflow:hidden;background:#f1f0ec;box-shadow:0 40px 80px -40px rgba(21,37,28,.35);cursor:zoom-in}
+.mealplan-menu__frame{position:relative;aspect-ratio:1/1;border-radius:36px;overflow:hidden;background:#f6f5f3;box-shadow:0 40px 80px -40px rgba(21,37,28,.35);cursor:zoom-in}
 .mealplan-menu__frame:focus-visible{outline:2px solid var(--mp-accent);outline-offset:4px}
 .mealplan-menu__slide{position:absolute;inset:0;opacity:0;transform:scale(1.06);transition:opacity .55s ease,transform .8s ease}
 .mealplan-menu__slide.is-active{opacity:1;transform:scale(1);z-index:1}
-.mealplan-menu__slide img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform .7s cubic-bezier(.22,.7,.2,1)}
+.mealplan-menu__slide img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;transform:scale(1);transition:transform .7s cubic-bezier(.22,.7,.2,1)}
 .mealplan-menu__frame.is-hover .mealplan-menu__slide.is-active:not([data-mp-all]) img{transform:scale(1.14)}
 /* Cursor-following magnifier. JS sets transform + transform-origin inline so
    the hovered pixel stays pinned at every frame of the animation. */
@@ -519,13 +519,12 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
   .mealplan-menu__cards{gap:24px 12px}
   .mealplan-menu__card h4{font-size:13px}
 }
-/* Desktop: match the photo to the height of the meal list / order form beside it.
-   The grid row is already sized by its tallest column, so stretching the stage
-   and letting the frame fill it makes all three columns align top and bottom.
-   Declared after the base rules so it wins on equal specificity. */
+/* Desktop: the stage photo stays square so the plate fills the wrapper exactly.
+   The meal list and order form still stretch to the row height, so those two
+   columns remain equal to each other top and bottom. */
 @media(min-width:1101px){
-  .mealplan-menu__stage{align-self:stretch;display:flex}
-  .mealplan-menu__stage>.mealplan-menu__frame{flex:1 1 auto;width:100%;min-height:0;aspect-ratio:auto}
+  .mealplan-menu__stage{align-self:start;display:block}
+  .mealplan-menu__stage>.mealplan-menu__frame{width:100%;aspect-ratio:1/1}
   .mealplan-menu__detail{align-self:stretch;display:flex;flex-direction:column}
   .mealplan-menu__detail>form,.mealplan-menu__detail>ol{flex:1 1 auto;min-height:0}
   /* Keep the order button at its natural height, hugging the card's bottom. */
@@ -534,18 +533,22 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
   .mealplan-menu__order>.mealplan-menu__cta{flex:0 0 auto;margin-top:auto}
   .mealplan-menu__detail>.mealplan-menu__cta{margin-top:auto}
 }
-@media(max-width:1100px){
-  .mealplan-menu__inner{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
-  .mealplan-menu__stage{grid-column:1;grid-row:2 / 4}
-  .mealplan-menu__list{grid-column:2;grid-row:2}
-  .mealplan-menu__detail{grid-column:2;grid-row:3;margin-top:20px;position:relative;top:0}
+@media(min-width:861px) and (max-width:1100px){
+  /* Photo gets its own row at ~80% width, then the meal list and the order
+     form sit side by side 50/50 in the next row. The frame is square to match
+     the square meal photos, so the plate fills the wrapper with no dead bars. */
+  .mealplan-menu__inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(16px,2.4vw,32px)}
+  .mealplan-menu__stage{grid-column:1 / -1;grid-row:2;width:80%;justify-self:center;position:relative;top:0;margin:0 auto clamp(24px,3vw,36px)}
+  .mealplan-menu__frame{aspect-ratio:1/1}
+  .mealplan-menu__list{grid-column:1;grid-row:3}
+  .mealplan-menu__detail{grid-column:2;grid-row:3;margin-top:0;position:relative;top:0}
 }
 @media(max-width:860px){
   .mealplan-menu__head{grid-template-columns:1fr;justify-items:center}
   .mealplan-menu__head .mealplan-h,.mealplan-menu__sub{grid-column:1;grid-row:auto;justify-self:center;text-align:center}
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr)}
   .mealplan-menu__stage{grid-column:1;grid-row:2;position:relative;top:0;margin-bottom:28px}
-  .mealplan-menu__frame{aspect-ratio:4/3.6;border-radius:28px}
+  .mealplan-menu__frame{aspect-ratio:1/1;border-radius:28px}
   .mealplan-menu__list{grid-column:1;grid-row:3}
   .mealplan-menu__detail{grid-column:1;grid-row:4;position:relative;top:0}
 }
