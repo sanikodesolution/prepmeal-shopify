@@ -519,6 +519,21 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
   .mealplan-menu__cards{gap:24px 12px}
   .mealplan-menu__card h4{font-size:13px}
 }
+/* Desktop: match the photo to the height of the meal list / order form beside it.
+   The grid row is already sized by its tallest column, so stretching the stage
+   and letting the frame fill it makes all three columns align top and bottom.
+   Declared after the base rules so it wins on equal specificity. */
+@media(min-width:1101px){
+  .mealplan-menu__stage{align-self:stretch;display:flex}
+  .mealplan-menu__stage>.mealplan-menu__frame{flex:1 1 auto;width:100%;min-height:0;aspect-ratio:auto}
+  .mealplan-menu__detail{align-self:stretch;display:flex;flex-direction:column}
+  .mealplan-menu__detail>form,.mealplan-menu__detail>ol{flex:1 1 auto;min-height:0}
+  /* Keep the order button at its natural height, hugging the card's bottom. */
+  .mealplan-menu__order{display:flex;flex-direction:column;height:100%}
+  .mealplan-menu__order>.mealplan-menu__field{flex:0 0 auto}
+  .mealplan-menu__order>.mealplan-menu__cta{flex:0 0 auto;margin-top:auto}
+  .mealplan-menu__detail>.mealplan-menu__cta{margin-top:auto}
+}
 @media(max-width:1100px){
   .mealplan-menu__inner{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
   .mealplan-menu__stage{grid-column:1;grid-row:2 / 4}
