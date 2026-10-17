@@ -354,24 +354,10 @@
     const canHover = matchMedia('(hover: hover) and (pointer: fine)');
     let current = -1;
     let lastIndex = 0;
-    const showDefault = () => {
-      current = -1;
-      items.forEach((el) => {
-        el.classList.remove('is-active');
-        el.setAttribute('aria-selected', 'false');
-      });
-      slides.forEach((el) => el.classList.remove('is-active'));
-      rows.forEach((el) => el.classList.remove('is-active'));
-      if (allSlide) allSlide.classList.add('is-active');
-      frame?.classList.add('is-all');
-      frame?.classList.remove('is-hover');
-      const poster = week.querySelector('[data-mp-sheet]');
-      if (poster) {
-        poster.hidden = true;
-        poster.classList.remove('is-zoom');
-        frame?.classList.remove('is-sheet');
-      }
-    };
+    // The meal picked from the list stays on screen after the pointer leaves,
+    // so moving the cursor from the list to the photo (or away) no longer
+    // snaps the stage back to the group shot.
+    const clearHoverZoom = () => frame?.classList.remove('is-hover');
     const fit = (box, full, half) => {
       if (!box) return;
       const kids = [...box.children];
@@ -427,12 +413,64 @@
       el.addEventListener('focus', () => set(i, 'list'));
       el.addEventListener('click', () => set(i, 'list'));
     });
-    if (canHover.matches && listEl) listEl.addEventListener('mouseleave', showDefault);
+    if (canHover.matches && listEl) listEl.addEventListener('mouseleave', clearHoverZoom);
+
+    // Cursor-following magnifier shared by the stage photo and the lightbox.
+    // Scaling about the pointer's own position keeps that pixel pinned at
+    // every animation frame; transform is set inline so nothing else wins.
+    const lensScale = 2.2;
+    const makeLens = (host, target) => {
+      if (!host) return;
+      let timer = 0;
+      const el = () => (typeof target === 'function' ? target() : target);
+      const move = (event) => {
+        const img = el();
+        if (!img) return;
+        const box = img.getBoundingClientRect();
+        if (!box.width || !box.height) return;
+        const x = Math.min(100, Math.max(0, ((event.clientX - box.left) / box.width) * 100));
+        const y = Math.min(100, Math.max(0, ((event.clientY - box.top) / box.height) * 100));
+        img.style.transformOrigin = `${x.toFixed(2)}% ${y.toFixed(2)}%`;
+        img.style.transform = `scale(${lensScale})`;
+        if (!img.classList.contains('is-lens')) {
+          img.classList.add('is-lens');
+          window.clearTimeout(timer);
+          timer = window.setTimeout(() => {
+            if (img.classList.contains('is-lens')) img.classList.add('is-lens-live');
+          }, 240);
+        }
+      };
+      const off = () => {
+        window.clearTimeout(timer);
+        const img = el();
+        if (!img) return;
+        img.classList.remove('is-lens', 'is-lens-live');
+        img.style.removeProperty('transform');
+        img.style.removeProperty('transform-origin');
+      };
+      host.addEventListener('pointerenter', move);
+      host.addEventListener('pointermove', move);
+      host.addEventListener('pointerleave', off);
+      host.addEventListener('blur', off);
+      host.__lensOff = off;
+      return off;
+    };
+
+    // Stage photo. The tall "all meals" poster is excluded because it is
+    // contain-fitted and would crop badly at 2.2x.
+    if (frame && canHover.matches) {
+      makeLens(frame, () => {
+        if (frame.classList.contains('is-all') || frame.classList.contains('is-sheet')) return null;
+        return frame.querySelector('.mealplan-menu__slide.is-active:not([data-mp-all]) img');
+      });
+      items.forEach((el) => el.addEventListener('mouseenter', () => frame.__lensOff?.()));
+    }
 
     const gallery = week.querySelector('[data-mp-gallery]');
     if (gallery && frame && (slides.length || allSlide)) {
       document.body.appendChild(gallery);
       const gImg = gallery.querySelector('[data-mp-gallery-img]');
+      const gShot = gallery.querySelector('.mealplan-menu__gallery-shot') || gallery;
       const gName = gallery.querySelector('[data-mp-gallery-name]');
       const gCount = gallery.querySelector('[data-mp-gallery-count]');
       const photos = [];
@@ -457,6 +495,7 @@
         const photo = photos[next];
         const apply = () => {
           gIndex = next;
+          gShot.__lensOff?.();
           if (gImg) {
             gImg.src = photo.src;
             gImg.alt = photo.name;
@@ -496,10 +535,14 @@
         if (gallery.hidden) return;
         gallery.hidden = true;
         document.documentElement.style.overflow = '';
+        gShot.__lensOff?.();
         frame.focus();
       };
       const openFromFrame = () => openGallery(current >= 0 ? current + (allSlide ? 1 : 0) : 0);
       frame.addEventListener('click', openFromFrame);
+
+      // Lightbox magnifier - same cursor-following lens as the stage photo.
+      makeLens(gShot, () => gImg);
       frame.addEventListener('keydown', (event) => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
