@@ -456,12 +456,13 @@
       return off;
     };
 
-    // Stage photo. The tall "all meals" poster is excluded because it is
-    // contain-fitted and would crop badly at 2.2x.
+    // Stage photo. The group poster gets the same cursor lens as the meal
+    // slides, so hovering it works immediately on load instead of only after
+    // opening the sheet from the title.
     if (frame && canHover.matches) {
       makeLens(frame, () => {
-        if (frame.classList.contains('is-all') || frame.classList.contains('is-sheet')) return null;
-        return frame.querySelector('.mealplan-menu__slide.is-active:not([data-mp-all]) img');
+        if (frame.classList.contains('is-sheet')) return null;
+        return frame.querySelector('.mealplan-menu__slide.is-active img');
       });
       items.forEach((el) => el.addEventListener('mouseenter', () => frame.__lensOff?.()));
     }
