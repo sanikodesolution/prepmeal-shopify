@@ -437,6 +437,28 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__field select:hover{border-color:#c9cfc6}
 .mealplan-menu__field select:focus{outline:none;border-color:var(--mp-accent);box-shadow:none}
 .mealplan-menu__field select:focus-visible{outline:2px solid var(--mp-accent);outline-offset:2px}
+/* Custom dropdown. The open list of a native <select> is drawn by the OS and
+   cannot be styled, so JS swaps in this listbox. The <select> stays in the form
+   (visually hidden) as the single source of the submitted value. */
+.mealplan-menu__picker{position:relative}
+.mealplan-menu__trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--mp-line);border-radius:12px;background:#fff;font:inherit;font-size:15px;line-height:1.35;color:var(--mp-ink);text-align:left;cursor:pointer;transition:border-color .18s ease}
+.mealplan-menu__trigger:hover{border-color:#c9cfc6}
+.mealplan-menu__trigger:focus-visible{outline:2px solid var(--mp-accent);outline-offset:2px}
+.mealplan-menu__trigger[aria-expanded="true"]{border-color:var(--mp-accent)}
+.mealplan-menu__trigger-text{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mealplan-menu__trigger.is-empty .mealplan-menu__trigger-text{color:#8d928c}
+.mealplan-menu__trigger svg{flex:none;width:12px;height:8px;transition:transform .22s ease}
+.mealplan-menu__trigger[aria-expanded="true"] svg{transform:rotate(180deg)}
+.mealplan-menu__panel{position:fixed;z-index:120;margin:0;padding:6px;list-style:none;max-height:min(340px,52vh);overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--mp-line);border-radius:14px;background:#fff;box-shadow:0 22px 48px -18px rgba(21,37,28,.35);scrollbar-width:thin;scrollbar-color:#d3d0c7 transparent}
+.mealplan-menu__panel[hidden]{display:none}
+.mealplan-menu__option{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:15px;line-height:1.4;color:#3a3833;cursor:pointer}
+.mealplan-menu__option+.mealplan-menu__option{margin-top:2px}
+.mealplan-menu__option.is-active{background:var(--mp-accent-soft);color:var(--mp-ink)}
+.mealplan-menu__option.is-selected{color:var(--mp-ink);font-weight:600}
+.mealplan-menu__option-mark{flex:none;width:14px;color:var(--mp-accent);opacity:0}
+.mealplan-menu__option.is-selected .mealplan-menu__option-mark{opacity:1}
+.mealplan-menu__option.is-placeholder{color:#8d928c;cursor:default}
+.mealplan-menu__select-native{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 .mealplan-menu__order-msg{margin:0;font-size:14px;line-height:1.4;color:#b3200a}
 .mealplan-menu__order-msg.is-ok{color:#1f7a3a}
 .mealplan-menu__order .mealplan-menu__cta{justify-content:center;margin:6px 0 0;width:100%;position:relative;overflow:hidden;isolation:isolate;gap:12px;transition:color .4s ease,transform .4s cubic-bezier(.22,.7,.2,1),box-shadow .4s cubic-bezier(.22,.7,.2,1)}
@@ -520,12 +542,12 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
   .mealplan-menu__cards{gap:24px 12px}
   .mealplan-menu__card h4{font-size:13px}
 }
-/* Desktop: the stage photo stays square so the plate fills the wrapper exactly.
-   The meal list and order form still stretch to the row height, so those two
-   columns remain equal to each other top and bottom. */
+/* Desktop: the wrapper box stretches to the full height of the row, so its
+   bottom edge lines up with the end of the meal list. The photo itself stays
+   contained inside that box, so the plate is never cropped. */
 @media(min-width:1101px){
-  .mealplan-menu__stage{align-self:start;display:block}
-  .mealplan-menu__stage>.mealplan-menu__frame{width:100%;aspect-ratio:1/1}
+  .mealplan-menu__stage{align-self:stretch;display:flex}
+  .mealplan-menu__stage>.mealplan-menu__frame{flex:1 1 auto;width:100%;min-height:0;aspect-ratio:auto}
   .mealplan-menu__detail{align-self:stretch;display:flex;flex-direction:column}
   .mealplan-menu__detail>form,.mealplan-menu__detail>ol{flex:1 1 auto;min-height:0}
   /* Keep the order button at its natural height, hugging the card's bottom. */

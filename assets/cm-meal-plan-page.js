@@ -616,6 +616,179 @@
 
     const orderForm = week.querySelector('[data-mp-order]');
     if (orderForm) {
+      // Custom dropdown UI. A native <select> popup is painted by the OS and
+      // cannot be styled, so each select is wrapped by a button + listbox. The
+      // select itself stays in the DOM (visually hidden) so the existing submit
+      // handler and Shopify properties keep working untouched.
+      const closePickers = (except) => {
+        $$('[data-mp-trigger]', orderForm).forEach((btn) => {
+          if (btn === except) return;
+          btn.setAttribute('aria-expanded', 'false');
+          const panel = document.querySelector(`[data-mp-panel="${btn.dataset.mpTrigger}"]`);
+          if (panel) panel.hidden = true;
+        });
+      };
+
+      const syncTrigger = (select, trigger) => {
+        const chosen = select.options[select.selectedIndex];
+        const empty = !select.value;
+        const text = trigger.querySelector('.mealplan-menu__trigger-text');
+        if (text) text.textContent = empty ? 'Choose a meal' : (chosen ? chosen.textContent.trim() : '');
+        trigger.classList.toggle('is-empty', empty);
+      };
+
+      $$('select[data-mp-pick]', orderForm).forEach((select, index) => {
+        const key = `picker-${index}`;
+        const wrap = document.createElement('div');
+        wrap.className = 'mealplan-menu__picker';
+
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'mealplan-menu__trigger is-empty';
+        trigger.dataset.mpTrigger = key;
+        trigger.setAttribute('aria-haspopup', 'listbox');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.setAttribute('aria-label', `Meal ${index + 1}`);
+        trigger.innerHTML = '<span class="mealplan-menu__trigger-text">Choose a meal</span>'
+          + '<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path fill="none" stroke="#15251C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M1 1.5 6 6.5 11 1.5"/></svg>';
+
+        const panel = document.createElement('ul');
+        panel.className = 'mealplan-menu__panel';
+        panel.dataset.mpPanel = key;
+        panel.setAttribute('role', 'listbox');
+        panel.hidden = true;
+
+        [...select.options].forEach((opt, optIndex) => {
+          const li = document.createElement('li');
+          li.className = 'mealplan-menu__option';
+          li.setAttribute('role', 'option');
+          li.dataset.value = opt.value;
+          li.dataset.index = String(optIndex);
+          if (!opt.value) {
+            li.classList.add('is-placeholder');
+            li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span>Choose a meal</span>';
+          } else {
+            li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span></span>';
+            li.lastElementChild.textContent = opt.textContent.trim();
+          }
+          if (opt.selected && opt.value) li.classList.add('is-selected');
+          li.setAttribute('aria-selected', opt.selected && opt.value ? 'true' : 'false');
+          panel.appendChild(li);
+        });
+
+        select.classList.add('mealplan-menu__select-native');
+        // The custom trigger is the only tab stop; keep the native control out
+        // of the tab order but still in the form for submission + validation.
+        select.tabIndex = -1;
+        select.setAttribute('aria-hidden', 'true');
+        select.parentNode.insertBefore(wrap, select);
+        wrap.appendChild(trigger);
+        wrap.appendChild(select);
+        document.body.appendChild(panel);
+
+        const positionPanel = () => {
+          const box = trigger.getBoundingClientRect();
+          const width = box.width;
+          const maxH = Math.min(340, window.innerHeight * 0.52);
+          const below = window.innerHeight - box.bottom - 12;
+          const openUp = below < 160 && box.top > below;
+          panel.style.width = `${width}px`;
+          panel.style.left = `${box.left}px`;
+          panel.style.maxHeight = `${Math.min(maxH, openUp ? box.top - 12 : below)}px`;
+          panel.style.top = openUp ? 'auto' : `${box.bottom + 6}px`;
+          panel.style.bottom = openUp ? `${window.innerHeight - box.top + 6}px` : 'auto';
+        };
+
+        const commit = (li) => {
+          const optIndex = Number(li.dataset.index);
+          select.selectedIndex = optIndex;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          panel.querySelectorAll('.mealplan-menu__option').forEach((el) => {
+            el.classList.toggle('is-selected', el === li);
+            el.classList.toggle('is-active', el === li);
+            el.setAttribute('aria-selected', el === li ? 'true' : 'false');
+          });
+          syncTrigger(select, trigger);
+          closePickers();
+        };
+
+        const open = () => {
+          closePickers(trigger);
+          positionPanel();
+          panel.hidden = false;
+          trigger.setAttribute('aria-expanded', 'true');
+          const current = panel.querySelector('.is-selected') || panel.querySelector('.mealplan-menu__option:not(.is-placeholder)');
+          panel.querySelectorAll('.is-active').forEach((el) => el.classList.remove('is-active'));
+          if (current) {
+            current.classList.add('is-active');
+            current.scrollIntoView({ block: 'nearest' });
+          }
+        };
+
+        const closePanel = () => {
+          panel.hidden = true;
+          trigger.setAttribute('aria-expanded', 'false');
+          panel.querySelectorAll('.is-active').forEach((el) => el.classList.remove('is-active'));
+        };
+
+        trigger.addEventListener('click', (event) => {
+          // Prevent the surrounding <label> from forwarding this click to the
+          // hidden <select> and opening the native OS popup.
+          event.preventDefault();
+          if (trigger.getAttribute('aria-expanded') === 'true') closePickers();
+          else open();
+        });
+
+        panel.addEventListener('mousedown', (event) => event.preventDefault());
+        panel.addEventListener('click', (event) => {
+          const li = event.target.closest('.mealplan-menu__option');
+          if (!li || li.classList.contains('is-placeholder')) return;
+          commit(li);
+        });
+
+        trigger.addEventListener('keydown', (event) => {
+          const opts = [...panel.querySelectorAll('.mealplan-menu__option:not(.is-placeholder)')];
+          if (!opts.length) return;
+          // Resolve the active index after opening so the first arrow press
+          // steps from the highlighted row instead of skipping past it.
+          const move = (step) => {
+            event.preventDefault();
+            const at = opts.findIndex((el) => el.classList.contains('is-active'));
+            const from = at < 0 ? (step > 0 ? -1 : 0) : at;
+            opts.forEach((el) => el.classList.remove('is-active'));
+            const el = opts[(from + step + opts.length * 2) % opts.length];
+            el.classList.add('is-active');
+            el.scrollIntoView({ block: 'nearest' });
+          };
+          if (event.key === 'ArrowDown') {
+            if (panel.hidden) { event.preventDefault(); open(); } else move(1);
+          } else if (event.key === 'ArrowUp') {
+            if (panel.hidden) { event.preventDefault(); open(); } else move(-1);
+          } else if (event.key === 'Enter' || event.key === ' ') {
+            if (panel.hidden) { event.preventDefault(); open(); }
+            else {
+              event.preventDefault();
+              const el = panel.querySelector('.is-active');
+              if (el) commit(el);
+            }
+          } else if (event.key === 'Escape' && !panel.hidden) {
+            event.preventDefault();
+            closePanel();
+            trigger.focus();
+          }
+        });
+
+        syncTrigger(select, trigger);
+      });
+
+      const onDocDown = (event) => {
+        if (event.target.closest('.mealplan-menu__picker') || event.target.closest('.mealplan-menu__panel')) return;
+        closePickers();
+      };
+      document.addEventListener('pointerdown', onDocDown);
+      window.addEventListener('resize', () => closePickers());
+      week.addEventListener('scroll', () => closePickers(), true);
+
       const orderMsg = orderForm.querySelector('[data-mp-order-msg]');
       const orderBtn = orderForm.querySelector('[type="submit"]');
       const say = (text, ok) => {
