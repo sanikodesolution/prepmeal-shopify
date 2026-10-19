@@ -371,7 +371,7 @@
       box.style.maxHeight = `${Math.round(h)}px`;
     };
     const fitAll = () => {
-      fit(listEl, 11, false);
+      fit(listEl, 10, false);
       fit(fullEl, 5, true);
     };
     const reveal = (box, el) => {
@@ -392,35 +392,26 @@
       if (i === current || i < 0 || i >= items.length) return;
       current = i;
       lastIndex = i;
-      // The list now starts with an "All meals" row, so item 0 is the group
-      // poster and every meal item is shifted by one relative to the slides.
-      const offset = allSlide ? 1 : 0;
-      const all = Boolean(allSlide) && i === 0;
-      if (allSlide) allSlide.classList.toggle('is-active', all);
-      frame?.classList.toggle('is-all', all);
-      frame?.classList.toggle('is-hover', !all);
+      if (allSlide) allSlide.classList.remove('is-active');
+      frame?.classList.remove('is-all');
+      frame?.classList.add('is-hover');
       items.forEach((el, k) => {
         const on = k === i;
         el.classList.toggle('is-active', on);
         el.setAttribute('aria-selected', on ? 'true' : 'false');
         el.tabIndex = on ? 0 : -1;
       });
-      slides.forEach((el, k) => el.classList.toggle('is-active', !all && k === i - offset));
-      rows.forEach((el, k) => el.classList.toggle('is-active', !all && k === i - offset));
-      if (count) count.textContent = String(all ? items.length - offset : i - offset + 1);
-      if (cap) cap.textContent = all ? 'All meals' : (items[i].querySelector('.mealplan-menu__name')?.textContent || '');
+      slides.forEach((el, k) => el.classList.toggle('is-active', k === i));
+      rows.forEach((el, k) => el.classList.toggle('is-active', k === i));
+      if (count) count.textContent = String(i + 1);
+      if (cap) cap.textContent = items[i].querySelector('.mealplan-menu__name')?.textContent || '';
       if (src !== 'list') reveal(listEl, items[i]);
-      if (src !== 'rows' && rows.length) reveal(fullEl, rows[Math.max(0, i - offset)]);
+      if (src !== 'rows') reveal(fullEl, rows[i]);
     };
-    // Assigned once the gallery exists below, so the "All meals" row can open it.
-    let openGalleryAt = null;
     items.forEach((el, i) => {
       el.addEventListener('mouseenter', () => { if (canHover.matches) set(i, 'list'); });
       el.addEventListener('focus', () => set(i, 'list'));
-      el.addEventListener('click', () => {
-        set(i, 'list');
-        if (i === 0 && el.hasAttribute('data-mp-item-all')) openGalleryAt?.(0);
-      });
+      el.addEventListener('click', () => set(i, 'list'));
     });
     if (canHover.matches && listEl) listEl.addEventListener('mouseleave', clearHoverZoom);
 
@@ -495,7 +486,7 @@
         if (!img) return;
         photos.push({
           src: img.currentSrc || img.src,
-          name: items[index + (allSlide ? 1 : 0)]?.querySelector('.mealplan-menu__name')?.textContent.trim() || img.alt || '',
+          name: items[index]?.querySelector('.mealplan-menu__name')?.textContent.trim() || img.alt || '',
         });
       });
       let gIndex = 0;
@@ -553,9 +544,8 @@
       };
       const openFromFrame = () => {
         const sheetOpen = frame.classList.contains('is-sheet');
-        openGallery(sheetOpen ? 0 : (current >= 0 ? current : 0));
+        openGallery(sheetOpen ? 0 : (current >= 0 ? current + (allSlide ? 1 : 0) : 0));
       };
-      openGalleryAt = openGallery;
       frame.addEventListener('click', openFromFrame);
 
       // Lightbox magnifier - same cursor-following lens as the stage photo.
@@ -580,8 +570,8 @@
     }
 
     rows.forEach((el, i) => {
-      el.addEventListener('mouseenter', () => { if (canHover.matches) set(i + (allSlide ? 1 : 0), 'rows'); });
-      el.addEventListener('click', () => set(i + (allSlide ? 1 : 0), 'rows'));
+      el.addEventListener('mouseenter', () => { if (canHover.matches) set(i, 'rows'); });
+      el.addEventListener('click', () => set(i, 'rows'));
     });
     fitAll();
     window.addEventListener('resize', fitAll);

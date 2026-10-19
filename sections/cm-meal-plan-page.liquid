@@ -93,26 +93,18 @@
                 </div>
               {%- endif -%}
               <div class="mealplan-menu__caption" aria-hidden="true">
-                <span class="mealplan-menu__count" data-mp-count>{{ menu_blocks.size }}</span>
+                <span class="mealplan-menu__count" data-mp-count>1</span>
                 <span class="mealplan-menu__caption-text">
-                  <span class="mealplan-menu__caption-name" data-mp-caption>All meals</span>
+                  <span class="mealplan-menu__caption-name" data-mp-caption>{{ menu_blocks.first.settings.short | default: menu_blocks.first.settings.name | escape }}</span>
                   <span class="mealplan-menu__caption-sub">Fresh, ready to heat</span>
                 </span>
               </div>
             </div>
           </div>
           <ol class="mealplan-menu__list" role="tablist">
-            <li>
-              <button type="button" class="mealplan-menu__item mealplan-menu__item--all is-active" role="tab" aria-selected="true" tabindex="0" data-mp-item data-mp-item-all>
-                <span class="mealplan-menu__num mealplan-menu__num--all" aria-hidden="true">
-                  <svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1.6"/><rect x="9" y="1" width="6" height="6" rx="1.6"/><rect x="1" y="9" width="6" height="6" rx="1.6"/><rect x="9" y="9" width="6" height="6" rx="1.6"/></svg>
-                </span>
-                <span class="mealplan-menu__name">All meals</span>
-              </button>
-            </li>
             {%- for block in menu_blocks -%}
               <li {{ block.shopify_attributes }}>
-                <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="-1" data-mp-item>
+                <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
                   <span class="mealplan-menu__num">{{ forloop.index }}</span>
                   <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
                 </button>
@@ -144,7 +136,7 @@
             {%- else -%}
               <ol class="mealplan-menu__full">
                 {%- for block in menu_blocks -%}
-                  <li data-mp-row>{{ block.settings.name | escape }}</li>
+                  <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
                 {%- endfor -%}
               </ol>
               <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ section.settings.quality_button | default: 'See all plans' | escape }}</button>

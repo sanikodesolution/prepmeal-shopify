@@ -417,10 +417,6 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__item::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--mp-accent);transform:scaleY(0);transition:transform .35s ease}
 .mealplan-menu__num,.mealplan-menu__name{transition:transform .35s ease,color .3s ease}
 .mealplan-menu__num{text-align:right;font-size:15px;font-weight:600;color:#8d928c}
-.mealplan-menu__num--all{display:flex;justify-content:flex-end;color:#8d928c}
-.mealplan-menu__num--all svg{width:14px;height:14px}
-.mealplan-menu__item--all .mealplan-menu__name{font-weight:600}
-.mealplan-menu__item--all.is-active .mealplan-menu__num--all{color:var(--mp-accent)}
 .mealplan-menu__name{font-size:18px;line-height:1.25;font-weight:500}
 .mealplan-menu__item.is-active{background:linear-gradient(90deg,var(--mp-accent-soft),rgba(255,255,255,0) 85%)}
 .mealplan-menu__item.is-active::before{transform:scaleY(1)}
@@ -482,9 +478,14 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__gallery-figure img{display:block;width:auto;height:auto;max-width:min(860px,100%);max-height:min(78vh,860px);object-fit:contain;border-radius:18px;transition:opacity .35s ease,transform .35s ease}
 /* The all-meals poster is very tall (~1:2.9). Height-capping it left it as a
    narrow strip, so tall shots take the full gallery width and scroll inside
-   the frame instead of shrinking to fit the viewport height. */
-.mealplan-menu__gallery-shot.is-tall{width:min(860px,100%);max-height:min(78vh,860px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#8b8578 transparent}
+   the frame instead of shrinking to fit the viewport height. They also use
+   nearly the whole viewport height, because this is the poster people read. */
+.mealplan-menu__gallery-shot.is-tall{width:min(860px,100%);max-height:calc(100vh - 64px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#8b8578 transparent}
 .mealplan-menu__gallery-shot.is-tall img{width:100%;max-width:none;max-height:none;height:auto;border-radius:0}
+/* Reclaim the lightbox padding/gap for tall shots so the poster gets the extra
+   height instead of it being spent on empty dark space. */
+.mealplan-menu__gallery:has(.mealplan-menu__gallery-shot.is-tall){padding-block:clamp(8px,1.2vw,14px)}
+.mealplan-menu__gallery-figure:has(.mealplan-menu__gallery-shot.is-tall){gap:10px}
 .mealplan-menu__gallery-figure img.is-out{opacity:0;transform:scale(.96)}
 .mealplan-menu__gallery-figure img.is-out.is-next{transform:translateX(28px) scale(.98)}
 .mealplan-menu__gallery-figure img.is-out.is-prev{transform:translateX(-28px) scale(.98)}
