@@ -407,7 +407,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 }
 .mealplan-menu__slide[data-mp-all] img{object-fit:contain}
 .mealplan-menu__frame::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(0,0,0,0) 62%,rgba(0,0,0,.38) 100%);pointer-events:none}
-.mealplan-menu__caption{position:absolute;left:22px;right:22px;bottom:22px;z-index:3;display:flex;align-items:center;gap:14px;min-width:0;padding:14px 18px;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6)}
+.mealplan-menu__caption{position:absolute;left:22px;right:22px;bottom:22px;z-index:3;display:flex;align-items:center;gap:14px;min-width:0;padding:14px 18px;border-radius:18px;overflow:hidden;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.6);pointer-events:none}
 .mealplan-menu__count{flex:none;min-width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--mp-accent);color:#1b1204;font-weight:700;font-size:18px}
 .mealplan-menu__caption-text{min-width:0;flex:1;overflow:hidden}
 .mealplan-menu__caption-name{display:block;font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

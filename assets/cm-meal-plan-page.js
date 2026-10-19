@@ -418,17 +418,15 @@
     // Cursor-following magnifier shared by the stage photo and the lightbox.
     // Scaling about the pointer's own position keeps that pixel pinned at
     // every animation frame; transform is set inline so nothing else wins.
-    const lensScale = 2.2;
-    // Visible part of an image that is letterboxed by object-fit:contain.
-    // Without this, hovering the empty margin inside the <img> box zoomed a
-    // photo the pointer was not actually over.
+    // Visible part of an image that is letterboxed by object-fit:contain. The
+    // stage frame is square while the poster is ~1:2.9, so most of the <img>
+    // box is empty margin; zoom has to be anchored on the drawn pixels.
     const contentRect = (img) => {
       const box = img.getBoundingClientRect();
       const nw = img.naturalWidth || 0;
       const nh = img.naturalHeight || 0;
       if (!nw || !nh || !box.width || !box.height) return box;
-      const fitted = getComputedStyle(img).objectFit === 'contain';
-      if (!fitted) return box;
+      if (getComputedStyle(img).objectFit !== 'contain') return box;
       const scale = Math.min(box.width / nw, box.height / nh);
       const w = nw * scale;
       const h = nh * scale;
@@ -438,6 +436,20 @@
         width: w,
         height: h,
       };
+    };
+    // The lens must feel the same everywhere, but the stage frame is square
+    // while the group poster is ~1:2.9, so the drawn poster is only ~1/3 of
+    // the frame width. A flat 2.2x barely changes that sliver, while the same
+    // 2.2x on the full-frame sheet looks like a real zoom. Boost the factor
+    // enough for a letterboxed photo to fill the frame, so the poster zooms
+    // as strongly on the stage as it does after opening it from the title.
+    const lensScale = 2.2;
+    const lensScaleFor = (img) => {
+      const area = (img.closest('.mealplan-menu__gallery-shot, .mealplan-menu__frame') || img).getBoundingClientRect();
+      const box = contentRect(img);
+      if (!box.width || !box.height || !area.width || !area.height) return lensScale;
+      const fill = Math.max(area.width / box.width, area.height / box.height);
+      return Math.min(4, Math.max(lensScale, fill));
     };
     const makeLens = (host, target) => {
       if (!host) return;
@@ -454,28 +466,23 @@
       const move = (event) => {
         const img = el();
         if (!img) return;
-        // Only the plate photo itself magnifies. The host can be larger than
-        // the picture (letterboxed stage area, gallery scrollbar, caption), and
-        // zooming there felt like the scrollbar was hovering the image.
+        // Only the photo itself magnifies. The host is a bigger box (gallery
+        // scroll area, caption, letterboxed stage margins), so hovering its
+        // chrome - notably the lightbox scrollbar - must not zoom the picture.
+        // Anywhere over the photo triggers it, including the empty margin
+        // around a letterboxed poster, so the poster is not a narrow hot strip.
         if (event.target !== img && !img.contains(event.target)) {
           off();
           return;
         }
         const box = contentRect(img);
         if (!box.width || !box.height) return;
-        const inside =
-          event.clientX >= box.left &&
-          event.clientX <= box.left + box.width &&
-          event.clientY >= box.top &&
-          event.clientY <= box.top + box.height;
-        if (!inside) {
-          off();
-          return;
-        }
-        const x = Math.min(100, Math.max(0, ((event.clientX - box.left) / box.width) * 100));
-        const y = Math.min(100, Math.max(0, ((event.clientY - box.top) / box.height) * 100));
+        const px = Math.min(box.left + box.width, Math.max(box.left, event.clientX));
+        const py = Math.min(box.top + box.height, Math.max(box.top, event.clientY));
+        const x = ((px - box.left) / box.width) * 100;
+        const y = ((py - box.top) / box.height) * 100;
         img.style.transformOrigin = `${x.toFixed(2)}% ${y.toFixed(2)}%`;
-        img.style.transform = `scale(${lensScale})`;
+        img.style.transform = `scale(${lensScaleFor(img)})`;
         if (!img.classList.contains('is-lens')) {
           img.classList.add('is-lens');
           window.clearTimeout(timer);
