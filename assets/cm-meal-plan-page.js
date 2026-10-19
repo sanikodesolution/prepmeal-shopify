@@ -419,15 +419,59 @@
     // Scaling about the pointer's own position keeps that pixel pinned at
     // every animation frame; transform is set inline so nothing else wins.
     const lensScale = 2.2;
+    // Visible part of an image that is letterboxed by object-fit:contain.
+    // Without this, hovering the empty margin inside the <img> box zoomed a
+    // photo the pointer was not actually over.
+    const contentRect = (img) => {
+      const box = img.getBoundingClientRect();
+      const nw = img.naturalWidth || 0;
+      const nh = img.naturalHeight || 0;
+      if (!nw || !nh || !box.width || !box.height) return box;
+      const fitted = getComputedStyle(img).objectFit === 'contain';
+      if (!fitted) return box;
+      const scale = Math.min(box.width / nw, box.height / nh);
+      const w = nw * scale;
+      const h = nh * scale;
+      return {
+        left: box.left + (box.width - w) / 2,
+        top: box.top + (box.height - h) / 2,
+        width: w,
+        height: h,
+      };
+    };
     const makeLens = (host, target) => {
       if (!host) return;
       let timer = 0;
       const el = () => (typeof target === 'function' ? target() : target);
+      const off = () => {
+        window.clearTimeout(timer);
+        const img = el();
+        if (!img) return;
+        img.classList.remove('is-lens', 'is-lens-live');
+        img.style.removeProperty('transform');
+        img.style.removeProperty('transform-origin');
+      };
       const move = (event) => {
         const img = el();
         if (!img) return;
-        const box = img.getBoundingClientRect();
+        // Only the plate photo itself magnifies. The host can be larger than
+        // the picture (letterboxed stage area, gallery scrollbar, caption), and
+        // zooming there felt like the scrollbar was hovering the image.
+        if (event.target !== img && !img.contains(event.target)) {
+          off();
+          return;
+        }
+        const box = contentRect(img);
         if (!box.width || !box.height) return;
+        const inside =
+          event.clientX >= box.left &&
+          event.clientX <= box.left + box.width &&
+          event.clientY >= box.top &&
+          event.clientY <= box.top + box.height;
+        if (!inside) {
+          off();
+          return;
+        }
         const x = Math.min(100, Math.max(0, ((event.clientX - box.left) / box.width) * 100));
         const y = Math.min(100, Math.max(0, ((event.clientY - box.top) / box.height) * 100));
         img.style.transformOrigin = `${x.toFixed(2)}% ${y.toFixed(2)}%`;
@@ -439,14 +483,6 @@
             if (img.classList.contains('is-lens')) img.classList.add('is-lens-live');
           }, 240);
         }
-      };
-      const off = () => {
-        window.clearTimeout(timer);
-        const img = el();
-        if (!img) return;
-        img.classList.remove('is-lens', 'is-lens-live');
-        img.style.removeProperty('transform');
-        img.style.removeProperty('transform-origin');
       };
       host.addEventListener('pointerenter', move);
       host.addEventListener('pointermove', move);
