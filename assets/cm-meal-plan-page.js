@@ -418,14 +418,43 @@
     // Cursor-following magnifier shared by the stage photo and the lightbox.
     // Scaling about the pointer's own position keeps that pixel pinned at
     // every animation frame; transform is set inline so nothing else wins.
+    const lensScale = 2.2;
+    const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+    // Untransformed box of an image. getBoundingClientRect() reports the
+    // zoomed box once the lens is on, and the stage also applies a CSS
+    // scale(1.14) hover effect, which fed a wrong origin back in and made the
+    // photo slide away, so the base box is cached with its transform undone.
+    const baseRect = (img) => {
+      if (!img.__lensBase) {
+        const r = img.getBoundingClientRect();
+        const tf = getComputedStyle(img).transform;
+        let sx = 1;
+        let sy = 1;
+        const m = tf && tf !== 'none' ? tf.match(/matrix\(([^)]+)\)/) : null;
+        if (m) {
+          const p = m[1].split(',').map(Number);
+          sx = Math.hypot(p[0], p[1]) || 1;
+          sy = Math.hypot(p[2], p[3]) || 1;
+        }
+        const w = r.width / sx;
+        const h = r.height / sy;
+        img.__lensBase = {
+          left: r.left + (r.width - w) / 2,
+          top: r.top + (r.height - h) / 2,
+          width: w,
+          height: h,
+        };
+      }
+      return img.__lensBase;
+    };
     // Visible part of an image that is letterboxed by object-fit:contain. The
     // stage frame is square while the poster is ~1:2.9, so most of the <img>
     // box is empty margin; zoom has to be anchored on the drawn pixels.
     const contentRect = (img) => {
-      const box = img.getBoundingClientRect();
+      const box = baseRect(img);
       const nw = img.naturalWidth || 0;
       const nh = img.naturalHeight || 0;
-      if (!nw || !nh || !box.width || !box.height) return box;
+      if (!nw || !nh || !box.width || !box.height) return null;
       if (getComputedStyle(img).objectFit !== 'contain') return box;
       const scale = Math.min(box.width / nw, box.height / nh);
       const w = nw * scale;
@@ -443,12 +472,11 @@
     // 2.2x on the full-frame sheet looks like a real zoom. Boost the factor
     // enough for a letterboxed photo to fill the frame, so the poster zooms
     // as strongly on the stage as it does after opening it from the title.
-    const lensScale = 2.2;
-    const lensScaleFor = (img) => {
-      const area = (img.closest('.mealplan-menu__gallery-shot, .mealplan-menu__frame') || img).getBoundingClientRect();
-      const box = contentRect(img);
-      if (!box.width || !box.height || !area.width || !area.height) return lensScale;
-      const fill = Math.max(area.width / box.width, area.height / box.height);
+    const lensArea = (img) => img.closest('.mealplan-menu__gallery-shot, .mealplan-menu__frame') || img;
+    const lensScaleFor = (img, content) => {
+      const area = lensArea(img).getBoundingClientRect();
+      if (!content.width || !content.height || !area.width || !area.height) return lensScale;
+      const fill = Math.max(area.width / content.width, area.height / content.height);
       return Math.min(4, Math.max(lensScale, fill));
     };
     const makeLens = (host, target) => {
@@ -462,6 +490,7 @@
         img.classList.remove('is-lens', 'is-lens-live');
         img.style.removeProperty('transform');
         img.style.removeProperty('transform-origin');
+        delete img.__lensBase;
       };
       const move = (event) => {
         const img = el();
@@ -475,14 +504,42 @@
           off();
           return;
         }
-        const box = contentRect(img);
-        if (!box.width || !box.height) return;
-        const px = Math.min(box.left + box.width, Math.max(box.left, event.clientX));
-        const py = Math.min(box.top + box.height, Math.max(box.top, event.clientY));
-        const x = ((px - box.left) / box.width) * 100;
-        const y = ((py - box.top) / box.height) * 100;
-        img.style.transformOrigin = `${x.toFixed(2)}% ${y.toFixed(2)}%`;
-        img.style.transform = `scale(${lensScaleFor(img)})`;
+        const box = baseRect(img);
+        const content = contentRect(img);
+        if (!content) return;
+        const area = lensArea(img).getBoundingClientRect();
+        const scale = lensScaleFor(img, content);
+
+        // Anchor on the pixel under the pointer, expressed as a percentage of
+        // the image box (the coordinate space transform-origin uses).
+        const px = clamp(event.clientX, content.left, content.left + content.width);
+        const py = clamp(event.clientY, content.top, content.top + content.height);
+        const ox = clamp((px - box.left) / box.width, 0, 1);
+        const oy = clamp((py - box.top) / box.height, 0, 1);
+
+        // Where the drawn photo lands after scaling about that anchor.
+        const drawnLeft = px + (content.left - px) * scale;
+        const drawnTop = py + (content.top - py) * scale;
+        const drawnW = content.width * scale;
+        const drawnH = content.height * scale;
+
+        // Keep the photo covering the frame. Without this the poster slid off
+        // to one side and left grey space whenever the pointer was near an
+        // edge of the square stage box. When the drawn photo is smaller than
+        // the frame on an axis it is centred there instead.
+        const fitAxis = (drawnStart, drawnSize, areaStart, areaSize) => {
+          if (drawnSize <= areaSize) {
+            return areaStart + (areaSize - drawnSize) / 2 - drawnStart;
+          }
+          const min = areaStart + areaSize - (drawnStart + drawnSize);
+          const max = areaStart - drawnStart;
+          return clamp(0, min, max);
+        };
+        const dx = fitAxis(drawnLeft, drawnW, area.left, area.width);
+        const dy = fitAxis(drawnTop, drawnH, area.top, area.height);
+
+        img.style.transformOrigin = `${(ox * 100).toFixed(2)}% ${(oy * 100).toFixed(2)}%`;
+        img.style.transform = `translate(${dx.toFixed(2)}px, ${dy.toFixed(2)}px) scale(${scale.toFixed(4)})`;
         if (!img.classList.contains('is-lens')) {
           img.classList.add('is-lens');
           window.clearTimeout(timer);
@@ -495,6 +552,9 @@
       host.addEventListener('pointermove', move);
       host.addEventListener('pointerleave', off);
       host.addEventListener('blur', off);
+      // A cached base box goes stale as soon as the page moves under the
+      // pointer, so drop the zoom instead of zooming in the wrong place.
+      window.addEventListener('scroll', off, { passive: true });
       host.__lensOff = off;
       return off;
     };
