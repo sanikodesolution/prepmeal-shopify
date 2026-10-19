@@ -417,6 +417,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__item::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--mp-accent);transform:scaleY(0);transition:transform .35s ease}
 .mealplan-menu__num,.mealplan-menu__name{transition:transform .35s ease,color .3s ease}
 .mealplan-menu__num{text-align:right;font-size:15px;font-weight:600;color:#8d928c}
+.mealplan-menu__num--all{display:flex;justify-content:flex-end;color:#8d928c}
+.mealplan-menu__num--all svg{width:14px;height:14px}
+.mealplan-menu__item--all .mealplan-menu__name{font-weight:600}
+.mealplan-menu__item--all.is-active .mealplan-menu__num--all{color:var(--mp-accent)}
 .mealplan-menu__name{font-size:18px;line-height:1.25;font-weight:500}
 .mealplan-menu__item.is-active{background:linear-gradient(90deg,var(--mp-accent-soft),rgba(255,255,255,0) 85%)}
 .mealplan-menu__item.is-active::before{transform:scaleY(1)}
@@ -476,6 +480,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__gallery-figure{margin:0;display:grid;justify-items:center;gap:16px;min-width:0}
 .mealplan-menu__gallery-shot{display:block;width:fit-content;max-width:min(860px,100%);margin:0 auto;border-radius:18px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,.35);background:#f1f0ec}
 .mealplan-menu__gallery-figure img{display:block;width:auto;height:auto;max-width:min(860px,100%);max-height:min(78vh,860px);object-fit:contain;border-radius:18px;transition:opacity .35s ease,transform .35s ease}
+/* The all-meals poster is very tall (~1:2.9). Height-capping it left it as a
+   narrow strip, so tall shots take the full gallery width and scroll inside
+   the frame instead of shrinking to fit the viewport height. */
+.mealplan-menu__gallery-shot.is-tall{width:min(860px,100%);max-height:min(78vh,860px);overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#8b8578 transparent}
+.mealplan-menu__gallery-shot.is-tall img{width:100%;max-width:none;max-height:none;height:auto;border-radius:0}
 .mealplan-menu__gallery-figure img.is-out{opacity:0;transform:scale(.96)}
 .mealplan-menu__gallery-figure img.is-out.is-next{transform:translateX(28px) scale(.98)}
 .mealplan-menu__gallery-figure img.is-out.is-prev{transform:translateX(-28px) scale(.98)}
