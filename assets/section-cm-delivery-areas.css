@@ -101,11 +101,19 @@
 .da .da__more { margin-top: 18px; padding-top: 16px; border-top: 1px solid #eadfd8; }
 .da .da__more summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; list-style: none; color: #6e1f36; font-size: 15px; }
 .da .da__more summary::-webkit-details-marker { display: none; }
-.da .da__more-plus { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #f6ebe6; border: 1px solid #eadfd8; color: #6e1f36; }
-.da .da__more-plus svg { width: 14px; height: 14px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.da .da__more-plus { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #f6ebe6; border: 1px solid #eadfd8; color: #6e1f36; transition: background .3s ease, border-color .3s ease, color .3s ease, transform .35s cubic-bezier(.22,.7,.2,1); }
+.da .da__more-plus svg { width: 14px; height: 14px; display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; transition: transform .35s cubic-bezier(.22,.7,.2,1); }
 .da .da__more[open] .da__more-plus { background: #6e1f36; border-color: #6e1f36; color: #fff; }
 .da .da__more[open] .da__more-plus svg { transform: rotate(45deg); transform-origin: center; }
-.da .da__more-body { padding-top: 16px; }
+.da .da__more summary:hover .da__more-plus { background: #efdcd4; border-color: #dcc4ba; }
+.da .da__more[open] summary:hover .da__more-plus { background: #521627; border-color: #521627; }
+.da .da__more-body { padding-top: 0; overflow: hidden; }
+.da .da__more-inner { padding-top: 16px; }
+/* While the height animation runs the panel is clipped; once it finishes the
+   class is dropped so nothing is hidden and find-in-page can still scroll. */
+.da .da__more.is-animating .da__more-body { will-change: height; }
+.da .da__more-inner .da__region:last-of-type { margin-bottom: 0; }
+.da .da__more-inner .da__more-note { margin-bottom: 0; }
 .da .da__region { margin-bottom: 16px; }
 .da .da__region h5 { margin: 0 0 6px; font-family: var(--font-heading-family), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #6e1f36; }
 .da .da__region p, .da .da__more-note { margin: 0; font-size: 14px; line-height: 1.7; color: #4d3d42; }
