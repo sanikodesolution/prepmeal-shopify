@@ -350,6 +350,29 @@
   margin-top: 0;
 }
 
+/* The caption block is now the shared eyebrow pill, so it needs the
+   same gap below it that every other section header has. This must
+   outrank the legacy `margin-bottom: 0` still applied below. */
+.image-with-text__content > .image-with-text__text--caption {
+  margin-bottom: 1.15rem;
+}
+
+/* The unified eyebrow badge already carries the gap below it,
+   so the heading must not add a second stacked margin. */
+.image-with-text__content > .image-with-text__text--caption + .image-with-text__heading {
+  margin-top: 0;
+}
+
+/* Mirror the shared heading rhythm: one gap under the title,
+   none above the paragraph. */
+.image-with-text__content > .image-with-text__heading {
+  margin-bottom: 1.2rem;
+}
+
+.image-with-text__content > .image-with-text__heading + .image-with-text__text {
+  margin-top: 0;
+}
+
 .image-with-text__content :last-child:is(.image-with-text__heading),
 .image-with-text__text--caption {
   margin-bottom: 0;

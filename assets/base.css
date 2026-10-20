@@ -3660,7 +3660,8 @@ details-disclosure > details {
 .tw__eyebrow,
 .food-hero__kicker,
 .da__kicker,
-.mp-eye {
+.mp-eye,
+.image-with-text .image-with-text__text--caption {
   display: inline-flex;
   align-items: center;
   gap: 0.7em;
@@ -3688,7 +3689,8 @@ details-disclosure > details {
 .tw__eyebrow::before,
 .food-hero__kicker::before,
 .da__kicker::before,
-.mp-eye::before {
+.mp-eye::before,
+.image-with-text .image-with-text__text--caption::before {
   content: "";
   flex: 0 0 auto;
   width: 0.72em;
@@ -3728,7 +3730,8 @@ details-disclosure > details {
 .cm .cm-footer__cta-title,
 .cm-table__title,
 .da .da__title,
-.tw h2 {
+.tw h2,
+.image-with-text__heading {
   font-family: var(--font-heading-family), sans-serif;
   font-weight: 600;
   font-size: clamp(2.8rem, 4.6vw, 4.8rem);
@@ -3761,12 +3764,20 @@ details-disclosure > details {
   .tw__eyebrow,
   .food-hero__kicker,
   .da__kicker,
-  .mp-eye {
+  .mp-eye,
+  .image-with-text .image-with-text__text--caption {
     font-size: 10.5px;
     letter-spacing: 0.16em;
     padding: 0.6em 1em 0.6em 0.9em;
     margin-bottom: 0.9rem;
     white-space: normal;
   }
+}
+
+/* Long captions inside the narrow image-with-text column may wrap
+   instead of forcing the pill to overflow its container. */
+.image-with-text .image-with-text__text--caption {
+  max-width: 100%;
+  white-space: normal;
 }
 
