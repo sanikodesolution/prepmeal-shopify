@@ -252,10 +252,46 @@
     }
   }
 
+  // The corner plates are positioned with percentages of the section's own
+  // height. That means opening the "see every city" accordion grew the
+  // section and dragged the plates downwards. Pinning the collapsed height
+  // into --da-sh keeps those percentages anchored to the layout the plates
+  // were designed for, whatever the accordion is doing.
+  function pinPlateAnchor(root) {
+    var more = root.querySelector('.da__more');
+    var body = more && more.querySelector('.da__more-body');
+    // While the panel is animating its height is a moving target; retry once it
+    // has settled rather than measuring a frame mid-transition.
+    if (more && body && more.classList.contains('is-animating')) {
+      window.clearTimeout(root.__daShTimer);
+      root.__daShTimer = window.setTimeout(function () { pinPlateAnchor(root); }, 500);
+      return;
+    }
+    var openExtra = more && body && more.open ? body.offsetHeight : 0;
+    var collapsed = root.clientHeight - openExtra;
+    if (collapsed > 0) root.style.setProperty('--da-sh', collapsed + 'px');
+  }
+
   roots.forEach(function (root) {
     root.classList.add('da--js');
     enhanceMore(root);
     enhancePlaces(root);
+    pinPlateAnchor(root);
+    var width = root.clientWidth;
+    var rt = 0;
+    window.addEventListener('resize', function () {
+      window.clearTimeout(rt);
+      rt = window.setTimeout(function () {
+        // Only a width change can reflow the card; height changes come from the
+        // accordion and must not be re-pinned.
+        if (Math.abs(root.clientWidth - width) < 2) return;
+        width = root.clientWidth;
+        pinPlateAnchor(root);
+      }, 160);
+    });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { pinPlateAnchor(root); });
+    }
     var go = function () { root.classList.add('da--ready'); };
     if (!('IntersectionObserver' in window)) { go(); return; }
     var io = new IntersectionObserver(function (entries) {

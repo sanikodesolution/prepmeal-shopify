@@ -18,16 +18,22 @@
 .da .da__corner img { width: 100%; height: 100%; object-fit: contain; display: block; will-change: transform; }
 .da .da__corner--tl { top: calc(var(--pw) * -.40); left: calc(var(--pw) * -.58); }
 .da .da__corner--tr { top: calc(var(--pw) * -.38); right: calc(var(--pw) * -.58); }
-.da .da__corner--bl { bottom: calc(var(--pw) * -.24); left: calc(var(--pw) * -.58); }
-.da .da__corner--br { bottom: calc(var(--pw) * -.32); right: calc(var(--pw) * -.58); }
+/* Bottom pair is expressed from the pinned collapsed height instead of the
+   live section height, so the accordion below cannot push them down. */
+.da .da__corner--bl { top: calc(var(--da-sh, 100%) - var(--pw) * .76); left: calc(var(--pw) * -.58); }
+.da .da__corner--br { top: calc(var(--da-sh, 100%) - var(--pw) * .68); right: calc(var(--pw) * -.58); }
 
-/* desktop: plates sit in the side gutters like the reference - top pair high, bottom pair low, clear gap between */
+/* desktop: plates sit in the side gutters like the reference - top pair high, bottom pair low, clear gap between.
+   Their vertical offsets are resolved against --da-sh (the collapsed section
+   height, pinned by cm-da.js) rather than the live section height, so opening
+   the "see every city" accordion can no longer slide the plates downwards.
+   --da-sh falls back to 100%, which reproduces the original percentages. */
 @media (min-width: 990px) {
   .da .da__corner { --pw: clamp(250px, 27vw, 540px); --gut: calc((100vw - var(--sw)) / 2); --ov: clamp(40px, calc((var(--sw) - 980px) / 2 + 24px), 110px); }
-  .da .da__corner--tl { top: calc(35% - var(--pw) - 16px); left: calc(var(--gut) + var(--ov) - var(--pw) - 52px); }
-  .da .da__corner--tr { top: calc(33% - var(--pw) - 16px); right: calc(var(--gut) + var(--ov) - var(--pw) - 52px); }
-  .da .da__corner--bl { bottom: auto; top: 58%; left: calc(var(--gut) + var(--ov) - var(--pw) - 62px); }
-  .da .da__corner--br { bottom: auto; top: 60%; right: calc(var(--gut) + var(--ov) - var(--pw) - 62px); }
+  .da .da__corner--tl { top: calc(var(--da-sh, 100%) * .35 - var(--pw) - 16px); left: calc(var(--gut) + var(--ov) - var(--pw) - 52px); }
+  .da .da__corner--tr { top: calc(var(--da-sh, 100%) * .33 - var(--pw) - 16px); right: calc(var(--gut) + var(--ov) - var(--pw) - 52px); }
+  .da .da__corner--bl { bottom: auto; top: calc(var(--da-sh, 100%) * .58); left: calc(var(--gut) + var(--ov) - var(--pw) - 62px); }
+  .da .da__corner--br { bottom: auto; top: calc(var(--da-sh, 100%) * .60); right: calc(var(--gut) + var(--ov) - var(--pw) - 62px); }
 }
 
 /* ---------- stage + card ---------- */
@@ -46,7 +52,7 @@
 .da .da__title {
   font-family: var(--font-heading-family), sans-serif; font-weight: 600;
   line-height: 1.05; letter-spacing: -.015em;
-  margin: 8px 0 14px; color: var(--da-navy);
+  margin: 8px 0 6px; color: var(--da-navy);
   text-wrap: balance;
 }
 .da .da__sub {
