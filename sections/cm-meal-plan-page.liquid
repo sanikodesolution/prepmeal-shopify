@@ -11,6 +11,21 @@
   assign review_blocks = section.blocks | where: 'type', 'review'
   assign faq_blocks = section.blocks | where: 'type', 'faq'
   assign related_blocks = section.blocks | where: 'type', 'related'
+
+  # Prices are in cents so they format with the store currency. A menu item
+  # may override the section-wide price; blank falls back to it.
+  assign plan_price = section.settings.meal_price | default: 0
+  assign any_price = false
+  if plan_price > 0
+    assign any_price = true
+  endif
+  for block in menu_blocks
+    assign block_price = block.settings.price | default: 0
+    if block_price > 0
+      assign any_price = true
+      break
+    endif
+  endfor
 -%}
 
 {%- capture foods_json -%}
@@ -104,12 +119,21 @@
               </div>
             </div>
           </div>
-          <ol class="mealplan-menu__list" role="tablist">
+          <ol class="mealplan-menu__list{% if any_price %} has-price{% endif %}" role="tablist">
             {%- for block in menu_blocks -%}
+              {%- liquid
+                assign item_price = block.settings.price | default: 0
+                if item_price <= 0
+                  assign item_price = section.settings.meal_price
+                endif
+              -%}
               <li {{ block.shopify_attributes }}>
                 <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
                   <span class="mealplan-menu__num">{{ forloop.index }}</span>
                   <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
+                  {%- if item_price > 0 -%}
+                    <span class="mealplan-menu__price">{{ item_price | money }}</span>
+                  {%- endif -%}
                 </button>
               </li>
             {%- endfor -%}
@@ -125,7 +149,13 @@
                     <select name="properties[Meal {{ slot }}]" data-mp-pick required>
                       <option value="" selected disabled>Choose a meal</option>
                       {%- for block in menu_blocks -%}
-                        <option value="{{ block.settings.name | escape }}">{{ block.settings.name | escape }}</option>
+                        {%- liquid
+                          assign opt_price = block.settings.price | default: 0
+                          if opt_price <= 0
+                            assign opt_price = section.settings.meal_price
+                          endif
+                        -%}
+                        <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}"{% endif %}>{{ block.settings.name | escape }}</option>
                       {%- endfor -%}
                     </select>
                   </label>
@@ -559,6 +589,7 @@
     { "type": "text", "id": "explore_heading", "label": "Explore heading", "default": "Explore all meals" },
     { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
     { "type": "text", "id": "detail_note", "label": "Detail note", "default": "Meal names and nutrition values are from the current menu." },
+    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Shown next to every meal and in the order dropdowns. Enter cents: 1500 = $15.00. Leave 0 to hide prices." },
 
     { "type": "header", "content": "Chef / Steps / Quality" },
     { "type": "text", "id": "chef_eyebrow", "label": "Chef eyebrow", "default": "The Chef Matt way" },
@@ -655,7 +686,8 @@
       "name": "Menu item",
       "settings": [
         { "type": "text", "id": "short", "label": "Short name" },
-        { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" }
+        { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" },
+        { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Optional. Overrides the section price for this meal only. Leave blank to use the section price." }
       ]
     },
     {

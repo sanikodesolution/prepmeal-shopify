@@ -425,6 +425,11 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__num,.mealplan-menu__name{transition:transform .35s ease,color .3s ease}
 .mealplan-menu__num{text-align:right;font-size:15px;font-weight:600;color:#8d928c}
 .mealplan-menu__name{font-size:18px;line-height:1.25;font-weight:500}
+/* Price column: only laid out when at least one meal has a price, so menus
+   without pricing keep the original two-column row exactly. */
+.mealplan-menu__list.has-price .mealplan-menu__item{grid-template-columns:1.8rem minmax(0,1fr) auto}
+.mealplan-menu__price{flex:none;padding-left:12px;font-size:15px;font-weight:600;color:var(--mp-muted);white-space:nowrap;transition:color .3s ease}
+.mealplan-menu__item.is-active .mealplan-menu__price{color:var(--mp-ink)}
 .mealplan-menu__item.is-active{background:linear-gradient(90deg,var(--mp-accent-soft),rgba(255,255,255,0) 85%)}
 .mealplan-menu__item.is-active::before{transform:scaleY(1)}
 .mealplan-menu__item.is-active .mealplan-menu__num{color:var(--mp-accent)}
@@ -456,12 +461,16 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__trigger:focus-visible{outline:2px solid var(--mp-accent);outline-offset:2px}
 .mealplan-menu__trigger[aria-expanded="true"]{border-color:var(--mp-accent)}
 .mealplan-menu__trigger-text{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mealplan-menu__trigger-price{flex:none;margin-left:auto;font-weight:600;font-size:14px;color:var(--mp-ink)}
+.mealplan-menu__trigger-price[hidden]{display:none}
 .mealplan-menu__trigger.is-empty .mealplan-menu__trigger-text{color:#8d928c}
 .mealplan-menu__trigger svg{flex:none;width:12px;height:8px;transition:transform .22s ease}
 .mealplan-menu__trigger[aria-expanded="true"] svg{transform:rotate(180deg)}
 .mealplan-menu__panel{position:fixed;z-index:120;margin:0;padding:6px;list-style:none;max-height:min(340px,52vh);overflow-y:auto;overscroll-behavior:contain;border:1px solid var(--mp-line);border-radius:14px;background:#fff;box-shadow:0 22px 48px -18px rgba(21,37,28,.35);scrollbar-width:thin;scrollbar-color:#d3d0c7 transparent}
 .mealplan-menu__panel[hidden]{display:none}
 .mealplan-menu__option{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:15px;line-height:1.4;color:#3a3833;cursor:pointer}
+.mealplan-menu__option-name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mealplan-menu__option-price{flex:none;font-weight:600;color:var(--mp-muted)}
 .mealplan-menu__option+.mealplan-menu__option{margin-top:2px}
 .mealplan-menu__option.is-active{background:var(--mp-accent-soft);color:var(--mp-ink)}
 .mealplan-menu__option.is-selected{color:var(--mp-ink);font-weight:600}

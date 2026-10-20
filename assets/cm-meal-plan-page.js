@@ -745,6 +745,13 @@
         const text = trigger.querySelector('.mealplan-menu__trigger-text');
         if (text) text.textContent = empty ? 'Choose a meal' : (chosen ? chosen.textContent.trim() : '');
         trigger.classList.toggle('is-empty', empty);
+        // Price lives in a sibling span so the name can keep its own ellipsis.
+        const price = trigger.querySelector('.mealplan-menu__trigger-price');
+        if (price) {
+          const value = chosen && !empty ? chosen.dataset.price : '';
+          price.textContent = value || '';
+          price.hidden = !value;
+        }
       };
 
       $$('select[data-mp-pick]', orderForm).forEach((select, index) => {
@@ -760,6 +767,7 @@
         trigger.setAttribute('aria-expanded', 'false');
         trigger.setAttribute('aria-label', `Meal ${index + 1}`);
         trigger.innerHTML = '<span class="mealplan-menu__trigger-text">Choose a meal</span>'
+          + '<span class="mealplan-menu__trigger-price" hidden></span>'
           + '<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path fill="none" stroke="#15251C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M1 1.5 6 6.5 11 1.5"/></svg>';
 
         const panel = document.createElement('ul');
@@ -778,8 +786,11 @@
             li.classList.add('is-placeholder');
             li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span>Choose a meal</span>';
           } else {
-            li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span></span>';
-            li.lastElementChild.textContent = opt.textContent.trim();
+            li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span class="mealplan-menu__option-name"></span>'
+              + (opt.dataset.price ? '<span class="mealplan-menu__option-price"></span>' : '');
+            li.querySelector('.mealplan-menu__option-name').textContent = opt.textContent.trim();
+            const priceEl = li.querySelector('.mealplan-menu__option-price');
+            if (priceEl) priceEl.textContent = opt.dataset.price;
           }
           if (opt.selected && opt.value) li.classList.add('is-selected');
           li.setAttribute('aria-selected', opt.selected && opt.value ? 'true' : 'false');
