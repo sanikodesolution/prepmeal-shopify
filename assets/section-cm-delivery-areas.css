@@ -40,16 +40,14 @@
   padding: 38px 32px 46px; text-align: center;
   box-shadow: 0 30px 60px -30px rgba(15, 31, 61, .25);
 }
-.da .da__script {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--font-heading-family), sans-serif; font-style: italic; font-weight: 500;
-  font-size: clamp(22px, 2.4vw, 30px); color: var(--da-orange); line-height: 1;
-}
-.da .da__script svg { width: 42px; height: 42px; }
+.da .da__kicker { font-family: var(--font-body-family), sans-serif; color: #a86400; background: #fff7ea; border-color: rgba(247, 147, 30, .55); }
+.da .da__kicker::before { content: none; }
+.da .da__kicker svg { width: 1.5em; height: 1.5em; flex: 0 0 auto; color: var(--da-orange); }
 .da .da__title {
-  font-family: var(--font-heading-family), sans-serif; font-weight: 700;
-  line-height: 1; letter-spacing: .01em;
+  font-family: var(--font-heading-family), sans-serif; font-weight: 600;
+  line-height: 1.05; letter-spacing: -.015em;
   margin: 8px 0 14px; color: var(--da-navy);
+  text-wrap: balance;
 }
 .da .da__sub {
   display: flex; align-items: center; justify-content: center; gap: 14px;
@@ -230,8 +228,8 @@
 
 /* card and content */
 .da.da--ready .da__card { animation: da-card 1s cubic-bezier(.16, 1, .3, 1) .2s backwards; }
-.da.da--ready .da__script { animation: da-rise .8s cubic-bezier(.16, 1, .3, 1) .55s backwards; }
-.da.da--ready .da__script svg { animation: da-truck 1s cubic-bezier(.16, 1, .3, 1) .7s backwards, da-truck-idle 1.6s ease-in-out 1.8s infinite; }
+.da.da--ready .da__kicker { animation: da-rise .8s cubic-bezier(.16, 1, .3, 1) .55s backwards; }
+.da.da--ready .da__kicker svg { animation: da-truck 1s cubic-bezier(.16, 1, .3, 1) .7s backwards, da-truck-idle 1.6s ease-in-out 1.8s infinite; }
 .da.da--ready .da__title { animation: da-title 1s cubic-bezier(.16, 1, .3, 1) .7s backwards; }
 .da.da--ready .da__sub { animation: da-rise .8s cubic-bezier(.16, 1, .3, 1) .95s backwards; }
 .da.da--ready .da__sub::before, .da.da--ready .da__sub::after { animation: da-line .8s cubic-bezier(.16, 1, .3, 1) 1.15s backwards; }
@@ -294,8 +292,7 @@
   .da .da__corner { --pw: 130px; }
   .da .da__stage { margin-top: 36px; }
   .da .da__card { padding: 26px 14px 32px; border-radius: 44px; }
-  .da .da__script { font-size: 20px; gap: 6px; }
-  .da .da__script svg { width: 32px; height: 32px; }
+  .da .da__kicker svg { width: 1.35em; height: 1.35em; }
   .da .da__title { font-size: 30px; margin: 6px 0 10px; }
   .da .da__sub { margin-bottom: 22px; gap: 8px; }
   .da .da__sub span { min-width: 0; }

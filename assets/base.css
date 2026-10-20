@@ -3645,3 +3645,128 @@ details-disclosure > details {
     font-size: 30px;
   }
 }
+
+/* ============================================================
+   Unified section eyebrow / sub-heading badge
+   One design for every section header across the theme.
+   Sits on light + dark backgrounds via modifier classes.
+   ============================================================ */
+.cm-label,
+.cm-eyebrow,
+.cm-hero__eyebrow,
+.cm-table__eyebrow,
+.cm-footer__eyebrow,
+.mealplan-pd__eyebrow,
+.tw__eyebrow,
+.food-hero__kicker,
+.da__kicker,
+.mp-eye {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  margin: 0 0 1.15rem;
+  padding: 0.62em 1.15em 0.62em 1.05em;
+  border: 1px solid rgba(245, 166, 35, 0.62);
+  border-radius: 999px;
+  background: #fff7ea;
+  color: #a86400;
+  font-size: clamp(1.05rem, 1.18vw, 1.32rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.cm-label::before,
+.cm-eyebrow::before,
+.cm-hero__eyebrow::before,
+.cm-table__eyebrow::before,
+.cm-footer__eyebrow::before,
+.mealplan-pd__eyebrow::before,
+.tw__eyebrow::before,
+.food-hero__kicker::before,
+.da__kicker::before,
+.mp-eye::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.72em;
+  height: 0.72em;
+  border-radius: 50%;
+  background: #f5a623;
+  box-shadow: 0 0 0 0.22em rgba(245, 166, 35, 0.22);
+}
+
+/* Dark sections invert to saffron on a translucent pill. */
+.cm-hero__eyebrow,
+.cm-arc .cm-label,
+.cm-arc--orbit .cm-label,
+.tw__eyebrow,
+.food-hero__kicker,
+.mealplan-steps .mp-eye,
+.mp-eye--dark {
+  color: #f7bd5e;
+  background: rgba(245, 166, 35, 0.13);
+  border-color: rgba(245, 166, 35, 0.55);
+}
+
+/* Legacy dash decoration is replaced by the shared dot. */
+.cm-footer__eyebrow::after,
+.tw__eyebrow::after,
+.food-hero__kicker::after {
+  content: none;
+}
+
+/* ============================================================
+   Unified section heading ramp
+   Every section title shares one type ramp so headers match
+   from section to section and across breakpoints.
+   ============================================================ */
+.mealplan-h,
+.cm .cm-heading,
+.cm .cm-footer__cta-title,
+.cm-table__title,
+.da .da__title,
+.tw h2 {
+  font-family: var(--font-heading-family), sans-serif;
+  font-weight: 600;
+  font-size: clamp(2.8rem, 4.6vw, 4.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* ============================================================
+   Unified section sub-heading / description
+   The paragraph under a section title keeps the same size,
+   measure and rhythm everywhere.
+   ============================================================ */
+.mealplan-p,
+.mealplan-menu__sub,
+.da .da__sub,
+.tw__text,
+.food-hero__text {
+  font-size: clamp(1.5rem, 1.55vw, 1.7rem);
+  line-height: 1.65;
+}
+
+@media screen and (max-width: 749px) {
+  .cm-label,
+  .cm-eyebrow,
+  .cm-hero__eyebrow,
+  .cm-table__eyebrow,
+  .cm-footer__eyebrow,
+  .mealplan-pd__eyebrow,
+  .tw__eyebrow,
+  .food-hero__kicker,
+  .da__kicker,
+  .mp-eye {
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    padding: 0.6em 1em 0.6em 0.9em;
+    margin-bottom: 0.9rem;
+    white-space: normal;
+  }
+}
+

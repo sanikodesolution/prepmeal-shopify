@@ -77,23 +77,15 @@
 .tw__content { padding: 48px clamp(24px, 4vw, 72px) 48px 0; max-width: 640px; }
 .tw__caption { display: none; }
 .tw__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 14px;
   margin: 0 0 22px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--tw-accent, #f5a623);
 }
-.tw__eyebrow:before { content: ""; width: 36px; height: 1px; background: currentColor; }
 .tw h2 {
   margin: 0 0 24px;
   color: var(--tw-text, #fdf3e7);
   font-family: var(--font-heading-family), sans-serif;
-  font-weight: 500;
-  line-height: 1.06;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
 }
 .tw h2 em { font-style: italic; color: var(--tw-accent, #f5a623); }
 .tw__text { margin: 0 0 28px; max-width: 36em; font-size: 16px; line-height: 1.7; color: rgba(253, 243, 231, .82); }

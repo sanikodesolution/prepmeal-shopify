@@ -223,22 +223,7 @@ food-menu {
 }
 
 .food-hero__kicker {
- display: flex;
- align-items: center;
- gap: 0.5em;
- margin-bottom: 0.35em;
- color: var(--food-accent);
- 
- font-weight: 600;
- letter-spacing: 0.1em;
-}
-
-.food-hero__kicker::before,
-.food-hero__kicker::after {
- content: '';
- width: 1.2em;
- height: 2px;
- background: currentColor;
+ margin-bottom: 0.6em;
 }
 
 .food-hero__title-main {

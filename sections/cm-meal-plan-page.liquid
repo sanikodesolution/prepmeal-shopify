@@ -66,6 +66,9 @@
       <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
         <div class="mealplan-wrap mealplan-menu__inner">
           <div class="mealplan-menu__head">
+            {%- if section.settings.menu_eyebrow != blank -%}
+              <p class="mp-eye">{{ section.settings.menu_eyebrow | escape }}</p>
+            {%- endif -%}
             {%- if section.settings.picker_count > 0 -%}
               <h4 class="mealplan-h">
                 <button type="button" class="mealplan-menu__title" data-mp-poster>{{ section.settings.quality_heading | escape }}</button>
@@ -309,6 +312,9 @@
     <section class="mealplan-sec"><div class="mealplan-wrap mealplan-chef">
       <div class="mealplan-img mealplan-big mp-gs" data-p="0"></div>
       <div class="mealplan-txt mp-gs">
+        {%- if section.settings.chef_eyebrow != blank -%}
+          <p class="mp-eye">{{ section.settings.chef_eyebrow | escape }}</p>
+        {%- endif -%}
         <h2 class="mealplan-h">{{ section.settings.chef_heading | escape | newline_to_br }}</h2>
         <p class="mealplan-p">{{ section.settings.chef_text | escape }}</p>
       </div>
@@ -316,6 +322,9 @@
     </div></section>
 
     <section class="mealplan-sec mealplan-steps"><div class="mealplan-wrap">
+      {%- if section.settings.steps_eyebrow != blank -%}
+        <p class="mp-eye">{{ section.settings.steps_eyebrow | escape }}</p>
+      {%- endif -%}
       <h2 class="mealplan-h">{{ section.settings.steps_heading | escape }}</h2>
       <ol class="mealplan-list">
         {%- for block in step_blocks -%}
@@ -332,6 +341,9 @@
       <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
         <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
         <div class="mp-gs mealplan-q__copy">
+          {%- if section.settings.quality_eyebrow != blank -%}
+            <p class="mp-eye">{{ section.settings.quality_eyebrow | escape }}</p>
+          {%- endif -%}
           <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
           <div class="mealplan-q__split">
             <ul class="mealplan-terms" id="qTerms">
@@ -352,7 +364,12 @@
 
     <section class="mealplan-sec" style="padding-inline:0"><div>
       <div class="mealplan-gal-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem)">
-        <h2 class="mealplan-h">{{ section.settings.gallery_heading | escape | newline_to_br }}</h2>
+        <div>
+          {%- if section.settings.gallery_eyebrow != blank -%}
+            <p class="mp-eye">{{ section.settings.gallery_eyebrow | escape }}</p>
+          {%- endif -%}
+          <h2 class="mealplan-h">{{ section.settings.gallery_heading | escape | newline_to_br }}</h2>
+        </div>
         <div class="mealplan-arrows">
           <button type="button" aria-label="Previous" data-g="-1">&larr;</button>
           <button type="button" aria-label="Next" data-g="1">&rarr;</button>
@@ -384,6 +401,9 @@
         {%- endif -%}
       </div>
       <div class="mealplan-del__copy mp-gs">
+        {%- if section.settings.delivery_eyebrow != blank -%}
+          <p class="mp-eye">{{ section.settings.delivery_eyebrow | escape }}</p>
+        {%- endif -%}
         <h2 class="mealplan-h">{{ section.settings.delivery_heading | escape }}</h2>
         <p class="mealplan-p">{{ section.settings.delivery_text | escape }}</p>
         <div class="mealplan-del__actions">
@@ -409,6 +429,9 @@
     </div></section>
 
     <section class="mealplan-sec mealplan-rev"><div class="mealplan-wrap">
+      {%- if section.settings.reviews_eyebrow != blank -%}
+        <p class="mp-eye">{{ section.settings.reviews_eyebrow | escape }}</p>
+      {%- endif -%}
       <h2 class="mealplan-h">{{ section.settings.reviews_heading | escape }}</h2>
       <div class="mealplan-cols" id="rev">
         {%- for block in review_blocks -%}
@@ -433,7 +456,12 @@
     </div></section>
 
     <section class="mealplan-sec"><div class="mealplan-wrap mealplan-faq">
-      <div><h2 class="mealplan-h">{{ section.settings.faq_heading | escape }}</h2></div>
+      <div>
+        {%- if section.settings.faq_eyebrow != blank -%}
+          <p class="mp-eye">{{ section.settings.faq_eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="mealplan-h">{{ section.settings.faq_heading | escape }}</h2>
+      </div>
       <div id="faq">
         {%- for block in faq_blocks -%}
           <div class="mealplan-qi" {{ block.shopify_attributes }}>
@@ -447,7 +475,12 @@
     </div></section>
 
     <section class="mealplan-sec" style="padding-inline:0"><div>
-      <h2 class="mealplan-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem);margin-bottom:60px">{{ section.settings.related_heading | escape }}</h2>
+      <div class="mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem);margin-bottom:60px">
+        {%- if section.settings.related_eyebrow != blank -%}
+          <p class="mp-eye">{{ section.settings.related_eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="mealplan-h">{{ section.settings.related_heading | escape }}</h2>
+      </div>
       <div class="mealplan-track" id="plans">
         {%- for block in related_blocks -%}
           <article class="mealplan-card" {{ block.shopify_attributes }}>
@@ -470,6 +503,9 @@
     <section class="mealplan-sec"><div class="mealplan-wrap"><div class="mealplan-cta">
       <div class="mealplan-img" data-p="3"></div>
       <div class="mealplan-cta-in">
+        {%- if section.settings.cta_eyebrow != blank -%}
+          <p class="mp-eye mp-eye--dark">{{ section.settings.cta_eyebrow | escape }}</p>
+        {%- endif -%}
         <h2 class="mealplan-h">{{ section.settings.cta_heading | escape }}</h2>
         <p class="mealplan-p">{{ section.settings.cta_text | escape }}</p>
         {%- if section.settings.cta_button_label != blank -%}
@@ -514,24 +550,30 @@
     { "type": "textarea", "id": "ben_note", "label": "Note", "default": "Flexible menu: choose any five from 10+ options, and change your picks each week." },
 
     { "type": "header", "content": "Menu" },
-    { "type": "text", "id": "menu_heading", "label": "Menu heading", "default": "This week's menu" },
+    { "type": "text", "id": "menu_eyebrow", "label": "Menu eyebrow", "default": "This week at ChefMatts" },
+    { "type": "text", "id": "menu_heading", "label": "Menu heading", "default": "Pick your flavor" },
     { "type": "textarea", "id": "menu_text", "label": "Menu text", "default": "Featured meals from the weekly rotation. Hover or tap a meal for the details." },
     { "type": "text", "id": "explore_heading", "label": "Explore heading", "default": "Explore all meals" },
     { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
     { "type": "text", "id": "detail_note", "label": "Detail note", "default": "Meal names and nutrition values are from the current menu." },
 
     { "type": "header", "content": "Chef / Steps / Quality" },
+    { "type": "text", "id": "chef_eyebrow", "label": "Chef eyebrow", "default": "The Chef Matt way" },
     { "type": "textarea", "id": "chef_heading", "label": "Chef heading", "default": "40 years in the kitchen. Now cooking for you." },
     { "type": "textarea", "id": "chef_text", "label": "Chef text", "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you." },
+    { "type": "text", "id": "steps_eyebrow", "label": "Steps eyebrow", "default": "Simple by design" },
     { "type": "text", "id": "steps_heading", "label": "Steps heading", "default": "How it works" },
+    { "type": "text", "id": "quality_eyebrow", "label": "Quality eyebrow", "default": "Premium ingredients" },
     { "type": "text", "id": "quality_heading", "label": "Quality heading", "default": "Fresh in, quality out." },
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
     { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Added to the cart with the meals chosen in the dropdowns." },
+    { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
     { "type": "header", "content": "Delivery" },
+    { "type": "text", "id": "delivery_eyebrow", "label": "Delivery eyebrow", "default": "We deliver" },
     { "type": "text", "id": "delivery_heading", "label": "Heading", "default": "Fresh meals, delivered to your door." },
     { "type": "textarea", "id": "delivery_text", "label": "Text", "default": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you." },
     { "type": "text", "id": "delivery_areas", "label": "Areas", "info": "Comma-separated", "default": "Hartland, Nearby areas" },
@@ -542,9 +584,13 @@
     { "type": "text", "id": "map_embed_url", "label": "Google Maps embed URL", "info": "Optional. Paste full embed src from Google Maps → Share → Embed a map." },
 
     { "type": "header", "content": "Reviews / FAQ / CTA" },
+    { "type": "text", "id": "reviews_eyebrow", "label": "Reviews eyebrow", "default": "Loved by our customers" },
     { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Loved by people who love good food" },
+    { "type": "text", "id": "faq_eyebrow", "label": "FAQ eyebrow", "default": "Good to know" },
     { "type": "text", "id": "faq_heading", "label": "FAQ heading", "default": "Questions, answered" },
+    { "type": "text", "id": "related_eyebrow", "label": "Related eyebrow", "default": "More ways to eat well" },
     { "type": "text", "id": "related_heading", "label": "Related heading", "default": "Other ways to eat well" },
+    { "type": "text", "id": "cta_eyebrow", "label": "CTA eyebrow", "default": "Ready when you are" },
     { "type": "text", "id": "cta_heading", "label": "CTA heading", "default": "Your week just got easier." },
     { "type": "textarea", "id": "cta_text", "label": "CTA text", "default": "Five chef-prepared meals, delivered. Choose yours and we handle the rest." },
     { "type": "text", "id": "cta_button_label", "label": "CTA button", "default": "Build my meal plan" },

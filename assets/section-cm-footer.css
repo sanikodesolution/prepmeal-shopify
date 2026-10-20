@@ -73,23 +73,15 @@
 }
 
 .cm-footer__eyebrow {
- display: inline-flex;
- align-items: center;
- gap: 0.8rem;
- margin-bottom: 1.4rem !important;
- 
- font-weight: 700;
- letter-spacing: 0.22em;
- text-transform: uppercase;
- color: rgba(17, 17, 17, 0.75);
+ margin-bottom: 1.4rem;
+ color: #7a4a06;
+ background: rgba(255, 255, 255, 0.62);
+ border-color: rgba(122, 74, 6, 0.28);
 }
 
 .cm-footer__eyebrow::before {
- content: '';
- width: 2.4rem;
- height: 2px;
- border-radius: 2px;
- background: currentColor;
+ background: #7a4a06;
+ box-shadow: 0 0 0 0.22em rgba(122, 74, 6, 0.16);
 }
 
 .cm .cm-footer__cta-title {
@@ -602,8 +594,7 @@
  }
 
  .cm-footer__eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
  }
 }
 

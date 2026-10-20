@@ -171,7 +171,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan *{box-sizing:border-box}
 .mealplan-sec{padding:80px clamp(1.25rem,4vw,4rem)}
 .mealplan-wrap{max-width:var(--page-width);margin:0 auto}
-.mealplan-h{font-family:var(--d);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
+.mealplan-h{font-family:var(--d);font-weight:600;letter-spacing:-.015em;line-height:1.08;margin:0;text-wrap:balance}
+/* Unified section eyebrow — geometry lives in base.css; keep page context only. */
+.mp-eye{font-family:var(--b)}
+.mealplan-gal-h .mp-eye{margin-bottom:.75rem}
 .mealplan-p{line-height:1.65;max-width:50ch;margin:1.25rem 0 0}
 .mealplan-btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;min-height:3.25rem;padding:0 1.6rem;border-radius:999px;border:1.5px solid var(--f);background:none;color:var(--f);font-weight:600;text-decoration:none;cursor:pointer;transition:color .4s ease,transform .4s cubic-bezier(.22,.7,.2,1),box-shadow .4s cubic-bezier(.22,.7,.2,1),border-color .4s}
 .mealplan-btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--y);transform:scaleX(0);transform-origin:left center;transition:transform .6s cubic-bezier(.22,.7,.2,1)}
@@ -241,8 +244,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-q__menu li::before{content:counter(meal) ".";counter-increment:meal}
 
 /* 09 gallery */
-.mealplan-gal-h{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
-.mealplan-gal-h .mealplan-h{line-height:.88}
+.mealplan-gal-h{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem 2rem;flex-wrap:wrap;margin-bottom:2rem}
+.mealplan-gal-h .mealplan-h{line-height:1.02}
 .mealplan-track{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 clamp(1.25rem,4vw,4rem) 1rem;-webkit-overflow-scrolling:touch}
 .mealplan-track::-webkit-scrollbar{display:none}
 .mealplan-slide{flex:0 0 min(78vw,360px);scroll-snap-align:center}
@@ -373,8 +376,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 /* This Week's Menu */
 .mealplan-menu{--mp-accent:#F5A623;--mp-accent-soft:#fff4e3;--mp-ink:#15251C;--mp-muted:#5c675f;--mp-line:#e4e8e1;background:#fff;color:var(--mp-ink)}
 .mealplan-menu__inner{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);column-gap:clamp(12px,1.4vw,22px);row-gap:0;align-items:start;max-width:calc(var(--page-width) + 100px)}
-.mealplan-menu__head{grid-column:1 / -1;grid-row:1;display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:14px 48px;margin-bottom:clamp(28px,3.4vw,52px);padding-bottom:clamp(18px,2vw,26px);border-bottom:1px solid var(--mp-line)}
-.mealplan-menu__head .mealplan-h{grid-column:1 / -1;grid-row:1;margin:0;text-align:center;font-size:24px}
+.mealplan-menu__head{grid-column:1 / -1;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:center;gap:0;text-align:center;margin-bottom:clamp(28px,3.4vw,52px);padding-bottom:clamp(18px,2vw,26px);border-bottom:1px solid var(--mp-line)}
+.mealplan-menu__head .mealplan-h{grid-column:1;grid-row:2;margin:0;text-align:center}
+.mealplan-menu__head .mp-eye{grid-column:1;grid-row:1;justify-self:center;margin:0 0 .95rem}
 .mealplan-menu__title{margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:center;cursor:pointer}
 .mealplan-menu__cursor{position:fixed;left:0;top:0;z-index:90;width:80px;height:80px;margin:16px 0 0 18px;border-radius:12px;overflow:hidden;pointer-events:none;box-shadow:0 12px 28px rgba(21,37,28,.32);background:#fff}
 .mealplan-menu__cursor[hidden]{display:none}
@@ -386,7 +390,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__frame.is-sheet .mealplan-menu__caption,
 .mealplan-menu__frame.is-all .mealplan-menu__caption{opacity:0}
 .mealplan-menu__frame.is-all::after{opacity:0}
-.mealplan-menu__sub{grid-column:3;grid-row:1;justify-self:end;margin:0;max-width:28ch;font-size:16px;line-height:1.6;color:var(--mp-muted);text-align:center}
+.mealplan-menu__sub{grid-column:1;grid-row:3;justify-self:center;margin:.85rem 0 0;max-width:56ch;font-size:16px;line-height:1.6;color:var(--mp-muted);text-align:center}
 .mealplan-menu__stage{grid-column:1;grid-row:2;position:sticky;top:40px}
 .mealplan-menu__frame{position:relative;aspect-ratio:1/1;border-radius:36px;overflow:hidden;background:#f6f5f3;box-shadow:0 40px 80px -40px rgba(21,37,28,.35);cursor:zoom-in}
 .mealplan-menu__frame:focus-visible{outline:2px solid var(--mp-accent);outline-offset:4px}
@@ -576,7 +580,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 }
 @media(max-width:860px){
   .mealplan-menu__head{grid-template-columns:1fr;justify-items:center}
-  .mealplan-menu__head .mealplan-h,.mealplan-menu__sub{grid-column:1;grid-row:auto;justify-self:center;text-align:center}
+  .mealplan-menu__head .mealplan-h,.mealplan-menu__sub,.mealplan-menu__head .mp-eye{grid-column:1;grid-row:auto;justify-self:center;text-align:center}
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr)}
   .mealplan-menu__stage{grid-column:1;grid-row:2;position:relative;top:0;margin-bottom:28px}
   .mealplan-menu__frame{aspect-ratio:1/1;border-radius:28px}
@@ -584,10 +588,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
   .mealplan-menu__detail{grid-column:1;grid-row:4;position:relative;top:0}
 }
 
-/* Mobile: reduce section titles (base h2 is a flat 4.8rem with no mobile step) */
+/* Mobile: section titles share the same step-down scale. */
 @media(max-width:749px){
-  .mealplan .mealplan-h{font-size:30px}
-  .mealplan .mealplan-menu__head .mealplan-h{font-size:24px}
+  .mealplan .mealplan-h{font-size:2.6rem}
   .mealplan .mph__title{font-size:30px}
 }
 

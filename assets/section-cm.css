@@ -60,25 +60,14 @@
  margin-right: auto;
 }
 
-.cm-label {
- display: block;
- margin: 0 0 0.6rem;
- font-family: var(--cm-body);
- 
- font-weight: 700;
- letter-spacing: 0.18em;
- text-transform: uppercase;
- color: var(--cm-brand-text);
-}
 
 .cm .cm-heading {
  margin: 0 0 1.2rem;
  font-family: var(--cm-display);
  font-optical-sizing: auto;
- 
- font-weight: 900;
- line-height: 1.12;
- letter-spacing: -0.01em;
+ font-weight: 600;
+ line-height: 1.08;
+ letter-spacing: -0.015em;
  color: var(--cm-text);
 }
 
@@ -147,16 +136,6 @@
  position: relative;
  max-width: 900px;
  margin: 0 auto;
-}
-
-.cm-hero__eyebrow {
- display: inline-block;
- margin-bottom: 2rem;
- 
- font-weight: 700;
- letter-spacing: 0.18em;
- text-transform: uppercase;
- color: rgba(255, 255, 255, 0.55);
 }
 
 .cm .cm-hero__heading {
@@ -355,6 +334,23 @@
  color: var(--cm-text);
 }
 
+/* Card-level labels stay light so the section eyebrow keeps the spotlight. */
+.cm-usp__row .cm-label {
+ display: block;
+ margin: 0 0 0.55rem;
+ padding: 0;
+ border: 0;
+ border-radius: 0;
+ background: none;
+ font-size: 1.2rem;
+ font-weight: 700;
+ letter-spacing: 0.18em;
+}
+
+.cm-usp__row .cm-label::before {
+ display: none;
+}
+
 @media screen and (min-width: 750px) {
  .cm-usp__row {
  grid-template-columns: 1fr 1fr;
@@ -469,7 +465,7 @@
 }
 
 .cm-hiw__intro .cm-label {
- margin-bottom: 1.2rem;
+ margin-bottom: 1.15rem;
 }
 
 .cm .cm-hiw__title {
@@ -1311,11 +1307,6 @@ a.cm-map__foot:hover {
  color: var(--cm-arc-text);
 }
 
-.cm-arc .cm-label {
- color: color-mix(in srgb, var(--cm-arc-accent) 55%, var(--cm-arc-text));
- transition: color 0.8s ease;
-}
-
 .cm-arc .cm-body {
  color: color-mix(in srgb, var(--cm-arc-text) 65%, transparent);
 }
@@ -1801,21 +1792,6 @@ cm-arc-carousel {
  color: #e7b15a;
  white-space: nowrap;
 }
-.cm-arc--orbit .cm-label {
- color: #e7b15a;
- font-size: 12px;
- letter-spacing: .28em;
-}
-.cm-arc--orbit .cm-label::before,
-.cm-arc--orbit .cm-label::after {
- content: "";
- display: inline-block;
- width: 28px;
- height: 1px;
- margin: 0 10px 4px;
- background: #e7b15a;
- vertical-align: middle;
-}
 .cm-arc--orbit .cm-heading {
  color: #fffaf3;
  font-weight: 500;
@@ -1868,11 +1844,10 @@ cm-arc-carousel {
  .cm .cm-heading,
  .cm .cm-hiw__title,
  .cm .cm-arc__title,
- .cm .cm-pc__title,
- .cm .cm-usp__title,
- .cm-arc--orbit .cm-heading { font-size: 30px; }
+ .cm .cm-pc__title { font-size: 2.8rem; }
+ .cm .cm-usp__title { font-size: 30px; }
+ .cm-arc--orbit .cm-heading { font-size: 30px; max-width: none; }
  .cm .cm-pg__title { font-size: 22px; }
- .cm-arc--orbit .cm-heading { max-width: none; }
 
  .cm .cm-step__title { font-size: 17px; }
  .cm-step { padding: 2.2rem 1.6rem; }
