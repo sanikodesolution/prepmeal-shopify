@@ -524,106 +524,6 @@
             "button_label": "View plan",
             "link": "/pages/15-meal-plan"
           }
-        },
-        "area_1": {
-          "type": "area",
-          "settings": { "name": "Hartland", "zip": "53029", "x": 41, "y": 29, "kitchen": true }
-        },
-        "area_2": {
-          "type": "area",
-          "settings": { "name": "Delafield", "zip": "53018", "x": 30, "y": 40 }
-        },
-        "area_3": {
-          "type": "area",
-          "settings": { "name": "Pewaukee", "zip": "53072", "x": 55, "y": 35 }
-        },
-        "area_4": {
-          "type": "area",
-          "settings": { "name": "Waukesha", "zip": "53186, 53188, 53189", "x": 60, "y": 52 }
-        },
-        "area_5": {
-          "type": "area",
-          "settings": { "name": "Sussex", "zip": "53089", "x": 62, "y": 22 }
-        },
-        "area_6": {
-          "type": "area",
-          "settings": { "name": "Merton", "zip": "53056", "x": 47, "y": 20 }
-        },
-        "area_7": {
-          "type": "area",
-          "settings": { "name": "Nashotah", "zip": "53058", "x": 27, "y": 33 }
-        },
-        "area_8": {
-          "type": "area",
-          "settings": { "name": "Okauchee Lake", "zip": "53069", "x": 32, "y": 26 }
-        },
-        "area_9": {
-          "type": "area",
-          "settings": { "name": "Oconomowoc", "zip": "53066", "x": 14, "y": 27 }
-        },
-        "area_10": {
-          "type": "area",
-          "settings": { "name": "Oconomowoc Lake", "zip": "", "x": 21, "y": 31 }
-        },
-        "area_11": {
-          "type": "area",
-          "settings": { "name": "Chenequa", "zip": "", "x": 37, "y": 24 }
-        },
-        "area_12": {
-          "type": "area",
-          "settings": { "name": "Lisbon", "zip": "", "x": 53, "y": 18 }
-        },
-        "area_13": {
-          "type": "area",
-          "settings": { "name": "Lannon", "zip": "53046", "x": 73, "y": 20 }
-        },
-        "area_14": {
-          "type": "area",
-          "settings": { "name": "Menomonee Falls", "zip": "53051", "x": 80, "y": 10 }
-        },
-        "area_15": {
-          "type": "area",
-          "settings": { "name": "Brookfield", "zip": "53005, 53045", "x": 82, "y": 40 }
-        },
-        "area_16": {
-          "type": "area",
-          "settings": { "name": "Elm Grove", "zip": "53122", "x": 85, "y": 45 }
-        },
-        "area_17": {
-          "type": "area",
-          "settings": { "name": "Wales", "zip": "53183", "x": 36, "y": 55 }
-        },
-        "area_18": {
-          "type": "area",
-          "settings": { "name": "Dousman", "zip": "53118", "x": 19, "y": 51 }
-        },
-        "area_19": {
-          "type": "area",
-          "settings": { "name": "Summit", "zip": "", "x": 22, "y": 41 }
-        },
-        "area_20": {
-          "type": "area",
-          "settings": { "name": "Lake Country", "zip": "", "x": 22, "y": 19 }
-        },
-        "area_21": {
-          "type": "area",
-          "settings": { "name": "Stone Bank", "zip": "", "x": 31, "y": 16 }
-        },
-        "area_22": {
-          "type": "area",
-          "settings": { "name": "North Lake", "zip": "53064", "x": 37, "y": 12 }
-        },
-        "area_23": {
-          "type": "area",
-          "settings": { "name": "Mapleton", "zip": "", "x": 8, "y": 32 }
-        },
-        "area_24": {
-          "type": "area",
-          "settings": { "name": "Genesee", "zip": "53127", "x": 43, "y": 60 }
-        },
-        "area_25": {
-          "type": "area",
-          "settings": { "name": "Mukwonago", "zip": "53149", "x": 43, "y": 88 }
         }
       },
       "block_order": [
@@ -674,32 +574,7 @@
         "related_1",
         "related_2",
         "related_3",
-        "related_4",
-        "area_1",
-        "area_2",
-        "area_3",
-        "area_4",
-        "area_5",
-        "area_6",
-        "area_7",
-        "area_8",
-        "area_9",
-        "area_10",
-        "area_11",
-        "area_12",
-        "area_13",
-        "area_14",
-        "area_15",
-        "area_16",
-        "area_17",
-        "area_18",
-        "area_19",
-        "area_20",
-        "area_21",
-        "area_22",
-        "area_23",
-        "area_24",
-        "area_25"
+        "related_4"
       ]
     }
   },
