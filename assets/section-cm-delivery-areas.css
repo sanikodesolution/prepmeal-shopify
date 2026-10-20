@@ -53,11 +53,7 @@
   display: flex; align-items: center; justify-content: center; gap: 14px;
   margin: 0 0 30px; font-size: clamp(14px, 1.5vw, 17px); font-weight: 500;
 }
-.da .da__sub::before, .da .da__sub::after {
-  content: ""; flex: 0 0 clamp(24px, 4vw, 50px); height: 3px; border-radius: 3px; background: var(--da-orange);
-}
-.da .da__sub::before { transform-origin: right center; }
-.da .da__sub::after { transform-origin: left center; }
+.da .da__sub::before, .da .da__sub::after { content: none; }
 .da .da__sub em { font-style: normal; color: var(--da-orange); }
 
 /* ---------- map (replaces the city pill box) ---------- */
@@ -196,7 +192,6 @@
 @keyframes da-rise { from { opacity: 0; transform: translateY(24px); } }
 @keyframes da-pop { from { opacity: 0; transform: translateY(16px) scale(.88); } }
 @keyframes da-title { from { opacity: 0; transform: translateY(30px) scale(.97); filter: blur(10px); letter-spacing: .07em; } }
-@keyframes da-line { from { transform: scaleX(0); } }
 @keyframes da-truck { from { opacity: 0; transform: translateX(-46px); } }
 @keyframes da-reveal { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: .9; clip-path: inset(0 0 0 0); } }
 @keyframes da-fade { from { opacity: 0; } }
@@ -232,7 +227,6 @@
 .da.da--ready .da__kicker svg { animation: da-truck 1s cubic-bezier(.16, 1, .3, 1) .7s backwards, da-truck-idle 1.6s ease-in-out 1.8s infinite; }
 .da.da--ready .da__title { animation: da-title 1s cubic-bezier(.16, 1, .3, 1) .7s backwards; }
 .da.da--ready .da__sub { animation: da-rise .8s cubic-bezier(.16, 1, .3, 1) .95s backwards; }
-.da.da--ready .da__sub::before, .da.da--ready .da__sub::after { animation: da-line .8s cubic-bezier(.16, 1, .3, 1) 1.15s backwards; }
 .da.da--ready .da__pill { animation: da-pop .7s cubic-bezier(.34, 1.56, .64, 1) calc(1.1s + var(--i, 0) * 45ms) backwards; }
 .da.da--ready .da__cta { animation: da-pop .8s cubic-bezier(.34, 1.56, .64, 1) 2.2s backwards; }
 .da.da--ready .da__cta::after { animation: da-ring 2.4s ease-out 3.2s infinite; }
@@ -296,7 +290,6 @@
   .da .da__title { font-size: 30px; margin: 6px 0 10px; }
   .da .da__sub { margin-bottom: 22px; gap: 8px; }
   .da .da__sub span { min-width: 0; }
-  .da .da__sub::before, .da .da__sub::after { flex-basis: 18px; }
   .da .da__areas { gap: 8px; }
   .da .da__deliver-label, .da .da__check-label { letter-spacing: 1.2px; }
   .da .da__deliver-pills { gap: 8px; }
@@ -329,7 +322,6 @@
   .da .da__corner { --pw: 104px; }
   .da .da__pill { font-size: 11.5px; padding: 7px 11px 7px 9px; }
   .da .da__sub { font-size: 12.5px; }
-  .da .da__sub::before, .da .da__sub::after { display: none; }
   .da .da__bar { padding: 26px 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
