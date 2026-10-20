@@ -410,54 +410,60 @@
       <div class="mealplan-track" id="gal"></div>
     </div></section>
 
-    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-del">
-      {%- liquid
-        assign map_query = section.settings.map_query | default: 'Richmond Station Toronto Ontario Canada'
-        assign map_src = section.settings.map_embed_url
-        if map_src == blank
-          assign map_q = map_query | url_encode
-          assign map_src = 'https://maps.google.com/maps?q=' | append: map_q | append: '&z=15&output=embed'
-        endif
-      -%}
-      <div class="mealplan-map mp-gs">
-        <iframe
-          class="mealplan-map__frame"
-          title="{{ section.settings.map_title | default: map_query | escape }}"
-          src="{{ map_src }}"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen
-        ></iframe>
-        {%- if section.settings.map_title != blank -%}
-          <p class="mealplan-map__label">{{ section.settings.map_title | escape }}</p>
-        {%- endif -%}
-      </div>
-      <div class="mealplan-del__copy mp-gs">
-        {%- if section.settings.delivery_eyebrow != blank -%}
-          <p class="mp-eye">{{ section.settings.delivery_eyebrow | escape }}</p>
-        {%- endif -%}
-        <h2 class="mealplan-h">{{ section.settings.delivery_heading | escape }}</h2>
-        <p class="mealplan-p">{{ section.settings.delivery_text | escape }}</p>
-        <div class="mealplan-del__actions">
-          {%- if section.settings.delivery_areas != blank -%}
-            <ul class="mealplan-areas">
-              {%- assign areas = section.settings.delivery_areas | split: ',' -%}
-              {%- for area in areas -%}
-                <li>
-                  <span class="mealplan-areas__pin" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
-                  </span>
-                  {{ area | strip | escape }}
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
-          {%- if section.settings.delivery_button_label != blank -%}
-            {%- assign delivery_link = section.settings.delivery_button_link | default: '#' -%}
-            {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand' %}
-          {%- endif -%}
+    <section class="mealplan-sec"><div class="mealplan-wrap">
+      {%- if section.settings.delivery_checker -%}
+        {% render 'cm-delivery-checker', section: section %}
+      {%- else -%}
+        <div class="mealplan-del">
+          {%- liquid
+            assign map_query = section.settings.map_query | default: 'Richmond Station Toronto Ontario Canada'
+            assign map_src = section.settings.map_embed_url
+            if map_src == blank
+              assign map_q = map_query | url_encode
+              assign map_src = 'https://maps.google.com/maps?q=' | append: map_q | append: '&z=15&output=embed'
+            endif
+          -%}
+          <div class="mealplan-map mp-gs">
+            <iframe
+              class="mealplan-map__frame"
+              title="{{ section.settings.map_title | default: map_query | escape }}"
+              src="{{ map_src }}"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+            ></iframe>
+            {%- if section.settings.map_title != blank -%}
+              <p class="mealplan-map__label">{{ section.settings.map_title | escape }}</p>
+            {%- endif -%}
+          </div>
+          <div class="mealplan-del__copy mp-gs">
+            {%- if section.settings.delivery_eyebrow != blank -%}
+              <p class="mp-eye">{{ section.settings.delivery_eyebrow | escape }}</p>
+            {%- endif -%}
+            <h2 class="mealplan-h">{{ section.settings.delivery_heading | escape }}</h2>
+            <p class="mealplan-p">{{ section.settings.delivery_text | escape }}</p>
+            <div class="mealplan-del__actions">
+              {%- if section.settings.delivery_areas != blank -%}
+                <ul class="mealplan-areas">
+                  {%- assign areas = section.settings.delivery_areas | split: ',' -%}
+                  {%- for area in areas -%}
+                    <li>
+                      <span class="mealplan-areas__pin" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
+                      </span>
+                      {{ area | strip | escape }}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+              {%- if section.settings.delivery_button_label != blank -%}
+                {%- assign delivery_link = section.settings.delivery_button_link | default: '#' -%}
+                {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand' %}
+              {%- endif -%}
+            </div>
+          </div>
         </div>
-      </div>
+      {%- endif -%}
     </div></section>
 
     <section class="mealplan-sec mealplan-rev"><div class="mealplan-wrap">
@@ -607,15 +613,38 @@
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
     { "type": "header", "content": "Delivery" },
+    { "type": "checkbox", "id": "delivery_checker", "label": "Use the delivery area checker", "default": false, "info": "Turns the delivery block into a map with a town / ZIP search and town chips. Off keeps the plain Google Maps block below." },
     { "type": "text", "id": "delivery_eyebrow", "label": "Delivery eyebrow", "default": "We deliver" },
     { "type": "text", "id": "delivery_heading", "label": "Heading", "default": "Fresh meals, delivered to your door." },
     { "type": "textarea", "id": "delivery_text", "label": "Text", "default": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you." },
-    { "type": "text", "id": "delivery_areas", "label": "Areas", "info": "Comma-separated", "default": "Hartland, Nearby areas" },
-    { "type": "text", "id": "delivery_button_label", "label": "Button label", "default": "Check my area" },
-    { "type": "url", "id": "delivery_button_link", "label": "Button link" },
-    { "type": "text", "id": "map_title", "label": "Map label", "default": "Richmond Station · Toronto, Canada" },
-    { "type": "text", "id": "map_query", "label": "Google Maps search", "default": "Richmond Station Toronto Ontario Canada", "info": "Used when Embed URL is empty." },
-    { "type": "text", "id": "map_embed_url", "label": "Google Maps embed URL", "info": "Optional. Paste full embed src from Google Maps → Share → Embed a map." },
+    { "type": "text", "id": "delivery_areas", "label": "Areas (plain block only)", "info": "Comma-separated. Used when the checker is off.", "default": "Hartland, Nearby areas" },
+    { "type": "text", "id": "delivery_button_label", "label": "Button label (plain block only)", "default": "Check my area" },
+    { "type": "url", "id": "delivery_button_link", "label": "Button link (plain block only)" },
+    { "type": "text", "id": "map_title", "label": "Map label (plain block only)", "default": "Richmond Station · Toronto, Canada" },
+    { "type": "text", "id": "map_query", "label": "Google Maps search (plain block only)", "default": "Richmond Station Toronto Ontario Canada", "info": "Used when Embed URL is empty." },
+    { "type": "text", "id": "map_embed_url", "label": "Google Maps embed URL (plain block only)", "info": "Optional. Paste full embed src from Google Maps → Share → Embed a map." },
+
+    { "type": "header", "content": "Delivery checker: search" },
+    { "type": "text", "id": "delivery_placeholder", "label": "Search placeholder", "default": "Enter your town or ZIP code" },
+    { "type": "text", "id": "delivery_button", "label": "Check button label", "default": "Check my area" },
+    { "type": "text", "id": "delivery_msg_yes", "label": "Found message", "default": "Yes, we deliver to {town}.", "info": "{town} is replaced with the town name." },
+    { "type": "text", "id": "delivery_msg_yes_sub", "label": "Found message follow-up", "default": "Add your plan and confirm your address at checkout." },
+    { "type": "text", "id": "delivery_msg_no", "label": "Not-found message", "default": "We do not deliver to \"{query}\" yet.", "info": "{query} is replaced with what the visitor typed." },
+    { "type": "url", "id": "delivery_contact_url", "label": "Not-found link" },
+    { "type": "text", "id": "delivery_contact_label", "label": "Not-found link label", "default": "Ask us about your area" },
+    { "type": "text", "id": "delivery_show_all", "label": "Show-all label", "default": "Show all" },
+    { "type": "text", "id": "delivery_show_less", "label": "Show-less label", "default": "Show less" },
+    { "type": "range", "id": "delivery_initial_chips", "label": "Towns shown before \"Show all\"", "min": 4, "max": 24, "step": 1, "default": 10 },
+
+    { "type": "header", "content": "Delivery checker: map" },
+    { "type": "textarea", "id": "delivery_towns", "label": "Delivery towns", "info": "One per line: Name|latitude|longitude|ZIP codes (comma separated, optional). Leave empty for the built-in Hartland list." },
+    { "type": "text", "id": "delivery_kitchen_lat", "label": "Kitchen latitude", "default": "43.1051" },
+    { "type": "text", "id": "delivery_kitchen_lng", "label": "Kitchen longitude", "default": "-88.3420" },
+    { "type": "range", "id": "delivery_radius_km", "label": "Delivery zone radius (km)", "min": 0, "max": 80, "step": 1, "default": 0, "info": "0 fits the circle to the farthest town automatically." },
+    { "type": "text", "id": "delivery_legend_kitchen", "label": "Legend: kitchen", "default": "Our kitchen" },
+    { "type": "text", "id": "delivery_legend_areas", "label": "Legend: areas", "default": "Delivery areas" },
+    { "type": "text", "id": "delivery_legend_zone", "label": "Legend: zone", "default": "Delivery zone" },
+    { "type": "text", "id": "delivery_reset_label", "label": "Reset link label", "default": "Show full zone" },
 
     { "type": "header", "content": "Reviews / FAQ / CTA" },
     { "type": "text", "id": "reviews_eyebrow", "label": "Reviews eyebrow", "default": "Loved by our customers" },

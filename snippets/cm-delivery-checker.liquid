@@ -1,0 +1,199 @@
+{%- comment -%}
+  Delivery area checker — Leaflet map, town / ZIP search and town chips.
+  Rendered by sections/cm-meal-plan-page.liquid when "delivery_checker" is on.
+
+  Settings live on the parent cm-meal-plan-page section so the copy, the town
+  list and the map stay editable from the theme editor.
+{%- endcomment -%}
+
+{{ 'section-cm-delivery-checker.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-delivery-checker.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%} Fallback towns. Format: Name|lat|lng|ZIP,ZIP (ZIP is optional). {%- endcomment -%}
+{%- capture mpd_default_towns -%}
+Hartland|43.1051|-88.3420|53029
+Delafield|43.0608|-88.4037|53018
+Pewaukee|43.0806|-88.2612|53072
+Waukesha|43.0117|-88.2315|53186,53188,53189
+Sussex|43.1336|-88.2223|53089
+Merton|43.1422|-88.3107|53056
+Nashotah|43.0961|-88.4018|53058
+Okauchee Lake|43.1136|-88.4401|53069
+Oconomowoc|43.1117|-88.4993|53066
+Oconomowoc Lake|43.0947|-88.4576|
+Chenequa|43.1236|-88.3815|
+Lisbon|43.1550|-88.2501|
+Lannon|43.1492|-88.1626|53046
+Menomonee Falls|43.1789|-88.1173|53051
+Brookfield|43.0606|-88.1065|53005,53045
+Elm Grove|43.0431|-88.0787|53122
+Wales|43.0042|-88.3770|53183
+Dousman|43.0136|-88.4723|53118
+Summit|43.0578|-88.4612|
+Lake Country|43.0800|-88.4500|
+Stone Bank|43.1306|-88.4701|
+North Lake|43.1503|-88.3712|
+Mapleton|43.0680|-88.4200|
+Genesee|42.9689|-88.3654|
+Mukwonago|42.8667|-88.3334|53149
+{%- endcapture -%}
+
+{%- liquid
+  assign s = section.settings
+  assign towns_raw = s.delivery_towns | strip
+  if towns_raw == blank
+    assign towns_raw = mpd_default_towns | strip
+  endif
+  assign lines = towns_raw | newline_to_br | split: '<br />'
+
+  assign initial = s.delivery_initial_chips | default: 10
+  assign total = 0
+  for line in lines
+    assign name = line | split: '|' | first | strip
+    if name != blank
+      assign total = total | plus: 1
+    endif
+  endfor
+
+  assign kitchen_lat = s.delivery_kitchen_lat | default: '43.1051'
+  assign kitchen_lng = s.delivery_kitchen_lng | default: '-88.3420'
+  assign radius = s.delivery_radius_km | default: 0
+  assign show_all = s.delivery_show_all | default: 'Show all'
+  assign show_less = s.delivery_show_less | default: 'Show less'
+  assign placeholder = s.delivery_placeholder | default: 'Enter your town or ZIP code'
+  assign button = s.delivery_button | default: 'Check my area'
+  assign legend_kitchen = s.delivery_legend_kitchen | default: 'Our kitchen'
+  assign legend_areas = s.delivery_legend_areas | default: 'Delivery areas'
+  assign legend_zone = s.delivery_legend_zone | default: 'Delivery zone'
+  assign reset_label = s.delivery_reset_label | default: 'Show full zone'
+-%}
+
+{%- capture mpd_primary -%}
+  {%- assign i = 0 -%}
+  {%- for line in lines -%}
+    {%- assign p = line | split: '|' -%}
+    {%- assign name = p[0] | strip -%}
+    {%- if name != blank -%}
+      {%- if i < initial -%}
+        <li><button type="button" class="mpd__chip" data-mpd-i="{{ i }}" aria-pressed="false">{{ name | escape }}</button></li>
+      {%- endif -%}
+      {%- assign i = i | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- capture mpd_extra -%}
+  {%- assign j = 0 -%}
+  {%- for line in lines -%}
+    {%- assign p = line | split: '|' -%}
+    {%- assign name = p[0] | strip -%}
+    {%- if name != blank -%}
+      {%- if j >= initial -%}
+        <li><button type="button" class="mpd__chip" data-mpd-i="{{ j }}" aria-pressed="false">{{ name | escape }}</button></li>
+      {%- endif -%}
+      {%- assign j = j | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- capture mpd_towns_json -%}
+[
+{%- assign first = true -%}
+{%- for line in lines -%}
+  {%- assign p = line | split: '|' -%}
+  {%- assign name = p[0] | strip -%}
+  {%- if name != blank -%}
+    {%- unless first -%},{%- endunless -%}
+    {%- assign first = false -%}
+    {"n":{{ name | json }},"lat":{{ p[1] | strip | plus: 0 }},"lng":{{ p[2] | strip | plus: 0 }},"z":{{ p[3] | default: '' | strip | json }}}
+  {%- endif -%}
+{%- endfor -%}
+]
+{%- endcapture -%}
+
+{%- capture mpd_copy_json -%}
+{"yes":{{ s.delivery_msg_yes | default: 'Yes, we deliver to {town}.' | json }},"yes2":{{ s.delivery_msg_yes_sub | default: 'Add your plan and confirm your address at checkout.' | json }},"no":{{ s.delivery_msg_no | default: 'We do not deliver to "{query}" yet.' | json }},"contact":{{ s.delivery_contact_url | default: '' | json }},"contactLabel":{{ s.delivery_contact_label | default: 'Ask us about your area' | json }}}
+{%- endcapture -%}
+
+<section
+  class="mpd"
+  id="mpd-{{ section.id }}"
+  data-mpd
+  data-klat="{{ kitchen_lat | escape }}"
+  data-klng="{{ kitchen_lng | escape }}"
+  data-radius="{{ radius }}"
+  aria-labelledby="mpd-h-{{ section.id }}"
+>
+  <div class="mpd__map">
+    <div class="mpd__canvas" data-mpd-canvas></div>
+    <div class="mpd__legend">
+      <span><i class="mpd__key mpd__key--kitchen" aria-hidden="true"></i>{{ legend_kitchen | escape }}</span>
+      <span><i class="mpd__key mpd__key--area" aria-hidden="true"></i>{{ legend_areas | escape }}</span>
+      <span><i class="mpd__key mpd__key--zone" aria-hidden="true"></i>{{ legend_zone | escape }}</span>
+      <button type="button" class="mpd__reset" data-mpd-reset>{{ reset_label | escape }}</button>
+    </div>
+  </div>
+
+  <div class="mpd__copy">
+    {%- if s.delivery_eyebrow != blank -%}
+      <p class="mp-eye">{{ s.delivery_eyebrow | escape }}</p>
+    {%- endif -%}
+    <h2 class="mealplan-h mpd__title" id="mpd-h-{{ section.id }}">{{ s.delivery_heading | escape }}</h2>
+    {%- if s.delivery_text != blank -%}
+      <p class="mealplan-p mpd__lead">{{ s.delivery_text | escape }}</p>
+    {%- endif -%}
+
+    <div class="mpd__search">
+      <form class="mpd__form" data-mpd-form role="search" autocomplete="off">
+        <label class="visually-hidden" for="mpd-q-{{ section.id }}">{{ placeholder | escape }}</label>
+        <input
+          id="mpd-q-{{ section.id }}"
+          type="text"
+          name="q"
+          placeholder="{{ placeholder | escape }}"
+          autocomplete="off"
+          spellcheck="false"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="mpd-list-{{ section.id }}"
+        >
+        <button type="submit">{{ button | escape }}</button>
+      </form>
+      <ul class="mpd__suggest" id="mpd-list-{{ section.id }}" data-mpd-suggest role="listbox" aria-label="Delivery towns" hidden></ul>
+    </div>
+
+    <p class="mpd__result" data-mpd-result role="status" aria-live="polite"></p>
+
+    <ul class="mpd__chips">
+      {{ mpd_primary }}
+      {%- if total > initial -%}
+        <li>
+          <button
+            type="button"
+            class="mpd__chip mpd__chip--more"
+            data-mpd-more
+            aria-expanded="false"
+            aria-controls="mpd-extras-{{ section.id }}"
+            data-more-all="{{ show_all | escape }} ({{ total }})"
+            data-more-less="{{ show_less | escape }}"
+          >
+            <span data-mpd-more-label>{{ show_all | escape }} ({{ total }})</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5 12 15.5 18 9.5"/></svg>
+          </button>
+        </li>
+      {%- endif -%}
+    </ul>
+
+    {%- if total > initial -%}
+      <div class="mpd__extras" id="mpd-extras-{{ section.id }}" data-mpd-extras>
+        <div class="mpd__extras-in">
+          <ul class="mpd__chips">{{ mpd_extra }}</ul>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <script type="application/json" data-mpd-towns>{{ mpd_towns_json }}</script>
+  <script type="application/json" data-mpd-copy>{{ mpd_copy_json }}</script>
+</section>

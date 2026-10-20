@@ -1,0 +1,430 @@
+/* ============================================================
+   Delivery area checker (meal plan pages)
+   Map card + town / ZIP checker. Rendered by
+   snippets/cm-delivery-checker.liquid.
+   Palette inherits the .mealplan tokens (--f, --y, --s, --w).
+   ============================================================ */
+
+.mpd {
+  --mpd-map-bg: #dfe6da;
+  --mpd-ink: var(--f, #15251c);
+  --mpd-accent: var(--y, #f5a623);
+  --mpd-paper: #fff;
+  --mpd-line: rgba(21, 37, 28, 0.14);
+  --mpd-muted: rgba(21, 37, 28, 0.66);
+
+  display: grid;
+  gap: clamp(1.75rem, 3vw, 3.5rem);
+  align-items: center;
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .mpd { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); }
+}
+
+/* ---------- map card ---------- */
+.mpd__map {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 2.4rem;
+  background: var(--mpd-map-bg);
+  aspect-ratio: 1 / 1;
+  box-shadow: 0 1.6rem 3.2rem rgba(21, 37, 28, 0.12);
+}
+
+@media (min-width: 900px) {
+  .mpd__map { aspect-ratio: 4 / 3.4; min-height: 380px; }
+}
+
+.mpd__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--mpd-map-bg);
+}
+
+/* Leaflet inherits the theme font instead of its default stack. */
+.mpd__canvas .leaflet-container {
+  font-family: var(--font-body-family), sans-serif;
+  background: var(--mpd-map-bg);
+}
+
+.mpd__canvas .leaflet-tooltip {
+  padding: 0.35em 0.8em;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(21, 37, 28, 0.18);
+  color: var(--mpd-ink);
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.mpd__canvas .leaflet-tooltip::before { content: none; }
+
+.mpd__legend {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 500;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem 1.2rem;
+  margin: 0;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.93);
+  box-shadow: 0 8px 20px -12px rgba(21, 37, 28, 0.5);
+  backdrop-filter: blur(8px);
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--mpd-ink);
+}
+
+.mpd__legend span { display: inline-flex; align-items: center; gap: 0.5rem; }
+
+.mpd__key {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.mpd__key--kitchen {
+  background: var(--mpd-ink);
+  box-shadow: 0 0 0 3px rgba(21, 37, 28, 0.16);
+}
+
+.mpd__key--area { background: var(--mpd-accent); }
+
+.mpd__key--zone {
+  border: 2px dashed var(--mpd-accent);
+  width: 11px;
+  height: 11px;
+}
+
+.mpd__reset {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--mpd-ink);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.mpd__reset:hover { color: var(--mpd-accent); }
+
+/* Leaflet markers drawn as divIcons so they keep a steady on-screen size. */
+.mpd__dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--mpd-accent);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(21, 37, 28, 0.3);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.mpd__dot.is-active { transform: scale(1.7); background: var(--mpd-ink); }
+
+.mpd__hub {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--mpd-ink);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 0 rgba(21, 37, 28, 0.4);
+  animation: mpd-ping 2.6s ease-out 2;
+}
+
+@keyframes mpd-ping {
+  to { box-shadow: 0 0 0 20px rgba(21, 37, 28, 0); }
+}
+
+.mpd__map-fallback {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 2rem;
+  color: var(--mpd-muted);
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+/* ---------- copy column ---------- */
+.mpd__copy { display: flex; flex-direction: column; min-width: 0; }
+
+/* The eyebrow is a pill: keep it hugging its own text. */
+.mpd__copy > .mp-eye { align-self: flex-start; max-width: 100%; }
+
+.mpd__title { margin: 0; }
+
+.mpd__lead { margin: 1.1rem 0 0; }
+
+/* ---------- search ---------- */
+.mpd__search { position: relative; margin-top: clamp(1.5rem, 2.4vw, 2.2rem); }
+
+.mpd__form {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.4rem 0.4rem 0.6rem;
+  border: 1.5px solid var(--mpd-line);
+  border-radius: 999px;
+  background: var(--mpd-paper);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focus: maroon border with a solid orange ring around the whole field.
+   The rgba ring is the fallback for browsers without color-mix(). */
+.mpd__form:focus-within {
+  border-color: var(--mpd-ink);
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.6);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mpd-accent) 60%, transparent);
+}
+
+.mpd__form input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  padding: 0.95rem 0.9rem;
+  background: transparent;
+  color: var(--mpd-ink);
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Browser default focus rings would draw a second square box inside the pill. */
+.mpd__form input:focus,
+.mpd__form input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.mpd__form input::placeholder { color: var(--mpd-muted); }
+
+.mpd__form button {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.95rem 1.7rem;
+  background: var(--mpd-ink);
+  color: #fff;
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.mpd__form button:hover { background: #22392b; }
+.mpd__form button:active { transform: translateY(1px); }
+
+.mpd__suggest {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  z-index: 30;
+  max-height: 24rem;
+  margin: 0;
+  padding: 0.4rem;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid var(--mpd-line);
+  border-radius: 1.6rem;
+  background: var(--mpd-paper);
+  box-shadow: 0 22px 40px -24px rgba(21, 37, 28, 0.55);
+}
+
+.mpd__suggest[hidden] { display: none; }
+
+.mpd__suggest button {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  border: 0;
+  border-radius: 1.2rem;
+  padding: 0.8rem 1rem;
+  background: none;
+  color: var(--mpd-ink);
+  font: inherit;
+  font-size: 1.45rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mpd__suggest button svg { width: 1.4rem; height: 1.4rem; flex: 0 0 auto; fill: var(--mpd-accent); }
+.mpd__suggest button:hover,
+.mpd__suggest button.is-active { background: rgba(245, 166, 35, 0.14); }
+
+/* ---------- result line ---------- */
+.mpd__result {
+  min-height: 3.2em;
+  margin: 0.9rem 0 0;
+  color: var(--mpd-ink);
+  font-size: 1.4rem;
+  line-height: 1.55;
+}
+
+.mpd__result:empty { min-height: 0; margin: 0; }
+
+.mpd__result b { font-weight: 700; }
+
+.mpd__result.is-yes::before,
+.mpd__result.is-no::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 0.6rem;
+  border-radius: 50%;
+  background: #2f8f4e;
+  vertical-align: middle;
+}
+
+.mpd__result.is-no::before { background: #c9533a; }
+
+.mpd__result.is-pop { animation: mpd-pop 0.32s ease-out; }
+
+@keyframes mpd-pop {
+  from { opacity: 0.2; transform: translateY(4px); }
+}
+
+.mpd__result a {
+  color: var(--mpd-ink);
+  font-weight: 600;
+  text-underline-offset: 3px;
+}
+
+/* ---------- town chips ---------- */
+.mpd__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: clamp(1rem, 1.8vw, 1.5rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mpd__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 3.1rem;
+  padding: 0.6rem 1.2rem 0.6rem 1rem;
+  border: 1.5px solid var(--mpd-line);
+  border-radius: 999px;
+  background: var(--mpd-paper);
+  color: var(--mpd-ink);
+  font: inherit;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.28s cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+
+.mpd__chip::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mpd-accent);
+  flex: 0 0 auto;
+}
+
+.mpd__chip:hover {
+  transform: translateY(-2px);
+  border-color: var(--mpd-accent);
+}
+
+.mpd__chip[aria-pressed="true"] {
+  background: var(--mpd-ink);
+  border-color: var(--mpd-ink);
+  color: #fff;
+}
+
+.mpd__chip[aria-pressed="true"]::before { background: var(--mpd-accent); }
+
+/* "Show all" toggle */
+.mpd__chip--more {
+  border-style: dashed;
+  background: transparent;
+  font-weight: 700;
+}
+
+.mpd__chip--more::before { content: none; }
+
+.mpd__chip--more svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  transition: transform 0.35s cubic-bezier(0.22, 0.7, 0.2, 1);
+}
+
+.mpd__chip--more[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+/* Extra towns: animated height instead of a hard show / hide. */
+.mpd__extras {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.45s cubic-bezier(0.22, 0.7, 0.2, 1), opacity 0.35s ease;
+}
+
+.mpd__extras-in { overflow: hidden; min-height: 0; }
+
+.mpd__extras.is-open { grid-template-rows: 1fr; opacity: 1; }
+
+.mpd__extras .mpd__chips { margin-top: 0.9rem; }
+
+.mpd__extras:not(.is-open) .mpd__chip { visibility: hidden; }
+
+/* ---------- focus ---------- */
+.mpd :focus-visible {
+  outline: 3px solid var(--mpd-accent);
+  outline-offset: 2px;
+}
+
+.mpd__form input:focus-visible { outline: none; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 899px) {
+  .mpd__copy { order: -1; }
+  .mpd__map { border-radius: 2rem; aspect-ratio: 1 / 1; }
+}
+
+@media (max-width: 549px) {
+  .mpd__form { flex-wrap: nowrap; padding: 0.35rem; }
+  .mpd__form input { padding: 0.85rem 0.7rem; font-size: 1.4rem; }
+  .mpd__form button { padding: 0.85rem 1.15rem; font-size: 1.3rem; }
+  .mpd__legend { border-radius: 1.8rem; justify-content: flex-start; font-size: 1.05rem; padding: 0.7rem 0.9rem; }
+  .mpd__map { min-height: 300px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mpd *,
+  .mpd *::before,
+  .mpd *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .mpd__extras { transition: none; }
+}
