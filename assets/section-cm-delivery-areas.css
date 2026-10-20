@@ -43,7 +43,7 @@
   background: var(--da-card);
   border: 1.5px solid var(--da-orange);
   border-radius: 80px;
-  padding: 38px 32px 46px; text-align: center;
+  padding: 38px 32px; text-align: center;
   box-shadow: 0 30px 60px -30px rgba(15, 31, 61, .25);
 }
 .da .da__kicker { font-family: var(--font-body-family), sans-serif; color: #a86400; background: #fff7ea; border-color: rgba(247, 147, 30, .55); }
@@ -278,7 +278,7 @@
 @media (max-width: 989px) {
   .da { --sw: 100%; padding-left: 16px; padding-right: 16px; }
   .da .da__corner { --pw: 190px; }
-  .da .da__card { padding: 34px 24px 42px; border-radius: 64px; }
+  .da .da__card { padding: 34px 24px; border-radius: 64px; }
   .da .da__bar { grid-template-columns: repeat(2, 1fr); gap: 24px 0; padding: 34px 28px; }
   .da .da__feat:nth-child(odd) { border-left: 0; padding-left: 0; }
   .da .da__feat:nth-child(even) { padding-left: 20px; }
@@ -291,10 +291,10 @@
   .da { padding: 70px 12px; }
   .da .da__corner { --pw: 130px; }
   .da .da__stage { margin-top: 36px; }
-  .da .da__card { padding: 26px 14px 32px; border-radius: 44px; }
+  .da .da__card { padding: 26px 14px; border-radius: 44px; }
   .da .da__kicker svg { width: 1.35em; height: 1.35em; }
-  .da .da__title { font-size: 30px; margin: 6px 0 10px; }
-  .da .da__sub { margin-bottom: 22px; gap: 8px; }
+  .da .da__title { font-size: 30px; margin: 6px 0 6px; }
+  .da .da__sub { margin-bottom: 18px; gap: 8px; }
   .da .da__sub span { min-width: 0; }
   .da .da__areas { gap: 8px; }
   .da .da__deliver-label, .da .da__check-label { letter-spacing: 1.2px; }
