@@ -64,6 +64,13 @@
                 </span>
               </li>
             {%- endfor -%}
+            <li class="da__places-more" hidden>
+              <button type="button" class="da__places-btn" data-da-places-btn aria-expanded="false">
+                <span data-da-places-text>More locations</span>
+                <span class="da__places-count" data-da-places-count></span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+            </li>
           </ul>
         {%- endif -%}
         <form class="da__check" data-da-form novalidate>

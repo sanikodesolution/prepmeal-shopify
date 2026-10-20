@@ -79,6 +79,16 @@
 .da .da__deliver { position: relative; z-index: 30; width: min(980px, 100%); margin: 4px auto 22px; text-align: left; color: #5c2433; }
 .da .da__deliver-label { margin: 0 0 16px; font-size: 13px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: #6e1f36; }
 .da .da__deliver-pills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 12px; }
+.da .da__deliver-pills.is-animating { overflow: hidden; }
+.da .da__deliver-pills > li.is-extra { display: none; }
+.da .da__places-more { display: flex; }
+.da .da__places-more[hidden] { display: none; }
+.da .da__places-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 999px; border: 1px dashed #d9bfb6; background: #fbf5f2; color: #6e1f36; font: inherit; font-size: 14px; font-weight: 600; line-height: 1.2; white-space: nowrap; cursor: pointer; transition: background .25s ease, border-color .25s ease, color .25s ease; }
+.da .da__places-btn:hover { background: #f6ebe6; border-color: #6e1f36; }
+.da .da__places-btn:focus-visible { outline: 2px solid #6e1f36; outline-offset: 2px; }
+.da .da__places-count { color: #8a736c; }
+.da .da__places-btn svg { width: 11px; height: 11px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; transition: transform .35s cubic-bezier(.22,.7,.2,1); }
+.da .da__places-btn[aria-expanded="true"] svg { transform: rotate(45deg); }
 .da .da__zone { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; background: #fff; border: 1px solid #eadfd8; color: #4d3d42; font-size: 14px; font-weight: 500; line-height: 1.2; }
 .da .da__zone svg { width: 12px; height: 12px; flex: none; fill: #6e1f36; transform-origin: 50% 100%; }
 .da .da__zone:hover svg { animation: da-pin .6s ease; }
@@ -294,6 +304,7 @@
   .da .da__deliver-label, .da .da__check-label { letter-spacing: 1.2px; }
   .da .da__deliver-pills { gap: 8px; }
   .da .da__zone { font-size: 13px; padding: 6px 12px; }
+  .da .da__places-btn { font-size: 13px; padding: 6px 12px; gap: 6px; }
   .da .da__map { height: 280px; }
   .da .da__legend { gap: 8px 14px; padding: 10px 12px; }
   .da .da__legend span { letter-spacing: .04em; font-size: 11px; }
