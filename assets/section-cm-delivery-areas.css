@@ -106,7 +106,7 @@
 .da .da__check-result { margin-top: 14px; padding: 14px 16px; border-radius: 4px; border-left: 4px solid #6e1f36; background: #f8f1ee; font-size: 14px; line-height: 1.55; color: #4d3d42; }
 .da .da__check-result strong { display: block; margin-bottom: 4px; color: #2a1a1f; font-size: 16px; }
 .da .da__check-result.is-miss { border-left-color: #8a736c; background: #f7f3f1; }
-.da .da__more { margin-top: 18px; padding-top: 16px; border-top: 1px solid #eadfd8; }
+.da .da__more { margin-top: 18px; padding-top: 0; border-top: 0; }
 .da .da__more summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; list-style: none; color: #6e1f36; font-size: 15px; }
 .da .da__more summary::-webkit-details-marker { display: none; }
 .da .da__more-plus { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: #f6ebe6; border: 1px solid #eadfd8; color: #6e1f36; transition: background .3s ease, border-color .3s ease, color .3s ease, transform .35s cubic-bezier(.22,.7,.2,1); }
