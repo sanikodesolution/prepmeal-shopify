@@ -974,5 +974,128 @@
     });
   }
 
+  // Delivery area: chip <-> map pin linking, postal-code checker, show-all.
+  const dl = $('.mealplan-dl');
+  if (dl) {
+    const chips = $$('[data-chip]', dl);
+    const pins = $$('[data-pin]', dl);
+    const dlForm = $('[data-dl-form]', dl);
+    const dlInput = $('.mealplan-dl__input', dl);
+    const dlResult = $('[data-dl-result]', dl);
+    const dlMore = $('[data-dl-more]', dl);
+    const MSG_YES = dl.dataset.msgYes || 'Good news, we deliver to {area}.';
+    const MSG_NO = dl.dataset.msgNo || "We don't deliver to “{query}” yet. Check the list below or contact us.";
+    const MSG_EMPTY = dl.dataset.msgEmpty || 'Type a postal code or town first.';
+    let pinned = null;
+
+    const setActive = (id) => {
+      chips.forEach((c) => c.classList.toggle('is-active', c.dataset.chip === id));
+      pins.forEach((p) => p.classList.toggle('is-active', p.dataset.pin === id));
+    };
+
+    const expandChips = (open) => {
+      if (!dlMore) return;
+      chips.forEach((c) => {
+        if (c.hasAttribute('data-extra')) c.hidden = !open;
+      });
+      dlMore.setAttribute('aria-expanded', open ? 'true' : 'false');
+      dlMore.textContent = open ? dlMore.dataset.labelLess : dlMore.dataset.labelMore;
+    };
+
+    dlMore?.addEventListener('click', () => {
+      expandChips(dlMore.getAttribute('aria-expanded') !== 'true');
+    });
+
+    const bind = (el, id) => {
+      el.addEventListener('mouseenter', () => setActive(id));
+      el.addEventListener('focus', () => setActive(id));
+      el.addEventListener('mouseleave', () => setActive(pinned));
+      el.addEventListener('blur', () => setActive(pinned));
+      el.addEventListener('click', () => {
+        pinned = pinned === id ? null : id;
+        setActive(pinned);
+      });
+    };
+    chips.forEach((c) => bind(c, c.dataset.chip));
+    pins.forEach((p) => bind(p, p.dataset.pin));
+
+    const say = (text, ok) => {
+      if (!dlResult) return;
+      dlResult.textContent = text;
+      dlResult.classList.remove('is-yes', 'is-no');
+      if (text) dlResult.classList.add(ok ? 'is-yes' : 'is-no');
+    };
+
+    const findArea = (q) => {
+      const zip = (q.match(/\b\d{4,6}\b/) || [])[0];
+      if (zip) {
+        const byZip = chips.find((c) =>
+          (c.dataset.zip || '')
+            .split(',')
+            .map((z) => z.trim())
+            .includes(zip)
+        );
+        if (byZip) return byZip;
+      }
+      let best = null;
+      chips.forEach((c) => {
+        const n = (c.dataset.name || '').toLowerCase();
+        if (n.length >= 3 && q.includes(n) && (!best || n.length > best.n.length)) best = { c, n };
+      });
+      if (best) return best.c;
+      if (q.length >= 4) return chips.find((c) => (c.dataset.name || '').toLowerCase().startsWith(q)) || null;
+      return null;
+    };
+
+    dlForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const raw = (dlInput?.value || '').trim();
+      if (!raw) {
+        say(MSG_EMPTY, false);
+        setActive(pinned);
+        return;
+      }
+      const hit = findArea(raw.toLowerCase());
+      if (!hit) {
+        pinned = null;
+        setActive(null);
+        say(MSG_NO.replace('{query}', raw), false);
+        return;
+      }
+      const id = hit.dataset.chip;
+      if (hit.hidden) expandChips(true);
+      pinned = id;
+      setActive(id);
+      const pin = dl.querySelector(`[data-pin="${id}"]`);
+      if (pin) {
+        pin.classList.remove('is-found');
+        void pin.offsetWidth;
+        pin.classList.add('is-found');
+      }
+      say(MSG_YES.replace('{area}', hit.dataset.name), true);
+    });
+
+    dlInput?.addEventListener('input', () => {
+      if (!dlInput.value) say('', true);
+    });
+
+    const dlMap = $('.mealplan-dl__map', dl);
+    if ('IntersectionObserver' in window && dlMap) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((en) => {
+            if (!en.isIntersecting) return;
+            dl.classList.add('is-live');
+            io.disconnect();
+          });
+        },
+        { threshold: 0.35 }
+      );
+      io.observe(dlMap);
+    } else {
+      dl.classList.add('is-live');
+    }
+  }
+
   // Related plans track is liquid-rendered
 })();

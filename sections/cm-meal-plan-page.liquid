@@ -361,49 +361,172 @@
       <div class="mealplan-track" id="gal"></div>
     </div></section>
 
-    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-del">
+    <section class="mealplan-sec"><div class="mealplan-wrap">
       {%- liquid
-        assign map_query = section.settings.map_query | default: 'Richmond Station Toronto Ontario Canada'
-        assign map_src = section.settings.map_embed_url
-        if map_src == blank
-          assign map_q = map_query | url_encode
-          assign map_src = 'https://maps.google.com/maps?q=' | append: map_q | append: '&z=15&output=embed'
-        endif
+        assign mp_kx = 41
+        assign mp_ky = 29
+        assign mp_has_kitchen = false
+        for block in section.blocks
+          if block.type == 'area' and block.settings.kitchen and mp_has_kitchen == false
+            assign mp_kx = block.settings.x
+            assign mp_ky = block.settings.y
+            assign mp_has_kitchen = true
+          endif
+        endfor
+        assign mp_cx = mp_kx | times: 10
+        assign mp_cy = mp_ky | times: 9
+        assign mp_zr = section.settings.zone_radius | times: 10
+        assign mp_zr_in = mp_zr | minus: 24
+        assign mp_limit = section.settings.visible_count
+        assign area_blocks = section.blocks | where: 'type', 'area'
       -%}
-      <div class="mealplan-map mp-gs">
-        <iframe
-          class="mealplan-map__frame"
-          title="{{ section.settings.map_title | default: map_query | escape }}"
-          src="{{ map_src }}"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen
-        ></iframe>
-        {%- if section.settings.map_title != blank -%}
-          <p class="mealplan-map__label">{{ section.settings.map_title | escape }}</p>
-        {%- endif -%}
-      </div>
-      <div class="mealplan-del__copy mp-gs">
-        <h2 class="mealplan-h">{{ section.settings.delivery_heading | escape }}</h2>
-        <p class="mealplan-p">{{ section.settings.delivery_text | escape }}</p>
-        <div class="mealplan-del__actions">
-          {%- if section.settings.delivery_areas != blank -%}
-            <ul class="mealplan-areas">
-              {%- assign areas = section.settings.delivery_areas | split: ',' -%}
-              {%- for area in areas -%}
-                <li>
-                  <span class="mealplan-areas__pin" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
-                  </span>
-                  {{ area | strip | escape }}
-                </li>
-              {%- endfor -%}
-            </ul>
+
+      <div class="mealplan-dl"
+        data-msg-yes="{{ section.settings.msg_yes | default: 'Good news, we deliver to {area}.' | escape }}"
+        data-msg-no="{{ section.settings.msg_no | default: "We don't deliver to “{query}” yet. Check the list below or contact us." | escape }}"
+        data-msg-empty="{{ section.settings.msg_empty | default: 'Type a postal code or town first.' | escape }}">
+        <header class="mealplan-dl__head">
+          <h2 class="mealplan-h">{{ section.settings.delivery_heading | escape }}</h2>
+          {%- if section.settings.delivery_text != blank -%}
+            <p class="mealplan-p">{{ section.settings.delivery_text | escape }}</p>
           {%- endif -%}
-          {%- if section.settings.delivery_button_label != blank -%}
-            {%- assign delivery_link = section.settings.delivery_button_link | default: '#' -%}
-            {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand' %}
+        </header>
+
+        <div class="mealplan-dl__check">
+          <form class="mealplan-dl__form" data-dl-form novalidate>
+            <label class="mealplan-dl__sr" for="mealplan-dl-q-{{ section.id }}">{{ section.settings.delivery_placeholder | default: 'Postal code or town' }}</label>
+            <input
+              id="mealplan-dl-q-{{ section.id }}"
+              class="mealplan-dl__input"
+              type="text"
+              name="area"
+              autocomplete="postal-code"
+              placeholder="{{ section.settings.delivery_placeholder | default: 'Postal code or town' | escape }}"
+            >
+            <button class="mealplan-dl__btn" type="submit">{{ section.settings.delivery_button_label | default: 'Check my area' | escape }}</button>
+          </form>
+          <p class="mealplan-dl__result" data-dl-result role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="mealplan-dl__areas">
+          <p class="mealplan-dl__areas-title">{{ section.settings.areas_title | default: 'We deliver to' | escape }}</p>
+          <div class="mealplan-dl__chips">
+            {%- for block in area_blocks -%}
+              <button
+                type="button"
+                class="mealplan-dl__chip{% if block.settings.kitchen %} is-kitchen{% endif %}"
+                data-chip="{{ block.id }}"
+                data-name="{{ block.settings.name | escape }}"
+                data-zip="{{ block.settings.zip | escape }}"
+                {% if forloop.index > mp_limit %}hidden data-extra{% endif %}
+                {{ block.shopify_attributes }}
+              >
+                <span class="mealplan-dl__chip-dot" aria-hidden="true"></span>
+                {{ block.settings.name | escape }}
+              </button>
+            {%- endfor -%}
+          </div>
+          {%- if area_blocks.size > mp_limit -%}
+            <button
+              type="button"
+              class="mealplan-dl__more"
+              aria-expanded="false"
+              data-dl-more
+              data-label-more="Show all {{ area_blocks.size }} areas"
+              data-label-less="Show fewer"
+            >Show all {{ area_blocks.size }} areas</button>
           {%- endif -%}
+        </div>
+
+        <div class="mealplan-dl__map" role="img" aria-label="{{ section.settings.map_label | default: 'Map of our delivery area' | escape }}">
+          <svg class="mealplan-dl__svg" viewBox="0 0 1000 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <defs>
+              <pattern id="mealplan-dl-dots-{{ section.id }}" width="36" height="36" patternUnits="userSpaceOnUse">
+                <circle cx="2" cy="2" r="1.3" fill="#f6f1e4" fill-opacity=".09"/>
+              </pattern>
+              <radialGradient id="mealplan-dl-glow-{{ section.id }}" cx="50%" cy="50%" r="50%">
+                <stop offset="0" stop-color="#f5a623" stop-opacity=".02"/>
+                <stop offset=".75" stop-color="#f5a623" stop-opacity=".07"/>
+                <stop offset="1" stop-color="#f5a623" stop-opacity=".16"/>
+              </radialGradient>
+            </defs>
+
+            <rect width="1000" height="900" fill="url(#mealplan-dl-dots-{{ section.id }})"/>
+
+            <g class="mealplan-dl__lakes">
+              <ellipse cx="320" cy="236" rx="36" ry="14" transform="rotate(-20 320 236)"/>
+              <ellipse cx="212" cy="282" rx="30" ry="16" transform="rotate(20 212 282)"/>
+              <ellipse cx="265" cy="258" rx="22" ry="11"/>
+              <ellipse cx="338" cy="346" rx="24" ry="10" transform="rotate(-10 338 346)"/>
+              <ellipse cx="550" cy="316" rx="52" ry="16" transform="rotate(8 550 316)"/>
+            </g>
+
+            <g class="mealplan-dl__roads" fill="none" stroke-linecap="round">
+              <path d="M 90 215 C 180 260 230 330 300 362 S 470 345 550 335 S 640 380 700 395 S 780 370 820 362 S 930 350 1000 345"/>
+              <path class="is-minor" d="M 360 190 C 380 300 400 400 395 520 S 420 700 400 810"/>
+              <path class="is-minor" d="M 0 560 C 200 540 380 560 560 520 S 860 470 1000 500"/>
+            </g>
+
+            {%- if mp_has_kitchen -%}
+              <g class="mealplan-dl__plate">
+                <circle cx="{{ mp_cx }}" cy="{{ mp_cy }}" r="{{ mp_zr }}" fill="url(#mealplan-dl-glow-{{ section.id }})"/>
+                <circle class="mealplan-dl__rim" cx="{{ mp_cx }}" cy="{{ mp_cy }}" r="{{ mp_zr }}"/>
+                <circle class="mealplan-dl__rim-in" cx="{{ mp_cx }}" cy="{{ mp_cy }}" r="{{ mp_zr_in }}"/>
+              </g>
+              <g class="mealplan-dl__pulses">
+                <circle class="mealplan-dl__pulse" cx="{{ mp_cx }}" cy="{{ mp_cy }}" r="40"/>
+                <circle class="mealplan-dl__pulse is-2" cx="{{ mp_cx }}" cy="{{ mp_cy }}" r="40"/>
+                <circle class="mealplan-dl__pulse is-3" cx="{{ mp_cx }}" cy="{{ mp_cy }}" r="40"/>
+              </g>
+            {%- endif -%}
+          </svg>
+
+          {%- for block in area_blocks -%}
+            {%- assign mp_side = '' -%}
+            {%- if block.settings.x > 74 -%}{%- assign mp_side = ' is-right' -%}{%- elsif block.settings.x < 18 -%}{%- assign mp_side = ' is-left' -%}{%- endif -%}
+            {%- if block.settings.kitchen -%}
+              <button
+                type="button"
+                class="mealplan-dl__kitchen"
+                data-pin="{{ block.id }}"
+                style="--x: {{ block.settings.x }}; --y: {{ block.settings.y }};"
+                aria-label="{{ section.settings.kitchen_label | default: 'Our kitchen' | escape }}, {{ block.settings.name | escape }}"
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                  <path d="M3 12h18a9 9 0 0 1-18 0z" fill="currentColor"/>
+                  <path d="M8 8.5c0-1.6 1.5-1.6 1.5-3.2M12 8.5c0-1.6 1.5-1.6 1.5-3.2M16 8.5c0-1.6 1.5-1.6 1.5-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+                <span class="mealplan-dl__tip is-always">{{ section.settings.kitchen_label | default: 'Our kitchen' | escape }}</span>
+              </button>
+            {%- else -%}
+              <button
+                type="button"
+                class="mealplan-dl__pin{{ mp_side }}"
+                data-pin="{{ block.id }}"
+                style="--x: {{ block.settings.x }}; --y: {{ block.settings.y }};"
+                aria-label="{{ block.settings.name | escape }}"
+              >
+                <span class="mealplan-dl__tip">{{ block.settings.name | escape }}</span>
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+
+          <div class="mealplan-dl__card">
+            <p class="mealplan-dl__card-name">{{ section.settings.kitchen_label | default: 'Our kitchen' | escape }}</p>
+            {%- if section.settings.kitchen_address != blank -%}
+              <p class="mealplan-dl__card-addr">{{ section.settings.kitchen_address | escape }}</p>
+            {%- endif -%}
+            {%- assign mp_maps_query = section.settings.map_query | default: section.settings.kitchen_address -%}
+            {%- if mp_maps_query != blank -%}
+              <a class="mealplan-dl__card-link" href="https://www.google.com/maps/search/?api=1&amp;query={{ mp_maps_query | url_encode }}" target="_blank" rel="noopener">Open in Maps</a>
+            {%- endif -%}
+          </div>
+
+          <ul class="mealplan-dl__legend">
+            <li><span class="mealplan-dl__sw is-kitchen"></span>{{ section.settings.legend_kitchen | default: 'Our kitchen' | escape }}</li>
+            <li><span class="mealplan-dl__sw is-area"></span>{{ section.settings.legend_area | default: 'Delivery areas' | escape }}</li>
+            <li><span class="mealplan-dl__sw is-zone"></span>{{ section.settings.legend_zone | default: 'Delivery zone' | escape }}</li>
+          </ul>
         </div>
       </div>
     </div></section>
@@ -534,12 +657,21 @@
     { "type": "header", "content": "Delivery" },
     { "type": "text", "id": "delivery_heading", "label": "Heading", "default": "Fresh meals, delivered to your door." },
     { "type": "textarea", "id": "delivery_text", "label": "Text", "default": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you." },
-    { "type": "text", "id": "delivery_areas", "label": "Areas", "info": "Comma-separated", "default": "Hartland, Nearby areas" },
     { "type": "text", "id": "delivery_button_label", "label": "Button label", "default": "Check my area" },
-    { "type": "url", "id": "delivery_button_link", "label": "Button link" },
-    { "type": "text", "id": "map_title", "label": "Map label", "default": "Richmond Station · Toronto, Canada" },
-    { "type": "text", "id": "map_query", "label": "Google Maps search", "default": "Richmond Station Toronto Ontario Canada", "info": "Used when Embed URL is empty." },
-    { "type": "text", "id": "map_embed_url", "label": "Google Maps embed URL", "info": "Optional. Paste full embed src from Google Maps → Share → Embed a map." },
+    { "type": "text", "id": "map_query", "label": "Google Maps search", "default": "Hartland Wisconsin", "info": "Used for the “Open in Maps” link." },
+    { "type": "text", "id": "delivery_placeholder", "label": "Checker placeholder", "default": "Postal code or town" },
+    { "type": "text", "id": "msg_yes", "label": "Message: we deliver", "info": "Use {area} for the matched town.", "default": "Good news, we deliver to {area}." },
+    { "type": "text", "id": "msg_no", "label": "Message: not found", "info": "Use {query} for what was typed.", "default": "We don't deliver to “{query}” yet. Check the list below or contact us." },
+    { "type": "text", "id": "msg_empty", "label": "Message: empty input", "default": "Type a postal code or town first." },
+    { "type": "text", "id": "areas_title", "label": "Areas list title", "default": "We deliver to" },
+    { "type": "range", "id": "visible_count", "label": "Areas shown before “show all”", "min": 6, "max": 40, "step": 1, "default": 12 },
+    { "type": "text", "id": "map_label", "label": "Map accessible label", "default": "Map of our delivery area" },
+    { "type": "text", "id": "kitchen_label", "label": "Kitchen label", "default": "Our kitchen" },
+    { "type": "text", "id": "kitchen_address", "label": "Kitchen address", "default": "Hartland, Wisconsin" },
+    { "type": "range", "id": "zone_radius", "label": "Delivery zone size", "min": 20, "max": 70, "step": 1, "default": 48 },
+    { "type": "text", "id": "legend_kitchen", "label": "Legend: kitchen", "default": "Our kitchen" },
+    { "type": "text", "id": "legend_area", "label": "Legend: area", "default": "Delivery areas" },
+    { "type": "text", "id": "legend_zone", "label": "Legend: zone", "default": "Delivery zone" },
 
     { "type": "header", "content": "Reviews / FAQ / CTA" },
     { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Loved by people who love good food" },
@@ -607,6 +739,17 @@
       "settings": [
         { "type": "text", "id": "short", "label": "Short name" },
         { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" }
+      ]
+    },
+    {
+      "type": "area",
+      "name": "Delivery area",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Town name", "default": "Hartland" },
+        { "type": "text", "id": "zip", "label": "Postal codes", "info": "Comma separated, used by the checker.", "default": "" },
+        { "type": "range", "id": "x", "label": "Map position: left", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "range", "id": "y", "label": "Map position: top", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "checkbox", "id": "kitchen", "label": "This is where our kitchen is", "info": "Only one area should be the kitchen. The delivery zone is drawn around it.", "default": false }
       ]
     },
     {
@@ -1035,9 +1178,35 @@
       "button_label": "View plan",
       "link": "/pages/15-meal-plan"
     }
-  }
+  },
+  { "type": "area", "settings": { "name": "Hartland", "zip": "53029", "x": 41, "y": 29, "kitchen": true } },
+  { "type": "area", "settings": { "name": "Delafield", "zip": "53018", "x": 30, "y": 40 } },
+  { "type": "area", "settings": { "name": "Pewaukee", "zip": "53072", "x": 55, "y": 35 } },
+  { "type": "area", "settings": { "name": "Waukesha", "zip": "53186, 53188, 53189", "x": 60, "y": 52 } },
+  { "type": "area", "settings": { "name": "Sussex", "zip": "53089", "x": 62, "y": 22 } },
+  { "type": "area", "settings": { "name": "Merton", "zip": "53056", "x": 47, "y": 20 } },
+  { "type": "area", "settings": { "name": "Nashotah", "zip": "53058", "x": 27, "y": 33 } },
+  { "type": "area", "settings": { "name": "Okauchee Lake", "zip": "53069", "x": 32, "y": 26 } },
+  { "type": "area", "settings": { "name": "Oconomowoc", "zip": "53066", "x": 14, "y": 27 } },
+  { "type": "area", "settings": { "name": "Oconomowoc Lake", "zip": "", "x": 21, "y": 31 } },
+  { "type": "area", "settings": { "name": "Chenequa", "zip": "", "x": 37, "y": 24 } },
+  { "type": "area", "settings": { "name": "Lisbon", "zip": "", "x": 53, "y": 18 } },
+  { "type": "area", "settings": { "name": "Lannon", "zip": "53046", "x": 73, "y": 20 } },
+  { "type": "area", "settings": { "name": "Menomonee Falls", "zip": "53051", "x": 80, "y": 10 } },
+  { "type": "area", "settings": { "name": "Brookfield", "zip": "53005, 53045", "x": 82, "y": 40 } },
+  { "type": "area", "settings": { "name": "Elm Grove", "zip": "53122", "x": 85, "y": 45 } },
+  { "type": "area", "settings": { "name": "Wales", "zip": "53183", "x": 36, "y": 55 } },
+  { "type": "area", "settings": { "name": "Dousman", "zip": "53118", "x": 19, "y": 51 } },
+  { "type": "area", "settings": { "name": "Summit", "zip": "", "x": 22, "y": 41 } },
+  { "type": "area", "settings": { "name": "Lake Country", "zip": "", "x": 22, "y": 19 } },
+  { "type": "area", "settings": { "name": "Stone Bank", "zip": "", "x": 31, "y": 16 } },
+  { "type": "area", "settings": { "name": "North Lake", "zip": "53064", "x": 37, "y": 12 } },
+  { "type": "area", "settings": { "name": "Mapleton", "zip": "", "x": 8, "y": 32 } },
+  { "type": "area", "settings": { "name": "Genesee", "zip": "53127", "x": 43, "y": 60 } },
+  { "type": "area", "settings": { "name": "Mukwonago", "zip": "53149", "x": 43, "y": 88 } }
 ]
     }
-  ]
+  ],
+  "max_blocks": 80
 }
 {% endschema %}

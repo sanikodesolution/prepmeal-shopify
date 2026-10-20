@@ -271,17 +271,97 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-arrows button:hover{background:var(--f);color:#fff}
 
 /* 10 delivery */
-.mealplan-del{display:grid;gap:2.5rem;align-items:center}
-@media(min-width:900px){.mealplan-del{grid-template-columns:6fr 5fr}}
-.mealplan-map{position:relative;aspect-ratio:1;border-radius:2.4rem;background:#d3ddcd;overflow:hidden;box-shadow:0 1.6rem 3.2rem rgba(21,37,28,.12)}
-.mealplan-map__frame{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
-.mealplan-map__label{position:absolute;left:1rem;right:1rem;bottom:1rem;z-index:1;margin:0;padding:.75rem 1rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--f);font-weight:600;line-height:1.3;text-align:center;backdrop-filter:blur(6px)}
-.mealplan-del__copy{display:flex;flex-direction:column;min-width:0}
+/* ---------- Delivery area ("plate map") ---------- */
+.mealplan-dl{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);grid-template-rows:auto auto 1fr;grid-template-areas:"head map" "check map" "areas map";column-gap:clamp(2rem,4vw,4.5rem);row-gap:1.8rem;align-items:start;width:100%}
+.mealplan-dl *{box-sizing:border-box}
+.mealplan-dl__sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.mealplan-dl__head{grid-area:head}
+.mealplan-dl__head .mealplan-h{font-size:clamp(1.9rem,3.4vw,3rem);line-height:1.05}
+.mealplan-dl__head .mealplan-p{margin:.9rem 0 0;max-width:42ch;opacity:.74;line-height:1.6}
+
+.mealplan-dl__check{grid-area:check}
+.mealplan-dl__form{display:flex;align-items:center;gap:.5rem;padding:.35rem;background:#fff;border:1px solid rgba(21,37,28,.12);border-radius:999px;box-shadow:0 18px 34px -22px rgba(21,37,28,.55);transition:box-shadow .25s,border-color .25s}
+.mealplan-dl__form:focus-within{border-color:var(--y);box-shadow:0 0 0 4px rgba(245,166,35,.28),0 18px 34px -22px rgba(21,37,28,.55)}
+.mealplan-dl__input{flex:1 1 auto;min-width:0;height:3.25rem;padding:0 1.25rem;border:0;outline:0;background:transparent;font:inherit;font-size:1rem;color:var(--f);box-shadow:none}
+.mealplan-dl__input::placeholder{color:var(--f);opacity:.5}
+.mealplan-dl__btn{flex:0 0 auto;height:3.25rem;padding:0 1.75rem;border:0;border-radius:999px;background:var(--y);color:var(--f);font:inherit;font-size:1rem;font-weight:700;cursor:pointer;transition:filter .2s,transform .2s}
+.mealplan-dl__btn:hover{filter:brightness(.94)}
+.mealplan-dl__btn:active{transform:scale(.97)}
+.mealplan-dl__btn:focus-visible,.mealplan-dl__chip:focus-visible,.mealplan-dl__more:focus-visible,.mealplan-dl__card-link:focus-visible{outline:3px solid var(--f);outline-offset:3px}
+.mealplan-dl__result{display:flex;align-items:center;gap:.5rem;margin:.75rem 0 0 .4rem;min-height:1.5em;font-size:.97rem;font-weight:600}
+.mealplan-dl__result:empty{display:none}
+.mealplan-dl__result::before{content:"";flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:currentColor}
+.mealplan-dl__result.is-yes{color:#1d6b3e}
+.mealplan-dl__result.is-no{color:#a63d1c}
+
+.mealplan-dl__areas{grid-area:areas}
+.mealplan-dl__areas-title{margin:0 0 .9rem;font-size:1rem;font-weight:700}
+.mealplan-dl__chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.mealplan-dl__chip{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .95rem .5rem .75rem;border:1px solid rgba(21,37,28,.14);border-radius:999px;background:rgba(255,255,255,.62);color:var(--f);font:inherit;font-size:.92rem;line-height:1.2;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.mealplan-dl__chip[hidden]{display:none}
+.mealplan-dl__chip-dot{width:8px;height:8px;border-radius:50%;background:var(--y);flex:0 0 auto;transition:box-shadow .2s}
+.mealplan-dl__chip.is-kitchen{border-color:var(--y);font-weight:600}
+.mealplan-dl__chip.is-kitchen .mealplan-dl__chip-dot{box-shadow:0 0 0 3px rgba(245,166,35,.35)}
+.mealplan-dl__chip.is-active{background:var(--f);border-color:var(--f);color:#f6f1e4}
+.mealplan-dl__more{margin-top:1rem;padding:0;border:0;background:none;font:inherit;font-size:.95rem;font-weight:700;color:var(--f);text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:5px;cursor:pointer}
+
+.mealplan-dl__map{grid-area:map;position:relative;aspect-ratio:1000/900;border-radius:2rem;overflow:hidden;background:#123023;isolation:isolate;box-shadow:0 50px 80px -46px rgba(18,48,35,.9)}
+.mealplan-dl__map::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 100% at 40% 35%,transparent 55%,rgba(0,0,0,.28) 100%);z-index:1}
+.mealplan-dl__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mealplan-dl__lakes ellipse{fill:#f6f1e4;fill-opacity:.07}
+.mealplan-dl__roads path{stroke:#f6f1e4;stroke-opacity:.17;stroke-width:3}
+.mealplan-dl__roads path.is-minor{stroke-opacity:.09;stroke-width:2;stroke-dasharray:2 9}
+.mealplan-dl__rim{fill:none;stroke:var(--y);stroke-opacity:.7;stroke-width:2.5}
+.mealplan-dl__rim-in{fill:none;stroke:#f6f1e4;stroke-opacity:.32;stroke-width:2;stroke-dasharray:1 10;stroke-linecap:round}
+.mealplan-dl__pulse{fill:none;stroke:var(--y);stroke-width:2;vector-effect:non-scaling-stroke;transform-box:fill-box;transform-origin:center;opacity:0}
+.mealplan-dl.is-live .mealplan-dl__pulse{animation:mealplan-dl-pulse 3.4s ease-out 2}
+.mealplan-dl.is-live .mealplan-dl__pulse.is-2{animation-delay:.9s}
+.mealplan-dl.is-live .mealplan-dl__pulse.is-3{animation-delay:1.8s}
+@keyframes mealplan-dl-pulse{0%{transform:scale(.6);opacity:.75}100%{transform:scale(11);opacity:0}}
+
+.mealplan-dl__pin,.mealplan-dl__kitchen{position:absolute;left:calc(var(--x) * 1%);top:calc(var(--y) * 1%);transform:translate(-50%,-50%);z-index:2;border:0;background:transparent;padding:0;cursor:pointer}
+.mealplan-dl__pin{width:26px;height:26px}
+.mealplan-dl__pin::before{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--y);box-shadow:0 0 0 4px rgba(245,166,35,.26);transition:transform .2s,background .2s,box-shadow .2s}
+.mealplan-dl__pin.is-active{z-index:4}
+.mealplan-dl__pin.is-active::before{transform:scale(1.5);background:#f6f1e4;box-shadow:0 0 0 5px rgba(245,166,35,.7)}
+.mealplan-dl__pin:focus-visible,.mealplan-dl__kitchen:focus-visible{outline:3px solid #f6f1e4;outline-offset:2px;border-radius:50%}
+.mealplan-dl__pin.is-found::after{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;border:2px solid #f6f1e4;animation:mealplan-dl-found 1.2s ease-out 3}
+@keyframes mealplan-dl-found{from{transform:scale(1);opacity:1}to{transform:scale(5);opacity:0}}
+.mealplan-dl__tip{position:absolute;bottom:calc(100% + 2px);left:50%;transform:translate(-50%,4px);padding:5px 11px;border-radius:999px;background:#f6f1e4;color:#14231b;font-size:.8rem;font-weight:700;line-height:1.2;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+.mealplan-dl__pin.is-right .mealplan-dl__tip{left:auto;right:50%;transform:translate(12px,4px)}
+.mealplan-dl__pin.is-left .mealplan-dl__tip{left:50%;transform:translate(-12px,4px)}
+.mealplan-dl__pin.is-active .mealplan-dl__tip{opacity:1;transform:translate(-50%,0)}
+.mealplan-dl__pin.is-right.is-active .mealplan-dl__tip{transform:translate(12px,0)}
+.mealplan-dl__pin.is-left.is-active .mealplan-dl__tip{transform:translate(-12px,0)}
+.mealplan-dl__kitchen{width:46px;height:46px;border-radius:50%;background:var(--y);color:#14231b;display:grid;place-items:center;z-index:3;box-shadow:0 0 0 6px rgba(245,166,35,.3),0 12px 24px -8px rgba(0,0,0,.55);transition:transform .2s}
+.mealplan-dl__kitchen.is-active{transform:translate(-50%,-50%) scale(1.08)}
+.mealplan-dl__kitchen .mealplan-dl__tip{bottom:calc(100% + 10px);opacity:1;transform:translate(-50%,0)}
+
+.mealplan-dl__card{position:absolute;top:1.1rem;left:1.1rem;z-index:5;max-width:min(260px,60%);padding:.9rem 1.1rem;border-radius:1.1rem;background:rgba(246,241,228,.94);color:#14231b;backdrop-filter:blur(8px);box-shadow:0 16px 30px -18px rgba(0,0,0,.6)}
+.mealplan-dl__card-name{margin:0;font-size:1rem;font-weight:700}
+.mealplan-dl__card-addr{margin:3px 0 0;font-size:.85rem;line-height:1.4;opacity:.72}
+.mealplan-dl__card-link{display:inline-block;margin-top:.6rem;font-size:.85rem;font-weight:700;color:#14231b;text-decoration:underline;text-decoration-color:var(--y);text-decoration-thickness:3px;text-underline-offset:4px}
+.mealplan-dl__legend{position:absolute;left:1.1rem;bottom:1.1rem;z-index:5;margin:0;padding:.6rem 1.1rem;list-style:none;display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;border-radius:999px;background:rgba(8,24,17,.62);backdrop-filter:blur(8px);color:#f6f1e4;font-size:.82rem}
+.mealplan-dl__legend li{display:inline-flex;align-items:center;gap:.5rem}
+.mealplan-dl__sw{display:inline-block;flex:0 0 auto;border-radius:50%}
+.mealplan-dl__sw.is-kitchen{width:14px;height:14px;background:var(--y);box-shadow:0 0 0 3px rgba(245,166,35,.35)}
+.mealplan-dl__sw.is-area{width:9px;height:9px;background:var(--y)}
+.mealplan-dl__sw.is-zone{width:16px;height:16px;border:2px solid var(--y)}
+@media(max-width:989px){
+.mealplan-dl{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:"head" "check" "map" "areas";row-gap:1.75rem}
+.mealplan-dl__head .mealplan-p{max-width:52ch}
+}
+@media(max-width:560px){
+.mealplan-dl__map{aspect-ratio:1000/1050;border-radius:1.5rem}
+.mealplan-dl__card{top:.75rem;left:.75rem;padding:.7rem .9rem}
+.mealplan-dl__legend{left:.75rem;right:.75rem;bottom:.75rem;border-radius:1.25rem;gap:.4rem .9rem;padding:.6rem .9rem}
+.mealplan-dl__btn{padding:0 1.25rem}
+.mealplan-dl__input{padding:0 .9rem}
+}
+@media(prefers-reduced-motion:reduce){
+.mealplan-dl *,.mealplan-dl *::before,.mealplan-dl *::after{animation:none!important;transition:none!important}
+}
 .mealplan-del__actions{display:flex;flex-direction:column;align-items:flex-start;gap:28px;margin-top:36px}
-.mealplan-areas{display:flex;flex-wrap:wrap;gap:.7rem;list-style:none;padding:0;margin:0}
-.mealplan-areas li{display:inline-flex;align-items:center;gap:.45rem;min-height:3rem;padding:.65rem 1.25rem .65rem 1rem;border-radius:999px;background:#fff;border:1.5px solid rgba(21,37,28,.12);box-shadow:0 .4rem 1.2rem rgba(21,37,28,.06);color:var(--f);font-weight:700;line-height:1.2;transition:transform .35s cubic-bezier(.22,.7,.2,1),border-color .35s,box-shadow .35s}
-.mealplan-areas li:hover{transform:translateY(-2px);border-color:var(--y);box-shadow:0 14px 28px -16px rgba(245,166,35,.85)}
-.mealplan-areas__pin{display:inline-flex;color:var(--y);flex:0 0 auto}
 .mealplan-del__actions .pm{font-size:1.6rem}
 
 /* 11 reviews */
