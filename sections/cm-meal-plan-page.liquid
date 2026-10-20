@@ -205,6 +205,7 @@
     </div>
   {%- endif -%}
 
+  {%- if section.settings.show_hero -%}
   <section class="mph">
     <div class="mph__inner">
       <div class="mph__copy">
@@ -258,6 +259,7 @@
       </div>
     </div>
   </section>
+  {%- endif -%}
 
   <div class="mealplan-a">
     <section class="ben"><div class="wrap">
@@ -523,6 +525,7 @@
   "class": "section cm-section",
   "settings": [
     { "type": "header", "content": "Hero" },
+    { "type": "checkbox", "id": "show_hero", "label": "Show hero", "default": true, "info": "Turn off to hide the plan hero on this page only." },
     { "type": "text", "id": "plan_label", "label": "Plan label", "default": "5 Meal Plan" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Chef-prepared meals.\\nMade for your week." },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Calorie counted. High protein. Low oil. Pick five meals from this week's menu and we cook and deliver them." },

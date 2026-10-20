@@ -12,6 +12,7 @@
     "mp_page": {
       "type": "cm-meal-plan-page",
       "settings": {
+        "show_hero": false,
         "plan_label": "6 Meal Plan",
         "heading": "Chef-prepared meals.\nMade for your week.",
         "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
