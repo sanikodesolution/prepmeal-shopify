@@ -57,7 +57,7 @@
 }
 .da .da__sub {
   display: flex; align-items: center; justify-content: center; gap: 14px;
-  margin: 0 0 30px; font-size: clamp(14px, 1.5vw, 17px); font-weight: 500;
+  margin: 0 0 18px; font-size: clamp(14px, 1.5vw, 17px); font-weight: 500;
 }
 .da .da__sub::before, .da .da__sub::after { content: none; }
 .da .da__sub em { font-style: normal; color: var(--da-orange); }
@@ -76,7 +76,7 @@
 .da .da__map-fallback { padding: 24px 18px; text-align: center; font-size: 15px; color: #5c675f; }
 
 /* ---------- pills ---------- */
-.da .da__deliver { position: relative; z-index: 30; width: min(980px, 100%); margin: 4px auto 22px; text-align: left; color: #5c2433; }
+.da .da__deliver { position: relative; z-index: 30; width: min(980px, 100%); margin: 4px auto 16px; text-align: left; color: #5c2433; }
 .da .da__deliver-label { margin: 0 0 16px; font-size: 13px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: #6e1f36; }
 .da .da__deliver-pills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 12px; }
 .da .da__deliver-pills.is-animating { overflow: hidden; }
@@ -92,7 +92,7 @@
 .da .da__zone { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; background: #fff; border: 1px solid #eadfd8; color: #4d3d42; font-size: 14px; font-weight: 500; line-height: 1.2; }
 .da .da__zone svg { width: 12px; height: 12px; flex: none; fill: #6e1f36; transform-origin: 50% 100%; }
 .da .da__zone:hover svg { animation: da-pin .6s ease; }
-.da .da__check { margin-top: 22px; padding-top: 0; border-top: 0; }
+.da .da__check { margin-top: 12px; padding-top: 0; border-top: 0; }
 .da .da__check-label { display: block; margin-bottom: 12px; font-size: 12px; font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; color: #8a736c; }
 .da .da__check-row { display: flex; gap: 10px; align-items: flex-start; }
 .da .da__check-field { position: relative; flex: 1; min-width: 0; }
