@@ -90,7 +90,7 @@
 .da .da__zone { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px; background: #fff; border: 1px solid #eadfd8; color: #4d3d42; font-size: 14px; font-weight: 500; line-height: 1.2; }
 .da .da__zone svg { width: 12px; height: 12px; flex: none; fill: #6e1f36; transform-origin: 50% 100%; }
 .da .da__zone:hover svg { animation: da-pin .6s ease; }
-.da .da__check { margin-top: 22px; padding-top: 18px; border-top: 1px solid #eadfd8; }
+.da .da__check { margin-top: 22px; padding-top: 0; border-top: 0; }
 .da .da__check-label { display: block; margin-bottom: 12px; font-size: 12px; font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; color: #8a736c; }
 .da .da__check-row { display: flex; gap: 10px; align-items: flex-start; }
 .da .da__check-field { position: relative; flex: 1; min-width: 0; }
