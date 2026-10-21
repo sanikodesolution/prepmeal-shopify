@@ -611,7 +611,7 @@
     { "type": "text", "id": "explore_heading", "label": "Explore heading", "default": "Explore all meals" },
     { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
     { "type": "text", "id": "detail_note", "label": "Detail note", "default": "Meal names and nutrition values are from the current menu." },
-    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Shown in the order dropdowns and used for the plan total. Enter cents: 1500 = $15.00. Leave 0 to hide prices." },
+    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Shown in the order dropdowns and used for the plan total in the box. Enter cents: 1500 = $15.00. Leave 0 to hide prices. The cart charges the Plan product price, so keep that product equal to meals times this price." },
     { "type": "text", "id": "total_label", "label": "Plan total label", "default": "Plan total", "info": "Label for the total shown inside the order box. Blank hides the total." },
 
     { "type": "header", "content": "Chef / Steps / Quality" },
@@ -625,7 +625,7 @@
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
-    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Added to the cart with the meals chosen in the dropdowns." },
+    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Added to the cart with the meals chosen in the dropdowns. Shopify charges this product's variant price. For a 6 meal plan at $15 each, set the variant to $90.00." },
     { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
