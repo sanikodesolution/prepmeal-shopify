@@ -425,11 +425,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__num,.mealplan-menu__name{transition:transform .35s ease,color .3s ease}
 .mealplan-menu__num{text-align:right;font-size:15px;font-weight:600;color:#8d928c}
 .mealplan-menu__name{font-size:18px;line-height:1.25;font-weight:500}
-/* Price column: only laid out when at least one meal has a price, so menus
-   without pricing keep the original two-column row exactly. */
-.mealplan-menu__list.has-price .mealplan-menu__item{grid-template-columns:1.8rem minmax(0,1fr) auto}
-.mealplan-menu__price{flex:none;padding-left:12px;font-size:15px;font-weight:600;color:var(--mp-muted);white-space:nowrap;transition:color .3s ease}
-.mealplan-menu__item.is-active .mealplan-menu__price{color:var(--mp-ink)}
+/* Plan total sits inside the order box, under the meal dropdowns. */
+.mealplan-menu__sum{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:14px 2px 2px;margin-top:2px;border-top:1px solid var(--mp-line)}
+.mealplan-menu__sum-label{font-size:14px;font-weight:600;letter-spacing:.02em;color:var(--mp-muted)}
+.mealplan-menu__sum-value{font-size:18px;font-weight:700;color:var(--mp-ink);white-space:nowrap}
 .mealplan-menu__item.is-active{background:linear-gradient(90deg,var(--mp-accent-soft),rgba(255,255,255,0) 85%)}
 .mealplan-menu__item.is-active::before{transform:scaleY(1)}
 .mealplan-menu__item.is-active .mealplan-menu__num{color:var(--mp-accent)}

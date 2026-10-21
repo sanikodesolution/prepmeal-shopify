@@ -119,30 +119,38 @@
               </div>
             </div>
           </div>
-          <ol class="mealplan-menu__list{% if any_price %} has-price{% endif %}" role="tablist">
+          <ol class="mealplan-menu__list" role="tablist">
             {%- for block in menu_blocks -%}
-              {%- liquid
-                assign item_price = block.settings.price | default: 0
-                if item_price <= 0
-                  assign item_price = section.settings.meal_price
-                endif
-              -%}
               <li {{ block.shopify_attributes }}>
                 <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
                   <span class="mealplan-menu__num">{{ forloop.index }}</span>
                   <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
-                  {%- if item_price > 0 -%}
-                    <span class="mealplan-menu__price">{{ item_price | money }}</span>
-                  {%- endif -%}
                 </button>
               </li>
             {%- endfor -%}
           </ol>
           <div class="mealplan-menu__detail">
             {%- if section.settings.picker_count > 0 -%}
-              {%- assign plan_variant = section.settings.plan_product.selected_or_first_available_variant -%}
+              {%- liquid
+                # The cart charges the variant's own price, so a $0 variant makes
+                # the whole plan free. Prefer the selected variant, then the first
+                # available one, then the first variant that actually has a price.
+                assign plan_product = section.settings.plan_product
+                assign plan_variant = plan_product.selected_or_first_available_variant
+                if plan_variant == blank or plan_variant.price == 0
+                  for variant in plan_product.variants
+                    if variant.available and variant.price > 0
+                      assign plan_variant = variant
+                      break
+                    endif
+                  endfor
+                endif
+                if plan_variant == blank
+                  assign plan_variant = plan_product.variants.first
+                endif
+              -%}
               <form class="mealplan-menu__order" data-mp-order action="{{ routes.cart_add_url }}" method="post">
-                <input type="hidden" name="id" value="{{ plan_variant.id | default: 67956374241586 }}">
+                <input type="hidden" name="id" value="{{ plan_variant.id }}">
                 {%- for slot in (1..section.settings.picker_count) -%}
                   <label class="mealplan-menu__field">
                     <span>Meal {{ slot }}</span>
@@ -155,12 +163,18 @@
                             assign opt_price = section.settings.meal_price
                           endif
                         -%}
-                        <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}"{% endif %}>{{ block.settings.name | escape }}</option>
+                        <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}" data-price-cents="{{ opt_price }}"{% endif %}>{{ block.settings.name | escape }}</option>
                       {%- endfor -%}
                     </select>
                   </label>
                 {%- endfor -%}
                 <p class="mealplan-menu__order-msg" data-mp-order-msg hidden></p>
+                {%- if any_price -%}
+                  <div class="mealplan-menu__sum">
+                    <span class="mealplan-menu__sum-label">{{ section.settings.total_label | default: 'Plan total' | escape }}</span>
+                    <span class="mealplan-menu__sum-value" data-mp-sum data-mp-money="{{ 0 | money | escape }}">{{ 0 | money }}</span>
+                  </div>
+                {%- endif -%}
                 <button type="submit" class="mealplan-menu__cta"{% if plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>
                   <span>{{ section.settings.quality_button | default: 'Order' | escape }}</span>
                   <svg class="mealplan-menu__cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -597,7 +611,8 @@
     { "type": "text", "id": "explore_heading", "label": "Explore heading", "default": "Explore all meals" },
     { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
     { "type": "text", "id": "detail_note", "label": "Detail note", "default": "Meal names and nutrition values are from the current menu." },
-    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Shown next to every meal and in the order dropdowns. Enter cents: 1500 = $15.00. Leave 0 to hide prices." },
+    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Shown in the order dropdowns and used for the plan total. Enter cents: 1500 = $15.00. Leave 0 to hide prices." },
+    { "type": "text", "id": "total_label", "label": "Plan total label", "default": "Plan total", "info": "Label for the total shown inside the order box. Blank hides the total." },
 
     { "type": "header", "content": "Chef / Steps / Quality" },
     { "type": "text", "id": "chef_eyebrow", "label": "Chef eyebrow", "default": "The Chef Matt way" },

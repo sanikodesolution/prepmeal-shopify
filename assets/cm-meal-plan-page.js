@@ -912,12 +912,32 @@
 
       const orderMsg = orderForm.querySelector('[data-mp-order-msg]');
       const orderBtn = orderForm.querySelector('[type="submit"]');
+      const orderSum = orderForm.querySelector('[data-mp-sum]');
       const say = (text, ok) => {
         if (!orderMsg) return;
         orderMsg.hidden = !text;
         orderMsg.textContent = text || '';
         orderMsg.classList.toggle('is-ok', Boolean(ok));
       };
+
+      // Total for the chosen meals. The plan variant itself carries the plan
+      // price; this only summarises the picks so the number is visible in the
+      // form box instead of the meal list.
+      const syncSum = () => {
+        if (!orderSum) return;
+        // Placeholder comes from Liquid as a full money string, so we can reuse
+        // the store's exact currency formatting instead of guessing symbols.
+        const template = orderSum.dataset.mpMoney || orderSum.textContent;
+        let cents = 0;
+        orderForm.querySelectorAll('[data-mp-pick]').forEach((select) => {
+          const chosen = select.options[select.selectedIndex];
+          const value = chosen && select.value ? Number(chosen.dataset.priceCents) : 0;
+          if (value > 0) cents += value;
+        });
+        orderSum.textContent = template.replace(/[\d][\d.,]*/, (cents / 100).toFixed(2));
+      };
+      orderForm.addEventListener('change', syncSum);
+      syncSum();
       orderForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const picks = [...orderForm.querySelectorAll('[data-mp-pick]')];
@@ -929,8 +949,7 @@
         if (!id) {
           say('This plan is not available to order yet.');
           return;
-        }
-        const properties = {};
+        }        const properties = {};
         picks.forEach((select, index) => {
           properties[`Meal ${index + 1}`] = select.value;
         });
