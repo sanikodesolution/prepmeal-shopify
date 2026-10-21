@@ -1,0 +1,416 @@
+{%- comment -%}
+  Delivery area — stylised SVG "plate" map, town chips and a postal code checker.
+  Rendered by sections/cm-meal-plan-page.liquid (delivery_style = 'plate').
+
+  Towns come from the "Delivery towns" setting, one per line:
+    Name|ZIP,ZIP|left%|top%|kitchen
+  The fifth column is optional and marks the single kitchen pin.
+  A block per town is not used here because the parent section already sits
+  near Shopify's 50-block ceiling.
+{%- endcomment -%}
+
+{{ 'section-cm-mealplan-delivery.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Fallback town list. Format: Name|ZIP,ZIP|left%|top%|kitchen
+  (Liquid string literals cannot span lines, so this is captured instead.)
+{%- endcomment -%}
+{%- capture plate_default_towns -%}
+Hartland|53029|41|29|kitchen
+Delafield|53018|34.5|35.5
+Pewaukee|53072|49.3|32.6
+Waukesha|53186, 53188, 53189|50.3|40.2
+Sussex|53089|52|25.3
+Merton|53056|44.8|22.9
+Nashotah|53058|33.3|31.8
+Okauchee Lake|53069|34.6|26.9
+Oconomowoc|53066|27.4|27.3
+Oconomowoc Lake||30|30.1
+Chenequa||37.6|24.7
+Lisbon||48.4|22.5
+Lannon|53046|56|24.8
+Menomonee Falls|53051|58.1|20.7
+Brookfield|53005, 53045|58.7|33
+Elm Grove|53122|60.2|36.7
+Wales|53183|38.4|42.3
+Dousman|53118|30.4|39.6
+Summit||30.9|35.3
+Lake Country||30.9|23.7
+Stone Bank||35.1|21.4
+North Lake|53064|38.7|19.1
+Mapleton||25.4|30.7
+Genesee|53127|42|44.2
+Mukwonago|53149|41.9|51.6
+{%- endcapture -%}
+
+{%- liquid
+  assign s = section.settings
+  assign towns_raw = s.plate_towns | strip
+  if towns_raw == blank
+    assign towns_raw = plate_default_towns | strip
+  endif
+  assign lines = towns_raw | newline_to_br | split: '<br />'
+
+  # Kitchen position and town count in one pass.
+  assign kx = 41
+  assign ky = 29
+  assign has_kitchen = false
+  assign town_count = 0
+  for line in lines
+    assign p = line | split: '|'
+    assign name = p[0] | strip
+    if name != blank
+      assign town_count = town_count | plus: 1
+      assign flag = p[4] | default: '' | strip | downcase
+      if has_kitchen == false and flag == 'kitchen'
+        assign kx = p[2] | strip | plus: 0
+        assign ky = p[3] | strip | plus: 0
+        assign has_kitchen = true
+      endif
+    endif
+  endfor
+
+  assign cx = kx | times: 10
+  assign cy = ky | times: 9
+  assign zr = s.plate_zone_radius | default: 22 | times: 10
+  assign zr_in = zr | minus: 24
+  assign limit = s.plate_visible | default: 12
+
+  assign placeholder = s.delivery_placeholder | default: 'Postal code or town'
+  assign button = s.delivery_button | default: 'Check my area'
+  assign kitchen_label = s.plate_kitchen_label | default: 'Our kitchen'
+  assign more_label = s.plate_more_label | default: 'Show all {count} areas'
+  assign less_label = s.plate_less_label | default: 'Show fewer'
+  assign uid = section.id
+-%}
+
+<section
+  id="mealplan-dl-{{ uid }}"
+  class="mealplan-dl"
+  aria-labelledby="mealplan-dl-h-{{ uid }}"
+  data-mpdl
+>
+  <div class="mealplan-dl__inner">
+
+    <header class="mealplan-dl__head">
+      {%- if s.delivery_eyebrow != blank -%}
+        <p class="mp-eye">{{ s.delivery_eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 class="mealplan-h mealplan-dl__title" id="mealplan-dl-h-{{ uid }}">{{ s.delivery_heading | escape }}</h2>
+      {%- if s.delivery_text != blank -%}
+        <p class="mealplan-p mealplan-dl__text">{{ s.delivery_text | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="mealplan-dl__check">
+      <form class="mealplan-dl__form" data-mpdl-form novalidate>
+        <label class="visually-hidden" for="mealplan-dl-q-{{ uid }}">{{ placeholder | escape }}</label>
+        <input
+          id="mealplan-dl-q-{{ uid }}"
+          class="mealplan-dl__input"
+          type="text"
+          name="area"
+          autocomplete="postal-code"
+          placeholder="{{ placeholder | escape }}"
+        >
+        <button class="mealplan-dl__btn" type="submit">{{ button | escape }}</button>
+      </form>
+      <p class="mealplan-dl__result" data-mpdl-result role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="mealplan-dl__areas">
+      {%- if s.plate_areas_title != blank -%}
+        <p class="mealplan-dl__areas-title">{{ s.plate_areas_title | escape }}</p>
+      {%- endif -%}
+      <div class="mealplan-dl__chips">
+        {%- assign i = 0 -%}
+        {%- for line in lines -%}
+          {%- assign p = line | split: '|' -%}
+          {%- assign name = p[0] | strip -%}
+          {%- if name != blank -%}
+            {%- assign flag = p[4] | default: '' | strip | downcase -%}
+            <button
+              type="button"
+              class="mealplan-dl__chip{% if flag == 'kitchen' %} is-kitchen{% endif %}"
+              data-chip="{{ i }}"
+              data-name="{{ name | escape }}"
+              data-zip="{{ p[1] | default: '' | strip | escape }}"
+              {% if i >= limit %}hidden data-extra{% endif %}
+            >
+              <span class="mealplan-dl__chip-dot" aria-hidden="true"></span>
+              {{ name | escape }}
+            </button>
+            {%- assign i = i | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if town_count > limit -%}
+        <button
+          type="button"
+          class="mealplan-dl__more"
+          aria-expanded="false"
+          data-mpdl-more
+          data-label-more="{{ more_label | replace: '{count}', town_count | escape }}"
+          data-label-less="{{ less_label | escape }}"
+        >{{ more_label | replace: '{count}', town_count }}</button>
+      {%- endif -%}
+    </div>
+
+    <div class="mealplan-dl__map" role="img" aria-label="{{ s.plate_map_label | default: 'Map of our delivery area' | escape }}">
+      <svg class="mealplan-dl__svg" viewBox="0 0 1000 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="mpdl-water-{{ uid }}" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#d3e8f1"/>
+            <stop offset="1" stop-color="#bcdcea"/>
+          </linearGradient>
+          <pattern id="mpdl-dots-{{ uid }}" width="16" height="16" patternUnits="userSpaceOnUse">
+            <circle cx="1.2" cy="1.2" r="0.9" fill="#1d3327" fill-opacity=".055"/>
+          </pattern>
+          <radialGradient id="mpdl-glow-{{ uid }}" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#f5a623" stop-opacity=".2"/>
+            <stop offset=".72" stop-color="#f5a623" stop-opacity=".1"/>
+            <stop offset="1" stop-color="#f5a623" stop-opacity=".03"/>
+          </radialGradient>
+        </defs>
+
+        <!-- land -->
+        <rect width="1000" height="900" fill="#f7f3e8"/>
+        <rect width="1000" height="900" fill="url(#mpdl-dots-{{ uid }})"/>
+
+        <!-- parks -->
+        <g class="mealplan-dl__parks">
+          <path d="M 120 150 C 190 120 250 150 246 205 C 242 262 178 280 130 258 C 88 238 74 174 120 150 Z"/>
+          <path d="M 470 560 C 530 534 596 552 606 604 C 616 656 566 700 506 690 C 450 681 420 592 470 560 Z"/>
+          <path d="M 210 640 C 262 618 312 640 312 682 C 312 726 266 752 220 738 C 178 725 168 658 210 640 Z"/>
+          <path d="M 690 690 C 738 668 786 688 786 728 C 786 770 742 792 698 780 C 658 769 650 706 690 690 Z"/>
+          <path d="M 330 60 C 380 38 430 58 428 96 C 426 134 382 152 344 140 C 308 129 296 78 330 60 Z"/>
+        </g>
+
+        <!-- water -->
+        <g class="mealplan-dl__lakes">
+          <path class="is-big" fill="url(#mpdl-water-{{ uid }})" d="M 902 0 C 896 170 878 340 872 520 C 868 672 882 792 898 900 L 1000 900 L 1000 0 Z"/>
+          <ellipse cx="286" cy="300" rx="34" ry="13" transform="rotate(-20 286 300)"/>
+          <ellipse cx="196" cy="342" rx="26" ry="13" transform="rotate(20 196 342)"/>
+          <ellipse cx="242" cy="322" rx="18" ry="9"/>
+          <ellipse cx="420" cy="742" rx="26" ry="11" transform="rotate(-8 420 742)"/>
+          <ellipse cx="560" cy="250" rx="24" ry="10" transform="rotate(12 560 250)"/>
+        </g>
+
+        <!-- roads: casing then fill -->
+        <g class="mealplan-dl__roads is-casing" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path class="is-motor" d="M 30 210 C 150 250 235 320 310 356 S 470 340 560 332 S 660 372 726 392 S 820 372 872 360"/>
+          <path class="is-artery" d="M 60 640 C 220 604 380 596 500 556 S 700 486 880 470"/>
+          <path class="is-artery" d="M 300 90 C 320 240 330 360 336 470 S 340 700 320 860"/>
+          <path class="is-minor" d="M 468 40 C 470 220 476 400 474 560 S 470 760 466 880"/>
+          <path class="is-minor" d="M 640 60 C 630 240 634 420 644 600 S 660 780 664 880"/>
+          <path class="is-minor" d="M 120 470 C 260 452 400 448 540 430 S 740 400 880 392"/>
+          <path class="is-minor" d="M 150 760 C 300 730 450 722 600 700 S 780 660 880 650"/>
+        </g>
+        <g class="mealplan-dl__roads is-fill" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path class="is-motor" d="M 30 210 C 150 250 235 320 310 356 S 470 340 560 332 S 660 372 726 392 S 820 372 872 360"/>
+          <path class="is-artery" d="M 60 640 C 220 604 380 596 500 556 S 700 486 880 470"/>
+          <path class="is-artery" d="M 300 90 C 320 240 330 360 336 470 S 340 700 320 860"/>
+          <path class="is-minor" d="M 468 40 C 470 220 476 400 474 560 S 470 760 466 880"/>
+          <path class="is-minor" d="M 640 60 C 630 240 634 420 644 600 S 660 780 664 880"/>
+          <path class="is-minor" d="M 120 470 C 260 452 400 448 540 430 S 740 400 880 392"/>
+          <path class="is-minor" d="M 150 760 C 300 730 450 722 600 700 S 780 660 880 650"/>
+        </g>
+
+        {%- if has_kitchen -%}
+          <g class="mealplan-dl__plate">
+            <circle cx="{{ cx }}" cy="{{ cy }}" r="{{ zr }}" fill="url(#mpdl-glow-{{ uid }})"/>
+            <circle class="mealplan-dl__rim" cx="{{ cx }}" cy="{{ cy }}" r="{{ zr }}"/>
+          </g>
+          <g class="mealplan-dl__pulses">
+            <circle class="mealplan-dl__pulse" cx="{{ cx }}" cy="{{ cy }}" r="{{ zr }}"/>
+            <circle class="mealplan-dl__pulse is-2" cx="{{ cx }}" cy="{{ cy }}" r="{{ zr }}"/>
+            <circle class="mealplan-dl__pulse is-3" cx="{{ cx }}" cy="{{ cy }}" r="{{ zr }}"/>
+          </g>
+        {%- endif -%}
+      </svg>
+
+      {%- assign j = 0 -%}
+      {%- for line in lines -%}
+        {%- assign p = line | split: '|' -%}
+        {%- assign name = p[0] | strip -%}
+        {%- if name != blank -%}
+          {%- assign px = p[2] | default: '50' | strip | plus: 0 -%}
+          {%- assign py = p[3] | default: '50' | strip | plus: 0 -%}
+          {%- assign flag = p[4] | default: '' | strip | downcase -%}
+          {%- if flag == 'kitchen' -%}
+            <button
+              type="button"
+              class="mealplan-dl__kitchen"
+              data-pin="{{ j }}"
+              style="--x: {{ px }}; --y: {{ py }};"
+              aria-label="{{ kitchen_label | escape }}: {{ name | escape }}"
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                <path d="M3 12h18a9 9 0 0 1-18 0z" fill="currentColor"/>
+                <path d="M8 8.5c0-1.6 1.5-1.6 1.5-3.2M12 8.5c0-1.6 1.5-1.6 1.5-3.2M16 8.5c0-1.6 1.5-1.6 1.5-3.2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <span class="mealplan-dl__tip is-always">{{ kitchen_label | escape }}</span>
+            </button>
+          {%- else -%}
+            {%- assign side = '' -%}
+            {%- if px > 74 -%}{%- assign side = ' is-right' -%}{%- elsif px < 18 -%}{%- assign side = ' is-left' -%}{%- endif -%}
+            <button
+              type="button"
+              class="mealplan-dl__pin{{ side }}"
+              data-pin="{{ j }}"
+              style="--x: {{ px }}; --y: {{ py }};"
+              aria-label="{{ name | escape }}"
+            >
+              <span class="mealplan-dl__tip">{{ name | escape }}</span>
+            </button>
+          {%- endif -%}
+          {%- assign j = j | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      <div class="mealplan-dl__card">
+        <p class="mealplan-dl__card-name">{{ kitchen_label | escape }}</p>
+        {%- if s.plate_kitchen_address != blank -%}
+          <p class="mealplan-dl__card-addr">{{ s.plate_kitchen_address | escape }}</p>
+        {%- endif -%}
+        {%- if s.plate_maps_url != blank -%}
+          <a class="mealplan-dl__card-link" href="{{ s.plate_maps_url }}" target="_blank" rel="noopener">{{ s.plate_maps_label | default: 'Open in Maps' | escape }}</a>
+        {%- endif -%}
+      </div>
+
+      <ul class="mealplan-dl__legend">
+        <li><span class="mealplan-dl__sw is-kitchen"></span>{{ s.plate_legend_kitchen | default: 'Our kitchen' | escape }}</li>
+        <li><span class="mealplan-dl__sw is-area"></span>{{ s.plate_legend_area | default: 'Delivery areas' | escape }}</li>
+        <li><span class="mealplan-dl__sw is-zone"></span>{{ s.plate_legend_zone | default: 'Delivery zone' | escape }}</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script type="application/json" data-mpdl-copy>
+    {"yes":{{ s.plate_msg_yes | default: 'Good news, we deliver to {area}.' | json }},"no":{{ s.plate_msg_no | default: "We don't deliver to “{query}” yet. Check the list below or contact us." | json }},"empty":{{ s.plate_msg_empty | default: 'Type a postal code or town first.' | json }}}
+  </script>
+
+  <script>
+    (function () {
+      var root = document.getElementById('mealplan-dl-{{ uid }}');
+      if (!root || root.dataset.mpdlReady === '1') return;
+      root.dataset.mpdlReady = '1';
+
+      var copy = {};
+      try { copy = JSON.parse(root.querySelector('[data-mpdl-copy]').textContent); } catch (e) {}
+
+      var chips = [].slice.call(root.querySelectorAll('[data-chip]'));
+      var pins = [].slice.call(root.querySelectorAll('[data-pin]'));
+      var form = root.querySelector('[data-mpdl-form]');
+      var input = root.querySelector('.mealplan-dl__input');
+      var result = root.querySelector('[data-mpdl-result]');
+      var more = root.querySelector('[data-mpdl-more]');
+      var pinned = null;
+
+      function setActive(id) {
+        chips.forEach(function (c) { c.classList.toggle('is-active', c.getAttribute('data-chip') === id); });
+        pins.forEach(function (p) { p.classList.toggle('is-active', p.getAttribute('data-pin') === id); });
+      }
+
+      function expand(open) {
+        if (!more) return;
+        chips.forEach(function (c) { if (c.hasAttribute('data-extra')) c.hidden = !open; });
+        more.setAttribute('aria-expanded', open ? 'true' : 'false');
+        more.textContent = open ? more.getAttribute('data-label-less') : more.getAttribute('data-label-more');
+      }
+
+      if (more) {
+        more.addEventListener('click', function () {
+          expand(more.getAttribute('aria-expanded') !== 'true');
+        });
+      }
+
+      function bind(el, id) {
+        el.addEventListener('mouseenter', function () { setActive(id); });
+        el.addEventListener('focus', function () { setActive(id); });
+        el.addEventListener('mouseleave', function () { setActive(pinned); });
+        el.addEventListener('blur', function () { setActive(pinned); });
+        el.addEventListener('click', function () {
+          pinned = pinned === id ? null : id;
+          setActive(pinned);
+        });
+      }
+      chips.forEach(function (c) { bind(c, c.getAttribute('data-chip')); });
+      pins.forEach(function (p) { bind(p, p.getAttribute('data-pin')); });
+
+      function show(text, ok) {
+        if (!result) return;
+        result.textContent = text;
+        result.classList.remove('is-yes', 'is-no');
+        if (text) result.classList.add(ok ? 'is-yes' : 'is-no');
+      }
+
+      function find(q) {
+        var zip = (q.match(/\b\d{4,6}\b/) || [])[0];
+        var i, c, zips;
+        if (zip) {
+          for (i = 0; i < chips.length; i++) {
+            c = chips[i];
+            zips = (c.getAttribute('data-zip') || '').split(',').map(function (z) { return z.trim(); });
+            if (zips.indexOf(zip) > -1) return c;
+          }
+        }
+        var best = null;
+        chips.forEach(function (c) {
+          var n = (c.getAttribute('data-name') || '').toLowerCase();
+          if (n.length >= 3 && q.indexOf(n) > -1 && (!best || n.length > best.len)) best = { c: c, len: n.length };
+        });
+        if (best) return best.c;
+        if (q.length >= 4) {
+          for (i = 0; i < chips.length; i++) {
+            if ((chips[i].getAttribute('data-name') || '').toLowerCase().indexOf(q) === 0) return chips[i];
+          }
+        }
+        return null;
+      }
+
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var raw = input.value.trim();
+          if (!raw) { show(copy.empty, false); setActive(pinned); return; }
+          var hit = find(raw.toLowerCase());
+          if (hit) {
+            var id = hit.getAttribute('data-chip');
+            if (hit.hidden) expand(true);
+            pinned = id;
+            setActive(id);
+            var pin = root.querySelector('[data-pin="' + id + '"]');
+            if (pin) {
+              pin.classList.remove('is-found');
+              void pin.offsetWidth;
+              pin.classList.add('is-found');
+            }
+            show(String(copy.yes || '').replace('{area}', hit.getAttribute('data-name')), true);
+          } else {
+            pinned = null;
+            setActive(null);
+            show(String(copy.no || '').replace('{query}', raw), false);
+          }
+        });
+      }
+
+      if (input) {
+        input.addEventListener('input', function () { if (!input.value) show('', true); });
+      }
+
+      var map = root.querySelector('.mealplan-dl__map');
+      if ('IntersectionObserver' in window && map) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) { root.classList.add('is-live'); io.disconnect(); }
+          });
+        }, { threshold: 0.35 });
+        io.observe(map);
+      } else {
+        root.classList.add('is-live');
+      }
+    })();
+  </script>
+</section>

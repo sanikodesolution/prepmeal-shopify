@@ -1,0 +1,507 @@
+/* ============================================================
+   Delivery area — stylised SVG "plate" map for the meal plan page.
+   Rendered by snippets/cm-delivery-area.liquid.
+
+   Font sizes are in rem, matching the theme's 10px root
+   (theme.liquid: font-size: calc(var(--font-body-scale) * 62.5%)),
+   so 1rem = 10px and the original px values carry over as /10.
+   ============================================================ */
+
+.mealplan-dl,
+.mealplan-dl *,
+.mealplan-dl *::before,
+.mealplan-dl *::after { box-sizing: border-box; }
+
+.mealplan-dl {
+  --mealplan-dl-accent: #f5a623;
+  --mealplan-dl-ink: #14231b;
+  --mealplan-dl-paper: #f6f1e4;
+
+  position: relative;
+  color: var(--mealplan-dl-ink);
+  font-family: var(--font-body-family), sans-serif;
+}
+
+.mealplan-dl__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    "head   map"
+    "check  map"
+    "areas  map";
+  column-gap: clamp(3.2rem, 5vw, 8.4rem);
+  row-gap: 3rem;
+  align-items: start;
+}
+
+/* ---------- heading ---------- */
+.mealplan-dl__head { grid-area: head; }
+
+.mealplan-dl__title { margin: 0 0 1.6rem; }
+
+.mealplan-dl__text { margin: 0; max-width: 42ch; }
+
+/* ---------- postal code check ---------- */
+.mealplan-dl__check { grid-area: check; }
+
+.mealplan-dl__form {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem;
+  border: 1px solid rgba(20, 35, 27, 0.12);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1.8rem 3.4rem -2.2rem rgba(20, 35, 27, 0.55);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.mealplan-dl__form:focus-within {
+  border-color: var(--mealplan-dl-accent);
+  box-shadow:
+    0 0 0 0.4rem rgba(245, 166, 35, 0.28),
+    0 1.8rem 3.4rem -2.2rem rgba(20, 35, 27, 0.55);
+}
+
+.mealplan-dl__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 5.2rem;
+  padding: 0 2rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--mealplan-dl-ink);
+  font: inherit;
+  font-size: 1.5rem;
+  box-shadow: none;
+}
+
+.mealplan-dl__input::placeholder { color: var(--mealplan-dl-ink); opacity: 0.5; }
+
+.mealplan-dl__btn {
+  flex: 0 0 auto;
+  height: 5.2rem;
+  padding: 0 2.8rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--mealplan-dl-accent);
+  color: var(--mealplan-dl-ink);
+  font: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.mealplan-dl__btn:hover { filter: brightness(0.94); }
+.mealplan-dl__btn:active { transform: scale(0.97); }
+
+.mealplan-dl__btn:focus-visible,
+.mealplan-dl__chip:focus-visible,
+.mealplan-dl__more:focus-visible,
+.mealplan-dl__card-link:focus-visible {
+  outline: 3px solid var(--mealplan-dl-ink);
+  outline-offset: 3px;
+}
+
+.mealplan-dl__result {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 1.5em;
+  margin: 1.2rem 0 0 0.6rem;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.mealplan-dl__result:empty { display: none; }
+
+.mealplan-dl__result::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.mealplan-dl__result.is-yes { color: #1d6b3e; }
+.mealplan-dl__result.is-no { color: #a63d1c; }
+
+/* ---------- town chips ---------- */
+.mealplan-dl__areas { grid-area: areas; }
+
+.mealplan-dl__areas-title {
+  margin: 0 0 1.4rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.mealplan-dl__chips { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+
+.mealplan-dl__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 1.5rem 0.8rem 1.2rem;
+  border: 1px solid rgba(20, 35, 27, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--mealplan-dl-ink);
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.mealplan-dl__chip[hidden] { display: none; }
+
+.mealplan-dl__chip-dot {
+  flex: 0 0 auto;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: var(--mealplan-dl-accent);
+  transition: box-shadow 0.2s ease;
+}
+
+.mealplan-dl__chip.is-kitchen {
+  border-color: var(--mealplan-dl-accent);
+  font-weight: 600;
+}
+
+.mealplan-dl__chip.is-kitchen .mealplan-dl__chip-dot {
+  box-shadow: 0 0 0 0.3rem rgba(245, 166, 35, 0.35);
+}
+
+.mealplan-dl__chip.is-active {
+  background: var(--mealplan-dl-ink);
+  border-color: var(--mealplan-dl-ink);
+  color: var(--mealplan-dl-paper);
+}
+
+.mealplan-dl__more {
+  margin-top: 1.6rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mealplan-dl-ink);
+  font: inherit;
+  font-size: 1.45rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--mealplan-dl-accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 5px;
+  cursor: pointer;
+}
+
+/* ---------- map ---------- */
+.mealplan-dl__map {
+  position: relative;
+  isolation: isolate;
+  grid-area: map;
+  aspect-ratio: 1000 / 900;
+  overflow: hidden;
+  border-radius: 3.2rem;
+  background: #f7f3e8;
+  box-shadow: 0 5rem 8rem -4.6rem rgba(10, 26, 19, 0.55);
+}
+
+.mealplan-dl__map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 40% 35%, transparent 58%, rgba(20, 35, 27, 0.1) 100%);
+}
+
+.mealplan-dl__svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* water */
+.mealplan-dl__lakes ellipse { fill: #c9e2ee; }
+
+/* parks */
+.mealplan-dl__parks path { fill: #dcebd2; }
+
+/* roads */
+.mealplan-dl__roads.is-casing path.is-motor { stroke: #e6b27a; stroke-width: 7; stroke-opacity: 0.55; }
+.mealplan-dl__roads.is-casing path.is-artery { stroke: #e9c9a0; stroke-width: 5.5; stroke-opacity: 0.5; }
+.mealplan-dl__roads.is-casing path.is-minor { stroke: #e3ddd0; stroke-width: 4.5; }
+
+.mealplan-dl__roads.is-fill path.is-motor { stroke: #f2c78d; stroke-width: 4; }
+.mealplan-dl__roads.is-fill path.is-artery { stroke: #f7dcb6; stroke-width: 3; }
+.mealplan-dl__roads.is-fill path.is-minor { stroke: #ffffff; stroke-width: 2.2; }
+
+/* delivery zone ring */
+.mealplan-dl__rim {
+  fill: none;
+  stroke: #f5a623;
+  stroke-opacity: 0.9;
+  stroke-width: 1.6;
+  stroke-dasharray: 6 5;
+}
+
+/* soft breathing ring around the kitchen pin */
+.mealplan-dl__pulse {
+  fill: none;
+  stroke: #f5a623;
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.mealplan-dl.is-live .mealplan-dl__pulse { animation: mealplan-dl-pulse 3.6s ease-out 2; }
+.mealplan-dl.is-live .mealplan-dl__pulse.is-2 { animation-delay: 1.2s; }
+.mealplan-dl.is-live .mealplan-dl__pulse.is-3 { animation-delay: 2.4s; }
+
+@keyframes mealplan-dl-pulse {
+  0%   { transform: scale(0.86); opacity: 0.55; }
+  70%  { opacity: 0.18; }
+  100% { transform: scale(1.18); opacity: 0; }
+}
+
+/* ---------- town pins ---------- */
+.mealplan-dl__pin,
+.mealplan-dl__kitchen {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  z-index: 2;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.mealplan-dl__pin { width: 2.6rem; height: 2.6rem; }
+
+.mealplan-dl__pin::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: -0.55rem 0 0 -0.55rem;
+  border-radius: 50%;
+  background: var(--mealplan-dl-accent);
+  box-shadow:
+    0 0 0 0.25rem #fff,
+    0 0 0 0.4rem rgba(245, 166, 35, 0.45);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mealplan-dl__pin.is-active { z-index: 4; }
+
+.mealplan-dl__pin.is-active::before {
+  transform: scale(1.35);
+  background: #14231b;
+  box-shadow:
+    0 0 0 0.25rem #fff,
+    0 0 0 0.5rem rgba(20, 35, 27, 0.28);
+}
+
+.mealplan-dl__pin:focus-visible,
+.mealplan-dl__kitchen:focus-visible {
+  border-radius: 50%;
+  outline: 3px solid #14231b;
+  outline-offset: 2px;
+}
+
+.mealplan-dl__pin.is-found::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: -0.55rem 0 0 -0.55rem;
+  border: 2px solid #14231b;
+  border-radius: 50%;
+  animation: mealplan-dl-found 1.2s ease-out 3;
+}
+
+@keyframes mealplan-dl-found {
+  from { transform: scale(1); opacity: 1; }
+  to   { transform: scale(4); opacity: 0; }
+}
+
+.mealplan-dl__tip {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: #14231b;
+  color: var(--mealplan-dl-paper);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.mealplan-dl__pin.is-right .mealplan-dl__tip { left: auto; right: 50%; transform: translate(12px, 4px); }
+.mealplan-dl__pin.is-left .mealplan-dl__tip { transform: translate(-12px, 4px); }
+
+.mealplan-dl__pin.is-active .mealplan-dl__tip { opacity: 1; transform: translate(-50%, 0); }
+.mealplan-dl__pin.is-right.is-active .mealplan-dl__tip { transform: translate(12px, 0); }
+.mealplan-dl__pin.is-left.is-active .mealplan-dl__tip { transform: translate(-12px, 0); }
+
+/* ---------- kitchen pin ---------- */
+.mealplan-dl__kitchen {
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 4.6rem;
+  height: 4.6rem;
+  border-radius: 50%;
+  background: var(--mealplan-dl-accent);
+  color: #14231b;
+  box-shadow:
+    0 0 0 0.3rem #fff,
+    0 0 0 0.55rem rgba(245, 166, 35, 0.4),
+    0 1.2rem 2.4rem -0.8rem rgba(20, 35, 27, 0.45);
+  transition: transform 0.2s ease;
+}
+
+.mealplan-dl__kitchen.is-active { transform: translate(-50%, -50%) scale(1.08); }
+
+.mealplan-dl__kitchen .mealplan-dl__tip {
+  bottom: calc(100% + 10px);
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------- kitchen card ---------- */
+.mealplan-dl__card {
+  position: absolute;
+  right: 1.8rem;
+  bottom: 1.8rem;
+  z-index: 5;
+  max-width: min(26rem, 60%);
+  padding: 1.4rem 1.8rem;
+  border-radius: 1.8rem;
+  background: rgba(255, 255, 255, 0.96);
+  color: #14231b;
+  box-shadow: 0 1.6rem 3rem -1.8rem rgba(20, 35, 27, 0.45);
+  backdrop-filter: blur(8px);
+}
+
+.mealplan-dl__card-name { margin: 0; font-size: 1.5rem; font-weight: 700; }
+
+.mealplan-dl__card-addr {
+  margin: 0.3rem 0 0;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  opacity: 0.72;
+}
+
+.mealplan-dl__card-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #14231b;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--mealplan-dl-accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+
+/* ---------- legend ---------- */
+.mealplan-dl__legend {
+  position: absolute;
+  left: 1.8rem;
+  top: 1.8rem;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 2rem;
+  margin: 0;
+  padding: 1rem 1.8rem;
+  list-style: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #14231b;
+  font-size: 1.25rem;
+  box-shadow: 0 0.4rem 1.4rem rgba(20, 35, 27, 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.mealplan-dl__legend li { display: inline-flex; align-items: center; gap: 0.8rem; }
+
+.mealplan-dl__sw { display: inline-block; flex: 0 0 auto; border-radius: 50%; }
+
+.mealplan-dl__sw.is-kitchen {
+  width: 1.4rem;
+  height: 1.4rem;
+  background: var(--mealplan-dl-accent);
+  box-shadow: 0 0 0 0.25rem #fff, 0 0 0 0.4rem rgba(245, 166, 35, 0.4);
+}
+
+.mealplan-dl__sw.is-area { width: 0.9rem; height: 0.9rem; background: var(--mealplan-dl-accent); }
+
+.mealplan-dl__sw.is-zone { width: 1.6rem; height: 1.6rem; border: 2px dashed #f5a623; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 989px) {
+  .mealplan-dl__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas:
+      "head"
+      "check"
+      "map"
+      "areas";
+    row-gap: 2.8rem;
+  }
+  .mealplan-dl__text { max-width: 52ch; }
+}
+
+@media (max-width: 560px) {
+  .mealplan-dl__map { border-radius: 2.4rem; }
+  .mealplan-dl__card { display: none; }
+  .mealplan-dl__legend {
+    left: 1rem;
+    right: 1rem;
+    top: auto;
+    bottom: 1rem;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 0.6rem 1rem;
+    padding: 0.8rem 1rem;
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+  .mealplan-dl__legend li { gap: 0.6rem; }
+  .mealplan-dl__btn { padding: 0 1.8rem; font-size: 1.4rem; }
+  .mealplan-dl__input { padding: 0 1.2rem; font-size: 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mealplan-dl *,
+  .mealplan-dl *::before,
+  .mealplan-dl *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

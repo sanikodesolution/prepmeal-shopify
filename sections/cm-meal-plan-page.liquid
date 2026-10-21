@@ -411,7 +411,9 @@
     </div></section>
 
     <section class="mealplan-sec"><div class="mealplan-wrap">
-      {%- if section.settings.delivery_checker -%}
+      {%- if section.settings.delivery_style == 'plate' -%}
+        {% render 'cm-delivery-area', section: section %}
+      {%- elsif section.settings.delivery_checker -%}
         {% render 'cm-delivery-checker', section: section %}
       {%- else -%}
         <div class="mealplan-del">
@@ -613,7 +615,19 @@
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
     { "type": "header", "content": "Delivery" },
-    { "type": "checkbox", "id": "delivery_checker", "label": "Use the delivery area checker", "default": false, "info": "Turns the delivery block into a map with a town / ZIP search and town chips. Off keeps the plain Google Maps block below." },
+    {
+      "type": "select",
+      "id": "delivery_style",
+      "label": "Delivery style",
+      "options": [
+        { "value": "plate", "label": "Plate map + area checker" },
+        { "value": "leaflet", "label": "Interactive street map" },
+        { "value": "embed", "label": "Google Maps embed" }
+      ],
+      "default": "plate",
+      "info": "Plate map is the stylised SVG map with town chips. Interactive street map uses Leaflet. Google Maps embed is the plain iframe."
+    },
+    { "type": "checkbox", "id": "delivery_checker", "label": "Use the street-map checker", "default": false, "info": "Only used when Delivery style is the interactive street map." },
     { "type": "text", "id": "delivery_eyebrow", "label": "Delivery eyebrow", "default": "We deliver" },
     { "type": "text", "id": "delivery_heading", "label": "Heading", "default": "Fresh meals, delivered to your door." },
     { "type": "textarea", "id": "delivery_text", "label": "Text", "default": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you." },
@@ -645,6 +659,25 @@
     { "type": "text", "id": "delivery_legend_areas", "label": "Legend: areas", "default": "Delivery areas" },
     { "type": "text", "id": "delivery_legend_zone", "label": "Legend: zone", "default": "Delivery zone" },
     { "type": "text", "id": "delivery_reset_label", "label": "Reset link label", "default": "Show full zone" },
+
+    { "type": "header", "content": "Plate map" },
+    { "type": "textarea", "id": "plate_towns", "label": "Delivery towns", "info": "One per line: Name|ZIP,ZIP|left%|top%|kitchen. The ZIP and the fifth \"kitchen\" column are optional. Leave empty for the built-in Hartland list." },
+    { "type": "text", "id": "plate_areas_title", "label": "Town list title", "default": "We deliver to" },
+    { "type": "range", "id": "plate_visible", "label": "Towns shown before \"show all\"", "min": 6, "max": 30, "step": 1, "default": 12 },
+    { "type": "text", "id": "plate_more_label", "label": "Show-all label", "info": "Use {count} for the total.", "default": "Show all {count} areas" },
+    { "type": "text", "id": "plate_less_label", "label": "Show-fewer label", "default": "Show fewer" },
+    { "type": "text", "id": "plate_map_label", "label": "Map accessible label", "default": "Map of our delivery area" },
+    { "type": "text", "id": "plate_kitchen_label", "label": "Kitchen label", "default": "Our kitchen" },
+    { "type": "text", "id": "plate_kitchen_address", "label": "Kitchen address", "default": "Hartland, Wisconsin" },
+    { "type": "url", "id": "plate_maps_url", "label": "\"Open in Maps\" link" },
+    { "type": "text", "id": "plate_maps_label", "label": "Maps link label", "default": "Open in Maps" },
+    { "type": "range", "id": "plate_zone_radius", "label": "Delivery zone size", "min": 22, "max": 34, "step": 1, "default": 22, "info": "The town list is fitted inside this ring, so the pins always stay within the zone. Bigger values zoom the map out." },
+    { "type": "text", "id": "plate_legend_kitchen", "label": "Legend: kitchen", "default": "Our kitchen" },
+    { "type": "text", "id": "plate_legend_area", "label": "Legend: area", "default": "Delivery areas" },
+    { "type": "text", "id": "plate_legend_zone", "label": "Legend: zone", "default": "Delivery zone" },
+    { "type": "text", "id": "plate_msg_yes", "label": "Message: we deliver", "info": "Use {area} for the matched town.", "default": "Good news, we deliver to {area}." },
+    { "type": "text", "id": "plate_msg_no", "label": "Message: not found", "info": "Use {query} for what was typed.", "default": "We don't deliver to \u201c{query}\u201d yet. Check the list below or contact us." },
+    { "type": "text", "id": "plate_msg_empty", "label": "Message: empty input", "default": "Type a postal code or town first." },
 
     { "type": "header", "content": "Reviews / FAQ / CTA" },
     { "type": "text", "id": "reviews_eyebrow", "label": "Reviews eyebrow", "default": "Loved by our customers" },
