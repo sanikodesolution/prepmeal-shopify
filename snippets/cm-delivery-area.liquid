@@ -81,6 +81,11 @@ Mukwonago|53149|41.9|51.6
   assign kitchen_label = s.plate_kitchen_label | default: 'Our kitchen'
   assign more_label = s.plate_more_label | default: 'Show all {count} areas'
   assign less_label = s.plate_less_label | default: 'Show fewer'
+  # Precompute: a quoted literal containing braces inside a tag breaks Shopify's lexer.
+  assign more_label_done = more_label | replace: '{count}', town_count
+  assign msg_yes = s.plate_msg_yes | default: 'Good news, we deliver to {area}.'
+  assign msg_no = s.plate_msg_no | default: 'We do not deliver to {query} yet. Check the list below or contact us.'
+  assign msg_empty = s.plate_msg_empty | default: 'Type a postal code or town first.'
   assign uid = section.id
 -%}
 
@@ -150,9 +155,9 @@ Mukwonago|53149|41.9|51.6
           class="mealplan-dl__more"
           aria-expanded="false"
           data-mpdl-more
-          data-label-more="{{ more_label | replace: '{count}', town_count | escape }}"
+          data-label-more="{{ more_label_done | escape }}"
           data-label-less="{{ less_label | escape }}"
-        >{{ more_label | replace: '{count}', town_count }}</button>
+        >{{ more_label_done }}</button>
       {%- endif -%}
     </div>
 
@@ -288,7 +293,7 @@ Mukwonago|53149|41.9|51.6
   </div>
 
   <script type="application/json" data-mpdl-copy>
-    {"yes":{{ s.plate_msg_yes | default: 'Good news, we deliver to {area}.' | json }},"no":{{ s.plate_msg_no | default: "We don't deliver to “{query}” yet. Check the list below or contact us." | json }},"empty":{{ s.plate_msg_empty | default: 'Type a postal code or town first.' | json }}}
+    {"yes":{{ msg_yes | json }},"no":{{ msg_no | json }},"empty":{{ msg_empty | json }}}
   </script>
 
   <script>
