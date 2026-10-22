@@ -255,6 +255,13 @@
             "detail": "The menu changes so the week does not taste the same five times. New dishes, familiar portions, and the same standard in every box."
           }
         },
+        "menu_item_P4d7TD": {
+          "type": "menu_item",
+          "settings": {
+            "short": "",
+            "name": "Chicken Biryani with Raita"
+          }
+        },
         "quality_4": {
           "type": "quality",
           "settings": {
@@ -274,7 +281,7 @@
         "menu_1": {
           "type": "menu_item",
           "settings": {
-            "short": "Chicken Biryani with Raita",
+            "short": "Chicken",
             "name": "Chicken Biryani with Raita"
           }
         },
@@ -499,6 +506,7 @@
         "quality_1",
         "quality_2",
         "quality_3",
+        "menu_item_P4d7TD",
         "quality_4",
         "quality_5",
         "menu_1",
