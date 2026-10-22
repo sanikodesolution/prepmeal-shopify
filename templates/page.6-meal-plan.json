@@ -11,6 +11,67 @@
   "sections": {
     "mp_page": {
       "type": "cm-meal-plan-page",
+      "settings": {
+        "show_hero": false,
+        "plan_label": "6 Meal Plan",
+        "heading": "Chef-prepared meals.\nMade for your week.",
+        "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
+        "fact_1_label": "Price",
+        "fact_1_value": "From $00.00",
+        "fact_2_label": "Meals",
+        "fact_2_value": "6 per week",
+        "fact_3_label": "Menu",
+        "fact_3_value": "10+ options",
+        "button_label": "Build my 6 meals",
+        "button_label_2": "View this week's menu",
+        "button_link_2": "#menu",
+        "badge_value": "10+",
+        "badge_label": "meal options",
+        "ben_line_1": "6 meals.",
+        "ben_line_2": "1 week.",
+        "ben_line_3": "Zero stress.",
+        "ben_note": "Flexible menu: choose any six from 10+ options, and change your picks each week.",
+        "menu_heading": "This week's menu",
+        "menu_text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
+        "explore_heading": "Explore all meals",
+        "load_more_label": "Load more",
+        "detail_note": "Meal names and nutrition values are from the current menu.",
+        "meal_price": 1500,
+        "chef_heading": "40 years in the kitchen. Now cooking for you.",
+        "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
+        "steps_heading": "How it works",
+        "quality_heading": "This Week's Menu",
+        "gallery_heading": "10+\nmeal options",
+        "delivery_style": "plate",
+        "delivery_eyebrow": "We deliver",
+        "delivery_heading": "Fresh meals, delivered to your door.",
+        "delivery_text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door.",
+        "delivery_placeholder": "Postal code or town",
+        "delivery_button": "Check my area",
+        "plate_areas_title": "We deliver to",
+        "plate_visible": 12,
+        "plate_zone_radius": 22,
+        "plate_towns": "Hartland|53029|41|29|kitchen\nDelafield|53018|34.5|35.5\nPewaukee|53072|49.3|32.6\nWaukesha|53186, 53188, 53189|50.3|40.2\nSussex|53089|52|25.3\nMerton|53056|44.8|22.9\nNashotah|53058|33.3|31.8\nOkauchee Lake|53069|34.6|26.9\nOconomowoc|53066|27.4|27.3\nOconomowoc Lake||30|30.1\nChenequa||37.6|24.7\nLisbon||48.4|22.5\nLannon|53046|56|24.8\nMenomonee Falls|53051|58.1|20.7\nBrookfield|53005, 53045|58.7|33\nElm Grove|53122|60.2|36.7\nWales|53183|38.4|42.3\nDousman|53118|30.4|39.6\nSummit||30.9|35.3\nLake Country||30.9|23.7\nStone Bank||35.1|21.4\nNorth Lake|53064|38.7|19.1\nMapleton||25.4|30.7\nGenesee|53127|42|44.2\nMukwonago|53149|41.9|51.6",
+        "plate_kitchen_label": "Our kitchen",
+        "plate_kitchen_address": "Hartland, Wisconsin",
+        "delivery_areas": "Hartland, Nearby areas",
+        "delivery_button_label": "Check my area",
+        "reviews_heading": "Loved by people who love good food",
+        "faq_heading": "Questions, answered",
+        "related_heading": "Other ways to eat well",
+        "cta_heading": "Your week just got easier.",
+        "cta_text": "Six chef-prepared meals, delivered. Choose yours and we handle the rest.",
+        "cta_button_label": "Build my 6 meal plan",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "button_link": "/products/6-meal-plan",
+        "cta_button_link": "/products/6-meal-plan",
+        "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
+        "quality_button": "Order 6 meals",
+        "picker_count": 6,
+        "plan_product": "6-meal-plan",
+        "meals_product": "prep-weekly-meals"
+      },
       "blocks": {
         "meal_1": {
           "type": "meal",
@@ -255,13 +316,6 @@
             "detail": "The menu changes so the week does not taste the same five times. New dishes, familiar portions, and the same standard in every box."
           }
         },
-        "menu_item_P4d7TD": {
-          "type": "menu_item",
-          "settings": {
-            "short": "",
-            "name": "Chicken Biryani with Raita"
-          }
-        },
         "quality_4": {
           "type": "quality",
           "settings": {
@@ -281,71 +335,71 @@
         "menu_1": {
           "type": "menu_item",
           "settings": {
-            "short": "Tandoori Chicken Leg with Veg Jalfrezi",
-            "name": "Tandoori"
+            "name": "Chicken Biryani with Raita",
+            "short": "Chicken Biryani with Raita"
           }
         },
         "menu_2": {
           "type": "menu_item",
           "settings": {
-            "short": "Tandoori  Chicken Leg with Veg Jalfrezi",
-            "name": "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti"
+            "name": "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti",
+            "short": "Tandoori Chicken Leg with Veg Jalfrezi"
           }
         },
         "menu_3": {
           "type": "menu_item",
           "settings": {
-            "short": "Butter Chicken with Aloo Methi",
-            "name": "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti"
+            "name": "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti",
+            "short": "Butter Chicken with Aloo Methi"
           }
         },
         "menu_4": {
           "type": "menu_item",
           "settings": {
-            "short": "Coconut Fish Curry with Jeera Aloo",
-            "name": "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti"
+            "name": "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti",
+            "short": "Coconut Fish Curry with Jeera Aloo"
           }
         },
         "menu_5": {
           "type": "menu_item",
           "settings": {
-            "short": "Lamb Korma with Green Salad",
-            "name": "Lamb Korma with Green Salad and Basmati Rice"
+            "name": "Lamb Korma with Green Salad and Basmati Rice",
+            "short": "Lamb Korma with Green Salad"
           }
         },
         "menu_6": {
           "type": "menu_item",
           "settings": {
-            "short": "Chana Masala with Jeera Aloo",
-            "name": "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti"
+            "name": "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti",
+            "short": "Chana Masala with Jeera Aloo"
           }
         },
         "menu_7": {
           "type": "menu_item",
           "settings": {
-            "short": "Palak Paneer with Aloo Gobi",
-            "name": "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti"
+            "name": "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti",
+            "short": "Palak Paneer with Aloo Gobi"
           }
         },
         "menu_8": {
           "type": "menu_item",
           "settings": {
-            "short": "Dal Makhani with Bhindi Masala",
-            "name": "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti"
+            "name": "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti",
+            "short": "Dal Makhani with Bhindi Masala"
           }
         },
         "menu_9": {
           "type": "menu_item",
           "settings": {
-            "short": "Malai Kofta with Rajma",
-            "name": "Malai Kofta with Rajma, Basmati Rice and 2 Roti"
+            "name": "Malai Kofta with Rajma, Basmati Rice and 2 Roti",
+            "short": "Malai Kofta with Rajma"
           }
         },
         "menu_10": {
           "type": "menu_item",
           "settings": {
-            "short": "Baingan Bharta with Rajma Masala",
-            "name": "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti"
+            "name": "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti",
+            "short": "Baingan Bharta with Rajma Masala"
           }
         },
         "review_1": {
@@ -506,7 +560,6 @@
         "quality_1",
         "quality_2",
         "quality_3",
-        "menu_item_P4d7TD",
         "quality_4",
         "quality_5",
         "menu_1",
@@ -535,111 +588,7 @@
         "related_2",
         "related_3",
         "related_4"
-      ],
-      "settings": {
-        "show_hero": false,
-        "plan_label": "6 Meal Plan",
-        "heading": "Chef-prepared meals.\nMade for your week.",
-        "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
-        "fact_1_label": "Price",
-        "fact_1_value": "From $00.00",
-        "fact_2_label": "Meals",
-        "fact_2_value": "6 per week",
-        "fact_3_label": "Menu",
-        "fact_3_value": "10+ options",
-        "button_label": "Build my 6 meals",
-        "button_link": "/products/6-meal-plan",
-        "button_label_2": "View this week's menu",
-        "button_link_2": "#menu",
-        "hero_image_1_alt": "Chimichurri Steak",
-        "hero_image_2_alt": "Orange Basil Salmon",
-        "badge_value": "10+",
-        "badge_label": "meal options",
-        "ben_line_1": "6 meals.",
-        "ben_line_2": "1 week.",
-        "ben_line_3": "Zero stress.",
-        "ben_note": "Flexible menu: choose any six from 10+ options, and change your picks each week.",
-        "menu_eyebrow": "This week at ChefMatts",
-        "menu_heading": "This week's menu",
-        "menu_text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
-        "explore_heading": "Explore all meals",
-        "load_more_label": "Load more",
-        "detail_note": "Meal names and nutrition values are from the current menu.",
-        "meal_price": 1500,
-        "total_label": "Plan total",
-        "chef_eyebrow": "The Chef Matt way",
-        "chef_heading": "40 years in the kitchen. Now cooking for you.",
-        "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
-        "steps_eyebrow": "Simple by design",
-        "steps_heading": "How it works",
-        "quality_eyebrow": "Premium ingredients",
-        "quality_heading": "This Week's Menu",
-        "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
-        "quality_button": "Order 6 meals",
-        "picker_count": 6,
-        "plan_product": "6-meal-plan",
-        "gallery_eyebrow": "Fresh from our kitchen",
-        "gallery_heading": "10+\nmeal options",
-        "delivery_style": "plate",
-        "delivery_checker": false,
-        "delivery_eyebrow": "We deliver",
-        "delivery_heading": "Fresh meals, delivered to your door.",
-        "delivery_text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door.",
-        "delivery_areas": "Hartland, Nearby areas",
-        "delivery_button_label": "Check my area",
-        "delivery_button_link": "",
-        "map_title": "Richmond Station · Toronto, Canada",
-        "map_query": "Richmond Station Toronto Ontario Canada",
-        "map_embed_url": "",
-        "delivery_placeholder": "Postal code or town",
-        "delivery_button": "Check my area",
-        "delivery_msg_yes": "Yes, we deliver to {town}.",
-        "delivery_msg_yes_sub": "Add your plan and confirm your address at checkout.",
-        "delivery_msg_no": "We do not deliver to \"{query}\" yet.",
-        "delivery_contact_url": "",
-        "delivery_contact_label": "Ask us about your area",
-        "delivery_show_all": "Show all",
-        "delivery_show_less": "Show less",
-        "delivery_initial_chips": 10,
-        "delivery_towns": "",
-        "delivery_kitchen_lat": "43.1051",
-        "delivery_kitchen_lng": "-88.3420",
-        "delivery_radius_km": 0,
-        "delivery_legend_kitchen": "Our kitchen",
-        "delivery_legend_areas": "Delivery areas",
-        "delivery_legend_zone": "Delivery zone",
-        "delivery_reset_label": "Show full zone",
-        "plate_towns": "Hartland|53029|41|29|kitchen\nDelafield|53018|34.5|35.5\nPewaukee|53072|49.3|32.6\nWaukesha|53186, 53188, 53189|50.3|40.2\nSussex|53089|52|25.3\nMerton|53056|44.8|22.9\nNashotah|53058|33.3|31.8\nOkauchee Lake|53069|34.6|26.9\nOconomowoc|53066|27.4|27.3\nOconomowoc Lake||30|30.1\nChenequa||37.6|24.7\nLisbon||48.4|22.5\nLannon|53046|56|24.8\nMenomonee Falls|53051|58.1|20.7\nBrookfield|53005, 53045|58.7|33\nElm Grove|53122|60.2|36.7\nWales|53183|38.4|42.3\nDousman|53118|30.4|39.6\nSummit||30.9|35.3\nLake Country||30.9|23.7\nStone Bank||35.1|21.4\nNorth Lake|53064|38.7|19.1\nMapleton||25.4|30.7\nGenesee|53127|42|44.2\nMukwonago|53149|41.9|51.6",
-        "plate_areas_title": "We deliver to",
-        "plate_visible": 12,
-        "plate_more_label": "Show all {count} areas",
-        "plate_less_label": "Show fewer",
-        "plate_map_label": "Map of our delivery area",
-        "plate_kitchen_label": "Our kitchen",
-        "plate_kitchen_address": "Hartland, Wisconsin",
-        "plate_maps_url": "",
-        "plate_maps_label": "Open in Maps",
-        "plate_zone_radius": 22,
-        "plate_legend_kitchen": "Our kitchen",
-        "plate_legend_area": "Delivery areas",
-        "plate_legend_zone": "Delivery zone",
-        "plate_msg_yes": "Good news, we deliver to {area}.",
-        "plate_msg_no": "We don't deliver to “{query}” yet. Check the list below or contact us.",
-        "plate_msg_empty": "Type a postal code or town first.",
-        "reviews_eyebrow": "Loved by our customers",
-        "reviews_heading": "Loved by people who love good food",
-        "faq_eyebrow": "Good to know",
-        "faq_heading": "Questions, answered",
-        "related_eyebrow": "More ways to eat well",
-        "related_heading": "Other ways to eat well",
-        "cta_eyebrow": "Ready when you are",
-        "cta_heading": "Your week just got easier.",
-        "cta_text": "Six chef-prepared meals, delivered. Choose yours and we handle the rest.",
-        "cta_button_label": "Build my 6 meal plan",
-        "cta_button_link": "/products/6-meal-plan",
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
+      ]
     }
   },
   "order": [

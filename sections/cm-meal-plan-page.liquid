@@ -149,7 +149,7 @@
                   assign plan_variant = plan_product.variants.first
                 endif
               -%}
-              <form class="mealplan-menu__order" data-mp-order action="{{ routes.cart_add_url }}" method="post">
+              <form class="mealplan-menu__order" data-mp-order data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}" action="{{ routes.cart_add_url }}" method="post">
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
                 {%- for slot in (1..section.settings.picker_count) -%}
                   <label class="mealplan-menu__field">
@@ -158,12 +158,29 @@
                       <option value="" selected disabled>Choose a meal</option>
                       {%- for block in menu_blocks -%}
                         {%- liquid
-                          assign opt_price = block.settings.price | default: 0
+                          assign meal_variant = blank
+                          if block.settings.product != blank
+                            assign meal_variant = block.settings.product.selected_or_first_available_variant
+                          elsif section.settings.meals_product != blank
+                            for variant in section.settings.meals_product.variants
+                              if variant.title == block.settings.name
+                                assign meal_variant = variant
+                                break
+                              endif
+                            endfor
+                          endif
+                          assign opt_price = 0
+                          if meal_variant != blank
+                            assign opt_price = meal_variant.price
+                          endif
+                          if opt_price <= 0
+                            assign opt_price = block.settings.price | default: 0
+                          endif
                           if opt_price <= 0
                             assign opt_price = section.settings.meal_price
                           endif
                         -%}
-                        <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}" data-price-cents="{{ opt_price }}"{% endif %}>{{ block.settings.name | escape }}</option>
+                        <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}" data-price-cents="{{ opt_price }}"{% endif %}{% if meal_variant != blank %} data-variant-id="{{ meal_variant.id }}"{% endif %}>{{ block.settings.name | escape }}</option>
                       {%- endfor -%}
                     </select>
                   </label>
@@ -175,7 +192,7 @@
                     <span class="mealplan-menu__sum-value" data-mp-sum data-mp-money="{{ 0 | money | escape }}">{{ 0 | money }}</span>
                   </div>
                 {%- endif -%}
-                <button type="submit" class="mealplan-menu__cta"{% if plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>
+                <button type="submit" class="mealplan-menu__cta"{% if section.settings.meals_product == blank and plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>
                   <span>{{ section.settings.quality_button | default: 'Order' | escape }}</span>
                   <svg class="mealplan-menu__cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </button>
@@ -611,7 +628,7 @@
     { "type": "text", "id": "explore_heading", "label": "Explore heading", "default": "Explore all meals" },
     { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
     { "type": "text", "id": "detail_note", "label": "Detail note", "default": "Meal names and nutrition values are from the current menu." },
-    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Shown in the order dropdowns and used for the plan total in the box. Enter cents: 1500 = $15.00. Leave 0 to hide prices. The cart charges the Plan product price, so keep that product equal to meals times this price." },
+    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Fallback when a meal has no linked variant. Enter cents: 1500 = $15.00. Leave 0 to hide that fallback." },
     { "type": "text", "id": "total_label", "label": "Plan total label", "default": "Plan total", "info": "Label for the total shown inside the order box. Blank hides the total." },
 
     { "type": "header", "content": "Chef / Steps / Quality" },
@@ -625,7 +642,8 @@
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
-    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Added to the cart with the meals chosen in the dropdowns. Shopify charges this product's variant price. For a 6 meal plan at $15 each, set the variant to $90.00." },
+    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Used only when meals are not linked to their own variants. Shopify charges this product's price as one line." },
+    { "type": "product", "id": "meals_product", "label": "Meals product", "info": "Product whose variants are the individual meals. The order adds each chosen meal, so six meals can share one price or each have a different variant price. Match the variant title to the meal name." },
     { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
@@ -764,7 +782,8 @@
       "settings": [
         { "type": "text", "id": "short", "label": "Short name" },
         { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" },
-        { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Optional. Overrides the section price for this meal only. Leave blank to use the section price." }
+        { "type": "product", "id": "product", "label": "Meal product", "info": "Optional. Overrides the Meals product variant for this dish. Its price is what the cart charges." },
+        { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Used only when this meal has no variant. Leave blank to charge the variant price, which can differ per meal." }
       ]
     },
     {
