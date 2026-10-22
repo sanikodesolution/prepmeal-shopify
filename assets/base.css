@@ -3734,7 +3734,7 @@ details-disclosure > details {
 .image-with-text__heading {
   font-family: var(--font-heading-family), sans-serif;
   font-weight: 600;
-  font-size: clamp(2.8rem, 4.6vw, 4.8rem);
+  font-size: 40px;
   line-height: 1.08;
   letter-spacing: -0.015em;
   text-wrap: balance;
