@@ -150,7 +150,16 @@
 
       {%- capture mealplan_form_id -%}MealplanPdForm-{{ section.id }}{%- endcapture -%}
       {%- capture mealplan_fields -%}
-            {%- if product != blank and product.has_only_default_variant == false -%}
+            {%- liquid
+              assign show_dish_options = false
+              if product != blank and product.has_only_default_variant == false
+                assign show_dish_options = true
+                if product.options.size == 1 and product.options.first == 'Meal'
+                  assign show_dish_options = false
+                endif
+              endif
+            -%}
+            {%- if show_dish_options -%}
               {%- for option in product.options_with_values -%}
                 <fieldset class="mealplan-pd__opt" data-pd-reveal data-pd-option>
                   <legend class="mealplan-pd__optHead">{{ option.name | escape }} <span data-pd-selected>{{ option.selected_value | escape }}</span></legend>

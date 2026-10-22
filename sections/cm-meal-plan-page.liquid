@@ -26,6 +26,27 @@
       break
     endif
   endfor
+  assign meals_catalog = section.settings.meals_product
+  assign variant_menu = false
+  if meals_catalog != blank and meals_catalog.variants.size > 0
+    assign variant_menu = true
+    for variant in meals_catalog.variants
+      if variant.price > 0
+        assign any_price = true
+        break
+      endif
+    endfor
+  endif
+  assign first_meal_label = menu_blocks.first.settings.short | default: menu_blocks.first.settings.name
+  if variant_menu
+    assign first_meal_label = meals_catalog.variants.first.title
+    for block in menu_blocks
+      if block.settings.name == meals_catalog.variants.first.title
+        assign first_meal_label = block.settings.short | default: block.settings.name
+        break
+      endif
+    endfor
+  endif
 -%}
 
 {%- capture foods_json -%}
@@ -76,7 +97,7 @@
   <script type="application/json" data-mp-alts>{{ alts_json }}</script>
   <script type="application/json" data-mp-meals>{{ meals_json }}</script>
 
-  {%- if menu_blocks.size > 0 -%}
+  {%- if menu_blocks.size > 0 or variant_menu -%}
     <div class="mealplan">
       <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
         <div class="mealplan-wrap mealplan-menu__inner">
@@ -100,11 +121,21 @@
               <div class="mealplan-menu__slide is-active" data-mp-all>
                 <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all meals" width="800" height="860">
               </div>
-              {%- for block in menu_blocks -%}
-                <div class="mealplan-menu__slide" data-mp-slide>
-                  <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.short | default: block.settings.name | escape }}" width="800" height="860"{% unless forloop.first %} loading="lazy"{% endunless %}>
-                </div>
-              {%- endfor -%}
+              {%- if variant_menu -%}
+                {%- for variant in meals_catalog.variants -%}
+                  {%- unless variant.title == 'Default Title' -%}
+                    <div class="mealplan-menu__slide" data-mp-slide>
+                      <img src="{% if variant.image != blank %}{{ variant.image | image_url: width: 800 }}{% else %}{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}{% endif %}" alt="{{ variant.title | escape }}" width="800" height="860"{% unless forloop.first %} loading="lazy"{% endunless %}>
+                    </div>
+                  {%- endunless -%}
+                {%- endfor -%}
+              {%- else -%}
+                {%- for block in menu_blocks -%}
+                  <div class="mealplan-menu__slide" data-mp-slide>
+                    <img src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.short | default: block.settings.name | escape }}" width="800" height="860"{% unless forloop.first %} loading="lazy"{% endunless %}>
+                  </div>
+                {%- endfor -%}
+              {%- endif -%}
               {%- if section.settings.picker_count > 0 -%}
                 <div class="mealplan-menu__sheet" data-mp-sheet hidden>
                   <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all 10 meals" width="800" height="1400">
@@ -113,21 +144,43 @@
               <div class="mealplan-menu__caption" aria-hidden="true">
                 <span class="mealplan-menu__count" data-mp-count>1</span>
                 <span class="mealplan-menu__caption-text">
-                  <span class="mealplan-menu__caption-name" data-mp-caption>{{ menu_blocks.first.settings.short | default: menu_blocks.first.settings.name | escape }}</span>
+                  <span class="mealplan-menu__caption-name" data-mp-caption>{{ first_meal_label | escape }}</span>
                   <span class="mealplan-menu__caption-sub">Fresh, ready to heat</span>
                 </span>
               </div>
             </div>
           </div>
           <ol class="mealplan-menu__list" role="tablist">
-            {%- for block in menu_blocks -%}
-              <li {{ block.shopify_attributes }}>
-                <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
-                  <span class="mealplan-menu__num">{{ forloop.index }}</span>
-                  <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
-                </button>
-              </li>
-            {%- endfor -%}
+            {%- if variant_menu -%}
+              {%- for variant in meals_catalog.variants -%}
+                {%- unless variant.title == 'Default Title' -%}
+                  {%- liquid
+                    assign meal_label = variant.title
+                    for block in menu_blocks
+                      if block.settings.name == variant.title
+                        assign meal_label = block.settings.short | default: block.settings.name
+                        break
+                      endif
+                    endfor
+                  -%}
+                  <li>
+                    <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
+                      <span class="mealplan-menu__num">{{ forloop.index }}</span>
+                      <span class="mealplan-menu__name">{{ meal_label | escape }}</span>
+                    </button>
+                  </li>
+                {%- endunless -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- for block in menu_blocks -%}
+                <li {{ block.shopify_attributes }}>
+                  <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
+                    <span class="mealplan-menu__num">{{ forloop.index }}</span>
+                    <span class="mealplan-menu__name">{{ block.settings.short | default: block.settings.name | escape }}</span>
+                  </button>
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
           </ol>
           <div class="mealplan-menu__detail">
             {%- if section.settings.picker_count > 0 -%}
@@ -149,22 +202,49 @@
                   assign plan_variant = plan_product.variants.first
                 endif
               -%}
-              <form class="mealplan-menu__order" data-mp-order action="{{ routes.cart_add_url }}" method="post">
+              <form class="mealplan-menu__order" data-mp-order data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}" action="{{ routes.cart_add_url }}" method="post">
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
                 {%- for slot in (1..section.settings.picker_count) -%}
                   <label class="mealplan-menu__field">
                     <span>Meal {{ slot }}</span>
                     <select name="properties[Meal {{ slot }}]" data-mp-pick required>
                       <option value="" selected disabled>Choose a meal</option>
-                      {%- for block in menu_blocks -%}
-                        {%- liquid
-                          assign opt_price = block.settings.price | default: 0
-                          if opt_price <= 0
-                            assign opt_price = section.settings.meal_price
-                          endif
-                        -%}
-                        <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}" data-price-cents="{{ opt_price }}"{% endif %}>{{ block.settings.name | escape }}</option>
-                      {%- endfor -%}
+                      {%- if variant_menu -%}
+                        {%- for variant in meals_catalog.variants -%}
+                          {%- unless variant.title == 'Default Title' -%}
+                            <option value="{{ variant.title | escape }}"{% if variant.price > 0 %} data-price="{{ variant.price | money | escape }}" data-price-cents="{{ variant.price }}"{% endif %} data-variant-id="{{ variant.id }}">{{ variant.title | escape }}</option>
+                          {%- endunless -%}
+                        {%- endfor -%}
+                      {%- else -%}
+                        {%- for block in menu_blocks -%}
+                          {%- liquid
+                            assign meal_variant = blank
+                            assign meal_source = block.settings.product | default: section.settings.meals_product
+                            if meal_source != blank
+                              for variant in meal_source.variants
+                                if variant.title == block.settings.name
+                                  assign meal_variant = variant
+                                  break
+                                endif
+                              endfor
+                              if meal_variant == blank and block.settings.product != blank
+                                assign meal_variant = block.settings.product.selected_or_first_available_variant
+                              endif
+                            endif
+                            assign opt_price = 0
+                            if meal_variant != blank
+                              assign opt_price = meal_variant.price
+                            endif
+                            if opt_price <= 0
+                              assign opt_price = block.settings.price | default: 0
+                            endif
+                            if opt_price <= 0
+                              assign opt_price = section.settings.meal_price
+                            endif
+                          -%}
+                          <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}" data-price-cents="{{ opt_price }}"{% endif %}{% if meal_variant != blank %} data-variant-id="{{ meal_variant.id }}"{% endif %}>{{ block.settings.name | escape }}</option>
+                        {%- endfor -%}
+                      {%- endif -%}
                     </select>
                   </label>
                 {%- endfor -%}
@@ -175,7 +255,7 @@
                     <span class="mealplan-menu__sum-value" data-mp-sum data-mp-money="{{ 0 | money | escape }}">{{ 0 | money }}</span>
                   </div>
                 {%- endif -%}
-                <button type="submit" class="mealplan-menu__cta"{% if plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>
+                <button type="submit" class="mealplan-menu__cta"{% if section.settings.meals_product == blank and plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>
                   <span>{{ section.settings.quality_button | default: 'Order' | escape }}</span>
                   <svg class="mealplan-menu__cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </button>
@@ -226,6 +306,26 @@
             </header>
             <div class="mealplan-menu__modal-scroll">
               <ul class="mealplan-menu__cards">
+                {%- if variant_menu -%}
+                  {%- for variant in meals_catalog.variants -%}
+                    {%- unless variant.title == 'Default Title' -%}
+                      {%- assign full = variant.title -%}
+                      {%- assign bits = full | split: ' with ' -%}
+                      {%- assign dish = bits | first -%}
+                      <li class="mealplan-menu__card">
+                        <div class="mealplan-menu__card-photo">
+                          <span class="mealplan-menu__card-num">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                          <img src="{% if variant.image != blank %}{{ variant.image | image_url: width: 320 }}{% else %}{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}{% endif %}" alt="{{ dish | escape }}" width="320" height="320" loading="lazy">
+                        </div>
+                        <h4>{{ dish | escape }}</h4>
+                        {%- if bits.size > 1 -%}
+                          <p>with {{ bits | last | escape }}</p>
+                        {%- endif -%}
+                      </li>
+                    {%- endunless -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- unless variant_menu -%}
                 {%- for block in menu_blocks -%}
                   {%- assign full = block.settings.name | default: block.settings.short -%}
                   {%- assign bits = full | split: ' with ' -%}
@@ -241,6 +341,7 @@
                     {%- endif -%}
                   </li>
                 {%- endfor -%}
+                {%- endunless -%}
               </ul>
             </div>
           </div>
@@ -408,6 +509,7 @@
       </div></section>
     {%- endif -%}
 
+    {%- if section.settings.show_gallery -%}
     <section class="mealplan-sec" style="padding-inline:0"><div>
       <div class="mealplan-gal-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem)">
         <div>
@@ -423,6 +525,7 @@
       </div>
       <div class="mealplan-track" id="gal"></div>
     </div></section>
+    {%- endif -%}
 
     <section class="mealplan-sec"><div class="mealplan-wrap">
       {%- if section.settings.delivery_style == 'plate' -%}
@@ -611,7 +714,7 @@
     { "type": "text", "id": "explore_heading", "label": "Explore heading", "default": "Explore all meals" },
     { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
     { "type": "text", "id": "detail_note", "label": "Detail note", "default": "Meal names and nutrition values are from the current menu." },
-    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Shown in the order dropdowns and used for the plan total in the box. Enter cents: 1500 = $15.00. Leave 0 to hide prices. The cart charges the Plan product price, so keep that product equal to meals times this price." },
+    { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Fallback when a meal has no linked variant. Enter cents: 1500 = $15.00. Leave 0 to hide that fallback." },
     { "type": "text", "id": "total_label", "label": "Plan total label", "default": "Plan total", "info": "Label for the total shown inside the order box. Blank hides the total." },
 
     { "type": "header", "content": "Chef / Steps / Quality" },
@@ -625,7 +728,9 @@
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
-    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Added to the cart with the meals chosen in the dropdowns. Shopify charges this product's variant price. For a 6 meal plan at $15 each, set the variant to $90.00." },
+    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Used only when meals are not linked to their own variants. Shopify charges this product's price as one line." },
+    { "type": "product", "id": "meals_product", "label": "Meals product", "info": "The Meal option on this product controls the page. Each option value is one meal in the list and in the dropdowns. Change the variant price to change what the cart charges." },
+    { "type": "checkbox", "id": "show_gallery", "label": "Show meal options gallery", "default": true },
     { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
@@ -764,7 +869,8 @@
       "settings": [
         { "type": "text", "id": "short", "label": "Short name" },
         { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" },
-        { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Optional. Overrides the section price for this meal only. Leave blank to use the section price." }
+        { "type": "product", "id": "product", "label": "Meal product", "info": "Optional. Leave this empty to use the section Meals product. If you choose 6 Meal Plan here, the variant with the same name as this meal is added to the cart." },
+        { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Used only when this meal has no variant. Leave blank to charge the variant price, which can differ per meal." }
       ]
     },
     {

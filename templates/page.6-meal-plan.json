@@ -69,7 +69,9 @@
         "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
         "quality_button": "Order 6 meals",
         "picker_count": 6,
-        "plan_product": "6-meal-plan"
+        "plan_product": "6-meal-plan",
+        "meals_product": "6-meal-plan",
+        "show_gallery": false
       },
       "blocks": {
         "meal_1": {

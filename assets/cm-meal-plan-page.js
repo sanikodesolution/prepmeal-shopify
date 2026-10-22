@@ -218,14 +218,25 @@
 
   if (meals.length) showMeal(0);
 
+  const scrollToDetail = () => {
+    if (!detail) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const top = Math.max(0, detail.getBoundingClientRect().top + window.scrollY);
+    // A wheel scroll cancels the first smooth scroll and leaves it stuck, so the
+    // next scrollIntoView on this same section is ignored. Snap to the current
+    // position first, then start a fresh smooth scroll.
+    window.scrollTo({ top: window.scrollY, behavior: 'auto' });
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  };
+
   root.addEventListener('click', (e) => {
     const t = e.target.closest('[data-i]');
     if (!t) return;
     e.preventDefault();
     showMeal(+t.dataset.i);
-    detail?.scrollIntoView({
-      behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth',
-    });
+    scrollToDetail();
   });
 
   // Plate images [data-p]
@@ -945,14 +956,35 @@
           say('Choose a meal in every dropdown.');
           return;
         }
-        const id = orderForm.querySelector('[name="id"]')?.value;
-        if (!id) {
-          say('This plan is not available to order yet.');
-          return;
-        }        const properties = {};
+        const planName = orderForm.dataset.mpPlan || 'Meal plan';
+        const mealItems = [];
         picks.forEach((select, index) => {
-          properties[`Meal ${index + 1}`] = select.value;
+          const chosen = select.options[select.selectedIndex];
+          const variantId = chosen && chosen.dataset.variantId;
+          if (!variantId) return;
+          mealItems.push({
+            id: Number(variantId),
+            quantity: 1,
+            properties: {
+              Plan: planName,
+              Slot: `Meal ${index + 1}`,
+            },
+          });
         });
+        const id = orderForm.querySelector('[name="id"]')?.value;
+        let items = [];
+        if (mealItems.length === picks.length) {
+          items = mealItems;
+        } else if (mealItems.length === 0 && id) {
+          items = [{
+            id: Number(id),
+            quantity: 1,
+            properties: Object.fromEntries(picks.map((select, index) => [`Meal ${index + 1}`, select.value])),
+          }];
+        } else {
+          say('Each meal needs its own price before it can be added.');
+          return;
+        }
         const drawer = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
         const sections = drawer && typeof drawer.getSectionsToRender === 'function'
           ? drawer.getSectionsToRender().map((section) => section.id)
@@ -964,7 +996,7 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
             body: JSON.stringify({
-              items: [{ id: Number(id), quantity: 1, properties }],
+              items,
               sections,
               sections_url: window.location.pathname,
             }),
@@ -973,13 +1005,19 @@
           if (!response.ok || data.status) {
             const description = data.description || data.message || 'Could not add to cart';
             if (/cannot find variant/i.test(description)) {
-              throw new Error('Publish the 6 Meal Plan product to the Online Store, then try again.');
+              throw new Error('Publish the meal products to the Online Store, then try again.');
             }
             throw new Error(description);
           }
           if (drawer && typeof drawer.renderContents === 'function') {
             drawer.classList.remove('is-empty');
-            drawer.renderContents({ ...(data.items ? data.items[0] : data), sections: data.sections });
+            const added = data.items ? data.items[0] : data;
+            drawer.renderContents({
+              ...added,
+              title: planName,
+              product_title: planName,
+              sections: data.sections,
+            });
           }
           say('Added to your cart.', true);
         } catch (error) {
