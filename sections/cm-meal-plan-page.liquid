@@ -159,15 +159,17 @@
                       {%- for block in menu_blocks -%}
                         {%- liquid
                           assign meal_variant = blank
-                          if block.settings.product != blank
-                            assign meal_variant = block.settings.product.selected_or_first_available_variant
-                          elsif section.settings.meals_product != blank
-                            for variant in section.settings.meals_product.variants
+                          assign meal_source = block.settings.product | default: section.settings.meals_product
+                          if meal_source != blank
+                            for variant in meal_source.variants
                               if variant.title == block.settings.name
                                 assign meal_variant = variant
                                 break
                               endif
                             endfor
+                            if meal_variant == blank and block.settings.product != blank
+                              assign meal_variant = block.settings.product.selected_or_first_available_variant
+                            endif
                           endif
                           assign opt_price = 0
                           if meal_variant != blank
@@ -782,7 +784,7 @@
       "settings": [
         { "type": "text", "id": "short", "label": "Short name" },
         { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" },
-        { "type": "product", "id": "product", "label": "Meal product", "info": "Optional. Overrides the Meals product variant for this dish. Its price is what the cart charges." },
+        { "type": "product", "id": "product", "label": "Meal product", "info": "Optional. Leave this empty to use the section Meals product. If you choose 6 Meal Plan here, the variant with the same name as this meal is added to the cart." },
         { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Used only when this meal has no variant. Leave blank to charge the variant price, which can differ per meal." }
       ]
     },
