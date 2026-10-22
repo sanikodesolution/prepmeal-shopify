@@ -198,7 +198,7 @@
         "text_EiwWca": {
           "type": "text",
           "settings": {
-            "text": "<p>\u2713 <strong>GLOBAL FLAVOURS, CLASSICAL TECHNIQUE</strong> \u2013 With over 40 years of experience, Matt blends classical training with decades spent in diverse kitchens to create dishes inspired by many cultures while still feeling familiar and enjoyable.</p><p>\u2713 <strong>PREMIUM, HONEST INGREDIENTS</strong> \u2013 Every meal starts with clean, thoughtful components, including some organic and locally sourced items, chosen for real flavor and quality.</p><p>\u2713 <strong>MEAL PREP MADE EASY FOR REAL LIFE</strong> \u2013 Skip the prep. Get fully prepared meals brought to your door each week, ready to heat and enjoy when you need something easy and good.</p>",
+            "text": "<p>✓ <strong>GLOBAL FLAVOURS, CLASSICAL TECHNIQUE</strong> – With over 40 years of experience, Matt blends classical training with decades spent in diverse kitchens to create dishes inspired by many cultures while still feeling familiar and enjoyable.</p><p>✓ <strong>PREMIUM, HONEST INGREDIENTS</strong> – Every meal starts with clean, thoughtful components, including some organic and locally sourced items, chosen for real flavor and quality.</p><p>✓ <strong>MEAL PREP MADE EASY FOR REAL LIFE</strong> – Skip the prep. Get fully prepared meals brought to your door each week, ready to heat and enjoy when you need something easy and good.</p>",
             "text_style": "body"
           }
         },
@@ -206,7 +206,7 @@
           "type": "button",
           "settings": {
             "button_label": "View Menu",
-            "button_link": "shopify://products/5-meal-plan",
+            "button_link": "shopify://pages/5-meal-plan",
             "button_style_secondary": false
           }
         }
@@ -499,30 +499,10 @@
         "heading": "Pick Your Flavor",
         "heading_accent": "Flavor",
         "text": "<p>A new menu every week, cooked by Chef Matt. Choose the plates you want and we bring them to your door.</p>",
-        "collection": "",
-        "products_limit": 9,
         "button_label": "Shop now",
         "button_link": "shopify://collections/meal-plans",
-        "button_label_2": "",
-        "button_link_2": "",
-        "item_shape": "1.5",
-        "image_style": "card",
-        "full_width": true,
-        "item_width": 320,
-        "gap": 10,
-        "curve": 0,
-        "tilt": 0,
-        "autoplay": true,
-        "autoplay_speed": 5,
-        "show_arrows": false,
-        "show_frame": false,
-        "hint": "",
-        "bg_color_1": "#4a2418",
-        "bg_color_2": "#1a0c08",
         "text_color": "#fffaf3",
-        "accent": "#f5a623",
-        "padding_top": 64,
-        "padding_bottom": 64
+        "accent": "#f5a623"
       }
     },
     "featured_collection1": {
@@ -910,11 +890,11 @@
         "acc_3"
       ],
       "settings": {
-        "product": "5-meal-plan",
-        "product_10": "10-meal-plan",
+        "product": "5-meals",
+        "product_10": "10-meals",
         "eyebrow": "Chef cooked, fresh weekly",
         "heading": "Chicken Biryani with Raita",
-        "badge": "Fresh \u2022 Chef cooked \u2022 Never frozen \u2022 ",
+        "badge": "Fresh • Chef cooked • Never frozen • ",
         "text": "Fragrant basmati rice layered with tender spiced chicken, served with cooling raita. Cooked fresh by our chefs, packed the same day and ready in minutes.",
         "chip_1": "Fresh, never frozen",
         "chip_2": "Ready in 3 minutes",
