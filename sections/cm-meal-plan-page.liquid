@@ -37,6 +37,16 @@
       endif
     endfor
   endif
+  assign first_meal_label = menu_blocks.first.settings.short | default: menu_blocks.first.settings.name
+  if variant_menu
+    assign first_meal_label = meals_catalog.variants.first.title
+    for block in menu_blocks
+      if block.settings.name == meals_catalog.variants.first.title
+        assign first_meal_label = block.settings.short | default: block.settings.name
+        break
+      endif
+    endfor
+  endif
 -%}
 
 {%- capture foods_json -%}
@@ -134,7 +144,7 @@
               <div class="mealplan-menu__caption" aria-hidden="true">
                 <span class="mealplan-menu__count" data-mp-count>1</span>
                 <span class="mealplan-menu__caption-text">
-                  <span class="mealplan-menu__caption-name" data-mp-caption>{% if variant_menu %}{{ meals_catalog.variants.first.title | escape }}{% else %}{{ menu_blocks.first.settings.short | default: menu_blocks.first.settings.name | escape }}{% endif %}</span>
+                  <span class="mealplan-menu__caption-name" data-mp-caption>{{ first_meal_label | escape }}</span>
                   <span class="mealplan-menu__caption-sub">Fresh, ready to heat</span>
                 </span>
               </div>
@@ -144,10 +154,19 @@
             {%- if variant_menu -%}
               {%- for variant in meals_catalog.variants -%}
                 {%- unless variant.title == 'Default Title' -%}
+                  {%- liquid
+                    assign meal_label = variant.title
+                    for block in menu_blocks
+                      if block.settings.name == variant.title
+                        assign meal_label = block.settings.short | default: block.settings.name
+                        break
+                      endif
+                    endfor
+                  -%}
                   <li>
                     <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
                       <span class="mealplan-menu__num">{{ forloop.index }}</span>
-                      <span class="mealplan-menu__name">{{ variant.title | escape }}</span>
+                      <span class="mealplan-menu__name">{{ meal_label | escape }}</span>
                     </button>
                   </li>
                 {%- endunless -%}
