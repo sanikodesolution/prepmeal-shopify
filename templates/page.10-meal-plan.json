@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "mp_page": {
@@ -29,7 +38,14 @@
         "chef_heading": "40 years in the kitchen. Now cooking for you.",
         "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
         "steps_heading": "How it works",
-        "quality_heading": "Fresh in, quality out.",
+        "quality_heading": "This Week's Menu",
+        "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
+        "quality_button": "Order 10 meals",
+        "picker_count": 10,
+        "meal_price": 1500,
+        "plan_product": "10-meal-plan",
+        "meals_product": "6-meal-plan",
+        "show_gallery": false,
         "gallery_heading": "10+\nmeal options",
         "delivery_heading": "Fresh meals, delivered to your door.",
         "delivery_text": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you.",
@@ -301,6 +317,76 @@
             "text": "The same standard in every box."
           }
         },
+        "menu_1": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Chicken Biryani with Raita",
+            "name": "Chicken Biryani with Raita"
+          }
+        },
+        "menu_2": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Tandoori Chicken Leg with Veg Jalfrezi",
+            "name": "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_3": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Butter Chicken with Aloo Methi",
+            "name": "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_4": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Coconut Fish Curry with Jeera Aloo",
+            "name": "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_5": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Lamb Korma with Green Salad",
+            "name": "Lamb Korma with Green Salad and Basmati Rice"
+          }
+        },
+        "menu_6": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Chana Masala with Jeera Aloo",
+            "name": "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_7": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Palak Paneer with Aloo Gobi",
+            "name": "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_8": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Dal Makhani with Bhindi Masala",
+            "name": "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_9": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Malai Kofta with Rajma",
+            "name": "Malai Kofta with Rajma, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_10": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Baingan Bharta with Rajma Masala",
+            "name": "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti"
+          }
+        },
         "review_1": {
           "type": "review",
           "settings": {
@@ -461,6 +547,16 @@
         "quality_3",
         "quality_4",
         "quality_5",
+        "menu_1",
+        "menu_2",
+        "menu_3",
+        "menu_4",
+        "menu_5",
+        "menu_6",
+        "menu_7",
+        "menu_8",
+        "menu_9",
+        "menu_10",
         "review_1",
         "review_2",
         "review_3",
