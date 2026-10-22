@@ -604,7 +604,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 
 /* Mobile: section titles share the same step-down scale. */
 @media(max-width:749px){
-  .mealplan .mealplan-h{font-size:2.6rem}
+  .mealplan .mealplan-h{font-size:40px}
   .mealplan .mph__title{font-size:30px}
 }
 
