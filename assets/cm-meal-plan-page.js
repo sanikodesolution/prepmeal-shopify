@@ -218,14 +218,25 @@
 
   if (meals.length) showMeal(0);
 
+  const scrollToDetail = () => {
+    if (!detail) return;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const top = Math.max(0, detail.getBoundingClientRect().top + window.scrollY);
+    // A wheel scroll cancels the first smooth scroll and leaves it stuck, so the
+    // next scrollIntoView on this same section is ignored. Snap to the current
+    // position first, then start a fresh smooth scroll.
+    window.scrollTo({ top: window.scrollY, behavior: 'auto' });
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+    });
+  };
+
   root.addEventListener('click', (e) => {
     const t = e.target.closest('[data-i]');
     if (!t) return;
     e.preventDefault();
     showMeal(+t.dataset.i);
-    detail?.scrollIntoView({
-      behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth',
-    });
+    scrollToDetail();
   });
 
   // Plate images [data-p]
