@@ -509,6 +509,7 @@
       </div></section>
     {%- endif -%}
 
+    {%- if section.settings.show_gallery -%}
     <section class="mealplan-sec" style="padding-inline:0"><div>
       <div class="mealplan-gal-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem)">
         <div>
@@ -524,6 +525,7 @@
       </div>
       <div class="mealplan-track" id="gal"></div>
     </div></section>
+    {%- endif -%}
 
     <section class="mealplan-sec"><div class="mealplan-wrap">
       {%- if section.settings.delivery_style == 'plate' -%}
@@ -728,6 +730,7 @@
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
     { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Used only when meals are not linked to their own variants. Shopify charges this product's price as one line." },
     { "type": "product", "id": "meals_product", "label": "Meals product", "info": "The Meal option on this product controls the page. Each option value is one meal in the list and in the dropdowns. Change the variant price to change what the cart charges." },
+    { "type": "checkbox", "id": "show_gallery", "label": "Show meal options gallery", "default": true },
     { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
 
