@@ -44,7 +44,7 @@
         "picker_count": 5,
         "meal_price": 1500,
         "plan_product": "5-meal-plan",
-        "meals_product": "6-meal-plan",
+        "meals_product": "5-meal-plan",
         "show_gallery": false,
         "gallery_heading": "10+\nmeal options",
         "delivery_heading": "Fresh meals, delivered to your door.",
@@ -321,7 +321,7 @@
           "type": "menu_item",
           "settings": {
             "short": "Chicken Biryani with Raita",
-            "name": "Chicken Biryani with Raita"
+            "name": "Chicke Biryani with Raita"
           }
         },
         "menu_2": {
