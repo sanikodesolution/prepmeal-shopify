@@ -1,0 +1,58 @@
+{{ 'section-cm-build-box.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-build-box.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign plan = product
+  if plan == blank
+    assign plan = section.settings.product
+  endif
+  if plan == blank
+    assign plan = all_products['10-meal-plan']
+  endif
+  assign heading = section.settings.heading | default: 'Build your own box'
+  assign lede = section.settings.lede | default: 'Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box.'
+-%}
+
+<section class="byb" data-byb data-plan="{{ plan.title | default: '10 Meal Plan' | escape }}" data-money="{{ 0 | money | escape }}">
+  <div class="byb__wrap">
+    <h1>{{ heading | escape }}</h1>
+    <p class="byb__lede">{{ lede | escape }}</p>
+    <div class="byb__layout">
+      <section class="byb__grid" data-byb-grid aria-label="Meals"></section>
+      <aside class="byb__box" data-byb-box aria-live="polite"></aside>
+    </div>
+    <p class="byb__status" data-byb-status role="status"></p>
+  </div>
+  <div class="byb__mbar">
+    <span data-byb-mtxt></span>
+    <button type="button" data-byb-view>View box</button>
+  </div>
+  <script type="application/json" data-byb-meals>
+    [
+    {%- assign first_meal = true -%}
+    {%- for variant in plan.variants -%}
+      {%- unless variant.title == 'Default Title' -%}
+        {%- unless first_meal -%},{%- endunless -%}
+        {%- assign first_meal = false -%}
+        {%- assign meal_name = variant.title | split: ',' | first | strip -%}
+        {%- assign meal_image = variant.image | default: variant.featured_media.preview_image -%}
+        {"id":{{ variant.id }},"name":{{ meal_name | json }},"text":"Fresh, ready to heat.","price":{{ variant.price | money | json }},"cents":{{ variant.price }},"image":{% if meal_image != blank %}{{ meal_image | image_url: width: 480 | json }}{% else %}null{% endif %}}
+      {%- endunless -%}
+    {%- endfor -%}
+    ]
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "CM build your box",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build your own box" },
+    { "type": "textarea", "id": "lede", "label": "Text", "default": "Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box." },
+    { "type": "product", "id": "product", "label": "Meal plan product", "info": "Used on pages. On a product template, that product is used." }
+  ],
+  "presets": [
+    { "name": "CM build your box" }
+  ]
+}
+{% endschema %}
