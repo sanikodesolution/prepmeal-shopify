@@ -31,8 +31,8 @@
             {%- else -%}
               {%- assign photo = food_file | asset_url -%}
             {%- endif -%}
-            <article class="byb__meal" style="--photo: url('{{ photo }}')">
-              <div class="byb__plate has-photo"></div>
+            <article class="byb__meal">
+              <div class="byb__plate has-photo"><img src="{{ photo }}" alt="{{ meal_name | escape }}" width="150" height="150"></div>
               <div class="byb__body">
                 <h3>{{ meal_name | escape }}</h3>
                 <p>Fresh, ready to heat.</p>

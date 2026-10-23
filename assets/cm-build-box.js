@@ -55,11 +55,13 @@
 
       grid.innerHTML = meals.map((meal, i) => {
         const colors = COLORS[i % COLORS.length];
-        const photo = meal.image ? ` --photo:url('${meal.image}')` : '';
         const controls = qty[i]
           ? `<div class="byb__qty"><button type="button" data-ch="${i}" data-d="-1" aria-label="Remove one">−</button><span>${qty[i]}</span><button type="button" data-ch="${i}" data-d="1" aria-label="Add one">+</button></div>`
           : `<button type="button" class="byb__add" data-ch="${i}" data-d="1">Add</button>`;
-        return `<article class="byb__meal${qty[i] ? ' is-in' : ''}" style="--c1:${colors[0]};--c2:${colors[1]};--c3:${colors[2]}${photo}"><div class="byb__plate${meal.image ? ' has-photo' : ''}"></div><div class="byb__body"><h3>${esc(meal.name)}</h3><p>${esc(meal.text)}</p><div class="byb__row"><span class="byb__price">${esc(meal.price)}</span>${controls}</div></div></article>`;
+        const plate = meal.image
+          ? `<div class="byb__plate has-photo"><img src="${esc(meal.image)}" alt="${esc(meal.name)}" width="150" height="150"></div>`
+          : `<div class="byb__plate"> </div>`;
+        return `<article class="byb__meal${qty[i] ? ' is-in' : ''}" style="--c1:${colors[0]};--c2:${colors[1]};--c3:${colors[2]}">${plate}<div class="byb__body"><h3>${esc(meal.name)}</h3><p>${esc(meal.text)}</p><div class="byb__row"><span class="byb__price">${esc(meal.price)}</span>${controls}</div></div></article>`;
       }).join('');
 
       const slots = [];
@@ -69,10 +71,13 @@
         const mark = s === 4 ? ' data-m="15%"' : s === 9 ? ' data-m="20%"' : '';
         const style = meal
           ? meal.image
-            ? ` style="--photo:url('${meal.image}')"`
+            ? ''
             : ` style="--c1:${colors[0]};--c2:${colors[1]}"`
           : '';
-        slots.push(`<div class="byb__slot${meal ? ' is-on' : ''}${meal && meal.image ? ' is-photo' : ''}${s === 4 || s === 9 ? ' is-mark' : ''}"${mark}${style}></div>`);
+        const slotPhoto = meal && meal.image
+          ? `<img src="${esc(meal.image)}" alt="" width="64" height="64">`
+          : ' ';
+        slots.push(`<div class="byb__slot${meal ? ' is-on' : ''}${meal && meal.image ? ' is-photo' : ''}${s === 4 || s === 9 ? ' is-mark' : ''}"${mark}${style}>${slotPhoto}</div>`);
       }
 
       const lines = meals.map((meal, i) => qty[i]
