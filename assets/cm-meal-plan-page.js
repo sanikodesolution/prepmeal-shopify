@@ -705,19 +705,11 @@
       sheet.hidden = false;
       sheet.closest('.mealplan-menu__frame')?.classList.add('is-sheet');
     };
-    const hideSheet = () => {
-      if (!sheet) return;
-      sheet.hidden = true;
-      sheet.classList.remove('is-zoom');
-      sheet.closest('.mealplan-menu__frame')?.classList.remove('is-sheet');
-    };
     if (posterTitle) {
-      if (canHover.matches) {
-        posterTitle.addEventListener('pointerenter', showSheet);
-        posterTitle.addEventListener('pointerleave', hideSheet);
-      } else {
-        posterTitle.addEventListener('click', showSheet);
-      }
+      // The group photo stays after the pointer leaves the title. It is
+      // replaced only when a meal in the list is hovered (set() hides it).
+      if (canHover.matches) posterTitle.addEventListener('pointerenter', showSheet);
+      else posterTitle.addEventListener('click', showSheet);
     }
     if (sheet && canHover.matches) {
       const zoomAt = (event) => {
