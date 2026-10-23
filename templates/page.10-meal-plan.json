@@ -12,7 +12,7 @@
     "build_box": {
       "type": "cm-build-box",
       "settings": {
-        "heading": "Build your own box",
+        "heading": "10 Meal Plan",
         "lede": "Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box.",
         "product": "10-meal-plan"
       }
@@ -24,7 +24,7 @@
         "heading": "Chef-prepared meals.\nMade for your week.",
         "text": "Calorie counted. High protein. Low oil. Pick ten meals from this week's menu and we cook and deliver them.",
         "fact_1_label": "Price",
-        "fact_1_value": "From $00.00",
+        "fact_1_value": "$150",
         "fact_2_label": "Meals",
         "fact_2_value": "10 per week",
         "fact_3_label": "Menu",
@@ -67,8 +67,8 @@
         "cta_button_label": "Build my 10 meal plan",
         "padding_top": 0,
         "padding_bottom": 0,
-        "button_link": "/products/10-meal-plan",
-        "cta_button_link": "/products/10-meal-plan"
+        "button_link": "#build-box",
+        "cta_button_link": "#build-box"
       },
       "blocks": {
         "meal_1": {

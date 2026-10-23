@@ -3,7 +3,7 @@
     "build_box": {
       "type": "cm-build-box",
       "settings": {
-        "heading": "Build your own box",
+        "heading": "10 Meal Plan",
         "lede": "Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box.",
         "product": "10-meal-plan"
       }
