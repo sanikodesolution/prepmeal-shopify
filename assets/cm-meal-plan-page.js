@@ -699,26 +699,25 @@
     }
 
     const posterTitle = week.querySelector('[data-mp-poster]');
-    const cursorImg = week.querySelector('[data-mp-cursor]');
     const sheet = week.querySelector('[data-mp-sheet]');
-    if (posterTitle && cursorImg) {
-      document.body.appendChild(cursorImg);
-      const placeCursor = (event) => {
-        cursorImg.hidden = false;
-        cursorImg.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
-      };
-      const hideCursor = () => { cursorImg.hidden = true; };
+    const showSheet = () => {
+      if (!sheet) return;
+      sheet.hidden = false;
+      sheet.closest('.mealplan-menu__frame')?.classList.add('is-sheet');
+    };
+    const hideSheet = () => {
+      if (!sheet) return;
+      sheet.hidden = true;
+      sheet.classList.remove('is-zoom');
+      sheet.closest('.mealplan-menu__frame')?.classList.remove('is-sheet');
+    };
+    if (posterTitle) {
       if (canHover.matches) {
-        posterTitle.addEventListener('pointerenter', placeCursor);
-        posterTitle.addEventListener('pointermove', placeCursor);
-        posterTitle.addEventListener('pointerleave', hideCursor);
+        posterTitle.addEventListener('pointerenter', showSheet);
+        posterTitle.addEventListener('pointerleave', hideSheet);
+      } else {
+        posterTitle.addEventListener('click', showSheet);
       }
-      posterTitle.addEventListener('click', () => {
-        hideCursor();
-        if (!sheet) return;
-        sheet.hidden = false;
-        sheet.closest('.mealplan-menu__frame')?.classList.add('is-sheet');
-      });
     }
     if (sheet && canHover.matches) {
       const zoomAt = (event) => {
