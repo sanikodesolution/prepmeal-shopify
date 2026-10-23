@@ -208,18 +208,84 @@
   aspect-ratio: 1000 / 900;
   overflow: hidden;
   border-radius: 3.2rem;
-  background: #f7f3e8;
+  background: #e7eef2;
   box-shadow: 0 5rem 8rem -4.6rem rgba(10, 26, 19, 0.55);
 }
 
-.mealplan-dl__map::after {
-  content: "";
+.mealplan-dl__canvas {
   position: absolute;
   inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(120% 100% at 40% 35%, transparent 58%, rgba(20, 35, 27, 0.1) 100%);
+  z-index: 0;
 }
+
+.mealplan-dl__canvas .leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #e7eef2;
+  font-family: inherit;
+}
+
+.mealplan-dl__map .leaflet-top.leaflet-left { z-index: 600; }
+
+.mealplan-dl__map .leaflet-control-zoom {
+  margin: 1.4rem 0 0 1.4rem;
+  border: 0;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  box-shadow: 0 0.4rem 1.4rem rgba(20, 35, 27, 0.16);
+}
+
+.mealplan-dl__map .leaflet-control-zoom a {
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  color: #14231b;
+  background: #fff;
+  border-bottom: 1px solid rgba(20, 35, 27, 0.12);
+}
+
+.mealplan-dl__map .leaflet-control-zoom a:hover,
+.mealplan-dl__map .leaflet-control-zoom a:focus {
+  color: #14231b;
+  background: #fff8ee;
+}
+
+.mealplan-dl__map .leaflet-control-attribution {
+  margin: 0;
+  padding: 0 0.6rem;
+  background: rgba(255, 255, 255, 0.82);
+  font-size: 1.1rem;
+}
+
+.mealplan-dl__hub-wrap { background: transparent; border: 0; }
+
+.mealplan-dl__hub {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #f5a623;
+  color: #14231b;
+  box-shadow:
+    0 0 0 3px #fff,
+    0 0 0 6px rgba(245, 166, 35, 0.4),
+    0 12px 24px -8px rgba(20, 35, 27, 0.45);
+}
+
+.mealplan-dl__map .mealplan-dl__tip-live {
+  padding: 0.4rem 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: #14231b;
+  color: #f6f1e4;
+  box-shadow: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mealplan-dl__map .mealplan-dl__tip-live::before { display: none; }
 
 .mealplan-dl__svg {
   position: absolute;
@@ -396,7 +462,7 @@
   position: absolute;
   right: 1.8rem;
   bottom: 1.8rem;
-  z-index: 5;
+  z-index: 600;
   max-width: min(26rem, 60%);
   padding: 1.4rem 1.8rem;
   border-radius: 1.8rem;
@@ -430,9 +496,9 @@
 /* ---------- legend ---------- */
 .mealplan-dl__legend {
   position: absolute;
-  left: 1.8rem;
-  top: 1.8rem;
-  z-index: 5;
+  left: 6.8rem;
+  top: 1.6rem;
+  z-index: 600;
   display: flex;
   flex-wrap: wrap;
   gap: 0.8rem 2rem;
