@@ -61,7 +61,11 @@
         const plate = meal.image
           ? `<div class="byb__plate has-photo"><img src="${esc(meal.image)}" alt="${esc(meal.name)}" width="150" height="150"></div>`
           : `<div class="byb__plate"> </div>`;
-        return `<article class="byb__meal${qty[i] ? ' is-in' : ''}" style="--c1:${colors[0]};--c2:${colors[1]};--c3:${colors[2]}">${plate}<div class="byb__body"><h4>${esc(meal.name)}</h4><p>${esc(meal.text)}</p><div class="byb__row"><span class="byb__price">${esc(meal.price)}</span>${controls}</div></div></article>`;
+        const text = meal.text ? `<p>${esc(meal.text)}</p>` : '';
+        const facts = meal.cal
+          ? `<ul class="byb__facts"><li><b>${esc(meal.cal)}</b><span>cal</span></li><li><b>${esc(meal.protein)}</b><span>protein</span></li><li><b>${esc(meal.carbs)}</b><span>carbs</span></li><li><b>${esc(meal.fat)}</b><span>fat</span></li></ul>`
+          : '';
+        return `<article class="byb__meal${qty[i] ? ' is-in' : ''}" style="--c1:${colors[0]};--c2:${colors[1]};--c3:${colors[2]}">${plate}<div class="byb__body"><h4>${esc(meal.name)}</h4>${text}${facts}<div class="byb__row"><span class="byb__price">${esc(meal.price)}</span>${controls}</div></div></article>`;
       }).join('');
 
       const slots = [];

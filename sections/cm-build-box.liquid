@@ -23,6 +23,7 @@
         {%- for variant in plan.variants -%}
           {%- unless variant.title == 'Default Title' -%}
             {%- assign meal_name = variant.title | split: ',' | first | strip -%}
+            {%- assign meal_sides = variant.title | remove_first: meal_name | remove_first: ',' | strip -%}
             {%- assign food_i = meal_i | modulo: 10 -%}
             {%- assign food_file = 'mp-food-' | append: food_i | append: '.jpg' -%}
             {%- assign meal_image = variant.image | default: variant.featured_media.preview_image -%}
@@ -35,7 +36,9 @@
               <div class="byb__plate has-photo"><img src="{{ photo }}" alt="{{ meal_name | escape }}" width="150" height="150"></div>
               <div class="byb__body">
                 <h4>{{ meal_name | escape }}</h4>
-                <p>Fresh, ready to heat.</p>
+                {%- if meal_sides != blank -%}
+                  <p>With {{ meal_sides | escape }}.</p>
+                {%- endif -%}
                 <div class="byb__row">
                   <span class="byb__price">{{ variant.price | money }}</span>
                   <button type="button" class="byb__add" data-ch="{{ meal_i }}" data-d="1">Add</button>
@@ -79,6 +82,11 @@
         {%- unless first_meal -%},{%- endunless -%}
         {%- assign first_meal = false -%}
         {%- assign meal_name = variant.title | split: ',' | first | strip -%}
+        {%- assign meal_sides = variant.title | remove_first: meal_name | remove_first: ',' | strip -%}
+        {%- assign meal_text = '' -%}
+        {%- if meal_sides != blank -%}
+          {%- assign meal_text = 'With ' | append: meal_sides | append: '.' -%}
+        {%- endif -%}
         {%- assign food_i = forloop.index0 | modulo: 10 -%}
         {%- assign food_file = 'mp-food-' | append: food_i | append: '.jpg' -%}
         {%- assign meal_image = variant.image | default: variant.featured_media.preview_image -%}
@@ -87,7 +95,7 @@
         {%- else -%}
           {%- assign photo = food_file | asset_url -%}
         {%- endif -%}
-        {"id":{{ variant.id }},"name":{{ meal_name | json }},"text":"Fresh, ready to heat.","price":{{ variant.price | money | json }},"cents":{{ variant.price }},"image":{{ photo | json }}}
+        {"id":{{ variant.id }},"name":{{ meal_name | json }},"text":{{ meal_text | json }},"price":{{ variant.price | money | json }},"cents":{{ variant.price }},"image":{{ photo | json }}}
       {%- endunless -%}
     {%- endfor -%}
     ]
