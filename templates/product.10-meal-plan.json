@@ -1,9 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "build_box": {
       "type": "cm-build-box",
       "settings": {
-        "heading": "Build your own box",
+        "heading": "10 Meal Plan",
         "lede": "Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box.",
         "product": "10-meal-plan"
       }

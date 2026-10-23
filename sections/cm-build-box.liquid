@@ -2,24 +2,68 @@
 <script src="{{ 'cm-build-box.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
-  assign plan = product
-  if plan == blank
-    assign plan = section.settings.product
+  assign plan = section.settings.product
+  if plan == blank and product != blank and product.handle == '10-meal-plan'
+    assign plan = product
   endif
   if plan == blank
     assign plan = all_products['10-meal-plan']
   endif
-  assign heading = section.settings.heading | default: 'Build your own box'
+  assign heading = section.settings.heading | default: '10 Meal Plan'
   assign lede = section.settings.lede | default: 'Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box.'
 -%}
 
-<section class="byb" data-byb data-plan="{{ plan.title | default: '10 Meal Plan' | escape }}" data-money="{{ 0 | money | escape }}">
+<section class="byb" id="build-box" data-byb data-plan="{{ plan.title | default: '10 Meal Plan' | escape }}" data-money="{{ 0 | money | escape }}">
   <div class="byb__wrap">
     <h1>{{ heading | escape }}</h1>
     <p class="byb__lede">{{ lede | escape }}</p>
     <div class="byb__layout">
-      <section class="byb__grid" data-byb-grid aria-label="Meals"></section>
-      <aside class="byb__box" data-byb-box aria-live="polite"></aside>
+      <section class="byb__grid" data-byb-grid aria-label="Meals">
+        {%- assign meal_i = 0 -%}
+        {%- for variant in plan.variants -%}
+          {%- unless variant.title == 'Default Title' -%}
+            {%- assign meal_name = variant.title | split: ',' | first | strip -%}
+            {%- assign food_i = meal_i | modulo: 10 -%}
+            {%- assign food_file = 'mp-food-' | append: food_i | append: '.jpg' -%}
+            {%- assign meal_image = variant.image | default: variant.featured_media.preview_image -%}
+            {%- if meal_image != blank -%}
+              {%- assign photo = meal_image | image_url: width: 480 -%}
+            {%- else -%}
+              {%- assign photo = food_file | asset_url -%}
+            {%- endif -%}
+            <article class="byb__meal" style="--photo: url('{{ photo }}')">
+              <div class="byb__plate has-photo"></div>
+              <div class="byb__body">
+                <h3>{{ meal_name | escape }}</h3>
+                <p>Fresh, ready to heat.</p>
+                <div class="byb__row">
+                  <span class="byb__price">{{ variant.price | money }}</span>
+                  <button type="button" class="byb__add" data-ch="{{ meal_i }}" data-d="1">Add</button>
+                </div>
+              </div>
+            </article>
+            {%- assign meal_i = meal_i | plus: 1 -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </section>
+      <aside class="byb__box" data-byb-box aria-live="polite">
+        <h2>Your box</h2>
+        <p class="byb__hint">5 more plates to unlock 15% off.</p>
+        <div class="byb__slots">
+          {%- for slot in (1..5) -%}
+            <div class="byb__slot{% if slot == 5 %} is-mark{% endif %}"{% if slot == 5 %} data-m="15%"{% endif %}></div>
+          {%- endfor -%}
+        </div>
+        <div class="byb__tiers">
+          <div class="byb__tier"><span>5 plates</span><b>15% off</b></div>
+          <div class="byb__tier"><span>10 plates</span><b>20% off</b></div>
+        </div>
+        <div class="byb__sum">
+          <div class="byb__tot"><span>Total</span><span>{{ 0 | money }}</span></div>
+        </div>
+        <button type="button" class="byb__cta" data-byb-cta disabled>Add 5 more plates</button>
+        <p class="byb__note">Each meal is added at its menu price.</p>
+      </aside>
     </div>
     <p class="byb__status" data-byb-status role="status"></p>
   </div>
@@ -35,8 +79,15 @@
         {%- unless first_meal -%},{%- endunless -%}
         {%- assign first_meal = false -%}
         {%- assign meal_name = variant.title | split: ',' | first | strip -%}
+        {%- assign food_i = forloop.index0 | modulo: 10 -%}
+        {%- assign food_file = 'mp-food-' | append: food_i | append: '.jpg' -%}
         {%- assign meal_image = variant.image | default: variant.featured_media.preview_image -%}
-        {"id":{{ variant.id }},"name":{{ meal_name | json }},"text":"Fresh, ready to heat.","price":{{ variant.price | money | json }},"cents":{{ variant.price }},"image":{% if meal_image != blank %}{{ meal_image | image_url: width: 480 | json }}{% else %}null{% endif %}}
+        {%- if meal_image != blank -%}
+          {%- assign photo = meal_image | image_url: width: 480 -%}
+        {%- else -%}
+          {%- assign photo = food_file | asset_url -%}
+        {%- endif -%}
+        {"id":{{ variant.id }},"name":{{ meal_name | json }},"text":"Fresh, ready to heat.","price":{{ variant.price | money | json }},"cents":{{ variant.price }},"image":{{ photo | json }}}
       {%- endunless -%}
     {%- endfor -%}
     ]
@@ -47,7 +98,7 @@
 {
   "name": "CM build your box",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Build your own box" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "10 Meal Plan" },
     { "type": "textarea", "id": "lede", "label": "Text", "default": "Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box." },
     { "type": "product", "id": "product", "label": "Meal plan product", "info": "Used on pages. On a product template, that product is used." }
   ],
