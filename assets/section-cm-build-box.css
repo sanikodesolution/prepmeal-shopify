@@ -112,6 +112,7 @@
 
 .byb__body p {
   margin: 0;
+  min-height: 2.9em;
   color: #6d766f;
   font-size: 14px;
   line-height: 1.45;

@@ -61,7 +61,7 @@
         const plate = meal.image
           ? `<div class="byb__plate has-photo"><img src="${esc(meal.image)}" alt="${esc(meal.name)}" width="150" height="150"></div>`
           : `<div class="byb__plate"> </div>`;
-        const text = meal.text ? `<p>${esc(meal.text)}</p>` : '';
+        const text = `<p>${meal.text ? esc(meal.text) : '&nbsp;'}</p>`;
         const facts = meal.cal
           ? `<ul class="byb__facts"><li><b>${esc(meal.cal)}</b><span>cal</span></li><li><b>${esc(meal.protein)}</b><span>protein</span></li><li><b>${esc(meal.carbs)}</b><span>carbs</span></li><li><b>${esc(meal.fat)}</b><span>fat</span></li></ul>`
           : '';

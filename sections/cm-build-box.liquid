@@ -37,9 +37,7 @@
               <div class="byb__plate has-photo"><img src="{{ photo }}" alt="{{ meal_name | escape }}" width="150" height="150"></div>
               <div class="byb__body">
                 <h4>{{ meal_name | escape }}</h4>
-                {%- if meal_sides != blank -%}
-                  <p>With {{ meal_sides | escape }}.</p>
-                {%- endif -%}
+                <p>{% if meal_sides != blank %}With {{ meal_sides | escape }}.{% else %}&nbsp;{% endif %}</p>
                 {%- assign stat = nutrition[meal_i] | split: '|' -%}
                 <ul class="byb__facts">
                   <li><b>{{ stat[0] }}</b><span>cal</span></li>
