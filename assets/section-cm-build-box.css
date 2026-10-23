@@ -57,7 +57,7 @@
   gap: 52px 22px;
 }
 
-.byb__meal { position: relative; padding-top: 54px; }
+.byb__meal { position: relative; padding-top: 76px; }
 
 .byb__plate,
 .byb__slot { display: block; }
@@ -67,9 +67,9 @@
   top: 0;
   left: 50%;
   z-index: 2;
-  width: 112px;
-  height: 112px;
-  margin-left: -56px;
+  width: 160px;
+  height: 160px;
+  margin-left: -80px;
   overflow: hidden;
   border: 8px solid #fff;
   border-radius: 50%;
@@ -92,7 +92,7 @@
 
 .byb__body {
   min-height: 100%;
-  padding: 70px 18px 16px;
+  padding: 100px 18px 16px;
   border: 1px solid #e6e8e6;
   border-radius: 22px;
   background: #fff;
