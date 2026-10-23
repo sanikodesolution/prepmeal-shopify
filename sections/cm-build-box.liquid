@@ -11,6 +11,7 @@
   endif
   assign heading = section.settings.heading | default: '10 Meal Plan'
   assign lede = section.settings.lede | default: 'Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box.'
+  assign nutrition = '633|38|37|37,684|62|37|32,676|55|42|32,421|45|40|12,430|36|32|10,623|52|34|31,435|38|36|11,550|38|37|31,585|36|35|33,581|61|53|15' | split: ','
 -%}
 
 <section class="byb" id="build-box" data-byb data-plan="{{ plan.title | default: '10 Meal Plan' | escape }}" data-money="{{ 0 | money | escape }}">
@@ -36,9 +37,14 @@
               <div class="byb__plate has-photo"><img src="{{ photo }}" alt="{{ meal_name | escape }}" width="150" height="150"></div>
               <div class="byb__body">
                 <h4>{{ meal_name | escape }}</h4>
-                {%- if meal_sides != blank -%}
-                  <p>With {{ meal_sides | escape }}.</p>
-                {%- endif -%}
+                <p>{% if meal_sides != blank %}With {{ meal_sides | escape }}.{% else %}&nbsp;{% endif %}</p>
+                {%- assign stat = nutrition[meal_i] | split: '|' -%}
+                <ul class="byb__facts">
+                  <li><b>{{ stat[0] }}</b><span>cal</span></li>
+                  <li><b>{{ stat[1] }}g</b><span>protein</span></li>
+                  <li><b>{{ stat[2] }}g</b><span>carbs</span></li>
+                  <li><b>{{ stat[3] }}g</b><span>fat</span></li>
+                </ul>
                 <div class="byb__row">
                   <span class="byb__price">{{ variant.price | money }}</span>
                   <button type="button" class="byb__add" data-ch="{{ meal_i }}" data-d="1">Add</button>
@@ -87,6 +93,7 @@
         {%- if meal_sides != blank -%}
           {%- assign meal_text = 'With ' | append: meal_sides | append: '.' -%}
         {%- endif -%}
+        {%- assign stat = nutrition[forloop.index0] | split: '|' -%}
         {%- assign food_i = forloop.index0 | modulo: 10 -%}
         {%- assign food_file = 'mp-food-' | append: food_i | append: '.jpg' -%}
         {%- assign meal_image = variant.image | default: variant.featured_media.preview_image -%}
@@ -95,7 +102,7 @@
         {%- else -%}
           {%- assign photo = food_file | asset_url -%}
         {%- endif -%}
-        {"id":{{ variant.id }},"name":{{ meal_name | json }},"text":{{ meal_text | json }},"price":{{ variant.price | money | json }},"cents":{{ variant.price }},"image":{{ photo | json }}}
+        {"id":{{ variant.id }},"name":{{ meal_name | json }},"text":{{ meal_text | json }},"price":{{ variant.price | money | json }},"cents":{{ variant.price }},"cal":{{ stat[0] | json }},"protein":"{{ stat[1] }}g","carbs":"{{ stat[2] }}g","fat":"{{ stat[3] }}g","image":{{ photo | json }}}
       {%- endunless -%}
     {%- endfor -%}
     ]
