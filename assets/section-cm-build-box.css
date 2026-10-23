@@ -110,12 +110,9 @@
   box-shadow: 0 0 0 1px var(--byb-jade);
 }
 
-.byb__body h3 {
+.byb__body h4 {
   margin: 0 0 6px;
-  font-family: var(--font-heading-family), sans-serif;
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 1.15;
+  font-size: 16px;
 }
 
 .byb__body p { margin: 0; color: var(--byb-mute); font-size: 0.9rem; }
