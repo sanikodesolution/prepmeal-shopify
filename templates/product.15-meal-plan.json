@@ -13,7 +13,7 @@
       "type": "cm-build-box",
       "settings": {
         "heading": "15 Meal Plan",
-        "lede": "Pick fifteen dishes and fill your box for the week. Every plate gets 20% off.",
+        "lede": "Pick fifteen dishes and fill your box for the week. Ten plates or more unlocks 20% off.",
         "product": "15-meal-plan",
         "min_plates": 15
       }
