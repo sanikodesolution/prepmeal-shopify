@@ -398,7 +398,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__frame.is-all::after{opacity:0}
 /* Narrow enough that the tagline breaks into two balanced lines instead of
    running as one long line under the heading. */
-.mealplan-menu__sub{grid-column:1;grid-row:3;justify-self:start;margin:.85rem 0 0;max-width:31ch;font-size:16px;line-height:1.6;color:var(--mp-muted);text-align:left}
+.mealplan-menu__sub{grid-column:1;grid-row:3;justify-self:start;margin:1.6rem 0 0;max-width:31ch;font-size:16px;line-height:1.6;color:var(--mp-muted);text-align:left}
 .mealplan-menu__stage{grid-column:1;grid-row:2;position:sticky;top:40px;z-index:4}
 .mealplan-menu__frame{position:relative;aspect-ratio:1/1;border-radius:36px;overflow:hidden;background:#f6f5f3;box-shadow:0 40px 80px -40px rgba(21,37,28,.35);cursor:zoom-in}
 .mealplan-menu__frame:focus-visible{outline:2px solid var(--mp-accent);outline-offset:4px}
@@ -610,7 +610,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
   .mealplan-menu__buy{grid-column:1 / -1;grid-row:1;justify-self:end;text-align:right;padding:0 0 clamp(18px,2.4vw,26px)}
   .mealplan-menu__head .mp-eye{grid-column:1 / -1;grid-row:2;justify-self:center;margin:0 0 .7rem;text-align:center}
   .mealplan-menu__head .mealplan-h{grid-column:1 / -1;grid-row:3;justify-self:start;text-align:left}
-  .mealplan-menu__sub{grid-column:1 / -1;grid-row:4;margin:.85rem 0 clamp(24px,3vw,36px);align-self:start;justify-self:start;text-align:left}
+  .mealplan-menu__sub{grid-column:1 / -1;grid-row:4;margin:1.6rem 0 clamp(24px,3vw,36px);align-self:start;justify-self:start;text-align:left}
   .mealplan-menu__stage{grid-column:1 / -1;grid-row:5;width:80%;justify-self:center;position:relative;top:0;margin:0 auto clamp(24px,3vw,36px)}
   .mealplan-menu__frame{aspect-ratio:1/1}
   .mealplan-menu__list{grid-column:1;grid-row:6}
@@ -620,7 +620,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
   .mealplan-menu__head{grid-template-columns:1fr;grid-row:2;justify-items:center;text-align:left;margin-bottom:clamp(20px,5vw,28px)}
   .mealplan-menu__buy{grid-column:1;grid-row:1;justify-self:stretch;text-align:left;padding:0 0 4px}
   .mealplan-menu__head .mealplan-h{grid-column:1;grid-row:auto;justify-self:start;text-align:left}
-  .mealplan-menu__sub{grid-column:1;grid-row:auto;justify-self:start;text-align:left;margin:.85rem 0 0}
+  .mealplan-menu__sub{grid-column:1;grid-row:auto;justify-self:start;text-align:left;margin:1.6rem 0 0}
   .mealplan-menu__head .mp-eye{grid-column:1;grid-row:auto;justify-self:center;text-align:center}
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr)}
   .mealplan-menu__stage{grid-column:1;grid-row:3;position:relative;top:0;margin-bottom:28px}
