@@ -74,6 +74,10 @@ Mukwonago|53149|41.9|51.6
   assign cy = ky | times: 9
   assign zr = s.plate_zone_radius | default: 22 | times: 10
   assign zr_in = zr | minus: 24
+  # Kitchen coordinates for the live map. The street-map checker uses these
+  # settings too, so both delivery styles move together.
+  assign kitchen_lat = s.delivery_kitchen_lat | default: '43.1051'
+  assign kitchen_lng = s.delivery_kitchen_lng | default: '-88.3420'
   assign limit = s.plate_visible | default: 12
 
   assign placeholder = s.delivery_placeholder | default: 'Postal code or town'
@@ -162,7 +166,7 @@ Mukwonago|53149|41.9|51.6
     </div>
 
     <div class="mealplan-dl__map" role="region" aria-label="{{ s.plate_map_label | default: 'Map of our delivery area' | escape }}">
-      <div class="mealplan-dl__canvas" data-mpdl-canvas data-kitchen="{{ kitchen_label | escape }}"></div>
+      <div class="mealplan-dl__canvas" data-mpdl-canvas data-kitchen="{{ kitchen_label | escape }}" data-klat="{{ kitchen_lat | escape }}" data-klng="{{ kitchen_lng | escape }}"></div>
       <script type="application/json" data-mpdl-points>
         [
         {%- assign point_first = true -%}
@@ -173,7 +177,7 @@ Mukwonago|53149|41.9|51.6
             {%- unless point_first -%},{%- endunless -%}
             {%- assign point_first = false -%}
             {%- assign flag = p[4] | default: '' | strip | downcase -%}
-            {"n":{{ name | json }},"z":{{ p[1] | default: '' | strip | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %}}
+            {"n":{{ name | json }},"z":{{ p[1] | default: '' | strip | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %},"lat":{{ p[5] | default: '' | strip | json }},"lng":{{ p[6] | default: '' | strip | json }}}
           {%- endif -%}
         {%- endfor -%}
         ]
@@ -323,8 +327,15 @@ Mukwonago|53149|41.9|51.6
         var points = [];
         try { points = JSON.parse(root.querySelector('[data-mpdl-points]').textContent); } catch (e) { points = []; }
         loadLeaflet().then(function (L) {
-          var kitchen = [43.1051, -88.342];
+          var kitchenSetting = [
+            parseFloat(canvas.getAttribute('data-klat')),
+            parseFloat(canvas.getAttribute('data-klng'))
+          ];
+          var kitchen = (isFinite(kitchenSetting[0]) && isFinite(kitchenSetting[1])) ? kitchenSetting : [43.1051, -88.342];
           points.forEach(function (point) {
+            if (point.lat !== '' && point.lng !== '' && isFinite(parseFloat(point.lat)) && isFinite(parseFloat(point.lng))) {
+              COORDS[normName(point.n)] = [parseFloat(point.lat), parseFloat(point.lng)];
+            }
             if (point.k && COORDS[normName(point.n)]) kitchen = COORDS[normName(point.n)];
           });
           var radius = 8000;

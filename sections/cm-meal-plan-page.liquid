@@ -781,7 +781,7 @@
     { "type": "text", "id": "delivery_reset_label", "label": "Reset link label", "default": "Show full zone" },
 
     { "type": "header", "content": "Plate map" },
-    { "type": "textarea", "id": "plate_towns", "label": "Delivery towns", "info": "One per line: Name|ZIP,ZIP|left%|top%|kitchen. The ZIP and the fifth \"kitchen\" column are optional. Leave empty for the built-in Hartland list." },
+    { "type": "textarea", "id": "plate_towns", "label": "Delivery towns", "info": "One per line: Name|ZIP,ZIP|left%|top%|kitchen|lat|lng. The ZIP, fifth, sixth and seventh columns are optional. Towns not in the built-in list need lat|lng to appear on the map. Leave empty for the built-in Hartland list." },
     { "type": "text", "id": "plate_areas_title", "label": "Town list title", "default": "We deliver to" },
     { "type": "range", "id": "plate_visible", "label": "Towns shown before \"show all\"", "min": 6, "max": 30, "step": 1, "default": 12 },
     { "type": "text", "id": "plate_more_label", "label": "Show-all label", "info": "Use {count} for the total.", "default": "Show all {count} areas" },
