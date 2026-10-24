@@ -386,6 +386,9 @@ Mukwonago|53149|41.9|51.6
             points.forEach(function (point) {
               var has = point.lat != null && point.lng != null && isFinite(parseFloat(point.lat)) && isFinite(parseFloat(point.lng));
               if (has) return;
+              // The built-in coordinate table already knows this town, so no
+              // network call is needed. Only genuinely unknown places are looked up.
+              if (COORDS[normName(point.n)]) return;
               point.resolved = null;
               jobs.push(
                 geo.lookup(point.q || point.n, { country: country }).then(function (hit) {
