@@ -52,12 +52,13 @@
 }
 
 .byb__grid {
+  --byb-plate: clamp(176px, 18vw, 220px);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 52px 22px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 60px 24px;
 }
 
-.byb__meal { position: relative; padding-top: 76px; }
+.byb__meal { position: relative; padding-top: calc(var(--byb-plate) / 2 - 4px); }
 
 .byb__plate,
 .byb__slot { display: block; }
@@ -67,9 +68,9 @@
   top: 0;
   left: 50%;
   z-index: 2;
-  width: 160px;
-  height: 160px;
-  margin-left: -80px;
+  width: var(--byb-plate);
+  height: var(--byb-plate);
+  margin-left: calc(var(--byb-plate) / -2);
   overflow: hidden;
   border: 8px solid #fff;
   border-radius: 50%;
@@ -92,7 +93,7 @@
 
 .byb__body {
   min-height: 100%;
-  padding: 100px 18px 16px;
+  padding: calc(var(--byb-plate) / 2 + 20px) 18px 16px;
   border: 1px solid #e6e8e6;
   border-radius: 22px;
   background: #fff;
@@ -367,6 +368,7 @@
   .byb__layout { grid-template-columns: 1fr; }
   .byb__box { position: static; order: -1; }
   .byb__wrap { padding-inline: 16px; }
+  .byb__grid { --byb-plate: 140px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 48px 18px; }
   .byb__mbar {
     position: fixed;
     right: 0;
