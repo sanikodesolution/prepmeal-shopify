@@ -52,12 +52,13 @@
 }
 
 .byb__grid {
+  --byb-plate: clamp(190px, 20vw, 240px);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 52px 22px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 60px 24px;
 }
 
-.byb__meal { position: relative; padding-top: 76px; }
+.byb__meal { position: relative; padding-top: calc(var(--byb-plate) / 2 - 4px); }
 
 .byb__plate,
 .byb__slot { display: block; }
@@ -67,9 +68,9 @@
   top: 0;
   left: 50%;
   z-index: 2;
-  width: 160px;
-  height: 160px;
-  margin-left: -80px;
+  width: var(--byb-plate);
+  height: var(--byb-plate);
+  margin-left: calc(var(--byb-plate) / -2);
   overflow: hidden;
   border: 8px solid #fff;
   border-radius: 50%;
@@ -92,7 +93,7 @@
 
 .byb__body {
   min-height: 100%;
-  padding: 100px 18px 16px;
+  padding: calc(var(--byb-plate) / 2 + 20px) 18px 16px;
   border: 1px solid #e6e8e6;
   border-radius: 22px;
   background: #fff;
@@ -211,17 +212,18 @@
 }
 
 .byb__box h2 {
-  margin: 0 0 4px;
+  margin: 0 0 8px;
   font-family: var(--font-heading-family), sans-serif;
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 600;
+  line-height: 1.15;
 }
 
 .byb__hint {
-  min-height: 2.6em;
-  margin: 0 0 16px;
+  margin: 0 0 22px;
   color: var(--byb-mute);
-  font-size: 0.88rem;
+  font-size: 15px;
+  line-height: 1.45;
 }
 
 .byb__slots {
@@ -265,29 +267,32 @@
   display: block;
 }
 
-.byb__slot.is-mark::after {
+.byb .byb__slot.is-mark::after {
   content: attr(data-m);
   position: absolute;
   right: -2px;
   bottom: -4px;
-  padding: 0 6px;
+  padding: 1px 6px;
   border-radius: 99px;
   background: var(--byb-amber);
   color: #16211d;
-  font-size: 0.65rem;
+  font-size: 11px;
   font-weight: 700;
+  line-height: 1.4;
 }
 
-.byb__tiers { display: grid; gap: 8px; margin: 16px 0; }
+.byb__tiers { display: grid; gap: 9px; margin: 16px 0; }
 
 .byb__tier {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
+  min-height: 47px;
+  padding: 12px 16px;
   border: 1px solid var(--byb-line);
   border-radius: 12px;
-  font-size: 0.9rem;
+  font-size: 15px;
+  line-height: 1.3;
   transition: all 0.3s;
 }
 
@@ -299,7 +304,8 @@
 
 .byb__tier b {
   font-family: var(--font-heading-family), sans-serif;
-  font-size: 1.05rem;
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .byb__lines {
@@ -310,54 +316,58 @@
   list-style: none;
 }
 
-.byb__lines li { display: flex; justify-content: space-between; gap: 8px; font-size: 0.9rem; }
+.byb__lines li { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; }
 
 .byb__x {
   padding: 0 0 0 8px;
   border: 0;
   background: none;
   color: var(--byb-mute);
-  font-size: 0.8rem;
+  font-size: 12px;
   text-decoration: underline;
 }
 
 .byb__sum {
   display: grid;
-  gap: 4px;
-  padding-top: 12px;
+  gap: 6px;
+  padding-top: 16px;
   border-top: 1px solid var(--byb-line);
 }
 
-.byb__sum div { display: flex; justify-content: space-between; }
+.byb__sum div { display: flex; justify-content: space-between; font-size: 16px; }
 
-.byb__tot {
+.byb__sum .byb__tot {
   font-family: var(--font-heading-family), sans-serif;
-  font-size: 1.35rem;
-  font-weight: 600;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 .byb__save { color: var(--byb-jade-d); font-weight: 700; }
 
-.byb__cta {
+.byb .byb__cta {
   width: 100%;
-  margin-top: 14px;
-  padding: 15px;
+  margin-top: 16px;
+  padding: 14px;
   border: 0;
   border-radius: 99px;
   background: var(--byb-amber);
   color: #16211d;
-  font-weight: 700;
+  font-family: var(--font-body-family), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 20px;
 }
 
-.byb__cta:disabled {
+.byb .byb__cta:disabled {
   background: var(--byb-line);
   color: var(--byb-mute);
   cursor: not-allowed;
 }
 
-.byb__note { margin: 8px 0 0; color: var(--byb-mute); font-size: 0.78rem; text-align: center; }
+.byb__note { margin: 10px 0 0; color: var(--byb-mute); font-size: 13px; text-align: center; }
 
-.byb__status { min-height: 1.2em; margin: 8px 0 0; font-size: 0.85rem; font-weight: 700; }
+.byb__status { min-height: 1.2em; margin: 8px 0 0; font-size: 13px; font-weight: 700; }
 .byb__status.is-yes { color: var(--byb-jade); }
 .byb__status.is-no { color: #a63d1c; }
 
@@ -367,6 +377,7 @@
   .byb__layout { grid-template-columns: 1fr; }
   .byb__box { position: static; order: -1; }
   .byb__wrap { padding-inline: 16px; }
+  .byb__grid { --byb-plate: 140px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 48px 18px; }
   .byb__mbar {
     position: fixed;
     right: 0;
