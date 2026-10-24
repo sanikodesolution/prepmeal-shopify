@@ -37,6 +37,7 @@
     const status = root.querySelector('[data-byb-status]');
     const sample = root.dataset.money || '$0.00';
     const plan = root.dataset.plan || '10 Meal Plan';
+    const minPlates = Math.max(1, Number(root.dataset.minPlates) || 5);
 
     const money = (cents) => sample.replace(/[0-9]+[0-9.,]*/, (cents / 100).toFixed(2));
     const count = () => qty.reduce((sum, n) => sum + n, 0);
@@ -46,8 +47,8 @@
       const rate = n >= 10 ? 0.2 : n >= 5 ? 0.15 : 0;
       const sub = meals.reduce((sum, meal, i) => sum + qty[i] * meal.cents, 0);
       const saved = Math.round(sub * rate);
-      const span = n >= 5 ? 10 : 5;
-      const left = Math.max(span - n, 0);
+      const span = n >= minPlates ? 10 : minPlates;
+      const need = Math.max(minPlates - n, 0);
       const dots = [];
       qty.forEach((amount, i) => {
         for (let k = 0; k < amount; k += 1) dots.push(i);
@@ -88,13 +89,13 @@
         ? `<li><span>${qty[i]} × ${esc(meal.name)}</span><span>${money(qty[i] * meal.cents)}<button type="button" class="byb__x" data-ch="${i}" data-d="${-qty[i]}">Remove</button></span></li>`
         : '').join('');
 
-      const hint = n >= 10
-        ? 'You’ve unlocked the best rate: 20% off every plate.'
-        : n >= 5
-          ? `15% unlocked. ${10 - n} more for 20% off.`
-          : `${left} more ${left === 1 ? 'plate' : 'plates'} to unlock 15% off.`;
+      let hint;
+      if (n >= 10) hint = 'You’ve unlocked the best rate: 20% off every plate.';
+      else if (n >= minPlates) hint = `15% unlocked. ${10 - n} more for 20% off.`;
+      else if (minPlates > 5) hint = `${need} more ${need === 1 ? 'plate' : 'plates'} to fill your box.`;
+      else hint = `${need} more ${need === 1 ? 'plate' : 'plates'} to unlock 15% off.`;
 
-      box.innerHTML = `<h2>Your box</h2><p class="byb__hint">${hint}</p><div class="byb__slots">${slots.join('')}</div><div class="byb__tiers"><div class="byb__tier${n >= 5 ? ' is-hit' : ''}"><span>5 plates</span><b>15% off</b></div><div class="byb__tier${n >= 10 ? ' is-hit' : ''}"><span>10 plates</span><b>20% off</b></div></div><ul class="byb__lines">${lines}</ul><div class="byb__sum"><div><span>Subtotal</span><span>${money(sub)}</span></div>${saved ? `<div class="byb__save"><span>Box discount</span><span>−${money(saved)}</span></div>` : ''}<div class="byb__tot"><span>Total</span><span>${money(sub - saved)}</span></div></div><button type="button" class="byb__cta" data-byb-cta${n < 5 ? ' disabled' : ''}>${n < 5 ? `Add ${left} more ${left === 1 ? 'plate' : 'plates'}` : 'Add box to cart'}</button><p class="byb__note">Each meal is added at its menu price.</p>`;
+      box.innerHTML = `<h2>Your box</h2><p class="byb__hint">${hint}</p><div class="byb__slots">${slots.join('')}</div><div class="byb__tiers"><div class="byb__tier${n >= 5 ? ' is-hit' : ''}"><span>5 plates</span><b>15% off</b></div><div class="byb__tier${n >= 10 ? ' is-hit' : ''}"><span>10 plates</span><b>20% off</b></div></div><ul class="byb__lines">${lines}</ul><div class="byb__sum"><div><span>Subtotal</span><span>${money(sub)}</span></div>${saved ? `<div class="byb__save"><span>Box discount</span><span>−${money(saved)}</span></div>` : ''}<div class="byb__tot"><span>Total</span><span>${money(sub - saved)}</span></div></div><button type="button" class="byb__cta" data-byb-cta${need ? ' disabled' : ''}>${need ? `Add ${need} more ${need === 1 ? 'plate' : 'plates'}` : 'Add box to cart'}</button><p class="byb__note">Each meal is added at its menu price.</p>`;
       if (mtxt) mtxt.innerHTML = `<b>${n}</b> plates · ${money(sub - saved)}`;
     };
 
