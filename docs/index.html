@@ -134,7 +134,7 @@
 			<li>Created: October 22, 2026</li>
 			<li>Last Update: October 24, 2026</li>
 			<li>Version 1.0</li>
-			<li>By: <a target="_blank" href="https://themeforest.net/user/unlockdesign">KodeSolution</a></li>
+			<li>By: <a target="_blank" href="https://themeforest.net/user/unlockdesign">SANI UL HASSAN</a></li>
 			<li>Email: <a href="mailto:sani.dev.business@gmail.com?subject=Prep Meal Shopify Theme Support">sani.dev.business@gmail.com</a></li>
 		</ul>
 	</section>
@@ -322,7 +322,7 @@ shopify theme push --store your-store.myshopify.com --theme 123456789 --only sec
   "name": "theme_info",
   "theme_name": "Prep Meal",
   "theme_version": "1.0.0",
-  "theme_author": "KodeSolution",
+  "theme_author": "SANI UL HASSAN",
   "theme_documentation_url": "https://themeforest.net/user/unlockdesign",
   "theme_support_url": "https://themeforest.net/user/unlockdesign"
 }
@@ -491,9 +491,9 @@ shopify theme push --store your-store.myshopify.com --theme 123456789 --only sec
 				</thead>
 				<tbody>
 					<tr><td>Map centre and zoom</td><td><code>cm-delivery-map</code> → <code>center_lat</code>, <code>center_lng</code>, <code>zoom</code></td><td>Delivery map on the product template</td></tr>
-					<tr><td>Headquarters pin</td><td><code>cm-delivery-map</code> → <code>hq_lat</code>, <code>hq_lng</code>, <code>hq_address</code></td><td>The “HQ” popup on that map</td></tr>
+					<tr><td>Headquarters pin</td><td><code>cm-delivery-map</code> → <code>hq_lat</code>, <code>hq_lng</code>, <code>hq_address</code></td><td>The “HQ” popup on that map. Also accepts <code>hq_place</code>.</td></tr>
 					<tr><td>Delivery towns (pin map)</td><td><code>cm-meal-plan-page</code> → <code>delivery_towns</code></td><td>Delivery checker on every plan page</td></tr>
-					<tr><td>Kitchen pin (checker)</td><td><code>cm-meal-plan-page</code> → <code>delivery_kitchen_lat</code>, <code>delivery_kitchen_lng</code></td><td>Centre dot and zone circle</td></tr>
+					<tr><td>Kitchen pin (checker)</td><td><code>cm-meal-plan-page</code> → <code>delivery_kitchen_lat</code>, <code>delivery_kitchen_lng</code></td><td>Centre dot and zone circle. Accepts numbers or a place name.</td></tr>
 					<tr><td>Delivery towns (plate map)</td><td><code>cm-meal-plan-page</code> → <code>plate_towns</code></td><td>Styled plate map and town chips</td></tr>
 					<tr><td>Kitchen label / address</td><td><code>cm-meal-plan-page</code> → <code>plate_kitchen_label</code>, <code>plate_kitchen_address</code></td><td>Under the plate map</td></tr>
 					<tr><td>Footer address</td><td><code>cm-footer</code> → Contact info block → <code>area</code></td><td>Site footer</td></tr>
@@ -504,48 +504,101 @@ shopify theme push --store your-store.myshopify.com --theme 123456789 --only sec
 
 		<h5>Step 1 — Change the kitchen position</h5>
 		<p>Open the theme editor, go to any meal plan page (<code>/pages/5-meal-plan</code> … <code>/pages/15-meal-plan</code>), select the <strong>CM meal plan page</strong> section and scroll to <strong>Delivery checker: map</strong>.</p>
+
+		<p><strong>Easiest way — type the place name.</strong> Put a place in <strong>Kitchen latitude or place name</strong> (<code>delivery_kitchen_lat</code>) and leave the longitude alone. The theme looks the place up when the page loads and puts the pin, the delivery circle and the map centre there.</p>
+<pre class="line-numbers">
+<code class="language-markup">
+delivery_kitchen_lat = Hartland, Wisconsin     ← place name is enough
+delivery_kitchen_lng =                        ← leave blank
+</code>
+</pre>
+		<p>You can be as loose as a town name or as precise as a full street address. Country-aware names resolve more reliably:</p>
+<pre class="line-numbers">
+<code class="language-markup">
+Waukesha
+Waukesha, Wisconsin
+N64W28381 Hawthorne Rd, Hartland, WI 53029
+</code>
+</pre>
+
+		<p><strong>Exact way — use coordinates.</strong> Numbers always win over a lookup and skip the network call entirely:</p>
 		<ol>
-			<li>Set <code>delivery_kitchen_lat</code> to your new latitude.</li>
-			<li>Set <code>delivery_kitchen_lng</code> to your new longitude.</li>
+			<li>Set <code>delivery_kitchen_lat</code> to your latitude.</li>
+			<li>Set <code>delivery_kitchen_lng</code> to your longitude.</li>
 			<li>Set <code>plate_kitchen_address</code> to the address text you want shown, for example <code>Waukesha, Wisconsin</code>.</li>
 			<li>Leave <code>delivery_radius_km</code> at <code>0</code> to auto-fit the zone circle to your farthest town, or set a fixed radius in km.</li>
 		</ol>
 		<p>Latitude and longitude are <strong>decimal degrees</strong>, not degrees/minutes/seconds. Latitude is positive north of the equator, longitude is negative west of Greenwich — so a Wisconsin address is always <code>lat</code> positive and <code>lng</code> negative.</p>
 		<div class="doc-note">
-			<strong>Get the numbers.</strong> Open Google Maps, right-click your exact building, and click the coordinates at the top of the menu to copy them. They paste as <code>43.1051, -88.3420</code> — the first number is latitude, the second is longitude.
+			<strong>Place names in one field, numbers in the other.</strong> The theme decides by looking for a number. If the latitude field holds a word, it treats the pair as a place name and looks it up. If it holds a number, both fields are read as coordinates. Never mix a name into the longitude field.
+		</div>
+		<div class="doc-note">
+			<strong>Optional country hint.</strong> <code>delivery_country</code> narrows lookups when a town name exists in several countries — for example <code>Hartland</code> exists in both Wisconsin and Devon, England. Set it to <code>United States</code>, <code>United Kingdom</code> and so on.
 		</div>
 
 		<h5>Step 2 — Change the delivery towns</h5>
-		<p>The checker needs one line per town. The format is <code>Name|lat|lng|ZIP,ZIP</code> — the ZIP column is optional but without it customers cannot search by postcode.</p>
+		<p><strong>Name-only rows are enough.</strong> Write one town per line. If you leave the coordinates off, the theme finds the place for you:</p>
 <pre class="line-numbers">
 <code class="language-markup">
-Hartland|43.1051|-88.3420|53029
-Delafield|43.0608|-88.4037|53018
-Waukesha|43.0117|-88.2315|53186,53188,53189
-Pewaukee|43.0806|-88.2612|53072
+Hartland|53029
+Delafield|53018
+Waukesha|53186,53188,53189
+Pewaukee|53072
 </code>
 </pre>
+		<p>The format is <code>Name|ZIP,ZIP</code>. Everything else is optional:</p>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>You type</th>
+						<th>What happens</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td><code>Waukesha</code></td><td>Name only. The point is looked up automatically.</td></tr>
+					<tr><td><code>Waukesha|53186</code></td><td>Name and ZIP. Point looked up, and customers can search by postcode.</td></tr>
+					<tr><td><code>Waukesha|53186,53188</code></td><td>Several ZIPs for one town, comma separated, no spaces.</td></tr>
+					<tr><td><code>Waukesha|43.0117|-88.2315|53186</code></td><td>Exact coordinates. Skips the lookup and is always fastest.</td></tr>
+				</tbody>
+			</table>
+		</div>
 		<ul>
 			<li>Paste the list into <strong>Delivery towns</strong> (<code>delivery_towns</code>).</li>
 			<li>Leave the field <strong>empty</strong> to keep the packaged Hartland / Lake Country list. An empty field never means “no delivery areas” — it falls back to the built-in list.</li>
-			<li>Several ZIP codes for one town go in the fourth column separated by commas, with no spaces.</li>
 			<li><code>delivery_initial_chips</code> controls how many towns show as buttons before “Show all”.</li>
+			<li>A town that cannot be found still appears as a searchable chip and still answers “yes we deliver” — it simply gets no pin on the map. Give it coordinates if you want it plotted.</li>
 		</ul>
-		<p>The <strong>plate map</strong> is a separate list with a different format, because it is a stylised map with its own pin table rather than a true street map:</p>
+
+		<p>The <strong>plate map</strong> takes the same idea with its own column order:</p>
 <pre class="line-numbers">
 <code class="language-markup">
 Name|ZIP,ZIP|left%|top%|kitchen|lat|lng
 </code>
 </pre>
 		<ul>
-			<li><code>left%</code> and <code>top%</code> are positions on the stylised map canvas, from <code>0</code> (left/top edge) to <code>100</code> (right/bottom edge).</li>
+			<li>Only the <strong>name</strong> is required. <code>Hartland|53029|41|29|kitchen</code> works with no coordinates at all.</li>
+			<li><code>left%</code> and <code>top%</code> are positions on the stylised canvas, from <code>0</code> (left/top edge) to <code>100</code> (right/bottom edge).</li>
 			<li>Add the word <code>kitchen</code> as the fifth column on the row that marks your base.</li>
-			<li><code>lat</code> and <code>lng</code> (sixth and seventh columns) are optional. Towns that already exist in the theme's built-in coordinate table work without them; <strong>any town it does not recognise needs its own coordinates</strong> or it will not get a pin.</li>
+			<li><code>lat</code> and <code>lng</code> (sixth and seventh columns) are optional. Towns that already exist in the theme's built-in coordinate table work without them; any other town is looked up by name.</li>
 			<li><code>plate_zone_radius</code> (22–34) sizes the ring around the kitchen and controls how far the map zooms out.</li>
 		</ul>
 		<div class="doc-note">
 			<strong>The plate map follows the kitchen settings.</strong> The stylised map reads <code>delivery_kitchen_lat</code> and <code>delivery_kitchen_lng</code> for its centre, so step 1 moves this map too. You do not need to edit the town coordinates when you move the kitchen — only when you add a town the theme has never heard of.
 		</div>
+
+		<h5>How the automatic lookup works</h5>
+		<p>The lookup runs in the customer's browser against two free, key-less services, in order: <strong>Photon</strong> and then <strong>OpenStreetMap Nominatim</strong>. Nothing is stored on your store, and you do not need an API key or a billing account.</p>
+		<ul>
+			<li>Results are cached in the browser, so a returning visitor causes no new requests for the same place.</li>
+			<li>Requests are queued one at a time, so a long town list never floods the endpoint.</li>
+			<li>The map still renders if both services are unreachable — it falls back to any coordinates you typed.</li>
+			<li>Towns already known to the theme's built-in table are never looked up, so the default list costs nothing.</li>
+		</ul>
+		<div class="doc-note">
+			<strong>For a production store, coordinates are still best.</strong> A lookup is fast but it is a third-party call, and it can fail on a locked-down network. Once you are happy with a place, copy the coordinates from Google Maps into the field and the map stops depending on the network.
+		</div>
+
 
 		<h5>Step 3 — Change the map centre and HQ pin</h5>
 		<p>On the product template, select the <strong>CM delivery map</strong> section.</p>
@@ -554,8 +607,10 @@ Name|ZIP,ZIP|left%|top%|kitchen|lat|lng
 			<li><code>zoom</code> — 5 is a whole state, 14 is a few blocks. 9–11 suits a local delivery radius.</li>
 			<li><code>fit_to_pins</code> — turn on to ignore the zoom and frame every pin automatically. Best when you add or remove towns often.</li>
 			<li><code>hq_lat</code>, <code>hq_lng</code>, <code>hq_address</code> — the headquarters popup.</li>
+			<li><code>hq_place</code> — a place name for the HQ instead of numbers, for example <code>Hartland, Wisconsin</code>. Used when the latitude or longitude is blank.</li>
+			<li><code>geo_country</code> — optional country hint for the automatic lookups.</li>
 		</ul>
-		<p>Each <code>pin</code> block is one delivery town with its own <code>area</code>, <code>lat</code> and <code>lng</code>. Add, edit or delete blocks to change which towns appear.</p>
+		<p>Each <code>pin</code> block is one delivery town with its own <code>area</code>, <code>lat</code> and <code>lng</code>. Leave the numbers blank and fill <strong>Or place name</strong> instead, and that pin is looked up automatically. Add, edit or delete blocks to change which towns appear.</p>
 
 		<h5>Step 4 — Change the text addresses</h5>
 		<p>The map is only part of it. Update these so the written copy matches:</p>
@@ -574,9 +629,11 @@ announcement-bar → delivery message, if one mentions a city
 		<h5>Step 5 — Check it</h5>
 		<ul class="doc-check">
 			<li>Type a town into the checker on each plan page — the yes message names the right town</li>
-			<li>Type a ZIP code that should work — it matches the fourth column</li>
+			<li>Type a ZIP code that should work — it matches the ZIP column</li>
 			<li>Type a town you removed — you get the not-found message</li>
 			<li>The kitchen dot sits on your real building on the map</li>
+			<li>If you used a place name, the pin lands on the right town once the page finishes loading</li>
+			<li>Every town you listed has a pin, or its coordinates filled in when a lookup failed</li>
 			<li>The delivery ring covers every town you deliver to</li>
 			<li>Footer and contact page show the new address, not the old one</li>
 			<li>Announcement bar and FAQ copy do not name the old city</li>
@@ -1145,15 +1202,16 @@ assign plan_handles = '5-meal-plan,6-meal-plan,7-meal-plan,10-meal-plan,15-meal-
 		<p>Two different tools ship with the theme — pick the one that fits the page.</p>
 		<h5>1. Delivery checker (inside the meal plan page)</h5>
 		<p>Turn on <code>delivery_checker</code> in <code>cm-meal-plan-page</code>. Customers type a town or ZIP code, or tap a town chip, and get a yes/no answer plus a map.</p>
-		<p>The town list format is <code>Name|lat|lng|ZIP,ZIP</code>, one town per line. Leave the field empty to use the packaged default list for Hartland and Lake Country.</p>
+		<p>One town per line. Coordinates are optional — a bare <code>Name|ZIP,ZIP</code> row is looked up automatically, so you can type places instead of numbers. Leave the field empty to use the packaged default list for Hartland and Lake Country.</p>
 <pre class="line-numbers">
 <code class="language-markup">
-Hartland|43.1051|-88.3420|53029
-Delafield|43.0608|-88.4037|53018
-Waukesha|43.0117|-88.2315|53186,53188,53189
+Hartland|53029
+Delafield|53018
+Waukesha|53186,53188,53189
+Pewaukee|43.0806|-88.2612|53072      ← exact coordinates still work
 </code>
 </pre>
-		<p>Kitchen position and radius are set with <code>delivery_kitchen_lat</code>, <code>delivery_kitchen_lng</code> and <code>delivery_radius_km</code>. Messages for a hit, a miss, and the contact fallback are all editable:</p>
+		<p>Kitchen position and radius are set with <code>delivery_kitchen_lat</code>, <code>delivery_kitchen_lng</code> and <code>delivery_radius_km</code>. Either kitchen field also accepts a place name such as <code>Hartland, Wisconsin</code>. See <a href="#location">Change the Location</a> for the full walkthrough. Messages for a hit, a miss, and the contact fallback are all editable:</p>
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped" style="font-size:13px;">
 				<thead>
@@ -1167,6 +1225,7 @@ Waukesha|43.0117|-88.2315|53186,53188,53189
 					<tr><td><code>delivery_msg_yes</code>, <code>delivery_msg_yes_sub</code></td><td>Inside the zone.</td></tr>
 					<tr><td><code>delivery_msg_no</code>, <code>delivery_contact_url</code>, <code>delivery_contact_label</code></td><td>Outside the zone, plus a “ask us” link.</td></tr>
 					<tr><td><code>delivery_show_all</code>, <code>delivery_show_less</code>, <code>delivery_initial_chips</code></td><td>How many town chips show before “show all”.</td></tr>
+					<tr><td><code>delivery_country</code></td><td>Country hint for automatic place lookups.</td></tr>
 					<tr><td><code>map_title</code>, <code>map_embed_url</code></td><td>Optional embedded map instead of the generated one.</td></tr>
 				</tbody>
 			</table>
@@ -1180,8 +1239,13 @@ Pin block:
   area:  Pewaukee
   lat:   43.0806
   lng:   -88.2612
+
+Or, with no numbers at all:
+  area:  Pewaukee
+  place: Pewaukee, Wisconsin     ← looked up automatically
 </code>
 </pre>
+		<p>If a pin has no coordinates, the theme looks the <strong>Or place name</strong> field up when the map loads. The same applies to the HQ popup through <code>hq_place</code>.</p>
 		<p>Leaflet is loaded on demand from unpkg the first time a map appears, so pages without a map pay no cost. Keep <code>fit_to_pins</code> on to frame all pins automatically.</p>
 
 		<h5>3. Delivery zones list</h5>
@@ -1355,6 +1419,7 @@ Field block:
 					<tr><td><code>cm-build-box.js</code></td><td>Slot filling, discount tiers, Ajax add to cart</td></tr>
 					<tr><td><code>cm-meal-plan-page.js</code></td><td>Weekly menu hover preview, load more, plan switcher, gallery</td></tr>
 					<tr><td><code>cm-delivery-checker.js</code></td><td>Town/ZIP search, chips, result messaging</td></tr>
+					<tr><td><code>cm-geocode.js</code></td><td>Place-name to coordinates lookup shared by every delivery map</td></tr>
 					<tr><td><code>cm-da.js</code>, <code>cm-da-map.js</code></td><td>Delivery areas layout and map</td></tr>
 					<tr><td><code>cm-delivery-map.js</code>, <code>cm-delivery-map-legacy.js</code></td><td>Leaflet map with pins</td></tr>
 					<tr><td><code>cm-gift-card.js</code></td><td>Amount picker, recipient fields, add to cart</td></tr>
@@ -1496,6 +1561,21 @@ Field block:
 				</thead>
 				<tbody>
 					<tr>
+						<td><strong>1.1.0</strong></td>
+						<td>October 24, 2026</td>
+						<td>
+							<ul>
+								<li>Delivery maps now accept <strong>place names</strong> instead of coordinates. Type <code>Waukesha</code>, <code>Waukesha, Wisconsin</code> or a full street address and the pin, map centre and delivery circle are resolved automatically.</li>
+								<li>New shared asset <code>assets/cm-geocode.js</code> with browser caching, request queuing and a two-service fallback (Photon, then OpenStreetMap Nominatim).</li>
+								<li>Delivery checker town list accepts name-only rows: <code>Name|ZIP,ZIP</code>.</li>
+								<li>Plate map town list accepts name-only rows and resolves unknown towns automatically.</li>
+								<li><code>cm-delivery-map</code> gains <code>hq_place</code>, a per-pin <strong>Or place name</strong> field and a <code>geo_country</code> hint.</li>
+								<li><code>cm-meal-plan-page</code> gains <code>delivery_country</code>.</li>
+								<li>Documentation: rewrote the location chapter around place-name lookup.</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
 						<td><strong>1.0.0</strong></td>
 						<td>October 24, 2026</td>
 						<td>
@@ -1569,7 +1649,7 @@ Field block:
 
 				<div class="row">
 					<div class="col-md-6 col-sm-6">
-						<p>Copyright &copy; 2026 Prep Meal by KodeSolution. All rights reserved.</p>
+						<p>Copyright &copy; 2026 Prep Meal by SANI UL HASSAN. All rights reserved.</p>
 					</div>
 					<div class="col-md-6 col-sm-6">
 						<ul class="footer-menu">
