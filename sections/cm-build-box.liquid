@@ -3,18 +3,20 @@
 
 {%- liquid
   assign plan = section.settings.product
-  if plan == blank and product != blank and product.handle == '10-meal-plan'
+  assign plan_handles = '5-meal-plan,6-meal-plan,10-meal-plan' | split: ','
+  if plan == blank and product != blank and plan_handles contains product.handle
     assign plan = product
   endif
   if plan == blank
     assign plan = all_products['10-meal-plan']
   endif
-  assign heading = section.settings.heading | default: '10 Meal Plan'
+  assign heading = section.settings.heading | default: plan.title
   assign lede = section.settings.lede | default: 'Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box.'
+  assign min_plates = section.settings.min_plates | default: 5
   assign nutrition = '633|38|37|37,684|62|37|32,676|55|42|32,421|45|40|12,430|36|32|10,623|52|34|31,435|38|36|11,550|38|37|31,585|36|35|33,581|61|53|15' | split: ','
 -%}
 
-<section class="byb" id="build-box" data-byb data-plan="{{ plan.title | default: '10 Meal Plan' | escape }}" data-money="{{ 0 | money | escape }}">
+<section class="byb" id="build-box" data-byb data-plan="{{ plan.title | default: '10 Meal Plan' | escape }}" data-money="{{ 0 | money | escape }}" data-min-plates="{{ min_plates }}">
   <div class="byb__wrap">
     <h1>{{ heading | escape }}</h1>
     <p class="byb__lede">{{ lede | escape }}</p>
@@ -57,10 +59,10 @@
       </section>
       <aside class="byb__box" data-byb-box aria-live="polite">
         <h2>Your box</h2>
-        <p class="byb__hint">5 more plates to unlock 15% off.</p>
+        <p class="byb__hint">{{ min_plates }} more plates to unlock 15% off.</p>
         <div class="byb__slots">
-          {%- for slot in (1..5) -%}
-            <div class="byb__slot{% if slot == 5 %} is-mark{% endif %}"{% if slot == 5 %} data-m="15%"{% endif %}></div>
+          {%- for slot in (1..min_plates) -%}
+            <div class="byb__slot{% if slot == min_plates %} is-mark{% endif %}"{% if slot == min_plates %} data-m="15%"{% endif %}></div>
           {%- endfor -%}
         </div>
         <div class="byb__tiers">
@@ -70,7 +72,7 @@
         <div class="byb__sum">
           <div class="byb__tot"><span>Total</span><span>{{ 0 | money }}</span></div>
         </div>
-        <button type="button" class="byb__cta" data-byb-cta disabled>Add 5 more plates</button>
+        <button type="button" class="byb__cta" data-byb-cta disabled>Add {{ min_plates }} more plates</button>
         <p class="byb__note">Each meal is added at its menu price.</p>
       </aside>
     </div>
@@ -115,7 +117,8 @@
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "10 Meal Plan" },
     { "type": "textarea", "id": "lede", "label": "Text", "default": "Pick five dishes and every plate gets 15% cheaper. Pick ten and it’s 20%. Each plate fills a slot in your box." },
-    { "type": "product", "id": "product", "label": "Meal plan product", "info": "Used on pages. On a product template, that product is used." }
+    { "type": "product", "id": "product", "label": "Meal plan product", "info": "Used on pages. On a product template, that product is used." },
+    { "type": "number", "id": "min_plates", "label": "Plates needed before checkout", "default": 5, "info": "How many plates the box needs before the button unlocks. Discount tiers stay at 5 and 10." }
   ],
   "presets": [
     { "name": "CM build your box" }

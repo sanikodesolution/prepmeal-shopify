@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "build_box": {
+      "type": "cm-build-box",
+      "settings": {
+        "heading": "6 Meal Plan",
+        "lede": "Pick six dishes and fill your box for the week. Add ten plates and it’s 20% off.",
+        "product": "6-meal-plan",
+        "min_plates": 6
+      }
+    }
+  },
+  "order": [
+    "build_box"
+  ]
+}
