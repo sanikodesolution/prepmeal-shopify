@@ -194,10 +194,20 @@ Mukwonago|53149|41.9|51.6
             {%- assign lng_raw = p[6] | default: '' | strip -%}
             {%- assign lat_num = lat_raw | plus: 0 -%}
             {%- assign lng_num = lng_raw | plus: 0 -%}
+            {%- comment -%}
+              The lookup query carries the first ZIP when one exists, which
+              disambiguates towns that share a name across states.
+            {%- endcomment -%}
+            {%- assign zips_raw = p[1] | default: '' | strip -%}
+            {%- assign first_zip = zips_raw | split: ',' | first | strip -%}
+            {%- assign lookup_q = name -%}
+            {%- if first_zip != blank -%}
+              {%- assign lookup_q = name | append: ' ' | append: first_zip -%}
+            {%- endif -%}
             {%- if lat_num == 0 and lng_num == 0 -%}
-              {"n":{{ name | json }},"z":{{ p[1] | default: '' | strip | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %},"q":{{ name | json }}}
+              {"n":{{ name | json }},"z":{{ zips_raw | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %},"q":{{ lookup_q | json }}}
             {%- else -%}
-              {"n":{{ name | json }},"z":{{ p[1] | default: '' | strip | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %},"lat":{{ lat_num }},"lng":{{ lng_num }}}
+              {"n":{{ name | json }},"z":{{ zips_raw | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %},"lat":{{ lat_num }},"lng":{{ lng_num }}}
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
