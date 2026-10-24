@@ -599,17 +599,19 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
      form sit side by side 50/50 in the next row. The frame is square to match
      the square meal photos, so the plate fills the wrapper with no dead bars. */
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(16px,2.4vw,32px)}
-  /* Span both columns in this band too, so the centred eyebrow is centred on
-     the section rather than on the left half. The title and subtitle still sit
-     left, and the buy box keeps its clicks via pointer-events. */
-  .mealplan-menu__head{grid-column:1 / -1;grid-row:1;grid-template-columns:minmax(0,1fr)}
-  .mealplan-menu__head .mealplan-h{grid-column:1}
-  .mealplan-menu__sub{grid-column:1;grid-row:3;margin:.85rem 0 0;align-self:start}
-  .mealplan-menu__buy{grid-column:2;grid-row:1;justify-self:end;text-align:right;padding-top:4px}
-  .mealplan-menu__stage{grid-column:1 / -1;grid-row:2;width:80%;justify-self:center;position:relative;top:0;margin:0 auto clamp(24px,3vw,36px)}
+  /* Flatten the head into the outer grid so the eyebrow can own a full width
+     row of its own and centre on the section. Otherwise a centred eyebrow sits
+     over the left half only, and a full width head would collide with the
+     price box that shares row 1. */
+  .mealplan-menu__head{display:contents}
+  .mealplan-menu__head .mp-eye{grid-column:1 / -1;grid-row:1;justify-self:center;margin:0 0 .7rem;text-align:center}
+  .mealplan-menu__head .mealplan-h{grid-column:1;grid-row:2;justify-self:start;text-align:left}
+  .mealplan-menu__sub{grid-column:1;grid-row:3;margin:.85rem 0 clamp(24px,3vw,36px);align-self:start;justify-self:start;text-align:left}
+  .mealplan-menu__buy{grid-column:2;grid-row:2;justify-self:end;text-align:right;padding-top:4px}
+  .mealplan-menu__stage{grid-column:1 / -1;grid-row:4;width:80%;justify-self:center;position:relative;top:0;margin:0 auto clamp(24px,3vw,36px)}
   .mealplan-menu__frame{aspect-ratio:1/1}
-  .mealplan-menu__list{grid-column:1;grid-row:3}
-  .mealplan-menu__detail{grid-column:2;grid-row:3;margin-top:0;position:relative;top:0}
+  .mealplan-menu__list{grid-column:1;grid-row:5}
+  .mealplan-menu__detail{grid-column:2;grid-row:5;margin-top:0;position:relative;top:0}
 }
 @media(max-width:860px){
   .mealplan-menu__head{grid-template-columns:1fr;grid-row:2;justify-items:start;text-align:left}
