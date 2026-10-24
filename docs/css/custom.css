@@ -1,0 +1,200 @@
+/* ---------------------------------------------------------------
+   Prep Meal documentation — extras on top of collection.css
+   --------------------------------------------------------------- */
+
+/* Brand accent */
+.sidebar-dark {
+	background-color: #14202c;
+}
+
+.sidebar-dark .sidenav > li > a:hover,
+.sidebar-dark .sidenav > li.active > a {
+	color: #f5a623;
+}
+
+.sidebar-brand img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Inline code inside body copy */
+.main-content p code,
+.main-content li code,
+.main-content td code,
+.main-content h5 code {
+	color: #b3200a;
+	background-color: #fdf3e3;
+	text-shadow: none;
+	padding: 1px 5px;
+	border-radius: 3px;
+	white-space: nowrap;
+}
+
+/* Code blocks */
+.main-content pre {
+	background-color: #1b2733;
+	border: 0;
+	border-radius: 6px;
+	color: #e8eef4;
+	font-size: 12.5px;
+	line-height: 1.6;
+	padding: 18px 20px;
+	tab-size: 2;
+}
+
+.main-content pre code {
+	color: inherit;
+	background: 0 0;
+	text-shadow: none;
+	padding: 0;
+	font-size: inherit;
+}
+
+.main-content pre.line-numbers {
+	padding-left: 20px;
+}
+
+/* Section headings */
+.main-content .page-header h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-weight: 700;
+	letter-spacing: -0.2px;
+	color: #14202c;
+}
+
+.main-content h4 {
+	color: #14202c;
+	font-weight: 700;
+}
+
+.main-content h5 {
+	margin-top: 32px;
+	margin-bottom: 12px;
+	color: #14202c;
+	font-weight: 700;
+	font-size: 17px;
+}
+
+.main-content h6 {
+	color: #14202c;
+	font-weight: 700;
+}
+
+/* Content links */
+.main-content a {
+	color: #a35933;
+	font-weight: 600;
+}
+
+.main-content a:hover {
+	color: #7d3f1e;
+	text-decoration: underline;
+}
+
+/* Tables */
+.main-content .table > thead > tr > th {
+	background-color: #f4f2ee;
+	color: #14202c;
+	font-weight: 700;
+	font-size: 12.5px;
+	vertical-align: middle;
+}
+
+.main-content .table > tbody > tr > td {
+	vertical-align: top;
+}
+
+.main-content .table > tbody > tr > td:first-child {
+	white-space: normal;
+}
+
+/* Note callout */
+.doc-note {
+	position: relative;
+	margin: 24px 0;
+	padding: 16px 20px 16px 22px;
+	border-left: 4px solid #f5a623;
+	background-color: #fdf7ee;
+	border-radius: 0 6px 6px 0;
+	font-size: 14.5px;
+	line-height: 1.65;
+	color: #3d3d3d;
+}
+
+.doc-note strong {
+	color: #14202c;
+}
+
+/* Checklist */
+.doc-check {
+	list-style: none;
+	margin: 16px 0 24px;
+	padding: 0;
+}
+
+.doc-check li {
+	position: relative;
+	padding-left: 28px;
+	margin-bottom: 8px;
+}
+
+.doc-check li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 7px;
+	width: 14px;
+	height: 14px;
+	border: 2px solid #c9c2b8;
+	border-radius: 3px;
+	background-color: #fff;
+}
+
+/* Hero strip */
+.banner h1 {
+	margin: 0;
+	font-weight: 300;
+	letter-spacing: -0.5px;
+}
+
+.banner h1 strong {
+	font-weight: 700;
+}
+
+/* Remove the demo-only helpers that came with the vendor CSS */
+#documenter_buttons {
+	display: none;
+}
+
+/* Footer */
+.site-footer a {
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.site-footer a:hover {
+	color: #f5a623;
+}
+
+/* Responsive tweaks */
+@media (max-width: 991px) {
+	.banner {
+		padding-left: 24px;
+		padding-right: 24px;
+	}
+
+	.main-content .page-header h3 {
+		font-size: 22px;
+	}
+}
+
+@media (max-width: 767px) {
+	.main-content pre {
+		font-size: 11.5px;
+		padding: 14px;
+	}
+
+	.doc-note {
+		padding: 14px 16px;
+	}
+}
