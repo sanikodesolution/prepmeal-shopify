@@ -396,7 +396,9 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .mealplan-menu__frame.is-sheet .mealplan-menu__caption,
 .mealplan-menu__frame.is-all .mealplan-menu__caption{opacity:0}
 .mealplan-menu__frame.is-all::after{opacity:0}
-.mealplan-menu__sub{grid-column:1;grid-row:3;justify-self:start;margin:.85rem 0 0;max-width:56ch;font-size:16px;line-height:1.6;color:var(--mp-muted);text-align:left}
+/* Narrow enough that the tagline breaks into two balanced lines instead of
+   running as one long line under the heading. */
+.mealplan-menu__sub{grid-column:1;grid-row:3;justify-self:start;margin:.85rem 0 0;max-width:31ch;font-size:16px;line-height:1.6;color:var(--mp-muted);text-align:left}
 .mealplan-menu__stage{grid-column:1;grid-row:2;position:sticky;top:40px;z-index:4}
 .mealplan-menu__frame{position:relative;aspect-ratio:1/1;border-radius:36px;overflow:hidden;background:#f6f5f3;box-shadow:0 40px 80px -40px rgba(21,37,28,.35);cursor:zoom-in}
 .mealplan-menu__frame:focus-visible{outline:2px solid var(--mp-accent);outline-offset:4px}
