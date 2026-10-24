@@ -3,7 +3,7 @@
 
 {%- liquid
   assign plan = section.settings.product
-  assign plan_handles = '5-meal-plan,6-meal-plan,10-meal-plan' | split: ','
+  assign plan_handles = '5-meal-plan,6-meal-plan,7-meal-plan,10-meal-plan,15-meal-plan' | split: ','
   if plan == blank and product != blank and plan_handles contains product.handle
     assign plan = product
   endif
@@ -59,10 +59,12 @@
       </section>
       <aside class="byb__box" data-byb-box aria-live="polite">
         <h2>Your box</h2>
-        <p class="byb__hint">{{ min_plates }} more plates to unlock 15% off.</p>
+        <p class="byb__hint">{{ min_plates }} more plates to fill your box.</p>
+        {%- assign slot_span = min_plates -%}
+        {%- if slot_span < 10 -%}{%- assign slot_span = 10 -%}{%- endif -%}
         <div class="byb__slots">
-          {%- for slot in (1..min_plates) -%}
-            <div class="byb__slot{% if slot == min_plates %} is-mark{% endif %}"{% if slot == min_plates %} data-m="15%"{% endif %}></div>
+          {%- for slot in (1..slot_span) -%}
+            <div class="byb__slot{% if slot == 5 or slot == 10 %} is-mark{% endif %}"{% if slot == 5 %} data-m="15%"{% endif %}{% if slot == 10 %} data-m="20%"{% endif %}></div>
           {%- endfor -%}
         </div>
         <div class="byb__tiers">

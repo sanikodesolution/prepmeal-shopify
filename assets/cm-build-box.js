@@ -47,7 +47,7 @@
       const rate = n >= 10 ? 0.2 : n >= 5 ? 0.15 : 0;
       const sub = meals.reduce((sum, meal, i) => sum + qty[i] * meal.cents, 0);
       const saved = Math.round(sub * rate);
-      const span = n >= minPlates ? 10 : minPlates;
+      const span = n >= minPlates ? Math.max(10, minPlates) : minPlates;
       const need = Math.max(minPlates - n, 0);
       const dots = [];
       qty.forEach((amount, i) => {
