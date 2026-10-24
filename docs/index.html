@@ -39,12 +39,14 @@
 				<li><a href="#fonts_used" title="Fonts used">Fonts Used</a></li>
 				<li><a href="#theme_colors" title="Theme Colors">Theme Colors</a></li>
 				<li><a href="#header_nav" title="Header &amp; Navigation">Header &amp; Navigation</a></li>
+				<li><a href="#location" title="Change the Location">Change the Location</a></li>
 				<li><a href="#templates" title="Templates &amp; Pages">Templates &amp; Pages</a></li>
 				<li><a href="#sections" title="Sections Reference">Sections Reference</a></li>
 				<li><a href="#metaobjects" title="Metaobjects">Metaobjects</a></li>
 				<li><a href="#metafields" title="Product Metafields">Product Metafields</a></li>
 				<li><a href="#meal_plans" title="Meal Plan Pages">Meal Plan Pages</a></li>
 				<li><a href="#build_box" title="Build Your Box">Build Your Box</a></li>
+				<li><a href="#products_manage" title="Add, Update or Remove a Product">Add, Update or Remove a Product</a></li>
 				<li><a href="#product_pages" title="Product Pages">Product &amp; Meal Details</a></li>
 				<li><a href="#delivery" title="Delivery Areas">Delivery Areas &amp; Map</a></li>
 				<li><a href="#gift_cards" title="Gift Cards">Gift Cards</a></li>
@@ -467,6 +469,123 @@ shopify theme push --store your-store.myshopify.com --theme 123456789 --only sec
 		<p><strong>Footer.</strong> The theme ships <code>cm-footer</code> (Chef Matt footer) with a call-to-action band, brand column, link columns, contact block and newsletter form. The standard Shopify <code>footer</code> section is also available if you prefer the classic layout.</p>
 	</section>
 
+	<section id="location">
+		<div class="page-header">
+			<h3>Change the Location</h3>
+		</div>
+		<p>The theme has no single “store address” field. Location data lives in five separate places on purpose: the map centre, the delivery towns, the kitchen pin, the footer address and the contact page. Change all five when you move the business, or a customer will see one city in the footer and a different city on the map.</p>
+
+		<div class="doc-note">
+			<strong>There are no global location settings.</strong> Nothing under <strong>Theme settings</strong> controls the address, the map or the delivery towns. Every value is a section setting, so you change it on the page that renders it.
+		</div>
+
+		<h5>Where location data lives</h5>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>What</th>
+						<th>Section</th>
+						<th>Where it shows</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td>Map centre and zoom</td><td><code>cm-delivery-map</code> → <code>center_lat</code>, <code>center_lng</code>, <code>zoom</code></td><td>Delivery map on the product template</td></tr>
+					<tr><td>Headquarters pin</td><td><code>cm-delivery-map</code> → <code>hq_lat</code>, <code>hq_lng</code>, <code>hq_address</code></td><td>The “HQ” popup on that map</td></tr>
+					<tr><td>Delivery towns (pin map)</td><td><code>cm-meal-plan-page</code> → <code>delivery_towns</code></td><td>Delivery checker on every plan page</td></tr>
+					<tr><td>Kitchen pin (checker)</td><td><code>cm-meal-plan-page</code> → <code>delivery_kitchen_lat</code>, <code>delivery_kitchen_lng</code></td><td>Centre dot and zone circle</td></tr>
+					<tr><td>Delivery towns (plate map)</td><td><code>cm-meal-plan-page</code> → <code>plate_towns</code></td><td>Styled plate map and town chips</td></tr>
+					<tr><td>Kitchen label / address</td><td><code>cm-meal-plan-page</code> → <code>plate_kitchen_label</code>, <code>plate_kitchen_address</code></td><td>Under the plate map</td></tr>
+					<tr><td>Footer address</td><td><code>cm-footer</code> → Contact info block → <code>area</code></td><td>Site footer</td></tr>
+					<tr><td>Contact page</td><td><code>cm-contact-page</code> → <code>contact_item</code> blocks</td><td>Contact page panels</td></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<h5>Step 1 — Change the kitchen position</h5>
+		<p>Open the theme editor, go to any meal plan page (<code>/pages/5-meal-plan</code> … <code>/pages/15-meal-plan</code>), select the <strong>CM meal plan page</strong> section and scroll to <strong>Delivery checker: map</strong>.</p>
+		<ol>
+			<li>Set <code>delivery_kitchen_lat</code> to your new latitude.</li>
+			<li>Set <code>delivery_kitchen_lng</code> to your new longitude.</li>
+			<li>Set <code>plate_kitchen_address</code> to the address text you want shown, for example <code>Waukesha, Wisconsin</code>.</li>
+			<li>Leave <code>delivery_radius_km</code> at <code>0</code> to auto-fit the zone circle to your farthest town, or set a fixed radius in km.</li>
+		</ol>
+		<p>Latitude and longitude are <strong>decimal degrees</strong>, not degrees/minutes/seconds. Latitude is positive north of the equator, longitude is negative west of Greenwich — so a Wisconsin address is always <code>lat</code> positive and <code>lng</code> negative.</p>
+		<div class="doc-note">
+			<strong>Get the numbers.</strong> Open Google Maps, right-click your exact building, and click the coordinates at the top of the menu to copy them. They paste as <code>43.1051, -88.3420</code> — the first number is latitude, the second is longitude.
+		</div>
+
+		<h5>Step 2 — Change the delivery towns</h5>
+		<p>The checker needs one line per town. The format is <code>Name|lat|lng|ZIP,ZIP</code> — the ZIP column is optional but without it customers cannot search by postcode.</p>
+<pre class="line-numbers">
+<code class="language-markup">
+Hartland|43.1051|-88.3420|53029
+Delafield|43.0608|-88.4037|53018
+Waukesha|43.0117|-88.2315|53186,53188,53189
+Pewaukee|43.0806|-88.2612|53072
+</code>
+</pre>
+		<ul>
+			<li>Paste the list into <strong>Delivery towns</strong> (<code>delivery_towns</code>).</li>
+			<li>Leave the field <strong>empty</strong> to keep the packaged Hartland / Lake Country list. An empty field never means “no delivery areas” — it falls back to the built-in list.</li>
+			<li>Several ZIP codes for one town go in the fourth column separated by commas, with no spaces.</li>
+			<li><code>delivery_initial_chips</code> controls how many towns show as buttons before “Show all”.</li>
+		</ul>
+		<p>The <strong>plate map</strong> is a separate list with a different format, because it is a stylised map with its own pin table rather than a true street map:</p>
+<pre class="line-numbers">
+<code class="language-markup">
+Name|ZIP,ZIP|left%|top%|kitchen|lat|lng
+</code>
+</pre>
+		<ul>
+			<li><code>left%</code> and <code>top%</code> are positions on the stylised map canvas, from <code>0</code> (left/top edge) to <code>100</code> (right/bottom edge).</li>
+			<li>Add the word <code>kitchen</code> as the fifth column on the row that marks your base.</li>
+			<li><code>lat</code> and <code>lng</code> (sixth and seventh columns) are optional. Towns that already exist in the theme's built-in coordinate table work without them; <strong>any town it does not recognise needs its own coordinates</strong> or it will not get a pin.</li>
+			<li><code>plate_zone_radius</code> (22–34) sizes the ring around the kitchen and controls how far the map zooms out.</li>
+		</ul>
+		<div class="doc-note">
+			<strong>The plate map follows the kitchen settings.</strong> The stylised map reads <code>delivery_kitchen_lat</code> and <code>delivery_kitchen_lng</code> for its centre, so step 1 moves this map too. You do not need to edit the town coordinates when you move the kitchen — only when you add a town the theme has never heard of.
+		</div>
+
+		<h5>Step 3 — Change the map centre and HQ pin</h5>
+		<p>On the product template, select the <strong>CM delivery map</strong> section.</p>
+		<ul>
+			<li><code>center_lat</code>, <code>center_lng</code> — where the map opens. Put this near the middle of your delivery area, not necessarily your kitchen.</li>
+			<li><code>zoom</code> — 5 is a whole state, 14 is a few blocks. 9–11 suits a local delivery radius.</li>
+			<li><code>fit_to_pins</code> — turn on to ignore the zoom and frame every pin automatically. Best when you add or remove towns often.</li>
+			<li><code>hq_lat</code>, <code>hq_lng</code>, <code>hq_address</code> — the headquarters popup.</li>
+		</ul>
+		<p>Each <code>pin</code> block is one delivery town with its own <code>area</code>, <code>lat</code> and <code>lng</code>. Add, edit or delete blocks to change which towns appear.</p>
+
+		<h5>Step 4 — Change the text addresses</h5>
+		<p>The map is only part of it. Update these so the written copy matches:</p>
+<pre class="line-numbers">
+<code class="language-markup">
+cm-footer        → Contact info block → Delivery area / address
+cm-footer        → Contact info block → Order &amp; delivery days
+cm-footer        → Contact info block → Phone, Email
+cm-contact-page  → contact_item blocks (address, phone, hours)
+cm-meal-plan-page → delivery_heading, delivery_text
+cm-meal-plan-page → plate_kitchen_address
+announcement-bar → delivery message, if one mentions a city
+</code>
+</pre>
+
+		<h5>Step 5 — Check it</h5>
+		<ul class="doc-check">
+			<li>Type a town into the checker on each plan page — the yes message names the right town</li>
+			<li>Type a ZIP code that should work — it matches the fourth column</li>
+			<li>Type a town you removed — you get the not-found message</li>
+			<li>The kitchen dot sits on your real building on the map</li>
+			<li>The delivery ring covers every town you deliver to</li>
+			<li>Footer and contact page show the new address, not the old one</li>
+			<li>Announcement bar and FAQ copy do not name the old city</li>
+		</ul>
+		<div class="doc-note">
+			<strong>Plan pages are separate sections.</strong> Each plan page (5, 6, 7, 10, 15) has its own copy of the <code>cm-meal-plan-page</code> section, so editing the towns on the 6-meal page does not change the 15-meal page. Repeat step 1–2 on every plan page, or copy the edited JSON template over the others.
+		</div>
+	</section>
+
 	<section id="templates">
 		<div class="page-header">
 			<h3>Templates &amp; Pages</h3>
@@ -876,6 +995,112 @@ assign plan_handles = '5-meal-plan,6-meal-plan,7-meal-plan,10-meal-plan,15-meal-
 }
 </code>
 </pre>
+	</section>
+
+	<section id="products_manage">
+		<div class="page-header">
+			<h3>Add, Update or Remove a Product</h3>
+		</div>
+		<p>There are two kinds of product in this theme, and they behave differently: <strong>meal products</strong> (one dish) and <strong>plan products</strong> (5, 6, 7, 10 or 15 plates). A meal product feeds the menu lists and the cart lines. A plan product is the container the box builder or the plan page charges through.</p>
+
+		<h5>Two kinds of product</h5>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>Kind</th>
+						<th>Example</th>
+						<th>Template</th>
+						<th>What it does</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td>Meal</td><td><code>peri-peri-chicken</code></td><td><code>product</code> (default)</td><td>One dish. Carries nutrition metafields and the photo used in menus.</td></tr>
+					<tr><td>Plan</td><td><code>6-meal-plan</code></td><td><code>product.6-meal-plan</code></td><td>Container. Its variants are the ten dish names; its price is what the cart charges per plate.</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="doc-note">
+			<strong>Plan variants are dish names, not sizes.</strong> Every plan product has a single option called <code>Meal</code> whose values are the dish names. That is how the plan page turns each dropdown choice into a cart property such as <code>Meal 1 = Butter Chicken…</code>. Do not rename the option or convert it to S/M/L.
+		</div>
+
+		<h5>Add a new meal</h5>
+		<ol>
+			<li><strong>Products → Add product.</strong> Give it a name customers would say, for example <code>Peri Peri Chicken with Roasted Potatoes &amp; Carrots</code>.</li>
+			<li>Set <strong>Product type</strong> to <code>Meal</code> and the price to the per-plate price.</li>
+			<li>Leave the template as <code>product</code> — only plan products use a suffixed template.</li>
+			<li>Upload the dish photo. Crop it square (900 × 900); it is used as the menu card and the round plate.</li>
+			<li>Fill the nutrition metafields: <code>custom.calories</code>, <code>protein</code>, <code>carbs</code>, <code>fat</code>, plus <code>ingredients</code>, <code>allergens</code>, <code>diet_tags</code>, <code>reheat_instructions</code> (see <a href="#metafields">Product Metafields</a>).</li>
+			<li>Add it to whatever collection you use for browsing — the default theme links to <code>meal-plans</code>. Note this does <strong>not</strong> put the dish into the plan page dropdowns; those come from the plan product's variants.</li>
+			<li>Publish it to the <strong>Online Store</strong> sales channel. A product saved as Active but not published is invisible on the storefront.</li>
+		</ol>
+		<p>To also show the new dish as a block in a plan page menu list, open the plan page in the editor, select <strong>CM meal plan page</strong>, and add a <strong>Menu item</strong> block with the same <code>Meal</code> name as the plan variant. The name is the join key — if the block name and the variant title differ, that dish adds nothing to the cart.</p>
+
+		<h5>Add a new dish to a plan's dropdowns</h5>
+		<p>The dropdowns on a plan page are built from the plan product's variants, so adding a dish means adding a variant:</p>
+		<ol>
+			<li>Open the plan product, for example <code>6-meal-plan</code>.</li>
+			<li>In the <code>Meal</code> option, add the dish name exactly as written on the meal product.</li>
+			<li>Set the variant price to the per-plate price.</li>
+			<li>Save. Every plan page that points at this product picks up the new option in all of its dropdowns.</li>
+		</ol>
+		<p>If a plan page uses <strong>Menu item</strong> blocks rather than variants, add a matching block instead. The plan page prefers the variant list when the <em>Meals product</em> setting is filled, and falls back to blocks when it is empty.</p>
+
+		<h5>Update a product</h5>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>Change</th>
+						<th>Where</th>
+						<th>Watch out for</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td>Price per plate</td><td>Product → Variants → Price</td><td>Change it on the <strong>plan</strong> product; that is the number the cart charges. The meal product price only shows in the menu list.</td></tr>
+					<tr><td>Dish name</td><td>Product title or variant title</td><td>Renaming a variant breaks any <strong>Menu item</strong> block that matched the old name — update both.</td></tr>
+					<tr><td>Photo</td><td>Product → Media</td><td>Replace, do not just add: the first image is the one used. Square crop, 900 × 900.</td></tr>
+					<tr><td>Nutrition</td><td>Product → Metafields</td><td>Nutrition is safety information. Update calories and allergens together.</td></tr>
+					<tr><td>Menu order</td><td>Plan product → Options → drag values</td><td>Dropdown order follows option value order, not alphabetical.</td></tr>
+					<tr><td>Description</td><td>Product → Description</td><td>Plan page cards use the block text, not the product description. Change the block too.</td></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<h5>Remove a product</h5>
+		<ol>
+			<li><strong>Remove the variant or block first.</strong> Deleting a product that a plan page still references leaves a dropdown option that cannot be added to the cart.</li>
+			<li>Check the plan pages: open each one and confirm the dish is gone from every dropdown.</li>
+			<li>Remove it from the collection, then archive or delete the product in <strong>Products</strong>.</li>
+			<li>If the product is referenced by an image or a link in a section, clear that link so it does not 404.</li>
+		</ol>
+		<div class="doc-note">
+			<strong>Archive before deleting.</strong> Set the product to <strong>Draft</strong> or <strong>Archived</strong> for a week first. Orders and reports keep pointing at the product ID, and an archived product can be restored if the dish comes back next season. Deleting is permanent.
+		</div>
+
+		<h5>Remove a whole plan</h5>
+		<p>Removing a plan (for example retiring the 5-meal plan) touches more than the product:</p>
+		<ul>
+			<li>Delete or unpublish the plan <strong>product</strong>.</li>
+			<li>Delete the plan <strong>page</strong> in <strong>Online Store → Pages</strong>.</li>
+			<li>Remove the plan card from <code>cm-plans</code> and from the <em>Related plans</em> blocks on the other plan pages.</li>
+			<li>Remove it from the header menu and the footer links.</li>
+			<li>Delete <code>templates/page.N-meal-plan.json</code> and <code>templates/product.N-meal-plan.json</code> if you are not bringing it back.</li>
+			<li>Drop the handle from <code>plan_handles</code> in <code>sections/cm-build-box.liquid</code> if you remove a box-builder plan.</li>
+		</ul>
+
+		<h5>Verify a product change</h5>
+		<ul class="doc-check">
+			<li>The product is <strong>Active</strong> and published to the Online Store</li>
+			<li>Handle matches every link that points at it</li>
+			<li>Template suffix is correct — blank for a meal, <code>N-meal-plan</code> for a plan</li>
+			<li>Photo is square and shows in the menu card</li>
+			<li>Calories, protein, carbs, fat are filled</li>
+			<li>Allergens and diet tags are filled</li>
+			<li>The dish appears in the plan page dropdowns</li>
+			<li>Adding it to the cart produces a line with the right price</li>
+			<li>Removing it leaves no broken dropdown option behind</li>
+		</ul>
 	</section>
 
 	<section id="product_pages">
