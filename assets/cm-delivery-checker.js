@@ -27,10 +27,19 @@
     };
 
     const towns = readJSON('[data-mpd-towns]', []).filter(
-      (t) => t && typeof t.n === 'string' && t.n && Number.isFinite(t.lat) && Number.isFinite(t.lng)
-    );    const copy = readJSON('[data-mpd-copy]', {});
+      (t) => t && typeof t.n === 'string' && t.n
+    );
+    const copy = readJSON('[data-mpd-copy]', {});
 
-    const KITCHEN = [parseFloat(root.dataset.klat) || 43.1051, parseFloat(root.dataset.klng) || -88.342];
+    const placeOf = (town) => town.q || town.n;
+
+    // Towns listed without numbers are geocoded in the browser, so the merchant
+    // can write "Waukesha" instead of hunting for decimal coordinates.
+    let geocoder = window.CMGeocode || null;
+    const country = root.dataset.country || '';
+    const kitchenPlace = (root.dataset.kplace || '').trim();
+
+    let KITCHEN = [parseFloat(root.dataset.klat) || 43.1051, parseFloat(root.dataset.klng) || -88.342];
     const declaredRadius = parseFloat(root.dataset.radius) || 0;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -46,6 +55,54 @@
     const suggestId = suggest ? suggest.id : 'mpd-list';
 
     if (!towns.length || !canvas || !form || !input) return;
+
+    const hasCoords = (town) =>
+      town && Number.isFinite(town.lat) && Number.isFinite(town.lng);
+
+    /* Resolve any place name that arrived without numbers. Runs before the map
+       is built, so markers always get real coordinates. Failures are silent:
+       the town keeps working in search, it just gets no pin. */
+    const waitForGeo = () => {
+      if (window.CMGeocode) return Promise.resolve(window.CMGeocode);
+      return new Promise((resolve) => {
+        let tries = 0;
+        const tick = window.setInterval(() => {
+          if (window.CMGeocode || ++tries > 40) {
+            window.clearInterval(tick);
+            resolve(window.CMGeocode || null);
+          }
+        }, 100);
+      });
+    };
+
+    const ensureCoords = () =>
+      waitForGeo().then((api) => {
+        geocoder = api;
+        if (!geocoder) return;
+        const jobs = [];
+
+        if (kitchenPlace) {
+          jobs.push(
+            geocoder.lookup(kitchenPlace, { country, bias: KITCHEN }).then((hit) => {
+              if (hit) KITCHEN = [hit.lat, hit.lng];
+            })
+          );
+        }
+
+        towns.forEach((town) => {
+          if (hasCoords(town)) return;
+          jobs.push(
+            geocoder.lookup(placeOf(town), { country, bias: KITCHEN }).then((hit) => {
+              if (!hit) return;
+              town.lat = hit.lat;
+              town.lng = hit.lng;
+              town.resolved = true;
+            })
+          );
+        });
+
+        return Promise.all(jobs).catch(() => {});
+      });
 
     let map = null;
     let zone = null;
@@ -88,7 +145,7 @@
     // The circle is sized to just hold the farthest town, so the whole zone fits
     // inside the card with margin on every side.
     const autoRadius = () => {
-      const farthest = towns.reduce(
+      const farthest = towns.filter(hasCoords).reduce(
         (max, town) => Math.max(max, metresBetween(KITCHEN, [town.lat, town.lng])),
         0
       );
@@ -164,6 +221,7 @@
 
     const markActive = (index) => {
       markers.forEach((marker, i) => {
+        if (!marker) return;
         const el = marker.getElement();
         const dot = el && el.firstElementChild;
         if (dot) dot.classList.toggle('is-active', i === index);
@@ -184,6 +242,10 @@
       say('is-yes', `<b>${esc(fill(copy.yes, '{town}', town.n))}</b> ${esc(copy.yes2 || '')}`);
 
       if (map) {
+        if (!hasCoords(town)) {
+          fitZone(true);
+          return;
+        }
         const target = [town.lat, town.lng];
         const zoom = Math.max(map.getZoom(), DEFAULTS.dotZoom);
         if (fly && !reduceMotion) map.flyTo(target, zoom, { duration: 0.8 });
@@ -249,6 +311,7 @@
       });
 
       markers = towns.map((town, i) => {
+        if (!hasCoords(town)) return null;
         const marker = L.marker([town.lat, town.lng], { icon: dotIcon, keyboard: false }).addTo(map);
         marker.bindTooltip(town.n, { direction: 'top', offset: [0, -8] });
         // pick() fills the field, hides the suggestions and selects the town.
@@ -528,8 +591,10 @@
     /* ---------------- boot ---------------- */
 
     const boot = () => {
-      loadLeaflet().then(build).catch(() => {
-        canvas.innerHTML = '<div class="mpd__map-fallback">The delivery map could not load.</div>';
+      ensureCoords().then(() => {
+        loadLeaflet().then(build).catch(() => {
+          canvas.innerHTML = '<div class="mpd__map-fallback">The delivery map could not load.</div>';
+        });
       });
     };
 

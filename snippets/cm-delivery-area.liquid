@@ -3,13 +3,16 @@
   Rendered by sections/cm-meal-plan-page.liquid (delivery_style = 'plate').
 
   Towns come from the "Delivery towns" setting, one per line:
-    Name|ZIP,ZIP|left%|top%|kitchen
-  The fifth column is optional and marks the single kitchen pin.
+    Name|ZIP,ZIP|left%|top%|kitchen|lat|lng
+  Only the name is required. Rows without lat|lng are looked up by name in the
+  browser, so a merchant can type places instead of coordinates.
+  The "kitchen" fifth column marks the single kitchen pin.
   A block per town is not used here because the parent section already sits
   near Shopify's 50-block ceiling.
 {%- endcomment -%}
 
 {{ 'section-cm-mealplan-delivery.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-geocode.js' | asset_url }}" defer="defer"></script>
 
 {%- comment -%}
   Fallback town list. Format: Name|ZIP,ZIP|left%|top%|kitchen
@@ -78,6 +81,16 @@ Mukwonago|53149|41.9|51.6
   # settings too, so both delivery styles move together.
   assign kitchen_lat = s.delivery_kitchen_lat | default: '43.1051'
   assign kitchen_lng = s.delivery_kitchen_lng | default: '-88.3420'
+  # A place name may replace the numbers; the browser resolves it.
+  assign kitchen_place = ''
+  assign kl_num = kitchen_lat | plus: 0
+  assign kn_num = kitchen_lng | plus: 0
+  if kl_num == 0
+    assign kitchen_place = kitchen_lat
+  elsif kn_num == 0
+    assign kitchen_place = kitchen_lng
+  endif
+  assign geo_country = s.delivery_country | default: ''
   assign limit = s.plate_visible | default: 12
 
   assign placeholder = s.delivery_placeholder | default: 'Postal code or town'
@@ -166,7 +179,7 @@ Mukwonago|53149|41.9|51.6
     </div>
 
     <div class="mealplan-dl__map" role="region" aria-label="{{ s.plate_map_label | default: 'Map of our delivery area' | escape }}">
-      <div class="mealplan-dl__canvas" data-mpdl-canvas data-kitchen="{{ kitchen_label | escape }}" data-klat="{{ kitchen_lat | escape }}" data-klng="{{ kitchen_lng | escape }}"></div>
+      <div class="mealplan-dl__canvas" data-mpdl-canvas data-kitchen="{{ kitchen_label | escape }}" data-klat="{{ kitchen_lat | escape }}" data-klng="{{ kitchen_lng | escape }}" data-kplace="{{ kitchen_place | escape }}" data-country="{{ geo_country | escape }}"></div>
       <script type="application/json" data-mpdl-points>
         [
         {%- assign point_first = true -%}
@@ -177,7 +190,15 @@ Mukwonago|53149|41.9|51.6
             {%- unless point_first -%},{%- endunless -%}
             {%- assign point_first = false -%}
             {%- assign flag = p[4] | default: '' | strip | downcase -%}
-            {"n":{{ name | json }},"z":{{ p[1] | default: '' | strip | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %},"lat":{{ p[5] | default: '' | strip | json }},"lng":{{ p[6] | default: '' | strip | json }}}
+            {%- assign lat_raw = p[5] | default: '' | strip -%}
+            {%- assign lng_raw = p[6] | default: '' | strip -%}
+            {%- assign lat_num = lat_raw | plus: 0 -%}
+            {%- assign lng_num = lng_raw | plus: 0 -%}
+            {%- if lat_num == 0 and lng_num == 0 -%}
+              {"n":{{ name | json }},"z":{{ p[1] | default: '' | strip | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %},"q":{{ name | json }}}
+            {%- else -%}
+              {"n":{{ name | json }},"z":{{ p[1] | default: '' | strip | json }},"k":{% if flag == 'kitchen' %}true{% else %}false{% endif %},"lat":{{ lat_num }},"lng":{{ lng_num }}}
+            {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
         ]
@@ -326,14 +347,68 @@ Mukwonago|53149|41.9|51.6
         canvas.dataset.ready = '1';
         var points = [];
         try { points = JSON.parse(root.querySelector('[data-mpdl-points]').textContent); } catch (e) { points = []; }
+
+        var geo = window.CMGeocode || null;
+        var country = canvas.getAttribute('data-country') || '';
+        var kitchenPlace = (canvas.getAttribute('data-kplace') || '').trim();
+        var kitchenFromPlace = null;
+
+        // This inline script runs before the deferred geocoder loads, so give
+        // it a moment to appear. Without a geocoder the map still renders,
+        // using whatever coordinates were typed.
+        var waitForGeo = function () {
+          if (window.CMGeocode) return Promise.resolve(window.CMGeocode);
+          return new Promise(function (resolve) {
+            var tries = 0;
+            var tick = setInterval(function () {
+              if (window.CMGeocode || ++tries > 40) {
+                clearInterval(tick);
+                resolve(window.CMGeocode || null);
+              }
+            }, 100);
+          });
+        };
+
+        // Places typed by name get their coordinates before the map is drawn.
+        // Anything that cannot be resolved simply keeps its chip but gets no pin.
+        var resolve = function () {
+          return waitForGeo().then(function (api) {
+            geo = api;
+            if (!geo) return;
+            var jobs = [];
+            if (kitchenPlace) {
+              jobs.push(
+                geo.lookup(kitchenPlace, { country: country }).then(function (hit) {
+                  if (hit) kitchenFromPlace = [hit.lat, hit.lng];
+                }).catch(function () {})
+              );
+            }
+            points.forEach(function (point) {
+              var has = point.lat != null && point.lng != null && isFinite(parseFloat(point.lat)) && isFinite(parseFloat(point.lng));
+              if (has) return;
+              point.resolved = null;
+              jobs.push(
+                geo.lookup(point.q || point.n, { country: country }).then(function (hit) {
+                  if (hit) point.resolved = hit;
+                }).catch(function () {})
+              );
+            });
+            return Promise.all(jobs).catch(function () {});
+          });
+        };
+
+        resolve().then(function () {
         loadLeaflet().then(function (L) {
           var kitchenSetting = [
             parseFloat(canvas.getAttribute('data-klat')),
             parseFloat(canvas.getAttribute('data-klng'))
           ];
           var kitchen = (isFinite(kitchenSetting[0]) && isFinite(kitchenSetting[1])) ? kitchenSetting : [43.1051, -88.342];
+          if (kitchenFromPlace) kitchen = kitchenFromPlace;
           points.forEach(function (point) {
-            if (point.lat !== '' && point.lng !== '' && isFinite(parseFloat(point.lat)) && isFinite(parseFloat(point.lng))) {
+            if (point.resolved) {
+              COORDS[normName(point.n)] = [point.resolved.lat, point.resolved.lng];
+            } else if (point.lat !== '' && point.lng !== '' && isFinite(parseFloat(point.lat)) && isFinite(parseFloat(point.lng))) {
               COORDS[normName(point.n)] = [parseFloat(point.lat), parseFloat(point.lng)];
             }
             if (point.k && COORDS[normName(point.n)]) kitchen = COORDS[normName(point.n)];
@@ -406,6 +481,7 @@ Mukwonago|53149|41.9|51.6
           map.invalidateSize();
           fitOutside(false);
           setTimeout(function () { if (map) { map.invalidateSize(); fitOutside(false); } }, 250);
+        });
         });
       }
 

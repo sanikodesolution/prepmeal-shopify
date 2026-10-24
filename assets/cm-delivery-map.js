@@ -63,6 +63,36 @@
 
       const color = getComputedStyle(this).getPropertyValue('--cm-brand').trim() || '#f5a623';
       const num = (value) => parseFloat(value);
+
+      // Place names are resolved before the map is drawn, so a pin can be
+      // written as "Waukesha" instead of a decimal pair.
+      const geo = window.CMGeocode || null;
+      const geoOpts = config.geo || {};
+      if (geo && Array.isArray(config.pins)) {
+        const resolved = await Promise.all(
+          config.pins.map(async (pin) => {
+            if (Number.isFinite(num(pin.lat)) && Number.isFinite(num(pin.lng))) return pin;
+            const query = pin.place || pin.name;
+            if (!query) return pin;
+            const hit = await geo.lookup(query, { country: geoOpts.country }).catch(() => null);
+            return hit ? { ...pin, lat: hit.lat, lng: hit.lng } : pin;
+          })
+        );
+        config.pins = resolved;
+      }
+
+      if (geoOpts.kitchenPlace && config.hq) {
+        const hqHasCoords =
+          Number.isFinite(num(config.hq.lat)) && Number.isFinite(num(config.hq.lng));
+        if (!hqHasCoords) {
+          const hit = await geo.lookup(geoOpts.kitchenPlace, { country: geoOpts.country }).catch(() => null);
+          if (hit) {
+            config.hq.lat = hit.lat;
+            config.hq.lng = hit.lng;
+          }
+        }
+      }
+
       const map = L.map(this.querySelector('.cm-map__canvas'), { scrollWheelZoom: false }).setView(
         [num(config.center[0]), num(config.center[1])],
         num(config.zoom)

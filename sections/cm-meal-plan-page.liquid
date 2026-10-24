@@ -771,9 +771,10 @@
     { "type": "range", "id": "delivery_initial_chips", "label": "Towns shown before \"Show all\"", "min": 4, "max": 24, "step": 1, "default": 10 },
 
     { "type": "header", "content": "Delivery checker: map" },
-    { "type": "textarea", "id": "delivery_towns", "label": "Delivery towns", "info": "One per line: Name|latitude|longitude|ZIP codes (comma separated, optional). Leave empty for the built-in Hartland list." },
-    { "type": "text", "id": "delivery_kitchen_lat", "label": "Kitchen latitude", "default": "43.1051" },
-    { "type": "text", "id": "delivery_kitchen_lng", "label": "Kitchen longitude", "default": "-88.3420" },
+    { "type": "textarea", "id": "delivery_towns", "label": "Delivery towns", "info": "One per line. Name|lat|lng|ZIP,ZIP for exact placement, or just Name|ZIP,ZIP to let the theme look the place up automatically. Leave empty for the built-in Hartland list." },
+    { "type": "text", "id": "delivery_kitchen_lat", "label": "Kitchen latitude or place name", "default": "43.1051", "info": "Numbers place the pin exactly. A place name such as \"Hartland, Wisconsin\" is looked up automatically." },
+    { "type": "text", "id": "delivery_kitchen_lng", "label": "Kitchen longitude", "default": "-88.3420", "info": "Ignored when the latitude field holds a place name." },
+    { "type": "text", "id": "delivery_country", "label": "Country hint for place lookup", "info": "Optional, for example United States or United Kingdom. Narrows results when a town name is ambiguous." },
     { "type": "range", "id": "delivery_radius_km", "label": "Delivery zone radius (km)", "min": 0, "max": 80, "step": 1, "default": 0, "info": "0 fits the circle to the farthest town automatically." },
     { "type": "text", "id": "delivery_legend_kitchen", "label": "Legend: kitchen", "default": "Our kitchen" },
     { "type": "text", "id": "delivery_legend_areas", "label": "Legend: areas", "default": "Delivery areas" },
@@ -781,7 +782,7 @@
     { "type": "text", "id": "delivery_reset_label", "label": "Reset link label", "default": "Show full zone" },
 
     { "type": "header", "content": "Plate map" },
-    { "type": "textarea", "id": "plate_towns", "label": "Delivery towns", "info": "One per line: Name|ZIP,ZIP|left%|top%|kitchen|lat|lng. The ZIP, fifth, sixth and seventh columns are optional. Towns not in the built-in list need lat|lng to appear on the map. Leave empty for the built-in Hartland list." },
+    { "type": "textarea", "id": "plate_towns", "label": "Delivery towns", "info": "One per line. Only the name is required: write \"Waukesha|53186\" and the place is looked up automatically. Add |left%|top%|lat|lng columns only for exact placement. Add the word kitchen as the fifth column on your base row. Leave empty for the built-in Hartland list." },
     { "type": "text", "id": "plate_areas_title", "label": "Town list title", "default": "We deliver to" },
     { "type": "range", "id": "plate_visible", "label": "Towns shown before \"show all\"", "min": 6, "max": 30, "step": 1, "default": 12 },
     { "type": "text", "id": "plate_more_label", "label": "Show-all label", "info": "Use {count} for the total.", "default": "Show all {count} areas" },

@@ -7,6 +7,7 @@
 {%- endcomment -%}
 
 {{ 'section-cm-delivery-checker.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-geocode.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'cm-delivery-checker.js' | asset_url }}" defer="defer"></script>
 
 {%- comment -%} Fallback towns. Format: Name|lat|lng|ZIP,ZIP (ZIP is optional). {%- endcomment -%}
@@ -57,6 +58,17 @@ Mukwonago|42.8667|-88.3334|53149
 
   assign kitchen_lat = s.delivery_kitchen_lat | default: '43.1051'
   assign kitchen_lng = s.delivery_kitchen_lng | default: '-88.3420'
+  # Either value may be a place name instead of a number ("Waukesha").
+  # The map resolves place names with the geocoder at run time.
+  assign kitchen_place = ''
+  assign kl_num = kitchen_lat | plus: 0
+  assign kn_num = kitchen_lng | plus: 0
+  if kl_num == 0
+    assign kitchen_place = kitchen_lat
+  elsif kn_num == 0
+    assign kitchen_place = kitchen_lng
+  endif
+  assign geo_country = s.delivery_country | default: ''
   assign radius = s.delivery_radius_km | default: 0
   assign show_all = s.delivery_show_all | default: 'Show all'
   assign show_less = s.delivery_show_less | default: 'Show less'
@@ -105,7 +117,22 @@ Mukwonago|42.8667|-88.3334|53149
   {%- if name != blank -%}
     {%- unless first -%},{%- endunless -%}
     {%- assign first = false -%}
-    {"n":{{ name | json }},"lat":{{ p[1] | strip | plus: 0 }},"lng":{{ p[2] | strip | plus: 0 }},"z":{{ p[3] | default: '' | strip | json }}}
+    {%- assign town_lat = p[1] | default: '' | strip -%}
+    {%- assign town_lng = p[2] | default: '' | strip -%}
+    {%- assign town_zips = p[3] | default: '' | strip -%}
+    {%- comment -%}
+      Two supported rows:
+        Name|lat|lng|ZIP,ZIP   numbers — used as-is
+        Name|ZIP,ZIP          no numbers — geocoded in the browser
+    {%- endcomment -%}
+    {%- assign lat_num = town_lat | plus: 0 -%}
+    {%- assign lng_num = town_lng | plus: 0 -%}
+    {%- if lat_num == 0 and lng_num == 0 -%}
+      {%- assign town_zips = town_lat -%}
+      {"n":{{ name | json }},"q":{{ name | json }},"z":{{ town_zips | json }}}
+    {%- else -%}
+      {"n":{{ name | json }},"lat":{{ lat_num }},"lng":{{ lng_num }},"z":{{ town_zips | json }}}
+    {%- endif -%}
   {%- endif -%}
 {%- endfor -%}
 ]
@@ -136,6 +163,8 @@ Mukwonago|42.8667|-88.3334|53149
   data-mpd
   data-klat="{{ kitchen_lat | escape }}"
   data-klng="{{ kitchen_lng | escape }}"
+  data-kplace="{{ kitchen_place | escape }}"
+  data-country="{{ geo_country | escape }}"
   data-radius="{{ radius }}"
   aria-labelledby="mpd-h-{{ section.id }}"
 >

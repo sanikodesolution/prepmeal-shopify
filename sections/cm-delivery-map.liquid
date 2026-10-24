@@ -1,4 +1,5 @@
 {% render 'cm-section-assets', section: section %}
+<script src="{{ 'cm-geocode.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'cm-delivery-map.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
@@ -81,9 +82,13 @@
           },
           "pins": [
             {%- for block in pins -%}
-              { "name": {{ block.settings.area | json }}, "lat": {{ block.settings.lat | json }}, "lng": {{ block.settings.lng | json }} }{% unless forloop.last %},{% endunless %}
+              { "name": {{ block.settings.area | json }}, "lat": {{ block.settings.lat | json }}, "lng": {{ block.settings.lng | json }}, "place": {{ block.settings.place | json }} }{% unless forloop.last %},{% endunless %}
             {%- endfor -%}
-          ]
+          ],
+          "geo": {
+            "country": {{ section.settings.geo_country | json }},
+            "kitchenPlace": {{ section.settings.hq_place | json }}
+          }
         }
       </script>
     </cm-delivery-map>
@@ -103,7 +108,8 @@
       "settings": [
         { "type": "text", "id": "area", "label": "Area name", "default": "Waukesha" },
         { "type": "text", "id": "lat", "label": "Latitude", "default": "43.0117" },
-        { "type": "text", "id": "lng", "label": "Longitude", "default": "-88.2315" }
+        { "type": "text", "id": "lng", "label": "Longitude", "default": "-88.2315" },
+        { "type": "text", "id": "place", "label": "Or place name", "info": "For example \"Waukesha, Wisconsin\". Used when latitude or longitude is blank." }
       ]
     }
   ],
@@ -129,6 +135,8 @@
     { "type": "text", "id": "hq_name", "label": "Label", "default": "Chef Matt HQ" },
     { "type": "text", "id": "hq_lat", "label": "Latitude", "default": "43.1028" },
     { "type": "text", "id": "hq_lng", "label": "Longitude", "default": "-88.3337" },
+    { "type": "text", "id": "hq_place", "label": "Or HQ place name", "info": "For example \"Hartland, Wisconsin\". Used when latitude or longitude is left blank." },
+    { "type": "text", "id": "geo_country", "label": "Country hint for place lookup", "info": "Optional, for example United States. Narrows automatic lookups." },
     { "type": "text", "id": "hq_popup_title", "label": "Popup title", "default": "Chef Matt's Meal Prep" },
     { "type": "text", "id": "hq_address", "label": "Popup address", "default": "N64W28381 Hawthorne Rd, Hartland, WI 53029" },
     { "type": "header", "content": "Map footer" },
