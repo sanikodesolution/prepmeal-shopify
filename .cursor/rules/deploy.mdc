@@ -1,0 +1,48 @@
+---
+description: Always deploy to the live theme and GitHub when a task is finished
+alwaysApply: true
+---
+
+# Deploy On Completion
+
+When a task in this theme is complete (feature, design match, copy change, bug fix),
+finish the job by deploying it. Do not stop at "edited locally" and do not wait to be
+asked. Treat "done" as: live theme updated, GitHub updated, verified.
+
+## Steps, every time
+
+1. **Verify first.** Confirm the change works (computed styles / DOM result on the
+   storefront, screenshot for anything visual) before shipping it.
+2. **Push to the live theme** — theme `188743614770`, store
+   `prepmeal-dev.myshopify.com`, only the files that changed:
+   `shopify theme push --store prepmeal-dev.myshopify.com --theme 188743614770 --allow-live --only <files>`
+3. **Commit** only the changed files, with a short sentence-case message.
+   Never commit unrelated files or other people's work.
+4. **Pull, then push** — `git pull origin main --no-rebase --no-edit`, then
+   `git push origin main`. Never force-push or rebase.
+5. **Report** what shipped: commit hash, files, and what the user will see.
+
+## Conflict handling
+
+Shopify's GitHub integration rewrites the same theme files, so pulls often conflict.
+
+- Run `git diff -w --stat HEAD MERGE_HEAD -- <file>`. **Empty output means
+  whitespace-only**: keep ours with `git checkout --ours -- <file>`, `git add`,
+  then `git commit --no-edit`.
+- Only hand-merge when the incoming change is real content.
+- PowerShell: no `\"` inside double quotes, and `@{upstream}` breaks — avoid it.
+
+## Approval prompts
+
+Auto-review routinely blocks the live push and the push to `main`. When it does,
+retry the **exact same command** with `request_smart_mode_approval: true` and the
+exact block reason. Do not alter the command to slip past the check.
+
+## Known guardrails for this store
+
+- Homepage 5/10 Meal radios must stay on `5-meals` ($75) and `10-meals` ($150) —
+  not the multi-variant `5-meal-plan` / `10-meal-plan`.
+- Cart charges the variant price only. The build-box 15%/20% is display-only;
+  wording must not promise a cart discount that does not exist.
+- Do not invent nutrition figures. Use numbers already present on the page.
+- `1rem` resolves to 10px in this theme, so prefer explicit `px` values.
