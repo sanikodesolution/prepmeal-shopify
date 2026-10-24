@@ -101,6 +101,77 @@
     <div class="mealplan">
       <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
         <div class="mealplan-wrap mealplan-menu__inner">
+          {%- if section.settings.picker_count > 0 -%}
+            {%- liquid
+              # The cart charges the variant's own price, so a $0 variant makes
+              # the whole plan free. Prefer the selected variant, then the first
+              # available one, then the first variant that actually has a price.
+              assign plan_product = section.settings.plan_product
+              assign plan_variant = plan_product.selected_or_first_available_variant
+              if plan_variant == blank or plan_variant.price == 0
+                for variant in plan_product.variants
+                  if variant.available and variant.price > 0
+                    assign plan_variant = variant
+                    break
+                  endif
+                endfor
+              endif
+              if plan_variant == blank
+                assign plan_variant = plan_product.variants.first
+              endif
+            -%}
+            {%- liquid
+              # Product-style header in the top right: the plan title and price
+              # sit above the order card, the way a product page shows them.
+              assign detail_title = section.settings.detail_title | strip
+              if detail_title == blank
+                assign detail_title = plan_product.title
+              endif
+              assign detail_price = 0
+              assign detail_compare = 0
+              if plan_variant != blank
+                assign detail_price = plan_variant.price
+                assign detail_compare = plan_variant.compare_at_price | default: 0
+              endif
+              # The plan product is often a meals catalogue, where each variant
+              # is one meal. Then the plan price is the meal count times the meal
+              # price, which is what the cart will charge.
+              if section.settings.detail_use_plan_total
+                assign detail_meals = section.settings.picker_count | default: 1
+                assign detail_price = detail_price | times: detail_meals
+                assign detail_compare = detail_compare | times: detail_meals
+              endif
+              assign detail_on_sale = false
+              if detail_compare > detail_price and detail_price > 0
+                assign detail_on_sale = true
+              endif
+              assign detail_terms = section.settings.detail_terms_text | strip
+            -%}
+            {%- if detail_title != blank or detail_price > 0 -%}
+              <div class="mealplan-menu__buy">
+                {%- if detail_title != blank -%}
+                  <h3 class="mealplan-menu__buy-title">{{ detail_title | escape }}</h3>
+                {%- endif -%}
+                {%- if detail_price > 0 -%}
+                  <div class="mealplan-menu__buy-price">
+                    {%- if detail_on_sale -%}
+                      <s class="mealplan-menu__buy-was">{{ detail_compare | money }}</s>
+                    {%- endif -%}
+                    <span class="mealplan-menu__buy-now">{{ detail_price | money }}</span>
+                    {%- if detail_on_sale -%}
+                      <span class="mealplan-menu__buy-save">{{ section.settings.detail_sale_label | default: 'Sale' | escape }}</span>
+                    {%- endif -%}
+                  </div>
+                  {%- if detail_terms != blank -%}
+                    {%- assign installment_cents = detail_price | divided_by: 4.0 | round -%}
+                    {%- assign installment = installment_cents | money -%}
+                    {%- assign detail_terms_done = detail_terms | replace: '{installment}', installment -%}
+                    <p class="mealplan-menu__buy-terms">{{ detail_terms_done | escape }}</p>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
           <div class="mealplan-menu__head">
             {%- if section.settings.menu_eyebrow != blank -%}
               <p class="mp-eye">{{ section.settings.menu_eyebrow | escape }}</p>
@@ -184,75 +255,6 @@
           </ol>
           <div class="mealplan-menu__detail">
             {%- if section.settings.picker_count > 0 -%}
-              {%- liquid
-                # The cart charges the variant's own price, so a $0 variant makes
-                # the whole plan free. Prefer the selected variant, then the first
-                # available one, then the first variant that actually has a price.
-                assign plan_product = section.settings.plan_product
-                assign plan_variant = plan_product.selected_or_first_available_variant
-                if plan_variant == blank or plan_variant.price == 0
-                  for variant in plan_product.variants
-                    if variant.available and variant.price > 0
-                      assign plan_variant = variant
-                      break
-                    endif
-                  endfor
-                endif
-                if plan_variant == blank
-                  assign plan_variant = plan_product.variants.first
-                endif
-              -%}
-              {%- liquid
-                # Product-style header: the plan title and price sit above the
-                # meal dropdowns, the way a product page shows them.
-                assign detail_title = section.settings.detail_title | strip
-                if detail_title == blank
-                  assign detail_title = plan_product.title
-                endif
-                assign detail_price = 0
-                assign detail_compare = 0
-                if plan_variant != blank
-                  assign detail_price = plan_variant.price
-                  assign detail_compare = plan_variant.compare_at_price | default: 0
-                endif
-                # The plan product is often a meals catalogue, where each
-                # variant is one meal. Then the plan price is the meal count
-                # times the meal price, which is what the cart will charge.
-                if section.settings.detail_use_plan_total
-                  assign detail_meals = section.settings.picker_count | default: 1
-                  assign detail_price = detail_price | times: detail_meals
-                  assign detail_compare = detail_compare | times: detail_meals
-                endif
-                assign detail_on_sale = false
-                if detail_compare > detail_price and detail_price > 0
-                  assign detail_on_sale = true
-                endif
-                assign detail_terms = section.settings.detail_terms_text | strip
-              -%}
-              {%- if detail_title != blank or detail_price > 0 -%}
-                <div class="mealplan-menu__buy">
-                  {%- if detail_title != blank -%}
-                    <h3 class="mealplan-menu__buy-title">{{ detail_title | escape }}</h3>
-                  {%- endif -%}
-                  {%- if detail_price > 0 -%}
-                    <div class="mealplan-menu__buy-price">
-                      {%- if detail_on_sale -%}
-                        <s class="mealplan-menu__buy-was">{{ detail_compare | money }}</s>
-                      {%- endif -%}
-                      <span class="mealplan-menu__buy-now">{{ detail_price | money }}</span>
-                      {%- if detail_on_sale -%}
-                        <span class="mealplan-menu__buy-save">{{ section.settings.detail_sale_label | default: 'Sale' | escape }}</span>
-                      {%- endif -%}
-                    </div>
-                    {%- if detail_terms != blank -%}
-                      {%- assign installment_cents = detail_price | divided_by: 4.0 | round -%}
-                      {%- assign installment = installment_cents | money -%}
-                      {%- assign detail_terms_done = detail_terms | replace: '{installment}', installment -%}
-                      <p class="mealplan-menu__buy-terms">{{ detail_terms_done | escape }}</p>
-                    {%- endif -%}
-                  {%- endif -%}
-                </div>
-              {%- endif -%}
               <form class="mealplan-menu__order" data-mp-order data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}" action="{{ routes.cart_add_url }}" method="post">
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
                 {%- for slot in (1..section.settings.picker_count) -%}

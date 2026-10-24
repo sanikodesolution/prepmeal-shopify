@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "sections": {
     "mp_page": {
       "type": "cm-meal-plan-page",
@@ -561,9 +560,6 @@
         "quality_heading": "This Week's Menu",
         "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
         "quality_button": "Order 7 meals",
-        "detail_title": "Chef-Made Meal Prep in Hartland, WI | 7 Meal Plan",
-        "detail_terms_text": "Pay in 4 interest-free installments of ${installment} with Shop",
-        "detail_sale_label": "Sale",
         "picker_count": 7,
         "plan_product": "7-meal-plan",
         "meals_product": "7-meal-plan",
@@ -591,7 +587,11 @@
         "cta_button_label": "Build my 7 meal plan",
         "cta_button_link": "/products/7-meal-plan",
         "padding_top": 0,
-        "padding_bottom": 0
+        "padding_bottom": 0,
+        "detail_title": "Chef-Made Meal Prep in Hartland, WI | 7 Meal Plan",
+        "detail_use_plan_total": true,
+        "detail_terms_text": "Pay in 4 interest-free installments of {installment} with Shop",
+        "detail_sale_label": "Sale"
       }
     }
   },
