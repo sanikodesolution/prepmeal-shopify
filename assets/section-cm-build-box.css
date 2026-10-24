@@ -52,7 +52,7 @@
 }
 
 .byb__grid {
-  --byb-plate: clamp(176px, 18vw, 220px);
+  --byb-plate: clamp(190px, 20vw, 240px);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 60px 24px;
