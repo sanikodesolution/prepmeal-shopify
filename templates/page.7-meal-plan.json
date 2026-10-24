@@ -6,592 +6,596 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
-    "sections":  {
-                     "mp_page":  {
-                                     "type":  "cm-meal-plan-page",
-                                     "blocks":  {
-                                                    "meal_1":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Peri Peri Chicken",
-                                                                                    "description":  "With glazed carrots and roasted Yukon potatoes.",
-                                                                                    "calories":  633,
-                                                                                    "protein":  38,
-                                                                                    "carbs":  37,
-                                                                                    "fat":  37,
-                                                                                    "tags":  "chicken",
-                                                                                    "ingredients":  "Glazed carrots, Roasted Yukon potatoes",
-                                                                                    "badge":  "New",
-                                                                                    "gluten_free":  false,
-                                                                                    "dairy_free":  false,
-                                                                                    "image_index":  0
-                                                                                }
-                                                               },
-                                                    "meal_2":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Ground Beef Enchilada Bowl",
-                                                                                    "description":  "With Mexican rice, salsa and peppers.",
-                                                                                    "calories":  684,
-                                                                                    "protein":  62,
-                                                                                    "carbs":  37,
-                                                                                    "fat":  32,
-                                                                                    "tags":  "beef",
-                                                                                    "ingredients":  "Mexican rice, Salsa, Peppers",
-                                                                                    "badge":  "New",
-                                                                                    "gluten_free":  false,
-                                                                                    "dairy_free":  false,
-                                                                                    "image_index":  1
-                                                                                }
-                                                               },
-                                                    "meal_3":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Bacon-Wrapped Chili Fig-Glazed Pork Tenderloin",
-                                                                                    "description":  "Calorie counted, high protein, low oil.",
-                                                                                    "calories":  676,
-                                                                                    "protein":  55,
-                                                                                    "carbs":  42,
-                                                                                    "fat":  32,
-                                                                                    "tags":  "pork, gluten free",
-                                                                                    "ingredients":  "",
-                                                                                    "badge":  "New",
-                                                                                    "gluten_free":  true,
-                                                                                    "dairy_free":  false,
-                                                                                    "image_index":  2
-                                                                                }
-                                                               },
-                                                    "meal_4":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Oven BBQ Salmon",
-                                                                                    "description":  "Calorie counted, high protein, low oil.",
-                                                                                    "calories":  421,
-                                                                                    "protein":  45,
-                                                                                    "carbs":  40,
-                                                                                    "fat":  12,
-                                                                                    "tags":  "seafood, gluten free",
-                                                                                    "ingredients":  "",
-                                                                                    "badge":  "New",
-                                                                                    "gluten_free":  true,
-                                                                                    "dairy_free":  false,
-                                                                                    "image_index":  3
-                                                                                }
-                                                               },
-                                                    "meal_5":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Teriyaki Chicken Breast",
-                                                                                    "description":  "With cilantro rice, bell peppers and mushrooms.",
-                                                                                    "calories":  430,
-                                                                                    "protein":  36,
-                                                                                    "carbs":  32,
-                                                                                    "fat":  10,
-                                                                                    "tags":  "chicken, gluten free, dairy free",
-                                                                                    "ingredients":  "Cilantro rice, Bell peppers, Mushrooms",
-                                                                                    "badge":  "",
-                                                                                    "gluten_free":  true,
-                                                                                    "dairy_free":  true,
-                                                                                    "image_index":  4
-                                                                                }
-                                                               },
-                                                    "meal_6":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Chimichurri Steak",
-                                                                                    "description":  "With roasted potatoes and glazed carrots.",
-                                                                                    "calories":  623,
-                                                                                    "protein":  52,
-                                                                                    "carbs":  34,
-                                                                                    "fat":  31,
-                                                                                    "tags":  "beef, gluten free, dairy free",
-                                                                                    "ingredients":  "Roasted potatoes, Glazed carrots",
-                                                                                    "badge":  "Chef\u0027s special",
-                                                                                    "gluten_free":  true,
-                                                                                    "dairy_free":  true,
-                                                                                    "image_index":  5
-                                                                                }
-                                                               },
-                                                    "meal_7":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Orange Basil Salmon",
-                                                                                    "description":  "With cilantro rice and herbed carrots and celery.",
-                                                                                    "calories":  435,
-                                                                                    "protein":  38,
-                                                                                    "carbs":  36,
-                                                                                    "fat":  11,
-                                                                                    "tags":  "seafood, gluten free, dairy free",
-                                                                                    "ingredients":  "Cilantro rice, Herbed carrots, Celery",
-                                                                                    "badge":  "",
-                                                                                    "gluten_free":  true,
-                                                                                    "dairy_free":  true,
-                                                                                    "image_index":  6
-                                                                                }
-                                                               },
-                                                    "meal_8":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Turkey Meatball Marinara",
-                                                                                    "description":  "With spaghetti squash, marinara and Romano cheese.",
-                                                                                    "calories":  550,
-                                                                                    "protein":  38,
-                                                                                    "carbs":  37,
-                                                                                    "fat":  31,
-                                                                                    "tags":  "turkey, gluten free",
-                                                                                    "ingredients":  "Spaghetti squash, Marinara, Romano cheese",
-                                                                                    "badge":  "",
-                                                                                    "gluten_free":  true,
-                                                                                    "dairy_free":  false,
-                                                                                    "image_index":  7
-                                                                                }
-                                                               },
-                                                    "meal_9":  {
-                                                                   "type":  "meal",
-                                                                   "settings":  {
-                                                                                    "name":  "Balsamic Baked Chicken Thighs",
-                                                                                    "description":  "With sweet potatoes, herbed carrots and celery.",
-                                                                                    "calories":  585,
-                                                                                    "protein":  36,
-                                                                                    "carbs":  35,
-                                                                                    "fat":  33,
-                                                                                    "tags":  "chicken, gluten free, dairy free",
-                                                                                    "ingredients":  "Sweet potatoes, Herbed carrots, Celery",
-                                                                                    "badge":  "Customer favorite",
-                                                                                    "gluten_free":  true,
-                                                                                    "dairy_free":  true,
-                                                                                    "image_index":  8
-                                                                                }
-                                                               },
-                                                    "meal_10":  {
-                                                                    "type":  "meal",
-                                                                    "settings":  {
-                                                                                     "name":  "Chicken, Quinoa Taco Bake",
-                                                                                     "description":  "Calorie counted, high protein, low oil.",
-                                                                                     "calories":  581,
-                                                                                     "protein":  61,
-                                                                                     "carbs":  53,
-                                                                                     "fat":  15,
-                                                                                     "tags":  "chicken, gluten free",
-                                                                                     "ingredients":  "",
-                                                                                     "badge":  "",
-                                                                                     "gluten_free":  true,
-                                                                                     "dairy_free":  false,
-                                                                                     "image_index":  9
-                                                                                 }
-                                                                },
-                                                    "benefit_1":  {
-                                                                      "type":  "benefit",
-                                                                      "settings":  {
-                                                                                       "title":  "Chef prepared",
-                                                                                       "text":  "Every meal is cooked by our chefs, not assembled from a kit."
-                                                                                   }
-                                                                  },
-                                                    "benefit_2":  {
-                                                                      "type":  "benefit",
-                                                                      "settings":  {
-                                                                                       "title":  "Fresh weekly",
-                                                                                       "text":  "A new menu each week, made close to your delivery day."
-                                                                                   }
-                                                                  },
-                                                    "benefit_3":  {
-                                                                      "type":  "benefit",
-                                                                      "settings":  {
-                                                                                       "title":  "Easy delivery",
-                                                                                       "text":  "Delivered to your door. Heat and eat in minutes."
-                                                                                   }
-                                                                  },
-                                                    "step_1":  {
-                                                                   "type":  "step",
-                                                                   "settings":  {
-                                                                                    "title":  "Choose your meals",
-                                                                                    "text":  "Pick seven from this week\u0027s menu."
-                                                                                }
-                                                               },
-                                                    "step_2":  {
-                                                                   "type":  "step",
-                                                                   "settings":  {
-                                                                                    "title":  "We prepare",
-                                                                                    "text":  "Our chefs cook your order."
-                                                                                }
-                                                               },
-                                                    "step_3":  {
-                                                                   "type":  "step",
-                                                                   "settings":  {
-                                                                                    "title":  "We pack",
-                                                                                    "text":  "Meals are packed ready for delivery."
-                                                                                }
-                                                               },
-                                                    "step_4":  {
-                                                                   "type":  "step",
-                                                                   "settings":  {
-                                                                                    "title":  "We deliver",
-                                                                                    "text":  "They arrive at your door. Heat and eat."
-                                                                                }
-                                                               },
-                                                    "quality_1":  {
-                                                                      "type":  "quality",
-                                                                      "settings":  {
-                                                                                       "title":  "Chicken Biryani with Raita",
-                                                                                       "text":  "Basmati rice and raita.",
-                                                                                       "detail":  "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
-                                                                                   }
-                                                                  },
-                                                    "quality_2":  {
-                                                                      "type":  "quality",
-                                                                      "settings":  {
-                                                                                       "title":  "Tandoori Chicken Leg",
-                                                                                       "text":  "Veg jalfrezi, basmati rice and 2 roti.",
-                                                                                       "detail":  "Every tray is cooked, seasoned, and finished by the kitchen team. The same care goes into a Tuesday lunch as a Saturday dinner."
-                                                                                   }
-                                                                  },
-                                                    "quality_3":  {
-                                                                      "type":  "quality",
-                                                                      "settings":  {
-                                                                                       "title":  "Butter Chicken",
-                                                                                       "text":  "Aloo methi, basmati rice and 2 roti.",
-                                                                                       "detail":  "The menu changes so the week does not taste the same five times. New dishes, familiar portions, and the same standard in every box."
-                                                                                   }
-                                                                  },
-                                                    "quality_4":  {
-                                                                      "type":  "quality",
-                                                                      "settings":  {
-                                                                                       "title":  "Coconut Fish Curry",
-                                                                                       "text":  "Jeera aloo, basmati rice and 2 roti.",
-                                                                                       "detail":  "Open, heat for a few minutes, and eat. No prep, no pans, and no guessing what a portion should look like."
-                                                                                   }
-                                                                  },
-                                                    "quality_5":  {
-                                                                      "type":  "quality",
-                                                                      "settings":  {
-                                                                                       "title":  "Lamb Korma",
-                                                                                       "text":  "Green salad and basmati rice.",
-                                                                                       "detail":  "Recipes are cooked the same way every time: the same seasoning, the same portions, and the same finish before a box leaves the kitchen."
-                                                                                   }
-                                                                  },
-                                                    "menu_1":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Chicken Biryani with Raita",
-                                                                                    "name":  "Chicke Biryani with Raita"
-                                                                                }
-                                                               },
-                                                    "menu_2":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Tandoori Chicken Leg with Veg Jalfrezi",
-                                                                                    "name":  "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti"
-                                                                                }
-                                                               },
-                                                    "menu_3":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Butter Chicken with Aloo Methi",
-                                                                                    "name":  "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti"
-                                                                                }
-                                                               },
-                                                    "menu_4":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Coconut Fish Curry with Jeera Aloo",
-                                                                                    "name":  "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti"
-                                                                                }
-                                                               },
-                                                    "menu_5":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Lamb Korma with Green Salad",
-                                                                                    "name":  "Lamb Korma with Green Salad and Basmati Rice"
-                                                                                }
-                                                               },
-                                                    "menu_6":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Chana Masala with Jeera Aloo",
-                                                                                    "name":  "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti"
-                                                                                }
-                                                               },
-                                                    "menu_7":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Palak Paneer with Aloo Gobi",
-                                                                                    "name":  "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti"
-                                                                                }
-                                                               },
-                                                    "menu_8":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Dal Makhani with Bhindi Masala",
-                                                                                    "name":  "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti"
-                                                                                }
-                                                               },
-                                                    "menu_9":  {
-                                                                   "type":  "menu_item",
-                                                                   "settings":  {
-                                                                                    "short":  "Malai Kofta with Rajma",
-                                                                                    "name":  "Malai Kofta with Rajma, Basmati Rice and 2 Roti"
-                                                                                }
-                                                               },
-                                                    "menu_10":  {
-                                                                    "type":  "menu_item",
-                                                                    "settings":  {
-                                                                                     "short":  "Baingan Bharta with Rajma Masala",
-                                                                                     "name":  "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti"
-                                                                                 }
-                                                                },
-                                                    "review_1":  {
-                                                                     "type":  "review",
-                                                                     "settings":  {
-                                                                                      "name":  "Sarah M.",
-                                                                                      "review":  "These meals made weeknights so much easier.",
-                                                                                      "rating":  5,
-                                                                                      "show_image":  true,
-                                                                                      "aspect":  "1"
-                                                                                  }
-                                                                 },
-                                                    "review_2":  {
-                                                                     "type":  "review",
-                                                                     "settings":  {
-                                                                                      "name":  "James R.",
-                                                                                      "review":  "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
-                                                                                      "rating":  5,
-                                                                                      "show_image":  true,
-                                                                                      "aspect":  "1.3"
-                                                                                  }
-                                                                 },
-                                                    "review_3":  {
-                                                                     "type":  "review",
-                                                                     "settings":  {
-                                                                                      "name":  "Priya K.",
-                                                                                      "review":  "Short and sweet.",
-                                                                                      "rating":  5,
-                                                                                      "show_image":  false,
-                                                                                      "aspect":  "1"
-                                                                                  }
-                                                                 },
-                                                    "review_4":  {
-                                                                     "type":  "review",
-                                                                     "settings":  {
-                                                                                      "name":  "Alex T.",
-                                                                                      "review":  "Another placeholder review for the layout.",
-                                                                                      "rating":  5,
-                                                                                      "show_image":  true,
-                                                                                      "aspect":  "0.8"
-                                                                                  }
-                                                                 },
-                                                    "faq_1":  {
-                                                                  "type":  "faq",
-                                                                  "settings":  {
-                                                                                   "question":  "How does the 7 meal plan work?",
-                                                                                   "answer":  "Choose seven meals from the weekly menu and we prepare and deliver them to you."
-                                                                               }
-                                                              },
-                                                    "faq_2":  {
-                                                                  "type":  "faq",
-                                                                  "settings":  {
-                                                                                   "question":  "How often does the menu change?",
-                                                                                   "answer":  "The menu rotates weekly."
-                                                                               }
-                                                              },
-                                                    "faq_3":  {
-                                                                  "type":  "faq",
-                                                                  "settings":  {
-                                                                                   "question":  "Can I choose my meals?",
-                                                                                   "answer":  "Yes. Pick any seven from the available options."
-                                                                               }
-                                                              },
-                                                    "faq_4":  {
-                                                                  "type":  "faq",
-                                                                  "settings":  {
-                                                                                   "question":  "How are meals delivered?",
-                                                                                   "answer":  "Delivered to your door."
-                                                                               }
-                                                              },
-                                                    "faq_5":  {
-                                                                  "type":  "faq",
-                                                                  "settings":  {
-                                                                                   "question":  "How should meals be stored?",
-                                                                                   "answer":  "Keep refrigerated and enjoy within a few days."
-                                                                               }
-                                                              },
-                                                    "faq_6":  {
-                                                                  "type":  "faq",
-                                                                  "settings":  {
-                                                                                   "question":  "How do I heat the meals?",
-                                                                                   "answer":  "Microwave until hot throughout."
-                                                                               }
-                                                              },
-                                                    "faq_7":  {
-                                                                  "type":  "faq",
-                                                                  "settings":  {
-                                                                                   "question":  "What areas do you deliver to?",
-                                                                                   "answer":  "We deliver across Hartland and nearby areas."
-                                                                               }
-                                                              },
-                                                    "faq_8":  {
-                                                                  "type":  "faq",
-                                                                  "settings":  {
-                                                                                   "question":  "Are nutrition facts available?",
-                                                                                   "answer":  "Yes. Calories, protein, carbs and fat are listed for each meal."
-                                                                               }
-                                                              },
-                                                    "related_1":  {
-                                                                      "type":  "related",
-                                                                      "settings":  {
-                                                                                       "title":  "5 Meal Plan",
-                                                                                       "text":  "Five meals from the weekly menu.",
-                                                                                       "price_note":  "Price at checkout",
-                                                                                       "button_label":  "View plan",
-                                                                                       "link":  "/pages/5-meal-plan"
-                                                                                   }
-                                                                  },
-                                                    "related_2":  {
-                                                                      "type":  "related",
-                                                                      "settings":  {
-                                                                                       "title":  "6 Meal Plan",
-                                                                                       "text":  "Six meals from the weekly menu.",
-                                                                                       "price_note":  "Price at checkout",
-                                                                                       "button_label":  "View plan",
-                                                                                       "link":  "/pages/6-meal-plan"
-                                                                                   }
-                                                                  },
-                                                    "related_3":  {
-                                                                      "type":  "related",
-                                                                      "settings":  {
-                                                                                       "title":  "10 Meal Plan",
-                                                                                       "text":  "Ten meals from the weekly menu.",
-                                                                                       "price_note":  "Price at checkout",
-                                                                                       "button_label":  "View plan",
-                                                                                       "link":  "/pages/10-meal-plan"
-                                                                                   }
-                                                                  },
-                                                    "related_4":  {
-                                                                      "type":  "related",
-                                                                      "settings":  {
-                                                                                       "title":  "15 Meal Plan",
-                                                                                       "text":  "Fifteen meals from the weekly menu.",
-                                                                                       "price_note":  "Price at checkout",
-                                                                                       "button_label":  "View plan",
-                                                                                       "link":  "/pages/15-meal-plan"
-                                                                                   }
-                                                                  }
-                                                },
-                                     "block_order":  [
-                                                         "meal_1",
-                                                         "meal_2",
-                                                         "meal_3",
-                                                         "meal_4",
-                                                         "meal_5",
-                                                         "meal_6",
-                                                         "meal_7",
-                                                         "meal_8",
-                                                         "meal_9",
-                                                         "meal_10",
-                                                         "benefit_1",
-                                                         "benefit_2",
-                                                         "benefit_3",
-                                                         "step_1",
-                                                         "step_2",
-                                                         "step_3",
-                                                         "step_4",
-                                                         "quality_1",
-                                                         "quality_2",
-                                                         "quality_3",
-                                                         "quality_4",
-                                                         "quality_5",
-                                                         "menu_1",
-                                                         "menu_2",
-                                                         "menu_3",
-                                                         "menu_4",
-                                                         "menu_5",
-                                                         "menu_6",
-                                                         "menu_7",
-                                                         "menu_8",
-                                                         "menu_9",
-                                                         "menu_10",
-                                                         "review_1",
-                                                         "review_2",
-                                                         "review_3",
-                                                         "review_4",
-                                                         "faq_1",
-                                                         "faq_2",
-                                                         "faq_3",
-                                                         "faq_4",
-                                                         "faq_5",
-                                                         "faq_6",
-                                                         "faq_7",
-                                                         "faq_8",
-                                                         "related_1",
-                                                         "related_2",
-                                                         "related_3",
-                                                         "related_4"
-                                                     ],
-                                     "settings":  {
-                                                      "show_hero":  false,
-                                                      "plan_label":  "7 Meal Plan",
-                                                      "heading":  "Chef-prepared meals.\nMade for your week.",
-                                                      "text":  "Calorie counted. High protein. Low oil. Pick seven meals from this week\u0027s menu and we cook and deliver them.",
-                                                      "fact_1_label":  "Price",
-                                                      "fact_1_value":  "From $00.00",
-                                                      "fact_2_label":  "Meals",
-                                                      "fact_2_value":  "7 per week",
-                                                      "fact_3_label":  "Menu",
-                                                      "fact_3_value":  "10+ options",
-                                                      "button_label":  "Build my 7 meals",
-                                                      "button_link":  "/products/7-meal-plan",
-                                                      "button_label_2":  "View this week\u0027s menu",
-                                                      "button_link_2":  "#menu",
-                                                      "badge_value":  "10+",
-                                                      "badge_label":  "meal options",
-                                                      "ben_line_1":  "7 meals.",
-                                                      "ben_line_2":  "1 week.",
-                                                      "ben_line_3":  "Zero stress.",
-                                                      "ben_note":  "Flexible menu: choose any seven from 10+ options, and change your picks each week.",
-                                                      "menu_heading":  "This week\u0027s menu",
-                                                      "menu_text":  "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
-                                                      "explore_heading":  "Explore all meals",
-                                                      "load_more_label":  "Load more",
-                                                      "detail_note":  "Meal names and nutrition values are from the current menu.",
-                                                      "meal_price":  1500,
-                                                      "chef_heading":  "40 years in the kitchen. Now cooking for you.",
-                                                      "chef_text":  "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
-                                                      "steps_heading":  "How it works",
-                                                      "quality_heading":  "This Week\u0027s Menu",
-                                                      "quality_text":  "Chef-cooked every week. Hover a meal to see what\u0027s on the plate.",
-                                                      "quality_button":  "Order 7 meals",
-                                                      "picker_count":  7,
-                                                      "plan_product":  "7-meal-plan",
-                                                      "meals_product":  "7-meal-plan",
-                                                      "show_gallery":  false,
-                                                      "gallery_heading":  "10+\nmeal options",
-                                                      "delivery_style":  "plate",
-                                                      "delivery_eyebrow":  "We deliver",
-                                                      "delivery_heading":  "Fresh meals, delivered to your door.",
-                                                      "delivery_text":  "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door.",
-                                                      "delivery_areas":  "Hartland, Nearby areas",
-                                                      "delivery_button_label":  "Check my area",
-                                                      "delivery_placeholder":  "Postal code or town",
-                                                      "delivery_button":  "Check my area",
-                                                      "plate_towns":  "Hartland|53029|41|29|kitchen\nDelafield|53018|34.5|35.5\nPewaukee|53072|49.3|32.6\nWaukesha|53186, 53188, 53189|50.3|40.2\nSussex|53089|52|25.3\nMerton|53056|44.8|22.9\nNashotah|53058|33.3|31.8\nOkauchee Lake|53069|34.6|26.9\nOconomowoc|53066|27.4|27.3\nOconomowoc Lake||30|30.1\nChenequa||37.6|24.7\nLisbon||48.4|22.5\nLannon|53046|56|24.8\nMenomonee Falls|53051|58.1|20.7\nBrookfield|53005, 53045|58.7|33\nElm Grove|53122|60.2|36.7\nWales|53183|38.4|42.3\nDousman|53118|30.4|39.6\nSummit||30.9|35.3\nLake Country||30.9|23.7\nStone Bank||35.1|21.4\nNorth Lake|53064|38.7|19.1\nMapleton||25.4|30.7\nGenesee|53127|42|44.2\nMukwonago|53149|41.9|51.6",
-                                                      "plate_areas_title":  "We deliver to",
-                                                      "plate_visible":  12,
-                                                      "plate_kitchen_label":  "Our kitchen",
-                                                      "plate_kitchen_address":  "Hartland, Wisconsin",
-                                                      "plate_zone_radius":  22,
-                                                      "reviews_heading":  "Loved by people who love good food",
-                                                      "faq_heading":  "Questions, answered",
-                                                      "related_heading":  "Other ways to eat well",
-                                                      "cta_heading":  "Your week just got easier.",
-                                                      "cta_text":  "Seven chef-prepared meals, delivered. Choose yours and we handle the rest.",
-                                                      "cta_button_label":  "Build my 7 meal plan",
-                                                      "cta_button_link":  "/products/7-meal-plan",
-                                                      "padding_top":  0,
-                                                      "padding_bottom":  0
-                                                  }
-                                 }
-                 },
-    "order":  [
-                  "mp_page"
-              ]
+ */
+{
+  "sections": {
+    "mp_page": {
+      "type": "cm-meal-plan-page",
+      "blocks": {
+        "meal_1": {
+          "type": "meal",
+          "settings": {
+            "name": "Peri Peri Chicken",
+            "description": "With glazed carrots and roasted Yukon potatoes.",
+            "calories": 633,
+            "protein": 38,
+            "carbs": 37,
+            "fat": 37,
+            "tags": "chicken",
+            "ingredients": "Glazed carrots, Roasted Yukon potatoes",
+            "badge": "New",
+            "gluten_free": false,
+            "dairy_free": false,
+            "image_index": 0
+          }
+        },
+        "meal_2": {
+          "type": "meal",
+          "settings": {
+            "name": "Ground Beef Enchilada Bowl",
+            "description": "With Mexican rice, salsa and peppers.",
+            "calories": 684,
+            "protein": 62,
+            "carbs": 37,
+            "fat": 32,
+            "tags": "beef",
+            "ingredients": "Mexican rice, Salsa, Peppers",
+            "badge": "New",
+            "gluten_free": false,
+            "dairy_free": false,
+            "image_index": 1
+          }
+        },
+        "meal_3": {
+          "type": "meal",
+          "settings": {
+            "name": "Bacon-Wrapped Chili Fig-Glazed Pork Tenderloin",
+            "description": "Calorie counted, high protein, low oil.",
+            "calories": 676,
+            "protein": 55,
+            "carbs": 42,
+            "fat": 32,
+            "tags": "pork, gluten free",
+            "ingredients": "",
+            "badge": "New",
+            "gluten_free": true,
+            "dairy_free": false,
+            "image_index": 2
+          }
+        },
+        "meal_4": {
+          "type": "meal",
+          "settings": {
+            "name": "Oven BBQ Salmon",
+            "description": "Calorie counted, high protein, low oil.",
+            "calories": 421,
+            "protein": 45,
+            "carbs": 40,
+            "fat": 12,
+            "tags": "seafood, gluten free",
+            "ingredients": "",
+            "badge": "New",
+            "gluten_free": true,
+            "dairy_free": false,
+            "image_index": 3
+          }
+        },
+        "meal_5": {
+          "type": "meal",
+          "settings": {
+            "name": "Teriyaki Chicken Breast",
+            "description": "With cilantro rice, bell peppers and mushrooms.",
+            "calories": 430,
+            "protein": 36,
+            "carbs": 32,
+            "fat": 10,
+            "tags": "chicken, gluten free, dairy free",
+            "ingredients": "Cilantro rice, Bell peppers, Mushrooms",
+            "badge": "",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 4
+          }
+        },
+        "meal_6": {
+          "type": "meal",
+          "settings": {
+            "name": "Chimichurri Steak",
+            "description": "With roasted potatoes and glazed carrots.",
+            "calories": 623,
+            "protein": 52,
+            "carbs": 34,
+            "fat": 31,
+            "tags": "beef, gluten free, dairy free",
+            "ingredients": "Roasted potatoes, Glazed carrots",
+            "badge": "Chef's special",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 5
+          }
+        },
+        "meal_7": {
+          "type": "meal",
+          "settings": {
+            "name": "Orange Basil Salmon",
+            "description": "With cilantro rice and herbed carrots and celery.",
+            "calories": 435,
+            "protein": 38,
+            "carbs": 36,
+            "fat": 11,
+            "tags": "seafood, gluten free, dairy free",
+            "ingredients": "Cilantro rice, Herbed carrots, Celery",
+            "badge": "",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 6
+          }
+        },
+        "meal_8": {
+          "type": "meal",
+          "settings": {
+            "name": "Turkey Meatball Marinara",
+            "description": "With spaghetti squash, marinara and Romano cheese.",
+            "calories": 550,
+            "protein": 38,
+            "carbs": 37,
+            "fat": 31,
+            "tags": "turkey, gluten free",
+            "ingredients": "Spaghetti squash, Marinara, Romano cheese",
+            "badge": "",
+            "gluten_free": true,
+            "dairy_free": false,
+            "image_index": 7
+          }
+        },
+        "meal_9": {
+          "type": "meal",
+          "settings": {
+            "name": "Balsamic Baked Chicken Thighs",
+            "description": "With sweet potatoes, herbed carrots and celery.",
+            "calories": 585,
+            "protein": 36,
+            "carbs": 35,
+            "fat": 33,
+            "tags": "chicken, gluten free, dairy free",
+            "ingredients": "Sweet potatoes, Herbed carrots, Celery",
+            "badge": "Customer favorite",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 8
+          }
+        },
+        "meal_10": {
+          "type": "meal",
+          "settings": {
+            "name": "Chicken, Quinoa Taco Bake",
+            "description": "Calorie counted, high protein, low oil.",
+            "calories": 581,
+            "protein": 61,
+            "carbs": 53,
+            "fat": 15,
+            "tags": "chicken, gluten free",
+            "ingredients": "",
+            "badge": "",
+            "gluten_free": true,
+            "dairy_free": false,
+            "image_index": 9
+          }
+        },
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "title": "Chef prepared",
+            "text": "Every meal is cooked by our chefs, not assembled from a kit."
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "title": "Fresh weekly",
+            "text": "A new menu each week, made close to your delivery day."
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "title": "Easy delivery",
+            "text": "Delivered to your door. Heat and eat in minutes."
+          }
+        },
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Choose your meals",
+            "text": "Pick seven from this week's menu."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "We prepare",
+            "text": "Our chefs cook your order."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "We pack",
+            "text": "Meals are packed ready for delivery."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "title": "We deliver",
+            "text": "They arrive at your door. Heat and eat."
+          }
+        },
+        "quality_1": {
+          "type": "quality",
+          "settings": {
+            "title": "Chicken Biryani with Raita",
+            "text": "Basmati rice and raita.",
+            "detail": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
+          }
+        },
+        "quality_2": {
+          "type": "quality",
+          "settings": {
+            "title": "Tandoori Chicken Leg",
+            "text": "Veg jalfrezi, basmati rice and 2 roti.",
+            "detail": "Every tray is cooked, seasoned, and finished by the kitchen team. The same care goes into a Tuesday lunch as a Saturday dinner."
+          }
+        },
+        "quality_3": {
+          "type": "quality",
+          "settings": {
+            "title": "Butter Chicken",
+            "text": "Aloo methi, basmati rice and 2 roti.",
+            "detail": "The menu changes so the week does not taste the same five times. New dishes, familiar portions, and the same standard in every box."
+          }
+        },
+        "quality_4": {
+          "type": "quality",
+          "settings": {
+            "title": "Coconut Fish Curry",
+            "text": "Jeera aloo, basmati rice and 2 roti.",
+            "detail": "Open, heat for a few minutes, and eat. No prep, no pans, and no guessing what a portion should look like."
+          }
+        },
+        "quality_5": {
+          "type": "quality",
+          "settings": {
+            "title": "Lamb Korma",
+            "text": "Green salad and basmati rice.",
+            "detail": "Recipes are cooked the same way every time: the same seasoning, the same portions, and the same finish before a box leaves the kitchen."
+          }
+        },
+        "menu_1": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Chicken Biryani with Raita",
+            "name": "Chicke Biryani with Raita"
+          }
+        },
+        "menu_2": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Tandoori Chicken Leg with Veg Jalfrezi",
+            "name": "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_3": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Butter Chicken with Aloo Methi",
+            "name": "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_4": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Coconut Fish Curry with Jeera Aloo",
+            "name": "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_5": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Lamb Korma with Green Salad",
+            "name": "Lamb Korma with Green Salad and Basmati Rice"
+          }
+        },
+        "menu_6": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Chana Masala with Jeera Aloo",
+            "name": "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_7": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Palak Paneer with Aloo Gobi",
+            "name": "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_8": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Dal Makhani with Bhindi Masala",
+            "name": "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_9": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Malai Kofta with Rajma",
+            "name": "Malai Kofta with Rajma, Basmati Rice and 2 Roti"
+          }
+        },
+        "menu_10": {
+          "type": "menu_item",
+          "settings": {
+            "short": "Baingan Bharta with Rajma Masala",
+            "name": "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti"
+          }
+        },
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "review": "These meals made weeknights so much easier.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "1"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "name": "James R.",
+            "review": "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "1.3"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "name": "Priya K.",
+            "review": "Short and sweet.",
+            "rating": 5,
+            "show_image": false,
+            "aspect": "1"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "name": "Alex T.",
+            "review": "Another placeholder review for the layout.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "0.8"
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "How does the 7 meal plan work?",
+            "answer": "Choose seven meals from the weekly menu and we prepare and deliver them to you."
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How often does the menu change?",
+            "answer": "The menu rotates weekly."
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I choose my meals?",
+            "answer": "Yes. Pick any seven from the available options."
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "How are meals delivered?",
+            "answer": "Delivered to your door."
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "How should meals be stored?",
+            "answer": "Keep refrigerated and enjoy within a few days."
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I heat the meals?",
+            "answer": "Microwave until hot throughout."
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "settings": {
+            "question": "What areas do you deliver to?",
+            "answer": "We deliver across Hartland and nearby areas."
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "settings": {
+            "question": "Are nutrition facts available?",
+            "answer": "Yes. Calories, protein, carbs and fat are listed for each meal."
+          }
+        },
+        "related_1": {
+          "type": "related",
+          "settings": {
+            "title": "5 Meal Plan",
+            "text": "Five meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/pages/5-meal-plan"
+          }
+        },
+        "related_2": {
+          "type": "related",
+          "settings": {
+            "title": "6 Meal Plan",
+            "text": "Six meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/pages/6-meal-plan"
+          }
+        },
+        "related_3": {
+          "type": "related",
+          "settings": {
+            "title": "10 Meal Plan",
+            "text": "Ten meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/pages/10-meal-plan"
+          }
+        },
+        "related_4": {
+          "type": "related",
+          "settings": {
+            "title": "15 Meal Plan",
+            "text": "Fifteen meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/pages/15-meal-plan"
+          }
+        }
+      },
+      "block_order": [
+        "meal_1",
+        "meal_2",
+        "meal_3",
+        "meal_4",
+        "meal_5",
+        "meal_6",
+        "meal_7",
+        "meal_8",
+        "meal_9",
+        "meal_10",
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "quality_1",
+        "quality_2",
+        "quality_3",
+        "quality_4",
+        "quality_5",
+        "menu_1",
+        "menu_2",
+        "menu_3",
+        "menu_4",
+        "menu_5",
+        "menu_6",
+        "menu_7",
+        "menu_8",
+        "menu_9",
+        "menu_10",
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "related_1",
+        "related_2",
+        "related_3",
+        "related_4"
+      ],
+      "settings": {
+        "show_hero": false,
+        "plan_label": "7 Meal Plan",
+        "heading": "Chef-prepared meals.\nMade for your week.",
+        "text": "Calorie counted. High protein. Low oil. Pick seven meals from this week's menu and we cook and deliver them.",
+        "fact_1_label": "Price",
+        "fact_1_value": "From $00.00",
+        "fact_2_label": "Meals",
+        "fact_2_value": "7 per week",
+        "fact_3_label": "Menu",
+        "fact_3_value": "10+ options",
+        "button_label": "Build my 7 meals",
+        "button_link": "/products/7-meal-plan",
+        "button_label_2": "View this week's menu",
+        "button_link_2": "#menu",
+        "badge_value": "10+",
+        "badge_label": "meal options",
+        "ben_line_1": "7 meals.",
+        "ben_line_2": "1 week.",
+        "ben_line_3": "Zero stress.",
+        "ben_note": "Flexible menu: choose any seven from 10+ options, and change your picks each week.",
+        "menu_heading": "This week's menu",
+        "menu_text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
+        "explore_heading": "Explore all meals",
+        "load_more_label": "Load more",
+        "detail_note": "Meal names and nutrition values are from the current menu.",
+        "meal_price": 1500,
+        "chef_heading": "40 years in the kitchen. Now cooking for you.",
+        "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
+        "steps_heading": "How it works",
+        "quality_heading": "This Week's Menu",
+        "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
+        "quality_button": "Order 7 meals",
+        "detail_title": "Chef-Made Meal Prep in Hartland, WI | 7 Meal Plan",
+        "detail_terms_text": "Pay in 4 interest-free installments of ${installment} with Shop",
+        "detail_sale_label": "Sale",
+        "picker_count": 7,
+        "plan_product": "7-meal-plan",
+        "meals_product": "7-meal-plan",
+        "show_gallery": false,
+        "gallery_heading": "10+\nmeal options",
+        "delivery_style": "plate",
+        "delivery_eyebrow": "We deliver",
+        "delivery_heading": "Fresh meals, delivered to your door.",
+        "delivery_text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door.",
+        "delivery_areas": "Hartland, Nearby areas",
+        "delivery_button_label": "Check my area",
+        "delivery_placeholder": "Postal code or town",
+        "delivery_button": "Check my area",
+        "plate_towns": "Hartland|53029|41|29|kitchen\nDelafield|53018|34.5|35.5\nPewaukee|53072|49.3|32.6\nWaukesha|53186, 53188, 53189|50.3|40.2\nSussex|53089|52|25.3\nMerton|53056|44.8|22.9\nNashotah|53058|33.3|31.8\nOkauchee Lake|53069|34.6|26.9\nOconomowoc|53066|27.4|27.3\nOconomowoc Lake||30|30.1\nChenequa||37.6|24.7\nLisbon||48.4|22.5\nLannon|53046|56|24.8\nMenomonee Falls|53051|58.1|20.7\nBrookfield|53005, 53045|58.7|33\nElm Grove|53122|60.2|36.7\nWales|53183|38.4|42.3\nDousman|53118|30.4|39.6\nSummit||30.9|35.3\nLake Country||30.9|23.7\nStone Bank||35.1|21.4\nNorth Lake|53064|38.7|19.1\nMapleton||25.4|30.7\nGenesee|53127|42|44.2\nMukwonago|53149|41.9|51.6",
+        "plate_areas_title": "We deliver to",
+        "plate_visible": 12,
+        "plate_kitchen_label": "Our kitchen",
+        "plate_kitchen_address": "Hartland, Wisconsin",
+        "plate_zone_radius": 22,
+        "reviews_heading": "Loved by people who love good food",
+        "faq_heading": "Questions, answered",
+        "related_heading": "Other ways to eat well",
+        "cta_heading": "Your week just got easier.",
+        "cta_text": "Seven chef-prepared meals, delivered. Choose yours and we handle the rest.",
+        "cta_button_label": "Build my 7 meal plan",
+        "cta_button_link": "/products/7-meal-plan",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "mp_page"
+  ]
 }

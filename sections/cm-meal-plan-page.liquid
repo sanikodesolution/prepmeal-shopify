@@ -215,6 +215,14 @@
                   assign detail_price = plan_variant.price
                   assign detail_compare = plan_variant.compare_at_price | default: 0
                 endif
+                # The plan product is often a meals catalogue, where each
+                # variant is one meal. Then the plan price is the meal count
+                # times the meal price, which is what the cart will charge.
+                if section.settings.detail_use_plan_total
+                  assign detail_meals = section.settings.picker_count | default: 1
+                  assign detail_price = detail_price | times: detail_meals
+                  assign detail_compare = detail_compare | times: detail_meals
+                endif
                 assign detail_on_sale = false
                 if detail_compare > detail_price and detail_price > 0
                   assign detail_on_sale = true
@@ -237,7 +245,8 @@
                       {%- endif -%}
                     </div>
                     {%- if detail_terms != blank -%}
-                      {%- assign installment = detail_price | divided_by: 4 -%}
+                      {%- assign installment_cents = detail_price | divided_by: 4.0 | round -%}
+                      {%- assign installment = installment_cents | money -%}
                       {%- assign detail_terms_done = detail_terms | replace: '{installment}', installment -%}
                       <p class="mealplan-menu__buy-terms">{{ detail_terms_done | escape }}</p>
                     {%- endif -%}
@@ -770,6 +779,7 @@
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "text", "id": "detail_title", "label": "Order panel title", "info": "Shown above the meal dropdowns, product-page style. Blank uses the plan product's title." },
+    { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: price is the meal price times the number of dropdowns, so it matches the cart. Off: shows the product variant price as-is." },
     { "type": "text", "id": "detail_terms_text", "label": "Order panel payment note", "info": "Small line under the price. Use {installment} for a quarter of the price, for example: Pay in 4 interest-free installments of {installment} with Shop. Leave blank to hide." },
     { "type": "text", "id": "detail_sale_label", "label": "Sale badge label", "default": "Sale" },
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
