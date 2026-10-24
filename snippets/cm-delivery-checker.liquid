@@ -111,8 +111,23 @@ Mukwonago|42.8667|-88.3334|53149
 ]
 {%- endcapture -%}
 
+{%- liquid
+  assign po = '{'
+  assign pc = '}'
+  assign msg_yes = s.delivery_msg_yes
+  if msg_yes == blank
+    assign msg_yes = 'Yes, we deliver to ' | append: po | append: 'town' | append: pc | append: '.'
+  endif
+  assign msg_no = s.delivery_msg_no
+  if msg_no == blank
+    assign msg_no = 'We do not deliver to "' | append: po | append: 'query' | append: pc | append: '" yet.'
+  endif
+  assign msg_yes2 = s.delivery_msg_yes_sub | default: 'Add your plan and confirm your address at checkout.'
+  assign msg_contact = s.delivery_contact_url | default: ''
+  assign msg_contact_label = s.delivery_contact_label | default: 'Ask us about your area'
+-%}
 {%- capture mpd_copy_json -%}
-{"yes":{{ s.delivery_msg_yes | default: 'Yes, we deliver to {town}.' | json }},"yes2":{{ s.delivery_msg_yes_sub | default: 'Add your plan and confirm your address at checkout.' | json }},"no":{{ s.delivery_msg_no | default: 'We do not deliver to "{query}" yet.' | json }},"contact":{{ s.delivery_contact_url | default: '' | json }},"contactLabel":{{ s.delivery_contact_label | default: 'Ask us about your area' | json }}}
+{"yes":{{ msg_yes | json }},"yes2":{{ msg_yes2 | json }},"no":{{ msg_no | json }},"contact":{{ msg_contact | json }},"contactLabel":{{ msg_contact_label | json }}}
 {%- endcapture -%}
 
 <section
