@@ -599,7 +599,10 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
      form sit side by side 50/50 in the next row. The frame is square to match
      the square meal photos, so the plate fills the wrapper with no dead bars. */
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(16px,2.4vw,32px)}
-  .mealplan-menu__head{grid-column:1;grid-row:1;grid-template-columns:minmax(0,1fr)}
+  /* Span both columns in this band too, so the centred eyebrow is centred on
+     the section rather than on the left half. The title and subtitle still sit
+     left, and the buy box keeps its clicks via pointer-events. */
+  .mealplan-menu__head{grid-column:1 / -1;grid-row:1;grid-template-columns:minmax(0,1fr)}
   .mealplan-menu__head .mealplan-h{grid-column:1}
   .mealplan-menu__sub{grid-column:1;grid-row:3;margin:.85rem 0 0;align-self:start}
   .mealplan-menu__buy{grid-column:2;grid-row:1;justify-self:end;text-align:right;padding-top:4px}
