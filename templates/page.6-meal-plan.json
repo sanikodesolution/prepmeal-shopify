@@ -185,22 +185,50 @@
         "benefit_1": {
           "type": "benefit",
           "settings": {
-            "title": "Chef prepared",
-            "text": "Every meal is cooked by our chefs, not assembled from a kit."
+            "title": "24oz",
+            "text": "Per container"
           }
         },
         "benefit_2": {
           "type": "benefit",
           "settings": {
-            "title": "Fresh weekly",
-            "text": "A new menu each week, made close to your delivery day."
+            "title": "2-3 min",
+            "text": "Heat and eat"
           }
         },
         "benefit_3": {
           "type": "benefit",
           "settings": {
-            "title": "Easy delivery",
-            "text": "Delivered to your door. Heat and eat in minutes."
+            "title": "Fresh",
+            "text": "Never frozen"
+          }
+        },
+        "benefit_4": {
+          "type": "benefit",
+          "settings": {
+            "title": "Gluten free",
+            "text": "Options"
+          }
+        },
+        "benefit_5": {
+          "type": "benefit",
+          "settings": {
+            "title": "40+",
+            "text": "Years experience"
+          }
+        },
+        "benefit_6": {
+          "type": "benefit",
+          "settings": {
+            "title": "<600",
+            "text": "Cal most meals"
+          }
+        },
+        "benefit_7": {
+          "type": "benefit",
+          "settings": {
+            "title": "45g",
+            "text": "Protein most meals"
           }
         },
         "step_1": {
@@ -502,6 +530,10 @@
         "benefit_1",
         "benefit_2",
         "benefit_3",
+        "benefit_4",
+        "benefit_5",
+        "benefit_6",
+        "benefit_7",
         "step_1",
         "step_2",
         "step_3",

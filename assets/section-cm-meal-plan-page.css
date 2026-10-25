@@ -59,16 +59,51 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .btn:hover::before{transform:scaleX(1)}
 .ph{width:100%;height:100%;display:block}
 
-/* 02 benefits */
-.ben{background:var(--forest);color:var(--sage)}
-.ben .big{font-family:var(--display);font-weight:500;font-size:clamp(2.1rem,6vw,4.75rem);line-height:1.04;letter-spacing:-.03em;margin:0;text-wrap:balance}
+/* 02 benefits — a centred statement on a deep gradient, closed by a light
+   stat ribbon that scrolls forever. The band is a stacking context so the
+   glow sits behind the copy without bleeding past any rounded corners. */
+section.ben{position:relative;isolation:isolate;overflow:hidden;color:var(--sage);padding:clamp(64px,8vw,112px) 0 0;
+  background:
+    radial-gradient(120% 90% at 50% -10%,rgba(245,166,35,.13) 0,rgba(245,166,35,0) 55%),
+    linear-gradient(180deg,#1B2E23 0%,var(--forest) 58%,#101C15 100%)}
+.ben__wrap{position:relative;z-index:2}
+.ben__stage{max-width:min(34ch,100%);margin:0 auto;text-align:center}
+.ben__glow{position:absolute;z-index:0;left:50%;top:6%;width:min(900px,120%);aspect-ratio:1;transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(circle at 50% 50%,rgba(245,166,35,.10) 0,rgba(245,166,35,0) 62%);filter:blur(8px)}
+.ben__eyebrow{margin:0 0 clamp(1.4rem,2.6vw,2.1rem);font-size:.7rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(227,234,223,.5)}
+.ben .big{font-family:var(--display);font-weight:500;font-size:clamp(2.1rem,6vw,4.6rem);line-height:1.06;letter-spacing:-.03em;margin:0;text-wrap:balance}
 .ben .big span{display:inline}
 .ben .big .out{display:block;color:var(--saffron)}
-.ben ul{list-style:none;margin:clamp(2.5rem,5vw,4rem) 0 0;padding:0;display:grid;gap:0 2.5rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid rgba(227,234,223,.28)}
-.ben li{padding:1.75rem clamp(1.5rem,3vw,3rem) 1.75rem 0;border-bottom:1px solid rgba(227,234,223,.16)}
-.ben li b{display:block;font-weight:600;margin-bottom:.5rem;color:#fff}
-.ben li span{opacity:.8;line-height:1.6}
-.ben__note{margin:1.75rem 0 0;opacity:.75;line-height:1.6;max-width:62ch}
+.ben__note{margin:clamp(1.3rem,2.4vw,1.9rem) auto 0;max-width:44ch;font-size:.95rem;line-height:1.65;color:rgba(227,234,223,.58)}
+
+/* Stat ribbon. Two identical tracks sit in one row and the row is translated
+   by exactly one track width, so the wrap is invisible. flex:1 0 auto lets a
+   short list still fill the band instead of leaving a gap at the seam. */
+.ben__rail{position:relative;z-index:2;display:flex;margin-top:clamp(48px,7vw,84px);overflow:hidden;background:var(--sage);color:var(--forest);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
+.ben__track{display:flex;flex:0 0 auto;min-width:100%;align-items:stretch;animation:ben-marquee 44s linear infinite;will-change:transform}
+.ben__rail:hover .ben__track,
+.ben__rail:focus-within .ben__track{animation-play-state:paused}
+.ben__item{position:relative;flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;padding:clamp(1rem,1.5vw,1.35rem) clamp(1.4rem,3vw,2.6rem);text-align:center;white-space:nowrap}
+.ben__item+.ben__item{border-left:1px solid rgba(21,37,28,.16)}
+.ben__item b{font-family:var(--display);font-size:clamp(1.1rem,1.55vw,1.45rem);font-weight:600;line-height:1;letter-spacing:-.01em;color:var(--forest)}
+.ben__item span{font-size:.65rem;font-weight:600;line-height:1.2;letter-spacing:.16em;text-transform:uppercase;color:rgba(21,37,28,.55)}
+@keyframes ben-marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-100%,0,0)}}
+
+@media(max-width:860px){
+  .ben{padding-top:clamp(52px,7vw,76px)}
+  .ben__stage{max-width:24ch}
+  .ben__track{min-width:0;flex:none;animation-duration:32s}
+  .ben__item{flex:0 0 auto;padding:1.15rem 1.35rem}
+}
+
+/* Respect reduced-motion: hold the ribbon still and let it scroll by hand. */
+@media(prefers-reduced-motion:reduce){
+  .ben__track{animation:none}
+  .ben__rail{overflow-x:auto;scrollbar-width:none}
+  .ben__rail::-webkit-scrollbar{display:none}
+}
 
 /* 03 menu */
 .menu-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
