@@ -391,8 +391,12 @@ to{transform:translate3d(-25%,0,0)}
 .mealplan-card b{display:block;margin-bottom:.8rem}
 .mealplan-card .mealplan-btn{align-self:center}
 .mealplan-rel__head{display:flex;flex-direction:column;align-items:center;text-align:center}
+/* Five cards no longer fit one 320px row, so centring a scroll track would clip
+   the first card. Wrap them instead and let them share one centred row; mobile
+   keeps the swipe. */
 @media(min-width:900px){
-.mealplan-rel .mealplan-track{justify-content:center}
+.mealplan-rel .mealplan-track{flex-wrap:wrap;justify-content:center;overflow-x:visible;padding-bottom:0}
+.mealplan-rel .mealplan-card{flex:1 1 0;min-width:0;max-width:262px}
 }
 
 /* 14 cta */
