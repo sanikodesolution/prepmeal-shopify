@@ -61,7 +61,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 
 /* 02 benefits */
 .ben{position:relative;isolation:isolate;overflow:hidden;background:var(--forest);color:var(--sage)}
-.mealplan-a .ben{padding-block:clamp(72px,9vw,120px) 0;padding-inline:0}
+&section.ben{padding-block:clamp(72px,9vw,120px) 0;padding-inline:0}
 .ben::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(120% 90% at 50% -10%,rgba(107,143,63,.22),transparent 62%)}
 .ben__glow{position:absolute;left:50%;bottom:6%;z-index:-1;width:min(760px,92vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(245,166,35,.16),transparent 72%);pointer-events:none}
 .ben__inner{position:relative;max-width:var(--page-width);margin:0 auto;padding-inline:clamp(1.25rem,4vw,4rem);text-align:center}
