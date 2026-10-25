@@ -59,31 +59,54 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .btn:hover::before{transform:scaleX(1)}
 .ph{width:100%;height:100%;display:block}
 
-/* 02 benefits */
-.ben{position:relative;isolation:isolate;overflow:hidden;background:var(--forest);color:var(--sage);padding:clamp(72px,9vw,120px) 0 0}
-.ben::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(120% 90% at 50% -10%,rgba(107,143,63,.22),transparent 62%)}
-.ben__glow{position:absolute;left:50%;bottom:6%;z-index:-1;width:min(760px,92vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(245,166,35,.16),transparent 72%);pointer-events:none}
+/* 02 benefits — deep navy statement band with a seamless stat rail */
+.ben{
+--ben-ink:#f6f9ff;
+--ben-muted:rgba(226,236,248,.6);
+--ben-gold:#F5A623;
+--ben-gold-lt:#FFD79A;
+position:relative;isolation:isolate;overflow:hidden;
+background:linear-gradient(180deg,#0a1628 0%,#0d1a2e 42%,#122344 100%);
+color:var(--ben-ink);padding:clamp(76px,9.5vw,132px) 0 0
+}
+/* Hairline of gold across the very top edge. */
+.ben::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;z-index:3;background:linear-gradient(90deg,transparent,rgba(245,166,35,.6),transparent)}
+/* Layered ambient light: a cool shaft from above plus warm corners. */
+.ben::after{content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(120% 78% at 50% 0%,rgba(96,142,219,.18),transparent 58%),radial-gradient(56% 38% at 8% 102%,rgba(245,166,35,.08),transparent 70%),radial-gradient(56% 38% at 92% 102%,rgba(245,166,35,.08),transparent 70%)}
+.ben__glow{position:absolute;left:50%;top:-16%;z-index:-1;width:min(940px,115vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(245,166,35,.14),transparent 68%);pointer-events:none}
 .ben__inner{position:relative;max-width:var(--page-width);margin:0 auto;padding-inline:clamp(20px,4vw,64px);text-align:center}
-.ben__eyebrow{margin:0 0 clamp(20px,2.6vw,28px);font-size:12px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--saffron)}
-.ben .big{font-family:var(--display);font-weight:500;font-size:clamp(32px,5.2vw,62px);line-height:1.06;letter-spacing:-.03em;margin:0;text-wrap:balance}
-.ben .big span{display:block}
-.ben .big .out{color:var(--saffron)}
-.ben__note{margin:clamp(20px,2.6vw,28px) auto 0;max-width:56ch;font-size:16px;line-height:1.65;color:rgba(227,234,223,.7);text-wrap:pretty}
 
-/* Endless stat rail. Four identical groups sit inside the track, so a -25%
+/* Eyebrow sits between two tapered gold rules. */
+.ben__eyebrow{display:inline-flex;align-items:center;gap:.95rem;margin:0 0 clamp(22px,3vw,34px);font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--ben-gold)}
+.ben__eyebrow::before,.ben__eyebrow::after{content:"";width:clamp(22px,4vw,46px);height:1px;background:linear-gradient(90deg,transparent,rgba(245,166,35,.75))}
+.ben__eyebrow::after{background:linear-gradient(90deg,rgba(245,166,35,.75),transparent)}
+
+.ben .big{font-family:var(--display);font-weight:600;font-size:clamp(34px,6.2vw,72px);line-height:1.02;letter-spacing:-.035em;margin:0;text-wrap:balance;color:#fff;text-shadow:0 20px 54px rgba(0,0,0,.4)}
+.ben .big span{display:block}
+/* Last line is cut from a warm gold gradient instead of flat ink. */
+.ben .big .out{background:linear-gradient(100deg,var(--ben-gold-lt) 0%,var(--ben-gold) 46%,#FFE9C4 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;text-shadow:none;filter:drop-shadow(0 12px 34px rgba(245,166,35,.22))}
+.ben__note{margin:clamp(22px,3vw,32px) auto 0;max-width:56ch;font-size:16px;line-height:1.7;color:var(--ben-muted);text-wrap:pretty}
+
+/* Seamless stat rail. Four identical groups sit inside the track, so a -25%
    shift lands exactly on a group boundary and the loop never shows a seam. */
-.ben__marquee{position:relative;margin-top:clamp(48px,6.5vw,80px);overflow:hidden;border-block:1px solid rgba(227,234,223,.15);background:rgba(255,255,255,.035);-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.ben__marquee{position:relative;margin-top:clamp(52px,7vw,88px);overflow:hidden;border-top:1px solid rgba(255,255,255,.11);border-bottom:1px solid rgba(255,255,255,.06);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.025));-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.ben__marquee::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.09),transparent 42%)}
 .ben__track{display:flex;width:max-content;animation:ben-scroll 52s linear infinite;will-change:transform}
 .ben__marquee:hover .ben__track,.ben__marquee:focus-within .ben__track{animation-play-state:paused}
 .ben__group{display:flex;margin:0;padding:0;list-style:none}
-.ben__item{position:relative;display:flex;flex-direction:column;justify-content:center;gap:.3rem;flex:0 0 auto;min-width:clamp(132px,13vw,182px);padding:clamp(17px,2vw,23px) clamp(20px,2.6vw,38px);text-align:center}
-.ben__item+.ben__item::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;background:rgba(227,234,223,.16)}
-.ben__item b{font-family:var(--display);font-weight:600;font-size:clamp(15px,1.4vw,19px);line-height:1.1;letter-spacing:-.01em;color:#fff}
-.ben__item span{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.3;color:rgba(227,234,223,.6)}
+
+/* Each stat gets a tapered hairline plus a small gold dot as its divider. */
+.ben__item{position:relative;display:flex;flex-direction:column;justify-content:center;gap:.42rem;flex:0 0 auto;min-width:clamp(140px,13.5vw,196px);padding:clamp(20px,2.3vw,28px) clamp(22px,2.8vw,40px);text-align:center}
+.ben__item+.ben__item::before{content:"";position:absolute;left:0;top:50%;width:1px;height:clamp(22px,3vw,34px);transform:translateY(-50%);background:linear-gradient(180deg,transparent,rgba(255,255,255,.24),transparent)}
+.ben__item+.ben__item::after{content:"";position:absolute;left:0;top:50%;width:4px;height:4px;border-radius:50%;transform:translate(-50%,-50%);background:var(--ben-gold);opacity:.55}
+.ben__item b{font-family:var(--display);font-weight:600;font-size:clamp(16px,1.55vw,21px);line-height:1.05;letter-spacing:-.015em;color:#fff;font-variant-numeric:tabular-nums}
+.ben__item span{font-size:10.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;line-height:1.3;color:rgba(226,236,248,.52)}
+
 @media(max-width:749px){
-.ben__eyebrow{letter-spacing:.2em;font-size:11px}
-.ben .big{line-height:1.1}
-.ben__item{min-width:124px;padding:16px 20px}
+.ben__eyebrow{letter-spacing:.22em;font-size:10.5px;gap:.7rem}
+.ben .big{line-height:1.06;letter-spacing:-.028em}
+.ben__item{min-width:132px;padding:18px 22px}
+.ben__item span{letter-spacing:.16em}
 .ben__track{animation-duration:38s}
 }
 @media(prefers-reduced-motion:reduce){
