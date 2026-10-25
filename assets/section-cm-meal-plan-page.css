@@ -121,10 +121,6 @@ color:var(--ben-ink);padding:clamp(76px,9.5vw,132px) 0 0
 .ben__track{animation:none}
 .ben__marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none;scrollbar-width:thin}
 }
-@keyframes ben-scroll{
-from{transform:translate3d(0,0,0)}
-to{transform:translate3d(-25%,0,0)}
-}
 
 /* 03 menu */
 .menu-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:3rem}
@@ -702,3 +698,9 @@ to{transform:translate3d(-25%,0,0)}
   .mealplan .mph__title{font-size:30px}
 }
 
+
+
+@keyframes ben-scroll{
+from{transform:translate3d(0,0,0)}
+to{transform:translate3d(-25%,0,0)}
+}
