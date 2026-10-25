@@ -478,6 +478,16 @@
             "link": "/pages/5-meal-plan"
           }
         },
+        "related_6": {
+          "type": "related",
+          "settings": {
+            "title": "6 Meal Plan",
+            "text": "Six meals from the weekly menu.",
+            "price_note": "Price at checkout",
+            "button_label": "View plan",
+            "link": "/pages/6-meal-plan"
+          }
+        },
         "related_2": {
           "type": "related",
           "settings": {
@@ -558,6 +568,7 @@
         "faq_7",
         "faq_8",
         "related_1",
+        "related_6",
         "related_2",
         "related_3",
         "related_4"
