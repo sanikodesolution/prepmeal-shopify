@@ -94,7 +94,7 @@
 			<div class="banner auto-size" style="background-color: #092A49">
 				<div class="container-fluid text-white">
 					<h1><strong>Prep Meal</strong> documentation</h1>
-					<p style="opacity:.85;margin-top:8px;">Meal Prep &amp; Meal Plan Shopify 2.0 Theme — Version 1.0</p>
+					<p style="opacity:.85;margin-top:8px;">Meal Prep &amp; Meal Plan Shopify 2.0 Theme — Version 1.2</p>
 				</div>
 			</div>
 
@@ -130,8 +130,8 @@
 		<hr>
 		<ul>
 			<li>Created: October 22, 2026</li>
-			<li>Last Update: October 24, 2026</li>
-			<li>Version 1.0</li>
+			<li>Last Update: October 25, 2026</li>
+			<li>Version 1.2</li>
 			<li>By: <a target="_blank" href="https://themeforest.net/user/unlockdesign">SANI UL HASSAN</a></li>
 			<li>Email: <a href="mailto:sani.dev.business@gmail.com?subject=Prep Meal Shopify Theme Support">sani.dev.business@gmail.com</a></li>
 		</ul>
@@ -154,7 +154,7 @@
 					<tr><td><strong>Meal plans</strong></td><td>Dedicated landing templates for 5, 6, 7, 10 and 15 plate plans with hero facts, weekly menu, benefits, chef story, reviews, FAQ and plan switcher.</td></tr>
 					<tr><td><strong>Box builder</strong></td><td><code>cm-build-box</code> turns plan variants into plates. Customers fill slots to unlock 15% (5 plates) and 20% (10 plates) rates, then add the box to the cart in one request.</td></tr>
 					<tr><td><strong>Weekly menu</strong></td><td>Meals with photo, sides, calories, protein, carbs and fat. Hover (desktop) or tap (mobile) to preview; “Load more” reveals the rest.</td></tr>
-					<tr><td><strong>Delivery checker</strong></td><td>Town and ZIP search over a Leaflet map, with editable town list, radius and messages for inside/outside the zone.</td></tr>
+					<tr><td><strong>Delivery checker</strong></td><td>Two map styles: a styled street map and a town/ZIP checker. Both accept a town list with optional coordinates and answer any place the customer types, with the editable messages for inside, outside and not found.</td></tr>
 					<tr><td><strong>Gift cards</strong></td><td>Amount picker, recipient details, send-on date and personal message, wired to a Shopify gift card product.</td></tr>
 					<tr><td><strong>Metaobjects</strong></td><td>Five content types so a large menu, FAQ list or testimonial wall can live outside the theme editor and be reused on any page.</td></tr>
 				</tbody>
@@ -471,7 +471,7 @@ shopify theme push --store your-store.myshopify.com --theme 123456789 --only sec
 		<div class="page-header">
 			<h3>Change the Location</h3>
 		</div>
-		<p>The theme has no single “store address” field. Location data lives in five separate places on purpose: the map centre, the delivery towns, the kitchen pin, the footer address and the contact page. Change all five when you move the business, or a customer will see one city in the footer and a different city on the map.</p>
+		<p>The theme has no single “store address” field. Location data lives in several separate places on purpose: the map centre, the delivery towns, the kitchen pin, the footer address and the contact page. Change all of them when you move the business, or a customer will see one city in the footer and a different city on the map.</p>
 
 		<div class="doc-note">
 			<strong>There are no global location settings.</strong> Nothing under <strong>Theme settings</strong> controls the address, the map or the delivery towns. Every value is a section setting, so you change it on the page that renders it.
@@ -493,7 +493,10 @@ shopify theme push --store your-store.myshopify.com --theme 123456789 --only sec
 					<tr><td>Delivery towns (pin map)</td><td><code>cm-meal-plan-page</code> → <code>delivery_towns</code></td><td>Delivery checker on every plan page</td></tr>
 					<tr><td>Kitchen pin (checker)</td><td><code>cm-meal-plan-page</code> → <code>delivery_kitchen_lat</code>, <code>delivery_kitchen_lng</code></td><td>Centre dot and zone circle. Accepts numbers or a place name.</td></tr>
 					<tr><td>Delivery towns (plate map)</td><td><code>cm-meal-plan-page</code> → <code>plate_towns</code></td><td>Styled plate map and town chips</td></tr>
+					<tr><td>Kitchen pin (plate map)</td><td><code>cm-meal-plan-page</code> → the <code>kitchen</code> word in <code>plate_towns</code>, else <code>delivery_kitchen_lat</code> / <code>delivery_kitchen_lng</code></td><td>Centre of the plate map and the ring around it. The marked town wins when both are set.</td></tr>
 					<tr><td>Kitchen label / address</td><td><code>cm-meal-plan-page</code> → <code>plate_kitchen_label</code>, <code>plate_kitchen_address</code></td><td>Under the plate map</td></tr>
+					<tr><td>Customer place lookup</td><td><code>cm-meal-plan-page</code> → <code>delivery_msg_lookup_yes</code>, <code>delivery_msg_lookup_no</code>, <code>delivery_msg_lookup_fail</code></td><td>The answer when a visitor types a place you did not list. Use <code>{place}</code>, <code>{distance}</code> and <code>{query}</code>.</td></tr>
+					<tr><td>Customer lookup (plate map)</td><td><code>cm-meal-plan-page</code> → <code>plate_msg_lookup_in</code>, <code>plate_msg_lookup_out</code></td><td>The same answer on the plate map</td></tr>
 					<tr><td>Footer address</td><td><code>cm-footer</code> → Contact info block → <code>area</code></td><td>Site footer</td></tr>
 					<tr><td>Contact page</td><td><code>cm-contact-page</code> → <code>contact_item</code> blocks</td><td>Contact page panels</td></tr>
 				</tbody>
@@ -576,13 +579,17 @@ Name|ZIP,ZIP|left%|top%|kitchen|lat|lng
 </pre>
 		<ul>
 			<li>Only the <strong>name</strong> is required. <code>Hartland|53029|41|29|kitchen</code> works with no coordinates at all.</li>
-			<li><code>left%</code> and <code>top%</code> are positions on the stylised canvas, from <code>0</code> (left/top edge) to <code>100</code> (right/bottom edge).</li>
 			<li>Add the word <code>kitchen</code> as the fifth column on the row that marks your base.</li>
 			<li><code>lat</code> and <code>lng</code> (sixth and seventh columns) are optional. Towns that already exist in the theme's built-in coordinate table work without them; any other town is looked up by name.</li>
-			<li><code>plate_zone_radius</code> (22–34) sizes the ring around the kitchen and controls how far the map zooms out.</li>
+			<li><code>left%</code> and <code>top%</code> (third and fourth columns) are optional leftovers from the older stylised plate. Pins are now placed from real coordinates, so you can leave these out on new rows.</li>
+			<li><code>plate_zone_radius</code> is kept for compatibility with older lists. The ring now fits itself to your farthest town, so leave it at its default.</li>
 		</ul>
+		<p><strong>The plate map is a styled street map, not a drawing.</strong> It renders real OpenStreetMap tiles, so towns, roads and labels are always in the right place — you never have to eyeball a position. The map opens framed on your kitchen with the delivery ring around it, and the town chips sit alongside it.</p>
 		<div class="doc-note">
-			<strong>The plate map follows the kitchen settings.</strong> The stylised map reads <code>delivery_kitchen_lat</code> and <code>delivery_kitchen_lng</code> for its centre, so step 1 moves this map too. You do not need to edit the town coordinates when you move the kitchen — only when you add a town the theme has never heard of.
+			<strong>The marked town wins over the kitchen setting.</strong> The plate map centres on <code>delivery_kitchen_lat</code> and <code>delivery_kitchen_lng</code>, but if one of your <code>plate_towns</code> rows carries the word <code>kitchen</code>, that town's position is used instead. If you move the business, update both — or remove the <code>kitchen</code> word from the town row and let the coordinate fields decide.
+		</div>
+		<div class="doc-note">
+			<strong>Only towns the theme can place get a pin.</strong> A row whose name is unknown to the built-in table and that has no coordinates needs a lookup to succeed. It still appears as a chip and still answers “yes we deliver” — it just has no pin until the place resolves.
 		</div>
 
 		<h5>How the automatic lookup works</h5>
@@ -618,6 +625,10 @@ Name|ZIP,ZIP|left%|top%|kitchen|lat|lng
 			<li>The map previews a place while the customer is still typing — one request after a short pause, not one per keystroke.</li>
 			<li>The “inside” or “outside” verdict uses the real distance to your kitchen, so it stays correct after the visitor pans or zooms the map.</li>
 			<li>Your own towns always win. If a listed town and a stray place name match, the listed town is selected.</li>
+			<li>The suggestion list is keyboard operable: <kbd>↓</kbd>/<kbd>↑</kbd> move through towns and the lookup row, <kbd>Enter</kbd> selects, <kbd>Esc</kbd> closes it. Picking the lookup row is the same as submitting the text.</li>
+			<li>An “outside the zone” answer from the street-map checker also shows the <strong>Ask us about your area</strong> link, so a customer just beyond your radius still has a way to reach you. Set <code>delivery_contact_url</code> and <code>delivery_contact_label</code>, or leave the URL empty to hide the link.</li>
+			<li>On the plate map, a search tries ZIP first (exact, then prefix), then a town name — exact, then “starts with”, then “contains”. A listed town flies the map to its pin; anything else is geocoded and answered with <code>plate_msg_lookup_in</code> or <code>plate_msg_lookup_out</code>.</li>
+			<li>Submitting an empty field is answered separately — <code>plate_msg_empty</code> on the plate map, and a silent reset to the full zone on the street map.</li>
 		</ul>
 		<div class="doc-note">
 			<strong>All of this copy is editable.</strong> In <strong>Delivery checker: search</strong> you can rewrite the lookup messages: <code>delivery_lookup_row</code> (the dropdown row), <code>delivery_lookup_loading</code>, <code>delivery_msg_lookup_yes</code>, <code>delivery_msg_lookup_no</code> and <code>delivery_msg_lookup_fail</code>. Use <code>{place}</code> for the found place, <code>{distance}</code> for its distance from your kitchen, and <code>{query}</code> for what the customer typed. The plate map has the matching <code>plate_msg_lookup_in</code>, <code>plate_msg_lookup_out</code> and <code>plate_msg_lookup_loading</code> fields.
@@ -972,7 +983,7 @@ linked_product:      5-meal-plan
 					<tr><td>Steps</td><td><code>steps_eyebrow</code>, <code>steps_heading</code></td></tr>
 					<tr><td>Quality</td><td><code>quality_eyebrow</code>, <code>quality_heading</code>, <code>quality_text</code>, <code>quality_button</code></td></tr>
 					<tr><td>Gallery</td><td><code>show_gallery</code>, <code>gallery_eyebrow</code>, <code>gallery_heading</code></td></tr>
-					<tr><td>Delivery</td><td><code>delivery_style</code>, <code>delivery_checker</code>, copy, town list, map query, kitchen coordinates and radius</td></tr>
+					<tr><td>Delivery</td><td><code>delivery_style</code>, <code>delivery_checker</code>, eyebrow, heading and text, town lists for both map styles, kitchen coordinates and radius, country hint, all messages and legends</td></tr>
 					<tr><td>Reviews / FAQ / Related / CTA</td><td>Eyebrow and heading for each, plus CTA text, label and link</td></tr>
 				</tbody>
 			</table>
@@ -1226,9 +1237,9 @@ assign plan_handles = '5-meal-plan,6-meal-plan,7-meal-plan,10-meal-plan,15-meal-
 		<div class="page-header">
 			<h3>Delivery Areas &amp; Map</h3>
 		</div>
-		<p>Two different tools ship with the theme — pick the one that fits the page.</p>
+		<p>Three different tools ship with the theme — pick the one that fits the page. The <strong>Delivery style</strong> setting (<code>delivery_style</code>) on <code>cm-meal-plan-page</code> chooses between them, and the packaged plan templates all ship set to <strong>Plate map</strong>.</p>
 		<h5>1. Delivery checker (inside the meal plan page)</h5>
-		<p>Turn on <code>delivery_checker</code> in <code>cm-meal-plan-page</code>. Customers type a town or ZIP code, or tap a town chip, and get a yes/no answer plus a map.</p>
+		<p>Set <strong>Delivery style</strong> to <strong>Interactive street map</strong>. Customers type a town or ZIP code, or tap a town chip, and get a yes/no answer plus a map. The extra <code>delivery_checker</code> checkbox must also be on — it is off by default, and without it the section falls back to the plain Google Maps block even when the street map is selected.</p>
 		<p>One town per line. Coordinates are optional — a bare <code>Name|ZIP,ZIP</code> row is looked up automatically, so you can type places instead of numbers. Leave the field empty to use the packaged default list for Hartland and Lake Country.</p>
 <pre class="line-numbers">
 <code class="language-markup">
@@ -1252,13 +1263,48 @@ Pewaukee|43.0806|-88.2612|53072      ← exact coordinates still work
 					<tr><td><code>delivery_msg_yes</code>, <code>delivery_msg_yes_sub</code></td><td>Inside the zone.</td></tr>
 					<tr><td><code>delivery_msg_no</code>, <code>delivery_contact_url</code>, <code>delivery_contact_label</code></td><td>Outside the zone, plus a “ask us” link.</td></tr>
 					<tr><td><code>delivery_show_all</code>, <code>delivery_show_less</code>, <code>delivery_initial_chips</code></td><td>How many town chips show before “show all”.</td></tr>
+					<tr><td><code>delivery_lookup_row</code>, <code>delivery_lookup_loading</code>, <code>delivery_msg_lookup_yes</code>, <code>delivery_msg_lookup_no</code>, <code>delivery_msg_lookup_fail</code></td><td>The suggestion row and the answers for a place that is not on your town list. See <a href="#location">Change the Location</a>.</td></tr>
 					<tr><td><code>delivery_country</code></td><td>Country hint for automatic place lookups.</td></tr>
-					<tr><td><code>map_title</code>, <code>map_embed_url</code></td><td>Optional embedded map instead of the generated one.</td></tr>
+					<tr><td><code>delivery_legend_kitchen</code>, <code>delivery_legend_areas</code>, <code>delivery_legend_zone</code>, <code>delivery_reset_label</code></td><td>Legend wording and the “show the whole zone again” button.</td></tr>
 				</tbody>
 			</table>
 		</div>
 
-		<h5>2. Delivery map section</h5>
+		<h5>2. Plate map (the packaged default)</h5>
+		<p>Set <strong>Delivery style</strong> to <strong>Plate map + area checker</strong> — the default on every plan template. It renders a styled OpenStreetMap map with a town-chip list beside it and the same postal-code search. Its own town list is <code>plate_towns</code>, which uses a different column order; see <a href="#location">Change the Location</a> for the format and the full walkthrough.</p>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>Setting</th>
+						<th>Purpose</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td><code>plate_areas_title</code></td><td>Heading above the town chips, for example “We deliver to”.</td></tr>
+					<tr><td><code>plate_visible</code>, <code>plate_more_label</code>, <code>plate_less_label</code></td><td>How many chips show before “show all”, and the two labels. <code>{count}</code> in the show-all label becomes the total.</td></tr>
+					<tr><td><code>plate_kitchen_label</code>, <code>plate_kitchen_address</code>, <code>plate_maps_url</code>, <code>plate_maps_label</code></td><td>The card under the map: name, address and an optional “Open in Maps” link.</td></tr>
+					<tr><td><code>plate_map_label</code>, <code>plate_legend_kitchen</code>, <code>plate_legend_area</code>, <code>plate_legend_zone</code></td><td>Accessible map label and legend wording.</td></tr>
+					<tr><td><code>plate_msg_yes</code>, <code>plate_msg_no</code>, <code>plate_msg_empty</code></td><td>Answers for a listed town, for a miss, and for an empty submit.</td></tr>
+					<tr><td><code>plate_msg_lookup_in</code>, <code>plate_msg_lookup_out</code>, <code>plate_msg_lookup_loading</code></td><td>Answers for a place that is not on your list.</td></tr>
+				</tbody>
+			</table>
+		</div>
+
+		<h5>3. Plain Google Maps block</h5>
+		<p>Set <strong>Delivery style</strong> to <strong>Google Maps embed</strong> and leave <strong>Use the street-map checker</strong> (<code>delivery_checker</code>) <strong>off</strong>. This is a static iframe plus a list of areas — no search, no pins, no JavaScript. It is the simplest option when you only need a picture of where you deliver.</p>
+		<div class="doc-note">
+			<strong>A checked checker wins over the Embed style.</strong> The theme picks the plate map first, then the street-map checker, and only then the plain block. So turning <code>delivery_checker</code> on while the style is <strong>Google Maps embed</strong> still renders the street-map checker, not the embed. To get the embed, the checkbox has to be off.
+		</div>
+		<ul>
+			<li><code>delivery_areas</code> — comma-separated list of places, shown with pin icons.</li>
+			<li><code>delivery_button_label</code>, <code>delivery_button_link</code> — the call to action under the list.</li>
+			<li><code>map_query</code> — the address Google Maps searches for when no embed URL is set.</li>
+			<li><code>map_embed_url</code> — paste the full <code>src</code> from Google Maps → Share → Embed a map to override the search.</li>
+			<li><code>map_title</code> — the caption under the map, also used as the iframe title.</li>
+		</ul>
+
+		<h5>4. Delivery map section</h5>
 		<p><code>cm-delivery-map</code> renders a Leaflet map with one pin per block. Set the map centre, zoom level, height and the headquarters popup, then add <code>pin</code> blocks:</p>
 <pre class="line-numbers">
 <code class="language-markup">
@@ -1272,10 +1318,10 @@ Or, with no numbers at all:
   place: Pewaukee, Wisconsin     ← looked up automatically
 </code>
 </pre>
-		<p>If a pin has no coordinates, the theme looks the <strong>Or place name</strong> field up when the map loads. The same applies to the HQ popup through <code>hq_place</code>.</p>
-		<p>Leaflet is loaded on demand from unpkg the first time a map appears, so pages without a map pay no cost. Keep <code>fit_to_pins</code> on to frame all pins automatically.</p>
+		<p>If a pin has no coordinates, the theme looks the <strong>Or place name</strong> field up when the map loads. The same applies to the HQ popup through <code>hq_place</code>. The section also has <code>show_labels</code> to keep every area name visible, <code>map_height</code> for the frame height, a footer pair under the map (<code>foot_1_*</code>, <code>foot_2_*</code>) and <code>geo_country</code> for the lookups.</p>
+		<p>Leaflet is loaded on demand from unpkg the first time a map appears, so pages without a map pay no cost. Keep <code>fit_to_pins</code> on to frame all pins automatically; leave it off to respect <code>center_lat</code>, <code>center_lng</code> and <code>zoom</code>.</p>
 
-		<h5>3. Delivery zones list</h5>
+		<h5>5. Delivery zones list</h5>
 		<p><code>delivery-zones</code> lists service areas with delivery days, cut-off time, fee and minimum order. It has the same Metaobject/blocks switch as the other content sections — type <code>delivery_zone</code> for the Metaobject mode.</p>
 		<div class="doc-note">
 			<strong>Keep delivery promises in one place.</strong> If you change the cut-off day or delivery window, update it in the announcement bar, the FAQ page and the delivery section together so customers never see two different answers.
@@ -1445,7 +1491,7 @@ Field block:
 				<tbody>
 					<tr><td><code>cm-build-box.js</code></td><td>Slot filling, discount tiers, Ajax add to cart</td></tr>
 					<tr><td><code>cm-meal-plan-page.js</code></td><td>Weekly menu hover preview, load more, plan switcher, gallery</td></tr>
-					<tr><td><code>cm-delivery-checker.js</code></td><td>Town/ZIP search, chips, result messaging</td></tr>
+					<tr><td><code>cm-delivery-checker.js</code></td><td>Street-map checker: town/ZIP search, suggestion list, chips, customer place lookup, result messaging</td></tr>
 					<tr><td><code>cm-geocode.js</code></td><td>Place-name to coordinates lookup shared by every delivery map</td></tr>
 					<tr><td><code>cm-da.js</code>, <code>cm-da-map.js</code></td><td>Delivery areas layout and map</td></tr>
 					<tr><td><code>cm-delivery-map.js</code>, <code>cm-delivery-map-legacy.js</code></td><td>Leaflet map with pins</td></tr>
@@ -1560,8 +1606,11 @@ Field block:
 					<tr><td>Build box button never unlocks</td><td><code>min_plates</code> higher than available variants</td><td>Lower <code>min_plates</code> or add variants</td></tr>
 					<tr><td>Box discount not applied at checkout</td><td>Discounts are display-only in this theme</td><td>Create an automatic order discount in Shopify, or reword the copy</td></tr>
 					<tr><td>Meal photos missing in the box</td><td>Variant has no image</td><td>Assign per-variant images, or keep the packaged <code>mp-food-*.jpg</code> fallback</td></tr>
-					<tr><td>Delivery checker rejects a valid town</td><td>Town list misspelled or ZIP missing</td><td>Edit <code>delivery_towns</code> using <code>Name|lat|lng|ZIP</code></td></tr>
-					<tr><td>Map is blank</td><td>Leaflet blocked or offline</td><td>Allow <code>unpkg.com</code>, or set <code>map_embed_url</code> to an embedded map</td></tr>
+					<tr><td>Delivery checker rejects a valid town</td><td>Town list misspelled, ZIP missing, or the row is in the wrong column order</td><td>Edit <code>delivery_towns</code> using <code>Name|ZIP,ZIP</code> or <code>Name|lat|lng|ZIP</code>. A town in the wrong column order is read as coordinates and lands at 0,0.</td></tr>
+					<tr><td>A town has no pin on the map</td><td>The name is unknown to the built-in table and the lookup failed</td><td>Add <code>lat</code> and <code>lng</code> to that row. The chip still works without a pin.</td></tr>
+					<tr><td>Plate map opens in the wrong place</td><td>A <code>kitchen</code> row in <code>plate_towns</code> overrides <code>delivery_kitchen_lat</code></td><td>Move the <code>kitchen</code> word to the correct row, or remove it and set the coordinate fields</td></tr>
+					<tr><td>Map is blank</td><td>Leaflet or its tiles are blocked</td><td>Allow <code>cdnjs.cloudflare.com</code> and <code>unpkg.com</code> for the script, and <code>tile.openstreetmap.org</code> / <code>basemaps.cartocdn.com</code> for the tiles. The checker can also fall back to the plain Google Maps style.</td></tr>
+					<tr><td>Delivery section shows the wrong layout</td><td><code>delivery_style</code> and <code>delivery_checker</code> disagree</td><td>The theme picks the plate map first, then a checked <code>delivery_checker</code>, then the embed. Set <code>delivery_checker</code> off to get the Google Maps embed.</td></tr>
 					<tr><td>Gift card button does nothing</td><td>No gift card product selected</td><td>Select the product, and confirm its variants match the amount list</td></tr>
 					<tr><td>Contact email never arrives</td><td>Store email or notification recipient missing</td><td>Check <strong>Settings → Store details</strong> and <strong>Settings → Notifications</strong></td></tr>
 					<tr><td>Headings use the wrong font</td><td>Font picker changed but CSS variable not</td><td>Update <code>--font-heading-family</code> in <code>layout/theme.liquid</code></td></tr>
@@ -1588,8 +1637,22 @@ Field block:
 				</thead>
 				<tbody>
 					<tr>
+						<td><strong>1.3.0</strong></td>
+						<td>October 26, 2026</td>
+						<td>
+							<ul>
+								<li><strong>The plate map is now a real street map.</strong> The stylised SVG plate was replaced by a styled Leaflet map with OpenStreetMap tiles and city-carousel basemap, so pins sit on their true coordinates. Town chips, the kitchen card, the legend and the postal-code search are unchanged.</li>
+								<li>The <code>left%</code> and <code>top%</code> columns in <code>plate_towns</code> are now unused. Existing lists keep working; the columns are simply ignored.</li>
+								<li><code>plate_zone_radius</code> no longer sizes the ring. The plate map fits the circle to your farthest town automatically, matching the checker.</li>
+								<li>Documentation: new section on how <strong>Delivery style</strong> chooses between the plate map, the street-map checker and the Google Maps embed, plus a full settings table for each style.</li>
+								<li>Documentation: the plate map's <code>kitchen</code> row is now documented as overriding <code>delivery_kitchen_lat</code> — the most common cause of a map opening in the wrong town.</li>
+								<li>Documentation: new troubleshooting rows for a missing pin, a map in the wrong place, blocked tiles and a layout that does not match the chosen style.</li>
+							</ul>
+						</td>
+					</tr>
+					<tr>
 						<td><strong>1.2.0</strong></td>
-						<td>October 25, 2026</td>
+						<td>October 26, 2026</td>
 						<td>
 							<ul>
 								<li><strong>Customers can now look up any place themselves.</strong> Typing a town, ZIP, street address or landmark that is not on your delivery list geocodes it, drops a ring on the map and reports whether it falls inside your zone, with the distance from your kitchen.</li>
@@ -1662,7 +1725,10 @@ Field block:
 		<p><strong>Libraries:</strong><br>
 			<a href="https://shopify.dev/docs/themes" target="_blank">Shopify Online Store 2.0</a><br>
 			<a href="https://greensock.com/gsap/" target="_blank">GSAP</a> — ScrollTrigger, ScrollSmoother and SplitText. Redistributing Club GreenSock plugins requires an appropriate GreenSock licence.<br>
-			<a href="https://leafletjs.com/" target="_blank">Leaflet</a> — delivery maps, loaded on demand from unpkg.
+			<a href="https://leafletjs.com/" target="_blank">Leaflet</a> — delivery maps, loaded on demand from unpkg and cdnjs.<br>
+			<a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> — map tiles and place data.<br>
+			<a href="https://carto.com/attributions" target="_blank">CARTO</a> — basemap tiles for the delivery checker.<br>
+			<a href="https://photon.komoot.io/" target="_blank">Photon</a> — place-name lookup for the delivery maps.
 		</p>
 		<p><strong>Icons:</strong> the icon set in <code>assets/</code> is included with the theme. Check each icon licence before redistributing it outside the theme package.</p>
 	</section>
