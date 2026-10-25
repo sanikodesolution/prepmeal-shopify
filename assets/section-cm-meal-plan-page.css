@@ -60,8 +60,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .ph{width:100%;height:100%;display:block}
 
 /* 02 benefits */
-.ben{position:relative;isolation:isolate;overflow:hidden;background:var(--forest);color:var(--sage)}
-&section.ben{padding-block:clamp(72px,9vw,120px) 0;padding-inline:0}
+.ben{position:relative;isolation:isolate;overflow:hidden;background:var(--forest);color:var(--sage);padding:clamp(72px,9vw,120px) 0 0}
 .ben::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(120% 90% at 50% -10%,rgba(107,143,63,.22),transparent 62%)}
 .ben__glow{position:absolute;left:50%;bottom:6%;z-index:-1;width:min(760px,92vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(245,166,35,.16),transparent 72%);pointer-events:none}
 .ben__inner{position:relative;max-width:var(--page-width);margin:0 auto;padding-inline:clamp(1.25rem,4vw,4rem);text-align:center}
@@ -69,7 +68,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .ben .big{font-family:var(--display);font-weight:500;font-size:clamp(2.05rem,5.6vw,4.35rem);line-height:1.06;letter-spacing:-.03em;margin:0;text-wrap:balance}
 .ben .big span{display:block}
 .ben .big .out{color:var(--saffron)}
-.ben__note{margin:clamp(20px,2.6vw,28px) auto 0;max-width:58ch;font-size:.97rem;line-height:1.65;color:rgba(227,234,223,.7)}
+.ben__note{margin:clamp(20px,2.6vw,28px) auto 0;max-width:56ch;font-size:.97rem;line-height:1.65;color:rgba(227,234,223,.7);text-wrap:pretty}
 
 /* Endless stat rail. Two identical groups inside the track, so a -50% shift
    lands exactly on the start of the copy and the loop never shows a seam. */
