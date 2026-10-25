@@ -593,6 +593,35 @@ Name|ZIP,ZIP|left%|top%|kitchen|lat|lng
 			<li>The map still renders if both services are unreachable — it falls back to any coordinates you typed.</li>
 			<li>Towns already known to the theme's built-in table are never looked up, so the default list costs nothing.</li>
 		</ul>
+
+		<h5>What a customer can type into the map</h5>
+		<p>Customers are not limited to the towns on your list. Anything they type that is not one of your towns is looked up and plotted on the map, then compared with your delivery circle.</p>
+<div class="table-responsive">
+	<table class="table table-bordered table-striped" style="font-size:13px;">
+		<thead>
+			<tr>
+				<th>Customer types</th>
+				<th>What the map does</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr><td><code>Waukesha</code> (one of your towns)</td><td>Highlights your existing pin and shows the “we deliver” message. No lookup needed.</td></tr>
+			<tr><td><code>53186</code> (one of your ZIPs)</td><td>Matches the town that ZIP belongs to.</td></tr>
+			<tr><td><code>Oconomowoc</code> (not on your list)</td><td>Finds the place, drops a ring on it, and reports whether it falls inside your zone.</td></tr>
+			<tr><td><code>N64W28381 Hawthorne Rd, Hartland, WI</code></td><td>Finds the exact building, not just the town.</td></tr>
+			<tr><td><code>Chicago</code></td><td>Finds it, shows the distance from your kitchen, and marks it outside the zone.</td></tr>
+			<tr><td><code>asdfgh</code></td><td>Reports that the place could not be found and suggests trying a town or ZIP.</td></tr>
+		</tbody>
+	</table>
+</div>
+		<ul>
+			<li>The map previews a place while the customer is still typing — one request after a short pause, not one per keystroke.</li>
+			<li>The “inside” or “outside” verdict uses the real distance to your kitchen, so it stays correct after the visitor pans or zooms the map.</li>
+			<li>Your own towns always win. If a listed town and a stray place name match, the listed town is selected.</li>
+		</ul>
+		<div class="doc-note">
+			<strong>All of this copy is editable.</strong> In <strong>Delivery checker: search</strong> you can rewrite the lookup messages: <code>delivery_lookup_row</code> (the dropdown row), <code>delivery_lookup_loading</code>, <code>delivery_msg_lookup_yes</code>, <code>delivery_msg_lookup_no</code> and <code>delivery_msg_lookup_fail</code>. Use <code>{place}</code> for the found place, <code>{distance}</code> for its distance from your kitchen, and <code>{query}</code> for what the customer typed. The plate map has the matching <code>plate_msg_lookup_in</code>, <code>plate_msg_lookup_out</code> and <code>plate_msg_lookup_loading</code> fields.
+		</div>
 		<div class="doc-note">
 			<strong>For a production store, coordinates are still best.</strong> A lookup is fast but it is a third-party call, and it can fail on a locked-down network. Once you are happy with a place, copy the coordinates from Google Maps into the field and the map stops depending on the network.
 		</div>
@@ -1558,6 +1587,23 @@ Field block:
 					</tr>
 				</thead>
 				<tbody>
+					<tr>
+						<td><strong>1.2.0</strong></td>
+						<td>October 25, 2026</td>
+						<td>
+							<ul>
+								<li><strong>Customers can now look up any place themselves.</strong> Typing a town, ZIP, street address or landmark that is not on your delivery list geocodes it, drops a ring on the map and reports whether it falls inside your zone, with the distance from your kitchen.</li>
+								<li>The suggestion list ends with a <em>Look up “…” on the map</em> row, so the lookup is discoverable from the keyboard as well as on submit.</li>
+								<li>The map previews a place while the visitor is still typing, debounced to one request per pause rather than one per keystroke.</li>
+								<li>The plate map (5/6/7/15 plate pages) gains the same customer lookup, sharing the checker's distance verdict.</li>
+								<li><code>cm-geocode.js</code>: results are now ranked by place type and name match instead of taking the first hit. A city wins over a shop of the same name, a street address resolves to the building, and a fuzzy town no longer answers for an address.</li>
+								<li><code>cm-geocode.js</code>: the country hint is only applied when the visitor names no region of their own, and a match hundreds of kilometres away is retried inside the configured country. <code>Hartland</code> no longer resolves to New Brunswick.</li>
+								<li>Nominatim requests use <code>countrycodes</code> for a precise country filter, and Photon results are cross-checked against Nominatim when nothing better than a landmark comes back.</li>
+								<li>New editable copy: <code>delivery_lookup_row</code>, <code>delivery_lookup_loading</code>, <code>delivery_msg_lookup_yes</code>, <code>delivery_msg_lookup_no</code>, <code>delivery_msg_lookup_fail</code>, plus <code>plate_msg_lookup_in</code>, <code>plate_msg_lookup_out</code> and <code>plate_msg_lookup_loading</code>.</li>
+								<li>Documentation: new “What a customer can type into the map” table under Change the Location.</li>
+							</ul>
+						</td>
+					</tr>
 					<tr>
 						<td><strong>1.1.0</strong></td>
 						<td>October 24, 2026</td>

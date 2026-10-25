@@ -148,9 +148,45 @@
   animation: mpd-ping 2.6s ease-out 2;
 }
 
+/* A place the visitor geocoded themselves: hollow ring so it reads as
+   "your search", distinct from the solid delivery-area dots.
+   border-box keeps the drawn ring at the 18px the divIcon declares, so the
+   anchor point stays centred on the chosen coordinates. */
+.mpd__look {
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid var(--mpd-ink);
+  box-shadow: 0 2px 8px rgba(21, 37, 28, 0.35), 0 0 0 0 rgba(21, 37, 28, 0.35);
+  animation: mpd-ping 2.2s ease-out 2;
+}
+
 @keyframes mpd-ping {
   to { box-shadow: 0 0 0 20px rgba(21, 37, 28, 0); }
 }
+
+/* Pinned label over a geocoded place. Leaflet theming stays here so the
+   marker reads as part of the card rather than a default Leaflet popup. */
+.mpd .mpd__look-tip {
+  padding: 0.4rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--mpd-ink);
+  color: #fff;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 600;
+  white-space: nowrap;
+  /* A long official place name must not stretch past the map card. */
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 8px 18px -10px rgba(21, 37, 28, 0.7);
+}
+
+.mpd .mpd__look-tip::before { border-top-color: var(--mpd-ink); }
 
 .mpd__map-fallback {
   display: grid;
@@ -275,6 +311,18 @@
 .mpd__suggest button:hover,
 .mpd__suggest button.is-active { background: rgba(245, 166, 35, 0.14); }
 
+/* Last row: the geocoder fallback. Dashed divider marks it as a different kind
+   of result — a fresh lookup rather than a town already on the list. */
+.mpd__suggest-look {
+  margin-top: 0.4rem;
+  border-top: 1px dashed var(--mpd-line) !important;
+  border-radius: 0 0 1.2rem 1.2rem !important;
+  padding-top: 1rem !important;
+  font-weight: 600;
+}
+
+.mpd__suggest-look svg { fill: var(--mpd-ink) !important; opacity: 0.55; }
+
 /* ---------- result line ---------- */
 .mpd__result {
   min-height: 3.2em;
@@ -301,6 +349,24 @@
 }
 
 .mpd__result.is-no::before { background: #c9533a; }
+
+/* While the geocoder works, a pulsing amber dot instead of a verdict. */
+.mpd__result.is-info { color: var(--mpd-muted); }
+.mpd__result.is-info::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 0.6rem;
+  border-radius: 50%;
+  background: var(--mpd-accent);
+  vertical-align: middle;
+  animation: mpd-blink 0.9s ease-in-out infinite;
+}
+
+@keyframes mpd-blink {
+  50% { opacity: 0.25; }
+}
 
 .mpd__result.is-pop { animation: mpd-pop 0.32s ease-out; }
 

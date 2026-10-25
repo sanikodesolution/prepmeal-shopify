@@ -103,6 +103,21 @@ Mukwonago|53149|41.9|51.6
   assign msg_yes = s.plate_msg_yes | default: 'Good news, we deliver to {area}.'
   assign msg_no = s.plate_msg_no | default: 'We do not deliver to {query} yet. Check the list below or contact us.'
   assign msg_empty = s.plate_msg_empty | default: 'Type a postal code or town first.'
+  # Build brace tokens by concatenation, for the same lexer reason as above.
+  assign po = '{'
+  assign pc = '}'
+  assign msg_lookup_in = s.plate_msg_lookup_in
+  if msg_lookup_in == blank
+    assign msg_lookup_in = po | append: 'place' | append: pc | append: ' is inside our delivery zone.'
+  endif
+  assign msg_lookup_out = s.plate_msg_lookup_out
+  if msg_lookup_out == blank
+    assign msg_lookup_out = po | append: 'place' | append: pc | append: ' is about ' | append: po | append: 'distance' | append: pc | append: ' from our kitchen, outside the delivery zone.'
+  endif
+  assign msg_lookup_loading = s.plate_msg_lookup_loading
+  if msg_lookup_loading == blank
+    assign msg_lookup_loading = 'Looking up "' | append: po | append: 'query' | append: pc | append: '"…'
+  endif
   assign uid = section.id
 -%}
 
@@ -234,7 +249,7 @@ Mukwonago|53149|41.9|51.6
   </div>
 
   <script type="application/json" data-mpdl-copy>
-    {"yes":{{ msg_yes | json }},"no":{{ msg_no | json }},"empty":{{ msg_empty | json }}}
+    {"yes":{{ msg_yes | json }},"no":{{ msg_no | json }},"empty":{{ msg_empty | json }},"lookupIn":{{ msg_lookup_in | json }},"lookupOut":{{ msg_lookup_out | json }},"lookupLoading":{{ msg_lookup_loading | json }}}
   </script>
 
   <script>
@@ -256,6 +271,9 @@ Mukwonago|53149|41.9|51.6
       var map = null;
       var zone = null;
       var markers = [];
+      // The kitchen's real position. map.getCenter() moves when the visitor
+      // pans, so it cannot be used to judge a lookup's distance.
+      var KITCHEN_LL = null;
       var COORDS = {
         hartland: [43.1051, -88.342],
         delafield: [43.0608, -88.4037],
@@ -440,6 +458,7 @@ Mukwonago|53149|41.9|51.6
             attributionControl: true,
             zoomSnap: 0.25
           });
+          KITCHEN_LL = kitchen;
           L.control.zoom({ position: 'topleft' }).addTo(map);
           map.attributionControl.setPosition('bottomleft');
           L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -556,6 +575,86 @@ Mukwonago|53149|41.9|51.6
         return null;
       }
 
+      // Any place the visitor names, not just the listed towns, is geocoded and
+      // compared with the delivery circle so the map can answer with a real
+      // position instead of a flat "no".
+      var lookLayer = null;
+      function clearLook() {
+        if (lookLayer && map) { map.removeLayer(lookLayer); lookLayer = null; }
+      }
+
+      function kmLabel(m) {
+        var v = (m || 0) / 1000;
+        return (v >= 10 ? Math.round(v) : Math.round(v * 10) / 10) + ' km';
+      }
+
+      function zoneRadius() {
+        return zone ? zone.getRadius() : 8000;
+      }
+
+      function shortLabel(label, fallback) {
+        var parts = String(label || '').split(',').map(function (p) { return p.trim(); }).filter(Boolean);
+        return parts.length ? parts.slice(0, 2).join(', ') : fallback;
+      }
+
+      function lookupPlace(raw) {
+        var geo = window.CMGeocode;
+        if (!geo || !map) {
+          show(String(copy.no || '').replace('{query}', raw), false);
+          fitOutside(true);
+          return;
+        }
+
+        show((copy.lookupLoading || 'Looking up "{query}"…').replace('{query}', raw), true);
+
+        geo.lookup(raw, { country: canvas.getAttribute('data-country') || '' }).then(function (hit) {
+          if (normName(input.value) !== normName(raw)) return;
+
+          if (!hit) {
+            clearLook();
+            show(String(copy.no || '').replace('{query}', raw), false);
+            fitOutside(true);
+            return;
+          }
+
+          var here = KITCHEN_LL || [map.getCenter().lat, map.getCenter().lng];
+          var away = metres(here, [hit.lat, hit.lng]);
+          var inside = away <= zoneRadius() * 1.02;
+
+          clearLook();
+          lookLayer = L.circleMarker([hit.lat, hit.lng], {
+            radius: 8,
+            color: '#14231b',
+            weight: 4,
+            fillColor: '#ffffff',
+            fillOpacity: 1
+          }).addTo(map);
+          lookLayer.bindTooltip(shortLabel(hit.label, raw), {
+            permanent: true,
+            direction: 'top',
+            offset: [0, -10],
+            className: 'mealplan-dl__tip-live'
+          });
+
+          map.flyTo([hit.lat, hit.lng], Math.max(map.getZoom(), 12), { duration: 0.6 });
+          pinned = null;
+          setActive(null);
+
+          var place = shortLabel(hit.label, raw);
+          var template = inside
+            ? (copy.lookupIn || '{place} is inside our delivery zone.')
+            : (copy.lookupOut || '{place} is about {distance} from our kitchen, outside the delivery zone.');
+          var text = template
+            .replace('{place}', place)
+            .replace('{distance}', kmLabel(away));
+
+          show(text, inside);
+        }).catch(function () {
+          show(String(copy.no || '').replace('{query}', raw), false);
+          fitOutside(true);
+        });
+      }
+
       if (form) {
         form.addEventListener('submit', function (e) {
           e.preventDefault();
@@ -568,12 +667,10 @@ Mukwonago|53149|41.9|51.6
             pinned = id;
             setActive(id);
             focusTown(id, true);
+            clearLook();
             show(String(copy.yes || '').replace('{area}', hit.getAttribute('data-name')), true);
           } else {
-            pinned = null;
-            setActive(null);
-            fitOutside(true);
-            show(String(copy.no || '').replace('{query}', raw), false);
+            lookupPlace(raw);
           }
         });
       }

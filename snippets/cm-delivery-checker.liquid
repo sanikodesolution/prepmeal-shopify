@@ -159,9 +159,29 @@ Mukwonago|42.8667|-88.3334|53149
   assign msg_yes2 = s.delivery_msg_yes_sub | default: 'Add your plan and confirm your address at checkout.'
   assign msg_contact = s.delivery_contact_url | default: ''
   assign msg_contact_label = s.delivery_contact_label | default: 'Ask us about your area'
+  assign msg_lookup_yes = s.delivery_msg_lookup_yes
+  if msg_lookup_yes == blank
+    assign msg_lookup_yes = po | append: 'place' | append: pc | append: ' sits inside our delivery zone.'
+  endif
+  assign msg_lookup_no = s.delivery_msg_lookup_no
+  if msg_lookup_no == blank
+    assign msg_lookup_no = po | append: 'place' | append: pc | append: ' is about ' | append: po | append: 'distance' | append: pc | append: ' from our kitchen, outside the delivery zone.'
+  endif
+  assign msg_lookup_fail = s.delivery_msg_lookup_fail
+  if msg_lookup_fail == blank
+    assign msg_lookup_fail = 'We could not find "' | append: po | append: 'query' | append: pc | append: '". Try a town, a ZIP code or a nearby landmark.'
+  endif
+  assign msg_lookup_row = s.delivery_lookup_row
+  if msg_lookup_row == blank
+    assign msg_lookup_row = 'Look up "' | append: po | append: 'query' | append: pc | append: '" on the map'
+  endif
+  assign msg_lookup_loading = s.delivery_lookup_loading
+  if msg_lookup_loading == blank
+    assign msg_lookup_loading = 'Looking up "' | append: po | append: 'query' | append: pc | append: '"…'
+  endif
 -%}
 {%- capture mpd_copy_json -%}
-{"yes":{{ msg_yes | json }},"yes2":{{ msg_yes2 | json }},"no":{{ msg_no | json }},"contact":{{ msg_contact | json }},"contactLabel":{{ msg_contact_label | json }}}
+{"yes":{{ msg_yes | json }},"yes2":{{ msg_yes2 | json }},"no":{{ msg_no | json }},"contact":{{ msg_contact | json }},"contactLabel":{{ msg_contact_label | json }},"lookupYes":{{ msg_lookup_yes | json }},"lookupNo":{{ msg_lookup_no | json }},"lookupFail":{{ msg_lookup_fail | json }},"lookupRow":{{ msg_lookup_row | json }},"lookupLoading":{{ msg_lookup_loading | json }}}
 {%- endcapture -%}
 
 <section
