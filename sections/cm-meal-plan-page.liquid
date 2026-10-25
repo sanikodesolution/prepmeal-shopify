@@ -462,62 +462,36 @@
   <div class="mealplan-a">
     <section class="ben">
       <div class="ben__glow" aria-hidden="true"></div>
-      <div class="wrap ben__wrap">
-        <div class="ben__stage">
-          {%- if section.settings.ben_eyebrow != blank -%}
-            <p class="ben__eyebrow">{{ section.settings.ben_eyebrow | escape }}</p>
-          {%- endif -%}
-          <p class="big">
-            <span>{{ section.settings.ben_line_1 | escape }}</span>
-            <span>{{ section.settings.ben_line_2 | escape }}</span>
-            <span class="out">{{ section.settings.ben_line_3 | escape }}</span>
-          </p>
-          {%- if section.settings.ben_note != blank -%}
-            <p class="ben__note">{{ section.settings.ben_note | escape }}</p>
-          {%- endif -%}
-        </div>
+      <div class="ben__inner">
+        {%- if section.settings.ben_eyebrow != blank -%}
+          <p class="ben__eyebrow">{{ section.settings.ben_eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="big">
+          <span>{{ section.settings.ben_line_1 | escape }}</span>
+          <span>{{ section.settings.ben_line_2 | escape }}</span>
+          <span class="out">{{ section.settings.ben_line_3 | escape }}</span>
+        </h2>
+        {%- if section.settings.ben_note != blank -%}
+          <p class="ben__note">{{ section.settings.ben_note | escape }}</p>
+        {%- endif -%}
       </div>
-
       {%- if benefit_blocks.size > 0 -%}
-        {%- comment -%} Marquee ribbon: two identical tracks so the loop is seamless.
-        The second copy is hidden from assistive tech. {%- endcomment -%}
-        <div class="ben__rail" data-ben-rail>
+        {%- comment -%}
+          Four identical groups so the track always fills the viewport and a
+          -25% shift lands exactly on a group boundary, keeping the loop seamless
+          even when the plan only defines a few stats.
+        {%- endcomment -%}
+        <div class="ben__marquee">
           <div class="ben__track">
-            {%- for block in benefit_blocks -%}
-              <div class="ben__item" {{ block.shopify_attributes }}>
-                <b>{{ block.settings.title | escape }}</b>
-                <span>{{ block.settings.text | escape }}</span>
-              </div>
-            {%- endfor -%}
-          </div>
-          <div class="ben__track" aria-hidden="true">
-            {%- for block in benefit_blocks -%}
-              <div class="ben__item">
-                <b>{{ block.settings.title | escape }}</b>
-                <span>{{ block.settings.text | escape }}</span>
-              </div>
-            {%- endfor -%}
-          </div>
-        </div>
-      {%- elsif section.settings.ben_stats != blank -%}
-        {%- comment -%} Fallback: one stat per line as "Value | Label". Keeps the
-        ribbon filled on templates that have no benefit blocks yet. {%- endcomment -%}
-        {%- assign stat_lines = section.settings.ben_stats | newline_to_br | split: '<br />' -%}
-        <div class="ben__rail" data-ben-rail>
-          <div class="ben__track">
-            {%- for line in stat_lines -%}
-              {%- assign parts = line | strip | split: '|' -%}
-              {%- if parts[0] != blank -%}
-                <div class="ben__item"><b>{{ parts[0] | strip | escape }}</b><span>{{ parts[1] | default: '' | strip | escape }}</span></div>
-              {%- endif -%}
-            {%- endfor -%}
-          </div>
-          <div class="ben__track" aria-hidden="true">
-            {%- for line in stat_lines -%}
-              {%- assign parts = line | strip | split: '|' -%}
-              {%- if parts[0] != blank -%}
-                <div class="ben__item"><b>{{ parts[0] | strip | escape }}</b><span>{{ parts[1] | default: '' | strip | escape }}</span></div>
-              {%- endif -%}
+            {%- for pass in (1..4) -%}
+              <ul class="ben__group"{% if pass > 1 %} aria-hidden="true"{% endif %}>
+                {%- for block in benefit_blocks -%}
+                  <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                    <b>{{ block.settings.title | escape }}</b>
+                    <span>{{ block.settings.text | escape }}</span>
+                  </li>
+                {%- endfor -%}
+              </ul>
             {%- endfor -%}
           </div>
         </div>
@@ -802,7 +776,6 @@
 
     { "type": "header", "content": "Benefits" },
     { "type": "text", "id": "ben_eyebrow", "label": "Eyebrow", "default": "Hartland's #1 meal prep chef" },
-    { "type": "textarea", "id": "ben_stats", "label": "Stat ribbon", "info": "One stat per line as \"Value | Label\". Used only when this section has no Benefit blocks.", "default": "24oz | Per container\n2-3 min | Heat and eat\nFresh | Never frozen\nGluten free | Options\n40+ | Years experience\n<600 | Cal most meals\n45g | Protein most meals" },
     { "type": "text", "id": "ben_line_1", "label": "Line 1", "default": "5 meals." },
     { "type": "text", "id": "ben_line_2", "label": "Line 2", "default": "1 week." },
     { "type": "text", "id": "ben_line_3", "label": "Line 3 (outline)", "default": "Zero stress." },
@@ -946,10 +919,10 @@
     },
     {
       "type": "benefit",
-      "name": "Benefit stat",
+      "name": "Benefit",
       "settings": [
-        { "type": "text", "id": "title", "label": "Value", "default": "24oz", "info": "The big number or word, e.g. 24oz, 2-3 min, Fresh" },
-        { "type": "text", "id": "text", "label": "Label", "default": "Per container", "info": "The small caption under the value" }
+        { "type": "text", "id": "title", "label": "Title", "default": "Chef prepared" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Every meal is cooked by our chefs, not assembled from a kit." }
       ]
     },
     {

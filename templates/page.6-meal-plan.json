@@ -210,18 +210,11 @@
             "text": "Options"
           }
         },
-        "benefit_5": {
+        "benefit_6": {
           "type": "benefit",
           "settings": {
             "title": "40+",
             "text": "Years experience"
-          }
-        },
-        "benefit_6": {
-          "type": "benefit",
-          "settings": {
-            "title": "<600",
-            "text": "Cal most meals"
           }
         },
         "benefit_7": {
@@ -531,7 +524,6 @@
         "benefit_2",
         "benefit_3",
         "benefit_4",
-        "benefit_5",
         "benefit_6",
         "benefit_7",
         "step_1",

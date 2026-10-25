@@ -59,50 +59,41 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-of
 .btn:hover::before{transform:scaleX(1)}
 .ph{width:100%;height:100%;display:block}
 
-/* 02 benefits — a centred statement on a deep gradient, closed by a light
-   stat ribbon that scrolls forever. The band is a stacking context so the
-   glow sits behind the copy without bleeding past any rounded corners. */
-section.ben{position:relative;isolation:isolate;overflow:hidden;color:var(--sage);padding:clamp(64px,8vw,112px) 0 0;
-  background:
-    radial-gradient(120% 90% at 50% -10%,rgba(245,166,35,.13) 0,rgba(245,166,35,0) 55%),
-    linear-gradient(180deg,#1B2E23 0%,var(--forest) 58%,#101C15 100%)}
-.ben__wrap{position:relative;z-index:2}
-.ben__stage{max-width:min(34ch,100%);margin:0 auto;text-align:center}
-.ben__glow{position:absolute;z-index:0;left:50%;top:6%;width:min(900px,120%);aspect-ratio:1;transform:translateX(-50%);pointer-events:none;
-  background:radial-gradient(circle at 50% 50%,rgba(245,166,35,.10) 0,rgba(245,166,35,0) 62%);filter:blur(8px)}
-.ben__eyebrow{margin:0 0 clamp(1.4rem,2.6vw,2.1rem);font-size:.7rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(227,234,223,.5)}
-.ben .big{font-family:var(--display);font-weight:500;font-size:clamp(2.1rem,6vw,4.6rem);line-height:1.06;letter-spacing:-.03em;margin:0;text-wrap:balance}
-.ben .big span{display:inline}
-.ben .big .out{display:block;color:var(--saffron)}
-.ben__note{margin:clamp(1.3rem,2.4vw,1.9rem) auto 0;max-width:44ch;font-size:.95rem;line-height:1.65;color:rgba(227,234,223,.58)}
+/* 02 benefits */
+.ben{position:relative;isolation:isolate;overflow:hidden;background:var(--forest);color:var(--sage)}
+.mealplan-a .ben{padding-block:clamp(72px,9vw,120px) 0;padding-inline:0}
+.ben::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(120% 90% at 50% -10%,rgba(107,143,63,.22),transparent 62%)}
+.ben__glow{position:absolute;left:50%;bottom:6%;z-index:-1;width:min(760px,92vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(245,166,35,.16),transparent 72%);pointer-events:none}
+.ben__inner{position:relative;max-width:var(--page-width);margin:0 auto;padding-inline:clamp(1.25rem,4vw,4rem);text-align:center}
+.ben__eyebrow{margin:0 0 clamp(20px,2.6vw,28px);font-size:.76rem;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--saffron)}
+.ben .big{font-family:var(--display);font-weight:500;font-size:clamp(2.05rem,5.6vw,4.35rem);line-height:1.06;letter-spacing:-.03em;margin:0;text-wrap:balance}
+.ben .big span{display:block}
+.ben .big .out{color:var(--saffron)}
+.ben__note{margin:clamp(20px,2.6vw,28px) auto 0;max-width:58ch;font-size:.97rem;line-height:1.65;color:rgba(227,234,223,.7)}
 
-/* Stat ribbon. Two identical tracks sit in one row and the row is translated
-   by exactly one track width, so the wrap is invisible. flex:1 0 auto lets a
-   short list still fill the band instead of leaving a gap at the seam. */
-.ben__rail{position:relative;z-index:2;display:flex;margin-top:clamp(48px,7vw,84px);overflow:hidden;background:var(--sage);color:var(--forest);
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%);
-  mask-image:linear-gradient(90deg,transparent 0,#000 4%,#000 96%,transparent 100%)}
-.ben__track{display:flex;flex:0 0 auto;min-width:100%;align-items:stretch;animation:ben-marquee 44s linear infinite;will-change:transform}
-.ben__rail:hover .ben__track,
-.ben__rail:focus-within .ben__track{animation-play-state:paused}
-.ben__item{position:relative;flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;padding:clamp(1rem,1.5vw,1.35rem) clamp(1.4rem,3vw,2.6rem);text-align:center;white-space:nowrap}
-.ben__item+.ben__item{border-left:1px solid rgba(21,37,28,.16)}
-.ben__item b{font-family:var(--display);font-size:clamp(1.1rem,1.55vw,1.45rem);font-weight:600;line-height:1;letter-spacing:-.01em;color:var(--forest)}
-.ben__item span{font-size:.65rem;font-weight:600;line-height:1.2;letter-spacing:.16em;text-transform:uppercase;color:rgba(21,37,28,.55)}
-@keyframes ben-marquee{from{transform:translate3d(0,0,0)}to{transform:translate3d(-100%,0,0)}}
-
-@media(max-width:860px){
-  .ben{padding-top:clamp(52px,7vw,76px)}
-  .ben__stage{max-width:24ch}
-  .ben__track{min-width:0;flex:none;animation-duration:32s}
-  .ben__item{flex:0 0 auto;padding:1.15rem 1.35rem}
+/* Endless stat rail. Two identical groups inside the track, so a -50% shift
+   lands exactly on the start of the copy and the loop never shows a seam. */
+.ben__marquee{position:relative;margin-top:clamp(48px,6.5vw,80px);overflow:hidden;border-block:1px solid rgba(227,234,223,.15);background:rgba(255,255,255,.035);-webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.ben__track{display:flex;width:max-content;animation:ben-scroll 52s linear infinite;will-change:transform}
+.ben__marquee:hover .ben__track,.ben__marquee:focus-within .ben__track{animation-play-state:paused}
+.ben__group{display:flex;margin:0;padding:0;list-style:none}
+.ben__item{position:relative;display:flex;flex-direction:column;justify-content:center;gap:.3rem;flex:0 0 auto;min-width:clamp(132px,13vw,182px);padding:clamp(17px,2vw,23px) clamp(20px,2.6vw,38px);text-align:center}
+.ben__item+.ben__item::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;background:rgba(227,234,223,.16)}
+.ben__item b{font-family:var(--display);font-weight:600;font-size:clamp(1.02rem,1.45vw,1.3rem);line-height:1.1;letter-spacing:-.01em;color:#fff}
+.ben__item span{font-size:.71rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.3;color:rgba(227,234,223,.6)}
+@media(max-width:749px){
+.ben__eyebrow{letter-spacing:.2em;font-size:.7rem}
+.ben .big{line-height:1.1}
+.ben__item{min-width:124px;padding:16px 20px}
+.ben__track{animation-duration:38s}
 }
-
-/* Respect reduced-motion: hold the ribbon still and let it scroll by hand. */
 @media(prefers-reduced-motion:reduce){
-  .ben__track{animation:none}
-  .ben__rail{overflow-x:auto;scrollbar-width:none}
-  .ben__rail::-webkit-scrollbar{display:none}
+.ben__track{animation:none}
+.ben__marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none;scrollbar-width:thin}
+}
+@keyframes ben-scroll{
+from{transform:translate3d(0,0,0)}
+to{transform:translate3d(-25%,0,0)}
 }
 
 /* 03 menu */
