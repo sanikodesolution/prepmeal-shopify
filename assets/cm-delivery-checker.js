@@ -29,7 +29,20 @@
     const towns = readJSON('[data-mpd-towns]', []).filter(
       (t) => t && typeof t.n === 'string' && t.n
     );
-    const copy = readJSON('[data-mpd-copy]', {});
+    const copy = readJSON('[data-mpd-copy]', {}) || {};
+
+    // A section whose saved markup predates these keys still needs copy, so the
+    // lookup answer is never an empty line.
+    const copyDefaults = {
+      lookupYes: '{place} is inside our delivery zone.',
+      lookupNo: '{place} is about {distance} from our kitchen, outside our delivery zone.',
+      lookupFail: 'We could not find "{query}". Try a town, a postcode or a nearby landmark.',
+      lookupLoading: 'Looking up "{query}"…',
+      lookupRow: 'Look up "{query}" on the map'
+    };
+    Object.keys(copyDefaults).forEach((key) => {
+      if (!copy[key] || !String(copy[key]).trim()) copy[key] = copyDefaults[key];
+    });
 
     const placeOf = (town) => town.q || town.n;
 
@@ -237,6 +250,7 @@
 
       current = index;
       markActive(index);
+      clearLook();
       if (fromChip) input.value = town.n;
 
       say('is-yes', `<b>${esc(fill(copy.yes, '{town}', town.n))}</b> ${esc(copy.yes2 || '')}`);
@@ -257,6 +271,7 @@
       current = -1;
       markActive(-1);
       clearResult();
+      clearLook();
       fitZone(true);
     };
 
@@ -430,19 +445,33 @@
     const showSuggest = (query) => {
       if (!suggest) return;
       const hits = matches(query);
-      if (!hits.length) {
+      const text = query.trim();
+      // A query that is not one of our towns still deserves an answer, so the
+      // list ends with a "look this place up" row backed by the geocoder.
+      const exact = hits.some((town) => norm(town.n) === norm(text));
+      const wantLookup = text.length > 2 && !exact;
+
+      if (!hits.length && !wantLookup) {
         hideSuggest();
         return;
       }
 
-      suggest.innerHTML = hits
-        .map(
-          (town, i) =>
-            `<li role="option" id="${suggestId}-${i}"><button type="button" data-mpd-town="${esc(town.n)}">` +
-            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>' +
-            `${esc(town.n)}</button></li>`
-        )
-        .join('');
+      const rows = hits.map(
+        (town, i) =>
+          `<li role="option" id="${suggestId}-${i}"><button type="button" data-mpd-town="${esc(town.n)}">` +
+          '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>' +
+          `${esc(town.n)}</button></li>`
+      );
+
+      if (wantLookup) {
+        rows.push(
+          `<li role="option" id="${suggestId}-look"><button type="button" class="mpd__suggest-look" data-mpd-lookup="${esc(text)}">` +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 2a9 9 0 1 0 5.6 16l4.2 4.2 1.4-1.4-4.2-4.2A9 9 0 0 0 11 2zm0 2a7 7 0 1 1 0 14 7 7 0 0 1 0-14z"/></svg>' +
+            `${esc(fill(copy.lookupRow, '{query}', text))}</button></li>`
+        );
+      }
+
+      suggest.innerHTML = rows.join('');
 
       suggest.hidden = false;
       suggestIndex = -1;
@@ -459,11 +488,140 @@
       if (index > -1) select(index, { fly: true });
     };
 
+    /* ---------------- free place lookup ----------------
+       A visitor is not limited to the towns the merchant listed: any town,
+       postcode, street or landmark is geocoded and compared with the zone
+       circle, so the map answers with a real position instead of a guess. */
+
+    let lookMarker = null;
+    let previewTimer = 0;
+    let previewSeq = 0;
+
+    const clearLook = () => {
+      if (lookMarker && map) map.removeLayer(lookMarker);
+      lookMarker = null;
+    };
+
+    // Debounced lookups mean one request per pause, not one per keystroke.
+    const clearPending = () => {
+      if (previewTimer) window.clearTimeout(previewTimer);
+      previewTimer = 0;
+      previewSeq += 1;
+    };
+
+    const km = (metres) => {
+      const value = metres / 1000;
+      return (value >= 10 ? Math.round(value) : Math.round(value * 10) / 10) + ' km';
+    };
+
+    const zoneMetres = () => {
+      if (zoneRadius > 0) return zoneRadius;
+      return autoRadius();
+    };
+
+    // "Oconomowoc, Wisconsin, United States" is too wide for a small map pin,
+    // so the tooltip keeps just the place and its region.
+    const shortLabel = (label, fallback) => {
+      const parts = String(label || '')
+        .split(',')
+        .map((part) => part.trim())
+        .filter(Boolean);
+      return parts.length ? parts.slice(0, 2).join(', ') : fallback;
+    };
+
+    const plotLook = (hit) => {
+      if (!map || !window.L) return;
+      clearLook();
+      const icon = window.L.divIcon({
+        className: 'mpd__look-wrap',
+        html: '<div class="mpd__look"></div>',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9]
+      });
+      lookMarker = window.L.marker([hit.lat, hit.lng], {
+        icon,
+        keyboard: false,
+        zIndexOffset: 1200
+      }).addTo(map);
+      lookMarker.bindTooltip(esc(shortLabel(hit.label, input.value.trim())), {
+        direction: 'top',
+        offset: [0, -12],
+        className: 'mpd__look-tip',
+        permanent: true
+      });
+      const zoom = Math.max(map.getZoom(), DEFAULTS.dotZoom);
+      if (!reduceMotion) map.flyTo([hit.lat, hit.lng], zoom, { duration: 0.8 });
+      else map.setView([hit.lat, hit.lng], zoom);
+    };
+
+    const lookupPlace = (query, { preview = false } = {}) => {
+      if (!geocoder) {
+        if (!preview) say('is-no', esc(fill(copy.lookupFail, '{query}', query)));
+        return;
+      }
+
+      if (!preview) {
+        say('is-info', esc(fill(copy.lookupLoading, '{query}', query)));
+        current = -1;
+        markActive(-1);
+      }
+
+      const seq = ++previewSeq;
+
+      geocoder
+        .lookup(query, { country, bias: KITCHEN })
+        .then((hit) => {
+          // A newer keystroke or a changed field wins over this result.
+          if (seq !== previewSeq) return;
+          if (norm(input.value) !== norm(query)) return;
+
+          if (!hit) {
+            clearLook();
+            if (!preview) say('is-no', esc(fill(copy.lookupFail, '{query}', query)));
+            return;
+          }
+
+          const distance = metresBetween(KITCHEN, [hit.lat, hit.lng]);
+          const inside = distance <= zoneMetres();
+
+          plotLook(hit);
+          if (preview) return;
+
+          const place = hit.label || query;
+          const template = inside ? copy.lookupYes : copy.lookupNo;
+          const text = fill(fill(template, '{place}', place), '{distance}', km(distance));
+          const link =
+            copy.contact && copy.contactLabel
+              ? ` <a href="${esc(copy.contact)}">${esc(copy.contactLabel)}</a>`
+              : '';
+          say(inside ? 'is-yes' : 'is-no', esc(text) + (inside ? '' : link));
+        })
+        .catch(() => {
+          if (seq !== previewSeq) return;
+          if (norm(input.value) !== norm(query)) return;
+          if (!preview) say('is-no', esc(fill(copy.lookupFail, '{query}', query)));
+        });
+    };
+
+    /* Typing pauses are a strong signal of intent, so after a moment of quiet
+       the text is geocoded and previewed. Nothing is announced until submit. */
+    const queuePreview = (query) => {
+      clearPending();
+      if (!geocoder || query.length < 3) return;
+
+      previewTimer = window.setTimeout(() => {
+        previewTimer = 0;
+        if (norm(input.value) !== norm(query)) return;
+        lookupPlace(query, { preview: true });
+      }, 650);
+    };
+
     /* ---------------- events ---------------- */
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       hideSuggest();
+      clearPending();
 
       const query = input.value.trim();
       if (!query) {
@@ -473,26 +631,20 @@
 
       const index = search(query);
       if (index > -1) {
+        clearLook();
         select(index, { fly: true });
         return;
       }
 
-      // Not a town we serve: name it plainly and pull back to the full zone.
-      const link =
-        copy.contact && copy.contactLabel
-          ? ` <a href="${esc(copy.contact)}">${esc(copy.contactLabel)}</a>`
-          : '';
-      say('is-no', esc(fill(copy.no, '{query}', query)) + link);
-
-      current = -1;
-      markActive(-1);
-      fitZone(true);
+      // Not one of the listed towns: geocode the text and answer from the map.
+      lookupPlace(query);
     });
 
     input.addEventListener('input', () => {
       const query = input.value.trim();
       if (!query) {
         hideSuggest();
+        clearPending();
         if (current > -1 || result.hasAttribute('data-mpd-shown')) reset();
         return;
       }
@@ -509,11 +661,19 @@
 
       // Move the map to the best match while typing, without announcing success.
       const hit = search(query);
-      if (hit > -1 && map) {
+      if (hit > -1) {
         const town = towns[hit];
-        const zoom = Math.max(map.getZoom(), DEFAULTS.dotZoom);
-        map.setView([town.lat, town.lng], Math.min(zoom, DEFAULTS.maxSettleZoom));
+        if (hasCoords(town) && map) {
+          const zoom = Math.max(map.getZoom(), DEFAULTS.dotZoom);
+          map.setView([town.lat, town.lng], Math.min(zoom, DEFAULTS.maxSettleZoom));
+        }
+        clearPending();
+        return;
       }
+
+      // No listed town matches: once typing settles, geocode the text and drop
+      // a preview pin, so the map places itself without a submit.
+      queuePreview(query);
     });
 
     input.addEventListener('focus', () => {
@@ -539,7 +699,7 @@
 
         // The map follows the highlighted suggestion.
         const name = options[suggestIndex].getAttribute('data-mpd-town');
-        const index = search(name);
+        const index = name == null ? -1 : search(name);
         if (index > -1 && map) {
           const town = towns[index];
           map.setView([town.lat, town.lng], Math.max(map.getZoom(), DEFAULTS.dotZoom), {
@@ -548,12 +708,28 @@
         }
       } else if (event.key === 'Enter' && suggestIndex > -1) {
         event.preventDefault();
-        pick(options[suggestIndex].getAttribute('data-mpd-town'));
+        const chosen = options[suggestIndex];
+        const look = chosen.getAttribute('data-mpd-lookup');
+        if (look != null) {
+          input.value = look;
+          hideSuggest();
+          lookupPlace(look);
+        } else {
+          pick(chosen.getAttribute('data-mpd-town'));
+        }
       }
     });
 
     if (suggest) {
       suggest.addEventListener('click', (event) => {
+        const look = event.target.closest('button[data-mpd-lookup]');
+        if (look) {
+          const query = look.getAttribute('data-mpd-lookup');
+          input.value = query;
+          hideSuggest();
+          lookupPlace(query);
+          return;
+        }
         const option = event.target.closest('button[data-mpd-town]');
         if (option) pick(option.getAttribute('data-mpd-town'));
       });
