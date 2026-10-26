@@ -460,26 +460,14 @@
   {%- endif -%}
 
   <div class="mealplan-a">
-    <section class="ben">
+    <section class="ben{% if benefit_blocks.size > 0 %} ben--rail{% endif %}">
       <div class="ben__glow" aria-hidden="true"></div>
-      <div class="ben__inner">
-        {%- if section.settings.ben_eyebrow != blank -%}
-          <p class="ben__eyebrow">{{ section.settings.ben_eyebrow | escape }}</p>
-        {%- endif -%}
-        <h2 class="big">
-          <span>{{ section.settings.ben_line_1 | escape }}</span>
-          <span>{{ section.settings.ben_line_2 | escape }}</span>
-          <span class="out">{{ section.settings.ben_line_3 | escape }}</span>
-        </h2>
-        {%- if section.settings.ben_note != blank -%}
-          <p class="ben__note">{{ section.settings.ben_note | escape }}</p>
-        {%- endif -%}
-      </div>
       {%- if benefit_blocks.size > 0 -%}
         {%- comment -%}
-          Four identical groups so the track always fills the viewport and a
-          -25% shift lands exactly on a group boundary, keeping the loop seamless
-          even when the plan only defines a few stats.
+          Stat rail sits above the statement so the proof points are the first
+          thing a visitor reads. Four identical groups so the track always fills
+          the viewport and a -25% shift lands exactly on a group boundary,
+          keeping the loop seamless even when the plan only defines a few stats.
         {%- endcomment -%}
         <div class="ben__marquee">
           <div class="ben__track">
@@ -496,6 +484,19 @@
           </div>
         </div>
       {%- endif -%}
+      <div class="ben__inner">
+        {%- if section.settings.ben_eyebrow != blank -%}
+          <p class="ben__eyebrow">{{ section.settings.ben_eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="big">
+          <span>{{ section.settings.ben_line_1 | escape }}</span>
+          <span>{{ section.settings.ben_line_2 | escape }}</span>
+          <span class="out">{{ section.settings.ben_line_3 | escape }}</span>
+        </h2>
+        {%- if section.settings.ben_note != blank -%}
+          <p class="ben__note">{{ section.settings.ben_note | escape }}</p>
+        {%- endif -%}
+      </div>
     </section>
 
     <section><div class="wrap">

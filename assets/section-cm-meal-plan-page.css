@@ -72,8 +72,10 @@ radial-gradient(110% 74% at 50% 0%,rgba(255,255,255,.95),transparent 62%),
 radial-gradient(46% 34% at 4% 104%,rgba(245,166,35,.14),transparent 72%),
 radial-gradient(46% 34% at 96% 104%,rgba(245,166,35,.14),transparent 72%),
 linear-gradient(180deg,#FCFDFA 0%,#F5F8F1 46%,#EBF0E5 100%);
-color:var(--ben-ink);padding:clamp(76px,9.5vw,132px) 0 0
+color:var(--ben-ink);padding:0 0 clamp(76px,9.5vw,132px)
 }
+/* Without the stat rail the statement needs its own breathing room at the top. */
+.ben:not(.ben--rail){padding-top:clamp(76px,9.5vw,132px)}
 /* Hairline of warm gold across the very top edge. */
 .ben::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;z-index:3;background:linear-gradient(90deg,transparent,rgba(184,119,11,.45),transparent)}
 .ben__glow{position:absolute;left:50%;top:-16%;z-index:0;width:min(940px,115vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(245,166,35,.1),transparent 68%);pointer-events:none}
@@ -97,7 +99,7 @@ color:var(--ben-ink);padding:clamp(76px,9.5vw,132px) 0 0
 
 /* Seamless stat rail. Four identical groups sit inside the track, so a -25%
    shift lands exactly on a group boundary and the loop never shows a seam. */
-.ben__marquee{position:relative;margin-top:clamp(52px,7vw,88px);overflow:hidden;border-top:1px solid rgba(21,37,28,.14);border-bottom:1px solid rgba(21,37,28,.08);background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.38));-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.ben__marquee{position:relative;margin:0 0 clamp(46px,6vw,74px);overflow:hidden;border-top:1px solid rgba(21,37,28,.14);border-bottom:1px solid rgba(21,37,28,.08);background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.38));-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
 .ben__marquee::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.6),transparent 42%)}
 .ben__track{display:flex;width:max-content;animation:ben-scroll 52s linear infinite;will-change:transform}
 .ben__marquee:hover .ben__track,.ben__marquee:focus-within .ben__track{animation-play-state:paused}
