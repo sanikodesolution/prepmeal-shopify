@@ -15,6 +15,8 @@ section.gkk[data-gkk]{
   --gkk-line:rgba(42,15,20,.15);
   --gkk-bg:#fdf8ef;
   --gkk-accent:#f0a81c;
+  /* Breathing room between a block title (h4) and the text under it. */
+  --gkk-title-gap:clamp(12px,1.5vw,18px);
   background:var(--gkk-bg);
   color:var(--gkk-ink);
   padding:clamp(24px,4vw,56px) clamp(12px,3vw,24px);
@@ -34,7 +36,8 @@ section.gkk[data-gkk]{
 .gkk__wrap>div+div{margin-top:clamp(22px,3vw,34px);padding-top:clamp(22px,3vw,34px);border-top:1px solid var(--gkk-line)}
 
 section.gkk h2,
-section.gkk h3{margin:0;color:var(--gkk-ink)}
+section.gkk h3,
+section.gkk h4{margin:0;color:var(--gkk-ink)}
 section.gkk p{margin:0;color:var(--gkk-mut)}
 section.gkk a:focus-visible,
 section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset:3px}
@@ -74,12 +77,12 @@ section.gkk .gkk__hero h2{font-size:40px;margin:0 0 20px;overflow-wrap:break-wor
 .gkk--ready:not(.is-in) .gkk__plate svg{opacity:0;transform:rotate(-50deg) scale(.82)}
 .gkk--ready:not(.is-in) .gkk__chip{opacity:0;translate:0 14px}
 
-/* ---------- Two cards ---------- */
+/* the two cards: title + copy */
 .gkk__trio{display:grid;gap:20px;min-width:0}
 .gkk__card{padding:0;min-width:0}
 .gkk__card+.gkk__card{border-top:1px solid var(--gkk-line);padding-top:20px}
 .gkk__card svg{width:100%;height:auto;display:block;border-radius:10px;margin-bottom:14px}
-.gkk__card h3{margin-bottom:8px;overflow-wrap:break-word}
+section.gkk .gkk__card h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
 .gkk__card p{overflow-wrap:break-word}
 @media(min-width:992px){
   .gkk__trio{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
@@ -92,14 +95,14 @@ section.gkk .gkk__hero h2{font-size:40px;margin:0 0 20px;overflow-wrap:break-wor
 /* ---------- Delivery ---------- */
 .gkk__deliver{display:grid;gap:20px;align-items:start;min-width:0}
 .gkk__deliver>div{min-width:0}
-.gkk__deliver h2{margin-bottom:10px;overflow-wrap:break-word}
+section.gkk .gkk__deliver h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
 .gkk__ticket{display:flex;margin-top:10px;background:var(--gkk-beet);color:var(--gkk-paper);
   border-radius:8px;overflow:hidden}
 .gkk__ticket>div{padding:18px 20px;flex:1 1 0;min-width:0}
 .gkk__ticket>div+div{border-left:2px dashed rgba(251,241,223,.4);text-align:right}
-/* `section.gkk h3` above outranks a plain `.gkk__ticket h3`, so the ticket
+/* `section.gkk h4` above outranks a plain `.gkk__ticket h4`, so the ticket
    headings need matching specificity to stay paper-white on the beet fill. */
-section.gkk .gkk__ticket h3{color:var(--gkk-paper);margin-bottom:4px;overflow-wrap:break-word}
+section.gkk .gkk__ticket h4{color:var(--gkk-paper);margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
 .gkk__ticket small{display:block;color:rgba(251,241,223,.75);overflow-wrap:break-word}
 .gkk__ticket b{overflow-wrap:break-word}
 .gkk__note{margin-top:14px;font-style:normal}
@@ -107,7 +110,7 @@ section.gkk .gkk__ticket h3{color:var(--gkk-paper);margin-bottom:4px;overflow-wr
 section.gkk p.gkk__note{margin:16px 0 0;font-style:normal}
 /* extra breathing room below the button before its caption */
 section.gkk .gkk__btn + p.gkk__note{margin-top:24px}
-.gkk__fresh h3{margin-bottom:8px;overflow-wrap:break-word}
+section.gkk .gkk__fresh h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
 .gkk__steps{display:grid;gap:10px;margin:14px 0 0;padding:0;list-style:none}
 .gkk__steps li{display:flex;gap:14px;align-items:flex-start;min-width:0}
 .gkk__steps i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--gkk-accent);
@@ -123,7 +126,7 @@ section.gkk .gkk__btn + p.gkk__note{margin-top:24px}
 /* ---------- CTA ---------- */
 .gkk__cta{display:grid;gap:20px;min-width:0}
 .gkk__cta>div{min-width:0}
-.gkk__cta h2{margin-bottom:8px;overflow-wrap:break-word}
+section.gkk .gkk__cta h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
 .gkk__facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .gkk__facts div{background:rgba(240,168,28,.16);border-radius:6px;padding:14px;min-width:0}
 .gkk__facts b{display:block;color:var(--gkk-beet);margin-bottom:6px;overflow-wrap:break-word}
