@@ -21,7 +21,7 @@ section.gkk[data-gkk]{
 .gkk *{box-sizing:border-box}
 
 /* Bootstrap 5.3 container widths */
-.gkk__wrap{width:100%;margin-inline:auto;max-width:none;padding:clamp(20px,3.5vw,44px);
+.gkk__wrap{width:100%;margin-inline:auto;max-width:none;padding:clamp(16px,3.5vw,44px);
   display:grid;gap:0;
   border:1px solid var(--gkk-line);border-radius:6px 32px 6px 32px;background:rgba(255,255,255,.6)}
 @media(min-width:576px){.gkk__wrap{max-width:540px}}
@@ -135,7 +135,7 @@ section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset
   .gkk__plate::before{content:none}
   .gkk__plate svg{width:100%;height:auto;aspect-ratio:1;flex:0 0 100%}
   .gkk__chip{position:static;rotate:none;white-space:normal;box-shadow:none;max-width:100%}
-  .gkk__chip:nth-of-type(n){top:auto;right:auto;bottom:auto;left:auto}
+  .gkk__chip:nth-of-type(n){top:auto;right:auto;bottom:auto;left:auto;rotate:none}
   .gkk--ready:not(.is-in) .gkk__chip{opacity:1;translate:none}
 }
 
