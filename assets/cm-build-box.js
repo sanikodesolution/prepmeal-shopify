@@ -97,7 +97,13 @@
       else if (minPlates > 5) hint = `${need} more ${need === 1 ? 'plate' : 'plates'} to fill your box.`;
       else hint = `${need} more ${need === 1 ? 'plate' : 'plates'} to unlock 15% off.`;
 
-      box.innerHTML = `<h2>Your box</h2><p class="byb__hint">${hint}</p><div class="byb__slots">${slots.join('')}</div><div class="byb__tiers"><div class="byb__tier${n >= 5 ? ' is-hit' : ''}"><span>5 plates</span><b>15% off</b></div><div class="byb__tier${n >= 10 ? ' is-hit' : ''}"><span>10 plates</span><b>20% off</b></div></div><ul class="byb__lines">${lines}</ul><div class="byb__sum"><div><span>Subtotal</span><span>${money(sub)}</span></div>${saved ? `<div class="byb__save"><span>Box discount</span><span>−${money(saved)}</span></div>` : ''}<div class="byb__tot"><span>Total</span><span>${money(sub - saved)}</span></div></div><button type="button" class="byb__cta" data-byb-cta${need ? ' disabled' : ''}>${need ? `Add ${need} more ${need === 1 ? 'plate' : 'plates'}` : 'Add box to cart'}</button><p class="byb__note">Each meal is added at its menu price.</p>`;
+      // Checkout is available as soon as the box has a plate. The 5- and
+      // 10-plate counts only change the discount, they do not lock the button.
+      const canCheckout = n > 0;
+      const ctaLabel = canCheckout
+        ? 'Add box to cart'
+        : `Add ${need} more ${need === 1 ? 'plate' : 'plates'}`;
+      box.innerHTML = `<h2>Your box</h2><p class="byb__hint">${hint}</p><div class="byb__slots">${slots.join('')}</div><div class="byb__tiers"><div class="byb__tier${n >= 5 ? ' is-hit' : ''}"><span>5 plates</span><b>15% off</b></div><div class="byb__tier${n >= 10 ? ' is-hit' : ''}"><span>10 plates</span><b>20% off</b></div></div><ul class="byb__lines">${lines}</ul><div class="byb__sum"><div><span>Subtotal</span><span>${money(sub)}</span></div>${saved ? `<div class="byb__save"><span>Box discount</span><span>−${money(saved)}</span></div>` : ''}<div class="byb__tot"><span>Total</span><span>${money(sub - saved)}</span></div></div><button type="button" class="byb__cta" data-byb-cta${canCheckout ? '' : ' disabled'}>${ctaLabel}</button><p class="byb__note">Each meal is added at its menu price.</p>`;
       if (mtxt) mtxt.innerHTML = `<b>${n}</b> plates · ${money(sub - saved)}`;
     };
 
