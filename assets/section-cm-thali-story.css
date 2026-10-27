@@ -1,8 +1,9 @@
 /* Ghar Ka Khana thali story
    Scoped to .gkk so nothing leaks into the theme.
    Typography is intentionally NOT declared here: font family, size, weight,
-   line height and letter spacing all come from the theme. Only layout,
-   spacing, colour and motion live in this file. */
+   line height and letter spacing all come from the theme. The section
+   subtitle reuses the theme's shared eyebrow class (`.cm-label` in base.css),
+   so this file only carries layout, spacing, colour and motion. */
 
 .gkk,
 section.gkk[data-gkk]{
@@ -40,8 +41,9 @@ section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset
 /* ---------- Hero ---------- */
 .gkk__hero{display:grid;gap:24px;align-items:center;min-width:0}
 .gkk__hero>div{min-width:0}
-.gkk__badge{display:inline-block;border:1px solid var(--gkk-beet);color:var(--gkk-beet);
-  padding:6px 14px;border-radius:99px;margin-bottom:14px}
+/* The subtitle uses the theme's shared eyebrow style (`.cm-label` in base.css);
+   this hook only lets a long brand line wrap instead of overflowing. */
+.gkk__badge{max-width:100%;white-space:normal}
 .gkk__hero h2{margin-bottom:12px;overflow-wrap:break-word}
 .gkk__hero p{max-width:46ch}
 .gkk__stats{display:flex;margin-top:20px;border-top:1px solid var(--gkk-line)}
