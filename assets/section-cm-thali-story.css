@@ -128,9 +128,10 @@ section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset
   .gkk__cta{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
 }
 
-/* Phones: the plate labels move below the plate as a wrapped row, so nothing
-   rotated can stick out past the container. */
-@media(max-width:575px){
+/* Phones and tablets: the plate labels move below the plate as a wrapped row,
+   so nothing rotated can stick out past the container. They sit over the plate
+   again only from 992px, where the hero becomes two columns. */
+@media(max-width:991px){
   .gkk__plate{display:flex;flex-wrap:wrap;gap:8px;aspect-ratio:auto}
   .gkk__plate::before{content:none}
   .gkk__plate svg{width:100%;height:auto;aspect-ratio:1;flex:0 0 100%}
