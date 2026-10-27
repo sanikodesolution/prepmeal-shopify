@@ -460,14 +460,12 @@
   {%- endif -%}
 
   <div class="mealplan-a">
-    <section class="ben{% if benefit_blocks.size > 0 %} ben--rail{% endif %}">
+    <section class="ben">
       <div class="ben__glow" aria-hidden="true"></div>
       {%- if benefit_blocks.size > 0 -%}
         {%- comment -%}
-          Stat rail sits above the statement so the proof points are the first
-          thing a visitor reads. Four identical groups so the track always fills
-          the viewport and a -25% shift lands exactly on a group boundary,
-          keeping the loop seamless even when the plan only defines a few stats.
+          The stat rail leads the band, so the numbers a visitor scans first sit
+          at the very top. Four identical groups keep the -25% loop seamless.
         {%- endcomment -%}
         <div class="ben__marquee">
           <div class="ben__track">
@@ -486,9 +484,9 @@
       {%- endif -%}
       <div class="ben__inner">
         {%- if section.settings.ben_eyebrow != blank -%}
-          <p class="mp-eye">{{ section.settings.ben_eyebrow | escape }}</p>
+          <p class="ben__eyebrow">{{ section.settings.ben_eyebrow | escape }}</p>
         {%- endif -%}
-        <h2 class="big mealplan-h">
+        <h2 class="big">
           <span>{{ section.settings.ben_line_1 | escape }}</span>
           <span>{{ section.settings.ben_line_2 | escape }}</span>
           <span class="out">{{ section.settings.ben_line_3 | escape }}</span>
