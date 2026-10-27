@@ -385,7 +385,8 @@
 .byb .byb__cta:disabled {
   background: var(--byb-line);
   color: var(--byb-mute);
-  cursor: not-allowed;
+  /* A normal arrow: the red "not allowed" cursor reads as an error here. */
+  cursor: default;
 }
 
 .byb__note { margin: 10px 0 0; color: var(--byb-mute); font-size: 13px; text-align: center; }
