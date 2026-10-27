@@ -1,0 +1,131 @@
+/* Ghar Ka Khana thali story
+   Scoped to .gkk so nothing leaks into the theme. Colours come from the
+   section settings (--gkk-bg, --gkk-accent); the rest is the design palette. */
+
+.gkk,
+section.gkk[data-gkk]{
+  --gkk-beet:#7b1730;
+  --gkk-paper:#fbf1df;
+  --gkk-ink:#2a0f14;
+  --gkk-mut:rgba(42,15,20,.72);
+  --gkk-line:rgba(42,15,20,.15);
+  --gkk-bg:#fdf8ef;
+  --gkk-accent:#f0a81c;
+  --gkk-display:var(--font-heading-family),sans-serif;
+  --gkk-body:var(--font-body-family),sans-serif;
+  background:var(--gkk-bg);
+  color:var(--gkk-ink);
+  font-family:var(--gkk-body);
+  padding:clamp(24px,4vw,56px) clamp(12px,3vw,24px);
+  overflow:clip
+}
+.gkk *{box-sizing:border-box}
+
+/* Bootstrap 5.3 container widths */
+.gkk__wrap{width:100%;margin-inline:auto;max-width:none;padding:clamp(20px,3.5vw,44px);
+  display:grid;gap:0;
+  border:1px solid var(--gkk-line);border-radius:6px 32px 6px 32px;background:rgba(255,255,255,.6)}
+@media(min-width:576px){.gkk__wrap{max-width:540px}}
+@media(min-width:768px){.gkk__wrap{max-width:720px}}
+@media(min-width:992px){.gkk__wrap{max-width:960px}}
+@media(min-width:1200px){.gkk__wrap{max-width:1140px}}
+@media(min-width:1400px){.gkk__wrap{max-width:1320px}}
+.gkk__wrap>div+div{margin-top:clamp(22px,3vw,34px);padding-top:clamp(22px,3vw,34px);border-top:1px solid var(--gkk-line)}
+
+section.gkk h2,
+section.gkk h3{font-family:var(--gkk-display);margin:0;font-weight:600;line-height:1.06;color:var(--gkk-ink);letter-spacing:normal}
+section.gkk p{margin:0;line-height:1.65;color:var(--gkk-mut)}
+section.gkk a:focus-visible,
+section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset:3px}
+
+/* ---------- Hero ---------- */
+.gkk__hero{display:grid;gap:24px;align-items:center}
+.gkk__badge{display:inline-block;border:1px solid var(--gkk-beet);color:var(--gkk-beet);
+  padding:6px 14px;border-radius:99px;font-size:13px;margin-bottom:14px;line-height:1.2}
+section.gkk .gkk__hero h2{font-size:clamp(30px,4.2vw,54px);letter-spacing:-.02em;margin-bottom:12px}
+section.gkk .gkk__hero p{max-width:46ch;font-size:16px}
+.gkk__stats{display:flex;margin-top:20px;border-top:1px solid var(--gkk-line)}
+.gkk__stats div{flex:1;padding:18px 16px 0 0;min-width:0}
+.gkk__stats div+div{padding-left:16px;border-left:1px solid var(--gkk-line)}
+.gkk__stats b{display:block;font:600 clamp(22px,3vw,32px)/1 var(--gkk-display);color:var(--gkk-beet)}
+.gkk__stats span{font-size:13px;color:var(--gkk-mut)}
+
+/* ---------- Plate ---------- */
+.gkk__plate{position:relative;max-width:min(420px,100%);width:100%;margin:0 auto;aspect-ratio:1}
+.gkk__plate::before{content:"";position:absolute;inset:-8%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(240,168,28,.4),transparent)}
+.gkk__plate svg{position:relative;width:100%;height:100%;display:block;
+  filter:drop-shadow(0 24px 30px rgba(74,18,32,.3));
+  transition:transform 1.5s cubic-bezier(.2,.8,.2,1),opacity .9s}
+.gkk__chip{position:absolute;z-index:2;background:var(--gkk-beet);color:var(--gkk-paper);
+  padding:8px 14px;border-radius:3px;
+  font:italic 600 clamp(13px,2vw,18px)/1.1 var(--gkk-display);
+  box-shadow:0 8px 20px rgba(0,0,0,.35);border:1px solid rgba(240,168,28,.5);
+  transition:opacity .6s,translate .6s;white-space:nowrap}
+.gkk__chip:nth-of-type(1){top:4%;left:0;rotate:-4deg;transition-delay:.9s}
+.gkk__chip:nth-of-type(2){top:8%;right:0;rotate:3deg;transition-delay:1.05s}
+.gkk__chip:nth-of-type(3){bottom:8%;left:0;rotate:3deg;transition-delay:1.2s}
+.gkk__chip:nth-of-type(4){bottom:3%;right:0;rotate:-3deg;transition-delay:1.35s}
+.gkk--ready:not(.is-in) .gkk__plate svg{opacity:0;transform:rotate(-50deg) scale(.82)}
+.gkk--ready:not(.is-in) .gkk__chip{opacity:0;translate:0 14px}
+
+/* ---------- Two cards ---------- */
+.gkk__trio{display:grid;gap:20px}
+.gkk__card{padding:0}
+.gkk__card+.gkk__card{border-top:1px solid var(--gkk-line);padding-top:20px}
+.gkk__card svg{width:100%;height:auto;display:block;border-radius:10px;margin-bottom:14px}
+section.gkk .gkk__card h3{font-size:clamp(20px,2vw,24px);margin-bottom:8px}
+section.gkk .gkk__card p{font-size:14.5px;line-height:1.55}
+@media(min-width:992px){
+  .gkk__trio{grid-template-columns:repeat(2,1fr);gap:0}
+  .gkk__card{padding:0 28px}
+  .gkk__card:first-child{padding-left:0}
+  .gkk__card:last-child{padding-right:0}
+  .gkk__card+.gkk__card{border-top:0;border-left:1px solid var(--gkk-line);padding-top:0}
+}
+
+/* ---------- Delivery ---------- */
+.gkk__deliver{display:grid;gap:20px;align-items:start}
+section.gkk .gkk__deliver h2{font-size:clamp(26px,3.2vw,38px);margin-bottom:10px}
+.gkk__ticket{display:flex;margin-top:10px;background:var(--gkk-beet);color:var(--gkk-paper);
+  border-radius:8px;overflow:hidden}
+.gkk__ticket>div{padding:18px 20px;flex:1;min-width:0}
+.gkk__ticket>div+div{border-left:2px dashed rgba(251,241,223,.4);text-align:right}
+section.gkk .gkk__ticket h3{color:var(--gkk-paper);font-size:26px;margin-bottom:4px}
+.gkk__ticket small{display:block;font-size:13px;color:rgba(251,241,223,.75);line-height:1.4}
+.gkk__ticket b{font-size:15px}
+.gkk__note{margin-top:14px;font-style:italic;font-size:14px}
+section.gkk .gkk__fresh h3{font-size:clamp(22px,2.4vw,28px);margin-bottom:8px}
+section.gkk .gkk__fresh p{font-size:14.5px}
+.gkk__steps{display:grid;gap:10px;margin:14px 0 0;padding:0;list-style:none}
+.gkk__steps li{display:flex;gap:14px;align-items:flex-start}
+.gkk__steps i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--gkk-accent);
+  color:#2a0f14;display:grid;place-items:center;font:700 14px/1 var(--gkk-body);font-style:normal}
+.gkk__steps b{display:block;color:var(--gkk-ink);margin-bottom:2px}
+.gkk__steps span{font-size:14px;color:var(--gkk-mut)}
+.gkk__towns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.gkk__towns span{border:1px solid var(--gkk-line);border-radius:99px;padding:7px 14px;
+  font-size:14px;color:var(--gkk-ink);line-height:1.2}
+
+/* ---------- CTA ---------- */
+.gkk__cta{display:grid;gap:20px}
+section.gkk .gkk__cta h2{font-size:clamp(26px,3.2vw,38px);margin-bottom:8px}
+.gkk__facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gkk__facts div{background:rgba(240,168,28,.16);border-radius:6px;padding:14px;min-width:0}
+.gkk__facts b{display:block;font:600 24px/1 var(--gkk-display);color:var(--gkk-beet);margin-bottom:6px}
+.gkk__facts span{font-size:13px;color:var(--gkk-mut);line-height:1.4}
+.gkk__btn{display:inline-block;margin-top:24px;background:var(--gkk-beet);color:var(--gkk-paper);
+  padding:16px 36px;border-radius:99px;font-weight:700;text-decoration:none;
+  transition:transform .25s,box-shadow .25s}
+.gkk__btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(123,23,48,.35)}
+
+@media(min-width:992px){
+  .gkk__hero{grid-template-columns:1.05fr .95fr}
+  .gkk__deliver{grid-template-columns:1fr 1fr}
+  .gkk__cta{grid-template-columns:1fr 1fr;align-items:center}
+}
+@media(prefers-reduced-motion:reduce){
+  .gkk *{transition:none!important;animation:none!important}
+  .gkk--ready:not(.is-in) .gkk__plate svg,
+  .gkk--ready:not(.is-in) .gkk__chip{opacity:1;transform:none;translate:none}
+}

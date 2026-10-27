@@ -600,6 +600,7 @@
         "menu_heading": "This week's menu",
         "menu_text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
         "explore_heading": "Explore all meals",
+        "thali_show": true,
         "load_more_label": "Load more",
         "detail_note": "Meal names and nutrition values are from the current menu.",
         "meal_price": 1500,
