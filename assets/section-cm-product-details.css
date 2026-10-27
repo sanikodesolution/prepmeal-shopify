@@ -297,7 +297,7 @@
   .mealplan-pd__btn:focus-visible { outline: 2px solid var(--pd-accent); outline-offset: 3px; }
   .mealplan-pd__btnArrow { width: 20px; height: 20px; transition: transform .5s var(--pd-ease); }
   .mealplan-pd__btn:hover:not(:disabled) .mealplan-pd__btnArrow { transform: translateX(5px); }
-  .mealplan-pd__btn:disabled { background: #f6d9a0; color: #8a7a58; cursor: not-allowed; }
+  .mealplan-pd__btn:disabled { background: #f6d9a0; color: #8a7a58; cursor: default; }
   .mealplan-pd__btn.is-loading { pointer-events: none; opacity: .8; }
   .mealplan-pd__btn.is-added { background: var(--pd-ink); color: #fff; }
   .mealplan-pd__btn.is-added::before { display: none; }

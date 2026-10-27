@@ -260,7 +260,7 @@
 .cm-gc__chips input:disabled + label {
  opacity: 0.4;
  text-decoration: line-through;
- cursor: not-allowed;
+ cursor: default;
 }
 
 .cm-gc__chips input:focus-visible + label {

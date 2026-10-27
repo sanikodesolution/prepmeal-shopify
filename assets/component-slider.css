@@ -357,7 +357,12 @@ slider-component.slider-component-full-width {
 
 .slider-button[disabled] .icon {
   color: rgba(var(--color-foreground), 0.3);
-  cursor: not-allowed;
+}
+
+/* The cursor applies to the button, not the icon, so a nested rule never
+   takes effect: disabled slider arrows need it on the button itself. */
+.slider-button[disabled] {
+  cursor: default;
 }
 
 .slider-button--next .icon {
