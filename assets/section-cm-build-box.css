@@ -21,10 +21,13 @@
 
 .byb :focus-visible { outline: 2px solid var(--byb-amber); outline-offset: 2px; }
 
+/* Match the container used by every other section on the meal plan pages:
+   same --page-width cap and the same side gutters, so the box lines up with
+   the hero, menu and footer blocks instead of sitting narrower. */
 .byb__wrap {
-  max-width: 1180px;
+  max-width: var(--page-width);
   margin: 0 auto;
-  padding: 56px 24px 120px;
+  padding: 56px clamp(20px, 4vw, 40px) 120px;
 }
 
 .byb h1 {
@@ -400,7 +403,7 @@
 @media (max-width: 900px) {
   .byb__layout { grid-template-columns: 1fr; }
   .byb__box { position: static; order: -1; max-height: none; overflow: visible; }
-  .byb__wrap { padding-inline: 16px; }
+  .byb__wrap { padding-inline: clamp(20px, 4vw, 40px); }
   .byb__grid { --byb-plate: 140px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 48px 18px; }
   .byb__mbar {
     position: fixed;
