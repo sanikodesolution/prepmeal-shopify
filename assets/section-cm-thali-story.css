@@ -1,9 +1,10 @@
 /* Ghar Ka Khana thali story
    Scoped to .gkk so nothing leaks into the theme.
-   Typography is intentionally NOT declared here: font family, size, weight,
-   line height and letter spacing all come from the theme. The section
-   subtitle reuses the theme's shared eyebrow class (`.cm-label` in base.css),
-   so this file only carries layout, spacing, colour and motion. */
+   Typography is inherited from the theme; the only exception is the hero
+   title size (40px desktop / 30px mobile) so this block matches the design.
+   The section subtitle reuses the theme's shared eyebrow class (`.cm-label`
+   in base.css), so this file otherwise carries layout, spacing, colour and
+   motion only. */
 
 .gkk,
 section.gkk[data-gkk]{
@@ -44,7 +45,10 @@ section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset
 /* The subtitle uses the theme's shared eyebrow style (`.cm-label` in base.css);
    this hook only lets a long brand line wrap instead of overflowing. */
 .gkk__badge{max-width:100%;white-space:normal}
-.gkk__hero h2{margin-bottom:12px;overflow-wrap:break-word}
+/* `section.gkk h2` sets margin:0, so the title needs matching specificity */
+section.gkk .gkk__hero h2{font-size:40px;margin:0 0 20px;overflow-wrap:break-word}
+/* match the theme's 30px mobile title step so the 40px hero does not crowd phones */
+@media(max-width:749px){section.gkk .gkk__hero h2{font-size:30px}}
 .gkk__hero p{max-width:46ch}
 .gkk__stats{display:flex;margin-top:20px;border-top:1px solid var(--gkk-line)}
 .gkk__stats div{flex:1 1 0;min-width:0;padding:18px 16px 0 0}
@@ -93,7 +97,9 @@ section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset
   border-radius:8px;overflow:hidden}
 .gkk__ticket>div{padding:18px 20px;flex:1 1 0;min-width:0}
 .gkk__ticket>div+div{border-left:2px dashed rgba(251,241,223,.4);text-align:right}
-.gkk__ticket h3{color:var(--gkk-paper);margin-bottom:4px;overflow-wrap:break-word}
+/* `section.gkk h3` above outranks a plain `.gkk__ticket h3`, so the ticket
+   headings need matching specificity to stay paper-white on the beet fill. */
+section.gkk .gkk__ticket h3{color:var(--gkk-paper);margin-bottom:4px;overflow-wrap:break-word}
 .gkk__ticket small{display:block;color:rgba(251,241,223,.75);overflow-wrap:break-word}
 .gkk__ticket b{overflow-wrap:break-word}
 .gkk__note{margin-top:14px;font-style:normal}
