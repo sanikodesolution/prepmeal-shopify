@@ -128,6 +128,17 @@ section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset
   .gkk__cta{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
 }
 
+/* Phones: the plate labels move below the plate as a wrapped row, so nothing
+   rotated can stick out past the container. */
+@media(max-width:575px){
+  .gkk__plate{display:flex;flex-wrap:wrap;gap:8px;aspect-ratio:auto}
+  .gkk__plate::before{content:none}
+  .gkk__plate svg{width:100%;height:auto;aspect-ratio:1;flex:0 0 100%}
+  .gkk__chip{position:static;rotate:none;white-space:normal;box-shadow:none;max-width:100%}
+  .gkk__chip:nth-of-type(n){top:auto;right:auto;bottom:auto;left:auto}
+  .gkk--ready:not(.is-in) .gkk__chip{opacity:1;translate:none}
+}
+
 /* Small phones: keep the two-ticket row and facts from crushing. */
 @media(max-width:479px){
   .gkk__ticket{flex-direction:column}
