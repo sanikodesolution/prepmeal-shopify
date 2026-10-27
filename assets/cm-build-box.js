@@ -156,5 +156,83 @@
     };
 
     paint();
+
+    // ScrollSmoother transforms #smooth-content inside a fixed wrapper, which
+    // silently kills `position: sticky`, so pin the box with ScrollTrigger
+    // (same workaround the theme uses for the header). Without the smoother
+    // the CSS sticky above does the job.
+    const layout = root.querySelector('.byb__layout');
+    const section = root.closest('.shopify-section');
+    let pin = null;
+    let attempts = 0;
+
+    const pinBox = () => {
+      if (pin || !layout) return;
+      if (!window.gsap || !window.ScrollTrigger || !gsap.matchMedia) return;
+
+      // gsap-animations.js boots ScrollSmoother after fonts load, so retry
+      // briefly until the smoother (and with it the broken sticky) is active.
+      if (!document.documentElement.classList.contains('gsap-smooth')) {
+        if (attempts++ < 20) window.setTimeout(pinBox, 150);
+        return;
+      }
+
+      const headerOffset = () => {
+        const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height'));
+        return (Number.isFinite(header) ? header : 80) + 16;
+      };
+
+      pin = gsap.matchMedia();
+      pin.add('(min-width: 901px)', () => {
+        const trigger = ScrollTrigger.create({
+          trigger: box,
+          start: () => 'top top+=' + headerOffset(),
+          end: () => '+=' + Math.max(0, layout.offsetHeight - box.offsetHeight),
+          pin: true,
+          pinSpacing: false,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        });
+        layout.classList.add('byb__layout--pinned');
+
+        // The box re-renders on every add/remove, so its height keeps changing.
+        let refreshTimer = 0;
+        let lastSize = '';
+        const observer = new ResizeObserver((entries) => {
+          const rect = entries[0] && entries[0].contentRect;
+          const size = rect ? `${Math.round(rect.width)}x${Math.round(rect.height)}` : '';
+          if (size === lastSize) return;
+          lastSize = size;
+          window.clearTimeout(refreshTimer);
+          refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 150);
+        });
+        observer.observe(box);
+
+        return () => {
+          window.clearTimeout(refreshTimer);
+          observer.disconnect();
+          layout.classList.remove('byb__layout--pinned');
+          trigger.kill();
+        };
+      });
+
+      ScrollTrigger.refresh();
+    };
+
+    const killPin = () => {
+      if (!pin) return;
+      pin.kill();
+      pin = null;
+      layout && layout.classList.remove('byb__layout--pinned');
+    };
+
+    if (document.readyState === 'complete') pinBox();
+    else window.addEventListener('load', pinBox, { once: true });
+
+    if (section) {
+      document.addEventListener('shopify:section:unload', (event) => {
+        if (event.target === section) killPin();
+      });
+    }
   });
 })();

@@ -203,11 +203,35 @@
 
 .byb__box {
   position: sticky;
-  top: 20px;
+  top: calc(var(--header-height, 80px) + 16px);
+  z-index: 3;
+  align-self: start;
+  max-height: calc(100vh - var(--header-height, 80px) - 32px);
+  max-height: calc(100dvh - var(--header-height, 80px) - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 22px;
   border: 1px solid var(--byb-line);
   border-radius: 24px;
   background: var(--byb-card);
+}
+
+/* ScrollSmoother breaks sticky, so the box is pinned with ScrollTrigger instead.
+   Pinning freezes an inline height on the element, so clamp it and let the
+   panel scroll internally when the box grows past the viewport. */
+.byb__layout--pinned .byb__box {
+  position: relative;
+  top: auto;
+}
+
+@media (min-width: 901px) {
+  .byb__layout--pinned .byb__box {
+    height: auto !important;
+    max-height: calc(100vh - var(--header-height, 80px) - 32px) !important;
+    max-height: calc(100dvh - var(--header-height, 80px) - 32px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+  }
 }
 
 .byb__box h2 {
@@ -374,7 +398,7 @@
 
 @media (max-width: 900px) {
   .byb__layout { grid-template-columns: 1fr; }
-  .byb__box { position: static; order: -1; }
+  .byb__box { position: static; order: -1; max-height: none; overflow: visible; }
   .byb__wrap { padding-inline: 16px; }
   .byb__grid { --byb-plate: 140px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 48px 18px; }
   .byb__mbar {
