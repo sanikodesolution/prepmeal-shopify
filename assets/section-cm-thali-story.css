@@ -1,6 +1,8 @@
 /* Ghar Ka Khana thali story
-   Scoped to .gkk so nothing leaks into the theme. Colours come from the
-   section settings (--gkk-bg, --gkk-accent); the rest is the design palette. */
+   Scoped to .gkk so nothing leaks into the theme.
+   Typography is intentionally NOT declared here: font family, size, weight,
+   line height and letter spacing all come from the theme. Only layout,
+   spacing, colour and motion live in this file. */
 
 .gkk,
 section.gkk[data-gkk]{
@@ -11,18 +13,15 @@ section.gkk[data-gkk]{
   --gkk-line:rgba(42,15,20,.15);
   --gkk-bg:#fdf8ef;
   --gkk-accent:#f0a81c;
-  --gkk-display:var(--font-heading-family),sans-serif;
-  --gkk-body:var(--font-body-family),sans-serif;
   background:var(--gkk-bg);
   color:var(--gkk-ink);
-  font-family:var(--gkk-body);
   padding:clamp(24px,4vw,56px) clamp(12px,3vw,24px);
   overflow:clip
 }
 .gkk *{box-sizing:border-box}
 
 /* Bootstrap 5.3 container widths */
-.gkk__wrap{width:100%;margin-inline:auto;max-width:none;padding:clamp(20px,3.5vw,44px);
+.gkk__wrap{width:100%;margin-inline:auto;max-width:none;padding:clamp(16px,3.5vw,44px);
   display:grid;gap:0;
   border:1px solid var(--gkk-line);border-radius:6px 32px 6px 32px;background:rgba(255,255,255,.6)}
 @media(min-width:576px){.gkk__wrap{max-width:540px}}
@@ -33,22 +32,23 @@ section.gkk[data-gkk]{
 .gkk__wrap>div+div{margin-top:clamp(22px,3vw,34px);padding-top:clamp(22px,3vw,34px);border-top:1px solid var(--gkk-line)}
 
 section.gkk h2,
-section.gkk h3{font-family:var(--gkk-display);margin:0;font-weight:600;line-height:1.06;color:var(--gkk-ink);letter-spacing:normal}
-section.gkk p{margin:0;line-height:1.65;color:var(--gkk-mut)}
+section.gkk h3{margin:0;color:var(--gkk-ink)}
+section.gkk p{margin:0;color:var(--gkk-mut)}
 section.gkk a:focus-visible,
 section.gkk button:focus-visible{outline:3px solid var(--gkk-ink);outline-offset:3px}
 
 /* ---------- Hero ---------- */
-.gkk__hero{display:grid;gap:24px;align-items:center}
+.gkk__hero{display:grid;gap:24px;align-items:center;min-width:0}
+.gkk__hero>div{min-width:0}
 .gkk__badge{display:inline-block;border:1px solid var(--gkk-beet);color:var(--gkk-beet);
-  padding:6px 14px;border-radius:99px;font-size:13px;margin-bottom:14px;line-height:1.2}
-section.gkk .gkk__hero h2{font-size:clamp(30px,4.2vw,54px);letter-spacing:-.02em;margin-bottom:12px}
-section.gkk .gkk__hero p{max-width:46ch;font-size:16px}
+  padding:6px 14px;border-radius:99px;margin-bottom:14px}
+.gkk__hero h2{margin-bottom:12px;overflow-wrap:break-word}
+.gkk__hero p{max-width:46ch}
 .gkk__stats{display:flex;margin-top:20px;border-top:1px solid var(--gkk-line)}
-.gkk__stats div{flex:1;padding:18px 16px 0 0;min-width:0}
+.gkk__stats div{flex:1 1 0;min-width:0;padding:18px 16px 0 0}
 .gkk__stats div+div{padding-left:16px;border-left:1px solid var(--gkk-line)}
-.gkk__stats b{display:block;font:600 clamp(22px,3vw,32px)/1 var(--gkk-display);color:var(--gkk-beet)}
-.gkk__stats span{font-size:13px;color:var(--gkk-mut)}
+.gkk__stats b{display:block;color:var(--gkk-beet);overflow-wrap:break-word}
+.gkk__stats span{color:var(--gkk-mut);overflow-wrap:break-word}
 
 /* ---------- Plate ---------- */
 .gkk__plate{position:relative;max-width:min(420px,100%);width:100%;margin:0 auto;aspect-ratio:1}
@@ -59,9 +59,8 @@ section.gkk .gkk__hero p{max-width:46ch;font-size:16px}
   transition:transform 1.5s cubic-bezier(.2,.8,.2,1),opacity .9s}
 .gkk__chip{position:absolute;z-index:2;background:var(--gkk-beet);color:var(--gkk-paper);
   padding:8px 14px;border-radius:3px;
-  font:italic 600 clamp(13px,2vw,18px)/1.1 var(--gkk-display);
   box-shadow:0 8px 20px rgba(0,0,0,.35);border:1px solid rgba(240,168,28,.5);
-  transition:opacity .6s,translate .6s;white-space:nowrap}
+  transition:opacity .6s,translate .6s;white-space:nowrap;max-width:100%}
 .gkk__chip:nth-of-type(1){top:4%;left:0;rotate:-4deg;transition-delay:.9s}
 .gkk__chip:nth-of-type(2){top:8%;right:0;rotate:3deg;transition-delay:1.05s}
 .gkk__chip:nth-of-type(3){bottom:8%;left:0;rotate:3deg;transition-delay:1.2s}
@@ -70,14 +69,14 @@ section.gkk .gkk__hero p{max-width:46ch;font-size:16px}
 .gkk--ready:not(.is-in) .gkk__chip{opacity:0;translate:0 14px}
 
 /* ---------- Two cards ---------- */
-.gkk__trio{display:grid;gap:20px}
-.gkk__card{padding:0}
+.gkk__trio{display:grid;gap:20px;min-width:0}
+.gkk__card{padding:0;min-width:0}
 .gkk__card+.gkk__card{border-top:1px solid var(--gkk-line);padding-top:20px}
 .gkk__card svg{width:100%;height:auto;display:block;border-radius:10px;margin-bottom:14px}
-section.gkk .gkk__card h3{font-size:clamp(20px,2vw,24px);margin-bottom:8px}
-section.gkk .gkk__card p{font-size:14.5px;line-height:1.55}
+.gkk__card h3{margin-bottom:8px;overflow-wrap:break-word}
+.gkk__card p{overflow-wrap:break-word}
 @media(min-width:992px){
-  .gkk__trio{grid-template-columns:repeat(2,1fr);gap:0}
+  .gkk__trio{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
   .gkk__card{padding:0 28px}
   .gkk__card:first-child{padding-left:0}
   .gkk__card:last-child{padding-right:0}
@@ -85,45 +84,72 @@ section.gkk .gkk__card p{font-size:14.5px;line-height:1.55}
 }
 
 /* ---------- Delivery ---------- */
-.gkk__deliver{display:grid;gap:20px;align-items:start}
-section.gkk .gkk__deliver h2{font-size:clamp(26px,3.2vw,38px);margin-bottom:10px}
+.gkk__deliver{display:grid;gap:20px;align-items:start;min-width:0}
+.gkk__deliver>div{min-width:0}
+.gkk__deliver h2{margin-bottom:10px;overflow-wrap:break-word}
 .gkk__ticket{display:flex;margin-top:10px;background:var(--gkk-beet);color:var(--gkk-paper);
   border-radius:8px;overflow:hidden}
-.gkk__ticket>div{padding:18px 20px;flex:1;min-width:0}
+.gkk__ticket>div{padding:18px 20px;flex:1 1 0;min-width:0}
 .gkk__ticket>div+div{border-left:2px dashed rgba(251,241,223,.4);text-align:right}
-section.gkk .gkk__ticket h3{color:var(--gkk-paper);font-size:26px;margin-bottom:4px}
-.gkk__ticket small{display:block;font-size:13px;color:rgba(251,241,223,.75);line-height:1.4}
-.gkk__ticket b{font-size:15px}
-.gkk__note{margin-top:14px;font-style:italic;font-size:14px}
-section.gkk .gkk__fresh h3{font-size:clamp(22px,2.4vw,28px);margin-bottom:8px}
-section.gkk .gkk__fresh p{font-size:14.5px}
+.gkk__ticket h3{color:var(--gkk-paper);margin-bottom:4px;overflow-wrap:break-word}
+.gkk__ticket small{display:block;color:rgba(251,241,223,.75);overflow-wrap:break-word}
+.gkk__ticket b{overflow-wrap:break-word}
+.gkk__note{margin-top:14px;font-style:normal}
+.gkk__fresh h3{margin-bottom:8px;overflow-wrap:break-word}
 .gkk__steps{display:grid;gap:10px;margin:14px 0 0;padding:0;list-style:none}
-.gkk__steps li{display:flex;gap:14px;align-items:flex-start}
+.gkk__steps li{display:flex;gap:14px;align-items:flex-start;min-width:0}
 .gkk__steps i{flex:none;width:30px;height:30px;border-radius:50%;background:var(--gkk-accent);
-  color:#2a0f14;display:grid;place-items:center;font:700 14px/1 var(--gkk-body);font-style:normal}
-.gkk__steps b{display:block;color:var(--gkk-ink);margin-bottom:2px}
-.gkk__steps span{font-size:14px;color:var(--gkk-mut)}
+  color:#2a0f14;display:grid;place-items:center;font-style:normal;
+  font-family:inherit;font-size:inherit;font-weight:inherit}
+.gkk__steps li>div{min-width:0}
+.gkk__steps b{display:block;color:var(--gkk-ink);margin-bottom:2px;overflow-wrap:break-word}
+.gkk__steps span{color:var(--gkk-mut);overflow-wrap:break-word}
 .gkk__towns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .gkk__towns span{border:1px solid var(--gkk-line);border-radius:99px;padding:7px 14px;
-  font-size:14px;color:var(--gkk-ink);line-height:1.2}
+  color:var(--gkk-ink);max-width:100%;overflow-wrap:break-word}
 
 /* ---------- CTA ---------- */
-.gkk__cta{display:grid;gap:20px}
-section.gkk .gkk__cta h2{font-size:clamp(26px,3.2vw,38px);margin-bottom:8px}
-.gkk__facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gkk__cta{display:grid;gap:20px;min-width:0}
+.gkk__cta>div{min-width:0}
+.gkk__cta h2{margin-bottom:8px;overflow-wrap:break-word}
+.gkk__facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .gkk__facts div{background:rgba(240,168,28,.16);border-radius:6px;padding:14px;min-width:0}
-.gkk__facts b{display:block;font:600 24px/1 var(--gkk-display);color:var(--gkk-beet);margin-bottom:6px}
-.gkk__facts span{font-size:13px;color:var(--gkk-mut);line-height:1.4}
+.gkk__facts b{display:block;color:var(--gkk-beet);margin-bottom:6px;overflow-wrap:break-word}
+.gkk__facts span{color:var(--gkk-mut);overflow-wrap:break-word}
 .gkk__btn{display:inline-block;margin-top:24px;background:var(--gkk-beet);color:var(--gkk-paper);
-  padding:16px 36px;border-radius:99px;font-weight:700;text-decoration:none;
-  transition:transform .25s,box-shadow .25s}
+  padding:16px 36px;border-radius:99px;font-family:inherit;font-size:inherit;
+  font-weight:inherit;line-height:inherit;text-decoration:none;
+  transition:transform .25s,box-shadow .25s;max-width:100%}
 .gkk__btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(123,23,48,.35)}
 
 @media(min-width:992px){
-  .gkk__hero{grid-template-columns:1.05fr .95fr}
-  .gkk__deliver{grid-template-columns:1fr 1fr}
-  .gkk__cta{grid-template-columns:1fr 1fr;align-items:center}
+  .gkk__hero{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}
+  .gkk__deliver{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .gkk__cta{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
 }
+
+/* Phones and tablets: the plate labels move below the plate as a wrapped row,
+   so nothing rotated can stick out past the container. They sit over the plate
+   again only from 992px, where the hero becomes two columns. */
+@media(max-width:991px){
+  .gkk__plate{display:flex;flex-wrap:wrap;gap:8px;aspect-ratio:auto}
+  .gkk__plate::before{content:none}
+  .gkk__plate svg{width:100%;height:auto;aspect-ratio:1;flex:0 0 100%}
+  .gkk__chip{position:static;rotate:none;white-space:normal;box-shadow:none;max-width:100%}
+  .gkk__chip:nth-of-type(n){top:auto;right:auto;bottom:auto;left:auto;rotate:none}
+  .gkk--ready:not(.is-in) .gkk__chip{opacity:1;translate:none}
+}
+
+/* Small phones: keep the two-ticket row and facts from crushing. */
+@media(max-width:479px){
+  .gkk__ticket{flex-direction:column}
+  .gkk__ticket>div+div{border-left:0;border-top:2px dashed rgba(251,241,223,.4);text-align:left}
+  .gkk__facts{grid-template-columns:minmax(0,1fr)}
+  .gkk__stats{flex-wrap:wrap}
+  .gkk__stats div{flex:1 1 30%;padding-right:8px}
+  .gkk__chip{padding:6px 10px}
+}
+
 @media(prefers-reduced-motion:reduce){
   .gkk *{transition:none!important;animation:none!important}
   .gkk--ready:not(.is-in) .gkk__plate svg,
