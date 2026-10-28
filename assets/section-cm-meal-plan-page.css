@@ -442,16 +442,16 @@ color:var(--ben-ink);padding:0 0 0
 /* This Week's Menu */
 .mealplan-menu{--mp-accent:#F5A623;--mp-accent-soft:#fff4e3;--mp-ink:#15251C;--mp-muted:#5c675f;--mp-line:#e4e8e1;background:#fff;color:var(--mp-ink)}
 .mealplan-menu__inner{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);column-gap:clamp(12px,1.4vw,22px);row-gap:0;align-items:start;max-width:calc(var(--page-width) + 100px)}
-/* The eyebrow is a direct grid child of the section, not part of the head, so
-   it can centre on the whole section. The head keeps the vertical space the
-   pill used to occupy (its own height plus the gap below it) so the heading,
-   tagline, photo, list and order card all stay exactly where they were.
-   `.mp-eye` is `clamp(1.05rem, 1.18vw, 1.32rem)` type with 1 line-height and
-   `0.62em` padding top/bottom plus a 1px border: 2.24em + 2px tall. */
-.mealplan-menu__head{grid-column:1 / -1;grid-row:1;display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:start;gap:0;text-align:left;margin-bottom:50px;padding-bottom:0;padding-top:calc(2.24 * clamp(1.05rem,1.18vw,1.32rem) + 2px + .95rem);pointer-events:none}
-.mealplan-menu__head>*{pointer-events:auto}
-.mealplan-menu__inner>.mp-eye{grid-column:1 / -1;grid-row:1;justify-self:center;align-self:start;margin:0 0 .95rem;text-align:center}
-.mealplan-menu__head .mealplan-h{grid-column:1;grid-row:2;margin:0;justify-self:start;text-align:left}
+/* Header row: heading and tagline on the left, the eyebrow pill centred on the
+   section, the plan price on the right. One flex row, so the three blocks share
+   a single vertical centre line. Equal flex basis on the two outer blocks keeps
+   the pill parked on the section's true centre. */
+.mealplan-menu__top{grid-column:1 / -1;grid-row:1;display:flex;align-items:center;gap:clamp(16px,2vw,28px);margin-bottom:50px;pointer-events:none}
+.mealplan-menu__top>*{pointer-events:auto}
+.mealplan-menu__head{order:1;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.mealplan-menu__head .mealplan-h{margin:0;text-align:left}
+.mealplan-menu__top>.mp-eye{order:2;flex:0 0 auto;margin:0;text-align:center}
+.mealplan-menu__top>.mealplan-menu__buy{order:3;flex:1 1 0;min-width:0;padding:0;align-self:center;justify-items:end;text-align:right}
 .mealplan-menu__title{margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:left;cursor:pointer}
 .mealplan-menu__cursor{position:fixed;left:0;top:0;z-index:90;width:80px;height:80px;margin:16px 0 0 18px;border-radius:12px;overflow:hidden;pointer-events:none;box-shadow:0 12px 28px rgba(21,37,28,.32);background:#fff}
 .mealplan-menu__cursor[hidden]{display:none}
@@ -668,35 +668,30 @@ color:var(--ben-ink);padding:0 0 0
      form sit side by side 50/50 in the next row. The frame is square to match
      the square meal photos, so the plate fills the wrapper with no dead bars. */
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(16px,2.4vw,32px)}
-  /* Flatten the head into the outer grid so the eyebrow can own a full width row
-     and centre on the section. A full width head box would instead collide with
-     the price box that shares row 1. */
-  .mealplan-menu__head{display:contents}
-  /* Price keeps the top right corner on its own row; the text block follows
-     underneath so a wide heading never runs into the price. The eyebrow is a
-     section child, so it owns its own centred row here. */
-  .mealplan-menu__buy{grid-column:1 / -1;grid-row:1;justify-self:end;text-align:right;padding:0 0 clamp(18px,2.4vw,26px)}
-  .mealplan-menu__inner>.mp-eye{grid-column:1 / -1;grid-row:2;justify-self:center;margin:0 0 .7rem;text-align:center}
-  .mealplan-menu__head .mealplan-h{grid-column:1 / -1;grid-row:3;justify-self:start;text-align:left}
-  .mealplan-menu__sub{grid-column:1 / -1;grid-row:4;margin:1.6rem 0 50px;align-self:start;justify-self:start;text-align:left}
-  .mealplan-menu__stage{grid-column:1 / -1;grid-row:5;width:80%;justify-self:center;position:relative;top:0;margin:0 auto clamp(24px,3vw,36px)}
+  /* Header stays one flex row here too, just tighter: the pill keeps its place
+     on the centre line between the heading block and the price. */
+  .mealplan-menu__top{gap:clamp(12px,1.6vw,20px);margin-bottom:40px}
+  .mealplan-menu__buy{padding:0}
+  .mealplan-menu__sub{margin:1.6rem 0 0}
+  .mealplan-menu__stage{grid-column:1 / -1;grid-row:2;width:80%;justify-self:center;position:relative;top:0;margin:0 auto clamp(24px,3vw,36px)}
   .mealplan-menu__frame{aspect-ratio:1/1}
-  .mealplan-menu__list{grid-column:1;grid-row:6}
-  .mealplan-menu__detail{grid-column:2;grid-row:6;margin-top:0;position:relative;top:0}
+  .mealplan-menu__list{grid-column:1;grid-row:3}
+  .mealplan-menu__detail{grid-column:2;grid-row:3;margin-top:0;position:relative;top:0}
 }
 @media(max-width:860px){
-  /* The eyebrow takes row 2 on its own, so the head and everything below it
-     shift down one row. Rows 3-6 keep their old order, just renumbered. */
-  .mealplan-menu__head{grid-template-columns:1fr;grid-row:3;justify-items:center;text-align:left;margin-bottom:50px;padding-top:0}
-  .mealplan-menu__buy{grid-column:1;grid-row:1;justify-self:stretch;text-align:left;padding:0 0 4px}
-  .mealplan-menu__head .mealplan-h{grid-column:1;grid-row:auto;justify-self:start;text-align:left}
-  .mealplan-menu__sub{grid-column:1;grid-row:auto;justify-self:start;text-align:left;margin:1.6rem 0 0}
-  .mealplan-menu__inner>.mp-eye{grid-column:1;grid-row:2;justify-self:center;margin:0 0 .95rem;text-align:center}
+  /* The three header blocks can't share one line on a phone, so they stack in
+     the same visual order: price, eyebrow, then heading and tagline. */
+  .mealplan-menu__top{flex-direction:column;align-items:stretch;gap:0;margin-bottom:50px}
+  .mealplan-menu__top>.mealplan-menu__buy{order:1;flex:0 0 auto;width:100%;justify-items:start;text-align:left;padding:0 0 4px}
+  .mealplan-menu__top>.mp-eye{order:2;flex:0 0 auto;align-self:center;margin:.7rem 0 0;text-align:center}
+  .mealplan-menu__head{order:3;flex:0 0 auto;width:100%;margin-top:.9rem}
+  .mealplan-menu__head .mealplan-h{text-align:left}
+  .mealplan-menu__sub{margin:1.6rem 0 0;text-align:left}
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr)}
-  .mealplan-menu__stage{grid-column:1;grid-row:4;position:relative;top:0;margin-bottom:28px}
+  .mealplan-menu__stage{grid-column:1;grid-row:2;position:relative;top:0;margin-bottom:28px}
   .mealplan-menu__frame{aspect-ratio:1/1;border-radius:28px}
-  .mealplan-menu__list{grid-column:1;grid-row:5}
-  .mealplan-menu__detail{grid-column:1;grid-row:6;position:relative;top:0}
+  .mealplan-menu__list{grid-column:1;grid-row:3}
+  .mealplan-menu__detail{grid-column:1;grid-row:4;position:relative;top:0}
 }
 
 /* Mobile: section titles share the same step-down scale. */
