@@ -451,7 +451,7 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__head{order:1;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;text-align:left}
 .mealplan-menu__head .mealplan-h{margin:0;text-align:left}
 .mealplan-menu__top>.mp-eye{order:2;flex:0 0 auto;margin:0;text-align:center}
-.mealplan-menu__top>.mealplan-menu__buy{order:3;flex:1 1 0;min-width:0;padding:0;align-self:center;justify-items:end;text-align:right}
+.mealplan-menu__top>.mealplan-menu__buy{order:3;flex:1 1 0;min-width:0;padding:0;align-self:center;text-align:left}
 .mealplan-menu__title{margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:left;cursor:pointer}
 .mealplan-menu__cursor{position:fixed;left:0;top:0;z-index:90;width:80px;height:80px;margin:16px 0 0 18px;border-radius:12px;overflow:hidden;pointer-events:none;box-shadow:0 12px 28px rgba(21,37,28,.32);background:#fff}
 .mealplan-menu__cursor[hidden]{display:none}
@@ -682,7 +682,7 @@ color:var(--ben-ink);padding:0 0 0
   /* The three header blocks can't share one line on a phone, so they stack in
      the same visual order: price, eyebrow, then heading and tagline. */
   .mealplan-menu__top{flex-direction:column;align-items:stretch;gap:0;margin-bottom:50px}
-  .mealplan-menu__top>.mealplan-menu__buy{order:1;flex:0 0 auto;width:100%;justify-items:start;text-align:left;padding:0 0 4px}
+  .mealplan-menu__top>.mealplan-menu__buy{order:1;flex:0 0 auto;width:100%;text-align:left;padding:0 0 4px}
   .mealplan-menu__top>.mp-eye{order:2;flex:0 0 auto;align-self:center;margin:.7rem 0 0;text-align:center}
   .mealplan-menu__head{order:3;flex:0 0 auto;width:100%;margin-top:.9rem}
   .mealplan-menu__head .mealplan-h{text-align:left}
