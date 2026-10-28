@@ -101,6 +101,11 @@
     <div class="mealplan">
       <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
         <div class="mealplan-wrap mealplan-menu__inner">
+          {%- comment -%}
+            Header row: heading and tagline left, eyebrow pill centred on the
+            section, plan price right. One row, vertically centred together.
+          {%- endcomment -%}
+          <div class="mealplan-menu__top">
           {%- if section.settings.picker_count > 0 -%}
             {%- liquid
               # The cart charges the variant's own price, so a $0 variant makes
@@ -173,9 +178,8 @@
             {%- endif -%}
           {%- endif -%}
           {%- comment -%}
-            The eyebrow sits outside the head so it is a direct grid child of
-            the section. The head keeps the space it used to give the pill, so
-            nothing moves on screen.
+            Eyebrow pill: a direct child of the header row, so it can centre
+            between the heading block and the plan price.
           {%- endcomment -%}
           {%- if section.settings.menu_eyebrow != blank -%}
             <p class="mp-eye">{{ section.settings.menu_eyebrow | escape }}</p>
@@ -191,6 +195,7 @@
             {%- if section.settings.quality_text != blank -%}
               <p class="mealplan-menu__sub">{{ section.settings.quality_text | escape }}</p>
             {%- endif -%}
+          </div>
           </div>
           <div class="mealplan-menu__stage">
             <div class="mealplan-menu__frame is-all" data-mp-frame role="button" tabindex="0" aria-label="Open meal gallery">
