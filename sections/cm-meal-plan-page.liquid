@@ -172,10 +172,15 @@
               </div>
             {%- endif -%}
           {%- endif -%}
+          {%- comment -%}
+            The eyebrow sits outside the head so it is a direct grid child of
+            the section. The head keeps the space it used to give the pill, so
+            nothing moves on screen.
+          {%- endcomment -%}
+          {%- if section.settings.menu_eyebrow != blank -%}
+            <p class="mp-eye">{{ section.settings.menu_eyebrow | escape }}</p>
+          {%- endif -%}
           <div class="mealplan-menu__head">
-            {%- if section.settings.menu_eyebrow != blank -%}
-              <p class="mp-eye">{{ section.settings.menu_eyebrow | escape }}</p>
-            {%- endif -%}
             {%- if section.settings.picker_count > 0 -%}
               <h4 class="mealplan-h">
                 <button type="button" class="mealplan-menu__title" data-mp-poster>{{ section.settings.quality_heading | escape }}</button>
