@@ -32,6 +32,12 @@ section.gkk[data-gkk]{
   --gkk-tag-line:rgba(21,37,28,.12);
   /* Breathing room between a block title (h4) and the text under it. */
   --gkk-title-gap:clamp(12px,1.5vw,18px);
+  /* Motion tokens. `--gkk-ease` is a long expo-style ease-out: fast off the
+     mark, then a slow settle, which is what makes a reveal read as premium
+     instead of springy. `--gkk-ease-soft` is the gentler companion used for
+     hover and pointer-driven movement. */
+  --gkk-ease:cubic-bezier(.16,1,.3,1);
+  --gkk-ease-soft:cubic-bezier(.22,.7,.2,1);
   background:var(--gkk-bg);
   color:var(--gkk-ink);
   padding:clamp(24px,4vw,56px) clamp(12px,3vw,24px);
@@ -75,28 +81,149 @@ section.gkk .gkk__hero h2{font-size:40px;margin:0 0 20px;overflow-wrap:break-wor
 .gkk__stats span{color:var(--gkk-mut);overflow-wrap:break-word}
 
 /* ---------- Plate ---------- */
-.gkk__plate{position:relative;max-width:min(420px,100%);width:100%;margin:0 auto;aspect-ratio:1}
+.gkk__plate{position:relative;max-width:min(420px,100%);width:100%;margin:0 auto;aspect-ratio:1;
+  transform-style:preserve-3d;
+  /* Pointer tilt. JS writes the eased offsets into these two custom
+     properties on a rAF loop, so the browser only ever animates `transform`
+     here — no per-frame layout work, and the motion keeps easing after the
+     cursor stops instead of snapping to the last position. There is
+     deliberately no `transition` on this transform: the rAF loop already
+     eases, and a transition would restart every frame and lag the cursor. */
+  transform:perspective(1100px) rotateX(var(--gkk-tilt-x,0deg)) rotateY(var(--gkk-tilt-y,0deg));
+}
 .gkk__plate::before{content:"";position:absolute;inset:-8%;border-radius:50%;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(245,166,35,.4),transparent)}
+  z-index:0;background:radial-gradient(closest-side,rgba(245,166,35,.4),transparent)}
 /* The plate is a transparent cut-out PNG, so it needs no circular mask: the
    artwork already carries its own edge. `contain` keeps the whole plate and its
    shadow inside the box instead of cropping it like a photo. */
-.gkk__plate>img{position:relative;width:100%;height:100%;display:block;object-fit:contain;
+.gkk__plate>img{position:relative;z-index:1;width:100%;height:100%;display:block;
+  object-fit:contain;
   filter:drop-shadow(0 24px 30px rgba(21,37,28,.28));
-  transition:transform 1.5s cubic-bezier(.2,.8,.2,1),opacity .9s}
+  transition:opacity .9s var(--gkk-ease),rotate 1.5s var(--gkk-ease),scale 1.5s var(--gkk-ease)}
+/* Once the plate has landed the whole plate group (art + pinned labels) keeps a
+   very slow float, so the hero feels alive between scrolls without drawing
+   attention to itself. This animates `translate` on the plate — a property
+   independent of `transform` — so it composes with the pointer tilt above
+   instead of fighting it, and the labels stay pinned to the food underneath. */
+.gkk.is-in .gkk__plate{animation:gkk-float 9s var(--gkk-ease-soft) 1.6s infinite}
+@keyframes gkk-float{
+  0%,100%{translate:0 0}
+  50%{translate:0 -7px}
+}
+/* A slow saffron halo breathes behind the plate; `scale` only, so it stays on
+   the compositor. */
+.gkk.is-in .gkk__plate::before{animation:gkk-halo 7s ease-in-out 1.2s infinite}
+@keyframes gkk-halo{
+  0%,100%{scale:1;opacity:.85}
+  50%{scale:1.06;opacity:1}
+}
+/* Specular highlight: a soft light spot that tracks the cursor across the
+   plate, like light catching a ceramic surface. `--gkk-mx/my` are written by
+   the same rAF loop as the tilt, so it never costs an extra listener. */
+.gkk__plate::after{content:"";position:absolute;inset:6%;z-index:1;border-radius:50%;
+  pointer-events:none;opacity:0;transition:opacity .5s var(--gkk-ease-soft);
+  background:radial-gradient(circle at var(--gkk-mx,50%) var(--gkk-my,50%),
+    rgba(255,255,255,.5),rgba(255,255,255,0) 46%)}
+.gkk__plate:hover::after{opacity:1}
 /* Plate labels use the theme's tag colour, matching `.mealplan-a .tag` and
    `.ing .diet` in section-cm-meal-plan-page.css: saffron fill, forest ink.
    The beet fill was local to this panel and read as a different brand. */
 .gkk__chip{position:absolute;z-index:2;background:var(--gkk-tag-bg);color:var(--gkk-tag-ink);
   padding:8px 14px;border-radius:999px;
   box-shadow:0 8px 18px rgba(21,37,28,.22);border:1px solid var(--gkk-tag-line);
-  transition:opacity .6s,translate .6s;white-space:nowrap;max-width:100%}
-.gkk__chip:nth-of-type(1){top:4%;left:0;rotate:-4deg;transition-delay:.9s}
-.gkk__chip:nth-of-type(2){top:8%;right:0;rotate:3deg;transition-delay:1.05s}
-.gkk__chip:nth-of-type(3){bottom:8%;left:0;rotate:3deg;transition-delay:1.2s}
-.gkk__chip:nth-of-type(4){bottom:3%;right:0;rotate:-3deg;transition-delay:1.35s}
-.gkk--ready:not(.is-in) .gkk__plate>img{opacity:0;transform:rotate(-50deg) scale(.82)}
-.gkk--ready:not(.is-in) .gkk__chip{opacity:0;translate:0 14px}
+  transition:opacity .6s var(--gkk-ease),translate .6s var(--gkk-ease),
+    scale .6s var(--gkk-ease),box-shadow .4s var(--gkk-ease-soft);
+  white-space:nowrap;max-width:100%}
+/* `--cd` is the per-chip stagger. It is only applied while the panel is still
+   waiting to reveal, so the delays never leak into hover feedback later. */
+.gkk__chip:nth-of-type(1){top:4%;left:0;rotate:-4deg;--cd:.9s}
+.gkk__chip:nth-of-type(2){top:8%;right:0;rotate:3deg;--cd:1.05s}
+.gkk__chip:nth-of-type(3){bottom:8%;left:0;rotate:3deg;--cd:1.2s}
+.gkk__chip:nth-of-type(4){bottom:3%;right:0;rotate:-3deg;--cd:1.35s}
+/* Chips drop in after the plate lands: they start slightly small and low, then
+   settle, which reads as a label being pinned onto the food. */
+.gkk--ready:not(.is-in) .gkk__plate>img{opacity:0;rotate:-16deg;scale:.88}
+.gkk--ready:not(.is-in) .gkk__chip{opacity:0;translate:0 14px;scale:.86;
+  transition-delay:var(--cd,0s)}
+/* Labels lift a touch when the plate is hovered, so the plate reads as tactile.
+   Scoped to `.is-in` so it can never pre-empt the reveal state above. */
+.gkk.is-in .gkk__plate:hover .gkk__chip{scale:1.04;box-shadow:0 12px 22px rgba(21,37,28,.28)}
+
+/* ---------- Scroll reveal ---------- */
+/* Every copy block rises, de-blurs and fades into place, each one a beat after
+   the one above it. This uses a CSS animation rather than a transition on
+   purpose: the same elements also have hover transitions (tickets, chips,
+   button), and two rules setting `transition` on one element would silently
+   cancel each other depending on source order. Animating `opacity`,
+   `translate` and `filter` leaves `transform` free for the hover states.
+   `both` fill keeps the resting state after the animation ends.
+   The hidden state only applies while `.gkk--ready` is set, so the panel is
+   fully visible if the script never runs (no-JS, old browser, failed asset). */
+.gkk__hero>div:not(.gkk__plate)>*:not(.gkk__stats),
+.gkk__stats div,
+.gkk__card,
+.gkk__deliver>div>*,
+.gkk__cta>div>*,
+.gkk__facts div,
+.gkk__towns span{
+  --d:0ms;
+}
+.gkk--ready:not(.is-in) .gkk__hero>div:not(.gkk__plate)>*:not(.gkk__stats),
+.gkk--ready:not(.is-in) .gkk__stats div,
+.gkk--ready:not(.is-in) .gkk__card,
+.gkk--ready:not(.is-in) .gkk__deliver>div>*,
+.gkk--ready:not(.is-in) .gkk__cta>div>*,
+.gkk--ready:not(.is-in) .gkk__facts div,
+.gkk--ready:not(.is-in) .gkk__towns span{
+  opacity:0;
+  translate:0 20px;
+  filter:blur(6px);
+}
+.gkk.is-in .gkk__hero>div:not(.gkk__plate)>*:not(.gkk__stats),
+.gkk.is-in .gkk__stats div,
+.gkk.is-in .gkk__card,
+.gkk.is-in .gkk__deliver>div>*,
+.gkk.is-in .gkk__cta>div>*,
+.gkk.is-in .gkk__facts div,
+.gkk.is-in .gkk__towns span{
+  animation:gkk-rise .9s var(--gkk-ease) var(--d) both;
+}
+@keyframes gkk-rise{
+  from{opacity:0;translate:0 20px;filter:blur(6px)}
+  to{opacity:1;translate:0 0;filter:blur(0)}
+}
+/* Hero copy first, then the rail, then the sections in document order. */
+.gkk__hero>div:not(.gkk__plate)>*:not(.gkk__stats):nth-child(1){--d:80ms}
+.gkk__hero>div:not(.gkk__plate)>*:not(.gkk__stats):nth-child(2){--d:170ms}
+.gkk__hero>div:not(.gkk__plate)>*:not(.gkk__stats):nth-child(3){--d:260ms}
+.gkk__hero>div:not(.gkk__plate)>*:not(.gkk__stats):nth-child(4){--d:350ms}
+.gkk__stats div{--d:420ms}
+.gkk__stats div:nth-child(2){--d:500ms}
+.gkk__stats div:nth-child(3){--d:580ms}
+.gkk__card:nth-child(1){--d:120ms}
+.gkk__card:nth-child(2){--d:240ms}
+.gkk__wrap>.gkk__deliver>div>*:nth-child(1){--d:80ms}
+.gkk__wrap>.gkk__deliver>div>*:nth-child(2){--d:150ms}
+.gkk__wrap>.gkk__deliver>div>*:nth-child(3){--d:220ms}
+.gkk__wrap>.gkk__deliver>div>*:nth-child(4){--d:290ms}
+.gkk__wrap>.gkk__deliver>div>*:nth-child(5){--d:360ms}
+.gkk__wrap>.gkk__deliver>div>*:nth-child(6){--d:430ms}
+.gkk__cta>div>*:nth-child(1){--d:80ms}
+.gkk__cta>div>*:nth-child(2){--d:160ms}
+.gkk__cta>div>*:nth-child(3){--d:240ms}
+.gkk__facts div:nth-child(1){--d:300ms}
+.gkk__facts div:nth-child(2){--d:380ms}
+
+/* Small, cheap affordances: the ticket rows lift a hair and warm their edge,
+   and the town chips brighten, so the whole panel answers the pointer.
+   These only transition `transform`, `border` and `background`, which the
+   reveal animation above never touches. */
+.gkk__ticket{transition:transform .45s var(--gkk-ease-soft),box-shadow .45s var(--gkk-ease-soft)}
+.gkk__ticket:hover{transform:translateY(-2px);box-shadow:0 14px 26px -16px rgba(21,37,28,.55)}
+.gkk__towns span{transition:border-color .35s var(--gkk-ease-soft),
+  background-color .35s var(--gkk-ease-soft),transform .35s var(--gkk-ease-soft)}
+.gkk__towns span:hover{border-color:var(--gkk-tag-bg);background:rgba(245,166,35,.12);
+  transform:translateY(-2px)}
 
 /* the two cards: title + copy */
 .gkk__trio{display:grid;gap:20px;min-width:0}
@@ -177,12 +304,17 @@ section.gkk .gkk__cta h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-
    so nothing rotated can stick out past the container. They sit over the plate
    again only from 992px, where the hero becomes two columns. */
 @media(max-width:991px){
-  .gkk__plate{display:flex;flex-wrap:wrap;gap:8px;aspect-ratio:auto}
+  /* `.gkk.is-in` outranks the base `.gkk__plate` rule, so the float has to be
+     switched off with matching specificity here as well. */
+  .gkk__plate,
+  .gkk.is-in .gkk__plate{display:flex;flex-wrap:wrap;gap:8px;aspect-ratio:auto;
+    transform:none;animation:none}
   .gkk__plate::before{content:none}
+  .gkk__plate::after{content:none}
   .gkk__plate>img{width:100%;height:auto;aspect-ratio:1;flex:0 0 100%}
   .gkk__chip{position:static;rotate:none;white-space:normal;box-shadow:none;max-width:100%}
   .gkk__chip:nth-of-type(n){top:auto;right:auto;bottom:auto;left:auto;rotate:none}
-  .gkk--ready:not(.is-in) .gkk__chip{opacity:1;translate:none}
+  .gkk--ready:not(.is-in) .gkk__chip{opacity:1;translate:none;scale:1}
 }
 
 /* Small phones: keep the two-ticket row and facts from crushing. */
@@ -195,8 +327,32 @@ section.gkk .gkk__cta h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-
   .gkk__chip{padding:6px 10px}
 }
 
+/* Motion is decorative: strip every transition/animation and force the
+   pre-reveal states back to fully visible, so the panel reads identically with
+   reduced motion enabled. `!important` is needed because the reveal states are
+   driven by `.gkk--ready:not(.is-in)` selectors further up the cascade. */
 @media(prefers-reduced-motion:reduce){
-  .gkk *{transition:none!important;animation:none!important}
+  .gkk *,
+  .gkk *::before,
+  .gkk *::after{transition:none!important;animation:none!important}
   .gkk--ready:not(.is-in) .gkk__plate>img,
-  .gkk--ready:not(.is-in) .gkk__chip{opacity:1;transform:none;translate:none}
+  .gkk--ready:not(.is-in) .gkk__chip,
+  .gkk--ready:not(.is-in) .gkk__hero>div>*,
+  .gkk--ready:not(.is-in) .gkk__stats div,
+  .gkk--ready:not(.is-in) .gkk__card,
+  .gkk--ready:not(.is-in) .gkk__deliver>div>*,
+  .gkk--ready:not(.is-in) .gkk__cta>div>*,
+  .gkk--ready:not(.is-in) .gkk__facts div,
+  .gkk--ready:not(.is-in) .gkk__towns span,
+  /* Also neutralise the reveal animation itself: `!important` on `animation`
+     above cannot override a running keyframe, so make the end state explicit. */
+  .gkk.is-in .gkk__hero>div>*,
+  .gkk.is-in .gkk__stats div,
+  .gkk.is-in .gkk__card,
+  .gkk.is-in .gkk__deliver>div>*,
+  .gkk.is-in .gkk__cta>div>*,
+  .gkk.is-in .gkk__facts div,
+  .gkk.is-in .gkk__towns span{
+    opacity:1!important;translate:none!important;filter:none!important;
+    scale:1!important;rotate:none!important;transform:none!important}
 }

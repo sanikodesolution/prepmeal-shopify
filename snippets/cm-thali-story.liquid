@@ -204,20 +204,74 @@
 <script>
   (function () {
     var root = document.getElementById('GkkStory-{{ section.id }}');
-    if (!root || !('IntersectionObserver' in window)) return;
+    if (!root) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     var plate = root.querySelector('[data-gkk-plate]');
-    if (!plate) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+
+    /* Reveal: one observer on the whole panel (not just the plate), so the copy
+       blocks animate as the section enters the viewport. It plays once and then
+       disconnects — re-triggering on every scroll pass would feel noisy. */
+    if (reduce.matches || !('IntersectionObserver' in window)) {
       root.classList.add('is-in');
-      return;
+    } else {
+      root.classList.add('gkk--ready');
+      var io = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) {
+          root.classList.add('is-in');
+          io.disconnect();
+        }
+      }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+      io.observe(root);
     }
-    root.classList.add('gkk--ready');
-    var io = new IntersectionObserver(function (entries) {
-      if (entries[0].isIntersecting) {
-        root.classList.add('is-in');
-        io.disconnect();
+
+    /* Pointer parallax on the plate. Values are eased towards their target on
+       rAF so the tilt trails the cursor instead of jittering with it, and the
+       loop parks itself as soon as the plate has settled — no idle CPU. */
+    if (!plate || reduce.matches || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    var MAX_TILT = 7;      // degrees of tilt at the very edge of the plate
+    var EASE = 0.09;       // 0-1: lower is smoother, higher is more responsive
+    var tx = 0, ty = 0;    // current (eased) tilt
+    var gx = 0, gy = 0;    // target tilt
+    var mx = 50, my = 50;  // highlight position, in %
+    var raf = null;
+
+    function render() {
+      tx += (gx - tx) * EASE;
+      ty += (gy - ty) * EASE;
+      plate.style.setProperty('--gkk-tilt-x', tx.toFixed(3) + 'deg');
+      plate.style.setProperty('--gkk-tilt-y', ty.toFixed(3) + 'deg');
+      plate.style.setProperty('--gkk-mx', mx.toFixed(2) + '%');
+      plate.style.setProperty('--gkk-my', my.toFixed(2) + '%');
+      if (Math.abs(gx - tx) > 0.01 || Math.abs(gy - ty) > 0.01) {
+        raf = requestAnimationFrame(render);
+      } else {
+        tx = gx; ty = gy; raf = null;
       }
-    }, { threshold: 0.25 });
-    io.observe(plate);
+    }
+
+    function kick() {
+      if (raf === null) raf = requestAnimationFrame(render);
+    }
+
+    plate.addEventListener('pointermove', function (e) {
+      var r = plate.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      var nx = (e.clientX - r.left) / r.width;   // 0 .. 1
+      var ny = (e.clientY - r.top) / r.height;
+      /* Y follows the horizontal axis (leaning left/right) and X the vertical
+         one, which is how a physical plate would tip under a hand. */
+      gy = (nx - 0.5) * MAX_TILT * 2;
+      gx = -(ny - 0.5) * MAX_TILT * 2;
+      mx = nx * 100;
+      my = ny * 100;
+      kick();
+    });
+
+    plate.addEventListener('pointerleave', function () {
+      gx = 0; gy = 0;
+      kick();
+    });
   })();
 </script>
