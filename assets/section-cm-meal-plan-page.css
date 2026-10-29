@@ -84,7 +84,7 @@ color:var(--ben-ink);padding:0 0 0
 /* The eyebrow reuses the theme's shared `.mp-eye` pill (base.css), same as every
    other section header on this page, so no bespoke type is declared here.
    `.mealplan-a p` sets line-height, which outranks `.mp-eye`; restore 1:1. */
-.ben .ben__eyebrow{margin:0 0 clamp(22px,3vw,34px);line-height:1}
+.ben .ben__eyebrow{margin:0 0 clamp(12px,1.4vw,18px);line-height:1}
 
 /* Title matches the theme's shared section-heading ramp (base.css): 40px,
    weight 600, 1.08 line-height, -0.015em tracking. */
@@ -97,7 +97,7 @@ color:var(--ben-ink);padding:0 0 0
 /* Last line is cut from a warm gold gradient instead of flat ink.
    fit-content keeps the gradient ramp mapped to the words, not the full column. */
 .ben .big .out{display:block;width:fit-content;margin-inline:auto;background:linear-gradient(100deg,#D98600 0%,var(--ben-gold-lt) 52%,#E8A22A 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-.ben__note{margin:clamp(22px,3vw,32px) auto 0;max-width:56ch;font-size:16px;line-height:1.7;color:var(--ben-muted);text-wrap:pretty}
+.ben__note{margin:clamp(12px,1.6vw,18px) auto 0;max-width:56ch;font-size:16px;line-height:1.7;color:var(--ben-muted);text-wrap:pretty}
 
 /* Seamless stat rail. Four identical groups sit inside the track, so a -25%
    shift lands exactly on a group boundary and the loop never shows a seam. */
