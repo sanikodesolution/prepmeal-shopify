@@ -7,6 +7,9 @@
 
   Everything below is optional; a blank setting simply drops that line.
   Line-based settings use the form "value|label" or "day|time|order by|cutoff".
+
+  Plate media: `thali_image` (image_picker) when set, otherwise the theme's
+  mp-food-2.jpg photo. Replaced an inline SVG thali so the panel shows real food.
 {%- endcomment -%}
 {%- liquid
   assign gkk_badge = s.thali_badge
@@ -55,45 +58,21 @@
       </div>
 
       <div class="gkk__plate" data-gkk-plate>
-        <svg viewBox="0 0 420 420" role="img" aria-label="{{ s.thali_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}">
-          <defs>
-            <radialGradient id="gkkb-{{ section.id }}" cx=".35" cy=".3">
-              <stop offset="0" stop-color="#f6e2a0"/>
-              <stop offset=".6" stop-color="#cfa13a"/>
-              <stop offset="1" stop-color="#8a6416"/>
-            </radialGradient>
-          </defs>
-          <circle cx="210" cy="210" r="200" fill="url(#gkkb-{{ section.id }})"/>
-          <circle cx="210" cy="210" r="180" fill="#e9c767" stroke="#8a6416" stroke-width="2"/>
-          <circle cx="210" cy="210" r="168" fill="none" stroke="#a97c1f" stroke-width="1.5" stroke-dasharray="3 7"/>
-          <circle cx="140" cy="145" r="62" fill="url(#gkkb-{{ section.id }})"/>
-          <circle cx="140" cy="145" r="50" fill="#c4521a"/>
-          <circle cx="140" cy="145" r="50" fill="none" stroke="#7d2d0a" stroke-width="3"/>
-          <g fill="#f0a81c"><circle cx="125" cy="135" r="9"/><circle cx="150" cy="158" r="10"/><circle cx="152" cy="128" r="7"/></g>
-          <path d="M115 160q20 12 40-6" stroke="#fbf1df" stroke-width="3" fill="none"/>
-          <circle cx="140" cy="285" r="58" fill="url(#gkkb-{{ section.id }})"/>
-          <circle cx="140" cy="285" r="47" fill="#d9a01e"/>
-          <circle cx="140" cy="285" r="47" fill="none" stroke="#8a5c0a" stroke-width="3"/>
-          <g fill="#4f7a2b">
-            <rect x="118" y="268" width="14" height="10" rx="3"/>
-            <rect x="146" y="290" width="16" height="10" rx="3" transform="rotate(25 154 295)"/>
-            <rect x="124" y="298" width="12" height="9" rx="3"/>
-          </g>
-          <g fill="#c4521a"><circle cx="152" cy="272" r="6"/><circle cx="128" cy="288" r="5"/></g>
-          <ellipse cx="290" cy="300" rx="72" ry="56" fill="#fffaf0"/>
-          <g fill="#efe3c8">
-            <ellipse cx="270" cy="285" rx="22" ry="7" transform="rotate(-20 270 285)"/>
-            <ellipse cx="305" cy="310" rx="24" ry="7" transform="rotate(15 305 310)"/>
-            <ellipse cx="290" cy="330" rx="20" ry="6"/>
-          </g>
-          <circle cx="300" cy="150" r="70" fill="#d6a05a"/>
-          <circle cx="278" cy="132" r="68" fill="#e2b571"/>
-          <g fill="#8a4a1c" opacity=".75">
-            <circle cx="262" cy="118" r="6"/><circle cx="296" cy="140" r="5"/>
-            <circle cx="270" cy="156" r="4"/><circle cx="305" cy="108" r="4"/>
-            <circle cx="244" cy="140" r="3"/>
-          </g>
-        </svg>
+        {%- if s.thali_image != blank -%}
+          <img
+            src="{{ s.thali_image | image_url: width: 840 }}"
+            srcset="{{ s.thali_image | image_url: width: 420 }} 420w, {{ s.thali_image | image_url: width: 840 }} 840w"
+            sizes="(min-width: 992px) 420px, 90vw"
+            alt="{{ s.thali_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
+            width="420" height="420" loading="lazy"
+          >
+        {%- else -%}
+          <img
+            src="{{ 'mp-food-2.jpg' | asset_url }}"
+            alt="{{ s.thali_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
+            width="420" height="420" loading="lazy"
+          >
+        {%- endif -%}
         {%- if s.thali_chips != blank -%}
           {%- for line in gkk_chips -%}
             {%- assign chip = line | strip -%}
