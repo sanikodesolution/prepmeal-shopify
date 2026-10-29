@@ -50,7 +50,9 @@
 & *{box-sizing:border-box}&{margin:0;background:var(--sage);color:var(--forest);font-family:var(--body)}
 & section{padding:80px clamp(1.25rem, 4vw, 4rem)}
 .wrap{max-width:var(--page-width);margin:0 auto}
-& h2{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
+/* Section headings never exceed 40px here. base.css sets h2 to 4.8rem (48px),
+   which made "This week's menu" overpower the grid below it. */
+& h2{font-family:var(--display);font-weight:500;font-size:40px;letter-spacing:-.02em;line-height:1;margin:0;text-wrap:balance}
 & p{line-height:1.6}
 a:focus-visible,button:focus-visible{outline:3px solid var(--saffron);outline-offset:3px}
 .btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;min-height:3.1rem;padding:0 1.5rem;border-radius:999px;border:1.5px solid var(--forest);background:none;color:var(--forest);font-weight:600;cursor:pointer;text-decoration:none;transition:color .4s ease,transform .4s cubic-bezier(.22,.7,.2,1),box-shadow .4s cubic-bezier(.22,.7,.2,1),border-color .4s}
@@ -223,7 +225,9 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan *{box-sizing:border-box}
 .mealplan-sec{padding:80px clamp(1.25rem,4vw,4rem)}
 .mealplan-wrap{max-width:var(--page-width);margin:0 auto}
-.mealplan-h{font-family:var(--d);font-weight:600;letter-spacing:-.015em;line-height:1.08;margin:0;text-wrap:balance}
+/* 40px is the ceiling for every section h2 on this page. Without an explicit
+   size these inherit base.css h2 at 4.8rem (48px). */
+.mealplan-h{font-family:var(--d);font-weight:600;font-size:40px;letter-spacing:-.015em;line-height:1.08;margin:0;text-wrap:balance}
 /* Unified section eyebrow — geometry lives in base.css; keep page context only. */
 .mp-eye{font-family:var(--b)}
 .mealplan-gal-h .mp-eye{margin-bottom:.75rem}
