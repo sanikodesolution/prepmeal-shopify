@@ -8,8 +8,9 @@
   Everything below is optional; a blank setting simply drops that line.
   Line-based settings use the form "value|label" or "day|time|order by|cutoff".
 
-  Plate media: `thali_image` (image_picker) when set, otherwise the theme's
-  mp-food-2.jpg photo. Replaced an inline SVG thali so the panel shows real food.
+  Plate media: `thali_image` (image_picker) when set, otherwise the bundled
+  four-items-plate.webp — a transparent cut-out of a real thali with its four
+  components. Transparent, so the plate reads as floating on the panel.
 {%- endcomment -%}
 {%- liquid
   assign gkk_badge = s.thali_badge
@@ -27,7 +28,7 @@
   class="gkk"
   data-gkk
   id="GkkStory-{{ section.id }}"
-  style="--gkk-bg:{{ s.thali_bg | default: '#fdf8ef' }};--gkk-accent:{{ s.thali_accent | default: '#f0a81c' }};"
+  style="--gkk-bg:{{ s.thali_bg | default: '#E3EADF' }};--gkk-accent:{{ s.thali_accent | default: '#F5A623' }};"
 >
   <div class="gkk__wrap">
 
@@ -68,9 +69,9 @@
           >
         {%- else -%}
           <img
-            src="{{ 'mp-food-2.jpg' | asset_url }}"
+            src="{{ 'four-items-plate.webp' | asset_url }}"
             alt="{{ s.thali_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
-            width="420" height="420" loading="lazy"
+            width="860" height="860" loading="lazy"
           >
         {%- endif -%}
         {%- if s.thali_chips != blank -%}
@@ -91,9 +92,9 @@
             {%- assign card_i = card_i | plus: 1 -%}
             <div class="gkk__card">
               {%- if card_i == 1 -%}
-                <svg viewBox="0 0 240 170" aria-hidden="true"><rect width="240" height="170" rx="6" fill="#5e1124"/><path d="M60 40q-8-18 4-26M90 36q-8-18 4-26M120 40q-8-18 4-26" stroke="#f0a81c" stroke-width="2" fill="none" opacity=".6"/><circle cx="120" cy="64" r="22" fill="#e0a77a"/><circle cx="102" cy="44" r="14" fill="#fff"/><circle cx="120" cy="38" r="16" fill="#fff"/><circle cx="138" cy="44" r="14" fill="#fff"/><rect x="100" y="46" width="40" height="10" fill="#fff"/><circle cx="112" cy="66" r="2.5" fill="#2a0f14"/><circle cx="128" cy="66" r="2.5" fill="#2a0f14"/><path d="M110 74q10 8 20 0" stroke="#2a0f14" stroke-width="2" fill="none"/><path d="M70 170q4-70 50-76 46 6 50 76z" fill="#fff"/><g fill="#d9d2c4"><circle cx="120" cy="116" r="3"/><circle cx="120" cy="134" r="3"/></g><path d="M20 150h200v20H20z" fill="#2e0c14"/><ellipse cx="190" cy="140" rx="34" ry="10" fill="#c4521a"/><path d="M156 140h68v14q-34 12-68 0z" fill="#8f98a3"/></svg>
+                <svg viewBox="0 0 240 170" aria-hidden="true"><rect width="240" height="170" rx="6" fill="#15251C"/><path d="M60 40q-8-18 4-26M90 36q-8-18 4-26M120 40q-8-18 4-26" stroke="#F5A623" stroke-width="2" fill="none" opacity=".6"/><circle cx="120" cy="64" r="22" fill="#e0a77a"/><circle cx="102" cy="44" r="14" fill="#fff"/><circle cx="120" cy="38" r="16" fill="#fff"/><circle cx="138" cy="44" r="14" fill="#fff"/><rect x="100" y="46" width="40" height="10" fill="#fff"/><circle cx="112" cy="66" r="2.5" fill="#15251C"/><circle cx="128" cy="66" r="2.5" fill="#15251C"/><path d="M110 74q10 8 20 0" stroke="#15251C" stroke-width="2" fill="none"/><path d="M70 170q4-70 50-76 46 6 50 76z" fill="#fff"/><g fill="#d9d2c4"><circle cx="120" cy="116" r="3"/><circle cx="120" cy="134" r="3"/></g><path d="M20 150h200v20H20z" fill="#0F1A13"/><ellipse cx="190" cy="140" rx="34" ry="10" fill="#F5A623"/><path d="M156 140h68v14q-34 12-68 0z" fill="#8f98a3"/></svg>
               {%- else -%}
-                <svg viewBox="0 0 240 170" aria-hidden="true"><rect x="30" y="20" width="180" height="130" rx="10" fill="#7b1730" transform="rotate(-6 120 85)"/><g fill="#fbf1df" opacity=".7"><circle cx="60" cy="48" r="3"/><circle cx="90" cy="40" r="3"/><circle cx="130" cy="36" r="3"/><circle cx="170" cy="30" r="3"/><circle cx="195" cy="120" r="3"/></g><circle cx="120" cy="92" r="58" fill="#c98c45"/><circle cx="112" cy="84" r="56" fill="#dfae6c"/><circle cx="106" cy="76" r="52" fill="#e9c386"/><g fill="#8a4a1c" opacity=".7"><circle cx="86" cy="64" r="5"/><circle cx="118" cy="90" r="4"/><circle cx="100" cy="100" r="3"/><circle cx="130" cy="60" r="4"/></g></svg>
+                <svg viewBox="0 0 240 170" aria-hidden="true"><rect x="30" y="20" width="180" height="130" rx="10" fill="#15251C" transform="rotate(-6 120 85)"/><g fill="#ffffff" opacity=".55"><circle cx="60" cy="48" r="3"/><circle cx="90" cy="40" r="3"/><circle cx="130" cy="36" r="3"/><circle cx="170" cy="30" r="3"/><circle cx="195" cy="120" r="3"/></g><circle cx="120" cy="92" r="58" fill="#c98c45"/><circle cx="112" cy="84" r="56" fill="#dfae6c"/><circle cx="106" cy="76" r="52" fill="#e9c386"/><g fill="#8a4a1c" opacity=".7"><circle cx="86" cy="64" r="5"/><circle cx="118" cy="90" r="4"/><circle cx="100" cy="100" r="3"/><circle cx="130" cy="60" r="4"/></g></svg>
               {%- endif -%}
               <h4>{{ card[0] | strip | escape }}</h4>
               {%- if card[1] != blank -%}<p>{{ card[1] | strip | escape }}</p>{%- endif -%}

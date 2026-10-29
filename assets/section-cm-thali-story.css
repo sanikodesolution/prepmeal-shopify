@@ -8,16 +8,23 @@
 
 .gkk,
 section.gkk[data-gkk]{
-  --gkk-beet:#7b1730;
-  --gkk-paper:#fbf1df;
+  /* Inverted surfaces (delivery tickets, CTA button) use the theme's forest
+     ink and white, matching `.mph__btn--primary` / `.more .btn` on the meal
+     plan page, instead of the old beet maroon. */
+  --gkk-dark:#15251C;
+  --gkk-paper:#fff;
+  /* Theme saffron — same value as `--saffron` / `.mealplan-a .tag`. */
+  --gkk-saffron:#F5A623;
   /* Text tokens follow the page's body copy colour (`.mealplan-a` forest ink in
      section-cm-meal-plan-page.css) so this panel reads as part of the page
      instead of switching to the old beet-brown palette. */
   --gkk-ink:#15251C;
   --gkk-mut:#15251C;
   --gkk-line:rgba(21,37,28,.15);
-  --gkk-bg:#fdf8ef;
-  --gkk-accent:#f0a81c;
+  /* Panel surface matches the meal plan page background (`--sage` #E3EADF),
+     so the band reads as part of the page rather than a cream sheet on top. */
+  --gkk-bg:#E3EADF;
+  --gkk-accent:#F5A623;
   /* Theme tag tokens — kept in sync with `.mealplan-a .tag` and
      `.ing .diet` so plate labels speak the same colour language. */
   --gkk-tag-bg:#F5A623;
@@ -70,12 +77,12 @@ section.gkk .gkk__hero h2{font-size:40px;margin:0 0 20px;overflow-wrap:break-wor
 /* ---------- Plate ---------- */
 .gkk__plate{position:relative;max-width:min(420px,100%);width:100%;margin:0 auto;aspect-ratio:1}
 .gkk__plate::before{content:"";position:absolute;inset:-8%;border-radius:50%;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(240,168,28,.4),transparent)}
-/* The plate is a real photo now, masked to a circle so the chips still read as
-   labels pinned onto a thali. The drop-shadow keeps the lift the SVG had. */
-.gkk__plate>img{position:relative;width:100%;height:100%;display:block;object-fit:cover;
-  border-radius:50%;
-  filter:drop-shadow(0 24px 30px rgba(74,18,32,.3));
+  background:radial-gradient(closest-side,rgba(245,166,35,.4),transparent)}
+/* The plate is a transparent cut-out PNG, so it needs no circular mask: the
+   artwork already carries its own edge. `contain` keeps the whole plate and its
+   shadow inside the box instead of cropping it like a photo. */
+.gkk__plate>img{position:relative;width:100%;height:100%;display:block;object-fit:contain;
+  filter:drop-shadow(0 24px 30px rgba(21,37,28,.28));
   transition:transform 1.5s cubic-bezier(.2,.8,.2,1),opacity .9s}
 /* Plate labels use the theme's tag colour, matching `.mealplan-a .tag` and
    `.ing .diet` in section-cm-meal-plan-page.css: saffron fill, forest ink.
@@ -110,15 +117,19 @@ section.gkk .gkk__card h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break
 .gkk__deliver{display:grid;gap:20px;align-items:start;min-width:0}
 .gkk__deliver>div{min-width:0}
 section.gkk .gkk__deliver h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
-.gkk__ticket{display:flex;margin-top:10px;background:var(--gkk-beet);color:var(--gkk-paper);
+.gkk__ticket{display:flex;margin-top:10px;background:var(--gkk-dark);color:var(--gkk-paper);
   border-radius:8px;overflow:hidden}
-.gkk__ticket>div{padding:18px 20px;flex:1 1 0;min-width:0}
-.gkk__ticket>div+div{border-left:2px dashed rgba(251,241,223,.4);text-align:right}
+.gkk__ticket>div{padding:12px 16px;flex:1 1 0;min-width:0}
+.gkk__ticket>div+div{border-left:2px dashed rgba(255,255,255,.4);text-align:right}
 /* `section.gkk h4` above outranks a plain `.gkk__ticket h4`, so the ticket
-   headings need matching specificity to stay paper-white on the beet fill. */
-section.gkk .gkk__ticket h4{color:var(--gkk-paper);margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
-.gkk__ticket small{display:block;color:rgba(251,241,223,.75);overflow-wrap:break-word}
-.gkk__ticket b{overflow-wrap:break-word}
+   headings need matching specificity to stay paper-white on the dark fill.
+   Sized down from the 24px theme h4 to 18px so the two ticket rows stay a
+   compact strip instead of competing with the section title above them. */
+section.gkk .gkk__ticket h4{color:var(--gkk-paper);margin-bottom:6px;font-size:18px;
+  line-height:1.2;overflow-wrap:break-word}
+.gkk__ticket small{display:block;font-size:13px;line-height:1.4;
+  color:rgba(255,255,255,.75);overflow-wrap:break-word}
+.gkk__ticket b{font-size:16px;line-height:1.3;overflow-wrap:break-word}
 .gkk__note{margin-top:14px;font-style:normal}
 /* `section.gkk p` sets margin:0, so the note spacing needs matching specificity */
 section.gkk p.gkk__note{margin:16px 0 0;font-style:normal}
@@ -142,14 +153,19 @@ section.gkk .gkk__fresh h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:brea
 .gkk__cta>div{min-width:0}
 section.gkk .gkk__cta h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
 .gkk__facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.gkk__facts div{background:rgba(240,168,28,.16);border-radius:6px;padding:14px;min-width:0}
+.gkk__facts div{background:rgba(245,166,35,.16);border-radius:6px;padding:14px;min-width:0}
 .gkk__facts b{display:block;color:var(--gkk-ink);margin-bottom:6px;overflow-wrap:break-word}
 .gkk__facts span{color:var(--gkk-mut);overflow-wrap:break-word}
-.gkk__btn{display:inline-block;margin-top:24px;background:var(--gkk-beet);color:var(--gkk-paper);
-  padding:16px 36px;border-radius:99px;font-family:inherit;font-size:inherit;
-  font-weight:inherit;line-height:inherit;text-decoration:none;
-  transition:transform .25s,box-shadow .25s;max-width:100%}
-.gkk__btn:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(123,23,48,.35)}
+/* CTA button mirrors `.mph__btn--primary` on this page: forest fill, white
+   label, saffron on hover — the theme's primary action, not a local accent.
+   Kept compact (15px label, tighter padding) so it reads as an inline action
+   under the copy instead of a hero-sized banner. */
+.gkk__btn{display:inline-block;margin-top:18px;background:var(--gkk-dark);color:var(--gkk-paper);
+  padding:11px 26px;border-radius:99px;font-family:inherit;font-size:15px;
+  font-weight:600;line-height:1.2;text-decoration:none;
+  transition:transform .25s,box-shadow .25s,background-color .25s,color .25s;max-width:100%}
+.gkk__btn:hover{background:var(--gkk-saffron);color:var(--gkk-dark);
+  transform:translateY(-2px);box-shadow:0 10px 24px rgba(21,37,28,.3)}
 
 @media(min-width:992px){
   .gkk__hero{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr)}
@@ -172,7 +188,7 @@ section.gkk .gkk__cta h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-
 /* Small phones: keep the two-ticket row and facts from crushing. */
 @media(max-width:479px){
   .gkk__ticket{flex-direction:column}
-  .gkk__ticket>div+div{border-left:0;border-top:2px dashed rgba(251,241,223,.4);text-align:left}
+  .gkk__ticket>div+div{border-left:0;border-top:2px dashed rgba(255,255,255,.4);text-align:left}
   .gkk__facts{grid-template-columns:minmax(0,1fr)}
   .gkk__stats{flex-wrap:wrap}
   .gkk__stats div{flex:1 1 30%;padding-right:8px}
