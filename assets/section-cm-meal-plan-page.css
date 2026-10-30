@@ -698,7 +698,7 @@ color:var(--ben-ink);padding:0 0 0
      the same visual order: price, eyebrow, then heading and tagline. */
   .mealplan-menu__top{flex-direction:column;align-items:stretch;gap:0;margin-bottom:50px}
   .mealplan-menu__top>.mealplan-menu__buy{order:1;flex:0 0 auto;width:100%;text-align:left;padding:0 0 4px}
-  .mealplan-menu__top>.mp-eye{order:2;flex:0 0 auto;align-self:center;margin:.7rem 0 0;text-align:center}
+  .mealplan-menu__top>.mp-eye{order:2;flex:0 0 auto;align-self:flex-start;margin:.7rem 0 0;text-align:left}
   .mealplan-menu__head{order:3;flex:0 0 auto;width:100%;margin-top:.9rem}
   .mealplan-menu__head .mealplan-h{text-align:left}
   .mealplan-menu__sub{margin:1.6rem 0 0;text-align:left}
