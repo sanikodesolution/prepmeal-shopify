@@ -706,7 +706,9 @@ color:var(--ben-ink);padding:0 0 0
   .mealplan-menu__stage{grid-column:1;grid-row:2;position:relative;top:0;margin-bottom:28px}
   .mealplan-menu__frame{aspect-ratio:1/1;border-radius:28px}
   .mealplan-menu__list{grid-column:1;grid-row:3}
-  .mealplan-menu__detail{grid-column:1;grid-row:4;position:relative;top:0}
+  /* The list and the order card stack here, so they need real breathing room
+     between them instead of the desktop's zero row-gap. */
+  .mealplan-menu__detail{grid-column:1;grid-row:4;position:relative;top:0;margin-top:clamp(28px,6vw,44px)}
 }
 
 /* Mobile: section titles share the same step-down scale. */
