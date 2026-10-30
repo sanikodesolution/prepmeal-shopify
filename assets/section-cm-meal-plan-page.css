@@ -403,6 +403,14 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-rel .mealplan-track{flex-wrap:wrap;justify-content:center;overflow-x:visible;padding-bottom:0}
 .mealplan-rel .mealplan-card{flex:1 1 0;min-width:0;max-width:262px}
 }
+/* Mobile keeps the swipe, so the row ends right under the card. The 80px block
+   padding on this section plus the next section's own 80px left a ~170px hole
+   between the last button and the CTA image; tighten both here only. */
+@media(max-width:899px){
+.mealplan-rel{padding-bottom:clamp(20px,5vw,32px)}
+.mealplan-rel .mealplan-track{padding-bottom:0}
+.mealplan-rel + .mealplan-sec{padding-top:clamp(20px,5vw,32px)}
+}
 
 /* 14 cta */
 .mealplan-cta{position:relative;min-height:min(80vh,720px);display:grid;align-items:end;color:#fff;overflow:hidden;border-radius:28px}
@@ -680,12 +688,13 @@ color:var(--ben-ink);padding:0 0 0
      form sit side by side 50/50 in the next row. The frame is square to match
      the square meal photos, so the plate fills the wrapper with no dead bars. */
   .mealplan-menu__inner{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(16px,2.4vw,32px)}
-  /* Header stays one flex row here too, just tighter: the pill keeps its place
-     on the centre line between the heading block and the price. */
-  .mealplan-menu__top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(16px,2.4vw,32px);margin-bottom:40px}
-  .mealplan-menu__head{grid-column:1;grid-row:1}
-  .mealplan-menu__top>.mp-eye{grid-column:1 / -1;grid-row:1;justify-self:center;align-self:center}
-  .mealplan-menu__top>.mealplan-menu__buy{grid-column:2;grid-row:1;justify-self:stretch;align-self:center}
+  /* Only two columns exist here, so there is no middle track to park the pill
+     in. Give it its own row above the heading/price pair instead — centring it
+     over both columns on the same row would drop it on top of them. */
+  .mealplan-menu__top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto auto;column-gap:clamp(16px,2.4vw,32px);row-gap:clamp(10px,1.4vw,16px);align-items:center;margin-bottom:40px}
+  .mealplan-menu__head{grid-column:1;grid-row:2}
+  .mealplan-menu__top>.mp-eye{grid-column:1 / -1;grid-row:1;justify-self:center;align-self:end}
+  .mealplan-menu__top>.mealplan-menu__buy{grid-column:2;grid-row:2;justify-self:stretch;align-self:center}
   .mealplan-menu__buy{padding:0}
   .mealplan-menu__sub{margin:1.6rem 0 0}
   .mealplan-menu__stage{grid-column:1 / -1;grid-row:2;width:80%;justify-self:center;position:relative;top:0;margin:0 auto clamp(24px,3vw,36px)}
@@ -715,6 +724,31 @@ color:var(--ben-ink);padding:0 0 0
 @media(max-width:749px){
   .mealplan .mealplan-h{font-size:40px}
   .mealplan .mph__title{font-size:30px}
+}
+
+/* Touch targets. The theme's rem base is 10px, so the desktop button heights
+   land around 31-33px — comfortable with a cursor, cramped with a thumb. Every
+   tap target on this page gets at least 44px of height and pads its text back
+   to the original optical weight. Keyed off the pointer, not the viewport: a
+   861-1100px tablet is still thumb-driven and was previously left with the
+   29px filter chips and 33px buttons. Scoped to `main.mealplan-page` because
+   the header, explorer and story blocks all live under it, not under
+   `.mealplan`. */
+@media(max-width:860px),(hover:none) and (pointer:coarse){
+  main.mealplan-page .btn,
+  main.mealplan-page .more .btn,
+  main.mealplan-page .mealplan-btn,
+  main.mealplan-page .gkk__btn,
+  main.mealplan-page .mealplan-menu__cta{min-height:44px;padding-inline:1.8rem}
+  /* Explorer cards use a bare underlined text button; give it a real box so
+     the whole row is tappable instead of just the 20px line of text. */
+  main.mealplan-page .e button{min-height:44px;padding:.9rem 0 .6rem;display:flex;align-items:center}
+  main.mealplan-page .filters button{min-height:44px}
+  main.mealplan-page .mealplan-qb{min-height:52px}
+  main.mealplan-page .mealplan-menu__option{min-height:44px}
+  main.mealplan-page .mealplan-dl__chip{min-height:44px}
+  main.mealplan-page .mealplan-dl__more{min-height:44px;display:inline-flex;align-items:center}
+  main.mealplan-page .leaflet-control-zoom a{width:44px;height:44px;line-height:44px}
 }
 
 
