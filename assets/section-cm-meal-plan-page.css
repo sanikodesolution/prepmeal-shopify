@@ -727,12 +727,14 @@ color:var(--ben-ink);padding:0 0 0
 }
 
 /* Touch targets. The theme's rem base is 10px, so the desktop button heights
-   land around 31-33px — comfortable with a cursor, cramped with a thumb. On
-   touch-sized screens every tap target on this page gets at least 44px of
-   height and pads its text back to the original optical weight. Scoped to
-   `main.mealplan-page` because the header, explorer and story blocks all live
-   under it, not under `.mealplan`. */
-@media(max-width:860px){
+   land around 31-33px — comfortable with a cursor, cramped with a thumb. Every
+   tap target on this page gets at least 44px of height and pads its text back
+   to the original optical weight. Keyed off the pointer, not the viewport: a
+   861-1100px tablet is still thumb-driven and was previously left with the
+   29px filter chips and 33px buttons. Scoped to `main.mealplan-page` because
+   the header, explorer and story blocks all live under it, not under
+   `.mealplan`. */
+@media(max-width:860px),(hover:none) and (pointer:coarse){
   main.mealplan-page .btn,
   main.mealplan-page .more .btn,
   main.mealplan-page .mealplan-btn,
