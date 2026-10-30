@@ -729,20 +729,23 @@ color:var(--ben-ink);padding:0 0 0
 /* Touch targets. The theme's rem base is 10px, so the desktop button heights
    land around 31-33px — comfortable with a cursor, cramped with a thumb. On
    touch-sized screens every tap target on this page gets at least 44px of
-   height and pads its text back to the original optical weight. */
+   height and pads its text back to the original optical weight. Scoped to
+   `main.mealplan-page` because the header, explorer and story blocks all live
+   under it, not under `.mealplan`. */
 @media(max-width:860px){
-  .mealplan .btn,
-  .mealplan .mealplan-btn,
-  .mealplan .more .btn,
-  .mealplan .mealplan-menu__cta{min-height:44px;padding-inline:1.8rem}
+  main.mealplan-page .btn,
+  main.mealplan-page .mealplan-btn,
+  main.mealplan-page .gkk__btn,
+  main.mealplan-page .mealplan-menu__cta{min-height:44px;padding-inline:1.8rem}
   /* Explorer cards use a bare underlined text button; give it a real box so
      the whole row is tappable instead of just the 20px line of text. */
-  .mealplan .e button{min-height:44px;padding:.9rem 0 .6rem;display:flex;align-items:center}
-  .mealplan .filters button{min-height:44px}
-  .mealplan .mealplan-qb{min-height:52px}
-  .mealplan .mealplan-menu__option{min-height:44px}
-  .mealplan .mealplan-dl__chip{min-height:44px}
-  .mealplan .mealplan-dl__more{min-height:44px;display:inline-flex;align-items:center}
+  main.mealplan-page .e button{min-height:44px;padding:.9rem 0 .6rem;display:flex;align-items:center}
+  main.mealplan-page .filters button{min-height:44px}
+  main.mealplan-page .mealplan-qb{min-height:52px}
+  main.mealplan-page .mealplan-menu__option{min-height:44px}
+  main.mealplan-page .mealplan-dl__chip{min-height:44px}
+  main.mealplan-page .mealplan-dl__more{min-height:44px;display:inline-flex;align-items:center}
+  main.mealplan-page .leaflet-control-zoom a{width:44px;line-height:44px}
 }
 
 
