@@ -403,6 +403,14 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-rel .mealplan-track{flex-wrap:wrap;justify-content:center;overflow-x:visible;padding-bottom:0}
 .mealplan-rel .mealplan-card{flex:1 1 0;min-width:0;max-width:262px}
 }
+/* Mobile keeps the swipe, so the row ends right under the card. The 80px block
+   padding on this section plus the next section's own 80px left a ~170px hole
+   between the last button and the CTA image; tighten both here only. */
+@media(max-width:899px){
+.mealplan-rel{padding-bottom:clamp(20px,5vw,32px)}
+.mealplan-rel .mealplan-track{padding-bottom:0}
+.mealplan-rel + .mealplan-sec{padding-top:clamp(20px,5vw,32px)}
+}
 
 /* 14 cta */
 .mealplan-cta{position:relative;min-height:min(80vh,720px);display:grid;align-items:end;color:#fff;overflow:hidden;border-radius:28px}
