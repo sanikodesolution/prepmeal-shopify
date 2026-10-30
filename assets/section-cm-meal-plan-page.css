@@ -746,7 +746,7 @@ color:var(--ben-ink);padding:0 0 0
   main.mealplan-page .mealplan-menu__option{min-height:44px}
   main.mealplan-page .mealplan-dl__chip{min-height:44px}
   main.mealplan-page .mealplan-dl__more{min-height:44px;display:inline-flex;align-items:center}
-  main.mealplan-page .leaflet-control-zoom a{width:44px;line-height:44px}
+  main.mealplan-page .leaflet-control-zoom a{width:44px;height:44px;line-height:44px}
 }
 
 
