@@ -734,6 +734,7 @@ color:var(--ben-ink);padding:0 0 0
    under it, not under `.mealplan`. */
 @media(max-width:860px){
   main.mealplan-page .btn,
+  main.mealplan-page .more .btn,
   main.mealplan-page .mealplan-btn,
   main.mealplan-page .gkk__btn,
   main.mealplan-page .mealplan-menu__cta{min-height:44px;padding-inline:1.8rem}
