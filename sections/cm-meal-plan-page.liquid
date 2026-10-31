@@ -150,7 +150,6 @@
               if detail_compare > detail_price and detail_price > 0
                 assign detail_on_sale = true
               endif
-              assign detail_terms = section.settings.detail_terms_text | strip
             -%}
             {%- if detail_title != blank or detail_price > 0 -%}
               <div class="mealplan-menu__buy">
@@ -167,12 +166,6 @@
                       <span class="mealplan-menu__buy-save">{{ section.settings.detail_sale_label | default: 'Sale' | escape }}</span>
                     {%- endif -%}
                   </div>
-                  {%- if detail_terms != blank -%}
-                    {%- assign installment_cents = detail_price | divided_by: 4.0 | round -%}
-                    {%- assign installment = installment_cents | money -%}
-                    {%- assign detail_terms_done = detail_terms | replace: '{installment}', installment -%}
-                    <p class="mealplan-menu__buy-terms">{{ detail_terms_done | escape }}</p>
-                  {%- endif -%}
                 {%- endif -%}
               </div>
             {%- endif -%}
@@ -844,7 +837,6 @@
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "text", "id": "detail_title", "label": "Order panel title", "info": "Shown above the meal dropdowns, product-page style. Blank uses the plan product's title." },
     { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: price is the meal price times the number of dropdowns, so it matches the cart. Off: shows the product variant price as-is." },
-    { "type": "text", "id": "detail_terms_text", "label": "Order panel payment note", "info": "Small line under the price. Use {installment} for a quarter of the price, for example: Pay in 4 interest-free installments of {installment} with Shop. Leave blank to hide." },
     { "type": "text", "id": "detail_sale_label", "label": "Sale badge label", "default": "Sale" },
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
     { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Used only when meals are not linked to their own variants. Shopify charges this product's price as one line." },
