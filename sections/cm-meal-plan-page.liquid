@@ -515,18 +515,6 @@
       <div class="mg" id="menu"></div>
     </div></section>
 
-    {%- if section.settings.thali_show -%}
-      {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
-      {% render 'cm-thali-story', section: section, s: section.settings %}
-    {%- endif -%}
-
-    <section class="ex"><div class="wrap">
-      <h2>{{ section.settings.explore_heading | escape }}</h2>
-      <div class="filters" id="filters" role="group" aria-label="Filter meals"></div>
-      <div class="eg" id="grid"></div>
-      <div class="more"><button type="button" class="btn" id="more">{{ section.settings.load_more_label | escape }}</button></div>
-    </div></section>
-
     <section id="detail"><div class="wrap dt-grid dt">
       <div class="dt-img" id="dImg"></div>
       <div>
@@ -539,6 +527,18 @@
         </div>
         <p class="note">{{ section.settings.detail_note | escape }}</p>
       </div>
+    </div></section>
+
+    {%- if section.settings.thali_show -%}
+      {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
+      {% render 'cm-thali-story', section: section, s: section.settings %}
+    {%- endif -%}
+
+    <section class="ex"><div class="wrap">
+      <h2>{{ section.settings.explore_heading | escape }}</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter meals"></div>
+      <div class="eg" id="grid"></div>
+      <div class="more"><button type="button" class="btn" id="more">{{ section.settings.load_more_label | escape }}</button></div>
     </div></section>
   </div>
 
