@@ -7,7 +7,11 @@
  justify-content: center;
  gap: 0.4rem 1.4rem;
  padding: 0.9rem 0;
- 
+
+ /* The <p> also carries base.css `.h5`, which is 2rem (20px) on desktop —
+    too large for a utility bar. Size is set here so the announcement text and
+    the phone link scale together, independent of the heading ramp. */
+ font-size: 15px;
  font-weight: 500;
  letter-spacing: 0.02em;
  line-height: 1.3;
