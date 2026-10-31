@@ -458,7 +458,7 @@ color:var(--ben-ink);padding:0 0 0
    section, the plan price on the right. One flex row, so the three blocks share
    a single vertical centre line. Equal flex basis on the two outer blocks keeps
    the pill parked on the section's true centre. */
-.mealplan-menu__top{grid-column:1 / -1;grid-row:1;display:flex;align-items:center;gap:clamp(16px,2vw,28px);margin-bottom:50px;pointer-events:none}
+.mealplan-menu__top{grid-column:1 / -1;grid-row:1;display:flex;align-items:center;gap:clamp(16px,2vw,28px);margin-bottom:30px;pointer-events:none}
 .mealplan-menu__top>*{pointer-events:auto}
 .mealplan-menu__head{order:1;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;text-align:left}
 .mealplan-menu__head .mealplan-h{margin:0;text-align:left}
@@ -694,7 +694,7 @@ color:var(--ben-ink);padding:0 0 0
   /* Only two columns exist here, so there is no middle track to park the pill
      in. Give it its own row above the heading/price pair instead — centring it
      over both columns on the same row would drop it on top of them. */
-  .mealplan-menu__top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto auto;column-gap:clamp(16px,2.4vw,32px);row-gap:clamp(10px,1.4vw,16px);align-items:center;margin-bottom:40px}
+  .mealplan-menu__top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto auto;column-gap:clamp(16px,2.4vw,32px);row-gap:clamp(10px,1.4vw,16px);align-items:center;margin-bottom:20px}
   .mealplan-menu__head{grid-column:1;grid-row:2}
   .mealplan-menu__top>.mp-eye{grid-column:1 / -1;grid-row:1;justify-self:center;align-self:end}
   .mealplan-menu__top>.mealplan-menu__buy{grid-column:2;grid-row:2;justify-self:stretch;align-self:center}
@@ -708,7 +708,7 @@ color:var(--ben-ink);padding:0 0 0
 @media(max-width:860px){
   /* The three header blocks can't share one line on a phone, so they stack in
      the same visual order: price, eyebrow, then heading and tagline. */
-  .mealplan-menu__top{flex-direction:column;align-items:stretch;gap:0;margin-bottom:50px}
+  .mealplan-menu__top{flex-direction:column;align-items:stretch;gap:0;margin-bottom:30px}
   .mealplan-menu__top>.mealplan-menu__buy{order:1;flex:0 0 auto;width:100%;text-align:left;padding:0 0 4px}
   .mealplan-menu__top>.mp-eye{order:2;flex:0 0 auto;align-self:flex-start;margin:.7rem 0 0;text-align:left}
   .mealplan-menu__head{order:3;flex:0 0 auto;width:100%;margin-top:.9rem}
