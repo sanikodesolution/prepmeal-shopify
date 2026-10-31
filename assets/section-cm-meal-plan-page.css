@@ -462,6 +462,10 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__top>*{pointer-events:auto}
 .mealplan-menu__head{order:1;flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;text-align:left}
 .mealplan-menu__head .mealplan-h{margin:0;text-align:left}
+/* Header row headings read as one pair: the section title and the plan title
+   on the right share one size. Scoped to the menu header so the shared
+   .mealplan-h used by chef/steps/gallery/CTA keeps its own ramp. */
+.mealplan-menu__head .mealplan-h{font-size:30px}
 .mealplan-menu__top>.mp-eye{order:2;flex:0 0 auto;margin:0;text-align:center}
 .mealplan-menu__top>.mealplan-menu__buy{order:3;flex:1 1 0;min-width:0;padding:0;align-self:center;text-align:left}
 .mealplan-menu__title{margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;line-height:inherit;text-align:left;cursor:pointer}
@@ -523,7 +527,7 @@ color:var(--ben-ink);padding:0 0 0
 /* Product-style header above the meal dropdowns: plan title, price, terms.
    Kept inside .mealplan-menu__detail so the 5px accent strip stays on top. */
 .mealplan-menu__buy{grid-column:3;grid-row:1;align-self:start;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:0 2px}
-.mealplan-menu__buy-title{margin:0;font-family:var(--d);font-size:clamp(19px,1.55vw,23px);line-height:1.22;letter-spacing:-.015em;font-weight:600;color:var(--mp-ink);text-wrap:balance}
+.mealplan-menu__buy-title{margin:0;font-family:var(--d);font-size:30px;line-height:1.22;letter-spacing:-.015em;font-weight:600;color:var(--mp-ink);text-wrap:balance}
 .mealplan-menu__buy-price{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin-top:2px}
 .mealplan-menu__buy-was{font-size:15px;font-weight:500;color:var(--mp-muted);text-decoration:line-through}
 .mealplan-menu__buy-now{font-size:clamp(20px,1.7vw,25px);font-weight:700;letter-spacing:-.015em;color:#b4200a}
@@ -722,6 +726,9 @@ color:var(--ben-ink);padding:0 0 0
 /* Mobile: section titles share the same step-down scale. */
 @media(max-width:749px){
   .mealplan .mealplan-h{font-size:40px}
+  /* The menu header pair keeps its own smaller size, so it must opt out of the
+     40px drop here; without this the two headings would diverge again. */
+  .mealplan .mealplan-menu__head .mealplan-h{font-size:30px}
   .mealplan .mph__title{font-size:30px}
 }
 
