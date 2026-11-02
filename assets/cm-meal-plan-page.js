@@ -229,14 +229,14 @@
     const reheatBox = $('#dReheat');
     if (reheatBox) {
       reheatBox.hidden = !m.reheat;
-      reheatBox.innerHTML = m.reheat ? `<b>Heating</b><p>${m.reheat}</p>` : '';
+      reheatBox.innerHTML = m.reheat ? `<b>${root.dataset.mpReheatLabel || 'Heating'}</b><p>${m.reheat}</p>` : '';
     }
     const mx = ok ? Math.max(m.protein, m.carbs, m.fat) : 1;
     if (bars) {
       bars.innerHTML = [
-        ['Protein', m.protein, 'var(--tomato)'],
-        ['Carbs', m.carbs, 'var(--saffron)'],
-        ['Fat', m.fat, 'var(--leaf)'],
+        [root.dataset.mpProteinLabel || 'Protein', m.protein, 'var(--tomato)'],
+        [root.dataset.mpCarbsLabel || 'Carbs', m.carbs, 'var(--saffron)'],
+        [root.dataset.mpFatLabel || 'Fat', m.fat, 'var(--leaf)'],
       ]
         .map(
           ([l, val, c]) =>
