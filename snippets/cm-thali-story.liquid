@@ -46,6 +46,23 @@
   if gkk_towns == blank
     assign gkk_towns = s.thali_towns | split: ','
   endif
+
+  # Single-value copy: product metafield first, theme setting second.
+  assign gkk_badge = meta.thali_badge.value | default: s.thali_badge
+  assign gkk_heading = meta.thali_heading.value | default: s.thali_heading
+  assign gkk_intro = meta.thali_intro.value | default: s.thali_intro
+  assign gkk_plate_alt = meta.thali_plate_alt.value | default: s.thali_plate_alt
+  assign gkk_image = meta.thali_image.value | default: s.thali_image
+  assign gkk_delivery_heading = meta.thali_delivery_heading.value | default: s.thali_delivery_heading
+  assign gkk_delivery_text = meta.thali_delivery_text.value | default: s.thali_delivery_text
+  assign gkk_cutoff_note = meta.thali_cutoff_note.value | default: s.thali_cutoff_note
+  assign gkk_fresh_heading = meta.thali_fresh_heading.value | default: s.thali_fresh_heading
+  assign gkk_fresh_text = meta.thali_fresh_text.value | default: s.thali_fresh_text
+  assign gkk_cta_heading = meta.thali_cta_heading.value | default: s.thali_cta_heading
+  assign gkk_cta_text = meta.thali_cta_text.value | default: s.thali_cta_text
+  assign gkk_cta_label = meta.thali_cta_label.value | default: s.thali_cta_label
+  assign gkk_cta_link = meta.thali_cta_link.value | default: s.thali_cta_link
+  assign gkk_cta_note = meta.thali_cta_note.value | default: s.thali_cta_note
 -%}
 <section
   class="gkk"
@@ -87,13 +104,13 @@
             src="{{ gkk_image | image_url: width: 840 }}"
             srcset="{{ gkk_image | image_url: width: 420 }} 420w, {{ gkk_image | image_url: width: 840 }} 840w"
             sizes="(min-width: 992px) 420px, 90vw"
-            alt="{{ s.thali_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
+            alt="{{ gkk_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
             width="420" height="420" loading="lazy"
           >
         {%- else -%}
           <img
             src="{{ 'four-items-plate.webp' | asset_url }}"
-            alt="{{ s.thali_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
+            alt="{{ gkk_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
             width="860" height="860" loading="lazy"
           >
         {%- endif -%}
@@ -200,7 +217,7 @@
           <p>{{ gkk_cta_text | escape }}</p>
         {%- endif -%}
         {%- if gkk_cta_label != blank -%}
-          <a class="gkk__btn" href="{{ s.thali_cta_link | default: '#' }}">{{ gkk_cta_label | escape }}</a>
+          <a class="gkk__btn" href="{{ gkk_cta_link | default: '#' }}">{{ gkk_cta_label | escape }}</a>
         {%- endif -%}
         {%- if gkk_cta_note != blank -%}
           <p class="gkk__note">{{ gkk_cta_note | escape }}</p>
