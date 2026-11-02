@@ -81,7 +81,11 @@ Mukwonago|53149|41.9|51.6
       endif
     endfor
     assign towns_raw = area_rows
-  else
+  endif
+
+  # A list of empty metaobject entries must not shadow the theme editor list, so
+  # the older sources are only consulted when no town row came through.
+  if towns_raw == blank
     assign towns_raw = meta.delivery_towns.value
     if towns_raw != blank
       # A metafield list holds one "Town|ZIP|left|top" row per item; join them
