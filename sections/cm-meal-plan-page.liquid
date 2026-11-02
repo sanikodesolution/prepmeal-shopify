@@ -714,7 +714,7 @@
         <p id="dDesc"></p>
         <ul class="ing" id="dIng"></ul>
         <div class="nut">
-          <div class="ring" id="ring"><div><span id="dCal"></span><small>calories</small></div></div>
+          <div class="ring" id="ring"><div><span id="dCal"></span><small>{{ c_calories_label | escape }}</small></div></div>
           <div class="bars" id="bars"></div>
         </div>
         <div class="mp-detail-notes">
@@ -814,10 +814,10 @@
     <section class="mealplan-sec" style="padding-inline:0"><div>
       <div class="mealplan-gal-h mealplan-wrap" style="padding-inline:clamp(1.25rem,4vw,4rem)">
         <div>
-          {%- if section.settings.gallery_eyebrow != blank -%}
-            <p class="mp-eye">{{ section.settings.gallery_eyebrow | escape }}</p>
+          {%- if c_gallery_eyebrow != blank -%}
+            <p class="mp-eye">{{ c_gallery_eyebrow | escape }}</p>
           {%- endif -%}
-          <h2 class="mealplan-h">{{ section.settings.gallery_heading | escape | newline_to_br }}</h2>
+          <h2 class="mealplan-h">{{ c_gallery_heading | escape | newline_to_br }}</h2>
         </div>
         <div class="mealplan-arrows">
           <button type="button" aria-label="Previous" data-g="-1">&larr;</button>
