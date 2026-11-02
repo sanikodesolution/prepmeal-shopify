@@ -63,26 +63,28 @@ Mukwonago|53149|41.9|51.6
   assign towns_raw = ''
   assign area_items = areas
   if area_items != blank and area_items.size > 0
-    assign towns_raw = '<br />'
-    for item in area_items
-      assign area_name = item.name.value | strip
-      if area_name == blank
-        continue
-      endif
-      assign area_zips = item.postcodes.value | strip
-      assign area_x = item.map_x.value
-      assign area_y = item.map_y.value
-      assign area_lat = item.latitude.value
-      assign area_lng = item.longitude.value
-      assign area_flag = item.is_kitchen.value
-      assign town_row = area_name | append: '|' | append: area_zips
-      assign town_row = town_row | append: '|' | append: area_x | append: '|' | append: area_y | append: '|'
-      if area_flag
-        assign town_row = town_row | append: 'kitchen'
-      endif
-      assign town_row = town_row | append: '|' | append: area_lat | append: '|' | append: area_lng
-      assign towns_raw = towns_raw | append: town_row | append: '<br />'
-    endfor
+    # Each object becomes one row in the same format the rest of this snippet
+    # already reads, so no second code path is needed.
+    capture towns_raw
+      for item in area_items
+        assign area_name = item.name.value | strip
+        if area_name != blank
+          assign area_zips = item.postcodes.value | default: '' | strip
+          assign area_flag = ''
+          if item.is_kitchen.value
+            assign area_flag = 'kitchen'
+          endif
+          echo area_name | append: '|'
+          echo area_zips | append: '|'
+          echo item.map_x.value | append: '|'
+          echo item.map_y.value | append: '|'
+          echo area_flag | append: '|'
+          echo item.latitude.value | append: '|'
+          echo item.longitude.value
+          echo newline
+        endif
+      endfor
+    endcapture
   else
     assign towns_raw = meta.delivery_towns.value
     if towns_raw != blank
@@ -96,17 +98,6 @@ Mukwonago|53149|41.9|51.6
     assign towns_raw = plate_default_towns | strip
   endif
   assign lines = towns_raw | newline_to_br | split: '<br />'
-
-  # Drop the empty rows the metaobject builder leaves around each town, so the
-  # chip count and the "show all" threshold stay accurate.
-  assign town_lines = '' | split: ','
-  for line in lines
-    assign line_name = line | split: '|' | first | strip
-    if line_name != blank
-      assign town_lines = town_lines | concat: lines | last
-    endif
-  endfor
-  assign lines = town_lines
 
   # Kitchen position and town count in one pass.
   assign kx = 41
