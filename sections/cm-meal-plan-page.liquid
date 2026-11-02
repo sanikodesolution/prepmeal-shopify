@@ -842,7 +842,7 @@
       {%- if section.settings.delivery_style == 'plate' -%}
         {% render 'cm-delivery-area', section: section, meta: plan_meta, areas: mo_areas, shared: shared_meta %}
       {%- elsif section.settings.delivery_checker -%}
-        {% render 'cm-delivery-checker', section: section %}
+        {% render 'cm-delivery-checker', section: section, meta: plan_meta, shared: shared_meta, areas: mo_areas %}
       {%- else -%}
         <div class="mealplan-del">
           {%- liquid
