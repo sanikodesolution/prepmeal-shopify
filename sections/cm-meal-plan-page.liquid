@@ -75,6 +75,12 @@
   assign c_delivery_eyebrow = plan_meta.delivery_eyebrow.value | default: section.settings.delivery_eyebrow
   assign c_delivery_heading = plan_meta.delivery_heading.value | default: section.settings.delivery_heading
   assign c_delivery_text = plan_meta.delivery_text.value | default: section.settings.delivery_text
+  assign c_delivery_areas = plan_meta.delivery_areas.value
+  if c_delivery_areas == blank
+    assign c_delivery_areas = section.settings.delivery_areas | split: ','
+  endif
+  assign c_delivery_map_query = plan_meta.delivery_map_query.value | default: section.settings.map_query
+  assign c_delivery_map_title = plan_meta.delivery_map_title.value | default: section.settings.map_title
 
   assign c_reviews_eyebrow = plan_meta.reviews_eyebrow.value | default: section.settings.reviews_eyebrow
   assign c_reviews_heading = plan_meta.reviews_heading.value | default: section.settings.reviews_heading
@@ -753,7 +759,7 @@
       {%- else -%}
         <div class="mealplan-del">
           {%- liquid
-            assign map_query = section.settings.map_query | default: 'Richmond Station Toronto Ontario Canada'
+            assign map_query = c_delivery_map_query | default: 'Hartland Wisconsin'
             assign map_src = section.settings.map_embed_url
             if map_src == blank
               assign map_q = map_query | url_encode
@@ -763,14 +769,14 @@
           <div class="mealplan-map mp-gs">
             <iframe
               class="mealplan-map__frame"
-              title="{{ section.settings.map_title | default: map_query | escape }}"
+              title="{{ c_delivery_map_title | default: map_query | escape }}"
               src="{{ map_src }}"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
               allowfullscreen
             ></iframe>
-            {%- if section.settings.map_title != blank -%}
-              <p class="mealplan-map__label">{{ section.settings.map_title | escape }}</p>
+            {%- if c_delivery_map_title != blank -%}
+              <p class="mealplan-map__label">{{ c_delivery_map_title | escape }}</p>
             {%- endif -%}
           </div>
           <div class="mealplan-del__copy mp-gs">
@@ -780,10 +786,9 @@
             <h2 class="mealplan-h">{{ c_delivery_heading | escape }}</h2>
             <p class="mealplan-p">{{ c_delivery_text | escape }}</p>
             <div class="mealplan-del__actions">
-              {%- if section.settings.delivery_areas != blank -%}
+              {%- if c_delivery_areas.size > 0 -%}
                 <ul class="mealplan-areas">
-                  {%- assign areas = section.settings.delivery_areas | split: ',' -%}
-                  {%- for area in areas -%}
+                  {%- for area in c_delivery_areas -%}
                     <li>
                       <span class="mealplan-areas__pin" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
