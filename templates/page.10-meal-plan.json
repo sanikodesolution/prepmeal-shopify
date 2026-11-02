@@ -591,7 +591,6 @@
         "detail_use_plan_total": true,
         "detail_sale_label": "Sale",
         "picker_count": 10,
-        "content_product": "10-meal-plan",
         "plan_product": "10-meal-plan",
         "meals_product": "10-meal-plan",
         "show_gallery": false,
