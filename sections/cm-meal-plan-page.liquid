@@ -127,7 +127,6 @@
   # the last strings a merchant could not reach from the product in Admin.
   assign c_gallery_eyebrow = plan_meta.gallery_eyebrow.value | default: shared_meta.gallery_eyebrow.value | default: section.settings.gallery_eyebrow
   assign c_gallery_heading = plan_meta.gallery_heading.value | default: shared_meta.gallery_heading.value | default: section.settings.gallery_heading
-  assign c_sale_label = plan_meta.sale_label.value | default: section.settings.detail_sale_label
   assign c_calories_label = plan_meta.calories_label.value | default: 'calories'
 
   # Repeatable rows. A metaobject list wins, then the plan product's metafield
