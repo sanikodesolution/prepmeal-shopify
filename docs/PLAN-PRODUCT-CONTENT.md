@@ -128,7 +128,7 @@ product.
 | Diet chip labels | `custom.diet_gluten_label`, `custom.diet_dairy_label` | Single line text |
 | Quality-points eyebrow | `custom.quality_eyebrow` | Single line text |
 | Screen-reader labels | `custom.filter_meals_label`, `custom.gallery_prev_label`, `custom.gallery_next_label` | Single line text |
-| Delivery / map labels | `custom.delivery_placeholder`, `custom.delivery_button`, `custom.delivery_areas_title`, `custom.plate_areas_title`, `custom.plate_more_label`, `custom.plate_less_label`, `custom.plate_map_label`, `custom.plate_kitchen_label`, `custom.plate_kitchen_address`, `custom.plate_maps_label`, `custom.plate_legend_kitchen`, `custom.plate_legend_area`, `custom.plate_legend_zone`, `custom.plate_msg_yes`, `custom.plate_msg_no`, `custom.plate_msg_empty` | Single line text |
+| Delivery / map labels | `custom.delivery_placeholder`, `custom.delivery_button`, `custom.delivery_areas_title`, `custom.plate_areas_title`, `custom.plate_more_label`, `custom.plate_less_label`, `custom.plate_map_label`, `custom.plate_kitchen_label`, `custom.plate_kitchen_address`, `custom.plate_maps_label`, `custom.plate_legend_kitchen`, `custom.plate_legend_area`, `custom.plate_legend_zone`, `custom.plate_msg_yes`, `custom.plate_msg_no`, `custom.plate_msg_empty`, `custom.delivery_show_all`, `custom.delivery_show_less`, `custom.delivery_reset_label`, `custom.delivery_msg_yes`, `custom.delivery_msg_no` | Single line text |
 | Reviews heading | `custom.reviews_eyebrow`, `custom.reviews_heading` | Single line text |
 | FAQ heading | `custom.faq_eyebrow`, `custom.faq_heading` | Single line text |
 | Related heading | `custom.related_eyebrow`, `custom.related_heading` | Single line text |
@@ -257,6 +257,35 @@ fills the same box at a 24:17 ratio.
 The ZIP checker matches on `name` and `postcodes`. `map_x` and `map_y` place the
 pin on the stylised map; without them the theme looks the town up by name.
 
+**Which fields each map style uses**
+
+| Field | Plate map (`delivery_style` = `plate`) | Street-map checker |
+|---|---|---|
+| `name` | chip + search | chip + search |
+| `postcodes` | chip search | chip search |
+| `map_x`, `map_y` | pin position | **not used** |
+| `is_kitchen` | pin shown as the kitchen | **not used** — this style has no kitchen pin |
+| `latitude`, `longitude` | exact pin, else geocoded | exact pin, else geocoded |
+
+Only one style renders per plan, so one `delivery_area` list serves both: fill
+`map_x`/`map_y` **and** `latitude`/`longitude` and the records work whichever
+style the plan uses. Filling only the coordinates leaves the plate map
+geocoding by name, which is slower but still correct.
+
+**The two snippets do not share a row format.** Both parse newline-separated
+pipe rows, but the column order differs:
+
+```
+cm-delivery-area    (plate)   Name|ZIPs|left%|top%|kitchen|lat|lng
+cm-delivery-checker (street)  Name|lat|lng|ZIPs
+```
+
+Each snippet builds its own row from the metaobject fields. Do not copy one
+builder into the other: the plate row puts percentages where the checker expects
+a latitude, and the map silently plots the town in the wrong place. The checker
+chooses the row shape by column count, so a record with no coordinates is
+emitted as `Name|ZIPs` and geocoded in the browser.
+
 > This replaces the old `custom.delivery_towns` pipe-delimited list. That list
 > still works and is used when no `delivery_area` records exist, so nothing breaks
 > mid-migration.
@@ -307,7 +336,7 @@ Settings → **Custom data** → **Shop** → **Add definition**.
 | Chef photos | `custom.chef_image_1`, `custom.chef_image_2` | File (image) | No |
 | Hero photos | `custom.hero_image_1`, `custom.hero_image_2` | File (image) | No |
 | Meal gallery copy | `custom.gallery_eyebrow`, `custom.gallery_heading` | Single line / multi-line text | No |
-| Delivery / map labels | `custom.delivery_placeholder`, `custom.delivery_button`, `custom.delivery_areas_title`, `custom.plate_more_label`, `custom.plate_less_label`, `custom.plate_map_label`, `custom.plate_kitchen_label`, `custom.plate_kitchen_address`, `custom.plate_maps_label`, `custom.plate_legend_kitchen`, `custom.plate_legend_area`, `custom.plate_legend_zone`, `custom.plate_msg_yes`, `custom.plate_msg_no`, `custom.plate_msg_empty` | Single line text | No |
+| Delivery / map labels | `custom.delivery_placeholder`, `custom.delivery_button`, `custom.delivery_areas_title`, `custom.plate_more_label`, `custom.plate_less_label`, `custom.plate_map_label`, `custom.plate_kitchen_label`, `custom.plate_kitchen_address`, `custom.plate_maps_label`, `custom.plate_legend_kitchen`, `custom.plate_legend_area`, `custom.plate_legend_zone`, `custom.plate_msg_yes`, `custom.plate_msg_no`, `custom.plate_msg_empty`, `custom.delivery_show_all`, `custom.delivery_show_less`, `custom.delivery_reset_label`, `custom.delivery_msg_yes`, `custom.delivery_msg_no` | Single line text | No |
 | Section headings | `custom.ben_eyebrow`, `custom.menu_eyebrow`, `custom.menu_heading`, `custom.menu_text`, `custom.explore_heading`, `custom.steps_eyebrow`, `custom.steps_heading`, `custom.delivery_eyebrow`, `custom.delivery_heading`, `custom.delivery_text`, `custom.reviews_eyebrow`, `custom.reviews_heading`, `custom.faq_eyebrow`, `custom.faq_heading`, `custom.related_eyebrow`, `custom.related_heading` | Single line text | No |
 | Closing CTA | `custom.cta_eyebrow`, `custom.cta_heading`, `custom.cta_text` | Text | No |
 | CTA image | `custom.cta_image` | File (image) | No |
@@ -344,16 +373,33 @@ editor:
 | Setting | What it does |
 |---|---|
 | Order dropdowns (`picker_count`) | How many meal dropdowns the order box shows |
+| **Plan product** (`content_product`) | Which product supplies the meals and the copy. Blank falls back to the handle settings below, so leaving it empty is safe and is the shipped default |
 | Meals in the featured row (`menu_count`) | How many meals "This week's menu" shows, default 5 |
 | Meals per Explore page (`grid_page_size`) | Cards before Load more, default 6 |
 | Meal card link label | Default `View meal` |
 | Filter: all label | Default `All` |
 | Nutrition labels | `Protein`, `Carbs`, `Fat`, `Contains`, `Heating` |
-| Delivery style | Plate map, street map or Google embed |
+| Delivery style (`delivery_style`) | `plate`, `leaflet` or `embed`. Decides which delivery snippet renders — see section 7.1 |
 | Padding, colours | Layout only |
 
 Everything in that table is also a fallback, so nothing here is required to make
 the page work.
+
+> **On `content_product`:** it is a product *picker*, while `plan_product` and
+> `meals_product` in the order-box group are *handles*. Setting the picker also
+> changes what the order box reads for its price, so leave it blank unless you
+> need a product the handle cannot express. Blank is the correct default.
+
+### 7.1 Which delivery snippet renders
+
+| `delivery_style` | Snippet | Reads |
+|---|---|---|
+| `plate` | `snippets/cm-delivery-area.liquid` | `delivery_area` metaobjects, plate row format |
+| `leaflet` + `delivery_checker` on | `snippets/cm-delivery-checker.liquid` | `delivery_area` metaobjects, checker row format |
+| `leaflet` + `delivery_checker` off, or `embed` | inline block in the section | `delivery_map_query`, `delivery_map_title` |
+
+All three take copy from the same metafield chain, so switching style never
+loses your wording. Only the row format differs; see 4.7.
 
 ---
 
@@ -365,6 +411,8 @@ the page work.
 - [ ] Allergens are accurate
 - [ ] `custom.delivery_area_list` has your real towns, with exactly one row
       marked as the kitchen
+- [ ] Every `delivery_area` record has `latitude`/`longitude` if any plan uses the
+      street-map checker, and `map_x`/`map_y` if any plan uses the plate map
 - [ ] The section's **Plan product** points at the right product on each page
 - [ ] **Order dropdowns** is 6 on the 6 Meal Plan page, 5 on the 5, and so on
 - [ ] Nothing renders as an empty heading or a missing image on any of the five
