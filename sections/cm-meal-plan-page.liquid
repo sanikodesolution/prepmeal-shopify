@@ -978,7 +978,7 @@
   "class": "section cm-section",
   "settings": [
     { "type": "header", "content": "Content source" },
-    { "type": "paragraph", "content": "Every text and meal on this page comes from the plan product in Shopify Admin. Open Products, pick the plan product, and fill the custom metafields listed in docs/PLAN-PRODUCT-CONTENT.md. Anything left blank on the product falls back to the fields below, so the page never breaks mid-edit." },
+    { "type": "paragraph", "content": "Every text and meal on this page comes from the plan product in Shopify Admin, then from the shop-level shared content, then from the fields below. Open Products, pick the plan product, and fill the custom metafields and metaobjects listed in docs/PLAN-PRODUCT-CONTENT.md. Anything left blank falls back to the next source, so the page never breaks mid-edit." },
     { "type": "product", "id": "content_product", "label": "Plan product", "info": "Its variants become the meals; its custom.* metafields become the page copy. This is the same product the order box adds to the cart." },
     { "type": "checkbox", "id": "detail_show_allergens", "label": "Show allergens on the meal detail", "default": true },
 
@@ -1052,6 +1052,8 @@
     { "type": "text", "id": "chef_eyebrow", "label": "Chef eyebrow", "default": "The Chef Matt way" },
     { "type": "textarea", "id": "chef_heading", "label": "Chef heading", "default": "40 years in the kitchen. Now cooking for you." },
     { "type": "textarea", "id": "chef_text", "label": "Chef text", "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you." },
+    { "type": "image_picker", "id": "chef_image_1", "label": "Chef photo (large)" },
+    { "type": "image_picker", "id": "chef_image_2", "label": "Chef photo (small)" },
     { "type": "text", "id": "steps_eyebrow", "label": "Steps eyebrow", "default": "Simple by design" },
     { "type": "text", "id": "steps_heading", "label": "Steps heading", "default": "How it works" },
     { "type": "text", "id": "quality_eyebrow", "label": "Quality eyebrow", "default": "Premium ingredients" },
@@ -1154,6 +1156,7 @@
     { "type": "textarea", "id": "cta_text", "label": "CTA text", "default": "Five chef-prepared meals, delivered. Choose yours and we handle the rest." },
     { "type": "text", "id": "cta_button_label", "label": "CTA button", "default": "Build my meal plan" },
     { "type": "url", "id": "cta_button_link", "label": "CTA button link" },
+    { "type": "image_picker", "id": "cta_image", "label": "CTA background image" },
 
     { "type": "header", "content": "Padding" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 0 },
