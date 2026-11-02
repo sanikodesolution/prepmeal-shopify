@@ -86,7 +86,9 @@
           assign c1 = item.description.value | default: item.text.value
         when 'faq'
           assign c0 = item.question.value
-          assign c1 = item.answer.value
+          # faq_item stores a rich-text answer for the standalone FAQ section, so
+          # the tags are stripped here: this page prints the answer as plain text.
+          assign c1 = item.answer.value | strip_html
         when 'review'
           # testimonial: customer_name, photo, review, rating, plan_name.
           assign c0 = item.customer_name.value | default: item.name.value

@@ -22,6 +22,9 @@
 {%- endcomment -%}
 {%- liquid
   assign food_total = food_count | default: 10
+
+  # Metaobject field readers, so a text field, a rich text field and a decimal
+  # field all resolve to the same plain value.
   assign plan_has_meals = false
   if plan != blank and plan.variants.size > 0
     assign real_variants = 0
