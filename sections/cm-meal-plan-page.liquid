@@ -706,7 +706,7 @@
 
     {%- if section.settings.thali_show -%}
       {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
-      {% render 'cm-thali-story', section: section, s: section.settings, meta: plan_meta %}
+      {% render 'cm-thali-story', section: section, s: section.settings, meta: plan_meta, features: mo_features, stats: mo_stats_thali, facts: mo_facts %}
     {%- endif -%}
 
     <section class="ex"><div class="wrap">
@@ -809,7 +809,7 @@
 
     <section class="mealplan-sec"><div class="mealplan-wrap">
       {%- if section.settings.delivery_style == 'plate' -%}
-        {% render 'cm-delivery-area', section: section, meta: plan_meta %}
+        {% render 'cm-delivery-area', section: section, meta: plan_meta, areas: mo_areas %}
       {%- elsif section.settings.delivery_checker -%}
         {% render 'cm-delivery-checker', section: section %}
       {%- else -%}
