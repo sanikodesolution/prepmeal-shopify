@@ -71,6 +71,10 @@
           assign ingredients_text = meal_ingredients | join: ', '
         endif
 
+        # Short label for the list, gallery and dropdowns. Falls back to the
+        # variant title so a merchant only fills it in when a name is long.
+        assign meal_short = mv.short_name.value | default: variant.title
+
         assign allergens = mv.allergens.value | default: plan.metafields.custom.allergens.value
         assign allergens_text = ''
         if allergens != blank
@@ -96,6 +100,7 @@
       {
         "id": {{ variant.id | json }},
         "name": {{ variant.title | json }},
+        "short": {{ meal_short | json }},
         "description": {{ meal_desc | strip_newlines | json }},
         "calories": {{ meal_cal | json }},
         "protein": {{ meal_protein | json }},
@@ -159,6 +164,7 @@
     {
       "id": {{ meal_variant_id | json }},
       "name": {{ block.settings.name | json }},
+      "short": {{ block.settings.short | default: block.settings.name | json }},
       "description": {{ block.settings.description | strip_newlines | json }},
       "calories": {{ block.settings.calories | json }},
       "protein": {{ block.settings.protein | json }},

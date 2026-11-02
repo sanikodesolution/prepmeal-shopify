@@ -4,25 +4,65 @@
 
   Accepts:
   - s: {Object} section.settings drop
+  - meta: {Object} the plan product's custom.* metafields, used first
 
-  Everything below is optional; a blank setting simply drops that line.
+  Everything below is optional; a blank value simply drops that line.
   Line-based settings use the form "value|label" or "day|time|order by|cutoff".
+  Each value resolves metafield-first, theme-setting-second, so the panel can be
+  edited from the plan product in Admin without touching the theme editor.
 
-  Plate media: `thali_image` (image_picker) when set, otherwise the bundled
-  four-items-plate.webp — a transparent cut-out of a real thali with its four
-  components. Transparent, so the plate reads as floating on the panel.
+  Plate media: `thali_image` (metafield or image_picker) when set, otherwise the
+  bundled four-items-plate.webp — a transparent cut-out of a real thali with its
+  four components. Transparent, so the plate reads as floating on the panel.
 {%- endcomment -%}
 {%- liquid
-  assign gkk_badge = s.thali_badge
-  assign gkk_heading = s.thali_heading
-  assign gkk_intro = s.thali_intro
-  assign gkk_stats = s.thali_stats | newline_to_br | split: '<br />'
-  assign gkk_chips = s.thali_chips | newline_to_br | split: '<br />'
-  assign gkk_cards = s.thali_cards | newline_to_br | split: '<br />'
-  assign gkk_tickets = s.thali_tickets | newline_to_br | split: '<br />'
-  assign gkk_steps = s.thali_steps | newline_to_br | split: '<br />'
-  assign gkk_towns = s.thali_towns | split: ','
-  assign gkk_facts = s.thali_facts | newline_to_br | split: '<br />'
+  # A metafield list is already an array; a theme setting is one string with
+  # newlines. Both end up as an array of rows so one loop path serves each.
+  assign gkk_stats = meta.thali_stats.value
+  if gkk_stats == blank
+    assign gkk_stats = s.thali_stats | newline_to_br | split: '<br />'
+  endif
+  assign gkk_chips = meta.thali_chips.value
+  if gkk_chips == blank
+    assign gkk_chips = s.thali_chips | newline_to_br | split: '<br />'
+  endif
+  assign gkk_cards = meta.thali_cards.value
+  if gkk_cards == blank
+    assign gkk_cards = s.thali_cards | newline_to_br | split: '<br />'
+  endif
+  assign gkk_tickets = meta.thali_tickets.value
+  if gkk_tickets == blank
+    assign gkk_tickets = s.thali_tickets | newline_to_br | split: '<br />'
+  endif
+  assign gkk_steps = meta.thali_steps.value
+  if gkk_steps == blank
+    assign gkk_steps = s.thali_steps | newline_to_br | split: '<br />'
+  endif
+  assign gkk_facts = meta.thali_facts.value
+  if gkk_facts == blank
+    assign gkk_facts = s.thali_facts | newline_to_br | split: '<br />'
+  endif
+  assign gkk_towns = meta.thali_towns.value
+  if gkk_towns == blank
+    assign gkk_towns = s.thali_towns | split: ','
+  endif
+
+  # Single-value copy: product metafield first, theme setting second.
+  assign gkk_badge = meta.thali_badge.value | default: s.thali_badge
+  assign gkk_heading = meta.thali_heading.value | default: s.thali_heading
+  assign gkk_intro = meta.thali_intro.value | default: s.thali_intro
+  assign gkk_plate_alt = meta.thali_plate_alt.value | default: s.thali_plate_alt
+  assign gkk_image = meta.thali_image.value | default: s.thali_image
+  assign gkk_delivery_heading = meta.thali_delivery_heading.value | default: s.thali_delivery_heading
+  assign gkk_delivery_text = meta.thali_delivery_text.value | default: s.thali_delivery_text
+  assign gkk_cutoff_note = meta.thali_cutoff_note.value | default: s.thali_cutoff_note
+  assign gkk_fresh_heading = meta.thali_fresh_heading.value | default: s.thali_fresh_heading
+  assign gkk_fresh_text = meta.thali_fresh_text.value | default: s.thali_fresh_text
+  assign gkk_cta_heading = meta.thali_cta_heading.value | default: s.thali_cta_heading
+  assign gkk_cta_text = meta.thali_cta_text.value | default: s.thali_cta_text
+  assign gkk_cta_label = meta.thali_cta_label.value | default: s.thali_cta_label
+  assign gkk_cta_link = meta.thali_cta_link.value | default: s.thali_cta_link
+  assign gkk_cta_note = meta.thali_cta_note.value | default: s.thali_cta_note
 -%}
 <section
   class="gkk"
@@ -43,7 +83,7 @@
         {%- if gkk_intro != blank -%}
           <p>{{ gkk_intro | escape }}</p>
         {%- endif -%}
-        {%- if s.thali_stats != blank -%}
+        {%- if gkk_stats.size > 0 -%}
           <div class="gkk__stats">
             {%- for line in gkk_stats -%}
               {%- assign stat = line | strip | split: '|' -%}
@@ -59,22 +99,22 @@
       </div>
 
       <div class="gkk__plate" data-gkk-plate>
-        {%- if s.thali_image != blank -%}
+        {%- if gkk_image != blank -%}
           <img
-            src="{{ s.thali_image | image_url: width: 840 }}"
-            srcset="{{ s.thali_image | image_url: width: 420 }} 420w, {{ s.thali_image | image_url: width: 840 }} 840w"
+            src="{{ gkk_image | image_url: width: 840 }}"
+            srcset="{{ gkk_image | image_url: width: 420 }} 420w, {{ gkk_image | image_url: width: 840 }} 840w"
             sizes="(min-width: 992px) 420px, 90vw"
-            alt="{{ s.thali_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
+            alt="{{ gkk_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
             width="420" height="420" loading="lazy"
           >
         {%- else -%}
           <img
             src="{{ 'four-items-plate.webp' | asset_url }}"
-            alt="{{ s.thali_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
+            alt="{{ gkk_plate_alt | default: 'A thali with two curries, rice and two rotis' | escape }}"
             width="860" height="860" loading="lazy"
           >
         {%- endif -%}
-        {%- if s.thali_chips != blank -%}
+        {%- if gkk_chips.size > 0 -%}
           {%- for line in gkk_chips -%}
             {%- assign chip = line | strip -%}
             {%- if chip != blank -%}<span class="gkk__chip">{{ chip | escape }}</span>{%- endif -%}
@@ -83,7 +123,7 @@
       </div>
     </div>
 
-    {%- if s.thali_cards != blank -%}
+    {%- if gkk_cards.size > 0 -%}
       <div class="gkk__trio">
         {%- assign card_i = 0 -%}
         {%- for line in gkk_cards -%}
@@ -106,13 +146,13 @@
 
     <div class="gkk__deliver">
       <div>
-        {%- if s.thali_delivery_heading != blank -%}
-          <h4>{{ s.thali_delivery_heading | escape }}</h4>
+        {%- if gkk_delivery_heading != blank -%}
+          <h4>{{ gkk_delivery_heading | escape }}</h4>
         {%- endif -%}
-        {%- if s.thali_delivery_text != blank -%}
-          <p>{{ s.thali_delivery_text | escape }}</p>
+        {%- if gkk_delivery_text != blank -%}
+          <p>{{ gkk_delivery_text | escape }}</p>
         {%- endif -%}
-        {%- if s.thali_tickets != blank -%}
+        {%- if gkk_tickets.size > 0 -%}
           {%- for line in gkk_tickets -%}
             {%- assign t = line | strip | split: '|' -%}
             {%- if t[0] != blank -%}
@@ -129,19 +169,19 @@
             {%- endif -%}
           {%- endfor -%}
         {%- endif -%}
-        {%- if s.thali_cutoff_note != blank -%}
-          <p class="gkk__note">{{ s.thali_cutoff_note | escape }}</p>
+        {%- if gkk_cutoff_note != blank -%}
+          <p class="gkk__note">{{ gkk_cutoff_note | escape }}</p>
         {%- endif -%}
       </div>
 
       <div class="gkk__fresh">
-        {%- if s.thali_fresh_heading != blank -%}
-          <h4>{{ s.thali_fresh_heading | escape }}</h4>
+        {%- if gkk_fresh_heading != blank -%}
+          <h4>{{ gkk_fresh_heading | escape }}</h4>
         {%- endif -%}
-        {%- if s.thali_fresh_text != blank -%}
-          <p>{{ s.thali_fresh_text | escape }}</p>
+        {%- if gkk_fresh_text != blank -%}
+          <p>{{ gkk_fresh_text | escape }}</p>
         {%- endif -%}
-        {%- if s.thali_steps != blank -%}
+        {%- if gkk_steps.size > 0 -%}
           <ol class="gkk__steps">
             {%- for line in gkk_steps -%}
               {%- assign step = line | strip | split: '|' -%}
@@ -157,7 +197,7 @@
             {%- endfor -%}
           </ol>
         {%- endif -%}
-        {%- if s.thali_towns != blank -%}
+        {%- if gkk_towns.size > 0 -%}
           <div class="gkk__towns">
             {%- for town in gkk_towns -%}
               {%- assign town_name = town | strip -%}
@@ -170,20 +210,20 @@
 
     <div class="gkk__cta">
       <div>
-        {%- if s.thali_cta_heading != blank -%}
-          <h4>{{ s.thali_cta_heading | escape }}</h4>
+        {%- if gkk_cta_heading != blank -%}
+          <h4>{{ gkk_cta_heading | escape }}</h4>
         {%- endif -%}
-        {%- if s.thali_cta_text != blank -%}
-          <p>{{ s.thali_cta_text | escape }}</p>
+        {%- if gkk_cta_text != blank -%}
+          <p>{{ gkk_cta_text | escape }}</p>
         {%- endif -%}
-        {%- if s.thali_cta_label != blank -%}
-          <a class="gkk__btn" href="{{ s.thali_cta_link | default: '#' }}">{{ s.thali_cta_label | escape }}</a>
+        {%- if gkk_cta_label != blank -%}
+          <a class="gkk__btn" href="{{ gkk_cta_link | default: '#' }}">{{ gkk_cta_label | escape }}</a>
         {%- endif -%}
-        {%- if s.thali_cta_note != blank -%}
-          <p class="gkk__note">{{ s.thali_cta_note | escape }}</p>
+        {%- if gkk_cta_note != blank -%}
+          <p class="gkk__note">{{ gkk_cta_note | escape }}</p>
         {%- endif -%}
       </div>
-      {%- if s.thali_facts != blank -%}
+      {%- if gkk_facts.size > 0 -%}
         <div class="gkk__facts">
           {%- for line in gkk_facts -%}
             {%- assign fact = line | strip | split: '|' -%}

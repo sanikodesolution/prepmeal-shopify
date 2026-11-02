@@ -51,13 +51,20 @@
   assign c_ben_note = plan_meta.ben_note.value | default: section.settings.ben_note
 
   assign c_menu_eyebrow = plan_meta.menu_eyebrow.value | default: section.settings.menu_eyebrow
-  assign c_menu_heading = plan_meta.menu_heading.value | default: section.settings.quality_heading
-  assign c_menu_text = plan_meta.menu_text.value | default: section.settings.quality_text
+  assign c_menu_heading = plan_meta.menu_heading.value | default: section.settings.menu_heading
+  assign c_menu_text = plan_meta.menu_text.value | default: section.settings.menu_text
   assign c_menu_button = plan_meta.menu_button.value | default: section.settings.quality_button
   assign c_explore_heading = plan_meta.explore_heading.value | default: section.settings.explore_heading
   assign c_detail_note = plan_meta.detail_note.value | default: section.settings.detail_note
   assign c_total_label = plan_meta.total_label.value | default: section.settings.total_label
   assign c_load_more_label = plan_meta.load_more_label.value | default: section.settings.load_more_label
+
+  # Copy for the menu stage and the order form. These used to be hard-coded in
+  # the markup, which left them uneditable from the product in Admin.
+  assign c_menu_modal_heading = plan_meta.menu_modal_heading.value | default: "This Week's Menu"
+  assign c_menu_caption = plan_meta.menu_caption.value | default: 'Fresh, ready to heat'
+  assign c_picker_placeholder = plan_meta.picker_placeholder.value | default: 'Choose a meal'
+  assign c_order_panel_title = plan_meta.order_panel_title.value | default: section.settings.detail_title | strip
 
   assign c_chef_eyebrow = plan_meta.chef_eyebrow.value | default: section.settings.chef_eyebrow
   assign c_chef_heading = plan_meta.chef_heading.value | default: section.settings.chef_heading
@@ -125,10 +132,10 @@
 
   assign first_meal_label = menu_blocks.first.settings.short | default: menu_blocks.first.settings.name
   if variant_menu
-    assign first_meal_label = meals_catalog.variants.first.title
+    assign first_meal_label = meals_catalog.variants.first.metafields.custom.short_name.value | default: meals_catalog.variants.first.title
     for block in menu_blocks
       if block.settings.name == meals_catalog.variants.first.title
-        assign first_meal_label = block.settings.short | default: block.settings.name
+        assign first_meal_label = meals_catalog.variants.first.metafields.custom.short_name.value | default: block.settings.short | default: block.settings.name
         break
       endif
     endfor
@@ -249,7 +256,7 @@
             {%- liquid
               # Product-style header in the top right: the plan title and price
               # sit above the order card, the way a product page shows them.
-              assign detail_title = section.settings.detail_title | strip
+              assign detail_title = c_order_panel_title
               if detail_title == blank
                 assign detail_title = plan_product.title
               endif
@@ -340,7 +347,7 @@
                 <span class="mealplan-menu__count" data-mp-count>1</span>
                 <span class="mealplan-menu__caption-text">
                   <span class="mealplan-menu__caption-name" data-mp-caption>{{ first_meal_label | escape }}</span>
-                  <span class="mealplan-menu__caption-sub">Fresh, ready to heat</span>
+                  <span class="mealplan-menu__caption-sub">{{ c_menu_caption | escape }}</span>
                 </span>
               </div>
             </div>
@@ -350,10 +357,12 @@
               {%- for variant in meals_catalog.variants -%}
                 {%- unless variant.title == 'Default Title' -%}
                   {%- liquid
-                    assign meal_label = variant.title
+                    # Variant metafield first, then the matching Meal block's
+                    # short label, then the variant title itself.
+                    assign meal_label = variant.metafields.custom.short_name.value | default: variant.title
                     for block in menu_blocks
                       if block.settings.name == variant.title
-                        assign meal_label = block.settings.short | default: block.settings.name
+                        assign meal_label = variant.metafields.custom.short_name.value | default: block.settings.short | default: block.settings.name
                         break
                       endif
                     endfor
@@ -385,11 +394,12 @@
                   <label class="mealplan-menu__field">
                     <span>Meal {{ slot }}</span>
                     <select name="properties[Meal {{ slot }}]" data-mp-pick required>
-                      <option value="" selected disabled>Choose a meal</option>
+                      <option value="" selected disabled>{{ c_picker_placeholder | escape }}</option>
                       {%- if variant_menu -%}
                         {%- for variant in meals_catalog.variants -%}
                           {%- unless variant.title == 'Default Title' -%}
-                            <option value="{{ variant.title | escape }}"{% if variant.price > 0 %} data-price="{{ variant.price | money | escape }}" data-price-cents="{{ variant.price }}"{% endif %} data-variant-id="{{ variant.id }}">{{ variant.title | escape }}</option>
+                            {%- assign opt_label = variant.metafields.custom.short_name.value | default: variant.title -%}
+                            <option value="{{ variant.title | escape }}"{% if variant.price > 0 %} data-price="{{ variant.price | money | escape }}" data-price-cents="{{ variant.price }}"{% endif %} data-variant-id="{{ variant.id }}">{{ opt_label | escape }}</option>
                           {%- endunless -%}
                         {%- endfor -%}
                       {%- else -%}
@@ -476,7 +486,7 @@
           <div class="mealplan-menu__modal-backdrop" data-mp-close></div>
           <div class="mealplan-menu__modal-box">
             <header class="mealplan-menu__modal-head">
-              <h3>This Week's Menu</h3>
+              <h3>{{ c_menu_modal_heading | escape }}</h3>
               <button type="button" class="mealplan-menu__modal-close" data-mp-close aria-label="Close">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
               </button>
@@ -650,7 +660,7 @@
 
     {%- if section.settings.thali_show -%}
       {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
-      {% render 'cm-thali-story', section: section, s: section.settings %}
+      {% render 'cm-thali-story', section: section, s: section.settings, meta: plan_meta %}
     {%- endif -%}
 
     <section class="ex"><div class="wrap">
@@ -909,7 +919,7 @@
   "class": "section cm-section",
   "settings": [
     { "type": "header", "content": "Content source" },
-    { "type": "paragraph", "content": "Every text and meal on this page can come from the plan product in Shopify Admin. Fill the product metafields under Settings ? Custom data ? Products with the namespace and keys listed in the theme's CONTENT-GUIDE. Anything left blank on the product falls back to the fields below." },
+    { "type": "paragraph", "content": "Every text and meal on this page comes from the plan product in Shopify Admin. Open Products, pick the plan product, and fill the custom metafields listed in docs/PLAN-PRODUCT-CONTENT.md. Anything left blank on the product falls back to the fields below, so the page never breaks mid-edit." },
     { "type": "product", "id": "content_product", "label": "Plan product", "info": "Its variants become the meals; its custom.* metafields become the page copy. This is the same product the order box adds to the cart." },
     { "type": "checkbox", "id": "detail_show_allergens", "label": "Show allergens on the meal detail", "default": true },
 
@@ -949,7 +959,7 @@
     { "type": "text", "id": "explore_heading", "label": "Explore heading", "default": "Explore all meals" },
 
     { "type": "header", "content": "Ghar Ka Khana story" },
-    { "type": "checkbox", "id": "thali_show", "label": "Show the Ghar Ka Khana panel", "default": false, "info": "Sits above Explore all meals. Off by default so other plan pages stay unchanged." },
+    { "type": "checkbox", "id": "thali_show", "label": "Show the Ghar Ka Khana panel", "default": false, "info": "Sits above Explore all meals. Its text is now read from the plan product's custom.thali_* metafields first, and falls back to the fields here." },
     { "type": "text", "id": "thali_badge", "label": "Badge", "default": "Ghar Ka Khana � Delivered Across the GTA" },
     { "type": "text", "id": "thali_heading", "label": "Heading", "default": "GTA's Best Thalis, Delivered to Your Door" },
     { "type": "textarea", "id": "thali_intro", "label": "Intro", "default": "Fresh Indian homestyle meals made with traditional spices, proper tadka, handmade rotis, and delivered to your door." },

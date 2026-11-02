@@ -36,9 +36,13 @@
 
   const v = (x, u = '') => (x == null || x === '' ? '—' : x + u);
   const pad = (n) => String(n + 1).padStart(2, '0');
+  // Meals carry a short label (custom.short_name) for the list, grid and
+  // dropdowns, because a full variant title often includes its sides and
+  // overflows a card. The full title stays as the fallback.
+  const label = (m) => (m && (m.short || m.name)) || '';
   const imgFor = (m, k) => {
     if (m.image) {
-      return `<img class="mp-food mealplan-ph ph" src="${m.image}" alt="${m.name || ''}" width="700" height="700" loading="lazy" decoding="async">`;
+      return `<img class="mp-food mealplan-ph ph" src="${m.image}" alt="${label(m)}" width="700" height="700" loading="lazy" decoding="async">`;
     }
     return foodImg(m.imageIndex != null ? m.imageIndex : k);
   };
@@ -55,7 +59,7 @@
       .map(
         (m, k) => `<article class="m"><div class="img">${imgFor(m, k)}</div><div class="info"><span class="no">${pad(k)}</span>${
           m.badge ? `<span class="tag">${m.badge}</span>` : ''
-        }<h3>${m.name}</h3><div class="reveal"><div><p>${m.description || ''}</p><div class="macros"><span><b>${v(
+        }<h3>${label(m)}</h3><div class="reveal"><div><p>${m.description || ''}</p><div class="macros"><span><b>${v(
           m.calories
         )}</b> cal</span><span><b>${v(m.protein, 'g')}</b> protein</span><span><b>${v(m.carbs, 'g')}</b> carbs</span><span><b>${v(
           m.fat,
@@ -78,7 +82,7 @@
           `<article class="e" data-t="${(m.tags || '')
             .split(',')
             .map((t) => t.trim().toLowerCase())
-            .join('|')}"><div class="thumb">${imgFor(m, k)}</div><h4>${m.name}</h4><small>${v(m.calories)} cal · ${v(
+            .join('|')}"><div class="thumb">${imgFor(m, k)}</div><h4>${label(m)}</h4><small>${v(m.calories)} cal · ${v(
             m.protein,
             'g'
           )} protein</small><button type="button" data-i="${k}">View meal</button></article>`
@@ -184,7 +188,7 @@
     const ring = $('#ring');
     const bars = $('#bars');
     if (dImg) dImg.innerHTML = imgFor(m, k);
-    if (dName) dName.textContent = m.name;
+    if (dName) dName.textContent = label(m);
     if (dDesc) dDesc.textContent = m.description || '';
     if (dCal) dCal.textContent = v(m.calories);
     const ings = (m.ingredients || '')
@@ -266,7 +270,7 @@
   // Gallery
   const gal = $('#gal');
   if (gal) {
-    const names = alts.length ? alts : meals.map((m) => m.name);
+    const names = meals.length ? meals.map((m) => label(m)) : alts;
     gal.innerHTML = names
       .slice(0, 10)
       .map(
@@ -750,6 +754,13 @@
       // cannot be styled, so each select is wrapped by a button + listbox. The
       // select itself stays in the DOM (visually hidden) so the existing submit
       // handler and Shopify properties keep working untouched.
+      // The placeholder is the disabled empty option Liquid renders, so the
+      // merchant can rename it on the plan product instead of editing this file.
+      const emptyLabel = (select) => {
+        const first = select.options[0];
+        if (first && !first.value) return first.textContent.trim();
+        return orderForm.dataset.mpEmptyLabel || 'Choose a meal';
+      };
       const closePickers = (except) => {
         $$('[data-mp-trigger]', orderForm).forEach((btn) => {
           if (btn === except) return;
@@ -763,7 +774,7 @@
         const chosen = select.options[select.selectedIndex];
         const empty = !select.value;
         const text = trigger.querySelector('.mealplan-menu__trigger-text');
-        if (text) text.textContent = empty ? 'Choose a meal' : (chosen ? chosen.textContent.trim() : '');
+        if (text) text.textContent = empty ? emptyLabel(select) : (chosen ? chosen.textContent.trim() : '');
         trigger.classList.toggle('is-empty', empty);
         // Price lives in a sibling span so the name can keep its own ellipsis.
         const price = trigger.querySelector('.mealplan-menu__trigger-price');
@@ -786,7 +797,7 @@
         trigger.setAttribute('aria-haspopup', 'listbox');
         trigger.setAttribute('aria-expanded', 'false');
         trigger.setAttribute('aria-label', `Meal ${index + 1}`);
-        trigger.innerHTML = '<span class="mealplan-menu__trigger-text">Choose a meal</span>'
+        trigger.innerHTML = `<span class="mealplan-menu__trigger-text">${emptyLabel(select)}</span>`
           + '<span class="mealplan-menu__trigger-price" hidden></span>'
           + '<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path fill="none" stroke="#15251C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M1 1.5 6 6.5 11 1.5"/></svg>';
 
@@ -804,7 +815,7 @@
           li.dataset.index = String(optIndex);
           if (!opt.value) {
             li.classList.add('is-placeholder');
-            li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span>Choose a meal</span>';
+            li.innerHTML = `<span class="mealplan-menu__option-mark">✓</span><span>${emptyLabel(select)}</span>`;
           } else {
             li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span class="mealplan-menu__option-name"></span>'
               + (opt.dataset.price ? '<span class="mealplan-menu__option-price"></span>' : '');

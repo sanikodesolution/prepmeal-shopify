@@ -43,6 +43,7 @@ first, then fill them per variant.
 
 | Metafield (namespace.key) | Type | Example | Shown as |
 |---|---|---|---|
+| `custom.short_name` | Single line text | `Butter Chicken` | Short label in the menu list, meal cards and the order dropdowns. Blank uses the full variant title |
 | `custom.description` | Single line text | `With roasted potatoes and glazed carrots.` | Under the meal name |
 | `custom.calories` | Integer | `623` | Centre of the nutrition ring |
 | `custom.protein` | Integer | `52` | Protein bar, in grams |
@@ -103,6 +104,7 @@ single-line fields hold one value; the *list* fields hold one row per line.
 | `custom.explore_heading` | Single line text | Heading above the filterable meal grid |
 | `custom.load_more_label` | Single line text | Text on the "load more" button |
 | `custom.detail_note` | Single line text | Footnote under the meal detail panel |
+| `custom.menu_modal_heading` / `custom.menu_caption` / `custom.picker_placeholder` / `custom.order_panel_title` | Single line text | Text on the weekly menu sheet, its caption, the dropdown placeholder and the order panel heading |
 
 ### Chef, steps and quality
 
@@ -112,6 +114,32 @@ single-line fields hold one value; the *list* fields hold one row per line.
 | `custom.steps_eyebrow` / `custom.steps_heading` | Text | Heading of the how-it-works block |
 | `custom.steps` | List of single line text | One step per row as `title\|text` |
 | `custom.quality_points` | List of single line text | One row as `title\|text\|detail` |
+
+### Ghar Ka Khana panel (`thali_*`)
+
+Shown between the meal detail panel and the Explore grid when **Show the Ghar Ka
+Khana panel** is ticked in the theme editor. Every line reads its `custom.thali_*`
+metafield first and falls back to the theme editor setting.
+
+| Key | Type | What it says |
+|---|---|---|
+| `custom.thali_badge` / `custom.thali_heading` / `custom.thali_intro` | Text | Badge, headline and intro paragraph |
+| `custom.thali_plate_alt` | Single line text | Alt text of the plate photo |
+| `custom.thali_image` | File (image) | Plate photo. Blank uses the bundled cut-out plate |
+| `custom.thali_stats` | List of single line text | One row as `value\|label` |
+| `custom.thali_chips` | List of single line text | The labels around the plate |
+| `custom.thali_cards` | List of single line text | One card per row as `title\|text` |
+| `custom.thali_delivery_heading` / `custom.thali_delivery_text` | Text | Delivery block |
+| `custom.thali_tickets` | List of single line text | One row as `day\|window\|order-by label\|order-by value` |
+| `custom.thali_cutoff_note` | Multi-line text | Note under the tickets |
+| `custom.thali_fresh_heading` / `custom.thali_fresh_text` | Text | Fresh block |
+| `custom.thali_steps` | List of single line text | One row as `title\|text` |
+| `custom.thali_towns` | List of single line text | Delivery towns, one per row |
+| `custom.thali_cta_heading` / `_text` / `_label` / `_note` | Text | Closing panel copy |
+| `custom.thali_cta_link` | URL | Panel button link |
+| `custom.thali_facts` | List of single line text | One row as `value\|label` |
+
+Panel colours stay in the theme editor, because they are design, not content.
 
 ### Delivery
 
