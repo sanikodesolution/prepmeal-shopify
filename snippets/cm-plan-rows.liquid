@@ -1,23 +1,123 @@
 {%- comment -%}
-  Normalises plan content into rows so a product metafield list and the theme
-  editor blocks feed one markup path.
+  Normalises plan content into rows so a metaobject list, a product metafield
+  list and the theme editor blocks all feed one markup path.
 
   Used by sections/cm-meal-plan-page.liquid. The caller captures this output and
   splits it on "~~~", so every row must stay on a single line.
 
   Row shapes (fields separated by "|"):
-  - benefit  title|text
+  - benefit  value|label
   - step     title|text
   - faq      question|answer
   - review   name|rating|review|aspect|show image|image url
   - related  title|text|url|button label|price note|image url
+  - quality  title|text|detail
+
+  Source order: metaobject list, then the legacy metafield list, then blocks.
 
   Accepts:
-  - kind    {String} Row shape, see above.
-  - meta    {Array}  Product metafield list value. Each item is "a|b|c".
-  - blocks  {Array}  Theme editor blocks. Used when meta is empty.
+  - kind            {String}  Row shape, see above.
+  - items           {Array}   Metaobject list (metaobject_reference). Wins.
+  - meta            {Array}   Product metafield list of strings. Legacy source.
+  - blocks          {Array}   Theme editor blocks. Final fallback.
+  - exclude_product {Product} Related card pointing at this product is skipped.
 {%- endcomment -%}
-{%- if meta != blank -%}
+{%- liquid
+  assign use_items = false
+  if items != blank and items.size > 0
+    assign use_items = true
+  endif
+-%}
+{%- if use_items -%}
+  {%- assign emitted = 0 -%}
+  {%- for item in items -%}
+    {%- liquid
+      assign c0 = ''
+      assign c1 = ''
+      assign c2 = ''
+      assign c3 = ''
+      assign c4 = ''
+      assign c5 = ''
+
+      case kind
+        when 'benefit'
+          # stat_item: value|label. Benefit blocks use title|text instead, so
+          # both field spellings are read here.
+          assign c0 = item.value.value | default: item.title.value
+          assign c1 = item.label.value | default: item.text.value
+        when 'step'
+          # how_it_works_step: title + description. The list numbers the steps
+          # itself, so step_number is not printed.
+          assign c0 = item.title.value
+          assign c1 = item.description.value | default: item.text.value
+        when 'faq'
+          assign c0 = item.question.value
+          assign c1 = item.answer.value
+        when 'review'
+          # testimonial: customer_name, photo, review, rating, plan_name.
+          assign c0 = item.customer_name.value | default: item.name.value
+          assign rating_field = item.rating.value
+          if rating_field.rating != blank
+            assign c1 = rating_field.rating
+          else
+            assign c1 = rating_field | default: 5
+          endif
+          assign c2 = item.review.value | default: item.text.value
+          assign c3 = '1'
+
+          # A metaobject can carry the photo, so the row finally has a real
+          # image instead of the bundled placeholder.
+          assign c4 = '1'
+          assign c5 = ''
+          assign show_photo = item.show_photo.value
+          if show_photo == false
+            assign c4 = '0'
+          endif
+          assign review_photo = item.photo.value | default: item.image.value
+          if review_photo != blank
+            assign c5 = review_photo | image_url: width: 700
+          endif
+        when 'quality'
+          assign c0 = item.title.value
+          assign c1 = item.text.value | default: item.summary.value
+          assign c2 = item.detail.value | default: item.description.value
+        when 'related'
+          # meal_plan: name, image, short_description, linked_product, badge.
+          assign c0 = item.name.value | default: item.title.value
+          assign c1 = item.short_description.value | default: item.description.value
+          assign related_product = item.linked_product.value
+          assign c2 = related_product.url | default: item.link.value
+          assign c3 = item.button_label.value | default: 'View plan'
+          assign c4 = item.price_note.value | default: item.badge.value
+          assign c5 = ''
+          assign card_image = item.image.value | default: related_product.featured_image
+          if card_image != blank
+            assign c5 = card_image | image_url: width: 700
+          endif
+
+          # A plan should not recommend itself. The card that points at the page
+          # you are already on is dropped instead of rendering a dead link.
+          if exclude_product != blank and related_product != blank
+            if related_product.id == exclude_product.id
+              assign c0 = ''
+            endif
+          endif
+      endcase
+
+      assign r0 = c0 | strip_newlines | strip
+      assign r1 = c1 | strip_newlines | strip
+      assign r2 = c2 | strip_newlines | strip
+      assign r3 = c3 | strip_newlines | strip
+      assign r4 = c4 | strip_newlines | strip
+      assign r5 = c5 | strip_newlines | strip
+    -%}
+    {%- if r0 != blank -%}
+      {%- if emitted > 0 -%}~~~{%- endif -%}
+      {%- assign emitted = emitted | plus: 1 -%}
+      {{- r0 -}}|{{- r1 -}}|{{- r2 -}}|{{- r3 -}}|{{- r4 -}}|{{- r5 -}}
+    {%- endif -%}
+  {%- endfor -%}
+{%- elsif meta != blank -%}
   {%- for row in meta -%}
     {%- if forloop.index0 > 0 -%}~~~{%- endif -%}
     {%- assign cells = row | split: '|' -%}
@@ -28,7 +128,8 @@
         {%- comment -%}
           The sixth cell is the image. A product metafield cannot store an image
           per row, so these rows use the bundled food photo, picked in the
-          section from the row index.
+          section from the row index. Use the review_items metaobject list to
+          give a review its own photo.
         {%- endcomment -%}
         {%- assign show_image = cells[4] | strip | default: '1' -%}
         {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip | default: '5' -}}|{{- cells[2] | strip_newlines | strip -}}|{{- cells[3] | strip | default: '1' -}}|{{- show_image -}}|
