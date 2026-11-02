@@ -112,13 +112,22 @@
   assign c_cta_text = plan_meta.cta_text.value | default: section.settings.cta_text
   assign c_cta_button_label = plan_meta.cta_button_label.value | default: section.settings.cta_button_label
 
-  # Repeatable rows: metafield list first, theme editor blocks second.
-  assign row_benefits = plan_meta.benefits.value
-  assign row_steps = plan_meta.steps.value
-  assign row_faq = plan_meta.faq.value
-  assign row_reviews = plan_meta.reviews.value
-  assign row_related = plan_meta.related_plans.value
+  # Repeatable rows. A metaobject list wins, then the plan product's metafield
+  # list, then the shop shared list, then the theme editor blocks. The row
+  # renderer decides between them so every kind follows the same order.
+  assign row_benefits = mo_stats
+  assign row_steps = mo_steps
+  assign row_faq = mo_faq
+  assign row_reviews = mo_testimonials
+  assign row_related = mo_plans
   assign row_quality = plan_meta.quality_points.value
+
+  # Legacy metafield lists, kept so a store already filled in keeps working.
+  assign legacy_benefits = plan_meta.benefits.value | default: shared_meta.benefits.value
+  assign legacy_steps = plan_meta.steps.value | default: shared_meta.steps.value
+  assign legacy_faq = plan_meta.faq.value | default: shared_meta.faq.value
+  assign legacy_reviews = plan_meta.reviews.value | default: shared_meta.reviews.value
+  assign legacy_related = plan_meta.related_plans.value | default: shared_meta.related_plans.value
 
   # Meals: plan product variants first, Meal blocks second.
   assign meals_catalog = plan_product
@@ -197,40 +206,44 @@
   fallback for pages where the product has no per-meal variants yet.
 {%- endcomment -%}
 {%- capture meals_json -%}
-{%- render 'cm-plan-meals', plan: meals_catalog, blocks: meal_blocks, food_count: 10 -%}
+{%- render 'cm-plan-meals', plan: meals_catalog, meals: mo_meals, blocks: meal_blocks, food_count: 10 -%}
 {%- endcapture -%}
 
 {%- comment -%}
   Repeatable copy. Each capture holds rows separated by "~~~", each row a
-  "|"-separated list, so one markup path renders both sources. A blank capture
+  "|"-separated list, so one markup path renders every source. A blank capture
   splits into a single empty string, so each list is reset to empty here.
+
+  `items` is the metaobject list and wins; `meta` is the legacy pipe-delimited
+  product metafield; `blocks` is the theme editor. The renderer walks them in
+  that order, so a store can migrate one section at a time.
 {%- endcomment -%}
 {%- capture rows_benefits -%}
-{%- render 'cm-plan-rows', kind: 'benefit', meta: row_benefits, blocks: benefit_blocks -%}
+{%- render 'cm-plan-rows', kind: 'benefit', items: row_benefits, meta: legacy_benefits, blocks: benefit_blocks -%}
 {%- endcapture -%}
 {%- assign benefit_rows = '' -%}
 {%- if rows_benefits != blank -%}{%- assign benefit_rows = rows_benefits | split: '~~~' -%}{%- endif -%}
 
 {%- capture rows_steps -%}
-{%- render 'cm-plan-rows', kind: 'step', meta: row_steps, blocks: step_blocks -%}
+{%- render 'cm-plan-rows', kind: 'step', items: row_steps, meta: legacy_steps, blocks: step_blocks -%}
 {%- endcapture -%}
 {%- assign step_rows = '' -%}
 {%- if rows_steps != blank -%}{%- assign step_rows = rows_steps | split: '~~~' -%}{%- endif -%}
 
 {%- capture rows_faq -%}
-{%- render 'cm-plan-rows', kind: 'faq', meta: row_faq, blocks: faq_blocks -%}
+{%- render 'cm-plan-rows', kind: 'faq', items: row_faq, meta: legacy_faq, blocks: faq_blocks -%}
 {%- endcapture -%}
 {%- assign faq_rows = '' -%}
 {%- if rows_faq != blank -%}{%- assign faq_rows = rows_faq | split: '~~~' -%}{%- endif -%}
 
 {%- capture rows_reviews -%}
-{%- render 'cm-plan-rows', kind: 'review', meta: row_reviews, blocks: review_blocks -%}
+{%- render 'cm-plan-rows', kind: 'review', items: row_reviews, meta: legacy_reviews, blocks: review_blocks -%}
 {%- endcapture -%}
 {%- assign review_rows = '' -%}
 {%- if rows_reviews != blank -%}{%- assign review_rows = rows_reviews | split: '~~~' -%}{%- endif -%}
 
 {%- capture rows_related -%}
-{%- render 'cm-plan-rows', kind: 'related', meta: row_related, blocks: related_blocks -%}
+{%- render 'cm-plan-rows', kind: 'related', items: row_related, meta: legacy_related, blocks: related_blocks, exclude_product: plan_product -%}
 {%- endcapture -%}
 {%- assign related_rows = '' -%}
 {%- if rows_related != blank -%}{%- assign related_rows = rows_related | split: '~~~' -%}{%- endif -%}
