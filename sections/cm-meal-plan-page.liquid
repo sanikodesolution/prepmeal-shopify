@@ -710,7 +710,19 @@
 
   <div class="mealplan">
     <section class="mealplan-sec"><div class="mealplan-wrap mealplan-chef">
-      <div class="mealplan-img mealplan-big mp-gs" data-p="0"></div>
+      {%- liquid
+        # Chef photos used to be bundled assets picked by index, so they could
+        # not be changed from Admin. An image set on the product (or the section)
+        # renders here; otherwise the original bundled photo still fills in via
+        # the data-p hook the script reads.
+        assign chef_image_1 = plan_meta.chef_image_1.value | default: section.settings.chef_image_1
+        assign chef_image_2 = plan_meta.chef_image_2.value | default: section.settings.chef_image_2
+      -%}
+      <div class="mealplan-img mealplan-big mp-gs"{% unless chef_image_1 != blank %} data-p="0"{% endunless %}>
+        {%- if chef_image_1 != blank -%}
+          {{ chef_image_1 | image_url: width: 900 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '400, 700, 900', sizes: '(min-width: 750px) 55vw, 90vw', alt: c_chef_heading }}
+        {%- endif -%}
+      </div>
       <div class="mealplan-txt mp-gs">
         {%- if c_chef_eyebrow != blank -%}
           <p class="mp-eye">{{ c_chef_eyebrow | escape }}</p>
@@ -718,7 +730,11 @@
         <h2 class="mealplan-h">{{ c_chef_heading | escape | newline_to_br }}</h2>
         <p class="mealplan-p">{{ c_chef_text | escape }}</p>
       </div>
-      <div class="mealplan-img mealplan-small mp-gs" data-p="1"></div>
+      <div class="mealplan-img mealplan-small mp-gs"{% unless chef_image_2 != blank %} data-p="1"{% endunless %}>
+        {%- if chef_image_2 != blank -%}
+          {{ chef_image_2 | image_url: width: 700 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '300, 500, 700', sizes: '30vw', alt: c_chef_eyebrow }}
+        {%- endif -%}
+      </div>
     </div></section>
 
     <section class="mealplan-sec mealplan-steps"><div class="mealplan-wrap">
