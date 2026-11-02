@@ -146,9 +146,12 @@ Panel colours stay in the theme editor, because they are design, not content.
 | Key | Type | What it says |
 |---|---|---|
 | `custom.delivery_eyebrow` / `custom.delivery_heading` / `custom.delivery_text` | Text | Delivery block copy |
+| `custom.delivery_areas` | List of single line text | Town chips in the plain delivery block, one per row |
+| `custom.delivery_areas_title` | Single line text | Heading above the town list on the map panel |
+| `custom.delivery_towns` | List of single line text | Map panel towns, one row as `Town\|ZIP,ZIP\|left%\|top%`. Add `kitchen` as a fifth column to mark the kitchen |
+| `custom.delivery_map_query` / `custom.delivery_map_title` | Single line text | Place the map centres on, and the caption over it |
 
-Town lists, the map coordinates and the checker messages stay in the theme
-editor, because they are not per-product content.
+The map's zoom level and the checker's wording stay in the theme editor.
 
 ### Reviews, FAQ, related plans, CTA
 
