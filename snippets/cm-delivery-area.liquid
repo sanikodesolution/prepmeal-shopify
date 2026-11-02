@@ -1,14 +1,19 @@
 {%- comment -%}
-  Delivery area — stylised SVG "plate" map, town chips and a postal code checker.
+  Delivery area — Leaflet map, town chips and a postal code checker.
   Rendered by sections/cm-meal-plan-page.liquid (delivery_style = 'plate').
 
   Towns come from the "Delivery towns" setting, one per line:
     Name|ZIP,ZIP|left%|top%|kitchen|lat|lng
-  Only the name is required. Rows without lat|lng are looked up by name in the
-  browser, so a merchant can type places instead of coordinates.
+  ONLY the name is required. Leave every other column blank and the town still
+  works: its coordinates are geocoded in the browser, biased to the kitchen so
+  an ambiguous name ("Wales", "Merton", "Genesee") resolves to the local town
+  rather than a same-named place elsewhere. A merchant can therefore add an
+  area by typing nothing but its name.
+
   The "kitchen" fifth column marks the single kitchen pin.
-  A block per town is not used here because the parent section already sits
-  near Shopify's 50-block ceiling.
+
+  The ZIP column is only needed if you want visitors to find a town by postcode
+  instead of by name; name search works with it blank.
 {%- endcomment -%}
 
 {{ 'section-cm-mealplan-delivery.css' | asset_url | stylesheet_tag }}
@@ -675,8 +680,8 @@ Mukwonago|53149|41.9|51.6
 
         // Biased to the kitchen so a bare name such as "Wales" or "Merton"
         // resolves to the town near us rather than the one on another continent.
-        var here = KITCHEN_LL || [parseFloat(canvas.getAttribute('data-klat')), parseFloat(canvas.getAttribute('data-klng'))];
-        var bias = (isFinite(here[0]) && isFinite(here[1])) ? here : null;
+        var biasFrom = KITCHEN_LL || [parseFloat(canvas.getAttribute('data-klat')), parseFloat(canvas.getAttribute('data-klng'))];
+        var bias = (isFinite(biasFrom[0]) && isFinite(biasFrom[1])) ? biasFrom : null;
 
         geo.lookup(raw, { country: canvas.getAttribute('data-country') || '', bias: bias }).then(function (hit) {
           if (normName(input.value) !== normName(raw)) return;
