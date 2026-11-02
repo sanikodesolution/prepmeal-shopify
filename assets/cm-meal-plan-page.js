@@ -206,8 +206,8 @@
       .map((x) => x.trim())
       .filter(Boolean)
       .map((x) => `<li>${x}</li>`);
-    if (m.gluten_free) ings.push('<li class="diet">Gluten free</li>');
-    if (m.dairy_free) ings.push('<li class="diet">Dairy free</li>');
+    if (m.gluten_free) ings.push(`<li class="diet">${root.dataset.mpDietGlutenLabel || 'Gluten free'}</li>`);
+    if (m.dairy_free) ings.push(`<li class="diet">${root.dataset.mpDietDairyLabel || 'Dairy free'}</li>`);
     if (dIng) dIng.innerHTML = ings.join('');
     if (ring) {
       ring.style.setProperty('--p', pp.toFixed(1));

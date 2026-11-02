@@ -51,7 +51,10 @@ still blank.
 | Testimonials | `testimonial` metaobject list → `custom.testimonials` | Shop shared |
 | FAQ | `faq_item` metaobject list → `custom.faq_items` | Shop shared |
 | Other plans cards | `meal_plan` metaobject list → `custom.plan_cards` | Shop shared |
-| Final CTA text + background | `custom.cta_eyebrow/heading/text`, `custom.cta_image` | Per product |
+| Final CTA text + background | `custom.cta_eyebrow/heading/text`, `custom.cta_image`, `custom.cta_button_link` | Per product |
+| Hero photos | `custom.hero_image_1/2` + `_alt` | Per product or shop |
+| Meal gallery heading | `custom.gallery_eyebrow/heading` | Per product or shop |
+| Delivery map + ZIP labels | `custom.delivery_*`, `custom.plate_*` | Per product or shop |
 | Button wording on meal cards | Theme editor → section → Meal card link label | Theme |
 
 ---
@@ -118,6 +121,12 @@ product.
 | Steps heading | `custom.steps_eyebrow`, `custom.steps_heading` | Single line text |
 | Delivery copy | `custom.delivery_eyebrow`, `custom.delivery_heading`, `custom.delivery_text` | Text |
 | Delivery map | `custom.delivery_map_query`, `custom.delivery_map_title` | Single line text |
+| Hero photos | `custom.hero_image_1`, `custom.hero_image_2` | File (image) |
+| Hero photo alt text | `custom.hero_image_1_alt`, `custom.hero_image_2_alt` | Single line text |
+| Meal gallery copy | `custom.gallery_eyebrow`, `custom.gallery_heading` | Single line / multi-line text |
+| Calories label | `custom.calories_label` | Single line text, default `calories` |
+| Diet chip labels | `custom.diet_gluten_label`, `custom.diet_dairy_label` | Single line text |
+| Delivery / map labels | `custom.delivery_placeholder`, `custom.delivery_button`, `custom.delivery_areas_title`, `custom.plate_areas_title`, `custom.plate_more_label`, `custom.plate_less_label`, `custom.plate_map_label`, `custom.plate_kitchen_label`, `custom.plate_kitchen_address`, `custom.plate_maps_label`, `custom.plate_legend_kitchen`, `custom.plate_legend_area`, `custom.plate_legend_zone`, `custom.plate_msg_yes`, `custom.plate_msg_no`, `custom.plate_msg_empty` | Single line text |
 | Reviews heading | `custom.reviews_eyebrow`, `custom.reviews_heading` | Single line text |
 | FAQ heading | `custom.faq_eyebrow`, `custom.faq_heading` | Single line text |
 | Related heading | `custom.related_eyebrow`, `custom.related_heading` | Single line text |
@@ -228,7 +237,8 @@ plan never recommends itself.
 | Image | `image` | File (image), optional |
 
 Used for "Cooked by Chef Matt" and "Real ingredients". Two entries read best. If
-`image` is blank the theme draws its own illustration, as before.
+`image` is blank the theme draws its own illustration, as before; with a photo it
+fills the same box at a 24:17 ratio.
 
 ### 4.7 `delivery_area` — new (map towns + ZIP checker)
 
@@ -268,6 +278,9 @@ Settings → **Custom data** → **Shop** → **Add definition**.
 | GKK panel facts | `custom.thali_fact_items` | Metaobject (`stat_item`) | Yes |
 | Chef story copy | `custom.chef_eyebrow`, `custom.chef_heading`, `custom.chef_text` | Single line / multi-line text | No |
 | Chef photos | `custom.chef_image_1`, `custom.chef_image_2` | File (image) | No |
+| Hero photos | `custom.hero_image_1`, `custom.hero_image_2` | File (image) | No |
+| Meal gallery copy | `custom.gallery_eyebrow`, `custom.gallery_heading` | Single line / multi-line text | No |
+| Delivery / map labels | `custom.delivery_placeholder`, `custom.delivery_button`, `custom.delivery_areas_title`, `custom.plate_more_label`, `custom.plate_less_label`, `custom.plate_map_label`, `custom.plate_kitchen_label`, `custom.plate_kitchen_address`, `custom.plate_maps_label`, `custom.plate_legend_kitchen`, `custom.plate_legend_area`, `custom.plate_legend_zone`, `custom.plate_msg_yes`, `custom.plate_msg_no`, `custom.plate_msg_empty` | Single line text | No |
 | Section headings | `custom.ben_eyebrow`, `custom.menu_eyebrow`, `custom.menu_heading`, `custom.menu_text`, `custom.explore_heading`, `custom.steps_eyebrow`, `custom.steps_heading`, `custom.delivery_eyebrow`, `custom.delivery_heading`, `custom.delivery_text`, `custom.reviews_eyebrow`, `custom.reviews_heading`, `custom.faq_eyebrow`, `custom.faq_heading`, `custom.related_eyebrow`, `custom.related_heading` | Single line text | No |
 | Closing CTA | `custom.cta_eyebrow`, `custom.cta_heading`, `custom.cta_text` | Text | No |
 | CTA image | `custom.cta_image` | File (image) | No |
