@@ -270,7 +270,7 @@
   // Gallery
   const gal = $('#gal');
   if (gal) {
-    const names = alts.length ? alts : meals.map((m) => m.name);
+    const names = meals.length ? meals.map((m) => label(m)) : alts;
     gal.innerHTML = names
       .slice(0, 10)
       .map(
