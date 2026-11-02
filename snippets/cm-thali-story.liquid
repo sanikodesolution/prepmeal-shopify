@@ -209,15 +209,17 @@
           {%- assign card = line | strip | split: '|' -%}
           {%- if card[0] != blank -%}
             {%- assign card_i = card_i | plus: 1 -%}
-            {%- assign card_image_index = forloop.index0 -%}
-            {%- assign card_image = gkk_card_images[card_image_index] | strip -%}
+            {%- assign card_image = '' -%}
+            {%- if gkk_card_images != blank -%}
+              {%- assign card_image = gkk_card_images[forloop.index0] | strip -%}
+            {%- endif -%}
             <div class="gkk__card">
               {%- if card_image != blank -%}
                 <img
                   class="gkk__card-img"
                   src="{{ card_image }}"
                   alt="{{ card[0] | strip | escape }}"
-                  width="480" height="170"
+                  width="480" height="340"
                   loading="lazy"
                 >
               {%- elsif card_i == 1 -%}
