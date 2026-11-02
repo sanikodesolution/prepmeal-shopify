@@ -3,15 +3,20 @@
 
   Source order:
   1. Variants of the plan product (one variant per meal), each reading its own
-     variant metafields, falling back to the product-level metafields.
+     variant metafields. A `meal` metaobject linked to the variant overrides the
+     copy, photo and macros for that meal.
   2. The section's Meal blocks, when the product has no usable variants.
 
   The section prints this into the page and cm-meal-plan-page.js renders the
-  menu, the meal detail panel and the order dropdowns from it, so editing the
-  product in Shopify Admin updates all three at once.
+  menu, the meal detail panel, the explore grid and the order dropdowns from it,
+  so editing a meal in one place updates all four at once.
+
+  Prices, stock and cart ids always come from the variant, never from the
+  metaobject, so the order box keeps charging what Shopify charges.
 
   Accepts:
   - plan       {Product} Plan product. Its variants are the meals.
+  - meals      {Array}   Meal metaobjects, linked to a variant. Optional.
   - blocks     {Array}   Meal blocks, the fallback source.
   - food_count {Number}  Number of bundled mp-food-N.jpg images.
 {%- endcomment -%}
@@ -38,17 +43,39 @@
       {%- liquid
         assign mv = variant.metafields.custom
 
-        # Variant metafields win, then the product-level shared values.
-        assign meal_desc = mv.description.value | default: plan.metafields.custom.description.value
-        assign meal_cal = mv.calories.value | default: plan.metafields.custom.calories.value
-        assign meal_protein = mv.protein.value | default: plan.metafields.custom.protein.value
-        assign meal_carbs = mv.carbs.value | default: plan.metafields.custom.carbs.value
-        assign meal_fat = mv.fat.value | default: plan.metafields.custom.fat.value
-        assign meal_badge = mv.badge.value | default: plan.metafields.custom.badge.value
-        assign meal_reheat = mv.reheat_instructions.value | default: plan.metafields.custom.reheat_instructions.value
+        # Find the meal metaobject that belongs to this variant. A variant
+        # reference is the reliable link; the title is the fallback for stores
+        # that filled the objects in before linking them.
+        assign mo = blank
+        for candidate in meals
+          assign mo_variant = candidate.variant.value
+          if mo_variant != blank
+            if mo_variant.id == variant.id
+              assign mo = candidate
+              break
+            endif
+          else
+            assign mo_title = candidate.name.value | strip | downcase
+            assign variant_key = variant.title | strip | downcase
+            if mo_title != blank and mo_title == variant_key
+              assign mo = candidate
+              break
+            endif
+          endif
+        endfor
+
+        # Variant metafields win, then the meal metaobject, then the
+        # product-level shared values.
+        assign meal_desc = mv.description.value | default: mo.description.value | default: plan.metafields.custom.description.value
+        assign meal_cal = mv.calories.value | default: mo.calories.value | default: plan.metafields.custom.calories.value
+        assign meal_protein = mv.protein.value | default: mo.protein.value | default: plan.metafields.custom.protein.value
+        assign meal_carbs = mv.carbs.value | default: mo.carbs.value | default: plan.metafields.custom.carbs.value
+        assign meal_fat = mv.fat.value | default: mo.fat.value | default: plan.metafields.custom.fat.value
+        assign meal_badge = mv.badge.value | default: mo.badge.value | default: plan.metafields.custom.badge.value
+        assign meal_reheat = mv.reheat_instructions.value | default: mo.reheat.value | default: plan.metafields.custom.reheat_instructions.value
 
         # Diet tags drive the filters and the gluten/dairy flags.
-        assign diet_tags = mv.diet_tags.value | default: plan.metafields.custom.diet_tags.value
+        assign diet_tags = mv.diet_tags.value | default: mo.diet_tags.value | default: plan.metafields.custom.diet_tags.value
         assign gluten_free = false
         assign dairy_free = false
         assign tags_text = ''
@@ -65,26 +92,30 @@
           endfor
         endif
 
-        assign meal_ingredients = mv.ingredients.value | default: plan.metafields.custom.ingredients.value
+        assign meal_ingredients = mv.ingredients.value | default: mo.ingredients.value | default: plan.metafields.custom.ingredients.value
         assign ingredients_text = ''
         if meal_ingredients != blank
           assign ingredients_text = meal_ingredients | join: ', '
         endif
 
-        # Short label for the list, gallery and dropdowns. Falls back to the
-        # variant title so a merchant only fills it in when a name is long.
-        assign meal_short = mv.short_name.value | default: variant.title
+        # Short label for the list, gallery, grid and dropdowns. Falls back to
+        # the variant title so a merchant only fills it in when a name is long.
+        assign meal_short = mv.short_name.value | default: mo.short_name.value | default: variant.title
 
-        assign allergens = mv.allergens.value | default: plan.metafields.custom.allergens.value
+        assign allergens = mv.allergens.value | default: mo.allergens.value | default: plan.metafields.custom.allergens.value
         assign allergens_text = ''
         if allergens != blank
           assign allergens_text = allergens | join: ', '
         endif
 
-        # Photos: the variant/featured image, else a bundled food photo.
+        # Photos: the meal metaobject, then the variant image, then the bundled
+        # food photo.
         assign meal_image = ''
         assign meal_image_alt = variant.title
-        assign image_source = variant.image | default: variant.featured_media.preview_image
+        assign image_source = mo.image.value
+        if image_source == blank
+          assign image_source = variant.image | default: variant.featured_media.preview_image
+        endif
         if image_source == blank
           assign image_source = plan.featured_image
         endif

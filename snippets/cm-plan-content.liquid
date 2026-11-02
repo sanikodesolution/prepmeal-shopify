@@ -1,0 +1,45 @@
+{%- comment -%}
+  Resolves one piece of plan-page content from the plan product, then the shop,
+  then the theme editor setting.
+
+  Returns the resolved value through `content.value` so a caller never has to
+  repeat the fallback chain. Blank values, nils and empty metaobject lists all
+  fall through, so a half-filled product keeps rendering.
+
+  Accepts:
+  - meta    {Object} Plan product custom.* metafields, may be blank.
+  - key     {String} Metafield key, e.g. 'chef_heading'.
+  - shop_key{String} Shop-level key. Defaults to key.
+  - shared  {Object} shop.metafields.custom, may be blank.
+  - setting {Any}    Theme editor setting value.
+  - default {Any}    Hardcoded last-resort value.
+
+  Usage:
+    {%- render 'cm-plan-content', meta: plan_meta, shared: shared_meta,
+        key: 'chef_heading', setting: section.settings.chef_heading -%}
+    ... {{ content.value }}
+
+  A capture of the render output is the string itself, so callers that only
+  want the text can capture this snippet directly instead of reading .value.
+{%- endcomment -%}
+{%- liquid
+  assign shop_key = shop_key | default: key
+  assign resolved = blank
+
+  if meta != blank and key != blank
+    assign resolved = meta[key].value
+  endif
+
+  if resolved == blank and shared != blank and shop_key != blank
+    assign resolved = shared[shop_key].value
+  endif
+
+  if resolved == blank
+    assign resolved = setting
+  endif
+
+  if resolved == blank
+    assign resolved = default
+  endif
+-%}
+{{- resolved -}}
