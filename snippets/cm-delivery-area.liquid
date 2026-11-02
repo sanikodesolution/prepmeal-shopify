@@ -124,10 +124,6 @@ Mukwonago|53149|41.9|51.6
     endif
   endfor
 
-  assign cx = kx | times: 10
-  assign cy = ky | times: 9
-  assign zr = s.plate_zone_radius | default: 22 | times: 10
-  assign zr_in = zr | minus: 24
   # Kitchen coordinates for the live map. The street-map checker uses these
   # settings too, so both delivery styles move together.
   assign kitchen_lat = s.delivery_kitchen_lat | default: '43.1051'
