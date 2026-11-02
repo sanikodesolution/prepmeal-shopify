@@ -401,6 +401,10 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-card b{display:block;margin-bottom:.8rem}
 .mealplan-card .mealplan-btn{align-self:center}
 .mealplan-rel__head{display:flex;flex-direction:column;align-items:center;text-align:center}
+/* This section now sits inside the same .mealplan-wrap as every other section,
+   so the track must not add its own inline padding on top — that double inset
+   was what made the cards look narrower than the rest of the page. */
+.mealplan-rel .mealplan-track{padding-inline:0}
 /* Five cards no longer fit one 320px row, so centring a scroll track would clip
    the first card. Wrap them instead and let them share one centred row; mobile
    keeps the swipe. */
