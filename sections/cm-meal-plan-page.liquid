@@ -47,7 +47,7 @@
   assign mo_stats_thali = shared_meta.thali_stats.value | default: plan_meta.thali_stat_items.value
   assign mo_facts = shared_meta.thali_facts.value | default: plan_meta.thali_fact_items.value
 
-  # Copy: metafield first, theme editor setting second.
+  # Copy: metafield first, shop shared value second, theme editor setting third.
   assign c_plan_label = plan_meta.plan_label.value | default: section.settings.plan_label
   assign c_heading = plan_meta.heading.value | default: section.settings.heading
   assign c_text = plan_meta.subheading.value | default: section.settings.text
@@ -62,17 +62,17 @@
   assign c_badge_value = plan_meta.badge_value.value | default: section.settings.badge_value
   assign c_badge_label = plan_meta.badge_label.value | default: section.settings.badge_label
 
-  assign c_ben_eyebrow = plan_meta.ben_eyebrow.value | default: section.settings.ben_eyebrow
+  assign c_ben_eyebrow = plan_meta.ben_eyebrow.value | default: shared_meta.ben_eyebrow.value | default: section.settings.ben_eyebrow
   assign c_ben_line_1 = plan_meta.ben_line_1.value | default: section.settings.ben_line_1
   assign c_ben_line_2 = plan_meta.ben_line_2.value | default: section.settings.ben_line_2
   assign c_ben_line_3 = plan_meta.ben_line_3.value | default: section.settings.ben_line_3
   assign c_ben_note = plan_meta.ben_note.value | default: section.settings.ben_note
 
-  assign c_menu_eyebrow = plan_meta.menu_eyebrow.value | default: section.settings.menu_eyebrow
-  assign c_menu_heading = plan_meta.menu_heading.value | default: section.settings.menu_heading
-  assign c_menu_text = plan_meta.menu_text.value | default: section.settings.menu_text
+  assign c_menu_eyebrow = plan_meta.menu_eyebrow.value | default: shared_meta.menu_eyebrow.value | default: section.settings.menu_eyebrow
+  assign c_menu_heading = plan_meta.menu_heading.value | default: shared_meta.menu_heading.value | default: section.settings.menu_heading
+  assign c_menu_text = plan_meta.menu_text.value | default: shared_meta.menu_text.value | default: section.settings.menu_text
   assign c_menu_button = plan_meta.menu_button.value | default: section.settings.quality_button
-  assign c_explore_heading = plan_meta.explore_heading.value | default: section.settings.explore_heading
+  assign c_explore_heading = plan_meta.explore_heading.value | default: shared_meta.explore_heading.value | default: section.settings.explore_heading
   assign c_detail_note = plan_meta.detail_note.value | default: section.settings.detail_note
   assign c_total_label = plan_meta.total_label.value | default: section.settings.total_label
   assign c_load_more_label = plan_meta.load_more_label.value | default: section.settings.load_more_label
