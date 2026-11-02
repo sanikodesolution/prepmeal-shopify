@@ -113,6 +113,22 @@
   assign c_cta_heading = plan_meta.cta_heading.value | default: shared_meta.cta_heading.value | default: section.settings.cta_heading
   assign c_cta_text = plan_meta.cta_text.value | default: shared_meta.cta_text.value | default: section.settings.cta_text
   assign c_cta_button_label = plan_meta.cta_button_label.value | default: section.settings.cta_button_label
+  assign c_cta_button_link = plan_meta.cta_button_link.value | default: section.settings.cta_button_link
+
+  # Hero photos and their alt text. A file_reference metafield and an
+  # image_picker setting both support image_url, so either source renders the
+  # same tag. Blank keeps the bundled photo the script swaps in by index.
+  assign c_hero_image_1 = plan_meta.hero_image_1.value | default: shared_meta.hero_image_1.value | default: section.settings.hero_image_1
+  assign c_hero_image_2 = plan_meta.hero_image_2.value | default: shared_meta.hero_image_2.value | default: section.settings.hero_image_2
+  assign c_hero_image_1_alt = plan_meta.hero_image_1_alt.value | default: section.settings.hero_image_1_alt
+  assign c_hero_image_2_alt = plan_meta.hero_image_2_alt.value | default: section.settings.hero_image_2_alt
+
+  # Copy inside the meal gallery and the small labels on the page. These were
+  # the last strings a merchant could not reach from the product in Admin.
+  assign c_gallery_eyebrow = plan_meta.gallery_eyebrow.value | default: shared_meta.gallery_eyebrow.value | default: section.settings.gallery_eyebrow
+  assign c_gallery_heading = plan_meta.gallery_heading.value | default: shared_meta.gallery_heading.value | default: section.settings.gallery_heading
+  assign c_sale_label = plan_meta.sale_label.value | default: section.settings.detail_sale_label
+  assign c_calories_label = plan_meta.calories_label.value | default: 'calories'
 
   # Repeatable rows. A metaobject list wins, then the plan product's metafield
   # list, then the shop shared list, then the theme editor blocks. The row
@@ -269,6 +285,9 @@
   data-mp-protein-label="{{ section.settings.protein_label | default: 'Protein' | escape }}"
   data-mp-carbs-label="{{ section.settings.carbs_label | default: 'Carbs' | escape }}"
   data-mp-fat-label="{{ section.settings.fat_label | default: 'Fat' | escape }}"
+  data-mp-calories-label="{{ c_calories_label | escape }}"
+  data-mp-diet-gluten-label="{{ plan_meta.diet_gluten_label.value | default: 'Gluten free' | escape }}"
+  data-mp-diet-dairy-label="{{ plan_meta.diet_dairy_label.value | default: 'Dairy free' | escape }}"
 >
   <script type="application/json" data-mp-foods>{{ foods_json }}</script>
   <script type="application/json" data-mp-alts>{{ alts_json }}</script>
@@ -621,18 +640,18 @@
         </div>
       </div>
       <div class="mph__visual">
-        <div class="mph__main" role="img" aria-label="{{ section.settings.hero_image_1_alt | escape }}">
-          {%- if section.settings.hero_image_1 != blank -%}
-            {{ section.settings.hero_image_1 | image_url: width: 900 | image_tag: class: 'mp-food', loading: 'eager', widths: '400, 700, 900', sizes: '(min-width: 990px) 40vw, 80vw', alt: section.settings.hero_image_1_alt }}
+        <div class="mph__main" role="img" aria-label="{{ c_hero_image_1_alt | escape }}">
+          {%- if c_hero_image_1 != blank -%}
+            {{ c_hero_image_1 | image_url: width: 900 | image_tag: class: 'mp-food', loading: 'eager', widths: '400, 700, 900', sizes: '(min-width: 990px) 40vw, 80vw', alt: c_hero_image_1_alt }}
           {%- else -%}
-            <img class="mp-food" data-f="5" alt="{{ section.settings.hero_image_1_alt | escape }}" width="700" height="700" fetchpriority="high">
+            <img class="mp-food" data-f="5" alt="{{ c_hero_image_1_alt | escape }}" width="700" height="700" fetchpriority="high">
           {%- endif -%}
         </div>
-        <div class="mph__second" role="img" aria-label="{{ section.settings.hero_image_2_alt | escape }}">
-          {%- if section.settings.hero_image_2 != blank -%}
-            {{ section.settings.hero_image_2 | image_url: width: 700 | image_tag: class: 'mp-food', loading: 'lazy', widths: '300, 500, 700', sizes: '30vw', alt: section.settings.hero_image_2_alt }}
+        <div class="mph__second" role="img" aria-label="{{ c_hero_image_2_alt | escape }}">
+          {%- if c_hero_image_2 != blank -%}
+            {{ c_hero_image_2 | image_url: width: 700 | image_tag: class: 'mp-food', loading: 'lazy', widths: '300, 500, 700', sizes: '30vw', alt: c_hero_image_2_alt }}
           {%- else -%}
-            <img class="mp-food" data-f="6" alt="{{ section.settings.hero_image_2_alt | escape }}" width="700" height="700">
+            <img class="mp-food" data-f="6" alt="{{ c_hero_image_2_alt | escape }}" width="700" height="700">
           {%- endif -%}
         </div>
         <div class="mph__badge"><strong>{{ c_badge_value | escape }}</strong><span>{{ c_badge_label | escape }}</span></div>
