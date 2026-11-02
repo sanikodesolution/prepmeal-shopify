@@ -5,6 +5,7 @@
   Accepts:
   - s: {Object} section.settings drop
   - meta: {Object} the plan product's custom.* metafields, used first
+  - shared: {Object} shop.metafields.custom, used when the product is blank
   - features: {Array} feature_card metaobjects for the two story cards
   - stats: {Array} stat_item metaobjects for the hero numbers
   - facts: {Array} stat_item metaobjects for the closing numbers
@@ -106,19 +107,21 @@
     endif
   endif
 
-  # Single-value copy: product metafield first, theme setting second.
-  assign gkk_badge = meta.thali_badge.value | default: s.thali_badge
-  assign gkk_heading = meta.thali_heading.value | default: s.thali_heading
-  assign gkk_intro = meta.thali_intro.value | default: s.thali_intro
+  # Single-value copy: product metafield first, then the shop-level shared
+  # value, then the theme setting, so the chef story and delivery copy can be
+  # written once for every plan.
+  assign gkk_badge = meta.thali_badge.value | default: shared.thali_badge.value | default: s.thali_badge
+  assign gkk_heading = meta.thali_heading.value | default: shared.thali_heading.value | default: s.thali_heading
+  assign gkk_intro = meta.thali_intro.value | default: shared.thali_intro.value | default: s.thali_intro
   assign gkk_plate_alt = meta.thali_plate_alt.value | default: s.thali_plate_alt
   assign gkk_image = meta.thali_image.value | default: s.thali_image
-  assign gkk_delivery_heading = meta.thali_delivery_heading.value | default: s.thali_delivery_heading
-  assign gkk_delivery_text = meta.thali_delivery_text.value | default: s.thali_delivery_text
-  assign gkk_cutoff_note = meta.thali_cutoff_note.value | default: s.thali_cutoff_note
-  assign gkk_fresh_heading = meta.thali_fresh_heading.value | default: s.thali_fresh_heading
-  assign gkk_fresh_text = meta.thali_fresh_text.value | default: s.thali_fresh_text
-  assign gkk_cta_heading = meta.thali_cta_heading.value | default: s.thali_cta_heading
-  assign gkk_cta_text = meta.thali_cta_text.value | default: s.thali_cta_text
+  assign gkk_delivery_heading = meta.thali_delivery_heading.value | default: shared.thali_delivery_heading.value | default: s.thali_delivery_heading
+  assign gkk_delivery_text = meta.thali_delivery_text.value | default: shared.thali_delivery_text.value | default: s.thali_delivery_text
+  assign gkk_cutoff_note = meta.thali_cutoff_note.value | default: shared.thali_cutoff_note.value | default: s.thali_cutoff_note
+  assign gkk_fresh_heading = meta.thali_fresh_heading.value | default: shared.thali_fresh_heading.value | default: s.thali_fresh_heading
+  assign gkk_fresh_text = meta.thali_fresh_text.value | default: shared.thali_fresh_text.value | default: s.thali_fresh_text
+  assign gkk_cta_heading = meta.thali_cta_heading.value | default: shared.thali_cta_heading.value | default: s.thali_cta_heading
+  assign gkk_cta_text = meta.thali_cta_text.value | default: shared.thali_cta_text.value | default: s.thali_cta_text
   assign gkk_cta_label = meta.thali_cta_label.value | default: s.thali_cta_label
   assign gkk_cta_link = meta.thali_cta_link.value | default: s.thali_cta_link
   assign gkk_cta_note = meta.thali_cta_note.value | default: s.thali_cta_note
