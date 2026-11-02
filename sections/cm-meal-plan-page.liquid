@@ -258,6 +258,15 @@
   class="mealplan-page"
   data-mp-page
   data-cm="meal-plan-page"
+  data-mp-menu-count="{{ section.settings.menu_count | default: 5 }}"
+  data-mp-grid-page="{{ section.settings.grid_page_size | default: 6 }}"
+  data-mp-view-label="{{ section.settings.view_meal_label | default: 'View meal' | escape }}"
+  data-mp-all-label="{{ section.settings.filter_all_label | default: 'All' | escape }}"
+  data-mp-allergen-label="{{ section.settings.allergen_label | default: 'Contains' | escape }}"
+  data-mp-reheat-label="{{ section.settings.reheat_label | default: 'Heating' | escape }}"
+  data-mp-protein-label="{{ section.settings.protein_label | default: 'Protein' | escape }}"
+  data-mp-carbs-label="{{ section.settings.carbs_label | default: 'Carbs' | escape }}"
+  data-mp-fat-label="{{ section.settings.fat_label | default: 'Fat' | escape }}"
 >
   <script type="application/json" data-mp-foods>{{ foods_json }}</script>
   <script type="application/json" data-mp-alts>{{ alts_json }}</script>
@@ -1044,6 +1053,15 @@
     { "type": "color", "id": "thali_bg", "label": "Panel background", "default": "#E3EADF" },
     { "type": "color", "id": "thali_accent", "label": "Panel accent", "default": "#F5A623" },
     { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
+    { "type": "range", "id": "menu_count", "min": 3, "max": 12, "step": 1, "label": "Meals in the featured row", "default": 5, "info": "How many meals the \"This week's menu\" strip shows." },
+    { "type": "range", "id": "grid_page_size", "min": 3, "max": 12, "step": 1, "label": "Meals per Explore page", "default": 6, "info": "How many cards the Explore grid shows before Load more." },
+    { "type": "text", "id": "view_meal_label", "label": "Meal card link label", "default": "View meal" },
+    { "type": "text", "id": "filter_all_label", "label": "Filter: all label", "default": "All" },
+    { "type": "text", "id": "allergen_label", "label": "Meal detail: allergen label", "default": "Contains" },
+    { "type": "text", "id": "reheat_label", "label": "Meal detail: heating label", "default": "Heating" },
+    { "type": "text", "id": "protein_label", "label": "Nutrition: protein label", "default": "Protein" },
+    { "type": "text", "id": "carbs_label", "label": "Nutrition: carbs label", "default": "Carbs" },
+    { "type": "text", "id": "fat_label", "label": "Nutrition: fat label", "default": "Fat" },
     { "type": "text", "id": "detail_note", "label": "Detail note", "default": "Meal names and nutrition values are from the current menu." },
     { "type": "number", "id": "meal_price", "label": "Price per meal (cents)", "default": 0, "info": "Fallback when a meal has no linked variant. Enter cents: 1500 = $15.00. Leave 0 to hide that fallback." },
     { "type": "text", "id": "total_label", "label": "Plan total label", "default": "Plan total", "info": "Label for the total shown inside the order box. Blank hides the total." },
