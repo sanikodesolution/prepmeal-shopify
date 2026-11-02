@@ -48,18 +48,7 @@ Mukwonago|53149|41.9|51.6
 
 {%- liquid
   assign s = section.settings
-  # Copy: plan product metafields first, theme editor settings second.
-  assign d_eyebrow = meta.delivery_eyebrow.value | default: s.delivery_eyebrow
-  assign d_heading = meta.delivery_heading.value | default: s.delivery_heading
-  assign d_text = meta.delivery_text.value | default: s.delivery_text
-  assign d_areas_title = meta.delivery_areas_title.value | default: s.plate_areas_title
-  assign towns_raw = meta.delivery_towns.value
-  if towns_raw != blank
-    # A metafield list holds one "Town|ZIP|left|top" row per item; join them the
-    # same way newline_to_br does, so the split below serves both sources.
-    assign towns_raw = towns_raw | join: '<br />'
-  endif
-  assign towns_raw = towns_raw | default: s.plate_towns | strip
+  assign towns_raw = s.plate_towns | strip
   if towns_raw == blank
     assign towns_raw = plate_default_towns | strip
   endif
@@ -141,12 +130,12 @@ Mukwonago|53149|41.9|51.6
   <div class="mealplan-dl__inner">
 
     <header class="mealplan-dl__head">
-      {%- if d_eyebrow != blank -%}
-        <p class="mp-eye">{{ d_eyebrow | escape }}</p>
+      {%- if s.delivery_eyebrow != blank -%}
+        <p class="mp-eye">{{ s.delivery_eyebrow | escape }}</p>
       {%- endif -%}
-      <h2 class="mealplan-h mealplan-dl__title" id="mealplan-dl-h-{{ uid }}">{{ d_heading | escape }}</h2>
-      {%- if d_text != blank -%}
-        <p class="mealplan-p mealplan-dl__text">{{ d_text | escape }}</p>
+      <h2 class="mealplan-h mealplan-dl__title" id="mealplan-dl-h-{{ uid }}">{{ s.delivery_heading | escape }}</h2>
+      {%- if s.delivery_text != blank -%}
+        <p class="mealplan-p mealplan-dl__text">{{ s.delivery_text | escape }}</p>
       {%- endif -%}
     </header>
 
@@ -167,8 +156,8 @@ Mukwonago|53149|41.9|51.6
     </div>
 
     <div class="mealplan-dl__areas">
-      {%- if d_areas_title != blank -%}
-        <p class="mealplan-dl__areas-title">{{ d_areas_title | escape }}</p>
+      {%- if s.plate_areas_title != blank -%}
+        <p class="mealplan-dl__areas-title">{{ s.plate_areas_title | escape }}</p>
       {%- endif -%}
       <div class="mealplan-dl__chips">
         {%- assign i = 0 -%}

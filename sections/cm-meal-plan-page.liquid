@@ -75,12 +75,6 @@
   assign c_delivery_eyebrow = plan_meta.delivery_eyebrow.value | default: section.settings.delivery_eyebrow
   assign c_delivery_heading = plan_meta.delivery_heading.value | default: section.settings.delivery_heading
   assign c_delivery_text = plan_meta.delivery_text.value | default: section.settings.delivery_text
-  assign c_delivery_areas = plan_meta.delivery_areas.value
-  if c_delivery_areas == blank
-    assign c_delivery_areas = section.settings.delivery_areas | split: ','
-  endif
-  assign c_delivery_map_query = plan_meta.delivery_map_query.value | default: section.settings.map_query
-  assign c_delivery_map_title = plan_meta.delivery_map_title.value | default: section.settings.map_title
 
   assign c_reviews_eyebrow = plan_meta.reviews_eyebrow.value | default: section.settings.reviews_eyebrow
   assign c_reviews_heading = plan_meta.reviews_heading.value | default: section.settings.reviews_heading
@@ -503,15 +497,15 @@
                   {%- for variant in meals_catalog.variants -%}
                     {%- unless variant.title == 'Default Title' -%}
                       {%- assign full = variant.title -%}
-                      {%- assign dish = variant.metafields.custom.short_name.value | default: full -%}
                       {%- assign bits = full | split: ' with ' -%}
+                      {%- assign dish = bits | first -%}
                       <li class="mealplan-menu__card">
                         <div class="mealplan-menu__card-photo">
                           <span class="mealplan-menu__card-num">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
                           <img src="{% if variant.image != blank %}{{ variant.image | image_url: width: 320 }}{% else %}{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}{% endif %}" alt="{{ dish | escape }}" width="320" height="320" loading="lazy">
                         </div>
                         <h4>{{ dish | escape }}</h4>
-                        {%- if variant.metafields.custom.short_name.value == blank and bits.size > 1 -%}
+                        {%- if bits.size > 1 -%}
                           <p>with {{ bits | last | escape }}</p>
                         {%- endif -%}
                       </li>
@@ -753,13 +747,13 @@
 
     <section class="mealplan-sec"><div class="mealplan-wrap">
       {%- if section.settings.delivery_style == 'plate' -%}
-        {% render 'cm-delivery-area', section: section, meta: plan_meta %}
+        {% render 'cm-delivery-area', section: section %}
       {%- elsif section.settings.delivery_checker -%}
         {% render 'cm-delivery-checker', section: section %}
       {%- else -%}
         <div class="mealplan-del">
           {%- liquid
-            assign map_query = c_delivery_map_query | default: 'Hartland Wisconsin'
+            assign map_query = section.settings.map_query | default: 'Richmond Station Toronto Ontario Canada'
             assign map_src = section.settings.map_embed_url
             if map_src == blank
               assign map_q = map_query | url_encode
@@ -769,14 +763,14 @@
           <div class="mealplan-map mp-gs">
             <iframe
               class="mealplan-map__frame"
-              title="{{ c_delivery_map_title | default: map_query | escape }}"
+              title="{{ section.settings.map_title | default: map_query | escape }}"
               src="{{ map_src }}"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
               allowfullscreen
             ></iframe>
-            {%- if c_delivery_map_title != blank -%}
-              <p class="mealplan-map__label">{{ c_delivery_map_title | escape }}</p>
+            {%- if section.settings.map_title != blank -%}
+              <p class="mealplan-map__label">{{ section.settings.map_title | escape }}</p>
             {%- endif -%}
           </div>
           <div class="mealplan-del__copy mp-gs">
@@ -786,9 +780,10 @@
             <h2 class="mealplan-h">{{ c_delivery_heading | escape }}</h2>
             <p class="mealplan-p">{{ c_delivery_text | escape }}</p>
             <div class="mealplan-del__actions">
-              {%- if c_delivery_areas.size > 0 -%}
+              {%- if section.settings.delivery_areas != blank -%}
                 <ul class="mealplan-areas">
-                  {%- for area in c_delivery_areas -%}
+                  {%- assign areas = section.settings.delivery_areas | split: ',' -%}
+                  {%- for area in areas -%}
                     <li>
                       <span class="mealplan-areas__pin" aria-hidden="true">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
