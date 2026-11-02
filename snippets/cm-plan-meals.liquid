@@ -22,9 +22,6 @@
 {%- endcomment -%}
 {%- liquid
   assign food_total = food_count | default: 10
-
-  # Metaobject field readers, so a text field, a rich text field and a decimal
-  # field all resolve to the same plain value.
   assign plan_has_meals = false
   if plan != blank and plan.variants.size > 0
     assign real_variants = 0
@@ -111,8 +108,9 @@
           assign allergens_text = allergens | join: ', '
         endif
 
-        # Photos: the meal metaobject, then the variant image, then the bundled
-        # food photo.
+        # Photos: the meal metaobject, the variant image, then the plan image,
+        # then the bundled food photo. A file_reference field returns a file
+        # object, so it is checked for a URL before being treated as an image.
         assign meal_image = ''
         assign meal_image_alt = variant.title
         assign image_source = mo.image.value
@@ -122,7 +120,7 @@
         if image_source == blank
           assign image_source = plan.featured_image
         endif
-        if image_source != blank
+        if image_source != blank and image_source.url != blank
           assign meal_image = image_source | image_url: width: 900
           if image_source.alt != blank
             assign meal_image_alt = image_source.alt
