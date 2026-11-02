@@ -7,6 +7,10 @@ Five pages use this system: 5, 6, 7, 10 and 15 Meal Plans. Each one is a page
 template (`templates/page.N-meal-plan.json`) rendered by
 `sections/cm-meal-plan-page.liquid`.
 
+> **Verified against the live theme `#188743614770`.** Every key, fallback
+> chain and row format below was checked against the Liquid that is actually
+> published, not against an older draft. See section 9 for how to re-verify.
+
 ---
 
 ## 1. How content resolves
@@ -32,6 +36,22 @@ still blank.
 
 **Metafield namespace is always `custom`.**
 
+### 1.1 Not every key has all four levels
+
+The four-step chain is the overall model, but which steps a given key actually
+walks differs. Filling a shop-level value for a key that never reads the shop
+level does nothing. The real chains are:
+
+| Chain | Keys |
+|---|---|
+| **Product → Shop → Theme** | `ben_eyebrow`, `chef_*`, `cta_*`, `gallery_*`, `menu_*`, `reviews_eyebrow/heading`, `faq_eyebrow/heading`, `related_eyebrow/heading`, `steps_eyebrow/heading`, `quality_eyebrow`, `delivery_eyebrow/heading/text`, `hero_image_1/2`, `explore_heading`, `thali_badge`, `thali_heading`, `thali_intro`, `thali_delivery_*`, `thali_cutoff_note`, `thali_fresh_*`, `thali_cta_heading`, `thali_cta_text` |
+| **Product → Theme** | `plan_label`, `heading`, `subheading`, `fact_1..3_label/value`, `button_label`, `button_label_2`, `badge_value`, `badge_label`, `ben_line_1/2/3`, `ben_note`, `detail_note`, `total_label`, `load_more_label`, `menu_button`, `order_panel_title`, `delivery_map_query`, `delivery_map_title`, `hero_image_1/2_alt`, `thali_chips`, `thali_cards`, `thali_tickets`, `thali_steps`, `thali_towns`, `thali_stats`, `thali_facts`, `thali_image`, `thali_plate_alt`, `thali_cta_label`, `thali_cta_link`, `thali_cta_note` |
+| **Product → Shop** (metaobject list) | `stats`, `meals`, `how_it_works`, `faq_items`, `testimonials`, `plan_cards`, `feature_cards`, `delivery_area_list`, `thali_stat_items`, `thali_fact_items` |
+| **Product → Shop → literal** | `delivery_placeholder`, `delivery_button`, `delivery_show_all`, `delivery_show_less`, `delivery_reset_label`, `plate_*` labels, `delivery_msg_yes/no`, `plate_msg_*` |
+| **Product → literal** | `calories_label`, `filter_meals_label`, `gallery_prev_label`, `gallery_next_label`, `menu_modal_heading`, `menu_caption`, `picker_placeholder` |
+| **Product → Theme blocks** | `quality_points` (the only source; with no metafield and no blocks the section is hidden) |
+| **Variant → Meal metaobject → Product** | meal macros, `description`, `badge`, `ingredients`, `diet_tags`, `reheat_instructions` |
+
 ---
 
 ## 2. What to fill where
@@ -55,6 +75,7 @@ still blank.
 | Hero photos | `custom.hero_image_1/2` + `_alt` | Per product or shop |
 | Meal gallery heading | `custom.gallery_eyebrow/heading` | Per product or shop |
 | Delivery map + ZIP labels | `custom.delivery_*`, `custom.plate_*` | Per product or shop |
+| Ghar Ka Khana story panel | `custom.thali_*` | Per product |
 | Button wording on meal cards | Theme editor → section → Meal card link label | Theme |
 
 ---
@@ -94,6 +115,10 @@ Diet tags are matched on the text: any tag containing **gluten** adds the
 *Gluten free* chip, any tag containing **dairy** adds *Dairy free*. Nothing else
 needs ticking.
 
+Meal macros resolve **variant → meal metaobject → product**. So a product-level
+`custom.calories` acts as a single fallback value for every meal that does not
+set its own. Fill the variant, not the product, unless you want one shared value.
+
 ### 3.3 Product metafields (per plan)
 
 Settings → **Custom data** → **Products** → Add definition. Fill on each plan
@@ -132,7 +157,7 @@ product.
 | Reviews heading | `custom.reviews_eyebrow`, `custom.reviews_heading` | Single line text |
 | FAQ heading | `custom.faq_eyebrow`, `custom.faq_heading` | Single line text |
 | Related heading | `custom.related_eyebrow`, `custom.related_heading` | Single line text |
-| Final CTA | `custom.cta_eyebrow`, `custom.cta_heading`, `custom.cta_text`, `custom.cta_button_label` | Text |
+| Final CTA | `custom.cta_eyebrow`, `custom.cta_heading`, `custom.cta_text`, `custom.cta_button_label`, `custom.cta_button_link` | Text / URL |
 | CTA background | `custom.cta_image` | File (image) |
 
 Not every plan needs every key. Anything blank falls through to the shop-level
@@ -154,6 +179,27 @@ list** definition to Products and fill it there. Empty means "use the shared one
 | Delivery towns | `delivery_area` | `custom.delivery_area_list` | `custom.delivery_area_list` |
 | GKK panel stats | `stat_item` | `custom.thali_stat_items` | `custom.thali_stat_items` |
 | GKK panel facts | `stat_item` | `custom.thali_fact_items` | `custom.thali_fact_items` |
+
+### 3.5 Legacy plain-text lists (still supported)
+
+These predate the metaobject lists and are still read, so a store that already
+filled them keeps working. They sit **after** the metaobject list and **before**
+the theme editor blocks. Do not migrate by hand — fill the metaobject list and
+the old text is ignored.
+
+| Content | Product / Shop key | Type | Row format |
+|---|---|---|---|
+| Stats strip | `custom.benefits` | List of single line text | `value\|label` |
+| How it works | `custom.steps` | List of single line text | `title\|text` |
+| FAQ | `custom.faq` | List of single line text | `question\|answer` |
+| Testimonials | `custom.reviews` | List of single line text | `name\|rating\|review\|aspect\|show image\|image url` |
+| Related plans | `custom.related_plans` | List of single line text | `title\|text\|url\|button label\|price note\|image url` |
+| Quality points | `custom.quality_points` | List of single line text | `title\|text\|detail` |
+| Delivery towns | `custom.delivery_towns` | Multi-line text | see 4.7 |
+| Delivery area chips | `custom.delivery_areas` | List of single line text | one town per row |
+
+`custom.quality_points` is **product-only** — there is no shop-level or theme
+editor equivalent, so it is the only way to drive the quality cards from Admin.
 
 ---
 
@@ -207,12 +253,13 @@ there but still works on the standalone FAQ page.
 | Review | `review` | Multi-line text |
 | Rating | `rating` | Rating |
 | Plan name | `plan_name` | Single line text, optional |
+| Show photo | `show_photo` | Boolean, optional |
 
 A testimonial with a photo shows that photo on the plan page. Without one the
 card uses a bundled food photo.
 
-To hide the image on one card, leave `photo` blank and the card renders as text
-only — set that per plan by using a product-level list where you want it.
+To hide the image on one card, tick `show_photo` off — the card then renders as
+text only even when a photo is attached.
 
 ### 4.5 `meal_plan` — already exists (related plan cards)
 
@@ -312,8 +359,64 @@ emitted as `Name|ZIPs` and geocoded in the browser.
 You do **not** need this to run the page: one variant per meal, with variant
 metafields, is enough. Add a `meal` record only when a meal needs copy, a photo
 or macros that differ from its variant — it then feeds "This week's menu", the
-nutrition card and "Explore all meals" at the same time. Prices and cart ids
-always come from the variant, never from here.
+nutrition card and "Explore all meals" at the same time. Match it by `variant`
+wherever possible; the name match is case- and whitespace-insensitive but only
+works while the variant title is unchanged. Prices and cart ids always come from
+the variant, never from here.
+
+The list itself is pointed at by `custom.meals` — a metaobject list of `meal`
+entries. Set it on the product, or on the shop as the shared default.
+
+### 4.9 Ghar Ka Khana story panel — `custom.thali_*`
+
+The story panel (`snippets/cm-thali-story.liquid`) is off unless `thali_show` is
+ticked in the theme editor. Its copy has its own keys, and **the fallback level
+differs per key** — the ten single-value keys read the shop level, and the list
+keys fall all the way through to the theme editor textarea. Note that neither
+group reads the shop level for the list keys.
+
+| Product key | Type | Shop-level fallback? |
+|---|---|---|
+| `custom.thali_badge` | Single line text | Yes |
+| `custom.thali_heading` | Single line text | Yes |
+| `custom.thali_intro` | Multi-line text | Yes |
+| `custom.thali_delivery_heading` | Single line text | Yes |
+| `custom.thali_delivery_text` | Multi-line text | Yes |
+| `custom.thali_cutoff_note` | Single line text | Yes |
+| `custom.thali_fresh_heading` | Single line text | Yes |
+| `custom.thali_fresh_text` | Multi-line text | Yes |
+| `custom.thali_cta_heading` | Single line text | Yes |
+| `custom.thali_cta_text` | Multi-line text | Yes |
+| `custom.thali_chips` | List of single line text | **No** |
+| `custom.thali_cards` | List of single line text | **No** |
+| `custom.thali_tickets` | List of single line text | **No** |
+| `custom.thali_steps` | List of single line text | **No** |
+| `custom.thali_towns` | List of single line text | **No** |
+| `custom.thali_stats` | List of single line text | **No** |
+| `custom.thali_facts` | List of single line text | **No** |
+| `custom.thali_image` | File (image) | **No** |
+| `custom.thali_plate_alt` | Single line text | **No** |
+| `custom.thali_cta_label` | Single line text | **No** |
+| `custom.thali_cta_link` | URL | **No** |
+| `custom.thali_cta_note` | Single line text | **No** |
+
+For the list keys, each entry is one row and the panel splits on newlines. Row
+shape for each:
+
+```
+thali_chips     one chip per line
+thali_tickets   label|value        e.g. Sunday|Delivery 10 AM - 2 PM
+thali_steps     title|text
+thali_stats     value|label
+thali_facts     value|label
+thali_cards     title|text
+thali_towns     comma separated, in one row
+```
+
+`thali_stats` and `thali_facts` are plain text and are **not** the same thing as
+`custom.thali_stat_items` / `custom.thali_fact_items`, which are `stat_item`
+metaobject lists and do carry a shop-level fallback. If you are starting fresh,
+use the metaobject lists; the text versions exist for stores already filled in.
 
 ---
 
@@ -337,10 +440,9 @@ Settings → **Custom data** → **Shop** → **Add definition**.
 | Hero photos | `custom.hero_image_1`, `custom.hero_image_2` | File (image) | No |
 | Meal gallery copy | `custom.gallery_eyebrow`, `custom.gallery_heading` | Single line / multi-line text | No |
 | Delivery / map labels | `custom.delivery_placeholder`, `custom.delivery_button`, `custom.delivery_areas_title`, `custom.plate_more_label`, `custom.plate_less_label`, `custom.plate_map_label`, `custom.plate_kitchen_label`, `custom.plate_kitchen_address`, `custom.plate_maps_label`, `custom.plate_legend_kitchen`, `custom.plate_legend_area`, `custom.plate_legend_zone`, `custom.plate_msg_yes`, `custom.plate_msg_no`, `custom.plate_msg_empty`, `custom.delivery_show_all`, `custom.delivery_show_less`, `custom.delivery_reset_label`, `custom.delivery_msg_yes`, `custom.delivery_msg_no` | Single line text | No |
-| Section headings | `custom.ben_eyebrow`, `custom.menu_eyebrow`, `custom.menu_heading`, `custom.menu_text`, `custom.explore_heading`, `custom.steps_eyebrow`, `custom.steps_heading`, `custom.delivery_eyebrow`, `custom.delivery_heading`, `custom.delivery_text`, `custom.reviews_eyebrow`, `custom.reviews_heading`, `custom.faq_eyebrow`, `custom.faq_heading`, `custom.related_eyebrow`, `custom.related_heading` | Single line text | No |
+| Section headings | `custom.ben_eyebrow`, `custom.menu_eyebrow`, `custom.menu_heading`, `custom.menu_text`, `custom.explore_heading`, `custom.steps_eyebrow`, `custom.steps_heading`, `custom.delivery_eyebrow`, `custom.delivery_heading`, `custom.delivery_text`, `custom.reviews_eyebrow`, `custom.reviews_heading`, `custom.faq_eyebrow`, `custom.faq_heading`, `custom.related_eyebrow`, `custom.related_heading`, `custom.quality_eyebrow` | Single line text | No |
 | Closing CTA | `custom.cta_eyebrow`, `custom.cta_heading`, `custom.cta_text` | Text | No |
 | CTA image | `custom.cta_image` | File (image) | No |
-| GKK panel copy | `custom.thali_badge`, `custom.thali_heading`, `custom.thali_intro`, `custom.thali_delivery_heading`, `custom.thali_delivery_text`, `custom.thali_cutoff_note`, `custom.thali_fresh_heading`, `custom.thali_fresh_text`, `custom.thali_cta_heading`, `custom.thali_cta_text` | Text | No |
 
 Metaobject list fields need **Storefront access is not required** — everything
 below renders in Liquid on the server, so the metaobjects do not need to be
@@ -367,44 +469,61 @@ created once and shared.
 
 ## 7. Theme editor settings still available
 
-These are design and layout controls, not content, and they stay in the theme
-editor:
+These provide the fallback layer and are also design controls:
 
 | Setting | What it does |
 |---|---|
+| **Plan product** (`content_product`) | Which product supplies the meals and the copy. This is the switch that turns the whole product-driven system on |
+| **Plan product** / **Meals product** (order box group) | Handle-based fallbacks used when `content_product` is empty |
 | Order dropdowns (`picker_count`) | How many meal dropdowns the order box shows |
-| **Plan product** (`content_product`) | Which product supplies the meals and the copy. Blank falls back to the handle settings below, so leaving it empty is safe and is the shipped default |
 | Meals in the featured row (`menu_count`) | How many meals "This week's menu" shows, default 5 |
 | Meals per Explore page (`grid_page_size`) | Cards before Load more, default 6 |
 | Meal card link label | Default `View meal` |
 | Filter: all label | Default `All` |
 | Nutrition labels | `Protein`, `Carbs`, `Fat`, `Contains`, `Heating` |
-| Delivery style (`delivery_style`) | `plate`, `leaflet` or `embed`. Decides which delivery snippet renders — see section 7.1 |
+| Delivery style (`delivery_style`) | `plate`, `leaflet` or `embed`. Decides which delivery snippet renders — see 7.1 |
 | Padding, colours | Layout only |
 
 Everything in that table is also a fallback, so nothing here is required to make
 the page work.
 
-> **On `content_product`:** it is a product *picker*, while `plan_product` and
-> `meals_product` in the order-box group are *handles*. Setting the picker also
-> changes what the order box reads for its price, so leave it blank unless you
-> need a product the handle cannot express. Blank is the correct default.
-
 ### 7.1 Which delivery snippet renders
 
-| `delivery_style` | Snippet | Reads |
-|---|---|---|
-| `plate` | `snippets/cm-delivery-area.liquid` | `delivery_area` metaobjects, plate row format |
-| `leaflet` + `delivery_checker` on | `snippets/cm-delivery-checker.liquid` | `delivery_area` metaobjects, checker row format |
-| `leaflet` + `delivery_checker` off, or `embed` | inline block in the section | `delivery_map_query`, `delivery_map_title` |
+Driven by `delivery_style` first, then the `delivery_checker` checkbox:
 
+| Condition | Snippet | Reads |
+|---|---|---|
+| `delivery_style` = `plate` | `snippets/cm-delivery-area.liquid` | `delivery_area` metaobjects, plate row format |
+| not `plate`, and `delivery_checker` on | `snippets/cm-delivery-checker.liquid` | `delivery_area` metaobjects, checker row format |
+| not `plate`, and `delivery_checker` off | inline block in the section | `delivery_map_query`, `delivery_map_title` |
+
+Note `delivery_style` = `embed` does **not** select a separate embed path: with
+`delivery_checker` off you get the inline Google Maps embed, which is the same
+thing. With it on you get the street-map checker.
+ 
 All three take copy from the same metafield chain, so switching style never
 loses your wording. Only the row format differs; see 4.7.
+
+### 7.2 `content_product` is required in practice
+
+`content_product` is a **product picker**, and it is the only setting that makes
+the section product-aware. Leave it blank and the section falls back to its
+theme-editor blocks for everything — no product metafield, metaobject or variant
+metafield will appear, because nothing resolves the plan product first.
+
+Set it on every plan page. It must be the same product the order box charges.
+
+> **Do not** "fix" a blank picker by changing the Liquid to resolve the handle
+> settings with `all_products` — those settings are already product objects, and
+> passing one to `all_products` returns nothing, which blanks the meals, the
+> order box price and the whole content layer at once.
 
 ---
 
 ## 8. Checklist before publishing
 
+- [ ] **Plan product** (`content_product`) is set on every plan page and points
+      at that page's plan product
 - [ ] Every plan product has one variant per meal, each with price and photo
 - [ ] Every meal variant has calories, protein, carbs, fat
 - [ ] Diet tags are correct, so the filter chips match the food
@@ -413,7 +532,42 @@ loses your wording. Only the row format differs; see 4.7.
       marked as the kitchen
 - [ ] Every `delivery_area` record has `latitude`/`longitude` if any plan uses the
       street-map checker, and `map_x`/`map_y` if any plan uses the plate map
-- [ ] The section's **Plan product** points at the right product on each page
 - [ ] **Order dropdowns** is 6 on the 6 Meal Plan page, 5 on the 5, and so on
 - [ ] Nothing renders as an empty heading or a missing image on any of the five
       plan pages
+
+---
+
+## 9. Re-verifying this document
+
+The key list above is generated from the Liquid, not hand-maintained. To check
+for drift after a theme change:
+
+```bash
+# 1. Pull the live files
+shopify theme pull --store <store> --theme <id> --path /tmp/audit \
+  --only "sections/cm-meal-plan-page.liquid" \
+  --only "snippets/cm-*.liquid"
+
+# 2. List every metafield key the theme actually reads (141 today)
+rg -o --no-filename "\b(plan_meta|shared_meta|meta|shared|mv|mo)\.[a-z0-9_]+\.value" \
+  /tmp/audit \
+  | sed -E 's/^(plan_meta|shared_meta|meta|shared|mv|mo)\.//; s/\.value$//' \
+  | sort -u
+```
+
+On Windows PowerShell the `sed` half becomes:
+
+```powershell
+rg -o --no-filename "\b(plan_meta|shared_meta|meta|shared|mv|mo)\.[a-z0-9_]+\.value" $audit |
+  ForEach-Object { $_ -replace '^(plan_meta|shared_meta|meta|shared|mv|mo)\.','' -replace '\.value$','' } |
+  Sort-Object -Unique
+```
+
+If a key appears there but not in this document, the document is behind. If a key
+is documented but no longer read, the field is dead and should be removed from
+Admin to avoid confusion.
+
+Two known non-issues when running `shopify theme check`: the locale files report
+~2100 translation offenses on this theme. That is pre-existing and unrelated to
+the plan pages.
