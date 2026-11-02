@@ -1,0 +1,77 @@
+{%- comment -%}
+  Normalises plan content into rows so a product metafield list and the theme
+  editor blocks feed one markup path.
+
+  Used by sections/cm-meal-plan-page.liquid. The caller captures this output and
+  splits it on "~~~", so every row must stay on a single line.
+
+  Row shapes (fields separated by "|"):
+  - benefit  title|text
+  - step     title|text
+  - faq      question|answer
+  - review   name|rating|review|aspect|show image|image url
+  - related  title|text|url|button label|price note|image url
+
+  Accepts:
+  - kind    {String} Row shape, see above.
+  - meta    {Array}  Product metafield list value. Each item is "a|b|c".
+  - blocks  {Array}  Theme editor blocks. Used when meta is empty.
+{%- endcomment -%}
+{%- if meta != blank -%}
+  {%- for row in meta -%}
+    {%- if forloop.index0 > 0 -%}~~~{%- endif -%}
+    {%- assign cells = row | split: '|' -%}
+    {%- case kind -%}
+      {%- when 'benefit', 'step', 'faq' -%}
+        {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip_newlines | strip -}}
+      {%- when 'review' -%}
+        {%- comment -%}
+          The sixth cell is the image. A product metafield cannot store an image
+          per row, so these rows use the bundled food photo, picked in the
+          section from the row index.
+        {%- endcomment -%}
+        {%- assign show_image = cells[4] | strip | default: '1' -%}
+        {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip | default: '5' -}}|{{- cells[2] | strip_newlines | strip -}}|{{- cells[3] | strip | default: '1' -}}|{{- show_image -}}|
+      {%- when 'quality' -%}
+        {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip_newlines | strip -}}|{{- cells[2] | strip_newlines | strip -}}
+      {%- when 'related' -%}
+        {%- liquid
+          # The third field is a product handle, so the card borrows that plan's
+          # photo and link instead of asking for a full URL.
+          assign related_product = all_products[cells[2]]
+          assign related_url = related_product.url | default: cells[2]
+          assign related_image = ''
+          if related_product.featured_image != blank
+            assign related_image = related_product.featured_image | image_url: width: 700
+          endif
+        -%}
+        {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip_newlines | strip -}}|{{- related_url -}}|{{- cells[3] | strip | default: 'View plan' -}}|{{- cells[4] | strip_newlines | strip -}}|{{- related_image -}}
+    {%- endcase -%}
+  {%- endfor -%}
+{%- elsif blocks != blank -%}
+  {%- for block in blocks -%}
+    {%- if forloop.index0 > 0 -%}~~~{%- endif -%}
+    {%- case kind -%}
+      {%- when 'benefit', 'step' -%}
+        {{- block.settings.title | strip_newlines | strip -}}|{{- block.settings.text | strip_newlines | strip -}}
+      {%- when 'faq' -%}
+        {{- block.settings.question | strip_newlines | strip -}}|{{- block.settings.answer | strip_newlines | strip -}}
+      {%- when 'review' -%}
+        {%- assign review_show = '0' -%}
+        {%- if block.settings.show_image -%}{%- assign review_show = '1' -%}{%- endif -%}
+        {%- assign review_image = '' -%}
+        {%- if block.settings.image != blank -%}
+          {%- assign review_image = block.settings.image | image_url: width: 700 -%}
+        {%- endif -%}
+        {{- block.settings.name | strip_newlines | strip -}}|{{- block.settings.rating | default: 5 -}}|{{- block.settings.review | strip_newlines | strip -}}|{{- block.settings.aspect | default: '1' -}}|{{- review_show -}}|{{- review_image -}}
+      {%- when 'quality' -%}
+        {{- block.settings.title | strip_newlines | strip -}}|{{- block.settings.text | strip_newlines | strip -}}|{{- block.settings.detail | strip_newlines | strip -}}
+      {%- when 'related' -%}
+        {%- assign related_image = '' -%}
+        {%- if block.settings.image != blank -%}
+          {%- assign related_image = block.settings.image | image_url: width: 700 -%}
+        {%- endif -%}
+        {{- block.settings.title | strip_newlines | strip -}}|{{- block.settings.text | strip_newlines | strip -}}|{{- block.settings.link -}}|{{- block.settings.button_label | default: 'View plan' | strip -}}|{{- block.settings.price_note | strip_newlines | strip -}}|{{- related_image -}}
+    {%- endcase -%}
+  {%- endfor -%}
+{%- endif -%}

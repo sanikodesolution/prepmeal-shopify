@@ -618,6 +618,7 @@
         "detail_use_plan_total": true,
         "detail_sale_label": "Sale",
         "picker_count": 6,
+        "content_product": "6-meal-plan",
         "plan_product": "6-meal-plan",
         "meals_product": "6-meal-plan",
         "show_gallery": false,

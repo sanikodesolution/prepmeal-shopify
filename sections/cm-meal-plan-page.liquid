@@ -12,10 +12,106 @@
   assign faq_blocks = section.blocks | where: 'type', 'faq'
   assign related_blocks = section.blocks | where: 'type', 'related'
 
-  # Prices are in cents so they format with the store currency. A menu item
-  # may override the section-wide price; blank falls back to it.
-  assign plan_price = section.settings.meal_price | default: 0
+  # ---------------------------------------------------------------
+  # Content source
+  #
+  # The plan product is the source of truth. Its variants are the meals,
+  # and its custom.* metafields hold the copy. Anything left blank on the
+  # product falls back to the theme editor settings and blocks, so an
+  # existing page keeps rendering while the product is filled in.
+  # ---------------------------------------------------------------
+  assign plan_product = section.settings.content_product
+  if plan_product == blank
+    assign plan_product = section.settings.plan_product
+  endif
+  if plan_product == blank
+    assign plan_product = section.settings.meals_product
+  endif
+  assign plan_meta = plan_product.metafields.custom
+
+  # Copy: metafield first, theme editor setting second.
+  assign c_plan_label = plan_meta.plan_label.value | default: section.settings.plan_label
+  assign c_heading = plan_meta.heading.value | default: section.settings.heading
+  assign c_text = plan_meta.subheading.value | default: section.settings.text
+  assign c_fact_1_label = plan_meta.fact_1_label.value | default: section.settings.fact_1_label
+  assign c_fact_1_value = plan_meta.fact_1_value.value | default: section.settings.fact_1_value
+  assign c_fact_2_label = plan_meta.fact_2_label.value | default: section.settings.fact_2_label
+  assign c_fact_2_value = plan_meta.fact_2_value.value | default: section.settings.fact_2_value
+  assign c_fact_3_label = plan_meta.fact_3_label.value | default: section.settings.fact_3_label
+  assign c_fact_3_value = plan_meta.fact_3_value.value | default: section.settings.fact_3_value
+  assign c_button_label = plan_meta.button_label.value | default: section.settings.button_label
+  assign c_button_label_2 = plan_meta.button_label_2.value | default: section.settings.button_label_2
+  assign c_badge_value = plan_meta.badge_value.value | default: section.settings.badge_value
+  assign c_badge_label = plan_meta.badge_label.value | default: section.settings.badge_label
+
+  assign c_ben_eyebrow = plan_meta.ben_eyebrow.value | default: section.settings.ben_eyebrow
+  assign c_ben_line_1 = plan_meta.ben_line_1.value | default: section.settings.ben_line_1
+  assign c_ben_line_2 = plan_meta.ben_line_2.value | default: section.settings.ben_line_2
+  assign c_ben_line_3 = plan_meta.ben_line_3.value | default: section.settings.ben_line_3
+  assign c_ben_note = plan_meta.ben_note.value | default: section.settings.ben_note
+
+  assign c_menu_eyebrow = plan_meta.menu_eyebrow.value | default: section.settings.menu_eyebrow
+  assign c_menu_heading = plan_meta.menu_heading.value | default: section.settings.quality_heading
+  assign c_menu_text = plan_meta.menu_text.value | default: section.settings.quality_text
+  assign c_menu_button = plan_meta.menu_button.value | default: section.settings.quality_button
+  assign c_explore_heading = plan_meta.explore_heading.value | default: section.settings.explore_heading
+  assign c_detail_note = plan_meta.detail_note.value | default: section.settings.detail_note
+  assign c_total_label = plan_meta.total_label.value | default: section.settings.total_label
+  assign c_load_more_label = plan_meta.load_more_label.value | default: section.settings.load_more_label
+
+  assign c_chef_eyebrow = plan_meta.chef_eyebrow.value | default: section.settings.chef_eyebrow
+  assign c_chef_heading = plan_meta.chef_heading.value | default: section.settings.chef_heading
+  assign c_chef_text = plan_meta.chef_text.value | default: section.settings.chef_text
+  assign c_steps_eyebrow = plan_meta.steps_eyebrow.value | default: section.settings.steps_eyebrow
+  assign c_steps_heading = plan_meta.steps_heading.value | default: section.settings.steps_heading
+
+  assign c_delivery_eyebrow = plan_meta.delivery_eyebrow.value | default: section.settings.delivery_eyebrow
+  assign c_delivery_heading = plan_meta.delivery_heading.value | default: section.settings.delivery_heading
+  assign c_delivery_text = plan_meta.delivery_text.value | default: section.settings.delivery_text
+
+  assign c_reviews_eyebrow = plan_meta.reviews_eyebrow.value | default: section.settings.reviews_eyebrow
+  assign c_reviews_heading = plan_meta.reviews_heading.value | default: section.settings.reviews_heading
+  assign c_faq_eyebrow = plan_meta.faq_eyebrow.value | default: section.settings.faq_eyebrow
+  assign c_faq_heading = plan_meta.faq_heading.value | default: section.settings.faq_heading
+  assign c_related_eyebrow = plan_meta.related_eyebrow.value | default: section.settings.related_eyebrow
+  assign c_related_heading = plan_meta.related_heading.value | default: section.settings.related_heading
+
+  assign c_cta_eyebrow = plan_meta.cta_eyebrow.value | default: section.settings.cta_eyebrow
+  assign c_cta_heading = plan_meta.cta_heading.value | default: section.settings.cta_heading
+  assign c_cta_text = plan_meta.cta_text.value | default: section.settings.cta_text
+  assign c_cta_button_label = plan_meta.cta_button_label.value | default: section.settings.cta_button_label
+
+  # Repeatable rows: metafield list first, theme editor blocks second.
+  assign row_benefits = plan_meta.benefits.value
+  assign row_steps = plan_meta.steps.value
+  assign row_faq = plan_meta.faq.value
+  assign row_reviews = plan_meta.reviews.value
+  assign row_related = plan_meta.related_plans.value
+  assign row_quality = plan_meta.quality_points.value
+
+  # Meals: plan product variants first, Meal blocks second.
+  assign meals_catalog = plan_product
+  assign variant_menu = false
+  if meals_catalog != blank and meals_catalog.variants.size > 0
+    for variant in meals_catalog.variants
+      unless variant.title == 'Default Title'
+        assign variant_menu = true
+        break
+      endunless
+    endfor
+  endif
+
+  # Prices are in cents so they format with the store currency.
   assign any_price = false
+  if variant_menu
+    for variant in meals_catalog.variants
+      if variant.price > 0
+        assign any_price = true
+        break
+      endif
+    endfor
+  endif
+  assign plan_price = section.settings.meal_price | default: 0
   if plan_price > 0
     assign any_price = true
   endif
@@ -26,17 +122,7 @@
       break
     endif
   endfor
-  assign meals_catalog = section.settings.meals_product
-  assign variant_menu = false
-  if meals_catalog != blank and meals_catalog.variants.size > 0
-    assign variant_menu = true
-    for variant in meals_catalog.variants
-      if variant.price > 0
-        assign any_price = true
-        break
-      endif
-    endfor
-  endif
+
   assign first_meal_label = menu_blocks.first.settings.short | default: menu_blocks.first.settings.name
   if variant_menu
     assign first_meal_label = meals_catalog.variants.first.title
@@ -60,33 +146,69 @@
 
 {%- capture alts_json -%}
 [
-{%- for block in meal_blocks -%}
-  {{ block.settings.name | json }}{%- unless forloop.last -%},{%- endunless -%}
-{%- endfor -%}
+{%- if variant_menu -%}
+  {%- for variant in meals_catalog.variants -%}
+    {%- unless variant.title == 'Default Title' -%}
+      {{ variant.title | json }}{%- unless forloop.last -%},{%- endunless -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- else -%}
+  {%- for block in meal_blocks -%}
+    {{ block.settings.name | json }}{%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+{%- endif -%}
 ]
 {%- endcapture -%}
 
+{%- comment -%}
+  Meals come from the plan product's variants (each with its own variant
+  metafields for nutrition, ingredients and photos). Meal blocks remain the
+  fallback for pages where the product has no per-meal variants yet.
+{%- endcomment -%}
 {%- capture meals_json -%}
-[
-{%- for block in meal_blocks -%}
-  {
-    "name": {{ block.settings.name | json }},
-    "description": {{ block.settings.description | json }},
-    "calories": {{ block.settings.calories | json }},
-    "protein": {{ block.settings.protein | json }},
-    "carbs": {{ block.settings.carbs | json }},
-    "fat": {{ block.settings.fat | json }},
-    "tags": {{ block.settings.tags | json }},
-    "ingredients": {{ block.settings.ingredients | json }},
-    "badge": {{ block.settings.badge | json }},
-    "gluten_free": {{ block.settings.gluten_free | json }},
-    "dairy_free": {{ block.settings.dairy_free | json }},
-    "imageIndex": {{ block.settings.image_index | default: forloop.index0 | json }},
-    "image": {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 900 | json }}{% else %}null{% endif %}
-  }{%- unless forloop.last -%},{%- endunless -%}
-{%- endfor -%}
-]
+{%- render 'cm-plan-meals', plan: meals_catalog, blocks: meal_blocks, food_count: 10 -%}
 {%- endcapture -%}
+
+{%- comment -%}
+  Repeatable copy. Each capture holds rows separated by "~~~", each row a
+  "|"-separated list, so one markup path renders both sources. A blank capture
+  splits into a single empty string, so each list is reset to empty here.
+{%- endcomment -%}
+{%- capture rows_benefits -%}
+{%- render 'cm-plan-rows', kind: 'benefit', meta: row_benefits, blocks: benefit_blocks -%}
+{%- endcapture -%}
+{%- assign benefit_rows = '' -%}
+{%- if rows_benefits != blank -%}{%- assign benefit_rows = rows_benefits | split: '~~~' -%}{%- endif -%}
+
+{%- capture rows_steps -%}
+{%- render 'cm-plan-rows', kind: 'step', meta: row_steps, blocks: step_blocks -%}
+{%- endcapture -%}
+{%- assign step_rows = '' -%}
+{%- if rows_steps != blank -%}{%- assign step_rows = rows_steps | split: '~~~' -%}{%- endif -%}
+
+{%- capture rows_faq -%}
+{%- render 'cm-plan-rows', kind: 'faq', meta: row_faq, blocks: faq_blocks -%}
+{%- endcapture -%}
+{%- assign faq_rows = '' -%}
+{%- if rows_faq != blank -%}{%- assign faq_rows = rows_faq | split: '~~~' -%}{%- endif -%}
+
+{%- capture rows_reviews -%}
+{%- render 'cm-plan-rows', kind: 'review', meta: row_reviews, blocks: review_blocks -%}
+{%- endcapture -%}
+{%- assign review_rows = '' -%}
+{%- if rows_reviews != blank -%}{%- assign review_rows = rows_reviews | split: '~~~' -%}{%- endif -%}
+
+{%- capture rows_related -%}
+{%- render 'cm-plan-rows', kind: 'related', meta: row_related, blocks: related_blocks -%}
+{%- endcapture -%}
+{%- assign related_rows = '' -%}
+{%- if rows_related != blank -%}{%- assign related_rows = rows_related | split: '~~~' -%}{%- endif -%}
+
+{%- capture rows_quality -%}
+{%- render 'cm-plan-rows', kind: 'quality', meta: row_quality, blocks: quality_blocks -%}
+{%- endcapture -%}
+{%- assign quality_rows = '' -%}
+{%- if rows_quality != blank -%}{%- assign quality_rows = rows_quality | split: '~~~' -%}{%- endif -%}
 
 <main
   class="mealplan-page"
@@ -111,7 +233,6 @@
               # The cart charges the variant's own price, so a $0 variant makes
               # the whole plan free. Prefer the selected variant, then the first
               # available one, then the first variant that actually has a price.
-              assign plan_product = section.settings.plan_product
               assign plan_variant = plan_product.selected_or_first_available_variant
               if plan_variant == blank or plan_variant.price == 0
                 for variant in plan_product.variants
@@ -174,19 +295,19 @@
             Eyebrow pill: a direct child of the header row, so it can centre
             between the heading block and the plan price.
           {%- endcomment -%}
-          {%- if section.settings.menu_eyebrow != blank -%}
-            <p class="mp-eye">{{ section.settings.menu_eyebrow | escape }}</p>
+          {%- if c_menu_eyebrow != blank -%}
+            <p class="mp-eye">{{ c_menu_eyebrow | escape }}</p>
           {%- endif -%}
           <div class="mealplan-menu__head">
             {%- if section.settings.picker_count > 0 -%}
               <h4 class="mealplan-h">
-                <button type="button" class="mealplan-menu__title" data-mp-poster>{{ section.settings.quality_heading | escape }}</button>
+                <button type="button" class="mealplan-menu__title" data-mp-poster>{{ c_menu_heading | escape }}</button>
               </h4>
             {%- else -%}
-              <h4 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h4>
+              <h4 class="mealplan-h">{{ c_menu_heading | escape }}</h4>
             {%- endif -%}
-            {%- if section.settings.quality_text != blank -%}
-              <p class="mealplan-menu__sub">{{ section.settings.quality_text | escape }}</p>
+            {%- if c_menu_text != blank -%}
+              <p class="mealplan-menu__sub">{{ c_menu_text | escape }}</p>
             {%- endif -%}
           </div>
           </div>
@@ -307,12 +428,12 @@
                 <p class="mealplan-menu__order-msg" data-mp-order-msg hidden></p>
                 {%- if any_price -%}
                   <div class="mealplan-menu__sum">
-                    <span class="mealplan-menu__sum-label">{{ section.settings.total_label | default: 'Plan total' | escape }}</span>
+                    <span class="mealplan-menu__sum-label">{{ c_total_label | default: 'Plan total' | escape }}</span>
                     <span class="mealplan-menu__sum-value" data-mp-sum data-mp-money="{{ 0 | money | escape }}">{{ 0 | money }}</span>
                   </div>
                 {%- endif -%}
                 <button type="submit" class="mealplan-menu__cta"{% if section.settings.meals_product == blank and plan_variant != blank and plan_variant.available == false %} disabled{% endif %}>
-                  <span>{{ section.settings.quality_button | default: 'Order' | escape }}</span>
+                  <span>{{ c_menu_button | default: 'Order' | escape }}</span>
                   <svg class="mealplan-menu__cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </button>
               </form>
@@ -322,7 +443,7 @@
                   <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
                 {%- endfor -%}
               </ol>
-              <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ section.settings.quality_button | default: 'See all plans' | escape }}</button>
+              <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ c_menu_button | default: 'See all plans' | escape }}</button>
             {%- endif -%}
           </div>
         </div>
@@ -410,34 +531,34 @@
   <section class="mph">
     <div class="mph__inner">
       <div class="mph__copy">
-        {%- if section.settings.plan_label != blank -%}
-          <p class="mph__plan">{{ section.settings.plan_label | escape }}</p>
+        {%- if c_plan_label != blank -%}
+          <p class="mph__plan">{{ c_plan_label | escape }}</p>
         {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h1 class="mph__title">{{ section.settings.heading | escape | newline_to_br }}</h1>
+        {%- if c_heading != blank -%}
+          <h1 class="mph__title">{{ c_heading | escape | newline_to_br }}</h1>
         {%- endif -%}
-        {%- if section.settings.text != blank -%}
-          <p class="mph__text">{{ section.settings.text | escape }}</p>
+        {%- if c_text != blank -%}
+          <p class="mph__text">{{ c_text | escape }}</p>
         {%- endif -%}
         <dl class="mph__facts">
-          {%- if section.settings.fact_1_label != blank -%}
-            <div><dt>{{ section.settings.fact_1_label | escape }}</dt><dd>{{ section.settings.fact_1_value | escape }}</dd></div>
+          {%- if c_fact_1_label != blank -%}
+            <div><dt>{{ c_fact_1_label | escape }}</dt><dd>{{ c_fact_1_value | escape }}</dd></div>
           {%- endif -%}
-          {%- if section.settings.fact_2_label != blank -%}
-            <div><dt>{{ section.settings.fact_2_label | escape }}</dt><dd>{{ section.settings.fact_2_value | escape }}</dd></div>
+          {%- if c_fact_2_label != blank -%}
+            <div><dt>{{ c_fact_2_label | escape }}</dt><dd>{{ c_fact_2_value | escape }}</dd></div>
           {%- endif -%}
-          {%- if section.settings.fact_3_label != blank -%}
-            <div><dt>{{ section.settings.fact_3_label | escape }}</dt><dd>{{ section.settings.fact_3_value | escape }}</dd></div>
+          {%- if c_fact_3_label != blank -%}
+            <div><dt>{{ c_fact_3_label | escape }}</dt><dd>{{ c_fact_3_value | escape }}</dd></div>
           {%- endif -%}
         </dl>
         <div class="mph__actions">
-          {%- if section.settings.button_label != blank -%}
+          {%- if c_button_label != blank -%}
             {%- assign mph_link = section.settings.button_link | default: '#menu' -%}
-            {% render 'pm-button', label: section.settings.button_label, link: mph_link, style: 'light' %}
+            {% render 'pm-button', label: c_button_label, link: mph_link, style: 'light' %}
           {%- endif -%}
-          {%- if section.settings.button_label_2 != blank -%}
+          {%- if c_button_label_2 != blank -%}
             {%- assign mph_link_2 = section.settings.button_link_2 | default: '#menu' -%}
-            {% render 'pm-button', label: section.settings.button_label_2, link: mph_link_2, style: 'brand' %}
+            {% render 'pm-button', label: c_button_label_2, link: mph_link_2, style: 'brand' %}
           {%- endif -%}
         </div>
       </div>
@@ -465,7 +586,7 @@
   <div class="mealplan-a">
     <section class="ben">
       <div class="ben__glow" aria-hidden="true"></div>
-      {%- if benefit_blocks.size > 0 -%}
+      {%- if benefit_rows.size > 0 -%}
         {%- comment -%}
           The stat rail leads the band, so the numbers a visitor scans first sit
           at the very top. Four identical groups keep the -25% loop seamless.
@@ -474,10 +595,11 @@
           <div class="ben__track">
             {%- for pass in (1..4) -%}
               <ul class="ben__group"{% if pass > 1 %} aria-hidden="true"{% endif %}>
-                {%- for block in benefit_blocks -%}
-                  <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}>
-                    <b>{{ block.settings.title | escape }}</b>
-                    <span>{{ block.settings.text | escape }}</span>
+                {%- for row in benefit_rows -%}
+                  {%- assign cells = row | split: '|' -%}
+                  <li class="ben__item">
+                    <b>{{ cells[0] | escape }}</b>
+                    <span>{{ cells[1] | escape }}</span>
                   </li>
                 {%- endfor -%}
               </ul>
@@ -486,24 +608,24 @@
         </div>
       {%- endif -%}
       <div class="ben__inner">
-        {%- if section.settings.ben_eyebrow != blank -%}
-          <p class="mp-eye ben__eyebrow">{{ section.settings.ben_eyebrow | escape }}</p>
+        {%- if c_ben_eyebrow != blank -%}
+          <p class="mp-eye ben__eyebrow">{{ c_ben_eyebrow | escape }}</p>
         {%- endif -%}
         <h2 class="big">
-          <span>{{ section.settings.ben_line_1 | escape }}</span>
-          <span>{{ section.settings.ben_line_2 | escape }}</span>
-          <span class="out">{{ section.settings.ben_line_3 | escape }}</span>
+          <span>{{ c_ben_line_1 | escape }}</span>
+          <span>{{ c_ben_line_2 | escape }}</span>
+          <span class="out">{{ c_ben_line_3 | escape }}</span>
         </h2>
-        {%- if section.settings.ben_note != blank -%}
-          <p class="ben__note">{{ section.settings.ben_note | escape }}</p>
+        {%- if c_ben_note != blank -%}
+          <p class="ben__note">{{ c_ben_note | escape }}</p>
         {%- endif -%}
       </div>
     </section>
 
     <section><div class="wrap">
       <div class="menu-head">
-        <h2>{{ section.settings.menu_heading | escape }}</h2>
-        <p>{{ section.settings.menu_text | escape }}</p>
+        <h2>{{ c_menu_heading | escape }}</h2>
+        <p>{{ c_menu_text | escape }}</p>
       </div>
       <div class="mg" id="menu"></div>
     </div></section>
@@ -518,7 +640,11 @@
           <div class="ring" id="ring"><div><span id="dCal"></span><small>calories</small></div></div>
           <div class="bars" id="bars"></div>
         </div>
-        <p class="note">{{ section.settings.detail_note | escape }}</p>
+        <div class="mp-detail-notes">
+          <div class="mp-detail-note" id="dAllergens" hidden></div>
+          <div class="mp-detail-note" id="dReheat" hidden></div>
+        </div>
+        <p class="note">{{ c_detail_note | escape }}</p>
       </div>
     </div></section>
 
@@ -528,10 +654,10 @@
     {%- endif -%}
 
     <section class="ex"><div class="wrap">
-      <h2>{{ section.settings.explore_heading | escape }}</h2>
+      <h2>{{ c_explore_heading | escape }}</h2>
       <div class="filters" id="filters" role="group" aria-label="Filter meals"></div>
       <div class="eg" id="grid"></div>
-      <div class="more"><button type="button" class="btn" id="more">{{ section.settings.load_more_label | escape }}</button></div>
+      <div class="more"><button type="button" class="btn" id="more">{{ c_load_more_label | escape }}</button></div>
     </div></section>
   </div>
 
@@ -539,26 +665,27 @@
     <section class="mealplan-sec"><div class="mealplan-wrap mealplan-chef">
       <div class="mealplan-img mealplan-big mp-gs" data-p="0"></div>
       <div class="mealplan-txt mp-gs">
-        {%- if section.settings.chef_eyebrow != blank -%}
-          <p class="mp-eye">{{ section.settings.chef_eyebrow | escape }}</p>
+        {%- if c_chef_eyebrow != blank -%}
+          <p class="mp-eye">{{ c_chef_eyebrow | escape }}</p>
         {%- endif -%}
-        <h2 class="mealplan-h">{{ section.settings.chef_heading | escape | newline_to_br }}</h2>
-        <p class="mealplan-p">{{ section.settings.chef_text | escape }}</p>
+        <h2 class="mealplan-h">{{ c_chef_heading | escape | newline_to_br }}</h2>
+        <p class="mealplan-p">{{ c_chef_text | escape }}</p>
       </div>
       <div class="mealplan-img mealplan-small mp-gs" data-p="1"></div>
     </div></section>
 
     <section class="mealplan-sec mealplan-steps"><div class="mealplan-wrap">
-      {%- if section.settings.steps_eyebrow != blank -%}
-        <p class="mp-eye">{{ section.settings.steps_eyebrow | escape }}</p>
+      {%- if c_steps_eyebrow != blank -%}
+        <p class="mp-eye">{{ c_steps_eyebrow | escape }}</p>
       {%- endif -%}
-      <h2 class="mealplan-h">{{ section.settings.steps_heading | escape }}</h2>
+      <h2 class="mealplan-h">{{ c_steps_heading | escape }}</h2>
       <ol class="mealplan-list">
-        {%- for block in step_blocks -%}
-          <li class="mp-gs" style="--i:{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+        {%- for row in step_rows -%}
+          {%- assign cells = row | split: '|' -%}
+          <li class="mp-gs" style="--i:{{ forloop.index0 }}">
             <span class="mealplan-num">{{ forloop.index }}</span>
-            <h3>{{ block.settings.title | escape }}</h3>
-            <p>{{ block.settings.text | escape }}</p>
+            <h3>{{ cells[0] | escape }}</h3>
+            <p>{{ cells[1] | escape }}</p>
           </li>
         {%- endfor -%}
       </ol>
@@ -571,13 +698,14 @@
           {%- if section.settings.quality_eyebrow != blank -%}
             <p class="mp-eye">{{ section.settings.quality_eyebrow | escape }}</p>
           {%- endif -%}
-          <h2 class="mealplan-h">{{ section.settings.quality_heading | escape }}</h2>
+          <h2 class="mealplan-h">{{ c_menu_heading | escape }}</h2>
           <div class="mealplan-q__split">
             <ul class="mealplan-terms" id="qTerms">
-              {%- for block in quality_blocks -%}
-                <li data-detail="{{ block.settings.detail | default: block.settings.text | escape }}" {{ block.shopify_attributes }}>
-                  <b>{{ block.settings.title | escape }}</b>
-                  <span>{{ block.settings.text | escape }}</span>
+              {%- for row in quality_rows -%}
+                {%- assign cells = row | split: '|' -%}
+                <li data-detail="{{ cells[2] | default: cells[1] | escape }}">
+                  <b>{{ cells[0] | escape }}</b>
+                  <span>{{ cells[1] | escape }}</span>
                 </li>
               {%- endfor -%}
             </ul>
@@ -636,11 +764,11 @@
             {%- endif -%}
           </div>
           <div class="mealplan-del__copy mp-gs">
-            {%- if section.settings.delivery_eyebrow != blank -%}
-              <p class="mp-eye">{{ section.settings.delivery_eyebrow | escape }}</p>
+            {%- if c_delivery_eyebrow != blank -%}
+              <p class="mp-eye">{{ c_delivery_eyebrow | escape }}</p>
             {%- endif -%}
-            <h2 class="mealplan-h">{{ section.settings.delivery_heading | escape }}</h2>
-            <p class="mealplan-p">{{ section.settings.delivery_text | escape }}</p>
+            <h2 class="mealplan-h">{{ c_delivery_heading | escape }}</h2>
+            <p class="mealplan-p">{{ c_delivery_text | escape }}</p>
             <div class="mealplan-del__actions">
               {%- if section.settings.delivery_areas != blank -%}
                 <ul class="mealplan-areas">
@@ -666,26 +794,36 @@
     </div></section>
 
     <section class="mealplan-sec mealplan-rev"><div class="mealplan-wrap">
-      {%- if section.settings.reviews_eyebrow != blank -%}
-        <p class="mp-eye">{{ section.settings.reviews_eyebrow | escape }}</p>
+      {%- if c_reviews_eyebrow != blank -%}
+        <p class="mp-eye">{{ c_reviews_eyebrow | escape }}</p>
       {%- endif -%}
-      <h2 class="mealplan-h">{{ section.settings.reviews_heading | escape }}</h2>
+      <h2 class="mealplan-h">{{ c_reviews_heading | escape }}</h2>
       <div class="mealplan-cols" id="rev">
-        {%- for block in review_blocks -%}
-          <article class="mealplan-r {% if block.settings.show_image == false %}mealplan-r--text{% endif %} mp-gs" {{ block.shopify_attributes }}>
-            {%- if block.settings.show_image -%}
-              <div class="mealplan-img" style="--ar:{{ block.settings.aspect | default: 1 }}">
-                {%- if block.settings.image != blank -%}
-                  {{ block.settings.image | image_url: width: 700 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', alt: block.settings.name }}
+        {%- for row in review_rows -%}
+          {%- liquid
+            assign cells = row | split: '|'
+            assign review_name = cells[0]
+            assign review_rating = cells[1] | default: 5
+            assign review_text = cells[2]
+            assign review_aspect = cells[3] | default: '1'
+            assign review_show = cells[4] | default: '1'
+            assign review_image = cells[5]
+            assign fallback_index = forloop.index0 | modulo: 10
+          -%}
+          <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs">
+            {%- if review_show != '0' -%}
+              <div class="mealplan-img" style="--ar:{{ review_aspect }}">
+                {%- if review_image != blank -%}
+                  <img class="mp-food mealplan-ph" src="{{ review_image }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
                 {%- else -%}
-                  <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}" alt="{{ block.settings.name | escape }}" width="700" height="700" loading="lazy">
+                  <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
                 {%- endif -%}
               </div>
             {%- endif -%}
             <div>
-              <span class="mealplan-stars" aria-label="{{ block.settings.rating }} stars">{%- for i in (1..5) -%}â˜…{%- endfor -%}</span>
-              <q>{{ block.settings.review | escape }}</q>
-              <small>{{ block.settings.name | escape }}</small>
+              <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}?{%- endfor -%}</span>
+              <q>{{ review_text | escape }}</q>
+              <small>{{ review_name | escape }}</small>
             </div>
           </article>
         {%- endfor -%}
@@ -694,18 +832,19 @@
 
     <section class="mealplan-sec"><div class="mealplan-wrap mealplan-faq">
       <div>
-        {%- if section.settings.faq_eyebrow != blank -%}
-          <p class="mp-eye">{{ section.settings.faq_eyebrow | escape }}</p>
+        {%- if c_faq_eyebrow != blank -%}
+          <p class="mp-eye">{{ c_faq_eyebrow | escape }}</p>
         {%- endif -%}
-        <h2 class="mealplan-h">{{ section.settings.faq_heading | escape }}</h2>
+        <h2 class="mealplan-h">{{ c_faq_heading | escape }}</h2>
       </div>
       <div id="faq">
-        {%- for block in faq_blocks -%}
-          <div class="mealplan-qi" {{ block.shopify_attributes }}>
+        {%- for row in faq_rows -%}
+          {%- assign cells = row | split: '|' -%}
+          <div class="mealplan-qi">
             <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
-              {{ block.settings.question | escape }}<i></i>
+              {{ cells[0] | escape }}<i></i>
             </button>
-            <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ block.settings.answer | escape }}</p></div></div>
+            <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ cells[1] | escape }}</p></div></div>
           </div>
         {%- endfor -%}
       </div>
@@ -713,25 +852,35 @@
 
     <section class="mealplan-sec mealplan-rel" style="padding-inline:0"><div>
       <div class="mealplan-wrap mealplan-rel__head" style="padding-inline:clamp(1.25rem,4vw,4rem);margin-bottom:60px">
-        {%- if section.settings.related_eyebrow != blank -%}
-          <p class="mp-eye">{{ section.settings.related_eyebrow | escape }}</p>
+        {%- if c_related_eyebrow != blank -%}
+          <p class="mp-eye">{{ c_related_eyebrow | escape }}</p>
         {%- endif -%}
-        <h2 class="mealplan-h">{{ section.settings.related_heading | escape }}</h2>
+        <h2 class="mealplan-h">{{ c_related_heading | escape }}</h2>
       </div>
       <div class="mealplan-track" id="plans">
-        {%- for block in related_blocks -%}
-          <article class="mealplan-card" {{ block.shopify_attributes }}>
+        {%- for row in related_rows -%}
+          {%- liquid
+            assign cells = row | split: '|'
+            assign related_title = cells[0]
+            assign related_text = cells[1]
+            assign related_url = cells[2]
+            assign related_button = cells[3] | default: 'View plan'
+            assign related_note = cells[4]
+            assign related_image = cells[5]
+            assign fallback_index = forloop.index | modulo: 10
+          -%}
+          <article class="mealplan-card">
             <div class="mealplan-img">
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 700 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', alt: block.settings.title }}
+              {%- if related_image != blank -%}
+                <img class="mp-food mealplan-ph" src="{{ related_image }}" alt="{{ related_title | escape }}" width="700" height="700" loading="lazy">
               {%- else -%}
-                <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: forloop.index | append: '.jpg' | asset_url }}" alt="{{ block.settings.title | escape }}" width="700" height="700" loading="lazy">
+                <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ related_title | escape }}" width="700" height="700" loading="lazy">
               {%- endif -%}
             </div>
-            <h3>{{ block.settings.title | escape }}</h3>
-            <p>{{ block.settings.text | escape }}</p>
-            {%- if block.settings.price_note != blank -%}<b>{{ block.settings.price_note | escape }}</b>{%- endif -%}
-            <a class="mealplan-btn" href="{{ block.settings.link | default: '#' }}">{{ block.settings.button_label | default: 'View plan' | escape }}</a>
+            <h3>{{ related_title | escape }}</h3>
+            <p>{{ related_text | escape }}</p>
+            {%- if related_note != blank -%}<b>{{ related_note | escape }}</b>{%- endif -%}
+            <a class="mealplan-btn" href="{{ related_url | default: '#' }}">{{ related_button | escape }}</a>
           </article>
         {%- endfor -%}
       </div>
@@ -740,13 +889,13 @@
     <section class="mealplan-sec"><div class="mealplan-wrap"><div class="mealplan-cta">
       <div class="mealplan-img" data-p="3"></div>
       <div class="mealplan-cta-in">
-        {%- if section.settings.cta_eyebrow != blank -%}
-          <p class="mp-eye mp-eye--dark">{{ section.settings.cta_eyebrow | escape }}</p>
+        {%- if c_cta_eyebrow != blank -%}
+          <p class="mp-eye mp-eye--dark">{{ c_cta_eyebrow | escape }}</p>
         {%- endif -%}
-        <h2 class="mealplan-h">{{ section.settings.cta_heading | escape }}</h2>
-        <p class="mealplan-p">{{ section.settings.cta_text | escape }}</p>
-        {%- if section.settings.cta_button_label != blank -%}
-          <a class="mealplan-btn mealplan-btn--solid" href="{{ section.settings.cta_button_link | default: '#' }}">{{ section.settings.cta_button_label | escape }}</a>
+        <h2 class="mealplan-h">{{ c_cta_heading | escape }}</h2>
+        <p class="mealplan-p">{{ c_cta_text | escape }}</p>
+        {%- if c_cta_button_label != blank -%}
+          <a class="mealplan-btn mealplan-btn--solid" href="{{ section.settings.cta_button_link | default: '#' }}">{{ c_cta_button_label | escape }}</a>
         {%- endif -%}
       </div>
     </div></div></section>
@@ -759,6 +908,11 @@
   "tag": "section",
   "class": "section cm-section",
   "settings": [
+    { "type": "header", "content": "Content source" },
+    { "type": "paragraph", "content": "Every text and meal on this page can come from the plan product in Shopify Admin. Fill the product metafields under Settings ? Custom data ? Products with the namespace and keys listed in the theme's CONTENT-GUIDE. Anything left blank on the product falls back to the fields below." },
+    { "type": "product", "id": "content_product", "label": "Plan product", "info": "Its variants become the meals; its custom.* metafields become the page copy. This is the same product the order box adds to the cart." },
+    { "type": "checkbox", "id": "detail_show_allergens", "label": "Show allergens on the meal detail", "default": true },
+
     { "type": "header", "content": "Hero" },
     { "type": "checkbox", "id": "show_hero", "label": "Show hero", "default": true, "info": "Turn off to hide the plan hero on this page only." },
     { "type": "text", "id": "plan_label", "label": "Plan label", "default": "5 Meal Plan" },
@@ -796,17 +950,17 @@
 
     { "type": "header", "content": "Ghar Ka Khana story" },
     { "type": "checkbox", "id": "thali_show", "label": "Show the Ghar Ka Khana panel", "default": false, "info": "Sits above Explore all meals. Off by default so other plan pages stay unchanged." },
-    { "type": "text", "id": "thali_badge", "label": "Badge", "default": "Ghar Ka Khana Â· Delivered Across the GTA" },
+    { "type": "text", "id": "thali_badge", "label": "Badge", "default": "Ghar Ka Khana · Delivered Across the GTA" },
     { "type": "text", "id": "thali_heading", "label": "Heading", "default": "GTA's Best Thalis, Delivered to Your Door" },
     { "type": "textarea", "id": "thali_intro", "label": "Intro", "default": "Fresh Indian homestyle meals made with traditional spices, proper tadka, handmade rotis, and delivered to your door." },
-    { "type": "textarea", "id": "thali_stats", "label": "Stats", "info": "One per line as value|label. Example: 5â˜…|Star reviews", "default": "5â˜…|Star reviews\n30|Years of experience\n32oz|Generous portions" },
+    { "type": "textarea", "id": "thali_stats", "label": "Stats", "info": "One per line as value|label. Example: 5?|Star reviews", "default": "5?|Star reviews\n30|Years of experience\n32oz|Generous portions" },
     { "type": "text", "id": "thali_plate_alt", "label": "Plate image alt text", "default": "A thali with two curries, rice and two rotis" },
     { "type": "image_picker", "id": "thali_image", "label": "Plate photo", "info": "Optional. Blank uses the bundled four-items-plate.webp cut-out. Transparent PNG reads best." },
     { "type": "textarea", "id": "thali_chips", "label": "Plate labels", "info": "One per line. Four reads best.", "default": "Homestyle Sabzi\n2 Soft Rotis\nAuthentic Curries\nFluffy Portion of Rice" },
     { "type": "textarea", "id": "thali_cards", "label": "Cards", "info": "One per line as title|text.", "default": "Crafted by expert chefs|Every thali is prepared fresh by our team of Indian cooks, led by Head Chef Rahul. They bring years of experience and traditional methods to every meal, so you can enjoy the flavours, spices and quality you expect from home.\nHandmade roti|Our signature rotis are all rolled by hand, just like your mom would at home. Soft, fresh, and made by hand, never store-bought or factory-made." },
     { "type": "text", "id": "thali_delivery_heading", "label": "Delivery heading", "default": "We deliver across the GTA" },
-    { "type": "textarea", "id": "thali_delivery_text", "label": "Delivery text", "default": "Fresh ghar ka khana delivered every Sunday (10 AM â€“ 2 PM) and Wednesday (5 PM â€“ 9 PM) to homes within 50 km of our kitchen in Midtown Toronto. If your home is within 50 km, we deliver to you." },
-    { "type": "textarea", "id": "thali_tickets", "label": "Cutoff tickets", "info": "One per line as day|delivery window|order-by label|order-by value.", "default": "Sunday|Delivery 10 AM â€“ 2 PM|Order by|11:59 PM Friday\nWednesday|Delivery 5 PM â€“ 9 PM|Order by|11:59 PM Monday" },
+    { "type": "textarea", "id": "thali_delivery_text", "label": "Delivery text", "default": "Fresh ghar ka khana delivered every Sunday (10 AM – 2 PM) and Wednesday (5 PM – 9 PM) to homes within 50 km of our kitchen in Midtown Toronto. If your home is within 50 km, we deliver to you." },
+    { "type": "textarea", "id": "thali_tickets", "label": "Cutoff tickets", "info": "One per line as day|delivery window|order-by label|order-by value.", "default": "Sunday|Delivery 10 AM – 2 PM|Order by|11:59 PM Friday\nWednesday|Delivery 5 PM – 9 PM|Order by|11:59 PM Monday" },
     { "type": "textarea", "id": "thali_cutoff_note", "label": "Cutoff note", "default": "Every batch is cooked fresh for its delivery day, so orders close at 11:59 PM, two days before delivery. That way we know exactly how much khana to make." },
     { "type": "text", "id": "thali_fresh_heading", "label": "Fresh heading", "default": "Cooked fresh, like home" },
     { "type": "textarea", "id": "thali_fresh_text", "label": "Fresh text", "default": "Miss ghar ka khana? Every thali is made with the care of a homemade meal, with flavourful curries, fresh rotis, sabzis and the perfect tadka in every bite. Prepared fresh for every delivery day, so you can enjoy a complete Indian meal that tastes like it came straight from your own kitchen." },
@@ -817,7 +971,7 @@
     { "type": "text", "id": "thali_cta_label", "label": "CTA button label", "default": "Order Now" },
     { "type": "url", "id": "thali_cta_link", "label": "CTA button link" },
     { "type": "text", "id": "thali_cta_note", "label": "CTA note", "default": "Har meal ammi ke haath jaisa." },
-    { "type": "textarea", "id": "thali_facts", "label": "CTA facts", "info": "One per line as value|label.", "default": "4|Items in every thali\n32 oz|Generous portion\n50 km|Delivery radius\n2Ã—|Deliveries every week" },
+    { "type": "textarea", "id": "thali_facts", "label": "CTA facts", "info": "One per line as value|label.", "default": "4|Items in every thali\n32 oz|Generous portion\n50 km|Delivery radius\n2×|Deliveries every week" },
     { "type": "color", "id": "thali_bg", "label": "Panel background", "default": "#E3EADF" },
     { "type": "color", "id": "thali_accent", "label": "Panel accent", "default": "#F5A623" },
     { "type": "text", "id": "load_more_label", "label": "Load more label", "default": "Load more" },
@@ -865,9 +1019,9 @@
     { "type": "text", "id": "delivery_areas", "label": "Areas (plain block only)", "info": "Comma-separated. Used when the checker is off.", "default": "Hartland, Nearby areas" },
     { "type": "text", "id": "delivery_button_label", "label": "Button label (plain block only)", "default": "Check my area" },
     { "type": "url", "id": "delivery_button_link", "label": "Button link (plain block only)" },
-    { "type": "text", "id": "map_title", "label": "Map label (plain block only)", "default": "Richmond Station Â· Toronto, Canada" },
+    { "type": "text", "id": "map_title", "label": "Map label (plain block only)", "default": "Richmond Station · Toronto, Canada" },
     { "type": "text", "id": "map_query", "label": "Google Maps search (plain block only)", "default": "Richmond Station Toronto Ontario Canada", "info": "Used when Embed URL is empty." },
-    { "type": "text", "id": "map_embed_url", "label": "Google Maps embed URL (plain block only)", "info": "Optional. Paste full embed src from Google Maps â†’ Share â†’ Embed a map." },
+    { "type": "text", "id": "map_embed_url", "label": "Google Maps embed URL (plain block only)", "info": "Optional. Paste full embed src from Google Maps ? Share ? Embed a map." },
 
     { "type": "header", "content": "Delivery checker: search" },
     { "type": "text", "id": "delivery_placeholder", "label": "Search placeholder", "default": "Enter your town or ZIP code" },
@@ -878,7 +1032,7 @@
     { "type": "url", "id": "delivery_contact_url", "label": "Not-found link" },
     { "type": "text", "id": "delivery_contact_label", "label": "Not-found link label", "default": "Ask us about your area" },
     { "type": "text", "id": "delivery_lookup_row", "label": "Place-lookup suggestion row", "default": "Look up \"{query}\" on the map", "info": "{query} is replaced with what the visitor typed. Shown under the town list when the text is not a town you listed." },
-    { "type": "text", "id": "delivery_lookup_loading", "label": "Place-lookup loading text", "default": "Looking up \"{query}\"â€¦" },
+    { "type": "text", "id": "delivery_lookup_loading", "label": "Place-lookup loading text", "default": "Looking up \"{query}\"…" },
     { "type": "text", "id": "delivery_msg_lookup_yes", "label": "Place lookup: inside zone", "default": "{place} sits inside our delivery zone.", "info": "{place} is the resolved place, {distance} the distance from your kitchen." },
     { "type": "text", "id": "delivery_msg_lookup_no", "label": "Place lookup: outside zone", "default": "{place} is about {distance} from our kitchen, outside the delivery zone." },
     { "type": "text", "id": "delivery_msg_lookup_fail", "label": "Place lookup: not found", "default": "We could not find \"{query}\". Try a town, a ZIP code or a nearby landmark." },

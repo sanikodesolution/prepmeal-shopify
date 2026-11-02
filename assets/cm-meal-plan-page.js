@@ -199,6 +199,24 @@
       ring.style.setProperty('--p', pp.toFixed(1));
       ring.style.setProperty('--c', cc.toFixed(1));
     }
+    // Allergens and reheat instructions are product metafields, so they are
+    // only shown when the merchant has filled them in on the meal.
+    const allergensList = (m.allergens || '')
+      .split(',')
+      .map((x) => x.trim())
+      .filter(Boolean);
+    const allergenBox = $('#dAllergens');
+    if (allergenBox) {
+      allergenBox.hidden = !allergensList.length;
+      allergenBox.innerHTML = allergensList.length
+        ? `<b>Contains</b><ul>${allergensList.map((a) => `<li>${a}</li>`).join('')}</ul>`
+        : '';
+    }
+    const reheatBox = $('#dReheat');
+    if (reheatBox) {
+      reheatBox.hidden = !m.reheat;
+      reheatBox.innerHTML = m.reheat ? `<b>Heating</b><p>${m.reheat}</p>` : '';
+    }
     const mx = ok ? Math.max(m.protein, m.carbs, m.fat) : 1;
     if (bars) {
       bars.innerHTML = [

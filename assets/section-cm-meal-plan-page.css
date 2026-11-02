@@ -217,6 +217,11 @@ color:var(--ben-ink);padding:0 0 0
 .bar i{display:block;height:8px;border-radius:8px;background:rgba(21,37,28,.12);overflow:hidden}
 .bar i b{display:block;height:100%;border-radius:8px;transition:width .6s}
 .note{opacity:.75;margin-top:2rem}
+.mp-detail-notes{display:grid;gap:1rem;margin-top:2rem}
+.mp-detail-notes [hidden]{display:none}
+.mp-detail-note p{margin:.35rem 0 0;opacity:.85}
+.mp-detail-note ul{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;padding:0;margin:.45rem 0 0}
+.mp-detail-note li{padding:.3rem .8rem;border-radius:999px;background:rgba(196,84,60,.12);font-size:.9em}
 @media(prefers-reduced-motion:reduce){& *{transition:none!important;animation:none!important}}
 }
 

@@ -1,0 +1,182 @@
+{%- comment -%}
+  Meals for a plan page, as a JSON array.
+
+  Source order:
+  1. Variants of the plan product (one variant per meal), each reading its own
+     variant metafields, falling back to the product-level metafields.
+  2. The section's Meal blocks, when the product has no usable variants.
+
+  The section prints this into the page and cm-meal-plan-page.js renders the
+  menu, the meal detail panel and the order dropdowns from it, so editing the
+  product in Shopify Admin updates all three at once.
+
+  Accepts:
+  - plan       {Product} Plan product. Its variants are the meals.
+  - blocks     {Array}   Meal blocks, the fallback source.
+  - food_count {Number}  Number of bundled mp-food-N.jpg images.
+{%- endcomment -%}
+{%- liquid
+  assign food_total = food_count | default: 10
+  assign plan_has_meals = false
+  if plan != blank and plan.variants.size > 0
+    assign real_variants = 0
+    for variant in plan.variants
+      unless variant.title == 'Default Title'
+        assign real_variants = real_variants | plus: 1
+      endunless
+    endfor
+    if real_variants > 0
+      assign plan_has_meals = true
+    endif
+  endif
+-%}
+[
+{%- if plan_has_meals -%}
+  {%- assign meal_i = 0 -%}
+  {%- for variant in plan.variants -%}
+    {%- unless variant.title == 'Default Title' -%}
+      {%- liquid
+        assign mv = variant.metafields.custom
+
+        # Variant metafields win, then the product-level shared values.
+        assign meal_desc = mv.description.value | default: plan.metafields.custom.description.value
+        assign meal_cal = mv.calories.value | default: plan.metafields.custom.calories.value
+        assign meal_protein = mv.protein.value | default: plan.metafields.custom.protein.value
+        assign meal_carbs = mv.carbs.value | default: plan.metafields.custom.carbs.value
+        assign meal_fat = mv.fat.value | default: plan.metafields.custom.fat.value
+        assign meal_badge = mv.badge.value | default: plan.metafields.custom.badge.value
+        assign meal_reheat = mv.reheat_instructions.value | default: plan.metafields.custom.reheat_instructions.value
+
+        # Diet tags drive the filters and the gluten/dairy flags.
+        assign diet_tags = mv.diet_tags.value | default: plan.metafields.custom.diet_tags.value
+        assign gluten_free = false
+        assign dairy_free = false
+        assign tags_text = ''
+        if diet_tags != blank
+          assign tags_text = diet_tags | join: ', '
+          for tag in diet_tags
+            assign tag_slug = tag | downcase
+            if tag_slug contains 'gluten'
+              assign gluten_free = true
+            endif
+            if tag_slug contains 'dairy'
+              assign dairy_free = true
+            endif
+          endfor
+        endif
+
+        assign meal_ingredients = mv.ingredients.value | default: plan.metafields.custom.ingredients.value
+        assign ingredients_text = ''
+        if meal_ingredients != blank
+          assign ingredients_text = meal_ingredients | join: ', '
+        endif
+
+        assign allergens = mv.allergens.value | default: plan.metafields.custom.allergens.value
+        assign allergens_text = ''
+        if allergens != blank
+          assign allergens_text = allergens | join: ', '
+        endif
+
+        # Photos: the variant/featured image, else a bundled food photo.
+        assign meal_image = ''
+        assign meal_image_alt = variant.title
+        assign image_source = variant.image | default: variant.featured_media.preview_image
+        if image_source == blank
+          assign image_source = plan.featured_image
+        endif
+        if image_source != blank
+          assign meal_image = image_source | image_url: width: 900
+          if image_source.alt != blank
+            assign meal_image_alt = image_source.alt
+          endif
+        endif
+        assign fallback_index = meal_i | modulo: food_total
+      -%}
+      {%- if meal_i > 0 -%},{%- endif -%}
+      {
+        "id": {{ variant.id | json }},
+        "name": {{ variant.title | json }},
+        "description": {{ meal_desc | strip_newlines | json }},
+        "calories": {{ meal_cal | json }},
+        "protein": {{ meal_protein | json }},
+        "carbs": {{ meal_carbs | json }},
+        "fat": {{ meal_fat | json }},
+        "tags": {{ tags_text | json }},
+        "ingredients": {{ ingredients_text | json }},
+        "badge": {{ meal_badge | json }},
+        "gluten_free": {{ gluten_free | json }},
+        "dairy_free": {{ dairy_free | json }},
+        "allergens": {{ allergens_text | json }},
+        "reheat": {{ meal_reheat | strip_newlines | json }},
+        "price": {{ variant.price | json }},
+        "available": {{ variant.available | json }},
+        "imageIndex": {{ fallback_index | json }},
+        "image": {% if meal_image != blank %}{{ meal_image | json }}{% else %}null{% endif %},
+        "imageAlt": {{ meal_image_alt | json }}
+      }
+      {%- assign meal_i = meal_i | plus: 1 -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- elsif blocks != blank -%}
+  {%- for block in blocks -%}
+    {%- liquid
+      assign fallback_index = block.settings.image_index | default: forloop.index0
+      assign fallback_index = fallback_index | modulo: food_total
+      assign meal_image = ''
+      assign meal_image_alt = block.settings.name
+      if block.settings.image != blank
+        assign meal_image = block.settings.image | image_url: width: 900
+        if block.settings.image.alt != blank
+          assign meal_image_alt = block.settings.image.alt
+        endif
+      endif
+      assign meal_variant_id = null
+      assign meal_price = block.settings.price | default: 0
+      assign meal_available = true
+      assign meal_source = block.settings.product
+      if meal_source != blank
+        for variant in meal_source.variants
+          if variant.title == block.settings.name
+            assign meal_variant_id = variant.id
+            if meal_price <= 0
+              assign meal_price = variant.price
+            endif
+            assign meal_available = variant.available
+            break
+          endif
+        endfor
+        if meal_variant_id == null
+          assign meal_variant = meal_source.selected_or_first_available_variant
+          assign meal_variant_id = meal_variant.id
+          if meal_price <= 0
+            assign meal_price = meal_variant.price
+          endif
+          assign meal_available = meal_variant.available
+        endif
+      endif
+    -%}
+    {%- if forloop.index0 > 0 -%},{%- endif -%}
+    {
+      "id": {{ meal_variant_id | json }},
+      "name": {{ block.settings.name | json }},
+      "description": {{ block.settings.description | strip_newlines | json }},
+      "calories": {{ block.settings.calories | json }},
+      "protein": {{ block.settings.protein | json }},
+      "carbs": {{ block.settings.carbs | json }},
+      "fat": {{ block.settings.fat | json }},
+      "tags": {{ block.settings.tags | json }},
+      "ingredients": {{ block.settings.ingredients | json }},
+      "badge": {{ block.settings.badge | json }},
+      "gluten_free": {{ block.settings.gluten_free | json }},
+      "dairy_free": {{ block.settings.dairy_free | json }},
+      "allergens": "",
+      "reheat": "",
+      "price": {{ meal_price | json }},
+      "available": {{ meal_available | json }},
+      "imageIndex": {{ fallback_index | json }},
+      "image": {% if meal_image != blank %}{{ meal_image | json }}{% else %}null{% endif %},
+      "imageAlt": {{ meal_image_alt | json }}
+    }
+  {%- endfor -%}
+{%- endif -%}
+]
