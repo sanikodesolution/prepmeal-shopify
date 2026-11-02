@@ -503,15 +503,15 @@
                   {%- for variant in meals_catalog.variants -%}
                     {%- unless variant.title == 'Default Title' -%}
                       {%- assign full = variant.title -%}
+                      {%- assign dish = variant.metafields.custom.short_name.value | default: full -%}
                       {%- assign bits = full | split: ' with ' -%}
-                      {%- assign dish = bits | first -%}
                       <li class="mealplan-menu__card">
                         <div class="mealplan-menu__card-photo">
                           <span class="mealplan-menu__card-num">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
                           <img src="{% if variant.image != blank %}{{ variant.image | image_url: width: 320 }}{% else %}{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}{% endif %}" alt="{{ dish | escape }}" width="320" height="320" loading="lazy">
                         </div>
                         <h4>{{ dish | escape }}</h4>
-                        {%- if bits.size > 1 -%}
+                        {%- if variant.metafields.custom.short_name.value == blank and bits.size > 1 -%}
                           <p>with {{ bits | last | escape }}</p>
                         {%- endif -%}
                       </li>
