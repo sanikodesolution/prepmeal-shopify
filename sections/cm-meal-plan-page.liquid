@@ -129,6 +129,18 @@
   assign c_gallery_heading = plan_meta.gallery_heading.value | default: shared_meta.gallery_heading.value | default: section.settings.gallery_heading
   assign c_calories_label = plan_meta.calories_label.value | default: 'calories'
 
+  # Quality-points block. It sat after Section 1 in the markup and still read
+  # the theme editor directly, so its eyebrow could not be changed from the
+  # product like every other section heading. Resolved the same way now.
+  assign c_quality_eyebrow = plan_meta.quality_eyebrow.value | default: shared_meta.quality_eyebrow.value | default: section.settings.quality_eyebrow
+
+  # Accessibility-only labels. These are never seen on screen, but a screen
+  # reader announces them, so they belong to the same content model: edit the
+  # product, not the theme. Defaults are byte-identical to the old literals.
+  assign c_filter_label = plan_meta.filter_meals_label.value | default: 'Filter meals'
+  assign c_gallery_prev_label = plan_meta.gallery_prev_label.value | default: 'Previous'
+  assign c_gallery_next_label = plan_meta.gallery_next_label.value | default: 'Next'
+
   # Repeatable rows. A metaobject list wins, then the plan product's metafield
   # list, then the shop shared list, then the theme editor blocks. The row
   # renderer walks them in that order, so a store can migrate one section at a time.
@@ -786,8 +798,8 @@
       <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
         <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
         <div class="mp-gs mealplan-q__copy">
-          {%- if section.settings.quality_eyebrow != blank -%}
-            <p class="mp-eye">{{ section.settings.quality_eyebrow | escape }}</p>
+          {%- if c_quality_eyebrow != blank -%}
+            <p class="mp-eye">{{ c_quality_eyebrow | escape }}</p>
           {%- endif -%}
           <h2 class="mealplan-h">{{ c_menu_heading | escape }}</h2>
           <div class="mealplan-q__split">
