@@ -259,6 +259,31 @@ pin on the stylised map; without them the theme looks the town up by name.
 > still works and is used when no `delivery_area` records exist, so nothing breaks
 > mid-migration.
 
+### 4.8 `meal` — optional per-meal override
+
+| Field name | Key | Type | Notes |
+|---|---|---|---|
+| Meal name | `name` | Single line text | Matched to the variant when `variant` is blank |
+| Short name | `short_name` | Single line text | Card and dropdown label |
+| Linked variant | `variant` | Product variant reference | The reliable link. Wins over the name match |
+| Image | `image` | File (image) | Overrides the variant photo |
+| Description | `description` | Single line text | Line under the meal name |
+| Calories | `calories` | Integer | |
+| Protein | `protein` | Integer | Grams |
+| Carbs | `carbs` | Integer | Grams |
+| Fat | `fat` | Integer | Grams |
+| Badge | `badge` | Single line text | Ribbon on the card |
+| Diet tags | `diet_tags` | List of single line text | One per row, e.g. `Gluten free` |
+| Ingredients | `ingredients` | List of single line text | One per row |
+| Allergens | `allergens` | List of single line text | One per row |
+| Reheat | `reheat` | Multi-line text | Shown as "Heating" |
+
+You do **not** need this to run the page: one variant per meal, with variant
+metafields, is enough. Add a `meal` record only when a meal needs copy, a photo
+or macros that differ from its variant — it then feeds "This week's menu", the
+nutrition card and "Explore all meals" at the same time. Prices and cart ids
+always come from the variant, never from here.
+
 ---
 
 ## 5. Step 3 — Shop-level shared metafields
