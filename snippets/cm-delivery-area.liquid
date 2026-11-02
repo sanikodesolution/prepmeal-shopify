@@ -105,22 +105,14 @@ Mukwonago|53149|41.9|51.6
   endif
   assign lines = towns_raw | newline_to_br | split: '<br />'
 
-  # Kitchen position and town count in one pass.
-  assign kx = 41
-  assign ky = 29
-  assign has_kitchen = false
+  # Town count only. Pin positions come from geocoding (or lat|lng when given),
+  # so the old left%/top% columns are accepted for back-compat but not read.
   assign town_count = 0
   for line in lines
     assign p = line | split: '|'
     assign name = p[0] | strip
     if name != blank
       assign town_count = town_count | plus: 1
-      assign flag = p[4] | default: '' | strip | downcase
-      if has_kitchen == false and flag == 'kitchen'
-        assign kx = p[2] | strip | plus: 0
-        assign ky = p[3] | strip | plus: 0
-        assign has_kitchen = true
-      endif
     endif
   endfor
 
