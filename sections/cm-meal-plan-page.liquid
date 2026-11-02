@@ -994,7 +994,7 @@
         <h2 class="mealplan-h">{{ c_cta_heading | escape }}</h2>
         <p class="mealplan-p">{{ c_cta_text | escape }}</p>
         {%- if c_cta_button_label != blank -%}
-          <a class="mealplan-btn mealplan-btn--solid" href="{{ section.settings.cta_button_link | default: '#' }}">{{ c_cta_button_label | escape }}</a>
+          <a class="mealplan-btn mealplan-btn--solid" href="{{ c_cta_button_link | default: '#' }}">{{ c_cta_button_label | escape }}</a>
         {%- endif -%}
       </div>
     </div></div></section>
