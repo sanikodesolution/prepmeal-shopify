@@ -876,7 +876,7 @@
           {%- liquid
             assign cells = row | split: '|'
             assign review_name = cells[0]
-            assign review_rating = cells[1] | default: 5
+            assign review_rating = cells[1] | default: 5 | plus: 0
             assign review_text = cells[2]
             assign review_aspect = cells[3] | default: '1'
             assign review_show = cells[4] | default: '1'
