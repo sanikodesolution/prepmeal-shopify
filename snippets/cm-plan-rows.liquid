@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {%- comment -%}
   Normalises plan content into rows so a metaobject list, a product metafield
   list and the theme editor blocks all feed one markup path.
@@ -212,3 +213,219 @@
     {%- endcase -%}
   {%- endfor -%}
 {%- endif -%}
+=======
+{%- comment -%}
+  Normalises plan content into rows so a metaobject list, a product metafield
+  list and the theme editor blocks all feed one markup path.
+
+  Used by sections/cm-meal-plan-page.liquid. The caller captures this output and
+  splits it on "~~~", so every row must stay on a single line.
+
+  Row shapes (fields separated by "|"):
+  - benefit  value|label
+  - step     title|text
+  - faq      question|answer
+  - review   name|rating|review|aspect|show image|image url
+  - related  title|text|url|button label|price note|image url
+  - quality  title|text|detail
+
+  Source order: metaobject list, then the legacy metafield list, then blocks.
+
+  Accepts:
+  - kind            {String}  Row shape, see above.
+  - items           {Array}   Metaobject list (metaobject_reference). Wins.
+  - meta            {Array}   Product metafield list of strings. Legacy source.
+  - blocks          {Array}   Theme editor blocks. Final fallback.
+  - exclude_product {Product} Related card pointing at this product is skipped.
+{%- endcomment -%}
+{%- liquid
+  # An item list is only used when it actually has a row to show. A list whose
+  # entries are all blank, or that only holds a related card pointing at this
+  # same plan, must not win over the fallbacks below — otherwise the section
+  # renders an empty wrapper.
+  assign usable_items = 0
+  if items != blank and items.size > 0
+    for item in items
+      assign candidate = ''
+      case kind
+        when 'benefit'
+          assign candidate = item.value.value | default: item.title.value
+        when 'step'
+          assign candidate = item.title.value
+        when 'faq'
+          assign candidate = item.question.value
+        when 'review'
+          assign candidate = item.customer_name.value | default: item.name.value | default: item.review.value
+        when 'quality'
+          assign candidate = item.title.value
+        when 'related'
+          assign candidate = item.name.value | default: item.title.value
+          assign candidate_product = item.linked_product.value
+          if exclude_product != blank and candidate_product != blank
+            if candidate_product.id == exclude_product.id
+              assign candidate = ''
+            endif
+          endif
+      endcase
+      if candidate != blank
+        assign usable_items = usable_items | plus: 1
+      endif
+    endfor
+  endif
+
+  assign use_items = false
+  if usable_items > 0
+    assign use_items = true
+  endif
+-%}
+{%- if use_items -%}
+  {%- assign emitted = 0 -%}
+  {%- for item in items -%}
+    {%- liquid
+      assign c0 = ''
+      assign c1 = ''
+      assign c2 = ''
+      assign c3 = ''
+      assign c4 = ''
+      assign c5 = ''
+
+      case kind
+        when 'benefit'
+          # stat_item: value|label. Benefit blocks use title|text instead, so
+          # both field spellings are read here.
+          assign c0 = item.value.value | default: item.title.value
+          assign c1 = item.label.value | default: item.text.value
+        when 'step'
+          # how_it_works_step: title + description. The list numbers the steps
+          # itself, so step_number is not printed.
+          assign c0 = item.title.value
+          assign c1 = item.description.value | default: item.text.value
+        when 'faq'
+          assign c0 = item.question.value
+          # faq_item stores a rich-text answer for the standalone FAQ section, so
+          # the tags are stripped here: this page prints the answer as plain text.
+          assign c1 = item.answer.value | strip_html
+        when 'review'
+          # testimonial: customer_name, photo, review, rating, plan_name.
+          assign c0 = item.customer_name.value | default: item.name.value
+          assign rating_field = item.rating.value
+          if rating_field.rating != blank
+            assign c1 = rating_field.rating
+          else
+            assign c1 = rating_field | default: 5
+          endif
+          assign c2 = item.review.value | default: item.text.value
+          assign c3 = '1'
+
+          # A metaobject can carry the photo, so the row finally has a real
+          # image instead of the bundled placeholder.
+          assign c4 = '1'
+          assign c5 = ''
+          assign show_photo = item.show_photo.value
+          if show_photo == false
+            assign c4 = '0'
+          endif
+          assign review_photo = item.photo.value | default: item.image.value
+          if review_photo != blank and review_photo.url != blank
+            assign c5 = review_photo | image_url: width: 700
+          endif
+        when 'quality'
+          assign c0 = item.title.value
+          assign c1 = item.text.value | default: item.summary.value
+          assign c2 = item.detail.value | default: item.description.value
+        when 'related'
+          # meal_plan: name, image, short_description, linked_product, badge.
+          assign c0 = item.name.value | default: item.title.value
+          assign c1 = item.short_description.value | default: item.description.value
+          assign related_product = item.linked_product.value
+          assign c2 = related_product.url | default: item.link.value
+          assign c3 = item.button_label.value | default: 'View plan'
+          assign c4 = item.price_note.value | default: item.badge.value
+          assign c5 = ''
+          assign card_image = item.image.value | default: related_product.featured_image
+          if card_image != blank and card_image.url != blank
+            assign c5 = card_image | image_url: width: 700
+          endif
+
+          # A plan should not recommend itself. The card that points at the page
+          # you are already on is dropped instead of rendering a dead link.
+          if exclude_product != blank and related_product != blank
+            if related_product.id == exclude_product.id
+              assign c0 = ''
+            endif
+          endif
+      endcase
+
+      assign r0 = c0 | strip_newlines | strip
+      assign r1 = c1 | strip_newlines | strip
+      assign r2 = c2 | strip_newlines | strip
+      assign r3 = c3 | strip_newlines | strip
+      assign r4 = c4 | strip_newlines | strip
+      assign r5 = c5 | strip_newlines | strip
+    -%}
+    {%- if r0 != blank -%}
+      {%- if emitted > 0 -%}~~~{%- endif -%}
+      {%- assign emitted = emitted | plus: 1 -%}
+      {{- r0 -}}|{{- r1 -}}|{{- r2 -}}|{{- r3 -}}|{{- r4 -}}|{{- r5 -}}
+    {%- endif -%}
+  {%- endfor -%}
+{%- elsif meta != blank -%}
+  {%- for row in meta -%}
+    {%- if forloop.index0 > 0 -%}~~~{%- endif -%}
+    {%- assign cells = row | split: '|' -%}
+    {%- case kind -%}
+      {%- when 'benefit', 'step', 'faq' -%}
+        {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip_newlines | strip -}}
+      {%- when 'review' -%}
+        {%- comment -%}
+          The sixth cell is the image. A product metafield cannot store an image
+          per row, so these rows use the bundled food photo, picked in the
+          section from the row index. Use the review_items metaobject list to
+          give a review its own photo.
+        {%- endcomment -%}
+        {%- assign show_image = cells[4] | strip | default: '1' -%}
+        {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip | default: '5' -}}|{{- cells[2] | strip_newlines | strip -}}|{{- cells[3] | strip | default: '1' -}}|{{- show_image -}}|
+      {%- when 'quality' -%}
+        {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip_newlines | strip -}}|{{- cells[2] | strip_newlines | strip -}}
+      {%- when 'related' -%}
+        {%- liquid
+          # The third field is a product handle, so the card borrows that plan's
+          # photo and link instead of asking for a full URL.
+          assign related_product = all_products[cells[2]]
+          assign related_url = related_product.url | default: cells[2]
+          assign related_image = ''
+          if related_product.featured_image != blank
+            assign related_image = related_product.featured_image | image_url: width: 700
+          endif
+        -%}
+        {{- cells[0] | strip_newlines | strip -}}|{{- cells[1] | strip_newlines | strip -}}|{{- related_url -}}|{{- cells[3] | strip | default: 'View plan' -}}|{{- cells[4] | strip_newlines | strip -}}|{{- related_image -}}
+    {%- endcase -%}
+  {%- endfor -%}
+{%- elsif blocks != blank -%}
+  {%- for block in blocks -%}
+    {%- if forloop.index0 > 0 -%}~~~{%- endif -%}
+    {%- case kind -%}
+      {%- when 'benefit', 'step' -%}
+        {{- block.settings.title | strip_newlines | strip -}}|{{- block.settings.text | strip_newlines | strip -}}
+      {%- when 'faq' -%}
+        {{- block.settings.question | strip_newlines | strip -}}|{{- block.settings.answer | strip_newlines | strip -}}
+      {%- when 'review' -%}
+        {%- assign review_show = '0' -%}
+        {%- if block.settings.show_image -%}{%- assign review_show = '1' -%}{%- endif -%}
+        {%- assign review_image = '' -%}
+        {%- if block.settings.image != blank -%}
+          {%- assign review_image = block.settings.image | image_url: width: 700 -%}
+        {%- endif -%}
+        {{- block.settings.name | strip_newlines | strip -}}|{{- block.settings.rating | default: 5 -}}|{{- block.settings.review | strip_newlines | strip -}}|{{- block.settings.aspect | default: '1' -}}|{{- review_show -}}|{{- review_image -}}
+      {%- when 'quality' -%}
+        {{- block.settings.title | strip_newlines | strip -}}|{{- block.settings.text | strip_newlines | strip -}}|{{- block.settings.detail | strip_newlines | strip -}}
+      {%- when 'related' -%}
+        {%- assign related_image = '' -%}
+        {%- if block.settings.image != blank -%}
+          {%- assign related_image = block.settings.image | image_url: width: 700 -%}
+        {%- endif -%}
+        {{- block.settings.title | strip_newlines | strip -}}|{{- block.settings.text | strip_newlines | strip -}}|{{- block.settings.link -}}|{{- block.settings.button_label | default: 'View plan' | strip -}}|{{- block.settings.price_note | strip_newlines | strip -}}|{{- related_image -}}
+    {%- endcase -%}
+  {%- endfor -%}
+{%- endif -%}
+>>>>>>> 5813782 (Plan page content: metaobject lists, shop-level shared layer, editable images)
