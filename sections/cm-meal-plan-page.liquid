@@ -29,6 +29,24 @@
   endif
   assign plan_meta = plan_product.metafields.custom
 
+  # Shop-level shared content. FAQ, testimonials, steps and delivery areas are
+  # the same on every plan, so they are entered once here and reused. A plan
+  # that needs its own version fills the matching product metafield, which wins.
+  assign shared_meta = shop.metafields.custom
+
+  # Metaobject lists first: the modern source for repeatable content, and the
+  # only one that can carry an image per row.
+  assign mo_meals = shared_meta.meals.value | default: plan_meta.meals.value
+  assign mo_stats = shared_meta.stats.value | default: plan_meta.stats.value
+  assign mo_steps = shared_meta.how_it_works.value | default: plan_meta.how_it_works.value
+  assign mo_faq = shared_meta.faq_items.value | default: plan_meta.faq_items.value
+  assign mo_testimonials = shared_meta.testimonials.value | default: plan_meta.testimonials.value
+  assign mo_plans = shared_meta.plan_cards.value | default: plan_meta.plan_cards.value
+  assign mo_features = shared_meta.feature_cards.value | default: plan_meta.feature_cards.value
+  assign mo_areas = shared_meta.delivery_areas.value | default: plan_meta.delivery_area_items.value
+  assign mo_stats_thali = shared_meta.thali_stats.value | default: plan_meta.thali_stat_items.value
+  assign mo_facts = shared_meta.thali_facts.value | default: plan_meta.thali_fact_items.value
+
   # Copy: metafield first, theme editor setting second.
   assign c_plan_label = plan_meta.plan_label.value | default: section.settings.plan_label
   assign c_heading = plan_meta.heading.value | default: section.settings.heading
