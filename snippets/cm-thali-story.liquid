@@ -18,17 +18,9 @@
 {%- liquid
   # A metafield list is already an array; a theme setting is one string with
   # newlines. Both end up as an array of rows so one loop path serves each.
-  assign gkk_stats = meta.thali_stats.value
-  if gkk_stats == blank
-    assign gkk_stats = s.thali_stats | newline_to_br | split: '<br />'
-  endif
   assign gkk_chips = meta.thali_chips.value
   if gkk_chips == blank
     assign gkk_chips = s.thali_chips | newline_to_br | split: '<br />'
-  endif
-  assign gkk_cards = meta.thali_cards.value
-  if gkk_cards == blank
-    assign gkk_cards = s.thali_cards | newline_to_br | split: '<br />'
   endif
   assign gkk_tickets = meta.thali_tickets.value
   if gkk_tickets == blank
@@ -45,6 +37,74 @@
   assign gkk_towns = meta.thali_towns.value
   if gkk_towns == blank
     assign gkk_towns = s.thali_towns | split: ','
+  endif
+
+  # The two feature cards read a feature_card metaobject list first, so each
+  # card can carry its own photo and link. Without it the pipe-delimited
+  # thali_cards rows (title|text) still fill the same two slots.
+  assign gkk_cards = ''
+  if features != blank and features.size > 0
+    capture gkk_cards
+      for item in features
+        assign card_title = item.title.value | strip
+        if card_title != blank
+          echo card_title | append: '|'
+          echo item.text.value | strip_newlines
+          echo newline
+        endif
+      endfor
+    endcapture
+    assign gkk_cards = gkk_cards | newline_to_br | split: '<br />'
+  endif
+  if gkk_cards == blank
+    assign gkk_cards = meta.thali_cards.value
+    if gkk_cards == blank
+      assign gkk_cards = s.thali_cards | newline_to_br | split: '<br />'
+    endif
+  endif
+
+  # The hero stats and the closing facts are stat_item objects, so the same
+  # numbers can be reused by the stats strip at the top of the page.
+  assign gkk_stats = ''
+  if stats != blank and stats.size > 0
+    capture gkk_stats
+      for item in stats
+        assign stat_value = item.value.value | default: item.title.value | strip
+        if stat_value != blank
+          echo stat_value | append: '|'
+          echo item.label.value | default: item.text.value | strip_newlines
+          echo newline
+        endif
+      endfor
+    endcapture
+    assign gkk_stats = gkk_stats | newline_to_br | split: '<br />'
+  endif
+  if gkk_stats == blank
+    assign gkk_stats = meta.thali_stats.value
+    if gkk_stats == blank
+      assign gkk_stats = s.thali_stats | newline_to_br | split: '<br />'
+    endif
+  endif
+
+  assign gkk_facts = ''
+  if facts != blank and facts.size > 0
+    capture gkk_facts
+      for item in facts
+        assign fact_value = item.value.value | default: item.title.value | strip
+        if fact_value != blank
+          echo fact_value | append: '|'
+          echo item.label.value | default: item.text.value | strip_newlines
+          echo newline
+        endif
+      endfor
+    endcapture
+    assign gkk_facts = gkk_facts | newline_to_br | split: '<br />'
+  endif
+  if gkk_facts == blank
+    assign gkk_facts = meta.thali_facts.value
+    if gkk_facts == blank
+      assign gkk_facts = s.thali_facts | newline_to_br | split: '<br />'
+    endif
   endif
 
   # Single-value copy: product metafield first, theme setting second.
