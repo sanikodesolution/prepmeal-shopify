@@ -53,9 +53,15 @@
   const moreBtn = $('#more');
   const detail = $('#detail');
 
+  // Counts and labels are section settings so the admin can change how many
+  // meals the featured row and the explore grid show without editing the theme.
+  const menuLimit = Math.max(parseInt(root.dataset.mpMenuCount, 10) || 5, 1);
+  const gridPage = Math.max(parseInt(root.dataset.mpGridPage, 10) || 6, 1);
+  const labelView = root.dataset.mpViewLabel || 'View meal';
+
   if (menuEl && meals.length) {
     menuEl.innerHTML = meals
-      .slice(0, 5)
+      .slice(0, menuLimit)
       .map(
         (m, k) => `<article class="m"><div class="img">${imgFor(m, k)}</div><div class="info"><span class="no">${pad(k)}</span>${
           m.badge ? `<span class="tag">${m.badge}</span>` : ''
@@ -64,7 +70,7 @@
         )}</b> cal</span><span><b>${v(m.protein, 'g')}</b> protein</span><span><b>${v(m.carbs, 'g')}</b> carbs</span><span><b>${v(
           m.fat,
           'g'
-        )}</b> fat</span></div><a class="btn" href="#detail" data-i="${k}">View meal</a></div></div></div></article>`
+        )}</b> fat</span></div><a class="btn" href="#detail" data-i="${k}">${labelView}</a></div></div></div></article>`
       )
       .join('');
   }
@@ -72,7 +78,7 @@
   if (filtersEl && gridEl && meals.length) {
     const tags = ['all', ...new Set(meals.flatMap((m) => (m.tags || '').split(',').map((t) => t.trim().toLowerCase()).filter(Boolean)))];
     let cur = 'all';
-    let shown = 6;
+    let shown = gridPage;
     filtersEl.innerHTML = tags
       .map((t) => `<button type="button" aria-pressed="${t === 'all'}" data-t="${t}">${t[0].toUpperCase() + t.slice(1)}</button>`)
       .join('');
