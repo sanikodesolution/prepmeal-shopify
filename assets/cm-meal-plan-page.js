@@ -36,9 +36,13 @@
 
   const v = (x, u = '') => (x == null || x === '' ? '—' : x + u);
   const pad = (n) => String(n + 1).padStart(2, '0');
+  // Meals carry a short label (custom.short_name) for the list, grid and
+  // dropdowns, because a full variant title often includes its sides and
+  // overflows a card. The full title stays as the fallback.
+  const label = (m) => (m && (m.short || m.name)) || '';
   const imgFor = (m, k) => {
     if (m.image) {
-      return `<img class="mp-food mealplan-ph ph" src="${m.image}" alt="${m.name || ''}" width="700" height="700" loading="lazy" decoding="async">`;
+      return `<img class="mp-food mealplan-ph ph" src="${m.image}" alt="${label(m)}" width="700" height="700" loading="lazy" decoding="async">`;
     }
     return foodImg(m.imageIndex != null ? m.imageIndex : k);
   };
@@ -55,7 +59,7 @@
       .map(
         (m, k) => `<article class="m"><div class="img">${imgFor(m, k)}</div><div class="info"><span class="no">${pad(k)}</span>${
           m.badge ? `<span class="tag">${m.badge}</span>` : ''
-        }<h3>${m.name}</h3><div class="reveal"><div><p>${m.description || ''}</p><div class="macros"><span><b>${v(
+        }<h3>${label(m)}</h3><div class="reveal"><div><p>${m.description || ''}</p><div class="macros"><span><b>${v(
           m.calories
         )}</b> cal</span><span><b>${v(m.protein, 'g')}</b> protein</span><span><b>${v(m.carbs, 'g')}</b> carbs</span><span><b>${v(
           m.fat,
