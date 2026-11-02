@@ -41,7 +41,42 @@ Mukwonago|42.8667|-88.3334|53149
 
 {%- liquid
   assign s = section.settings
-  assign towns_raw = s.delivery_towns | strip
+
+  # Towns, in order of authority. The checker reads Name|lat|lng|ZIPs, which is
+  # a different column order from the plate map's Name|ZIPs|left|top|kitchen, so
+  # each row is rebuilt from the metaobject fields instead of reusing that row.
+  # Row shape is chosen by column count, so a town with no coordinates keeps
+  # working: it is emitted as Name|ZIPs (or just Name) and geocoded in the browser.
+  assign towns_raw = ''
+  if areas != blank and areas.size > 0
+    for item in areas
+      assign area_name = item.name.value | strip
+      if area_name != blank
+        assign area_lat = item.latitude.value | default: '' | strip
+        assign area_lng = item.longitude.value | default: '' | strip
+        assign area_zips = item.postcodes.value | default: '' | strip
+        assign area_row = area_name
+        if area_lat != blank and area_lng != blank
+          assign area_row = area_row | append: '|' | append: area_lat | append: '|' | append: area_lng | append: '|' | append: area_zips
+        elsif area_zips != blank
+          assign area_row = area_row | append: '|' | append: area_zips
+        endif
+        assign towns_raw = towns_raw | append: area_row | append: '<br />'
+      endif
+    endfor
+  endif
+
+  # Only fall through when no usable metaobject row was produced, so a list of
+  # empty records cannot blank the checker.
+  if towns_raw == blank
+    assign towns_raw = meta.delivery_towns.value
+    if towns_raw != blank
+      assign towns_raw = towns_raw | join: '<br />'
+    endif
+  endif
+  if towns_raw == blank
+    assign towns_raw = s.delivery_towns | strip
+  endif
   if towns_raw == blank
     assign towns_raw = mpd_default_towns | strip
   endif
@@ -70,14 +105,18 @@ Mukwonago|42.8667|-88.3334|53149
   endif
   assign geo_country = s.delivery_country | default: ''
   assign radius = s.delivery_radius_km | default: 0
-  assign show_all = s.delivery_show_all | default: 'Show all'
-  assign show_less = s.delivery_show_less | default: 'Show less'
-  assign placeholder = s.delivery_placeholder | default: 'Enter your town or ZIP code'
-  assign button = s.delivery_button | default: 'Check my area'
-  assign legend_kitchen = s.delivery_legend_kitchen | default: 'Our kitchen'
-  assign legend_areas = s.delivery_legend_areas | default: 'Delivery areas'
-  assign legend_zone = s.delivery_legend_zone | default: 'Delivery zone'
-  assign reset_label = s.delivery_reset_label | default: 'Show full zone'
+  # Labels. These were theme-editor only, so a plan using the street-map checker
+  # had no admin-editable copy while the plate map did. Where a distance and a
+  # plate-map key describe the same string, the plate-map key is read first so
+  # one entry covers both styles.
+  assign show_all = meta.delivery_show_all.value | default: shared.delivery_show_all.value | default: s.delivery_show_all | default: 'Show all'
+  assign show_less = meta.delivery_show_less.value | default: shared.delivery_show_less.value | default: s.delivery_show_less | default: 'Show less'
+  assign placeholder = meta.delivery_placeholder.value | default: shared.delivery_placeholder.value | default: s.delivery_placeholder | default: 'Enter your town or ZIP code'
+  assign button = meta.delivery_button.value | default: shared.delivery_button.value | default: s.delivery_button | default: 'Check my area'
+  assign legend_kitchen = meta.plate_kitchen_label.value | default: shared.plate_kitchen_label.value | default: s.delivery_legend_kitchen | default: 'Our kitchen'
+  assign legend_areas = meta.plate_legend_area.value | default: shared.plate_legend_area.value | default: s.delivery_legend_areas | default: 'Delivery areas'
+  assign legend_zone = meta.plate_legend_zone.value | default: shared.plate_legend_zone.value | default: s.delivery_legend_zone | default: 'Delivery zone'
+  assign reset_label = meta.delivery_reset_label.value | default: shared.delivery_reset_label.value | default: s.delivery_reset_label | default: 'Show full zone'
 -%}
 
 {%- capture mpd_primary -%}
@@ -146,13 +185,15 @@ Mukwonago|42.8667|-88.3334|53149
 {%- endcapture -%}
 
 {%- liquid
+  # The three result messages follow the same chain. They are rebuilt with
+  # concatenation because a quoted literal containing braces breaks the lexer.
   assign po = '{'
   assign pc = '}'
-  assign msg_yes = s.delivery_msg_yes
+  assign msg_yes = meta.delivery_msg_yes.value | default: shared.delivery_msg_yes.value | default: s.delivery_msg_yes
   if msg_yes == blank
     assign msg_yes = 'Yes, we deliver to ' | append: po | append: 'town' | append: pc | append: '.'
   endif
-  assign msg_no = s.delivery_msg_no
+  assign msg_no = meta.delivery_msg_no.value | default: shared.delivery_msg_no.value | default: s.delivery_msg_no
   if msg_no == blank
     assign msg_no = 'We do not deliver to "' | append: po | append: 'query' | append: pc | append: '" yet.'
   endif
