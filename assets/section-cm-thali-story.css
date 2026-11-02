@@ -230,8 +230,9 @@ section.gkk .gkk__hero h2{font-size:40px;margin:0 0 20px;overflow-wrap:break-wor
 .gkk__card{padding:0;min-width:0}
 .gkk__card+.gkk__card{border-top:1px solid var(--gkk-line);padding-top:20px}
 .gkk__card svg{width:100%;height:auto;display:block;border-radius:10px;margin-bottom:14px}
-.gkk__card svg + h4{}
-.gkk__card-img{width:100%;height:auto;display:block;border-radius:10px;margin-bottom:14px}
+/* A photo replaces the illustration in the same box, so the card keeps the
+   exact height the SVG gave it whatever aspect ratio the merchant uploads. */
+.gkk__card-img{width:100%;height:auto;aspect-ratio:24/17;object-fit:cover;display:block;border-radius:10px;margin-bottom:14px}
 section.gkk .gkk__card h4{margin-bottom:var(--gkk-title-gap);overflow-wrap:break-word}
 .gkk__card p{overflow-wrap:break-word}
 @media(min-width:992px){
