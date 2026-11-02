@@ -77,10 +77,14 @@
 
   if (filtersEl && gridEl && meals.length) {
     const tags = ['all', ...new Set(meals.flatMap((m) => (m.tags || '').split(',').map((t) => t.trim().toLowerCase()).filter(Boolean)))];
+    const labelAll = root.dataset.mpAllLabel || 'All';
     let cur = 'all';
     let shown = gridPage;
     filtersEl.innerHTML = tags
-      .map((t) => `<button type="button" aria-pressed="${t === 'all'}" data-t="${t}">${t[0].toUpperCase() + t.slice(1)}</button>`)
+      .map((t) => {
+        const text = t === 'all' ? labelAll : t[0].toUpperCase() + t.slice(1);
+        return `<button type="button" aria-pressed="${t === 'all'}" data-t="${t}">${text}</button>`;
+      })
       .join('');
     gridEl.innerHTML = meals
       .map(
@@ -171,11 +175,11 @@
       const b = e.target.closest('button');
       if (!b) return;
       cur = b.dataset.t;
-      shown = 6;
+      shown = gridPage;
       $$('button', filtersEl).forEach((x) => x.setAttribute('aria-pressed', x === b));
       apply(true);
     });
-    if (moreBtn) moreBtn.addEventListener('click', () => { shown += 6; apply(true); });
+    if (moreBtn) moreBtn.addEventListener('click', () => { shown += gridPage; apply(true); });
     apply(false);
   }
 
@@ -219,7 +223,7 @@
     if (allergenBox) {
       allergenBox.hidden = !allergensList.length;
       allergenBox.innerHTML = allergensList.length
-        ? `<b>Contains</b><ul>${allergensList.map((a) => `<li>${a}</li>`).join('')}</ul>`
+        ? `<b>${root.dataset.mpAllergenLabel || 'Contains'}</b><ul>${allergensList.map((a) => `<li>${a}</li>`).join('')}</ul>`
         : '';
     }
     const reheatBox = $('#dReheat');
