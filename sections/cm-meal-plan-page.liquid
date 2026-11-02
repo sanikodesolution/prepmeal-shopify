@@ -883,7 +883,7 @@
               </div>
             {%- endif -%}
             <div>
-              <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}?{%- endfor -%}</span>
+              <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}{% if i <= review_rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
               <q>{{ review_text | escape }}</q>
               <small>{{ review_name | escape }}</small>
             </div>
@@ -949,7 +949,14 @@
     </div></section>
 
     <section class="mealplan-sec"><div class="mealplan-wrap"><div class="mealplan-cta">
-      <div class="mealplan-img" data-p="3"></div>
+      {%- liquid
+        assign cta_image = plan_meta.cta_image.value | default: shared_meta.cta_image.value | default: section.settings.cta_image
+      -%}
+      <div class="mealplan-img"{% unless cta_image != blank %} data-p="3"{% endunless %}>
+        {%- if cta_image != blank -%}
+          {{ cta_image | image_url: width: 1400 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '600, 900, 1400', sizes: '(min-width: 750px) 70vw, 92vw', alt: c_cta_heading }}
+        {%- endif -%}
+      </div>
       <div class="mealplan-cta-in">
         {%- if c_cta_eyebrow != blank -%}
           <p class="mp-eye mp-eye--dark">{{ c_cta_eyebrow | escape }}</p>
