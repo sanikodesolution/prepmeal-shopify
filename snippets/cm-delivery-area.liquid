@@ -48,11 +48,12 @@ Mukwonago|53149|41.9|51.6
 
 {%- liquid
   assign s = section.settings
-  # Copy: plan product metafields first, theme editor settings second.
-  assign d_eyebrow = meta.delivery_eyebrow.value | default: s.delivery_eyebrow
-  assign d_heading = meta.delivery_heading.value | default: s.delivery_heading
-  assign d_text = meta.delivery_text.value | default: s.delivery_text
-  assign d_areas_title = meta.delivery_areas_title.value | default: s.plate_areas_title
+  # Copy: plan product metafields first, then the shop-shared value, then the
+  # theme editor, so the same wording can be written once for every plan.
+  assign d_eyebrow = meta.delivery_eyebrow.value | default: shared.delivery_eyebrow.value | default: s.delivery_eyebrow
+  assign d_heading = meta.delivery_heading.value | default: shared.delivery_heading.value | default: s.delivery_heading
+  assign d_text = meta.delivery_text.value | default: shared.delivery_text.value | default: s.delivery_text
+  assign d_areas_title = meta.delivery_areas_title.value | default: meta.plate_areas_title.value | default: shared.delivery_areas_title.value | default: shared.plate_areas_title.value | default: s.plate_areas_title
 
   # Towns, in order of authority:
   # 1. A delivery_area metaobject list, entered once on the shop and shared by
