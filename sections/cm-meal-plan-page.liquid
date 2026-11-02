@@ -84,28 +84,28 @@
   assign c_picker_placeholder = plan_meta.picker_placeholder.value | default: 'Choose a meal'
   assign c_order_panel_title = plan_meta.order_panel_title.value | default: section.settings.detail_title | strip
 
-  assign c_chef_eyebrow = plan_meta.chef_eyebrow.value | default: section.settings.chef_eyebrow
-  assign c_chef_heading = plan_meta.chef_heading.value | default: section.settings.chef_heading
-  assign c_chef_text = plan_meta.chef_text.value | default: section.settings.chef_text
-  assign c_steps_eyebrow = plan_meta.steps_eyebrow.value | default: section.settings.steps_eyebrow
-  assign c_steps_heading = plan_meta.steps_heading.value | default: section.settings.steps_heading
+  assign c_chef_eyebrow = plan_meta.chef_eyebrow.value | default: shared_meta.chef_eyebrow.value | default: section.settings.chef_eyebrow
+  assign c_chef_heading = plan_meta.chef_heading.value | default: shared_meta.chef_heading.value | default: section.settings.chef_heading
+  assign c_chef_text = plan_meta.chef_text.value | default: shared_meta.chef_text.value | default: section.settings.chef_text
+  assign c_steps_eyebrow = plan_meta.steps_eyebrow.value | default: shared_meta.steps_eyebrow.value | default: section.settings.steps_eyebrow
+  assign c_steps_heading = plan_meta.steps_heading.value | default: shared_meta.steps_heading.value | default: section.settings.steps_heading
 
-  assign c_delivery_eyebrow = plan_meta.delivery_eyebrow.value | default: section.settings.delivery_eyebrow
-  assign c_delivery_heading = plan_meta.delivery_heading.value | default: section.settings.delivery_heading
-  assign c_delivery_text = plan_meta.delivery_text.value | default: section.settings.delivery_text
-  assign c_delivery_areas = plan_meta.delivery_areas.value
+  assign c_delivery_eyebrow = plan_meta.delivery_eyebrow.value | default: shared_meta.delivery_eyebrow.value | default: section.settings.delivery_eyebrow
+  assign c_delivery_heading = plan_meta.delivery_heading.value | default: shared_meta.delivery_heading.value | default: section.settings.delivery_heading
+  assign c_delivery_text = plan_meta.delivery_text.value | default: shared_meta.delivery_text.value | default: section.settings.delivery_text
+  assign c_delivery_areas = plan_meta.delivery_areas.value | default: shared_meta.delivery_areas_text.value
   if c_delivery_areas == blank
     assign c_delivery_areas = section.settings.delivery_areas | split: ','
   endif
   assign c_delivery_map_query = plan_meta.delivery_map_query.value | default: section.settings.map_query
   assign c_delivery_map_title = plan_meta.delivery_map_title.value | default: section.settings.map_title
 
-  assign c_reviews_eyebrow = plan_meta.reviews_eyebrow.value | default: section.settings.reviews_eyebrow
-  assign c_reviews_heading = plan_meta.reviews_heading.value | default: section.settings.reviews_heading
-  assign c_faq_eyebrow = plan_meta.faq_eyebrow.value | default: section.settings.faq_eyebrow
-  assign c_faq_heading = plan_meta.faq_heading.value | default: section.settings.faq_heading
-  assign c_related_eyebrow = plan_meta.related_eyebrow.value | default: section.settings.related_eyebrow
-  assign c_related_heading = plan_meta.related_heading.value | default: section.settings.related_heading
+  assign c_reviews_eyebrow = plan_meta.reviews_eyebrow.value | default: shared_meta.reviews_eyebrow.value | default: section.settings.reviews_eyebrow
+  assign c_reviews_heading = plan_meta.reviews_heading.value | default: shared_meta.reviews_heading.value | default: section.settings.reviews_heading
+  assign c_faq_eyebrow = plan_meta.faq_eyebrow.value | default: shared_meta.faq_eyebrow.value | default: section.settings.faq_eyebrow
+  assign c_faq_heading = plan_meta.faq_heading.value | default: shared_meta.faq_heading.value | default: section.settings.faq_heading
+  assign c_related_eyebrow = plan_meta.related_eyebrow.value | default: shared_meta.related_eyebrow.value | default: section.settings.related_eyebrow
+  assign c_related_heading = plan_meta.related_heading.value | default: shared_meta.related_heading.value | default: section.settings.related_heading
 
   assign c_cta_eyebrow = plan_meta.cta_eyebrow.value | default: section.settings.cta_eyebrow
   assign c_cta_heading = plan_meta.cta_heading.value | default: section.settings.cta_heading
