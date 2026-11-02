@@ -55,8 +55,9 @@ Mukwonago|53149|41.9|51.6
   assign d_areas_title = meta.delivery_areas_title.value | default: s.plate_areas_title
   assign towns_raw = meta.delivery_towns.value
   if towns_raw != blank
-    # A metafield list holds "Town|ZIP|left|top" rows minus the commas.
-    assign towns_raw = towns_raw | join: '<br>'
+    # A metafield list holds one "Town|ZIP|left|top" row per item; join them the
+    # same way newline_to_br does, so the split below serves both sources.
+    assign towns_raw = towns_raw | join: '<br />'
   endif
   assign towns_raw = towns_raw | default: s.plate_towns | strip
   if towns_raw == blank
@@ -140,12 +141,12 @@ Mukwonago|53149|41.9|51.6
   <div class="mealplan-dl__inner">
 
     <header class="mealplan-dl__head">
-      {%- if s.delivery_eyebrow != blank -%}
-        <p class="mp-eye">{{ s.delivery_eyebrow | escape }}</p>
+      {%- if d_eyebrow != blank -%}
+        <p class="mp-eye">{{ d_eyebrow | escape }}</p>
       {%- endif -%}
-      <h2 class="mealplan-h mealplan-dl__title" id="mealplan-dl-h-{{ uid }}">{{ s.delivery_heading | escape }}</h2>
-      {%- if s.delivery_text != blank -%}
-        <p class="mealplan-p mealplan-dl__text">{{ s.delivery_text | escape }}</p>
+      <h2 class="mealplan-h mealplan-dl__title" id="mealplan-dl-h-{{ uid }}">{{ d_heading | escape }}</h2>
+      {%- if d_text != blank -%}
+        <p class="mealplan-p mealplan-dl__text">{{ d_text | escape }}</p>
       {%- endif -%}
     </header>
 
