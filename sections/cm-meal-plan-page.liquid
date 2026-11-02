@@ -93,7 +93,7 @@
   assign c_delivery_eyebrow = plan_meta.delivery_eyebrow.value | default: shared_meta.delivery_eyebrow.value | default: section.settings.delivery_eyebrow
   assign c_delivery_heading = plan_meta.delivery_heading.value | default: shared_meta.delivery_heading.value | default: section.settings.delivery_heading
   assign c_delivery_text = plan_meta.delivery_text.value | default: shared_meta.delivery_text.value | default: section.settings.delivery_text
-  assign c_delivery_areas = plan_meta.delivery_areas.value | default: shared_meta.delivery_areas_text.value
+  assign c_delivery_areas = plan_meta.delivery_areas.value
   if c_delivery_areas == blank
     assign c_delivery_areas = section.settings.delivery_areas | split: ','
   endif

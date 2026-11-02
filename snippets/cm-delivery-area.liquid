@@ -53,17 +53,60 @@ Mukwonago|53149|41.9|51.6
   assign d_heading = meta.delivery_heading.value | default: s.delivery_heading
   assign d_text = meta.delivery_text.value | default: s.delivery_text
   assign d_areas_title = meta.delivery_areas_title.value | default: s.plate_areas_title
-  assign towns_raw = meta.delivery_towns.value
-  if towns_raw != blank
-    # A metafield list holds one "Town|ZIP|left|top" row per item; join them the
-    # same way newline_to_br does, so the split below serves both sources.
-    assign towns_raw = towns_raw | join: '<br />'
+
+  # Towns, in order of authority:
+  # 1. A delivery_area metaobject list, entered once on the shop and shared by
+  #    every plan page. Each object is one town.
+  # 2. The pipe-delimited product metafield list, for stores already filled in.
+  # 3. The theme editor's newline list.
+  # 4. The bundled Hartland list, so a brand-new store still renders a map.
+  assign towns_raw = ''
+  assign area_items = areas
+  if area_items != blank and area_items.size > 0
+    assign towns_raw = '<br />'
+    for item in area_items
+      assign area_name = item.name.value | strip
+      if area_name == blank
+        continue
+      endif
+      assign area_zips = item.postcodes.value | strip
+      assign area_x = item.map_x.value
+      assign area_y = item.map_y.value
+      assign area_lat = item.latitude.value
+      assign area_lng = item.longitude.value
+      assign area_flag = item.is_kitchen.value
+      assign town_row = area_name | append: '|' | append: area_zips
+      assign town_row = town_row | append: '|' | append: area_x | append: '|' | append: area_y | append: '|'
+      if area_flag
+        assign town_row = town_row | append: 'kitchen'
+      endif
+      assign town_row = town_row | append: '|' | append: area_lat | append: '|' | append: area_lng
+      assign towns_raw = towns_raw | append: town_row | append: '<br />'
+    endfor
+  else
+    assign towns_raw = meta.delivery_towns.value
+    if towns_raw != blank
+      # A metafield list holds one "Town|ZIP|left|top" row per item; join them
+      # the same way newline_to_br does, so the split below serves both sources.
+      assign towns_raw = towns_raw | join: '<br />'
+    endif
+    assign towns_raw = towns_raw | default: s.plate_towns | strip
   endif
-  assign towns_raw = towns_raw | default: s.plate_towns | strip
   if towns_raw == blank
     assign towns_raw = plate_default_towns | strip
   endif
   assign lines = towns_raw | newline_to_br | split: '<br />'
+
+  # Drop the empty rows the metaobject builder leaves around each town, so the
+  # chip count and the "show all" threshold stay accurate.
+  assign town_lines = '' | split: ','
+  for line in lines
+    assign line_name = line | split: '|' | first | strip
+    if line_name != blank
+      assign town_lines = town_lines | concat: lines | last
+    endif
+  endfor
+  assign lines = town_lines
 
   # Kitchen position and town count in one pass.
   assign kx = 41
