@@ -244,7 +244,7 @@ Mukwonago|53149|41.9|51.6
       {%- endif -%}
     </div>
 
-    <div class="mealplan-dl__map" role="region" aria-label="{{ s.plate_map_label | default: 'Map of our delivery area' | escape }}">
+    <div class="mealplan-dl__map" role="region" aria-label="{{ map_label | escape }}">
       <div class="mealplan-dl__canvas" data-mpdl-canvas data-kitchen="{{ kitchen_label | escape }}" data-klat="{{ kitchen_lat | escape }}" data-klng="{{ kitchen_lng | escape }}" data-kplace="{{ kitchen_place | escape }}" data-country="{{ geo_country | escape }}"></div>
       <script type="application/json" data-mpdl-points>
         [
@@ -282,18 +282,18 @@ Mukwonago|53149|41.9|51.6
 
       <div class="mealplan-dl__card">
         <p class="mealplan-dl__card-name">{{ kitchen_label | escape }}</p>
-        {%- if s.plate_kitchen_address != blank -%}
-          <p class="mealplan-dl__card-addr">{{ s.plate_kitchen_address | escape }}</p>
+        {%- if kitchen_address != blank -%}
+          <p class="mealplan-dl__card-addr">{{ kitchen_address | escape }}</p>
         {%- endif -%}
         {%- if s.plate_maps_url != blank -%}
-          <a class="mealplan-dl__card-link" href="{{ s.plate_maps_url }}" target="_blank" rel="noopener">{{ s.plate_maps_label | default: 'Open in Maps' | escape }}</a>
+          <a class="mealplan-dl__card-link" href="{{ s.plate_maps_url }}" target="_blank" rel="noopener">{{ maps_label | escape }}</a>
         {%- endif -%}
       </div>
 
       <ul class="mealplan-dl__legend">
-        <li><span class="mealplan-dl__sw is-kitchen"></span>{{ s.plate_legend_kitchen | default: 'Our kitchen' | escape }}</li>
-        <li><span class="mealplan-dl__sw is-area"></span>{{ s.plate_legend_area | default: 'Delivery areas' | escape }}</li>
-        <li><span class="mealplan-dl__sw is-zone"></span>{{ s.plate_legend_zone | default: 'Delivery zone' | escape }}</li>
+        <li><span class="mealplan-dl__sw is-kitchen"></span>{{ legend_kitchen | escape }}</li>
+        <li><span class="mealplan-dl__sw is-area"></span>{{ legend_area | escape }}</li>
+        <li><span class="mealplan-dl__sw is-zone"></span>{{ legend_zone | escape }}</li>
       </ul>
     </div>
 
