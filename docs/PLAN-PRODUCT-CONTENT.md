@@ -126,6 +126,8 @@ product.
 | Meal gallery copy | `custom.gallery_eyebrow`, `custom.gallery_heading` | Single line / multi-line text |
 | Calories label | `custom.calories_label` | Single line text, default `calories` |
 | Diet chip labels | `custom.diet_gluten_label`, `custom.diet_dairy_label` | Single line text |
+| Quality-points eyebrow | `custom.quality_eyebrow` | Single line text |
+| Screen-reader labels | `custom.filter_meals_label`, `custom.gallery_prev_label`, `custom.gallery_next_label` | Single line text |
 | Delivery / map labels | `custom.delivery_placeholder`, `custom.delivery_button`, `custom.delivery_areas_title`, `custom.plate_areas_title`, `custom.plate_more_label`, `custom.plate_less_label`, `custom.plate_map_label`, `custom.plate_kitchen_label`, `custom.plate_kitchen_address`, `custom.plate_maps_label`, `custom.plate_legend_kitchen`, `custom.plate_legend_area`, `custom.plate_legend_zone`, `custom.plate_msg_yes`, `custom.plate_msg_no`, `custom.plate_msg_empty` | Single line text |
 | Reviews heading | `custom.reviews_eyebrow`, `custom.reviews_heading` | Single line text |
 | FAQ heading | `custom.faq_eyebrow`, `custom.faq_heading` | Single line text |
