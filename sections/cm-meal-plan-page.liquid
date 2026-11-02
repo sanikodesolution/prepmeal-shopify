@@ -22,15 +22,15 @@
   # ---------------------------------------------------------------
   assign plan_product = section.settings.content_product
   if plan_product == blank
-    # `plan_product` and `meals_product` are text settings holding a handle, not
-    # product pickers, so they must be resolved into a product object. Without
-    # this, plan_product was the string itself, every `plan_product.metafields`
-    # and `.variants` lookup returned nothing, and the whole page silently fell
-    # back to the theme editor no matter what was filled in Admin.
-    assign plan_handle = section.settings.plan_product | default: section.settings.meals_product
-    if plan_handle != blank
-      assign plan_product = all_products[plan_handle]
-    endif
+    # All three settings are `product` pickers, so they already hold a product
+    # object: `.metafields`, `.variants` and `.price` all work on them directly.
+    # Do not wrap these in `all_products` - passing a product object to it
+    # returns nil, which would blank the meals, the order box price and every
+    # metafield on the page at once.
+    assign plan_product = section.settings.plan_product
+  endif
+  if plan_product == blank
+    assign plan_product = section.settings.meals_product
   endif
   assign plan_meta = plan_product.metafields.custom
 

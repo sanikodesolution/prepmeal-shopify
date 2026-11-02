@@ -473,8 +473,8 @@ These provide the fallback layer and are also design controls:
 
 | Setting | What it does |
 |---|---|
-| **Plan product** (`content_product`) | Which product supplies the meals and the copy. This is the switch that turns the whole product-driven system on |
-| **Plan product** / **Meals product** (order box group) | Handle-based fallbacks used when `content_product` is empty |
+| **Plan product** (`content_product`) | Highest-priority source for the plan product. Blank is the shipped default — see 7.2 |
+| **Plan product** / **Meals product** (order box group) | The fallbacks used when `content_product` is blank. These are what the 6 Meal Plan page actually uses |
 | Order dropdowns (`picker_count`) | How many meal dropdowns the order box shows |
 | Meals in the featured row (`menu_count`) | How many meals "This week's menu" shows, default 5 |
 | Meals per Explore page (`grid_page_size`) | Cards before Load more, default 6 |
@@ -504,26 +504,33 @@ thing. With it on you get the street-map checker.
 All three take copy from the same metafield chain, so switching style never
 loses your wording. Only the row format differs; see 4.7.
 
-### 7.2 `content_product` is required in practice
+### 7.2 `content_product` is optional, and blank is the shipped default
 
-`content_product` is a **product picker**, and it is the only setting that makes
-the section product-aware. Leave it blank and the section falls back to its
-theme-editor blocks for everything — no product metafield, metaobject or variant
-metafield will appear, because nothing resolves the plan product first.
+`content_product` is a **product picker**, and it is the highest-priority source
+for the plan product. It is **not required**: when it is blank the section uses
+the **Plan product** setting from the order-box group, and then **Meals product**.
+All three are `product` pickers, so all three already hold a product object and
+`.metafields` / `.variants` work on them directly.
 
-Set it on every plan page. It must be the same product the order box charges.
+The 6 Meal Plan page ships with `content_product` empty and `plan_product` set to
+`6-meal-plan`, so its content comes from that product without anything else
+being configured.
 
-> **Do not** "fix" a blank picker by changing the Liquid to resolve the handle
-> settings with `all_products` — those settings are already product objects, and
-> passing one to `all_products` returns nothing, which blanks the meals, the
-> order box price and the whole content layer at once.
+Set `content_product` only when you want this section to read a product other
+than the one the order box charges.
+
+> **Do not resolve these with `all_products`.** They are product objects, not
+> handle strings, so `all_products[section.settings.plan_product]` returns nil.
+> That nils out `plan_meta` (every metafield on the page) *and* `plan_variant`
+> (the order box price) at the same time, and the page silently falls back to the
+> theme editor. This was a real bug in this theme — see the note in section 10.
 
 ---
 
 ## 8. Checklist before publishing
 
-- [ ] **Plan product** (`content_product`) is set on every plan page and points
-      at that page's plan product
+- [ ] **Plan product** is set on every plan page — either `content_product` or the
+      order-box **Plan product** — and points at that page's plan product
 - [ ] Every plan product has one variant per meal, each with price and photo
 - [ ] Every meal variant has calories, protein, carbs, fat
 - [ ] Diet tags are correct, so the filter chips match the food
@@ -571,3 +578,43 @@ Admin to avoid confusion.
 Two known non-issues when running `shopify theme check`: the locale files report
 ~2100 translation offenses on this theme. That is pre-existing and unrelated to
 the plan pages.
+
+---
+
+## 10. How the plan product is resolved
+
+This is the one place where a plausible-looking "fix" silently breaks the page,
+so it is worth stating plainly.
+
+```liquid
+assign plan_product = section.settings.content_product
+if plan_product == blank
+  assign plan_product = section.settings.plan_product
+endif
+if plan_product == blank
+  assign plan_product = section.settings.meals_product
+endif
+assign plan_meta = plan_product.metafields.custom
+```
+
+`content_product`, `plan_product` and `meals_product` are all declared
+`"type": "product"` in the section schema. Shopify resolves a `product`-type
+setting to a **product object**, not to the handle string stored in the template
+JSON. The JSON says `"plan_product": "6-meal-plan"`, but Liquid receives a
+product whose `.handle` is `6-meal-plan`.
+
+The consequence: **never** wrap these in `all_products`. `all_products` takes a
+handle *string*. Given a product object it returns `nil`, and then:
+
+- `plan_meta` is `nil`, so every product metafield and metaobject resolves blank
+  and the whole page silently falls back to the theme editor
+- `plan_product.variants` is empty, so there are no meals
+- `plan_variant` at the order box is `blank`, so the plan total renders as zero
+
+This exact mistake was made in this theme and shipped to the live theme. It was
+reverted. If the page ever loses all its Admin content at once, check this block
+before anything else.
+
+The symptom is distinctive: everything is fine, and then *every* Admin-driven
+value disappears together while the page still renders. A single missing
+metafield cannot do that — only a `nil` plan product can.
