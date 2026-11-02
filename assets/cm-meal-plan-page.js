@@ -91,7 +91,7 @@
             .join('|')}"><div class="thumb">${imgFor(m, k)}</div><h4>${label(m)}</h4><small>${v(m.calories)} cal · ${v(
             m.protein,
             'g'
-          )} protein</small><button type="button" data-i="${k}">View meal</button></article>`
+          )} protein</small><button type="button" data-i="${k}">${labelView}</button></article>`
       )
       .join('');
 
