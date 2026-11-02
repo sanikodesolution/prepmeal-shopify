@@ -82,7 +82,7 @@
           `<article class="e" data-t="${(m.tags || '')
             .split(',')
             .map((t) => t.trim().toLowerCase())
-            .join('|')}"><div class="thumb">${imgFor(m, k)}</div><h4>${m.name}</h4><small>${v(m.calories)} cal · ${v(
+            .join('|')}"><div class="thumb">${imgFor(m, k)}</div><h4>${label(m)}</h4><small>${v(m.calories)} cal · ${v(
             m.protein,
             'g'
           )} protein</small><button type="button" data-i="${k}">View meal</button></article>`
