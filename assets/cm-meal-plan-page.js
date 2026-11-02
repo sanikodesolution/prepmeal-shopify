@@ -188,7 +188,7 @@
     const ring = $('#ring');
     const bars = $('#bars');
     if (dImg) dImg.innerHTML = imgFor(m, k);
-    if (dName) dName.textContent = m.name;
+    if (dName) dName.textContent = label(m);
     if (dDesc) dDesc.textContent = m.description || '';
     if (dCal) dCal.textContent = v(m.calories);
     const ings = (m.ingredients || '')
