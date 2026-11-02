@@ -1,208 +1,331 @@
-# Plan Product Content Guide
+# Meal Plan Pages — Admin Content Guide
 
-How to edit every word, meal, photo and price on a meal plan page from
-**Shopify Admin → Products**, with no code and no theme editor.
+Everything on a meal plan page is edited in **Shopify Admin**. No theme editor,
+no code.
 
-The plan page reads its content from one product. On this store that product is
-`6-meal-plan` (Products → 6 Meal Plan). The same setup works for 5, 7, 10 and 15
-meal plans by pointing each page at its own product.
+Five pages use this system: 5, 6, 7, 10 and 15 Meal Plans. Each one is a page
+template (`templates/page.N-meal-plan.json`) rendered by
+`sections/cm-meal-plan-page.liquid`.
 
 ---
 
-## 1. How the wiring works
+## 1. How content resolves
 
-| What you edit | Where | What it changes on the page |
+Each piece of content is looked up in this order, and the first non-empty value
+wins:
+
+```
+1. Plan product metafield      Products → <plan product> → Metafields
+2. Shop-level shared metafield Settings → Custom data → Shop → Metafields
+3. Theme editor setting        Online Store → Customize → the section
+4. Hardcoded default           Built into the theme
+```
+
+Because of step 2, content that is identical on all five plans (FAQ,
+testimonials, how-it-works steps, delivery towns, chef story) is entered **once**
+and every plan page picks it up. A plan that needs its own version fills the
+matching product metafield and that wins instead.
+
+A blank value never renders an empty heading or a broken image: it falls through
+to the next source, and the section hides the wrapper when the final value is
+still blank.
+
+**Metafield namespace is always `custom`.**
+
+---
+
+## 2. What to fill where
+
+| I want to change... | Edit this | Level |
 |---|---|---|
-| The product title | Products → *product* → Title | Order panel heading, cart line name |
-| The variant options | Products → *product* → Variants | The meal list, order dropdowns, filters, meal detail panel |
-| Variant price | Products → *product* → Variants → Price | Cart price and the plan total |
-| Variant image | Products → *product* → Variants → Image | The meal photo everywhere it appears |
-| Variant metafields | Products → *product* → Variants → the variant | Calories, protein, carbs, fat, ingredients, diet tags |
-| Product metafields | Products → *product* → Metafields | Every heading, paragraph, FAQ, review and card on the page |
-
-A field left empty falls back to the theme editor setting for that spot, so the
-page never breaks while you are part-way through filling the product in.
+| Plan headline, price fact, plan badge | `custom.heading`, `custom.fact_*`, `custom.badge_*` | Per product |
+| Stats strip numbers (24oz, 2-3 min, Fresh...) | `stat_item` list → `custom.stats` | Shop shared |
+| Hero tagline ("6 meals. 1 week. Zero stress.") | `custom.ben_line_1/2/3`, `custom.ben_eyebrow` | Per product |
+| The meals, their photos, macros, badges | Product **variants** + variant metafields | Per product |
+| Explore grid filters | Variant `custom.diet_tags` | Per variant |
+| Chef story text | `custom.chef_eyebrow/heading/text` | Shop shared |
+| Chef story photos | `custom.chef_image_1`, `custom.chef_image_2` (file) | Shop shared |
+| The two feature cards | `feature_card` metaobject list → `custom.feature_cards` | Shop shared |
+| Delivery days, cutoff, towns | `delivery_area` metaobject list → `custom.delivery_area_list` | Shop shared |
+| How it works steps | `how_it_works_step` metaobject list → `custom.how_it_works` | Shop shared |
+| Testimonials | `testimonial` metaobject list → `custom.testimonials` | Shop shared |
+| FAQ | `faq_item` metaobject list → `custom.faq_items` | Shop shared |
+| Other plans cards | `meal_plan` metaobject list → `custom.plan_cards` | Shop shared |
+| Final CTA text + background | `custom.cta_eyebrow/heading/text`, `custom.cta_image` | Per product |
+| Button wording on meal cards | Theme editor → section → Meal card link label | Theme |
 
 ---
 
-## 2. Meals: one variant per meal
+## 3. Step 1 — Products and variants
+
+### 3.1 One variant per meal
 
 1. Products → **6 Meal Plan** → **Variants**.
-2. Make sure the option is named **Meal** (the first meal name becomes the
-   option name automatically).
-3. Each variant title is one meal, exactly as it should read on the page:
-   `Chimichurri Steak`, `Orange Basil Salmon`, and so on.
-4. Add a photo, price and stock status to each variant.
+2. The option must be named **Meal**.
+3. Each variant title is one meal, exactly as it should read: `Chimichurri Steak`.
+4. Give each variant a price, a photo and stock status.
 
-The order of variants is the order of meals on the page.
+Variant order is the order meals appear. Prices and stock always come from the
+variant, so the order box keeps charging what Shopify charges.
 
-### Variant metafields
+### 3.2 Variant metafields
 
-Add these on each variant. Settings → Custom data → Products → **Variants**
-first, then fill them per variant.
+Settings → **Custom data** → **Products** → **Variants** → Add definition.
+Create these once, then fill them per variant.
 
-| Metafield (namespace.key) | Type | Example | Shown as |
+| Name | Namespace and key | Type | Notes |
 |---|---|---|---|
-| `custom.short_name` | Single line text | `Butter Chicken` | Short label in the menu list, meal cards and the order dropdowns. Blank uses the full variant title |
-| `custom.description` | Single line text | `With roasted potatoes and glazed carrots.` | Under the meal name |
-| `custom.calories` | Integer | `623` | Centre of the nutrition ring |
-| `custom.protein` | Integer | `52` | Protein bar, in grams |
-| `custom.carbs` | Integer | `34` | Carbs bar, in grams |
-| `custom.fat` | Integer | `31` | Fat bar, in grams |
-| `custom.ingredients` | List of single line text | `Roasted potatoes`, `Glazed carrots` | Ingredient chips |
-| `custom.diet_tags` | List of single line text | `Gluten free`, `Dairy free` | Filter buttons and diet chips |
-| `custom.allergens` | List of single line text | `Milk`, `Nuts` | "Contains" list in the meal detail |
-| `custom.reheat_instructions` | Multi-line text | `Microwave 2–3 minutes.` | "Heating" note in the meal detail |
-| `custom.badge` | Single line text | `Chef's special` | Ribbon on the meal card |
+| Short name | `custom.short_name` | Single line text | Card and dropdown label. Blank uses the variant title |
+| Description | `custom.description` | Single line text | Line under the meal name |
+| Calories | `custom.calories` | Integer | Nutrition ring centre |
+| Protein | `custom.protein` | Integer | Grams |
+| Carbs | `custom.carbs` | Integer | Grams |
+| Fat | `custom.fat` | Integer | Grams |
+| Ingredients | `custom.ingredients` | List of single line text | One per row |
+| Diet tags | `custom.diet_tags` | List of single line text | One per row, e.g. `Gluten free`. Drives the filter chips |
+| Allergens | `custom.allergens` | List of single line text | One per row |
+| Reheat instructions | `custom.reheat_instructions` | Multi-line text | Shown as "Heating" |
+| Badge | `custom.badge` | Single line text | Ribbon on the card, e.g. `Chef's special` |
 
-Diet tags drive the diet chips automatically: any tag containing **gluten**
-adds a *Gluten free* chip, any tag containing **dairy** adds a *Dairy free*
-chip. You do not need to tick anything else.
+Diet tags are matched on the text: any tag containing **gluten** adds the
+*Gluten free* chip, any tag containing **dairy** adds *Dairy free*. Nothing else
+needs ticking.
 
-If you leave the variant metafields empty, the page uses the same metafields on
-the **product** instead, so one shared set of nutrition values applies to every
-meal. Variant values always win over product values.
+### 3.3 Product metafields (per plan)
+
+Settings → **Custom data** → **Products** → Add definition. Fill on each plan
+product.
+
+| Name | Namespace and key | Type |
+|---|---|---|
+| Plan label | `custom.plan_label` | Single line text |
+| Heading | `custom.heading` | Multi-line text |
+| Subheading | `custom.subheading` | Multi-line text |
+| Fact 1 label / value | `custom.fact_1_label`, `custom.fact_1_value` | Single line text |
+| Fact 2 label / value | `custom.fact_2_label`, `custom.fact_2_value` | Single line text |
+| Fact 3 label / value | `custom.fact_3_label`, `custom.fact_3_value` | Single line text |
+| Hero buttons | `custom.button_label`, `custom.button_label_2` | Single line text |
+| Plan badge | `custom.badge_value`, `custom.badge_label` | Single line text |
+| Stats strip headline | `custom.ben_eyebrow`, `custom.ben_line_1`, `_2`, `_3`, `custom.ben_note` | Single line / multi-line text |
+| Menu block copy | `custom.menu_eyebrow`, `custom.menu_heading`, `custom.menu_text`, `custom.menu_button` | Text |
+| Explore heading | `custom.explore_heading` | Single line text |
+| Load more label | `custom.load_more_label` | Single line text |
+| Meal detail footnote | `custom.detail_note` | Single line text |
+| Plan total label | `custom.total_label` | Single line text |
+| Weekly menu sheet | `custom.menu_modal_heading`, `custom.menu_caption`, `custom.picker_placeholder`, `custom.order_panel_title` | Single line text |
+| Chef story | `custom.chef_eyebrow`, `custom.chef_heading`, `custom.chef_text` | Text |
+| Chef photos | `custom.chef_image_1`, `custom.chef_image_2` | File (image) |
+| Steps heading | `custom.steps_eyebrow`, `custom.steps_heading` | Single line text |
+| Delivery copy | `custom.delivery_eyebrow`, `custom.delivery_heading`, `custom.delivery_text` | Text |
+| Delivery map | `custom.delivery_map_query`, `custom.delivery_map_title` | Single line text |
+| Reviews heading | `custom.reviews_eyebrow`, `custom.reviews_heading` | Single line text |
+| FAQ heading | `custom.faq_eyebrow`, `custom.faq_heading` | Single line text |
+| Related heading | `custom.related_eyebrow`, `custom.related_heading` | Single line text |
+| Final CTA | `custom.cta_eyebrow`, `custom.cta_heading`, `custom.cta_text`, `custom.cta_button_label` | Text |
+| CTA background | `custom.cta_image` | File (image) |
+
+Not every plan needs every key. Anything blank falls through to the shop-level
+value, then the theme editor.
+
+### 3.4 Shared overrides on the product
+
+To give one plan its own version of shared content, add the same **metaobject
+list** definition to Products and fill it there. Empty means "use the shared one".
+
+| Shared content | Metaobject type | Product key | Shop key |
+|---|---|---|---|
+| Stats strip | `stat_item` | `custom.stats` | `custom.stats` |
+| How it works | `how_it_works_step` | `custom.how_it_works` | `custom.how_it_works` |
+| FAQ | `faq_item` | `custom.faq_items` | `custom.faq_items` |
+| Testimonials | `testimonial` | `custom.testimonials` | `custom.testimonials` |
+| Related plans | `meal_plan` | `custom.plan_cards` | `custom.plan_cards` |
+| Feature cards | `feature_card` | `custom.feature_cards` | `custom.feature_cards` |
+| Delivery towns | `delivery_area` | `custom.delivery_area_list` | `custom.delivery_area_list` |
+| GKK panel stats | `stat_item` | `custom.thali_stat_items` | `custom.thali_stat_items` |
+| GKK panel facts | `stat_item` | `custom.thali_fact_items` | `custom.thali_fact_items` |
 
 ---
 
-## 3. Page copy: product metafields
+## 4. Step 2 — Metaobject definitions
 
-Products → **6 Meal Plan** → **Metafields**. Add each key below. Text and
-single-line fields hold one value; the *list* fields hold one row per line.
+Settings → **Custom data** → **Metaobjects** → **Add definition**. The API name
+is the `type` — it must match exactly.
 
-### Hero
+> Four of these already exist in the theme and are used by other pages. Do **not**
+> create a second type with a similar name: the same record is reused, so a
+> testimonial you add once appears wherever testimonials are shown.
 
-| Key | Type | What it says |
+### 4.1 `stat_item` — stats strip, GKK panel numbers
+
+| Field name | Key | Type |
 |---|---|---|
-| `custom.plan_label` | Single line text | Small label above the headline, e.g. `6 Meal Plan` |
-| `custom.heading` | Multi-line text | The big headline; each line break becomes a line |
-| `custom.subheading` | Multi-line text | The paragraph under the headline |
-| `custom.fact_1_label` / `custom.fact_1_value` | Single line text | First fact pill, e.g. `Price` / `From $89.00` |
-| `custom.fact_2_label` / `custom.fact_2_value` | Single line text | Second fact, e.g. `Meals` / `6 per week` |
-| `custom.fact_3_label` / `custom.fact_3_value` | Single line text | Third fact, e.g. `Menu` / `10+ options` |
-| `custom.button_label` / `custom.button_label_2` | Single line text | Hero button labels |
-| `custom.badge_value` / `custom.badge_label` | Single line text | Round badge, e.g. `10+` / `meal options` |
+| Value | `value` | Single line text |
+| Label | `label` | Single line text |
 
-### Benefits band
+Fill `value` with the big number (`24oz`, `2-3 min`, `40+`) and `label` with the
+caption (`Per container`, `Years experience`).
 
-| Key | Type | What it says |
+### 4.2 `how_it_works_step` — already exists
+
+| Field name | Key | Type |
 |---|---|---|
-| `custom.benefits` | List of single line text | The scrolling stat rail. One row per item as `value\|label`, e.g. `24oz\|Per container` |
-| `custom.ben_eyebrow` | Single line text | Small line above the headline |
-| `custom.ben_line_1` / `_2` / `_3` | Single line text | The three headline lines; line 3 prints outlined |
-| `custom.ben_note` | Multi-line text | Paragraph under the headline |
+| Step number | `step_number` | Integer |
+| Title | `title` | Single line text |
+| Description | `description` | Multi-line text |
+| Icon | `icon` | File (image), optional |
 
-### Menu block
+Order comes from the list order, so `step_number` is only for your own reference.
 
-| Key | Type | What it says |
+### 4.3 `faq_item` — already exists
+
+| Field name | Key | Type |
 |---|---|---|
-| `custom.menu_eyebrow` | Single line text | Small label at the top of the meal list |
-| `custom.menu_heading` | Single line text | Heading beside the meal list |
-| `custom.menu_text` | Multi-line text | Line under that heading |
-| `custom.menu_button` | Single line text | Button under the meal list |
-| `custom.total_label` | Single line text | Label of the plan total, e.g. `Plan total` |
-| `custom.explore_heading` | Single line text | Heading above the filterable meal grid |
-| `custom.load_more_label` | Single line text | Text on the "load more" button |
-| `custom.detail_note` | Single line text | Footnote under the meal detail panel |
-| `custom.menu_modal_heading` / `custom.menu_caption` / `custom.picker_placeholder` / `custom.order_panel_title` | Single line text | Text on the weekly menu sheet, its caption, the dropdown placeholder and the order panel heading |
+| Question | `question` | Single line text |
+| Answer | `answer` | Rich text |
+| Category | `category` | Single line text, optional |
 
-### Chef, steps and quality
+The plan page prints the answer as plain text, so rich text formatting is stripped
+there but still works on the standalone FAQ page.
 
-| Key | Type | What it says |
+### 4.4 `testimonial` — already exists
+
+| Field name | Key | Type |
 |---|---|---|
-| `custom.chef_eyebrow` / `custom.chef_heading` / `custom.chef_text` | Text | The chef story block |
-| `custom.steps_eyebrow` / `custom.steps_heading` | Text | Heading of the how-it-works block |
-| `custom.steps` | List of single line text | One step per row as `title\|text` |
-| `custom.quality_points` | List of single line text | One row as `title\|text\|detail` |
+| Customer name | `customer_name` | Single line text |
+| Photo | `photo` | File (image), optional |
+| Review | `review` | Multi-line text |
+| Rating | `rating` | Rating |
+| Plan name | `plan_name` | Single line text, optional |
 
-### Ghar Ka Khana panel (`thali_*`)
+A testimonial with a photo shows that photo on the plan page. Without one the
+card uses a bundled food photo.
 
-Shown between the meal detail panel and the Explore grid when **Show the Ghar Ka
-Khana panel** is ticked in the theme editor. Every line reads its `custom.thali_*`
-metafield first and falls back to the theme editor setting.
+To hide the image on one card, leave `photo` blank and the card renders as text
+only — set that per plan by using a product-level list where you want it.
 
-| Key | Type | What it says |
+### 4.5 `meal_plan` — already exists (related plan cards)
+
+| Field name | Key | Type |
 |---|---|---|
-| `custom.thali_badge` / `custom.thali_heading` / `custom.thali_intro` | Text | Badge, headline and intro paragraph |
-| `custom.thali_plate_alt` | Single line text | Alt text of the plate photo |
-| `custom.thali_image` | File (image) | Plate photo. Blank uses the bundled cut-out plate |
-| `custom.thali_stats` | List of single line text | One row as `value\|label` |
-| `custom.thali_chips` | List of single line text | The labels around the plate |
-| `custom.thali_cards` | List of single line text | One card per row as `title\|text` |
-| `custom.thali_delivery_heading` / `custom.thali_delivery_text` | Text | Delivery block |
-| `custom.thali_tickets` | List of single line text | One row as `day\|window\|order-by label\|order-by value` |
-| `custom.thali_cutoff_note` | Multi-line text | Note under the tickets |
-| `custom.thali_fresh_heading` / `custom.thali_fresh_text` | Text | Fresh block |
-| `custom.thali_steps` | List of single line text | One row as `title\|text` |
-| `custom.thali_towns` | List of single line text | Delivery towns, one per row |
-| `custom.thali_cta_heading` / `_text` / `_label` / `_note` | Text | Closing panel copy |
-| `custom.thali_cta_link` | URL | Panel button link |
-| `custom.thali_facts` | List of single line text | One row as `value\|label` |
+| Name | `name` | Single line text |
+| Image | `image` | File (image), optional |
+| Short description | `short_description` | Multi-line text |
+| Linked product | `linked_product` | Product reference |
+| Badge | `badge` | Single line text, optional |
+| Price note | `price_note` | Single line text, optional |
+| Button label | `button_label` | Single line text, optional |
 
-Panel colours stay in the theme editor, because they are design, not content.
+`linked_product` supplies the link and, if `image` is blank, the photo. A card
+whose product is the plan you are already viewing is skipped automatically, so a
+plan never recommends itself.
 
-### Delivery
+### 4.6 `feature_card` — new (the two story cards)
 
-| Key | Type | What it says |
+| Field name | Key | Type |
 |---|---|---|
-| `custom.delivery_eyebrow` / `custom.delivery_heading` / `custom.delivery_text` | Text | Delivery block copy |
-| `custom.delivery_areas` | List of single line text | Town chips in the plain delivery block, one per row |
-| `custom.delivery_areas_title` | Single line text | Heading above the town list on the map panel |
-| `custom.delivery_towns` | List of single line text | Map panel towns, one row as `Town\|ZIP,ZIP\|left%\|top%`. Add `kitchen` as a fifth column to mark the kitchen |
-| `custom.delivery_map_query` / `custom.delivery_map_title` | Single line text | Place the map centres on, and the caption over it |
+| Title | `title` | Single line text |
+| Text | `text` | Multi-line text |
+| Image | `image` | File (image), optional |
 
-The map's zoom level and the checker's wording stay in the theme editor.
+Used for "Cooked by Chef Matt" and "Real ingredients". Two entries read best. If
+`image` is blank the theme draws its own illustration, as before.
 
-### Reviews, FAQ, related plans, CTA
+### 4.7 `delivery_area` — new (map towns + ZIP checker)
 
-| Key | Type | What it says |
-|---|---|---|
-| `custom.reviews_eyebrow` / `custom.reviews_heading` | Single line text | Reviews heading |
-| `custom.reviews` | List of single line text | One review per row as `name\|rating\|review\|aspect\|show image\|image`. `aspect` is the photo ratio (`1` square, `1.3` wide); `show image` is `1` or `0` |
-| `custom.faq_eyebrow` / `custom.faq_heading` | Single line text | FAQ heading |
-| `custom.faq` | List of single line text | One question per row as `question\|answer` |
-| `custom.related_eyebrow` / `custom.related_heading` | Single line text | Related plans heading |
-| `custom.related_plans` | List of single line text | One card per row as `title\|text\|product handle\|button label\|price note`. The handle pulls that plan's photo and link, e.g. `10 Meal Plan\|Ten meals from the weekly menu.\|10-meal-plan\|View plan\|Price at checkout` |
-| `custom.cta_eyebrow` / `custom.cta_heading` / `custom.cta_text` / `custom.cta_button_label` | Text | Closing call to action |
+| Field name | Key | Type | Notes |
+|---|---|---|---|
+| Name | `name` | Single line text | Required. Shown on the chip and used for search |
+| Postcodes | `postcodes` | Single line text | Comma separated, e.g. `53186, 53188` |
+| Map X | `map_x` | Decimal number | Horizontal position on the plate map, `0`–`100` |
+| Map Y | `map_y` | Decimal number | Vertical position, `0`–`100` |
+| Kitchen | `is_kitchen` | Boolean | Tick exactly one row |
+| Latitude | `latitude` | Decimal number | Optional, exact pin placement |
+| Longitude | `longitude` | Decimal number | Optional |
 
-Review photos: a product metafield cannot hold an image per row, so review rows
-with `show image` set to `1` use the theme's bundled food photos. If a review
-needs a specific photo, keep that review as a theme editor block instead.
+The ZIP checker matches on `name` and `postcodes`. `map_x` and `map_y` place the
+pin on the stylised map; without them the theme looks the town up by name.
+
+> This replaces the old `custom.delivery_towns` pipe-delimited list. That list
+> still works and is used when no `delivery_area` records exist, so nothing breaks
+> mid-migration.
 
 ---
 
-## 4. Pointing a page at its product
+## 5. Step 3 — Shop-level shared metafields
 
-1. Online Store → **Customize** → open the plan page.
-2. Select the **CM meal plan page** section.
-3. Under **Content source → Plan product**, choose the plan product,
-   e.g. `6 Meal Plan`.
-4. Save.
+Settings → **Custom data** → **Shop** → **Add definition**.
 
-Once that is set, the theme editor fields act only as fallbacks, so day-to-day
-editing happens entirely in Products.
+| Name | Namespace and key | Type | List? |
+|---|---|---|---|
+| Stats strip | `custom.stats` | Metaobject (`stat_item`) | Yes — list of entries |
+| How it works | `custom.how_it_works` | Metaobject (`how_it_works_step`) | Yes |
+| FAQ | `custom.faq_items` | Metaobject (`faq_item`) | Yes |
+| Testimonials | `custom.testimonials` | Metaobject (`testimonial`) | Yes |
+| Related plans | `custom.plan_cards` | Metaobject (`meal_plan`) | Yes |
+| Feature cards | `custom.feature_cards` | Metaobject (`feature_card`) | Yes |
+| Delivery towns | `custom.delivery_area_list` | Metaobject (`delivery_area`) | Yes |
+| GKK panel stats | `custom.thali_stat_items` | Metaobject (`stat_item`) | Yes |
+| GKK panel facts | `custom.thali_fact_items` | Metaobject (`stat_item`) | Yes |
+| Chef story copy | `custom.chef_eyebrow`, `custom.chef_heading`, `custom.chef_text` | Single line / multi-line text | No |
+| Chef photos | `custom.chef_image_1`, `custom.chef_image_2` | File (image) | No |
+| Section headings | `custom.ben_eyebrow`, `custom.menu_eyebrow`, `custom.menu_heading`, `custom.menu_text`, `custom.explore_heading`, `custom.steps_eyebrow`, `custom.steps_heading`, `custom.delivery_eyebrow`, `custom.delivery_heading`, `custom.delivery_text`, `custom.reviews_eyebrow`, `custom.reviews_heading`, `custom.faq_eyebrow`, `custom.faq_heading`, `custom.related_eyebrow`, `custom.related_heading` | Single line text | No |
+| Closing CTA | `custom.cta_eyebrow`, `custom.cta_heading`, `custom.cta_text` | Text | No |
+| CTA image | `custom.cta_image` | File (image) | No |
+| GKK panel copy | `custom.thali_badge`, `custom.thali_heading`, `custom.thali_intro`, `custom.thali_delivery_heading`, `custom.thali_delivery_text`, `custom.thali_cutoff_note`, `custom.thali_fresh_heading`, `custom.thali_fresh_text`, `custom.thali_cta_heading`, `custom.thali_cta_text` | Text | No |
+
+Metaobject list fields need **Storefront access is not required** — everything
+below renders in Liquid on the server, so the metaobjects do not need to be
+exposed to the Storefront API.
 
 ---
 
-## 5. Publishing the definitions
+## 6. Where to fill each one
 
-Metafield definitions are store data, not theme files, so they are created once
-in Admin. For each key above:
+1. **Settings → Custom data → Metaobjects** — create the definitions in step 4,
+   then add entries under *Content → Metaobjects*.
+2. **Settings → Custom data → Shop** — add the shared metafields, then point each
+   metaobject list at the entries you just made.
+3. **Products → 6 Meal Plan → Metafields** — the per-plan copy.
+4. **Products → 6 Meal Plan → Variants** — one variant per meal, with variant
+   metafields.
+5. **Online Store → Customize → the plan page** — confirm the section's
+   **Plan product** field points at the right product.
 
-1. Settings → **Custom data** → **Products** (or **Variants** for the meal
-   fields) → **Add definition**.
-2. Name it for your team, e.g. `Calories`.
-3. Set the namespace and key to exactly `custom.calories` — the namespace box
-   must say `custom`.
-4. Pick the type from the tables above.
-5. Save, then fill the values on the product or variant.
+Repeat step 3 for 5, 7, 10 and 15 Meal Plans. Steps 1, 2 and 4's definitions are
+created once and shared.
 
-Checklist before you publish:
+---
 
-- [ ] The plan product has one variant per meal, each with a price and photo
-- [ ] Every meal variant has calories, protein, carbs and fat
-- [ ] Diet tags are correct, so the gluten-free and dairy-free chips are right
-- [ ] Allergens are filled in and accurate
-- [ ] The section's **Plan product** field points at the right product
-- [ ] The page shows six dropdowns (**Order dropdowns** = `6`) if you sell it as a
-      build-your-own box
+## 7. Theme editor settings still available
+
+These are design and layout controls, not content, and they stay in the theme
+editor:
+
+| Setting | What it does |
+|---|---|
+| Order dropdowns (`picker_count`) | How many meal dropdowns the order box shows |
+| Meals in the featured row (`menu_count`) | How many meals "This week's menu" shows, default 5 |
+| Meals per Explore page (`grid_page_size`) | Cards before Load more, default 6 |
+| Meal card link label | Default `View meal` |
+| Filter: all label | Default `All` |
+| Nutrition labels | `Protein`, `Carbs`, `Fat`, `Contains`, `Heating` |
+| Delivery style | Plate map, street map or Google embed |
+| Padding, colours | Layout only |
+
+Everything in that table is also a fallback, so nothing here is required to make
+the page work.
+
+---
+
+## 8. Checklist before publishing
+
+- [ ] Every plan product has one variant per meal, each with price and photo
+- [ ] Every meal variant has calories, protein, carbs, fat
+- [ ] Diet tags are correct, so the filter chips match the food
+- [ ] Allergens are accurate
+- [ ] `custom.delivery_area_list` has your real towns, with exactly one row
+      marked as the kitchen
+- [ ] The section's **Plan product** points at the right product on each page
+- [ ] **Order dropdowns** is 6 on the 6 Meal Plan page, 5 on the 5, and so on
+- [ ] Nothing renders as an empty heading or a missing image on any of the five
+      plan pages
