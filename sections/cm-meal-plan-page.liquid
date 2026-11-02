@@ -109,14 +109,14 @@
   assign c_related_eyebrow = plan_meta.related_eyebrow.value | default: shared_meta.related_eyebrow.value | default: section.settings.related_eyebrow
   assign c_related_heading = plan_meta.related_heading.value | default: shared_meta.related_heading.value | default: section.settings.related_heading
 
-  assign c_cta_eyebrow = plan_meta.cta_eyebrow.value | default: section.settings.cta_eyebrow
-  assign c_cta_heading = plan_meta.cta_heading.value | default: section.settings.cta_heading
-  assign c_cta_text = plan_meta.cta_text.value | default: section.settings.cta_text
+  assign c_cta_eyebrow = plan_meta.cta_eyebrow.value | default: shared_meta.cta_eyebrow.value | default: section.settings.cta_eyebrow
+  assign c_cta_heading = plan_meta.cta_heading.value | default: shared_meta.cta_heading.value | default: section.settings.cta_heading
+  assign c_cta_text = plan_meta.cta_text.value | default: shared_meta.cta_text.value | default: section.settings.cta_text
   assign c_cta_button_label = plan_meta.cta_button_label.value | default: section.settings.cta_button_label
 
   # Repeatable rows. A metaobject list wins, then the plan product's metafield
   # list, then the shop shared list, then the theme editor blocks. The row
-  # renderer decides between them so every kind follows the same order.
+  # renderer walks them in that order, so a store can migrate one section at a time.
   assign row_benefits = mo_stats
   assign row_steps = mo_steps
   assign row_faq = mo_faq
@@ -708,7 +708,7 @@
 
     {%- if section.settings.thali_show -%}
       {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
-      {% render 'cm-thali-story', section: section, s: section.settings, meta: plan_meta, features: mo_features, stats: mo_stats_thali, facts: mo_facts %}
+      {% render 'cm-thali-story', section: section, s: section.settings, meta: plan_meta, features: mo_features, stats: mo_stats_thali, facts: mo_facts, shared: shared_meta %}
     {%- endif -%}
 
     <section class="ex"><div class="wrap">
@@ -726,8 +726,8 @@
         # not be changed from Admin. An image set on the product (or the section)
         # renders here; otherwise the original bundled photo still fills in via
         # the data-p hook the script reads.
-        assign chef_image_1 = plan_meta.chef_image_1.value | default: section.settings.chef_image_1
-        assign chef_image_2 = plan_meta.chef_image_2.value | default: section.settings.chef_image_2
+        assign chef_image_1 = plan_meta.chef_image_1.value | default: shared_meta.chef_image_1.value | default: section.settings.chef_image_1
+        assign chef_image_2 = plan_meta.chef_image_2.value | default: shared_meta.chef_image_2.value | default: section.settings.chef_image_2
       -%}
       <div class="mealplan-img mealplan-big mp-gs"{% unless chef_image_1 != blank %} data-p="0"{% endunless %}>
         {%- if chef_image_1 != blank -%}
