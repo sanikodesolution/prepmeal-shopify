@@ -48,7 +48,17 @@ Mukwonago|53149|41.9|51.6
 
 {%- liquid
   assign s = section.settings
-  assign towns_raw = s.plate_towns | strip
+  # Copy: plan product metafields first, theme editor settings second.
+  assign d_eyebrow = meta.delivery_eyebrow.value | default: s.delivery_eyebrow
+  assign d_heading = meta.delivery_heading.value | default: s.delivery_heading
+  assign d_text = meta.delivery_text.value | default: s.delivery_text
+  assign d_areas_title = meta.delivery_areas_title.value | default: s.plate_areas_title
+  assign towns_raw = meta.delivery_towns.value
+  if towns_raw != blank
+    # A metafield list holds "Town|ZIP|left|top" rows minus the commas.
+    assign towns_raw = towns_raw | join: '<br>'
+  endif
+  assign towns_raw = towns_raw | default: s.plate_towns | strip
   if towns_raw == blank
     assign towns_raw = plate_default_towns | strip
   endif
