@@ -110,7 +110,7 @@
             assign c4 = '0'
           endif
           assign review_photo = item.photo.value | default: item.image.value
-          if review_photo != blank
+          if review_photo != blank and review_photo.url != blank
             assign c5 = review_photo | image_url: width: 700
           endif
         when 'quality'
@@ -127,7 +127,7 @@
           assign c4 = item.price_note.value | default: item.badge.value
           assign c5 = ''
           assign card_image = item.image.value | default: related_product.featured_image
-          if card_image != blank
+          if card_image != blank and card_image.url != blank
             assign c5 = card_image | image_url: width: 700
           endif
 
