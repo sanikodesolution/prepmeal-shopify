@@ -406,11 +406,11 @@ color:var(--ben-ink);padding:0 0 0
    was what made the cards look narrower than the rest of the page. */
 .mealplan-rel .mealplan-track{padding-inline:0}
 /* Five cards no longer fit one 320px row, so centring a scroll track would clip
-   the first card. Wrap them instead and let them fill the container edge to
-   edge like every other section on the page; mobile keeps the swipe. */
+   the first card. Wrap them instead and spread the row edge to edge like every
+   other section on the page; mobile keeps the swipe. */
 @media(min-width:900px){
-.mealplan-rel .mealplan-track{flex-wrap:wrap;justify-content:center;overflow-x:visible;padding-bottom:0;gap:1.25rem}
-.mealplan-rel .mealplan-card{flex:1 1 0;min-width:0;max-width:none}
+.mealplan-rel .mealplan-track{flex-wrap:wrap;justify-content:space-between;overflow-x:visible;padding-bottom:0}
+.mealplan-rel .mealplan-card{flex:0 1 320px;min-width:0}
 }
 /* Mobile keeps the swipe, so the row ends right under the card. The 80px block
    padding on this section plus the next section's own 80px left a ~170px hole
