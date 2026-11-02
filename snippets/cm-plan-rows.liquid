@@ -23,8 +23,42 @@
   - exclude_product {Product} Related card pointing at this product is skipped.
 {%- endcomment -%}
 {%- liquid
-  assign use_items = false
+  # An item list is only used when it actually has a row to show. A list whose
+  # entries are all blank, or that only holds a related card pointing at this
+  # same plan, must not win over the fallbacks below — otherwise the section
+  # renders an empty wrapper.
+  assign usable_items = 0
   if items != blank and items.size > 0
+    for item in items
+      assign candidate = ''
+      case kind
+        when 'benefit'
+          assign candidate = item.value.value | default: item.title.value
+        when 'step'
+          assign candidate = item.title.value
+        when 'faq'
+          assign candidate = item.question.value
+        when 'review'
+          assign candidate = item.customer_name.value | default: item.name.value | default: item.review.value
+        when 'quality'
+          assign candidate = item.title.value
+        when 'related'
+          assign candidate = item.name.value | default: item.title.value
+          assign candidate_product = item.linked_product.value
+          if exclude_product != blank and candidate_product != blank
+            if candidate_product.id == exclude_product.id
+              assign candidate = ''
+            endif
+          endif
+      endcase
+      if candidate != blank
+        assign usable_items = usable_items | plus: 1
+      endif
+    endfor
+  endif
+
+  assign use_items = false
+  if usable_items > 0
     assign use_items = true
   endif
 -%}
