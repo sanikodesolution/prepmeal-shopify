@@ -750,6 +750,13 @@
       // cannot be styled, so each select is wrapped by a button + listbox. The
       // select itself stays in the DOM (visually hidden) so the existing submit
       // handler and Shopify properties keep working untouched.
+      // The placeholder is the disabled empty option Liquid renders, so the
+      // merchant can rename it on the plan product instead of editing this file.
+      const emptyLabel = (select) => {
+        const first = select.options[0];
+        if (first && !first.value) return first.textContent.trim();
+        return orderForm.dataset.mpEmptyLabel || 'Choose a meal';
+      };
       const closePickers = (except) => {
         $$('[data-mp-trigger]', orderForm).forEach((btn) => {
           if (btn === except) return;
@@ -763,7 +770,7 @@
         const chosen = select.options[select.selectedIndex];
         const empty = !select.value;
         const text = trigger.querySelector('.mealplan-menu__trigger-text');
-        if (text) text.textContent = empty ? 'Choose a meal' : (chosen ? chosen.textContent.trim() : '');
+        if (text) text.textContent = empty ? emptyLabel(select) : (chosen ? chosen.textContent.trim() : '');
         trigger.classList.toggle('is-empty', empty);
         // Price lives in a sibling span so the name can keep its own ellipsis.
         const price = trigger.querySelector('.mealplan-menu__trigger-price');
@@ -786,7 +793,7 @@
         trigger.setAttribute('aria-haspopup', 'listbox');
         trigger.setAttribute('aria-expanded', 'false');
         trigger.setAttribute('aria-label', `Meal ${index + 1}`);
-        trigger.innerHTML = '<span class="mealplan-menu__trigger-text">Choose a meal</span>'
+        trigger.innerHTML = `<span class="mealplan-menu__trigger-text">${emptyLabel(select)}</span>`
           + '<span class="mealplan-menu__trigger-price" hidden></span>'
           + '<svg viewBox="0 0 12 8" fill="none" aria-hidden="true"><path fill="none" stroke="#15251C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M1 1.5 6 6.5 11 1.5"/></svg>';
 
@@ -804,7 +811,7 @@
           li.dataset.index = String(optIndex);
           if (!opt.value) {
             li.classList.add('is-placeholder');
-            li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span>Choose a meal</span>';
+            li.innerHTML = `<span class="mealplan-menu__option-mark">✓</span><span>${emptyLabel(select)}</span>`;
           } else {
             li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span class="mealplan-menu__option-name"></span>'
               + (opt.dataset.price ? '<span class="mealplan-menu__option-price"></span>' : '');
