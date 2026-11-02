@@ -34,18 +34,20 @@
   # that needs its own version fills the matching product metafield, which wins.
   assign shared_meta = shop.metafields.custom
 
-  # Metaobject lists first: the modern source for repeatable content, and the
-  # only one that can carry an image per row.
-  assign mo_meals = shared_meta.meals.value | default: plan_meta.meals.value
-  assign mo_stats = shared_meta.stats.value | default: plan_meta.stats.value
-  assign mo_steps = shared_meta.how_it_works.value | default: plan_meta.how_it_works.value
-  assign mo_faq = shared_meta.faq_items.value | default: plan_meta.faq_items.value
-  assign mo_testimonials = shared_meta.testimonials.value | default: plan_meta.testimonials.value
-  assign mo_plans = shared_meta.plan_cards.value | default: plan_meta.plan_cards.value
-  assign mo_features = shared_meta.feature_cards.value | default: plan_meta.feature_cards.value
-  assign mo_areas = shared_meta.delivery_areas.value | default: plan_meta.delivery_area_items.value
-  assign mo_stats_thali = shared_meta.thali_stats.value | default: plan_meta.thali_stat_items.value
-  assign mo_facts = shared_meta.thali_facts.value | default: plan_meta.thali_fact_items.value
+  # Metaobject lists. A plan product can override any of these by filling the
+  # same key on the product; the shop-level entry is the shared default. Keys
+  # are deliberately distinct from the legacy text lists (benefits, faq,
+  # reviews, related_plans, delivery_areas) so both can exist at once.
+  assign mo_meals = plan_meta.meals.value | default: shared_meta.meals.value
+  assign mo_stats = plan_meta.stats.value | default: shared_meta.stats.value
+  assign mo_steps = plan_meta.how_it_works.value | default: shared_meta.how_it_works.value
+  assign mo_faq = plan_meta.faq_items.value | default: shared_meta.faq_items.value
+  assign mo_testimonials = plan_meta.testimonials.value | default: shared_meta.testimonials.value
+  assign mo_plans = plan_meta.plan_cards.value | default: shared_meta.plan_cards.value
+  assign mo_features = plan_meta.feature_cards.value | default: shared_meta.feature_cards.value
+  assign mo_areas = plan_meta.delivery_area_list.value | default: shared_meta.delivery_area_list.value
+  assign mo_stats_thali = plan_meta.thali_stat_items.value | default: shared_meta.thali_stat_items.value
+  assign mo_facts = plan_meta.thali_fact_items.value | default: shared_meta.thali_fact_items.value
 
   # Copy: metafield first, shop shared value second, theme editor setting third.
   assign c_plan_label = plan_meta.plan_label.value | default: section.settings.plan_label
