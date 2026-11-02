@@ -138,16 +138,22 @@ Mukwonago|53149|41.9|51.6
   assign geo_country = s.delivery_country | default: ''
   assign limit = s.plate_visible | default: 12
 
-  assign placeholder = s.delivery_placeholder | default: 'Postal code or town'
-  assign button = s.delivery_button | default: 'Check my area'
-  assign kitchen_label = s.plate_kitchen_label | default: 'Our kitchen'
-  assign more_label = s.plate_more_label | default: 'Show all {count} areas'
-  assign less_label = s.plate_less_label | default: 'Show fewer'
+  assign placeholder = meta.delivery_placeholder.value | default: shared.delivery_placeholder.value | default: s.delivery_placeholder | default: 'Postal code or town'
+  assign button = meta.delivery_button.value | default: shared.delivery_button.value | default: s.delivery_button | default: 'Check my area'
+  assign kitchen_label = meta.plate_kitchen_label.value | default: shared.plate_kitchen_label.value | default: s.plate_kitchen_label | default: 'Our kitchen'
+  assign kitchen_address = meta.plate_kitchen_address.value | default: shared.plate_kitchen_address.value | default: s.plate_kitchen_address
+  assign map_label = meta.plate_map_label.value | default: shared.plate_map_label.value | default: s.plate_map_label | default: 'Map of our delivery area'
+  assign maps_label = meta.plate_maps_label.value | default: shared.plate_maps_label.value | default: s.plate_maps_label | default: 'Open in Maps'
+  assign legend_kitchen = meta.plate_legend_kitchen.value | default: shared.plate_legend_kitchen.value | default: s.plate_legend_kitchen | default: 'Our kitchen'
+  assign legend_area = meta.plate_legend_area.value | default: shared.plate_legend_area.value | default: s.plate_legend_area | default: 'Delivery areas'
+  assign legend_zone = meta.plate_legend_zone.value | default: shared.plate_legend_zone.value | default: s.plate_legend_zone | default: 'Delivery zone'
+  assign more_label = meta.plate_more_label.value | default: shared.plate_more_label.value | default: s.plate_more_label | default: 'Show all {count} areas'
+  assign less_label = meta.plate_less_label.value | default: shared.plate_less_label.value | default: s.plate_less_label | default: 'Show fewer'
   # Precompute: a quoted literal containing braces inside a tag breaks Shopify's lexer.
   assign more_label_done = more_label | replace: '{count}', town_count
-  assign msg_yes = s.plate_msg_yes | default: 'Good news, we deliver to {area}.'
-  assign msg_no = s.plate_msg_no | default: 'We do not deliver to {query} yet. Check the list below or contact us.'
-  assign msg_empty = s.plate_msg_empty | default: 'Type a postal code or town first.'
+  assign msg_yes = meta.plate_msg_yes.value | default: shared.plate_msg_yes.value | default: s.plate_msg_yes | default: 'Good news, we deliver to {area}.'
+  assign msg_no = meta.plate_msg_no.value | default: shared.plate_msg_no.value | default: s.plate_msg_no | default: 'We do not deliver to {query} yet. Check the list below or contact us.'
+  assign msg_empty = meta.plate_msg_empty.value | default: shared.plate_msg_empty.value | default: s.plate_msg_empty | default: 'Type a postal code or town first.'
   # Build brace tokens by concatenation, for the same lexer reason as above.
   assign po = '{'
   assign pc = '}'
