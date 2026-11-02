@@ -63,28 +63,24 @@ Mukwonago|53149|41.9|51.6
   assign towns_raw = ''
   assign area_items = areas
   if area_items != blank and area_items.size > 0
-    # Each object becomes one row in the same format the rest of this snippet
-    # already reads, so no second code path is needed.
-    capture towns_raw
-      for item in area_items
-        assign area_name = item.name.value | strip
-        if area_name != blank
-          assign area_zips = item.postcodes.value | default: '' | strip
-          assign area_flag = ''
-          if item.is_kitchen.value
-            assign area_flag = 'kitchen'
-          endif
-          echo area_name | append: '|'
-          echo area_zips | append: '|'
-          echo item.map_x.value | append: '|'
-          echo item.map_y.value | append: '|'
-          echo area_flag | append: '|'
-          echo item.latitude.value | append: '|'
-          echo item.longitude.value
-          echo newline
+    # Each object is turned into the same pipe-delimited row the rest of this
+    # snippet already reads, so there is no second code path to maintain.
+    assign area_rows = ''
+    for item in area_items
+      assign area_name = item.name.value | strip
+      if area_name != blank
+        assign area_zips = item.postcodes.value | default: '' | strip
+        assign area_flag = ''
+        if item.is_kitchen.value
+          assign area_flag = 'kitchen'
         endif
-      endfor
-    endcapture
+        assign area_row = area_name | append: '|' | append: area_zips
+        assign area_row = area_row | append: '|' | append: item.map_x.value | append: '|' | append: item.map_y.value
+        assign area_row = area_row | append: '|' | append: area_flag | append: '|' | append: item.latitude.value | append: '|' | append: item.longitude.value
+        assign area_rows = area_rows | append: area_row | append: '<br />'
+      endif
+    endfor
+    assign towns_raw = area_rows
   else
     assign towns_raw = meta.delivery_towns.value
     if towns_raw != blank
