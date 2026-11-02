@@ -5,6 +5,9 @@
   Accepts:
   - s: {Object} section.settings drop
   - meta: {Object} the plan product's custom.* metafields, used first
+  - features: {Array} feature_card metaobjects for the two story cards
+  - stats: {Array} stat_item metaobjects for the hero numbers
+  - facts: {Array} stat_item metaobjects for the closing numbers
 
   Everything below is optional; a blank value simply drops that line.
   Line-based settings use the form "value|label" or "day|time|order by|cutoff".
@@ -29,10 +32,6 @@
   assign gkk_steps = meta.thali_steps.value
   if gkk_steps == blank
     assign gkk_steps = s.thali_steps | newline_to_br | split: '<br />'
-  endif
-  assign gkk_facts = meta.thali_facts.value
-  if gkk_facts == blank
-    assign gkk_facts = s.thali_facts | newline_to_br | split: '<br />'
   endif
   assign gkk_towns = meta.thali_towns.value
   if gkk_towns == blank
