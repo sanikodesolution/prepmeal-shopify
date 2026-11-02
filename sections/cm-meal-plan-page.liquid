@@ -742,7 +742,7 @@
 
     <section class="ex"><div class="wrap">
       <h2>{{ c_explore_heading | escape }}</h2>
-      <div class="filters" id="filters" role="group" aria-label="Filter meals"></div>
+      <div class="filters" id="filters" role="group" aria-label="{{ c_filter_label | escape }}"></div>
       <div class="eg" id="grid"></div>
       <div class="more"><button type="button" class="btn" id="more">{{ c_load_more_label | escape }}</button></div>
     </div></section>
@@ -830,8 +830,8 @@
           <h2 class="mealplan-h">{{ c_gallery_heading | escape | newline_to_br }}</h2>
         </div>
         <div class="mealplan-arrows">
-          <button type="button" aria-label="Previous" data-g="-1">&larr;</button>
-          <button type="button" aria-label="Next" data-g="1">&rarr;</button>
+          <button type="button" aria-label="{{ c_gallery_prev_label | escape }}" data-g="-1">&larr;</button>
+          <button type="button" aria-label="{{ c_gallery_next_label | escape }}" data-g="1">&rarr;</button>
         </div>
       </div>
       <div class="mealplan-track" id="gal"></div>
