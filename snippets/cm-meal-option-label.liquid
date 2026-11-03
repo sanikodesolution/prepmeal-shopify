@@ -5,8 +5,11 @@
 
   Priority:
   1. variant metafield custom.short_name
-  2. variant.title with a trailing " +$N" price tag stripped (stores sometimes
-     put the surcharge in the option value; the cart still uses the real price)
+  2. variant.title (trailing " +$N" in the option name is normalized away)
+
+  When base_cents is passed (cheapest meal in the catalog) and this variant
+  costs more, appends " +$N" so the surcharge shows in the list/dropdown
+  without printing every meal's full $15 / $17 price.
 {%- endcomment -%}
 {%- liquid
   assign label = variant.metafields.custom.short_name.value | strip
@@ -15,6 +18,15 @@
     if label contains ' +$'
       assign label = label | split: ' +$' | first | strip
     endif
+  endif
+  assign base_cents = base_cents | default: 0 | plus: 0
+  if base_cents > 0 and variant.price > base_cents
+    assign surcharge = variant.price | minus: base_cents
+    assign bump = surcharge | money_without_currency | strip | remove: ','
+    if bump contains '.00'
+      assign bump = bump | remove: '.00'
+    endif
+    assign label = label | append: ' +$' | append: bump
   endif
 -%}
 {{- label -}}

@@ -23,11 +23,17 @@
 {%- liquid
   assign food_total = food_count | default: 10
   assign plan_has_meals = false
+  assign meal_base_cents = 0
   if plan != blank and plan.variants.size > 0
     assign real_variants = 0
     for variant in plan.variants
       unless variant.title == 'Default Title'
         assign real_variants = real_variants | plus: 1
+        if variant.price > 0
+          if meal_base_cents == 0 or variant.price < meal_base_cents
+            assign meal_base_cents = variant.price
+          endif
+        endif
       endunless
     endfor
     if real_variants > 0
@@ -99,13 +105,22 @@
         endif
 
         # Short label for the list, gallery, grid and dropdowns. Same rules as
-        # cm-meal-option-label so every preview stays in sync.
+        # cm-meal-option-label so every preview stays in sync — including +$N
+        # when this meal costs more than the cheapest option.
         assign meal_short = mv.short_name.value | default: mo.short_name.value | strip
         if meal_short == blank
           assign meal_short = variant.title | strip
           if meal_short contains ' +$'
             assign meal_short = meal_short | split: ' +$' | first | strip
           endif
+        endif
+        if meal_base_cents > 0 and variant.price > meal_base_cents
+          assign surcharge = variant.price | minus: meal_base_cents
+          assign bump = surcharge | money_without_currency | strip | remove: ','
+          if bump contains '.00'
+            assign bump = bump | remove: '.00'
+          endif
+          assign meal_short = meal_short | append: ' +$' | append: bump
         endif
 
         assign allergens = mv.allergens.value | default: mo.allergens.value | default: plan.metafields.custom.allergens.value

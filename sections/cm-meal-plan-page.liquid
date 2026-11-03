@@ -210,13 +210,19 @@
   endif
 
   # Prices are in cents so they format with the store currency.
+  # meal_base_cents = cheapest meal — used to show "+$2" on pricier options.
   assign any_price = false
+  assign meal_base_cents = 0
   if variant_menu
     for variant in meals_catalog.variants
-      if variant.price > 0
-        assign any_price = true
-        break
-      endif
+      unless variant.title == 'Default Title'
+        if variant.price > 0
+          assign any_price = true
+          if meal_base_cents == 0 or variant.price < meal_base_cents
+            assign meal_base_cents = variant.price
+          endif
+        endif
+      endunless
     endfor
   endif
   assign plan_price = section.settings.meal_price | default: 0
@@ -232,21 +238,16 @@
   endfor
 
   assign first_meal_label = menu_blocks.first.settings.short | default: menu_blocks.first.settings.name
-  if variant_menu
-    for variant in meals_catalog.variants
-      unless variant.title == 'Default Title'
-        assign first_meal_label = variant.metafields.custom.short_name.value | strip
-        if first_meal_label == blank
-          assign first_meal_label = variant.title | strip
-          if first_meal_label contains ' +$'
-            assign first_meal_label = first_meal_label | split: ' +$' | first | strip
-          endif
-        endif
-        break
-      endunless
-    endfor
-  endif
 -%}
+{%- if variant_menu -%}
+  {%- for variant in meals_catalog.variants -%}
+    {%- unless variant.title == 'Default Title' -%}
+      {%- capture first_meal_label -%}{% render 'cm-meal-option-label', variant: variant, base_cents: meal_base_cents %}{%- endcapture -%}
+      {%- assign first_meal_label = first_meal_label | strip -%}
+      {%- break -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endif -%}
 
 {%- capture foods_json -%}
 [
@@ -500,7 +501,7 @@
             {%- if variant_menu -%}
               {%- for variant in meals_catalog.variants -%}
                 {%- unless variant.title == 'Default Title' -%}
-                  {%- capture meal_label -%}{% render 'cm-meal-option-label', variant: variant %}{%- endcapture -%}
+                  {%- capture meal_label -%}{% render 'cm-meal-option-label', variant: variant, base_cents: meal_base_cents %}{%- endcapture -%}
                   <li>
                     <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item data-mp-variant="{{ variant.id }}">
                       <span class="mealplan-menu__num">{{ forloop.index }}</span>
@@ -532,7 +533,7 @@
                       {%- if variant_menu -%}
                         {%- for variant in meals_catalog.variants -%}
                           {%- unless variant.title == 'Default Title' -%}
-                            {%- capture opt_label -%}{% render 'cm-meal-option-label', variant: variant %}{%- endcapture -%}
+                            {%- capture opt_label -%}{% render 'cm-meal-option-label', variant: variant, base_cents: meal_base_cents %}{%- endcapture -%}
                             <option value="{{ variant.title | escape }}"{% if variant.price > 0 %} data-price="{{ variant.price | money | escape }}" data-price-cents="{{ variant.price }}"{% endif %} data-variant-id="{{ variant.id }}">{{ opt_label | strip | escape }}</option>
                           {%- endunless -%}
                         {%- endfor -%}
@@ -586,7 +587,7 @@
                 {%- if variant_menu -%}
                   {%- for variant in meals_catalog.variants -%}
                     {%- unless variant.title == 'Default Title' -%}
-                      {%- capture row_label -%}{% render 'cm-meal-option-label', variant: variant %}{%- endcapture -%}
+                      {%- capture row_label -%}{% render 'cm-meal-option-label', variant: variant, base_cents: meal_base_cents %}{%- endcapture -%}
                       <li data-mp-row{% if forloop.first %} class="is-active"{% endif %} data-mp-variant="{{ variant.id }}">{{ row_label | strip | escape }}</li>
                     {%- endunless -%}
                   {%- endfor -%}
@@ -639,7 +640,7 @@
                 {%- if variant_menu -%}
                   {%- for variant in meals_catalog.variants -%}
                     {%- unless variant.title == 'Default Title' -%}
-                      {%- capture dish -%}{% render 'cm-meal-option-label', variant: variant %}{%- endcapture -%}
+                      {%- capture dish -%}{% render 'cm-meal-option-label', variant: variant, base_cents: meal_base_cents %}{%- endcapture -%}
                       {%- assign dish = dish | strip -%}
                       {%- assign bits = dish | split: ' with ' -%}
                       <li class="mealplan-menu__card">
