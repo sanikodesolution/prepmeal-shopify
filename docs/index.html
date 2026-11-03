@@ -495,6 +495,7 @@ shopify theme push --store your-store.myshopify.com --theme 123456789 --only sec
 					<tr><td>Delivery towns (plate map)</td><td><code>cm-meal-plan-page</code> → <code>plate_towns</code></td><td>Styled plate map and town chips</td></tr>
 					<tr><td>Kitchen pin (plate map)</td><td><code>cm-meal-plan-page</code> → the <code>kitchen</code> word in <code>plate_towns</code>, else <code>delivery_kitchen_lat</code> / <code>delivery_kitchen_lng</code></td><td>Centre of the plate map and the ring around it. The marked town wins when both are set.</td></tr>
 					<tr><td>Kitchen label / address</td><td><code>cm-meal-plan-page</code> → <code>plate_kitchen_label</code>, <code>plate_kitchen_address</code></td><td>Under the plate map</td></tr>
+					<tr><td>Delivery towns (metaobject)</td><td>Product metafield <code>custom.delivery_area_list</code>, falling back to the same key on the shop-level shared metafields</td><td>Highest priority. Wins over <code>delivery_towns</code> and <code>plate_towns</code></td></tr>
 					<tr><td>Customer place lookup</td><td><code>cm-meal-plan-page</code> → <code>delivery_msg_lookup_yes</code>, <code>delivery_msg_lookup_no</code>, <code>delivery_msg_lookup_fail</code></td><td>The answer when a visitor types a place you did not list. Use <code>{place}</code>, <code>{distance}</code> and <code>{query}</code>.</td></tr>
 					<tr><td>Customer lookup (plate map)</td><td><code>cm-meal-plan-page</code> → <code>plate_msg_lookup_in</code>, <code>plate_msg_lookup_out</code></td><td>The same answer on the plate map</td></tr>
 					<tr><td>Footer address</td><td><code>cm-footer</code> → Contact info block → <code>area</code></td><td>Site footer</td></tr>
@@ -541,13 +542,13 @@ N64W28381 Hawthorne Rd, Hartland, WI 53029
 		<p><strong>Name-only rows are enough.</strong> Write one town per line. If you leave the coordinates off, the theme finds the place for you:</p>
 <pre class="line-numbers">
 <code class="language-markup">
-Hartland|53029
-Delafield|53018
+Hartland
+Delafield
 Waukesha|53186,53188,53189
-Pewaukee|53072
+Pewaukee
 </code>
 </pre>
-		<p>The format is <code>Name|ZIP,ZIP</code>. Everything else is optional:</p>
+		<p>The format is <code>Name|ZIP,ZIP</code>. Everything except the name is optional:</p>
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped" style="font-size:13px;">
 				<thead>
@@ -569,6 +570,7 @@ Pewaukee|53072
 			<li>Leave the field <strong>empty</strong> to keep the packaged Hartland / Lake Country list. An empty field never means “no delivery areas” — it falls back to the built-in list.</li>
 			<li><code>delivery_initial_chips</code> controls how many towns show as buttons before “Show all”.</li>
 			<li>A town that cannot be found still appears as a searchable chip and still answers “yes we deliver” — it simply gets no pin on the map. Give it coordinates if you want it plotted.</li>
+			<li><strong>Names resolve near your kitchen, not worldwide.</strong> The lookup is biased to the kitchen position so that <em>Sussex</em> finds Sussex, Wisconsin rather than Sussex, England. If a town still lands in the wrong place, add its state to that row — <code>Sussex, WI</code>.</li>
 		</ul>
 
 		<p>The <strong>plate map</strong> takes the same idea with its own column order:</p>
@@ -870,6 +872,20 @@ announcement-bar → delivery message, if one mentions a city
 			</table>
 		</div>
 
+		<div class="doc-note">
+			<strong>Types used by the meal plan pages.</strong> The meal plan pages read four further types that no other part of the theme uses. Create these only if you are filling plan content from Admin:
+			<br><br>
+			<code>delivery_area</code> — <code>name</code>, <code>postcodes</code>, <code>map_x</code>, <code>map_y</code>, <code>is_kitchen</code>, <code>latitude</code>, <code>longitude</code>. This is the type that lets you add a delivery town by typing only its name; see <a href="#delivery">Delivery Areas &amp; Map</a>.
+			<br>
+			<code>stat_item</code> — <code>value</code>, <code>label</code>. The stats strip, the “Ghar Ka Khana” numbers and the closing facts all reuse it.
+			<br>
+			<code>feature_card</code> — <code>title</code>, <code>text</code>, <code>image</code>. The two story cards beside the chef photos.
+			<br>
+			<code>meal</code> — one record per dish, linked to a variant, when a meal needs its own photo or macros. Optional: one variant per meal is enough without it.
+			<br><br>
+			<strong>Do not create a second definition with a near-miss name.</strong> The same record is reused across the site, so a testimonial you add once appears wherever testimonials render. The type string must match exactly, and it cannot be renamed after creation.
+		</div>
+
 		<h5>Example: meal plan entry</h5>
 <pre class="line-numbers">
 <code class="language-markup">
@@ -937,35 +953,47 @@ linked_product:      5-meal-plan
 		<div class="page-header">
 			<h3>Meal Plan Pages</h3>
 		</div>
-		<p>Each plan page is one section, <code>cm-meal-plan-page</code>, with everything editable from the sidebar. The plan and the meal catalogue are connected by <strong>product handles</strong>.</p>
+		<p>Each plan page is one section, <code>cm-meal-plan-page</code>, with everything editable from the sidebar — or, more powerfully, from the plan product's metafields in Admin. The plan and the meal catalogue are connected by three <strong>product picker</strong> settings.</p>
+
+		<div class="doc-note">
+			<strong>These settings hold product objects, not handles.</strong> All three are declared <code>"type": "product"</code>, so Liquid receives a real product and <code>.metafields</code>, <code>.variants</code> and <code>.price</code> work on them directly. The template JSON shows a handle (<code>"plan_product": "6-meal-plan"</code>) but that is only how it is stored.
+			<br><br>
+			<strong>Never wrap one in <code>all_products</code>.</strong> <code>all_products</code> takes a handle <em>string</em>; given a product object it returns <code>nil</code>. That silently kills the meals, the order-box price and every metafield on the page at once. If a plan page ever loses all its Admin content together, check this first.
+		</div>
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped" style="font-size:13px;">
 				<thead>
 					<tr>
 						<th>Page template</th>
 						<th>Page handle</th>
+						<th><code>content_product</code></th>
 						<th><code>plan_product</code></th>
 						<th><code>meals_product</code></th>
 						<th><code>picker_count</code></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr><td><code>page.5-meal-plan</code></td><td>5-meal-plan</td><td>5-meal-plan</td><td>5-meal-plan</td><td>5</td></tr>
-					<tr><td><code>page.6-meal-plan</code></td><td>6-meal-plan</td><td>6-meal-plan</td><td>6-meal-plan</td><td>6</td></tr>
-					<tr><td><code>page.7-meal-plan</code></td><td>7-meal-plan</td><td>7-meal-plan</td><td>7-meal-plan</td><td>7</td></tr>
-					<tr><td><code>page.10-meal-plan</code></td><td>10-meal-plan</td><td>10-meal-plan</td><td>10-meal-plan</td><td>10</td></tr>
-					<tr><td><code>page.15-meal-plan</code></td><td>15-meal-plan</td><td>15-meal-plan</td><td>15-meal-plan</td><td>15</td></tr>
+					<tr><td><code>page.5-meal-plan</code></td><td>5-meal-plan</td><td><em>blank</em></td><td>5-meal-plan</td><td>5-meal-plan</td><td>5</td></tr>
+					<tr><td><code>page.6-meal-plan</code></td><td>6-meal-plan</td><td><em>blank</em></td><td>6-meal-plan</td><td>6-meal-plan</td><td>6</td></tr>
+					<tr><td><code>page.7-meal-plan</code></td><td>7-meal-plan</td><td><em>blank</em></td><td>7-meal-plan</td><td>7-meal-plan</td><td>7</td></tr>
+					<tr><td><code>page.10-meal-plan</code></td><td>10-meal-plan</td><td><em>blank</em></td><td>10-meal-plan</td><td>10-meal-plan</td><td>10</td></tr>
+					<tr><td><code>page.15-meal-plan</code></td><td>15-meal-plan</td><td><em>blank</em></td><td>15-meal-plan</td><td>15-meal-plan</td><td>15</td></tr>
 				</tbody>
 			</table>
 		</div>
+		<p><code>content_product</code> is the highest-priority source and is <strong>blank in every packaged template</strong>. When it is blank the section falls back to <code>plan_product</code>, then <code>meals_product</code> — so the shipped configuration works with nothing filled in. Set <code>content_product</code> only when a page must read a product other than the one the order box charges.</p>
 		<p>To duplicate a plan page for a new plate count:</p>
 		<ol>
 			<li>Duplicate the JSON template, for example <code>page.5-meal-plan.json</code> to <code>page.8-meal-plan.json</code>.</li>
-			<li>Set <code>plan_product</code>, <code>meals_product</code> and <code>picker_count</code> inside the section settings.</li>
+			<li>Set <code>plan_product</code>, <code>meals_product</code> and <code>picker_count</code> inside the section settings. Pick the products from the picker — do not type a handle.</li>
 			<li>Update the copy: plan label, heading, text, hero facts and CTA labels.</li>
 			<li>Create the page with a matching handle and assign the new template.</li>
 			<li>Add the plan product in Shopify admin.</li>
 		</ol>
+		<div class="doc-note">
+			<strong>Filling plan content from Admin.</strong> The plan pages can take their copy, meals and macros from the plan product's <code>custom.*</code> metafields instead of these section settings, which then act as the fallback. That full schema — every key, its fallback chain and its Admin location — is documented separately in <code>docs/PLAN-PRODUCT-CONTENT.md</code>. Read that file before authoring a new plan; this table only covers the theme-editor layer.
+		</div>
+
 		<p><strong>Key settings on this section:</strong></p>
 		<div class="table-responsive">
 			<table class="table table-bordered table-striped" style="font-size:13px;">
@@ -978,10 +1006,11 @@ linked_product:      5-meal-plan
 				<tbody>
 					<tr><td>Hero</td><td><code>plan_label</code>, <code>heading</code>, <code>text</code>, three label/value fact pairs, two buttons, two hero images, badge value and label</td></tr>
 					<tr><td>Benefits</td><td><code>ben_line_1..3</code>, <code>ben_note</code></td></tr>
-					<tr><td>Weekly menu</td><td><code>menu_eyebrow</code>, <code>menu_heading</code>, <code>menu_text</code>, <code>explore_heading</code>, <code>load_more_label</code>, <code>detail_note</code>, <code>meal_price</code>, <code>total_label</code>, <code>picker_count</code>, <code>plan_product</code>, <code>meals_product</code></td></tr>
-					<tr><td>Chef</td><td><code>chef_eyebrow</code>, <code>chef_heading</code>, <code>chef_text</code></td></tr>
+					<tr><td>Weekly menu</td><td><code>menu_eyebrow</code>, <code>menu_heading</code>, <code>menu_text</code>, <code>explore_heading</code>, <code>load_more_label</code>, <code>detail_note</code>, <code>meal_price</code>, <code>total_label</code>, <code>picker_count</code>, <code>content_product</code>, <code>plan_product</code>, <code>meals_product</code></td></tr>
+					<tr><td>Chef</td><td><code>chef_eyebrow</code>, <code>chef_heading</code>, <code>chef_text</code>, <code>chef_image_1</code>, <code>chef_image_2</code></td></tr>
 					<tr><td>Steps</td><td><code>steps_eyebrow</code>, <code>steps_heading</code></td></tr>
 					<tr><td>Quality</td><td><code>quality_eyebrow</code>, <code>quality_heading</code>, <code>quality_text</code>, <code>quality_button</code></td></tr>
+					<tr><td>Thali plate</td><td><code>thali_show</code>, <code>thali_image</code>, <code>thali_chips</code>, <code>thali_tickets</code>, <code>thali_steps</code>, <code>thali_towns</code>, and the surrounding headings</td></tr>
 					<tr><td>Gallery</td><td><code>show_gallery</code>, <code>gallery_eyebrow</code>, <code>gallery_heading</code></td></tr>
 					<tr><td>Delivery</td><td><code>delivery_style</code>, <code>delivery_checker</code>, eyebrow, heading and text, town lists for both map styles, kitchen coordinates and radius, country hint, all messages and legends</td></tr>
 					<tr><td>Reviews / FAQ / Related / CTA</td><td>Eyebrow and heading for each, plus CTA text, label and link</td></tr>
@@ -990,6 +1019,78 @@ linked_product:      5-meal-plan
 		</div>
 		<div class="doc-note">
 			<strong>The 10 plate page is special.</strong> <code>page.10-meal-plan.json</code> carries both <code>cm-build-box</code> and <code>cm-meal-plan-page</code>. The build box anchors to <code>#build-box</code>; the plan buttons use that anchor, so keep the build box section first and do not change the section ID.
+		</div>
+
+		<h5>The plate labels — why one tag looks missing</h5>
+		<p>The thali plate shows up to four floating tags, one in each corner. Their corners are assigned by <strong>position</strong>, not by name: the 1st line goes top-left, the 2nd top-right, the 3rd bottom-left, the 4th bottom-right.</p>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>Line in <code>thali_chips</code></th>
+						<th>Corner</th>
+						<th>Tilt</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td>1st</td><td>Top left</td><td>−4°</td></tr>
+					<tr><td>2nd</td><td>Top right</td><td>+3°</td></tr>
+					<tr><td>3rd</td><td>Bottom left</td><td>+3°</td></tr>
+					<tr><td>4th</td><td>Bottom right</td><td>−3°</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="doc-note">
+			<strong>If only three tags appear, you have three lines.</strong> This is the most common confusion with this section — nothing is broken. The layout is a fixed four-corner arrangement, so a missing line simply leaves one corner empty. Count the lines in <strong>Plate labels</strong> and add the fourth.
+		</div>
+		<p>Where the labels come from, in priority order:</p>
+		<ol>
+			<li><code>custom.thali_chips</code> — a metafield list on the plan product, one entry per label.</li>
+			<li><strong>Plate labels</strong> (<code>thali_chips</code>) in the theme editor — one label per line.</li>
+			<li>The packaged default: <em>Homestyle Sabzi</em>, <em>2 Soft Rotis</em>, <em>Authentic Curries</em>, <em>Fluffy Portion of Rice</em>.</li>
+		</ol>
+<pre class="line-numbers">
+<code class="language-markup">
+// Plate labels — one per line, four fills all four corners
+Homestyle Sabzi
+2 Soft Rotis
+Authentic Curries
+Fluffy Portion of Rice
+</code>
+</pre>
+		<ul>
+			<li><strong>Keep them short.</strong> Two to three words fit the plate. Long lines wrap and can overlap the food.</li>
+			<li><strong>Four is the practical maximum.</strong> Only four corners are styled. A fifth line still renders, but it has no corner assigned and lands loose on top of the plate, which looks broken. Delete extra lines.</li>
+			<li><strong>Blank and whitespace-only lines are skipped</strong>, so they do not hold a corner. A blank line in the middle shifts every tag after it up one corner — do not try to use one to leave a corner empty. To show only three tags, accept that the fourth corner is the one that stays empty.</li>
+			<li><strong>Turning the whole plate off:</strong> untick <code>thali_show</code>. That removes the plate, the tags and the statistics strip together.</li>
+		</ul>
+		<p>The plate image itself follows the usual cascade — <code>custom.thali_image</code>, then <strong>Plate image</strong> (<code>thali_image</code>) in the editor, then the packaged <code>four-items-plate.webp</code>.</p>
+
+		<h5>Images on this page</h5>
+		<p>Every picture on a plan page resolves through the same three steps. The product metafield is checked first, so a single product can deviate from the theme default without a new template:</p>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>Picture</th>
+						<th>1st — product metafield</th>
+						<th>2nd — theme editor</th>
+						<th>3rd — packaged</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td>Hero (both images)</td><td><code>custom.hero_image_1</code>, <code>custom.hero_image_2</code> — then the shop-level copy</td><td><code>hero_image_1</code>, <code>hero_image_2</code></td><td>Bundled photo</td></tr>
+					<tr><td>Chef story (two photos)</td><td><code>custom.chef_image_1</code>, <code>custom.chef_image_2</code> — then the shop-level copy</td><td><code>chef_image_1</code>, <code>chef_image_2</code></td><td>Bundled photos</td></tr>
+					<tr><td>Thali plate</td><td><code>custom.thali_image</code></td><td><code>thali_image</code></td><td><code>four-items-plate.webp</code></td></tr>
+					<tr><td>Meal card</td><td>The <code>meal</code> metaobject <code>image</code>, if that meal has its own record</td><td>—</td><td>The selected variant's image → the plan's featured image → <code>mp-food-N.jpg</code></td></tr>
+					<tr><td>Reviewer photo</td><td><code>testimonial</code> → <code>photo</code></td><td>—</td><td>Nothing rendered — the card simply shows no avatar</td></tr>
+					<tr><td>CTA background</td><td><code>custom.cta_image</code> — then the shop-level copy</td><td><code>cta_image</code></td><td>Bundled photo</td></tr>
+					<tr><td>Related plan card</td><td><code>meal_plan</code> → <code>image</code></td><td>—</td><td>The linked product's featured image</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="doc-note">
+			<strong>Clearing a metafield brings the theme image back.</strong> Delete the metafield value rather than uploading a placeholder, and the next source in the chain renders again. A blank metafield is treated as “not set”, not as “show nothing”.
 		</div>
 	</section>
 
@@ -1238,14 +1339,100 @@ assign plan_handles = '5-meal-plan,6-meal-plan,7-meal-plan,10-meal-plan,15-meal-
 			<h3>Delivery Areas &amp; Map</h3>
 		</div>
 		<p>Three different tools ship with the theme — pick the one that fits the page. The <strong>Delivery style</strong> setting (<code>delivery_style</code>) on <code>cm-meal-plan-page</code> chooses between them, and the packaged plan templates all ship set to <strong>Plate map</strong>.</p>
-		<h5>1. Delivery checker (inside the meal plan page)</h5>
-		<p>Set <strong>Delivery style</strong> to <strong>Interactive street map</strong>. Customers type a town or ZIP code, or tap a town chip, and get a yes/no answer plus a map. The extra <code>delivery_checker</code> checkbox must also be on — it is off by default, and without it the section falls back to the plain Google Maps block even when the street map is selected.</p>
-		<p>One town per line. Coordinates are optional — a bare <code>Name|ZIP,ZIP</code> row is looked up automatically, so you can type places instead of numbers. Leave the field empty to use the packaged default list for Hartland and Lake Country.</p>
+
+		<h5>Adding a delivery town by name only</h5>
+		<p>You do not need coordinates, percentages or ZIP codes to add an area. Type the town name and the theme geocodes it in the browser, then draws the pin, the chip and the delivery zone from that result.</p>
+		<p>There are two ways in. The metaobject is the better one:</p>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>Where</th>
+						<th>Format</th>
+						<th>When to use it</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Content → Metaobjects → <code>delivery_area</code> list, selected in <strong>Delivery areas</strong></td>
+						<td>One entry per town. Fill <code>name</code> and nothing else.</td>
+						<td>Recommended. Every field is a labelled input, so there are no pipes to count.</td>
+					</tr>
+					<tr>
+						<td>Theme editor → <strong>Plate map</strong> → <code>plate_towns</code></td>
+						<td>One town per line. <code>Name</code> alone on the line.</td>
+						<td>Fast one-off edits. Fine for a handful of towns.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 <pre class="line-numbers">
 <code class="language-markup">
-Hartland|53029
-Delafield|53018
-Waukesha|53186,53188,53189
+// plate_towns — a name on its own is a complete row
+Hartland
+Delafield
+Waukesha
+Dousman
+
+// add a region when a name is ambiguous
+Sussex, WI
+</code>
+</pre>
+
+		<p><strong>The metaobject entry, field by field.</strong> Add one entry per town under the <code>delivery_area</code> definition:</p>
+		<div class="table-responsive">
+			<table class="table table-bordered table-striped" style="font-size:13px;">
+				<thead>
+					<tr>
+						<th>Field</th>
+						<th>Required</th>
+						<th>What to put in it</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td><code>name</code></td><td>Yes</td><td>The town name, for example <code>Hartland</code>. This alone is a working entry.</td></tr>
+					<tr><td><code>postcodes</code></td><td>No</td><td>One or more ZIPs, comma separated. Lets customers search by ZIP as well as name.</td></tr>
+					<tr><td><code>is_kitchen</code></td><td>No</td><td><code>true</code> on exactly one entry — the town your kitchen sits in. Drives the kitchen pin and the ring.</td></tr>
+					<tr><td><code>latitude</code>, <code>longitude</code></td><td>No</td><td>Decimal degrees. Leave blank to let the theme look the town up. Filling them removes the lookup and is faster.</td></tr>
+					<tr><td><code>map_x</code>, <code>map_y</code></td><td>No</td><td><strong>No longer read.</strong> Held for backwards compatibility only. Pins are placed from real coordinates, so new entries can leave these blank.</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="doc-note">
+			<strong>Names are looked up near your kitchen, not worldwide.</strong> Every geocode request is biased to the kitchen coordinates, because a bare town name is ambiguous: “Sussex” alone resolves to Sussex, <em>England</em>, and “Wales” to Wales, <em>New York</em>. With the bias applied, the same names resolve to the towns next door. Measured on the packaged town list, 8 of 8 names resolved correctly with the bias and only 4 of 8 without it.
+			<br><br>
+			If a name still lands in the wrong place, add the state or country to that one row — <code>Sussex, WI</code> — which removes the ambiguity entirely.
+		</div>
+		<p><strong>What is still manual:</strong></p>
+		<ul>
+			<li><strong>The kitchen.</strong> Tick <code>is_kitchen</code> on exactly one <code>delivery_area</code> entry, or set <code>delivery_kitchen_lat</code>/<code>_lng</code>. Nothing can guess which branch cooks the food.</li>
+			<li><strong>Postcodes, only if you want them.</strong> <code>postcodes</code> lets a visitor find a town by ZIP. Name search works with it blank.</li>
+			<li><strong>Nothing else.</strong> <code>map_x</code>/<code>map_y</code> are accepted for backwards compatibility but no longer read — pin placement comes from geocoding or from <code>latitude</code>/<code>longitude</code>.</li>
+		</ul>
+		<p>The first visitor to a page pays for the lookups: unknown towns are fetched one at a time, spaced to stay polite to the free service. Results are cached in the visitor's browser, so repeat views are instant. To remove the delay entirely, fill <code>latitude</code>/<code>longitude</code> on the <code>delivery_area</code> entries once.</p>
+
+		<h5>Which town list actually renders</h5>
+		<p>All four delivery styles read one resolved list. The theme stops at the first source that produces at least one town, so an empty list never blanks the map:</p>
+		<ol>
+			<li><code>delivery_area_list</code> — the metaobject list on the plan product, else the shop-level shared copy.</li>
+			<li><code>delivery_towns</code> — the older pipe-delimited product metafield list.</li>
+			<li><code>plate_towns</code> / <code>delivery_towns</code> — the theme editor newline list.</li>
+			<li>The packaged Hartland / Lake Country default list.</li>
+		</ol>
+		<div class="doc-note">
+			<strong>An all-empty metaobject list will not shadow your editor list.</strong> Entries with a blank <code>name</code> are dropped before the count is checked, so a half-built list falls through to the next source rather than rendering an empty map.
+		</div>
+		<h5>1. Delivery checker (inside the meal plan page)</h5>
+		<p>Set <strong>Delivery style</strong> to <strong>Interactive street map</strong>. Customers type a town or ZIP code, or tap a town chip, and get a yes/no answer plus a map. The extra <code>delivery_checker</code> checkbox must also be on — it is off by default, and without it the section falls back to the plain Google Maps block even when the street map is selected.</p>
+		<div class="doc-note">
+			<strong>How the theme picks a style.</strong> It checks <code>delivery_style</code> first: <code>plate</code> renders the plate map. If the style is anything else, a ticked <code>delivery_checker</code> renders the street-map checker; with it unticked you get the plain embed. So <strong>Plate map always wins</strong>, and setting the style to <em>Google Maps embed</em> with the checkbox on still gives you the checker.
+		</div>
+		<p>One town per line. Coordinates and ZIPs are both optional — a bare name is geocoded automatically, so you can type places instead of numbers. Leave the field empty to use the packaged default list for Hartland and Lake Country.</p>
+<pre class="line-numbers">
+<code class="language-markup">
+Hartland
+Delafield
+Waukesha
 Pewaukee|43.0806|-88.2612|53072      ← exact coordinates still work
 </code>
 </pre>
