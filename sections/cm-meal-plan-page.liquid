@@ -387,13 +387,36 @@
                 assign detail_price = plan_variant.price
                 assign detail_compare = plan_variant.compare_at_price | default: 0
               endif
-              # The plan product is often a meals catalogue, where each variant
-              # is one meal. Then the plan price is the meal count times the meal
-              # price, which is what the cart will charge.
+              # Cart adds each chosen meal as its own line, so the plan total is
+              # the SUM of meal prices — never one meal price × slot count
+              # (that was showing $17 × 6 = $102 when meals are $17 + five $15).
               if section.settings.detail_use_plan_total
-                assign detail_meals = picker_count | default: 1
-                assign detail_price = detail_price | times: detail_meals
-                assign detail_compare = detail_compare | times: detail_meals
+                assign detail_price = 0
+                assign detail_compare = 0
+                assign detail_meals_counted = 0
+                assign price_source = meals_catalog
+                if price_source == blank
+                  assign price_source = plan_product
+                endif
+                if price_source != blank
+                  for variant in price_source.variants
+                    if detail_meals_counted >= picker_count
+                      break
+                    endif
+                    unless variant.title == 'Default Title'
+                      if variant.price > 0
+                        assign detail_price = detail_price | plus: variant.price
+                        assign v_compare = variant.compare_at_price | default: 0
+                        assign detail_compare = detail_compare | plus: v_compare
+                        assign detail_meals_counted = detail_meals_counted | plus: 1
+                      endif
+                    endunless
+                  endfor
+                endif
+                if detail_meals_counted == 0 and plan_variant != blank
+                  assign detail_price = plan_variant.price | times: picker_count
+                  assign detail_compare = plan_variant.compare_at_price | default: 0 | times: picker_count
+                endif
               endif
               assign detail_on_sale = false
               if detail_compare > detail_price and detail_price > 0
@@ -401,16 +424,16 @@
               endif
             -%}
             {%- if detail_title != blank or detail_price > 0 -%}
-              <div class="mealplan-menu__buy">
+              <div class="mealplan-menu__buy" data-mp-buy-price>
                 {%- if detail_title != blank -%}
                   <h3 class="mealplan-menu__buy-title">{{ detail_title | escape }}</h3>
                 {%- endif -%}
                 {%- if detail_price > 0 -%}
                   <div class="mealplan-menu__buy-price">
                     {%- if detail_on_sale -%}
-                      <s class="mealplan-menu__buy-was">{{ detail_compare | money }}</s>
+                      <s class="mealplan-menu__buy-was" data-mp-buy-was>{{ detail_compare | money }}</s>
                     {%- endif -%}
-                    <span class="mealplan-menu__buy-now">{{ detail_price | money }}</span>
+                    <span class="mealplan-menu__buy-now" data-mp-buy-now data-mp-money="{{ 0 | money | escape }}" data-mp-base-cents="{{ detail_price }}">{{ detail_price | money }}</span>
                     {%- if detail_on_sale -%}
                       <span class="mealplan-menu__buy-save">{{ section.settings.detail_sale_label | default: 'Sale' | escape }}</span>
                     {%- endif -%}
@@ -1158,7 +1181,7 @@
     { "type": "header", "content": "Customer order box" },
     { "type": "paragraph", "content": "Prefer editing on the plan product in Admin: set metafield Meal slots (custom.meal_slots) to 6. That controls how many MEAL 1…N dropdowns appear. Theme setting below is only a fallback." },
     { "type": "text", "id": "detail_title", "label": "Order panel title", "info": "Shown above the meal dropdowns, product-page style. Blank uses the plan product's title." },
-    { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: price is the meal price times the number of dropdowns, so it matches the cart. Off: shows the product variant price as-is." },
+    { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: sums the first N meal variant prices (N = order dropdowns), matching what the cart charges when meals have different prices. Off: shows one variant price as-is." },
     { "type": "text", "id": "detail_sale_label", "label": "Sale badge label", "default": "Sale" },
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns (fallback)", "default": 0, "info": "Used only when the plan product has no Meal slots metafield. Shows this many MEAL dropdowns. 0 hides the order box." },
     { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Shopify charges this product's price as one line in the cart. Set Meal slots metafield here for easy order-box control." },

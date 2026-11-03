@@ -955,21 +955,36 @@
         orderMsg.classList.toggle('is-ok', Boolean(ok));
       };
 
-      // Total for the chosen meals. The plan variant itself carries the plan
-      // price; this only summarises the picks so the number is visible in the
-      // form box instead of the meal list.
-      const syncSum = () => {
-        if (!orderSum) return;
-        // Placeholder comes from Liquid as a full money string, so we can reuse
-        // the store's exact currency formatting instead of guessing symbols.
-        const template = orderSum.dataset.mpMoney || orderSum.textContent;
+      // Plan total = sum of chosen meal variant prices (cart adds each meal
+      // as its own line). Never multiply one meal price by slot count.
+      const buyNow = document.querySelector('[data-mp-buy-now]');
+      const moneyTemplate = (el) => (el && (el.dataset.mpMoney || el.textContent)) || '';
+      const formatMoney = (template, cents) => {
+        const raw = template || String((cents / 100).toFixed(2));
+        return raw.replace(/[\d][\d.,]*/, (cents / 100).toFixed(2));
+      };
+      const selectedCents = () => {
         let cents = 0;
+        let picked = 0;
         orderForm.querySelectorAll('[data-mp-pick]').forEach((select) => {
           const chosen = select.options[select.selectedIndex];
           const value = chosen && select.value ? Number(chosen.dataset.priceCents) : 0;
+          if (select.value) picked += 1;
           if (value > 0) cents += value;
         });
-        orderSum.textContent = template.replace(/[\d][\d.,]*/, (cents / 100).toFixed(2));
+        return { cents, picked };
+      };
+      const syncSum = () => {
+        const { cents, picked } = selectedCents();
+        if (orderSum) {
+          orderSum.textContent = formatMoney(moneyTemplate(orderSum), cents);
+        }
+        if (buyNow) {
+          const base = Number(buyNow.dataset.mpBaseCents) || 0;
+          // While choosing, show the running sum; before any pick, keep the
+          // Liquid estimate (sum of the first N menu prices).
+          buyNow.textContent = formatMoney(moneyTemplate(buyNow), picked > 0 ? cents : base);
+        }
       };
       orderForm.addEventListener('change', syncSum);
       syncSum();
