@@ -827,8 +827,12 @@
             li.innerHTML = '<span class="mealplan-menu__option-mark">✓</span><span class="mealplan-menu__option-name"></span>';
             li.querySelector('.mealplan-menu__option-name').textContent = opt.textContent.trim();
           }
-          if (opt.selected && opt.value) li.classList.add('is-selected');
-          li.setAttribute('aria-selected', opt.selected && opt.value ? 'true' : 'false');
+          if (opt.selected) {
+            li.classList.add('is-selected');
+            li.setAttribute('aria-selected', 'true');
+          } else {
+            li.setAttribute('aria-selected', 'false');
+          }
           panel.appendChild(li);
         });
 
@@ -841,6 +845,8 @@
         wrap.appendChild(trigger);
         wrap.appendChild(select);
         document.body.appendChild(panel);
+
+        const placeholder = panel.querySelector('.is-placeholder');
 
         const positionPanel = () => {
           const box = trigger.getBoundingClientRect();
@@ -855,17 +861,34 @@
           panel.style.bottom = openUp ? `${window.innerHeight - box.top + 6}px` : 'auto';
         };
 
+        const paintSelection = (li) => {
+          panel.querySelectorAll('.mealplan-menu__option').forEach((el) => {
+            const on = el === li;
+            el.classList.toggle('is-selected', on);
+            el.classList.toggle('is-active', on);
+            el.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+        };
+
+        // Select a meal, or clear back to "Choose a meal".
         const commit = (li) => {
           const optIndex = Number(li.dataset.index);
           select.selectedIndex = optIndex;
           select.dispatchEvent(new Event('change', { bubbles: true }));
-          panel.querySelectorAll('.mealplan-menu__option').forEach((el) => {
-            el.classList.toggle('is-selected', el === li);
-            el.classList.toggle('is-active', el === li);
-            el.setAttribute('aria-selected', el === li ? 'true' : 'false');
-          });
+          paintSelection(li);
           syncTrigger(select, trigger);
           closePickers();
+        };
+
+        const clearPick = () => {
+          if (placeholder) commit(placeholder);
+          else {
+            select.selectedIndex = 0;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+            paintSelection(null);
+            syncTrigger(select, trigger);
+            closePickers();
+          }
         };
 
         const open = () => {
@@ -873,7 +896,8 @@
           positionPanel();
           panel.hidden = false;
           trigger.setAttribute('aria-expanded', 'true');
-          const current = panel.querySelector('.is-selected') || panel.querySelector('.mealplan-menu__option:not(.is-placeholder)');
+          const current = panel.querySelector('.is-selected') || placeholder
+            || panel.querySelector('.mealplan-menu__option');
           panel.querySelectorAll('.is-active').forEach((el) => el.classList.remove('is-active'));
           if (current) {
             current.classList.add('is-active');
@@ -898,12 +922,18 @@
         panel.addEventListener('mousedown', (event) => event.preventDefault());
         panel.addEventListener('click', (event) => {
           const li = event.target.closest('.mealplan-menu__option');
-          if (!li || li.classList.contains('is-placeholder')) return;
+          if (!li) return;
+          // Click placeholder → deselect. Click the already-selected meal →
+          // deselect. Click any other meal → select it.
+          if (li.classList.contains('is-placeholder') || (li.classList.contains('is-selected') && li.dataset.value)) {
+            clearPick();
+            return;
+          }
           commit(li);
         });
 
         trigger.addEventListener('keydown', (event) => {
-          const opts = [...panel.querySelectorAll('.mealplan-menu__option:not(.is-placeholder)')];
+          const opts = [...panel.querySelectorAll('.mealplan-menu__option')];
           if (!opts.length) return;
           // Resolve the active index after opening so the first arrow press
           // steps from the highlighted row instead of skipping past it.
@@ -925,7 +955,17 @@
             else {
               event.preventDefault();
               const el = panel.querySelector('.is-active');
-              if (el) commit(el);
+              if (!el) return;
+              if (el.classList.contains('is-placeholder') || (el.classList.contains('is-selected') && el.dataset.value)) {
+                clearPick();
+              } else {
+                commit(el);
+              }
+            }
+          } else if (event.key === 'Backspace' || event.key === 'Delete') {
+            if (!panel.hidden || select.value) {
+              event.preventDefault();
+              clearPick();
             }
           } else if (event.key === 'Escape' && !panel.hidden) {
             event.preventDefault();

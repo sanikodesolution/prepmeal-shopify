@@ -529,7 +529,7 @@
                   <label class="mealplan-menu__field">
                     <span>{{ meal_slot_label | escape }} {{ slot }}</span>
                     <select name="properties[{{ meal_slot_label | escape }} {{ slot }}]" data-mp-pick required>
-                      <option value="" selected disabled>{{ c_picker_placeholder | escape }}</option>
+                      <option value="" selected>{{ c_picker_placeholder | escape }}</option>
                       {%- if variant_menu -%}
                         {%- for variant in meals_catalog.variants -%}
                           {%- unless variant.title == 'Default Title' -%}

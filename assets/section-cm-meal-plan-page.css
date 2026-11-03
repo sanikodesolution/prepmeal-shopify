@@ -583,7 +583,7 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__option.is-selected{color:var(--mp-ink);font-weight:600}
 .mealplan-menu__option-mark{flex:none;width:14px;color:var(--mp-accent);opacity:0}
 .mealplan-menu__option.is-selected .mealplan-menu__option-mark{opacity:1}
-.mealplan-menu__option.is-placeholder{color:#8d928c;cursor:default}
+.mealplan-menu__option.is-placeholder{color:#8d928c;cursor:pointer}
 .mealplan-menu__select-native{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 .mealplan-menu__order-msg{margin:0;font-size:14px;line-height:1.4;color:#b3200a}
 .mealplan-menu__order-msg.is-ok{color:#1f7a3a}
