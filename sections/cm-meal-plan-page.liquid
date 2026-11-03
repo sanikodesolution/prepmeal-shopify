@@ -34,6 +34,34 @@
   endif
   assign plan_meta = plan_product.metafields.custom
 
+  # ---------------------------------------------------------------
+  # Order box: how many MEAL 1..N dropdowns the customer fills.
+  #
+  # Product admin (metafield) is the easy place for a merchant to change this.
+  # Priority: custom.meal_slots → theme "Order dropdowns" → number in the
+  # product title (e.g. "6 Meal Plan" → 6). Cap at 15.
+  # ---------------------------------------------------------------
+  assign picker_count = 0
+  if plan_meta.meal_slots.value != blank
+    assign picker_count = plan_meta.meal_slots.value | plus: 0
+  endif
+  if picker_count <= 0
+    assign picker_count = section.settings.picker_count | plus: 0
+  endif
+  if picker_count <= 0 and plan_product != blank
+    assign title_lead = plan_product.title | split: ' ' | first | plus: 0
+    if title_lead > 0 and title_lead <= 15
+      assign picker_count = title_lead
+    endif
+  endif
+  if picker_count > 15
+    assign picker_count = 15
+  endif
+  assign meal_slot_label = plan_meta.meal_slot_label.value | default: 'Meal' | strip
+  if meal_slot_label == blank
+    assign meal_slot_label = 'Meal'
+  endif
+
   # Shop-level shared content. FAQ, testimonials, steps and delivery areas are
   # the same on every plan, so they are entered once here and reused. A plan
   # that needs its own version fills the matching product metafield, which wins.
@@ -328,7 +356,7 @@
             section, plan price right. One row, vertically centred together.
           {%- endcomment -%}
           <div class="mealplan-menu__top">
-          {%- if section.settings.picker_count > 0 -%}
+          {%- if picker_count > 0 -%}
             {%- liquid
               # The cart charges the variant's own price, so a $0 variant makes
               # the whole plan free. Prefer the selected variant, then the first
@@ -363,7 +391,7 @@
               # is one meal. Then the plan price is the meal count times the meal
               # price, which is what the cart will charge.
               if section.settings.detail_use_plan_total
-                assign detail_meals = section.settings.picker_count | default: 1
+                assign detail_meals = picker_count | default: 1
                 assign detail_price = detail_price | times: detail_meals
                 assign detail_compare = detail_compare | times: detail_meals
               endif
@@ -399,7 +427,7 @@
             <p class="mp-eye">{{ c_menu_eyebrow | escape }}</p>
           {%- endif -%}
           <div class="mealplan-menu__head">
-            {%- if section.settings.picker_count > 0 -%}
+            {%- if picker_count > 0 -%}
               <h4 class="mealplan-h">
                 <button type="button" class="mealplan-menu__title" data-mp-poster>{{ c_menu_heading | escape }}</button>
               </h4>
@@ -431,7 +459,7 @@
                   </div>
                 {%- endfor -%}
               {%- endif -%}
-              {%- if section.settings.picker_count > 0 -%}
+              {%- if picker_count > 0 -%}
                 <div class="mealplan-menu__sheet" data-mp-sheet hidden>
                   <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all 10 meals" width="800" height="1400">
                 </div>
@@ -470,13 +498,13 @@
             {%- endif -%}
           </ol>
           <div class="mealplan-menu__detail">
-            {%- if section.settings.picker_count > 0 -%}
+            {%- if picker_count > 0 -%}
               <form class="mealplan-menu__order" data-mp-order data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}" action="{{ routes.cart_add_url }}" method="post">
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
-                {%- for slot in (1..section.settings.picker_count) -%}
+                {%- for slot in (1..picker_count) -%}
                   <label class="mealplan-menu__field">
-                    <span>Meal {{ slot }}</span>
-                    <select name="properties[Meal {{ slot }}]" data-mp-pick required>
+                    <span>{{ meal_slot_label | escape }} {{ slot }}</span>
+                    <select name="properties[{{ meal_slot_label | escape }} {{ slot }}]" data-mp-pick required>
                       <option value="" selected disabled>{{ c_picker_placeholder | escape }}</option>
                       {%- if variant_menu -%}
                         {%- for variant in meals_catalog.variants -%}
@@ -549,7 +577,7 @@
             {%- endif -%}
           </div>
         </div>
-        {%- if section.settings.picker_count > 0 -%}
+        {%- if picker_count > 0 -%}
           <div class="mealplan-menu__cursor" data-mp-cursor hidden>
             <img src="{{ '10-meal-together.png' | asset_url }}" alt="" width="80" height="80">
           </div>
@@ -1127,11 +1155,13 @@
     { "type": "text", "id": "quality_heading", "label": "Quality heading", "default": "Fresh in, quality out." },
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
+    { "type": "header", "content": "Customer order box" },
+    { "type": "paragraph", "content": "Prefer editing on the plan product in Admin: set metafield Meal slots (custom.meal_slots) to 6. That controls how many MEAL 1…N dropdowns appear. Theme setting below is only a fallback." },
     { "type": "text", "id": "detail_title", "label": "Order panel title", "info": "Shown above the meal dropdowns, product-page style. Blank uses the plan product's title." },
     { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: price is the meal price times the number of dropdowns, so it matches the cart. Off: shows the product variant price as-is." },
     { "type": "text", "id": "detail_sale_label", "label": "Sale badge label", "default": "Sale" },
-    { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
-    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Shopify charges this product's price as one line in the cart." },
+    { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns (fallback)", "default": 0, "info": "Used only when the plan product has no Meal slots metafield. Shows this many MEAL dropdowns. 0 hides the order box." },
+    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Shopify charges this product's price as one line in the cart. Set Meal slots metafield here for easy order-box control." },
     { "type": "product", "id": "meals_product", "label": "Meals product", "info": "Single source for every meal preview: the numbered list AND the order dropdowns both read this product's Meal variants. Edit variants here — both sections update together. Falls back to the plan product when blank." },
     { "type": "checkbox", "id": "show_gallery", "label": "Show meal options gallery", "default": true },
     { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },
