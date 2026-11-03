@@ -1,0 +1,14 @@
+---
+description: After finishing work, always commit and push to GitHub
+alwaysApply: true
+---
+
+# Always push to GitHub after work
+
+When a task is finished and there are local changes in this repo (or the related `prepmeal-shopify-doc` repo):
+
+1. Commit the relevant changes with a clear message (unless the user said not to commit).
+2. Push to `origin` on the current branch immediately after the commit.
+3. Confirm the push succeeded (`ahead: 0`) before ending the turn.
+4. If push to a protected branch is blocked, request approval and retry — do not leave commits unpushed.
+5. Do not leave finished work sitting only in the working tree or as unpushed local commits.

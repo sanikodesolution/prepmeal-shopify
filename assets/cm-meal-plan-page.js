@@ -414,7 +414,10 @@
       box.style.maxHeight = `${Math.round(h)}px`;
     };
     const fitAll = () => {
-      fit(listEl, 10, false);
+      // Do not clamp .mealplan-menu__list — a max-height + overflow-y:auto
+      // scrollport ate the wheel and blocked page scroll on hover. Only the
+      // order-card preview list stays clipped.
+      if (listEl) listEl.style.maxHeight = '';
       fit(fullEl, 5, true);
     };
     const reveal = (box, el) => {

@@ -516,7 +516,10 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__caption-text{min-width:0;flex:1;overflow:hidden}
 .mealplan-menu__caption-name{display:block;font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mealplan-menu__caption-sub{display:block;font-size:14px;color:#55534d}
-.mealplan-menu__list{grid-column:2;grid-row:2;position:relative;z-index:1;list-style:none;margin:0;padding:0;border-top:1px solid var(--mp-line);overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#d3d0c7 transparent}
+/* No nested scroll here — overflow-y:auto + overscroll-behavior:contain
+   trapped the wheel and stopped the page from scrolling while the pointer
+   was over the meal names. The list grows with its items; the page scrolls. */
+.mealplan-menu__list{grid-column:2;grid-row:2;position:relative;z-index:1;list-style:none;margin:0;padding:0;border-top:1px solid var(--mp-line);overflow:visible}
 .mealplan-menu__item{position:relative;width:100%;display:grid;grid-template-columns:1.8rem minmax(0,1fr);align-items:center;gap:8px;padding:17px 8px 17px 12px;background:none;border:0;border-bottom:1px solid var(--mp-line);text-align:left;font:inherit;color:var(--mp-ink);cursor:pointer}
 .mealplan-menu__item::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:3px;background:var(--mp-accent);transform:scaleY(0);transition:transform .35s ease}
 .mealplan-menu__num,.mealplan-menu__name{transition:transform .35s ease,color .3s ease}
@@ -541,7 +544,7 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__buy-was{font-size:15px;font-weight:500;color:var(--mp-muted);text-decoration:line-through}
 .mealplan-menu__buy-now{font-size:clamp(20px,1.7vw,25px);font-weight:700;letter-spacing:-.015em;color:#b4200a}
 .mealplan-menu__buy-save{align-self:center;padding:3px 9px;border-radius:999px;background:var(--mp-accent);color:#1b1204;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;line-height:1.5}
-.mealplan-menu__full{margin:0;padding:16px 18px 8px 36px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#d3d0c7 transparent}
+.mealplan-menu__full{margin:0;padding:16px 18px 8px 36px;overflow-y:auto;overscroll-behavior:auto;scrollbar-width:thin;scrollbar-color:#d3d0c7 transparent}
 .mealplan-menu__full li{padding:9px 10px 9px 6px;border-radius:10px;font-size:16px;line-height:1.45;font-weight:500;color:#3a3833;cursor:pointer}
 .mealplan-menu__full li::marker{color:#8d928c;font-weight:600}
 .mealplan-menu__full li.is-active{background:var(--mp-accent-soft);color:var(--mp-ink)}
