@@ -15,10 +15,10 @@
   # ---------------------------------------------------------------
   # Content source
   #
-  # The plan product is the source of truth. Its variants are the meals,
-  # and its custom.* metafields hold the copy. Anything left blank on the
-  # product falls back to the theme editor settings and blocks, so an
-  # existing page keeps rendering while the product is filled in.
+  # The Meals product (or plan product) is the single source of truth for
+  # the weekly menu. Its Meal variants feed BOTH the numbered list and the
+  # order dropdowns. custom.* metafields hold the page copy. Theme editor
+  # settings and menu_item blocks are fallbacks only when variants are absent.
   # ---------------------------------------------------------------
   assign plan_product = section.settings.content_product
   if plan_product == blank
@@ -163,8 +163,14 @@
   assign legacy_reviews = plan_meta.reviews.value | default: shared_meta.reviews.value
   assign legacy_related = plan_meta.related_plans.value | default: shared_meta.related_plans.value
 
-  # Meals: plan product variants first, Meal blocks second.
-  assign meals_catalog = plan_product
+  # Meals: one product catalog drives every preview (numbered list, dropdowns,
+  # slides, modal). Prefer the Meals product picker; fall back to the plan
+  # product. Theme menu_item blocks are only used when this catalog has no
+  # real variants — so editing the product updates both preview sections.
+  assign meals_catalog = section.settings.meals_product
+  if meals_catalog == blank
+    assign meals_catalog = plan_product
+  endif
   assign variant_menu = false
   if meals_catalog != blank and meals_catalog.variants.size > 0
     for variant in meals_catalog.variants
@@ -199,12 +205,17 @@
 
   assign first_meal_label = menu_blocks.first.settings.short | default: menu_blocks.first.settings.name
   if variant_menu
-    assign first_meal_label = meals_catalog.variants.first.metafields.custom.short_name.value | default: meals_catalog.variants.first.title
-    for block in menu_blocks
-      if block.settings.name == meals_catalog.variants.first.title
-        assign first_meal_label = meals_catalog.variants.first.metafields.custom.short_name.value | default: block.settings.short | default: block.settings.name
+    for variant in meals_catalog.variants
+      unless variant.title == 'Default Title'
+        assign first_meal_label = variant.metafields.custom.short_name.value | strip
+        if first_meal_label == blank
+          assign first_meal_label = variant.title | strip
+          if first_meal_label contains ' +$'
+            assign first_meal_label = first_meal_label | split: ' +$' | first | strip
+          endif
+        endif
         break
-      endif
+      endunless
     endfor
   endif
 -%}
@@ -438,21 +449,11 @@
             {%- if variant_menu -%}
               {%- for variant in meals_catalog.variants -%}
                 {%- unless variant.title == 'Default Title' -%}
-                  {%- liquid
-                    # Variant metafield first, then the matching Meal block's
-                    # short label, then the variant title itself.
-                    assign meal_label = variant.metafields.custom.short_name.value | default: variant.title
-                    for block in menu_blocks
-                      if block.settings.name == variant.title
-                        assign meal_label = variant.metafields.custom.short_name.value | default: block.settings.short | default: block.settings.name
-                        break
-                      endif
-                    endfor
-                  -%}
+                  {%- capture meal_label -%}{% render 'cm-meal-option-label', variant: variant %}{%- endcapture -%}
                   <li>
-                    <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item>
+                    <button type="button" class="mealplan-menu__item" role="tab" aria-selected="false" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-mp-item data-mp-variant="{{ variant.id }}">
                       <span class="mealplan-menu__num">{{ forloop.index }}</span>
-                      <span class="mealplan-menu__name">{{ meal_label | escape }}</span>
+                      <span class="mealplan-menu__name">{{ meal_label | strip | escape }}</span>
                     </button>
                   </li>
                 {%- endunless -%}
@@ -480,8 +481,8 @@
                       {%- if variant_menu -%}
                         {%- for variant in meals_catalog.variants -%}
                           {%- unless variant.title == 'Default Title' -%}
-                            {%- assign opt_label = variant.metafields.custom.short_name.value | default: variant.title -%}
-                            <option value="{{ variant.title | escape }}"{% if variant.price > 0 %} data-price="{{ variant.price | money | escape }}" data-price-cents="{{ variant.price }}"{% endif %} data-variant-id="{{ variant.id }}">{{ opt_label | escape }}</option>
+                            {%- capture opt_label -%}{% render 'cm-meal-option-label', variant: variant %}{%- endcapture -%}
+                            <option value="{{ variant.title | escape }}"{% if variant.price > 0 %} data-price="{{ variant.price | money | escape }}" data-price-cents="{{ variant.price }}"{% endif %} data-variant-id="{{ variant.id }}">{{ opt_label | strip | escape }}</option>
                           {%- endunless -%}
                         {%- endfor -%}
                       {%- else -%}
@@ -531,9 +532,18 @@
               </form>
             {%- else -%}
               <ol class="mealplan-menu__full">
-                {%- for block in menu_blocks -%}
-                  <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
-                {%- endfor -%}
+                {%- if variant_menu -%}
+                  {%- for variant in meals_catalog.variants -%}
+                    {%- unless variant.title == 'Default Title' -%}
+                      {%- capture row_label -%}{% render 'cm-meal-option-label', variant: variant %}{%- endcapture -%}
+                      <li data-mp-row{% if forloop.first %} class="is-active"{% endif %} data-mp-variant="{{ variant.id }}">{{ row_label | strip | escape }}</li>
+                    {%- endunless -%}
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for block in menu_blocks -%}
+                    <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
+                  {%- endfor -%}
+                {%- endif -%}
               </ol>
               <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ c_menu_button | default: 'See all plans' | escape }}</button>
             {%- endif -%}
@@ -578,16 +588,16 @@
                 {%- if variant_menu -%}
                   {%- for variant in meals_catalog.variants -%}
                     {%- unless variant.title == 'Default Title' -%}
-                      {%- assign full = variant.title -%}
-                      {%- assign dish = variant.metafields.custom.short_name.value | default: full -%}
-                      {%- assign bits = full | split: ' with ' -%}
+                      {%- capture dish -%}{% render 'cm-meal-option-label', variant: variant %}{%- endcapture -%}
+                      {%- assign dish = dish | strip -%}
+                      {%- assign bits = dish | split: ' with ' -%}
                       <li class="mealplan-menu__card">
                         <div class="mealplan-menu__card-photo">
                           <span class="mealplan-menu__card-num">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
                           <img src="{% if variant.image != blank %}{{ variant.image | image_url: width: 320 }}{% else %}{{ 'mp-food-' | append: forloop.index0 | append: '.jpg' | asset_url }}{% endif %}" alt="{{ dish | escape }}" width="320" height="320" loading="lazy">
                         </div>
-                        <h4>{{ dish | escape }}</h4>
-                        {%- if variant.metafields.custom.short_name.value == blank and bits.size > 1 -%}
+                        <h4>{{ bits | first | escape }}</h4>
+                        {%- if bits.size > 1 -%}
                           <p>with {{ bits | last | escape }}</p>
                         {%- endif -%}
                       </li>
@@ -1121,8 +1131,8 @@
     { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: price is the meal price times the number of dropdowns, so it matches the cart. Off: shows the product variant price as-is." },
     { "type": "text", "id": "detail_sale_label", "label": "Sale badge label", "default": "Sale" },
     { "type": "range", "id": "picker_count", "min": 0, "max": 15, "step": 1, "label": "Order dropdowns", "default": 0, "info": "Shows this many meal dropdowns on the right. 0 keeps the menu list." },
-    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Used only when meals are not linked to their own variants. Shopify charges this product's price as one line." },
-    { "type": "product", "id": "meals_product", "label": "Meals product", "info": "The Meal option on this product controls the page. Each option value is one meal in the list and in the dropdowns. Change the variant price to change what the cart charges." },
+    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Shopify charges this product's price as one line in the cart." },
+    { "type": "product", "id": "meals_product", "label": "Meals product", "info": "Single source for every meal preview: the numbered list AND the order dropdowns both read this product's Meal variants. Edit variants here — both sections update together. Falls back to the plan product when blank." },
     { "type": "checkbox", "id": "show_gallery", "label": "Show meal options gallery", "default": true },
     { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },
     { "type": "textarea", "id": "gallery_heading", "label": "Gallery heading", "default": "10+\\nmeal options" },
@@ -1268,12 +1278,13 @@
     },
     {
       "type": "menu_item",
-      "name": "Menu item",
+      "name": "Menu item (fallback)",
       "settings": [
+        { "type": "paragraph", "content": "Only used when the Meals product has no Meal variants. When variants exist, the numbered list and the order dropdowns both ignore these blocks and read the product instead." },
         { "type": "text", "id": "short", "label": "Short name" },
         { "type": "text", "id": "name", "label": "Meal", "default": "Chicken Biryani with Raita" },
-        { "type": "product", "id": "product", "label": "Meal product", "info": "Optional. Leave this empty to use the section Meals product. If you choose 6 Meal Plan here, the variant with the same name as this meal is added to the cart." },
-        { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Used only when this meal has no variant. Leave blank to charge the variant price, which can differ per meal." }
+        { "type": "product", "id": "product", "label": "Meal product", "info": "Optional. Leave empty to use the section Meals product." },
+        { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Used only when this meal has no variant." }
       ]
     },
     {

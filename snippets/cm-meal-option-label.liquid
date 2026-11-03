@@ -1,0 +1,20 @@
+{%- comment -%}
+  One display name for a meal variant. Used by every preview that shows the
+  weekly menu (numbered list, order dropdowns, modal cards), so editing the
+  Meals product updates them all together.
+
+  Priority:
+  1. variant metafield custom.short_name
+  2. variant.title with a trailing " +$N" price tag stripped (stores sometimes
+     put the surcharge in the option value; the cart still uses the real price)
+{%- endcomment -%}
+{%- liquid
+  assign label = variant.metafields.custom.short_name.value | strip
+  if label == blank
+    assign label = variant.title | strip
+    if label contains ' +$'
+      assign label = label | split: ' +$' | first | strip
+    endif
+  endif
+-%}
+{{- label -}}

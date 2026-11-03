@@ -98,9 +98,15 @@
           assign ingredients_text = meal_ingredients | join: ', '
         endif
 
-        # Short label for the list, gallery, grid and dropdowns. Falls back to
-        # the variant title so a merchant only fills it in when a name is long.
-        assign meal_short = mv.short_name.value | default: mo.short_name.value | default: variant.title
+        # Short label for the list, gallery, grid and dropdowns. Same rules as
+        # cm-meal-option-label so every preview stays in sync.
+        assign meal_short = mv.short_name.value | default: mo.short_name.value | strip
+        if meal_short == blank
+          assign meal_short = variant.title | strip
+          if meal_short contains ' +$'
+            assign meal_short = meal_short | split: ' +$' | first | strip
+          endif
+        endif
 
         assign allergens = mv.allergens.value | default: mo.allergens.value | default: plan.metafields.custom.allergens.value
         assign allergens_text = ''
