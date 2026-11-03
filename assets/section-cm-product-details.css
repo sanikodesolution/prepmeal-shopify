@@ -155,7 +155,7 @@
     font-family: var(--font-heading-family);
     font-weight: var(--font-heading-weight);
     font-size: 30px;
-    line-height: 1.2;
+    line-height: 1.05;
     letter-spacing: calc(var(--font-heading-scale) * 0.06rem);
   }
   .mealplan-pd__priceRow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; margin-top: 20px; }
