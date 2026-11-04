@@ -53,6 +53,8 @@
   border: 1px solid rgba(20, 35, 27, 0.12);
   border-radius: 999px;
   background: #fff;
+  overflow: hidden;
+  isolation: isolate;
   box-shadow: 0 1.8rem 3.4rem -2.2rem rgba(20, 35, 27, 0.55);
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
@@ -70,12 +72,32 @@
   height: 5.2rem;
   padding: 0 2rem;
   border: 0;
+  border-radius: 999px;
   outline: 0;
-  background: transparent;
+  background: #fff;
   color: var(--mealplan-dl-ink);
   font: inherit;
   font-size: 1.5rem;
   box-shadow: none;
+  appearance: none;
+}
+
+/* Kill the theme-wide *:focus-visible square ring so it cannot poke past the pill. */
+.mealplan-dl__input:focus,
+.mealplan-dl__input:focus-visible {
+  outline: none;
+  box-shadow: none;
+  background: #fff;
+}
+
+.mealplan-dl__input:-webkit-autofill,
+.mealplan-dl__input:-webkit-autofill:hover,
+.mealplan-dl__input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--mealplan-dl-ink);
+  caret-color: var(--mealplan-dl-ink);
+  box-shadow: 0 0 0 1000px #fff inset;
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
+  transition: background-color 99999s ease-out;
 }
 
 .mealplan-dl__input::placeholder { color: var(--mealplan-dl-ink); opacity: 0.5; }
