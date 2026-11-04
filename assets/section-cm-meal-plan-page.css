@@ -776,6 +776,97 @@ from{transform:translate3d(0,0,0)}
 to{transform:translate3d(-25%,0,0)}
 }
 
+/* Ambient motion for open-space food photos on the meal plan page */
+@keyframes mp-drift{
+  0%,100%{transform:translate3d(0,0,0) scale(1.03)}
+  50%{transform:translate3d(0,-2.2%,0) scale(1.055)}
+}
+@keyframes mp-drift-alt{
+  0%,100%{transform:translate3d(0,0,0) scale(1.05)}
+  50%{transform:translate3d(1.2%,-2.8%,0) scale(1.08)}
+}
+@keyframes mp-badge-bob{
+  0%,100%{transform:rotate(8deg) translate3d(0,0,0)}
+  50%{transform:rotate(10deg) translate3d(0,-6px,0)}
+}
+@keyframes mp-ken{
+  0%{transform:scale(1.02) translate3d(0,0,0)}
+  50%{transform:scale(1.1) translate3d(-1.5%,-1%,0)}
+  100%{transform:scale(1.02) translate3d(0,0,0)}
+}
+@keyframes mp-frame-breathe{
+  0%,100%{box-shadow:0 40px 80px -40px rgba(21,37,28,.32)}
+  50%{box-shadow:0 48px 96px -36px rgba(21,37,28,.42)}
+}
+
+.mp-reveal{
+  opacity:0;
+  transform:translate3d(0,28px,0);
+  transition:opacity .75s cubic-bezier(.22,.7,.2,1),transform .85s cubic-bezier(.22,.7,.2,1);
+  will-change:opacity,transform;
+}
+.mp-reveal.is-in{
+  opacity:1;
+  transform:none;
+  will-change:auto;
+}
+
+.mp-float .mp-food,
+.mp-float img.mp-food{
+  animation:mp-drift 9s ease-in-out infinite;
+  will-change:transform;
+}
+.mp-float--late .mp-food,
+.mp-float--late img.mp-food{
+  animation-name:mp-drift-alt;
+  animation-duration:11s;
+  animation-delay:-4s;
+}
+.mp-badge-bob{
+  animation:mp-badge-bob 5.5s ease-in-out infinite;
+  will-change:transform;
+}
+.mp-ken .mp-food,
+.mp-ken img.mp-food{
+  animation:mp-ken 18s ease-in-out infinite;
+  will-change:transform;
+}
+.mp-float-frame{
+  animation:mp-frame-breathe 6s ease-in-out infinite;
+}
+.mp-float-frame .mealplan-menu__slide.is-active img{
+  animation:mp-drift 10s ease-in-out infinite;
+  will-change:transform;
+}
+
+/* Explore / featured meal cards — soft entrance once revealed by JS */
+.mealplan-a .m.mp-reveal .img,
+.eg .e.mp-reveal .thumb{
+  transition:transform .8s cubic-bezier(.22,.7,.2,1);
+}
+.mealplan-a .m.mp-reveal.is-in .img img,
+.eg .e.mp-reveal.is-in .thumb img{
+  animation:mp-drift-alt 12s ease-in-out infinite;
+  animation-delay:calc(var(--mp-i, 0) * .35s);
+}
+
+@media(prefers-reduced-motion:reduce){
+  .mp-reveal{opacity:1;transform:none;transition:none}
+  .mp-float .mp-food,
+  .mp-float img.mp-food,
+  .mp-float--late .mp-food,
+  .mp-float--late img.mp-food,
+  .mp-badge-bob,
+  .mp-ken .mp-food,
+  .mp-ken img.mp-food,
+  .mp-float-frame,
+  .mp-float-frame .mealplan-menu__slide.is-active img,
+  .mealplan-a .m.mp-reveal.is-in .img img,
+  .eg .e.mp-reveal.is-in .thumb img{
+    animation:none!important;
+  }
+}
+
 /* Theme editor: let clicks select editable area folders instead of widgets. */
 html.mp-theme-editor .mealplan-menu__order,
 html.mp-theme-editor .mealplan-menu__picker,

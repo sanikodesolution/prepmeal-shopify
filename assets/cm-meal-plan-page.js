@@ -1128,4 +1128,47 @@
   }
 
   // Related plans track is liquid-rendered
+
+  // Soft scroll-reveal for open-space photos / cards (CSS handles float loops).
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const markReveals = () => {
+    $$('.mealplan-a .m:not(.mp-reveal), .eg .e:not(.mp-reveal)').forEach((el, i) => {
+      el.classList.add('mp-reveal');
+      el.style.setProperty('--mp-i', String(i % 6));
+    });
+  };
+  markReveals();
+  const revealEls = () => $$('.mp-reveal');
+  if (reduceMotion) {
+    revealEls().forEach((el) => el.classList.add('is-in'));
+  } else if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.12 }
+    );
+    revealEls().forEach((el) => io.observe(el));
+    // Cards painted later by filters / load-more
+    const grid = $('#grid');
+    const menu = $('#menu');
+    const watch = (node) => {
+      if (!node) return;
+      const mo = new MutationObserver(() => {
+        markReveals();
+        revealEls().forEach((el) => {
+          if (!el.classList.contains('is-in')) io.observe(el);
+        });
+      });
+      mo.observe(node, { childList: true });
+    };
+    watch(grid);
+    watch(menu);
+  } else {
+    revealEls().forEach((el) => el.classList.add('is-in'));
+  }
 })();

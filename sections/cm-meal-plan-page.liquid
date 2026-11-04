@@ -643,7 +643,7 @@
           </div>
           </div>
           <div class="mealplan-menu__stage">
-            <div class="mealplan-menu__frame is-all" data-mp-frame role="button" tabindex="0" aria-label="Open meal gallery">
+            <div class="mealplan-menu__frame is-all mp-reveal mp-float-frame" data-mp-frame role="button" tabindex="0" aria-label="Open meal gallery">
               <div class="mealplan-menu__slide is-active" data-mp-all>
                 <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all meals" width="800" height="860">
               </div>
@@ -903,22 +903,22 @@
           {%- endif -%}
         </div>
       </div>
-      <div class="mph__visual">
-        <div class="mph__main" role="img" aria-label="{{ c_hero_image_1_alt | escape }}">
+      <div class="mph__visual mp-reveal">
+        <div class="mph__main mp-float" role="img" aria-label="{{ c_hero_image_1_alt | escape }}">
           {%- if c_hero_image_1 != blank -%}
             {{ c_hero_image_1 | image_url: width: 900 | image_tag: class: 'mp-food', loading: 'eager', widths: '400, 700, 900', sizes: '(min-width: 990px) 40vw, 80vw', alt: c_hero_image_1_alt }}
           {%- else -%}
             <img class="mp-food" data-f="5" alt="{{ c_hero_image_1_alt | escape }}" width="700" height="700" fetchpriority="high">
           {%- endif -%}
         </div>
-        <div class="mph__second" role="img" aria-label="{{ c_hero_image_2_alt | escape }}">
+        <div class="mph__second mp-float mp-float--late" role="img" aria-label="{{ c_hero_image_2_alt | escape }}">
           {%- if c_hero_image_2 != blank -%}
             {{ c_hero_image_2 | image_url: width: 700 | image_tag: class: 'mp-food', loading: 'lazy', widths: '300, 500, 700', sizes: '30vw', alt: c_hero_image_2_alt }}
           {%- else -%}
             <img class="mp-food" data-f="6" alt="{{ c_hero_image_2_alt | escape }}" width="700" height="700">
           {%- endif -%}
         </div>
-        <div class="mph__badge"><strong>{{ c_badge_value | escape }}</strong><span>{{ c_badge_label | escape }}</span></div>
+        <div class="mph__badge mp-badge-bob"><strong>{{ c_badge_value | escape }}</strong><span>{{ c_badge_label | escape }}</span></div>
       </div>
     </div>
   </section>
@@ -1042,19 +1042,19 @@
         assign chef_image_1 = plan_meta.chef_image_1.value | default: shared_meta.chef_image_1.value | default: section.settings.chef_image_1
         assign chef_image_2 = plan_meta.chef_image_2.value | default: shared_meta.chef_image_2.value | default: section.settings.chef_image_2
       -%}
-      <div class="mealplan-img mealplan-big mp-gs"{% unless chef_image_1 != blank %} data-p="0"{% endunless %}>
+      <div class="mealplan-img mealplan-big mp-gs mp-reveal mp-float"{% unless chef_image_1 != blank %} data-p="0"{% endunless %}>
         {%- if chef_image_1 != blank -%}
           {{ chef_image_1 | image_url: width: 900 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '400, 700, 900', sizes: '(min-width: 750px) 55vw, 90vw', alt: c_chef_heading }}
         {%- endif -%}
       </div>
-      <div class="mealplan-txt mp-gs">
+      <div class="mealplan-txt mp-gs mp-reveal">
         {%- if c_chef_eyebrow != blank -%}
           <p class="mp-eye">{{ c_chef_eyebrow | escape }}</p>
         {%- endif -%}
         <h2 class="mealplan-h">{{ c_chef_heading | escape | newline_to_br }}</h2>
         <p class="mealplan-p">{{ c_chef_text | escape }}</p>
       </div>
-      <div class="mealplan-img mealplan-small mp-gs"{% unless chef_image_2 != blank %} data-p="1"{% endunless %}>
+      <div class="mealplan-img mealplan-small mp-gs mp-reveal mp-float mp-float--late"{% unless chef_image_2 != blank %} data-p="1"{% endunless %}>
         {%- if chef_image_2 != blank -%}
           {{ chef_image_2 | image_url: width: 700 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '300, 500, 700', sizes: '30vw', alt: c_chef_eyebrow }}
         {%- endif -%}
@@ -1336,7 +1336,7 @@
           assign cta_image = area_cta.settings.image
         endif
       -%}
-      <div class="mealplan-img"{% unless cta_image != blank %} data-p="3"{% endunless %}>
+      <div class="mealplan-img mp-reveal mp-ken"{% unless cta_image != blank %} data-p="3"{% endunless %}>
         {%- if cta_image != blank -%}
           {{ cta_image | image_url: width: 1400 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '600, 900, 1400', sizes: '(min-width: 750px) 70vw, 92vw', alt: c_cta_heading }}
         {%- endif -%}
