@@ -50,12 +50,25 @@
             "order_title": "6 Meal Plan"
           }
         },
+        "area_explore": {
+          "type": "area_explore",
+          "settings": {
+            "heading": "Explore the full menu"
+          }
+        },
         "area_chef": {
           "type": "area_chef",
           "settings": {
             "eyebrow": "The Chef Matt way",
             "heading": "40 years in the kitchen. Now cooking for you.",
             "text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you."
+          }
+        },
+        "area_steps": {
+          "type": "area_steps",
+          "settings": {
+            "eyebrow": "How it works",
+            "heading": "Your week, sorted in three steps."
           }
         },
         "area_delivery": {
@@ -80,6 +93,13 @@
             "heading": "Questions, answered"
           }
         },
+        "area_related": {
+          "type": "area_related",
+          "settings": {
+            "eyebrow": "More ways to eat well",
+            "heading": "Other ways to eat well"
+          }
+        },
         "area_cta": {
           "type": "area_cta",
           "settings": {
@@ -89,395 +109,20 @@
             "button_label": "Build my 6 meal plan",
             "button_link": "/products/6-meal-plan"
           }
-        },
-        "benefit_1": {
-          "type": "benefit",
-          "settings": {
-            "title": "24oz",
-            "text": "Per container"
-          }
-        },
-        "benefit_2": {
-          "type": "benefit",
-          "settings": {
-            "title": "2-3 min",
-            "text": "Heat and eat"
-          }
-        },
-        "benefit_3": {
-          "type": "benefit",
-          "settings": {
-            "title": "Fresh",
-            "text": "Never frozen"
-          }
-        },
-        "benefit_4": {
-          "type": "benefit",
-          "settings": {
-            "title": "Gluten free",
-            "text": "Options"
-          }
-        },
-        "benefit_6": {
-          "type": "benefit",
-          "settings": {
-            "title": "40+",
-            "text": "Years experience"
-          }
-        },
-        "benefit_7": {
-          "type": "benefit",
-          "settings": {
-            "title": "45g",
-            "text": "Protein most meals"
-          }
-        },
-        "step_1": {
-          "type": "step",
-          "settings": {
-            "title": "Choose your meals",
-            "text": "Pick six from this week's menu."
-          }
-        },
-        "step_2": {
-          "type": "step",
-          "settings": {
-            "title": "We prepare",
-            "text": "Our chefs cook your order."
-          }
-        },
-        "step_3": {
-          "type": "step",
-          "settings": {
-            "title": "We pack",
-            "text": "Meals are packed ready for delivery."
-          }
-        },
-        "step_4": {
-          "type": "step",
-          "settings": {
-            "title": "We deliver",
-            "text": "They arrive at your door. Heat and eat."
-          }
-        },
-        "quality_1": {
-          "type": "quality",
-          "settings": {
-            "title": "Chicken Biryani with Raita",
-            "text": "Basmati rice and raita.",
-            "detail": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
-          }
-        },
-        "quality_2": {
-          "type": "quality",
-          "settings": {
-            "title": "Tandoori Chicken Leg",
-            "text": "Veg jalfrezi, basmati rice and 2 roti.",
-            "detail": "Every tray is cooked, seasoned, and finished by the kitchen team. The same care goes into a Tuesday lunch as a Saturday dinner."
-          }
-        },
-        "quality_3": {
-          "type": "quality",
-          "settings": {
-            "title": "Butter Chicken",
-            "text": "Aloo methi, basmati rice and 2 roti.",
-            "detail": "The menu changes so the week does not taste the same five times. New dishes, familiar portions, and the same standard in every box."
-          }
-        },
-        "quality_4": {
-          "type": "quality",
-          "settings": {
-            "title": "Coconut Fish Curry",
-            "text": "Jeera aloo, basmati rice and 2 roti.",
-            "detail": "Open, heat for a few minutes, and eat. No prep, no pans, and no guessing what a portion should look like."
-          }
-        },
-        "quality_5": {
-          "type": "quality",
-          "settings": {
-            "title": "Lamb Korma",
-            "text": "Green salad and basmati rice.",
-            "detail": "Recipes are cooked the same way every time: the same seasoning, the same portions, and the same finish before a box leaves the kitchen."
-          }
-        },
-        "menu_1": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Chicken Biryani with Raita",
-            "name": "Chicke Biryani with Raita",
-            "product": ""
-          }
-        },
-        "menu_2": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Tandoori Chicken Leg with Veg Jalfrezi",
-            "name": "Tandoori Chicken Leg with Veg Jalfrezi, Basmati Rice and 2 Roti",
-            "product": ""
-          }
-        },
-        "menu_3": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Butter Chicken with Aloo Methi",
-            "name": "Butter Chicken with Aloo Methi, Basmati Rice and 2 Roti",
-            "product": ""
-          }
-        },
-        "menu_4": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Coconut Fish Curry with Jeera Aloo",
-            "name": "Coconut Fish Curry with Jeera Aloo, Basmati Rice and 2 Roti",
-            "product": ""
-          }
-        },
-        "menu_5": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Lamb Korma with Green Salad",
-            "name": "Lamb Korma with Green Salad and Basmati Rice",
-            "product": ""
-          }
-        },
-        "menu_6": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Chana Masala with Jeera Aloo",
-            "name": "Chana Masala with Jeera Aloo, Basmati Rice and 2 Roti",
-            "product": ""
-          }
-        },
-        "menu_7": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Palak Paneer with Aloo Gobi",
-            "name": "Palak Paneer with Aloo Gobi, Basmati Rice and 2 Roti",
-            "product": ""
-          }
-        },
-        "menu_8": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Dal Makhani with Bhindi Masala",
-            "name": "Dal Makhani with Bhindi Masala, Basmati Rice and 2 Roti",
-            "product": ""
-          }
-        },
-        "menu_9": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Malai Kofta with Rajma",
-            "name": "Malai Kofta with Rajma, Basmati Rice and 2 Roti",
-            "product": ""
-          }
-        },
-        "menu_10": {
-          "type": "menu_item",
-          "settings": {
-            "short": "Baingan Bharta with Rajma Masala",
-            "name": "Baingan Bharta with Rajma Masala, Basmati Rice and 2 Roti",
-            "product": ""
-          }
-        },
-        "review_1": {
-          "type": "review",
-          "settings": {
-            "name": "Sarah M.",
-            "review": "These meals made weeknights so much easier.",
-            "rating": 5,
-            "show_image": true,
-            "aspect": "1"
-          }
-        },
-        "review_2": {
-          "type": "review",
-          "settings": {
-            "name": "James R.",
-            "review": "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
-            "rating": 5,
-            "show_image": true,
-            "aspect": "1.3"
-          }
-        },
-        "review_3": {
-          "type": "review",
-          "settings": {
-            "name": "Priya K.",
-            "review": "Short and sweet.",
-            "rating": 5,
-            "show_image": false,
-            "aspect": "1"
-          }
-        },
-        "review_4": {
-          "type": "review",
-          "settings": {
-            "name": "Alex T.",
-            "review": "Another placeholder review for the layout.",
-            "rating": 5,
-            "show_image": true,
-            "aspect": "0.8"
-          }
-        },
-        "faq_1": {
-          "type": "faq",
-          "settings": {
-            "question": "How does the 6 meal plan work?",
-            "answer": "Choose six meals from the weekly menu and we prepare and deliver them to you."
-          }
-        },
-        "faq_2": {
-          "type": "faq",
-          "settings": {
-            "question": "How often does the menu change?",
-            "answer": "The menu rotates weekly."
-          }
-        },
-        "faq_3": {
-          "type": "faq",
-          "settings": {
-            "question": "Can I choose my meals?",
-            "answer": "Yes. Pick any six from the available options."
-          }
-        },
-        "faq_4": {
-          "type": "faq",
-          "settings": {
-            "question": "How are meals delivered?",
-            "answer": "Delivered to your door."
-          }
-        },
-        "faq_5": {
-          "type": "faq",
-          "settings": {
-            "question": "How should meals be stored?",
-            "answer": "Keep refrigerated and enjoy within a few days."
-          }
-        },
-        "faq_6": {
-          "type": "faq",
-          "settings": {
-            "question": "How do I heat the meals?",
-            "answer": "Microwave until hot throughout."
-          }
-        },
-        "faq_7": {
-          "type": "faq",
-          "settings": {
-            "question": "What areas do you deliver to?",
-            "answer": "We deliver across Hartland and nearby areas."
-          }
-        },
-        "faq_8": {
-          "type": "faq",
-          "settings": {
-            "question": "Are nutrition facts available?",
-            "answer": "Yes. Calories, protein, carbs and fat are listed for each meal."
-          }
-        },
-        "related_1": {
-          "type": "related",
-          "settings": {
-            "title": "5 Meal Plan",
-            "text": "Five meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/5-meal-plan"
-          }
-        },
-        "related_6": {
-          "type": "related",
-          "settings": {
-            "title": "6 Meal Plan",
-            "text": "Six meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/6-meal-plan"
-          }
-        },
-        "related_2": {
-          "type": "related",
-          "settings": {
-            "title": "7 Meal Plan",
-            "text": "Seven meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/7-meal-plan"
-          }
-        },
-        "related_3": {
-          "type": "related",
-          "settings": {
-            "title": "10 Meal Plan",
-            "text": "Ten meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/10-meal-plan"
-          }
-        },
-        "related_4": {
-          "type": "related",
-          "settings": {
-            "title": "15 Meal Plan",
-            "text": "Fifteen meals from the weekly menu.",
-            "price_note": "Price at checkout",
-            "button_label": "View plan",
-            "link": "/pages/15-meal-plan"
-          }
         }
       },
       "block_order": [
         "area_hero",
         "area_benefits",
         "area_menu",
+        "area_explore",
         "area_chef",
+        "area_steps",
         "area_delivery",
         "area_reviews",
         "area_faq",
-        "area_cta",
-        "benefit_1",
-        "benefit_2",
-        "benefit_3",
-        "benefit_4",
-        "benefit_6",
-        "benefit_7",
-        "step_1",
-        "step_2",
-        "step_3",
-        "step_4",
-        "quality_1",
-        "quality_2",
-        "quality_3",
-        "quality_4",
-        "quality_5",
-        "menu_1",
-        "menu_2",
-        "menu_3",
-        "menu_4",
-        "menu_5",
-        "menu_6",
-        "menu_7",
-        "menu_8",
-        "menu_9",
-        "menu_10",
-        "review_1",
-        "review_2",
-        "review_3",
-        "review_4",
-        "faq_1",
-        "faq_2",
-        "faq_3",
-        "faq_4",
-        "faq_5",
-        "faq_6",
-        "faq_7",
-        "faq_8",
-        "related_1",
-        "related_6",
-        "related_2",
-        "related_3",
-        "related_4"
+        "area_related",
+        "area_cta"
       ],
       "settings": {
         "content_product": "6-meal-plan",
