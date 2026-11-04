@@ -28,8 +28,9 @@ section.gkk[data-gkk]{
   /* Theme tag tokens — kept in sync with `.mealplan-a .tag` and
      `.ing .diet` so plate labels speak the same colour language. */
   --gkk-tag-bg:#F5A623;
-  --gkk-tag-ink:#15251C;
-  --gkk-tag-line:rgba(21,37,28,.12);
+  /* Near-black ink so all four plate tags read dark on saffron. */
+  --gkk-tag-ink:#0A0A0A;
+  --gkk-tag-line:rgba(10,10,10,.14);
   /* Breathing room between a block title (h4) and the text under it. */
   --gkk-title-gap:clamp(12px,1.5vw,18px);
   /* Motion tokens. `--gkk-ease` is a long expo-style ease-out: fast off the
@@ -129,7 +130,7 @@ section.gkk .gkk__hero h2{font-size:40px;margin:0 0 20px;overflow-wrap:break-wor
    `.ing .diet` in section-cm-meal-plan-page.css: saffron fill, forest ink.
    The beet fill was local to this panel and read as a different brand. */
 .gkk__chip{position:absolute;z-index:2;background:var(--gkk-tag-bg);color:var(--gkk-tag-ink);
-  padding:8px 14px;border-radius:999px;
+  padding:8px 14px;border-radius:999px;font-weight:700;letter-spacing:.01em;
   box-shadow:0 8px 18px rgba(21,37,28,.22);border:1px solid var(--gkk-tag-line);
   transition:opacity .6s var(--gkk-ease),translate .6s var(--gkk-ease),
     scale .6s var(--gkk-ease),box-shadow .4s var(--gkk-ease-soft);
@@ -139,7 +140,7 @@ section.gkk .gkk__hero h2{font-size:40px;margin:0 0 20px;overflow-wrap:break-wor
 .gkk__chip:nth-of-type(1){top:4%;left:0;rotate:-4deg;--cd:.9s}
 .gkk__chip:nth-of-type(2){top:8%;right:0;rotate:3deg;--cd:1.05s}
 .gkk__chip:nth-of-type(3){bottom:8%;left:0;rotate:3deg;--cd:1.2s}
-.gkk__chip:nth-of-type(4){bottom:3%;right:0;rotate:-3deg;--cd:1.35s}
+.gkk__chip:nth-of-type(4){bottom:6%;right:0;rotate:-3deg;--cd:1.35s}
 /* Chips drop in after the plate lands: they start slightly small and low, then
    settle, which reads as a label being pinned onto the food. */
 .gkk--ready:not(.is-in) .gkk__plate>img{opacity:0;rotate:-16deg;scale:.88}

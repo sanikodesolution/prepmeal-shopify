@@ -22,10 +22,26 @@
 {%- liquid
   # A metafield list is already an array; a theme setting is one string with
   # newlines. Both end up as an array of rows so one loop path serves each.
-  assign gkk_chips = meta.thali_chips.value
-  if gkk_chips == blank
-    assign gkk_chips = s.thali_chips | newline_to_br | split: '<br />'
+  # Four plate tags (corners). Keep Admin/theme lines; fill any blank slot
+  # from defaults so the bottom-right tag never disappears.
+  assign gkk_chip_defaults = 'Chef-cooked weekly|Never frozen|2-3 min to heat|Calorie counted' | split: '|'
+  assign gkk_chips_raw = meta.thali_chips.value
+  if gkk_chips_raw == blank
+    assign gkk_chips_raw = s.thali_chips | newline_to_br | split: '<br />'
   endif
+  capture gkk_chips_joined
+    for i in (0..3)
+      assign chip_line = gkk_chips_raw[i] | strip
+      if chip_line == blank
+        assign chip_line = gkk_chip_defaults[i]
+      endif
+      echo chip_line
+      unless forloop.last
+        echo '|'
+      endunless
+    endfor
+  endcapture
+  assign gkk_chips = gkk_chips_joined | split: '|'
   assign gkk_tickets = meta.thali_tickets.value
   if gkk_tickets == blank
     assign gkk_tickets = s.thali_tickets | newline_to_br | split: '<br />'
