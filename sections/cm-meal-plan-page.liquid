@@ -1195,7 +1195,7 @@
       {%- endif -%}
       <h2 class="mealplan-h">{{ c_reviews_heading | escape }}</h2>
       <div class="mealplan-cols" id="rev">
-        {%- if mo_testimonials == blank and legacy_reviews == blank and review_blocks.size > 0 -%}
+        {%- if review_blocks.size > 0 -%}
           {%- for block in review_blocks -%}
             {%- liquid
               assign review_name = block.settings.name
@@ -1656,7 +1656,7 @@
       "name": "Reviews section",
       "limit": 1,
       "settings": [
-        { "type": "paragraph", "content": "Click the reviews section in the preview to edit headings here. Individual reviews are Review blocks or product metafields." },
+        { "type": "paragraph", "content": "This folder edits Eyebrow + Heading only. To edit reviews: left sidebar → Add block → Review (or click a card in the preview). Each Review block = name, rating, text, optional image." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by our customers" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by people who love good food" }
       ]

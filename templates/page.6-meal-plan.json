@@ -156,6 +156,46 @@
             "heading": "Loved by people who love good food"
           }
         },
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "name": "Sarah M.",
+            "review": "These meals made weeknights so much easier.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "1"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "name": "James R.",
+            "review": "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "1.3"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "name": "Priya K.",
+            "review": "Short and sweet.",
+            "rating": 5,
+            "show_image": false,
+            "aspect": "1"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "name": "Alex T.",
+            "review": "Another placeholder review for the layout.",
+            "rating": 5,
+            "show_image": true,
+            "aspect": "0.8"
+          }
+        },
         "area_faq": {
           "type": "area_faq",
           "settings": {
@@ -284,6 +324,10 @@
         "step_4",
         "area_delivery",
         "area_reviews",
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
         "area_faq",
         "faq_1",
         "faq_2",
