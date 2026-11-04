@@ -5,10 +5,12 @@ alwaysApply: true
 
 # Always push to GitHub after work
 
-When a task is finished and there are local changes in this repo (or the related `prepmeal-shopify-doc` repo):
+Do this on **every finished task** in this repo (and related `prepmeal-shopify-doc`) — no need to wait for the user to ask.
 
 1. Commit the relevant changes with a clear message (unless the user said not to commit).
 2. Push to `origin` on the current branch immediately after the commit.
 3. Confirm the push succeeded (`ahead: 0`) before ending the turn.
-4. If push to a protected branch is blocked, request approval and retry — do not leave commits unpushed.
-5. Do not leave finished work sitting only in the working tree or as unpushed local commits.
+4. If you also `shopify theme push`, still make a **local git commit + push** so GitHub has a clear human message (do not rely only on Shopify’s auto “Update from Shopify” sync).
+5. If push to a protected branch is blocked, request approval and retry — do not leave commits unpushed.
+6. Do not leave finished work sitting only in the working tree, only on the live theme, or as unpushed local commits.
+7. Skip only empty trees (nothing to commit) after confirming `git status` is clean for the task files.
