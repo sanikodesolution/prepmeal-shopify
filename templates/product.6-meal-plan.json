@@ -163,6 +163,62 @@
             "heading": "Questions, answered"
           }
         },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "How does the 6 meal plan work?",
+            "answer": "Choose six meals from the weekly menu and we prepare and deliver them to you."
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How often does the menu change?",
+            "answer": "The menu rotates weekly."
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I choose my meals?",
+            "answer": "Yes. Pick any six from the available options."
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "How are meals delivered?",
+            "answer": "Delivered to your door."
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "How should meals be stored?",
+            "answer": "Keep refrigerated and enjoy within a few days."
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I heat the meals?",
+            "answer": "Microwave until hot throughout."
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "settings": {
+            "question": "What areas do you deliver to?",
+            "answer": "We deliver across Hartland and nearby areas."
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "settings": {
+            "question": "Are nutrition facts available?",
+            "answer": "Yes. Calories, protein, carbs and fat are listed for each meal."
+          }
+        },
         "area_related": {
           "type": "area_related",
           "settings": {
@@ -229,6 +285,14 @@
         "area_delivery",
         "area_reviews",
         "area_faq",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
         "area_related",
         "area_cta"
       ],

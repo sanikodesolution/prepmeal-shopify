@@ -1270,7 +1270,7 @@
         <h2 class="mealplan-h">{{ c_faq_heading | escape }}</h2>
       </div>
       <div id="faq">
-        {%- if mo_faq == blank and legacy_faq == blank and faq_blocks.size > 0 -%}
+        {%- if faq_blocks.size > 0 -%}
           {%- for block in faq_blocks -%}
             <div class="mealplan-qi" {{ block.shopify_attributes }}>
               <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
@@ -1666,7 +1666,7 @@
       "name": "FAQ section",
       "limit": 1,
       "settings": [
-        { "type": "paragraph", "content": "Click the FAQ section in the preview to edit headings here. Questions are FAQ blocks or product metafields." },
+        { "type": "paragraph", "content": "This folder edits Eyebrow + Heading only. To edit Q&A: left sidebar → Add block → FAQ (or click a question in the preview). Each FAQ block = one question + answer." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Good to know" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered" }
       ]
