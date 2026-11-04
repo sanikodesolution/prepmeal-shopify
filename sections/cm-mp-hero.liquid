@@ -1,0 +1,122 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-meal-plan-page.js' | asset_url }}" defer="defer"></script>
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  assign plan_product = section.settings.content_product
+  assign plan_meta = plan_product.metafields.custom
+  assign shared_meta = shop.metafields.custom
+
+  assign c_plan_label = section.settings.plan_label | default: plan_meta.plan_label.value
+  assign c_heading = section.settings.heading | default: plan_meta.heading.value
+  assign c_text = section.settings.text | default: plan_meta.subheading.value
+  assign c_fact_1_label = section.settings.fact_1_label | default: plan_meta.fact_1_label.value
+  assign c_fact_1_value = section.settings.fact_1_value | default: plan_meta.fact_1_value.value
+  assign c_fact_2_label = section.settings.fact_2_label | default: plan_meta.fact_2_label.value
+  assign c_fact_2_value = section.settings.fact_2_value | default: plan_meta.fact_2_value.value
+  assign c_fact_3_label = section.settings.fact_3_label | default: plan_meta.fact_3_label.value
+  assign c_fact_3_value = section.settings.fact_3_value | default: plan_meta.fact_3_value.value
+  assign c_button_label = section.settings.button_label | default: plan_meta.button_label.value
+  assign c_button_label_2 = section.settings.button_label_2 | default: plan_meta.button_label_2.value
+  assign c_badge_value = section.settings.badge_value | default: plan_meta.badge_value.value
+  assign c_badge_label = section.settings.badge_label | default: plan_meta.badge_label.value
+  assign c_hero_image_1 = section.settings.hero_image_1 | default: plan_meta.hero_image_1.value | default: shared_meta.hero_image_1.value
+  assign c_hero_image_2 = section.settings.hero_image_2 | default: plan_meta.hero_image_2.value | default: shared_meta.hero_image_2.value
+  assign c_hero_image_1_alt = section.settings.hero_image_1_alt | default: plan_meta.hero_image_1_alt.value
+  assign c_hero_image_2_alt = section.settings.hero_image_2_alt | default: plan_meta.hero_image_2_alt.value
+-%}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-hero">
+  <section class="mph">
+    <div class="mph__inner">
+      <div class="mph__copy">
+        {%- if c_plan_label != blank -%}
+          <p class="mph__plan">{{ c_plan_label | escape }}</p>
+        {%- endif -%}
+        {%- if c_heading != blank -%}
+          <h1 class="mph__title">{{ c_heading | escape | newline_to_br }}</h1>
+        {%- endif -%}
+        {%- if c_text != blank -%}
+          <p class="mph__text">{{ c_text | escape }}</p>
+        {%- endif -%}
+        <dl class="mph__facts">
+          {%- if c_fact_1_label != blank -%}
+            <div><dt>{{ c_fact_1_label | escape }}</dt><dd>{{ c_fact_1_value | escape }}</dd></div>
+          {%- endif -%}
+          {%- if c_fact_2_label != blank -%}
+            <div><dt>{{ c_fact_2_label | escape }}</dt><dd>{{ c_fact_2_value | escape }}</dd></div>
+          {%- endif -%}
+          {%- if c_fact_3_label != blank -%}
+            <div><dt>{{ c_fact_3_label | escape }}</dt><dd>{{ c_fact_3_value | escape }}</dd></div>
+          {%- endif -%}
+        </dl>
+        <div class="mph__actions">
+          {%- if c_button_label != blank -%}
+            {%- assign mph_link = section.settings.button_link | default: '#menu' -%}
+            {% render 'pm-button', label: c_button_label, link: mph_link, style: 'light' %}
+          {%- endif -%}
+          {%- if c_button_label_2 != blank -%}
+            {%- assign mph_link_2 = section.settings.button_link_2 | default: '#menu' -%}
+            {% render 'pm-button', label: c_button_label_2, link: mph_link_2, style: 'brand' %}
+          {%- endif -%}
+        </div>
+      </div>
+      <div class="mph__visual">
+        <div class="mph__main" role="img" aria-label="{{ c_hero_image_1_alt | escape }}">
+          {%- if c_hero_image_1 != blank -%}
+            {{ c_hero_image_1 | image_url: width: 900 | image_tag: class: 'mp-food', loading: 'eager', widths: '400, 700, 900', sizes: '(min-width: 990px) 40vw, 80vw', alt: c_hero_image_1_alt }}
+          {%- else -%}
+            <img class="mp-food" data-f="5" alt="{{ c_hero_image_1_alt | escape }}" width="700" height="700" fetchpriority="high">
+          {%- endif -%}
+        </div>
+        <div class="mph__second" role="img" aria-label="{{ c_hero_image_2_alt | escape }}">
+          {%- if c_hero_image_2 != blank -%}
+            {{ c_hero_image_2 | image_url: width: 700 | image_tag: class: 'mp-food', loading: 'lazy', widths: '300, 500, 700', sizes: '30vw', alt: c_hero_image_2_alt }}
+          {%- else -%}
+            <img class="mp-food" data-f="6" alt="{{ c_hero_image_2_alt | escape }}" width="700" height="700">
+          {%- endif -%}
+        </div>
+        <div class="mph__badge"><strong>{{ c_badge_value | escape }}</strong><span>{{ c_badge_label | escape }}</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "MP Hero",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    { "type": "paragraph", "content": "Click this hero in the preview to edit these fields." },
+    { "type": "product", "id": "content_product", "label": "Plan product (optional metafields)" },
+    { "type": "text", "id": "plan_label", "label": "Plan label", "default": "6 Meal Plan" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Chef-cooked meals, delivered across Lake Country" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them." },
+    { "type": "text", "id": "fact_1_label", "label": "Fact 1 label", "default": "Price" },
+    { "type": "text", "id": "fact_1_value", "label": "Fact 1 value", "default": "From $00.00" },
+    { "type": "text", "id": "fact_2_label", "label": "Fact 2 label", "default": "Meals" },
+    { "type": "text", "id": "fact_2_value", "label": "Fact 2 value", "default": "6 per week" },
+    { "type": "text", "id": "fact_3_label", "label": "Fact 3 label", "default": "Menu" },
+    { "type": "text", "id": "fact_3_value", "label": "Fact 3 value", "default": "10+ options" },
+    { "type": "text", "id": "button_label", "label": "Primary button", "default": "Build my 6 meals" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "button_label_2", "label": "Secondary button", "default": "View this week's menu" },
+    { "type": "url", "id": "button_link_2", "label": "Secondary button link" },
+    { "type": "image_picker", "id": "hero_image_1", "label": "Hero image (main)" },
+    { "type": "text", "id": "hero_image_1_alt", "label": "Hero image 1 alt", "default": "Chimichurri Steak" },
+    { "type": "image_picker", "id": "hero_image_2", "label": "Hero image (secondary)" },
+    { "type": "text", "id": "hero_image_2_alt", "label": "Hero image 2 alt", "default": "Orange Basil Salmon" },
+    { "type": "text", "id": "badge_value", "label": "Badge value", "default": "10+" },
+    { "type": "text", "id": "badge_label", "label": "Badge label", "default": "meal options" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 }
+  ],
+  "presets": [
+    { "name": "MP Hero" }
+  ]
+}
+{% endschema %}

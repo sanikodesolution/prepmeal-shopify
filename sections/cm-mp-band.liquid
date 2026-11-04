@@ -1,0 +1,80 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  assign layout = section.settings.layout | default: 'story'
+  assign c_eyebrow = section.settings.eyebrow
+  assign c_heading = section.settings.heading
+  assign c_text = section.settings.text
+  assign c_button = section.settings.button_label
+  assign c_link = section.settings.button_link
+  assign c_image = section.settings.image
+-%}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-band">
+  <div class="mealplan">
+    {%- case layout -%}
+      {%- when 'cta' -%}
+        <section class="mealplan-sec">
+          <div class="mealplan-wrap">
+            <div class="mealplan-cta">
+              <div class="mealplan-img"{% unless c_image != blank %} data-p="3"{% endunless %}>
+                {%- if c_image != blank -%}
+                  {{ c_image | image_url: width: 1400 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '600, 900, 1400', sizes: '(min-width: 750px) 70vw, 92vw', alt: c_heading }}
+                {%- endif -%}
+              </div>
+              <div class="mealplan-cta-in">
+                {%- if c_eyebrow != blank -%}<p class="mp-eye mp-eye--dark">{{ c_eyebrow | escape }}</p>{%- endif -%}
+                {%- if c_heading != blank -%}<h2 class="mealplan-h">{{ c_heading | escape }}</h2>{%- endif -%}
+                {%- if c_text != blank -%}<p class="mealplan-p">{{ c_text | escape }}</p>{%- endif -%}
+                {%- if c_button != blank -%}
+                  <a class="mealplan-btn mealplan-btn--solid" href="{{ c_link | default: '#' }}">{{ c_button | escape }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </section>
+      {%- else -%}
+        <section class="mealplan-sec">
+          <div class="mealplan-wrap">
+            {%- if c_eyebrow != blank -%}<p class="mp-eye">{{ c_eyebrow | escape }}</p>{%- endif -%}
+            {%- if c_heading != blank -%}<h2 class="mealplan-h">{{ c_heading | escape | newline_to_br }}</h2>{%- endif -%}
+            {%- if c_text != blank -%}<p class="mealplan-p">{{ c_text | escape }}</p>{%- endif -%}
+            {%- if c_button != blank -%}
+              {%- assign band_link = c_link | default: '#' -%}
+              {% render 'pm-button', label: c_button, link: band_link, style: 'brand' %}
+            {%- endif -%}
+          </div>
+        </section>
+    {%- endcase -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MP Text band",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    { "type": "paragraph", "content": "Click this band in the preview to edit these fields." },
+    { "type": "select", "id": "layout", "label": "Layout", "default": "story", "options": [
+      { "value": "story", "label": "Story / heading" },
+      { "value": "cta", "label": "Final CTA" }
+    ]},
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Chef Matt way" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "40 years in the kitchen. Now cooking for you." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Chef Matt has spent four decades cooking." },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "image_picker", "id": "image", "label": "Image (CTA layout)" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 }
+  ],
+  "presets": [
+    { "name": "MP Text band" }
+  ]
+}
+{% endschema %}

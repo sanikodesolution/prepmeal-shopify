@@ -9,37 +9,75 @@
  */
 {
   "sections": {
+    "mp_hero": {
+      "type": "cm-mp-hero",
+      "settings": {
+        "content_product": "6-meal-plan",
+        "plan_label": "6 Meal Plan",
+        "heading": "Chef-cooked meals, delivered across Lake Country",
+        "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
+        "fact_1_label": "Price",
+        "fact_1_value": "From $00.00",
+        "fact_2_label": "Meals",
+        "fact_2_value": "6 per week",
+        "fact_3_label": "Menu",
+        "fact_3_value": "10+ options",
+        "button_label": "Build my 6 meals",
+        "button_link": "/products/6-meal-plan",
+        "button_label_2": "View this week's menu",
+        "button_link_2": "#menu",
+        "hero_image_1_alt": "Chimichurri Steak",
+        "hero_image_2_alt": "Orange Basil Salmon",
+        "badge_value": "10+",
+        "badge_label": "meal options",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "mp_benefits": {
+      "type": "cm-mp-benefits",
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "title": "24oz",
+            "text": "Per container"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "title": "2 min",
+            "text": "To reheat"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "title": "Fresh",
+            "text": "Never frozen"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3"
+      ],
+      "settings": {
+        "content_product": "6-meal-plan",
+        "eyebrow": "Hartland's #1 meal prep chef",
+        "line_1": "6 meals.",
+        "line_2": "1 week.",
+        "line_3": "Zero stress.",
+        "note": "Flexible menu: choose any six from 10+ options, and change your picks each week.",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
     "mp_page": {
       "type": "cm-meal-plan-page",
       "blocks": {
-        "area_hero": {
-          "type": "area_hero",
-          "settings": {
-            "plan_label": "6 Meal Plan",
-            "heading": "Chef-cooked meals, delivered across Lake Country",
-            "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
-            "fact_1_label": "Price",
-            "fact_1_value": "From $00.00",
-            "fact_2_label": "Meals",
-            "fact_2_value": "6 per week",
-            "fact_3_label": "Menu",
-            "fact_3_value": "10+ options",
-            "button_label": "Build my 6 meals",
-            "button_label_2": "View this week's menu",
-            "badge_value": "10+",
-            "badge_label": "meal options"
-          }
-        },
-        "area_benefits": {
-          "type": "area_benefits",
-          "settings": {
-            "eyebrow": "Hartland's #1 meal prep chef",
-            "line_1": "6 meals.",
-            "line_2": "1 week.",
-            "line_3": "Zero stress.",
-            "note": "Flexible menu: choose any six from 10+ options, and change your picks each week."
-          }
-        },
         "area_menu": {
           "type": "area_menu",
           "settings": {
@@ -112,8 +150,6 @@
         }
       },
       "block_order": [
-        "area_hero",
-        "area_benefits",
         "area_menu",
         "area_explore",
         "area_chef",
@@ -127,7 +163,7 @@
       "settings": {
         "content_product": "6-meal-plan",
         "detail_show_allergens": true,
-        "show_hero": true,
+        "show_hero": false,
         "plan_label": "6 Meal Plan",
         "heading": "Chef-cooked meals, delivered across Lake Country",
         "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
@@ -279,11 +315,14 @@
         "cta_button_label": "Build my 6 meal plan",
         "cta_button_link": "/products/6-meal-plan",
         "padding_top": 0,
-        "padding_bottom": 0
+        "padding_bottom": 0,
+        "show_benefits_band": false
       }
     }
   },
   "order": [
+    "mp_hero",
+    "mp_benefits",
     "mp_page"
   ]
 }

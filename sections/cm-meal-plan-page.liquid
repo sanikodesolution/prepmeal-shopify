@@ -858,16 +858,12 @@
     </div>
   {%- endif -%}
 
-  {%- liquid
-    # Show hero when enabled, or always in the theme editor when an area_hero
-    # block exists so merchants can click it to open its settings.
-    assign show_hero_band = section.settings.show_hero
-    if request.design_mode and area_hero != blank
-      assign show_hero_band = true
-    endif
-  -%}
-  {%- if show_hero_band -%}
-  <section class="mph" {% render 'cm-area-attrs', section: section, type: 'area_hero' %}>
+  {%- comment -%}
+    Hero/Benefits are separate Template sections (MP Hero / MP Benefits) so
+    Customize can select them with one click. Keep these off on 6-meal templates.
+  {%- endcomment -%}
+  {%- if section.settings.show_hero -%}
+  <section class="mph"{% for block in section.blocks %}{% if block.type == 'area_hero' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}>
     <div class="mph__inner">
       <div class="mph__copy">
         {%- if c_plan_label != blank -%}
@@ -923,11 +919,10 @@
   {%- endif -%}
 
   <div class="mealplan-a">
-    <section class="ben" {% render 'cm-area-attrs', section: section, type: 'area_benefits' %}>
+    {%- if section.settings.show_benefits_band -%}
+    <section class="ben"{% for block in section.blocks %}{% if block.type == 'area_benefits' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}>
       <div class="ben__glow" aria-hidden="true"></div>
       {%- liquid
-        # Prefer Benefit blocks as chip copy when present; preview clicks always
-        # select the Benefits band folder (area_benefits), not individual chips.
         assign use_benefit_blocks = false
         if benefit_blocks.size > 0
           if request.design_mode or mo_stats == blank and legacy_benefits == blank
@@ -975,8 +970,9 @@
         {%- endif -%}
       </div>
     </section>
+    {%- endif -%}
 
-    <div class="mp-editor-area" {% render 'cm-area-attrs', section: section, type: 'area_menu' %}>
+    <div class="mp-editor-area"{% for block in section.blocks %}{% if block.type == 'area_menu' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}>
       <section class="mealplan-menu-grid">
         <div class="wrap">
           <div class="menu-head">
@@ -1011,7 +1007,7 @@
       {% render 'cm-thali-story', section: section, s: section.settings, meta: plan_meta, features: mo_features, stats: mo_stats_thali, facts: mo_facts, shared: shared_meta %}
     {%- endif -%}
 
-    <section class="ex" {% render 'cm-area-attrs', section: section, type: 'area_explore' %}><div class="wrap">
+    <section class="ex"{% for block in section.blocks %}{% if block.type == 'area_explore' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}><div class="wrap">
       <h2>{{ c_explore_heading | escape }}</h2>
       <div class="filters" id="filters" role="group" aria-label="{{ c_filter_label | escape }}"></div>
       <div class="eg" id="grid"></div>
@@ -1020,7 +1016,7 @@
   </div>
 
   <div class="mealplan">
-    <section class="mealplan-sec" {% render 'cm-area-attrs', section: section, type: 'area_chef' %}><div class="mealplan-wrap mealplan-chef">
+    <section class="mealplan-sec"{% for block in section.blocks %}{% if block.type == 'area_chef' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}><div class="mealplan-wrap mealplan-chef">
       {%- liquid
         # Chef photos used to be bundled assets picked by index, so they could
         # not be changed from Admin. An image set on the product (or the section)
@@ -1048,7 +1044,7 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec mealplan-steps" {% render 'cm-area-attrs', section: section, type: 'area_steps' %}><div class="mealplan-wrap">
+    <section class="mealplan-sec mealplan-steps"{% for block in section.blocks %}{% if block.type == 'area_steps' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}><div class="mealplan-wrap">
       {%- if c_steps_eyebrow != blank -%}
         <p class="mp-eye">{{ c_steps_eyebrow | escape }}</p>
       {%- endif -%}
@@ -1109,7 +1105,7 @@
     </div></section>
     {%- endif -%}
 
-    <section class="mealplan-sec" {% render 'cm-area-attrs', section: section, type: 'area_delivery' %}><div class="mealplan-wrap">
+    <section class="mealplan-sec"{% for block in section.blocks %}{% if block.type == 'area_delivery' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}><div class="mealplan-wrap">
       {%- if section.settings.delivery_style == 'plate' -%}
         {% render 'cm-delivery-area', section: section, meta: plan_meta, areas: mo_areas, shared: shared_meta %}
       {%- elsif section.settings.delivery_checker -%}
@@ -1166,7 +1162,7 @@
       {%- endif -%}
     </div></section>
 
-    <section class="mealplan-sec mealplan-rev" {% render 'cm-area-attrs', section: section, type: 'area_reviews' %}><div class="mealplan-wrap">
+    <section class="mealplan-sec mealplan-rev"{% for block in section.blocks %}{% if block.type == 'area_reviews' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}><div class="mealplan-wrap">
       {%- if c_reviews_eyebrow != blank -%}
         <p class="mp-eye">{{ c_reviews_eyebrow | escape }}</p>
       {%- endif -%}
@@ -1239,7 +1235,7 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec" {% render 'cm-area-attrs', section: section, type: 'area_faq' %}><div class="mealplan-wrap mealplan-faq">
+    <section class="mealplan-sec"{% for block in section.blocks %}{% if block.type == 'area_faq' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}><div class="mealplan-wrap mealplan-faq">
       <div>
         {%- if c_faq_eyebrow != blank -%}
           <p class="mp-eye">{{ c_faq_eyebrow | escape }}</p>
@@ -1270,7 +1266,7 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec mealplan-rel" {% render 'cm-area-attrs', section: section, type: 'area_related' %}><div class="mealplan-wrap">
+    <section class="mealplan-sec mealplan-rel"{% for block in section.blocks %}{% if block.type == 'area_related' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}><div class="mealplan-wrap">
       <div class="mealplan-rel__head" style="margin-bottom:60px">
         {%- if c_related_eyebrow != blank -%}
           <p class="mp-eye">{{ c_related_eyebrow | escape }}</p>
@@ -1306,7 +1302,7 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec" {% render 'cm-area-attrs', section: section, type: 'area_cta' %}><div class="mealplan-wrap"><div class="mealplan-cta">
+    <section class="mealplan-sec"{% for block in section.blocks %}{% if block.type == 'area_cta' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}><div class="mealplan-wrap"><div class="mealplan-cta">
       {%- liquid
         assign cta_image = plan_meta.cta_image.value | default: shared_meta.cta_image.value | default: section.settings.cta_image
         if area_cta != blank and area_cta.settings.image != blank
@@ -1338,9 +1334,10 @@
   "tag": "section",
   "class": "section cm-section",
   "settings": [
-    { "type": "header", "content": "Easy edit" },
-    { "type": "paragraph", "content": "On the left, open CM meal plan page and click a folder (Hero, Benefits, This week's menu, …). Or click that band in the preview. The right sidebar then shows only that folder's fields." },
-    { "type": "checkbox", "id": "show_hero", "label": "Show hero", "default": true },
+    { "type": "header", "content": "Page setup" },
+    { "type": "paragraph", "content": "Hero and Benefits are separate sections in the Template list (MP Hero / MP Benefits). Click those in the preview to edit them. This section holds the menu and order box." },
+    { "type": "checkbox", "id": "show_hero", "label": "Show built-in hero (legacy)", "default": false, "info": "Leave off when using the MP Hero section above this one." },
+    { "type": "checkbox", "id": "show_benefits_band", "label": "Show built-in benefits (legacy)", "default": false, "info": "Leave off when using the MP Benefits section." },
     { "type": "product", "id": "content_product", "label": "Plan product", "info": "Meals come from this product's variants; page copy can also come from its metafields." },
     { "type": "checkbox", "id": "detail_show_allergens", "label": "Show allergens on the meal detail", "default": true },
 
