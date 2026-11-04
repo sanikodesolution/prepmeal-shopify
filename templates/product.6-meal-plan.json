@@ -30,6 +30,22 @@
             "badge_label": "meal options"
           }
         },
+        "hero_button_1": {
+          "type": "hero_button",
+          "settings": {
+            "label": "Build my 6 meals",
+            "link": "/products/6-meal-plan",
+            "style": "light"
+          }
+        },
+        "hero_button_2": {
+          "type": "hero_button",
+          "settings": {
+            "label": "View this week's menu",
+            "link": "#menu",
+            "style": "brand"
+          }
+        },
         "area_benefits": {
           "type": "area_benefits",
           "settings": {
@@ -304,6 +320,8 @@
       },
       "block_order": [
         "area_hero",
+        "hero_button_1",
+        "hero_button_2",
         "area_benefits",
         "benefit_1",
         "benefit_2",
