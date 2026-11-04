@@ -1,15 +1,18 @@
 /**
  * Theme editor helpers for the meal plan page.
- * - Clicking a block/section scrolls it smoothly to the top of the preview.
+ * - Clicking a block scrolls it into view in the preview.
  * - Interactive order UI is paused so clicks select the editable area instead.
  */
 (() => {
   if (!(window.Shopify && window.Shopify.designMode)) return;
 
   const isMealPlan = (node) =>
-    Boolean(node && (node.matches?.('[data-mp-page], .mealplan-page, .mealplan-sec')
-      || node.querySelector?.('[data-mp-page], .mealplan-page')
-      || node.closest?.('[data-mp-page], .mealplan-page, .mealplan-sec')));
+    Boolean(
+      node &&
+        (node.matches?.('[data-mp-page], .mealplan-page, .mealplan-sec, .mph, .ben, .mp-editor-area, .ex') ||
+          node.querySelector?.('[data-mp-page], .mealplan-page') ||
+          node.closest?.('[data-mp-page], .mealplan-page, .mealplan-sec, .mph, .ben, .mp-editor-area, .ex'))
+    );
 
   const scrollSelected = (el) => {
     if (!el || typeof el.scrollIntoView !== 'function') return;

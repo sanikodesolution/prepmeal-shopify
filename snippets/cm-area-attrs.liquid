@@ -1,0 +1,19 @@
+{%- comment -%}
+  Outputs shopify_attributes for the first block of the given type.
+  Must be rendered inside the opening tag of the editable wrapper, e.g.:
+  <section class="mph" {% render 'cm-area-attrs', section: section, type: 'area_hero' %}>
+  shopify_attributes only work reliably when read from the section.blocks loop.
+{%- endcomment -%}
+{%- liquid
+  assign _type = type | default: ''
+  assign _found = false
+-%}
+{%- if _type != blank -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == _type -%}
+      {{ block.shopify_attributes }}
+      {%- assign _found = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}

@@ -867,7 +867,7 @@
     endif
   -%}
   {%- if show_hero_band -%}
-  <section class="mph"{% if area_hero != blank %} {{ area_hero.shopify_attributes }}{% endif %}>
+  <section class="mph" {% render 'cm-area-attrs', section: section, type: 'area_hero' %}>
     <div class="mph__inner">
       <div class="mph__copy">
         {%- if c_plan_label != blank -%}
@@ -923,7 +923,7 @@
   {%- endif -%}
 
   <div class="mealplan-a">
-    <section class="ben"{% if area_benefits != blank %} {{ area_benefits.shopify_attributes }}{% endif %}>
+    <section class="ben" {% render 'cm-area-attrs', section: section, type: 'area_benefits' %}>
       <div class="ben__glow" aria-hidden="true"></div>
       {%- liquid
         # Prefer Benefit blocks as chip copy when present; preview clicks always
@@ -976,7 +976,7 @@
       </div>
     </section>
 
-    <div class="mp-editor-area"{% if area_menu != blank %} {{ area_menu.shopify_attributes }}{% endif %}>
+    <div class="mp-editor-area" {% render 'cm-area-attrs', section: section, type: 'area_menu' %}>
       <section class="mealplan-menu-grid">
         <div class="wrap">
           <div class="menu-head">
@@ -1011,7 +1011,7 @@
       {% render 'cm-thali-story', section: section, s: section.settings, meta: plan_meta, features: mo_features, stats: mo_stats_thali, facts: mo_facts, shared: shared_meta %}
     {%- endif -%}
 
-    <section class="ex"{% if area_explore != blank %} {{ area_explore.shopify_attributes }}{% endif %}><div class="wrap">
+    <section class="ex" {% render 'cm-area-attrs', section: section, type: 'area_explore' %}><div class="wrap">
       <h2>{{ c_explore_heading | escape }}</h2>
       <div class="filters" id="filters" role="group" aria-label="{{ c_filter_label | escape }}"></div>
       <div class="eg" id="grid"></div>
@@ -1020,7 +1020,7 @@
   </div>
 
   <div class="mealplan">
-    <section class="mealplan-sec"{% if area_chef != blank %} {{ area_chef.shopify_attributes }}{% endif %}><div class="mealplan-wrap mealplan-chef">
+    <section class="mealplan-sec" {% render 'cm-area-attrs', section: section, type: 'area_chef' %}><div class="mealplan-wrap mealplan-chef">
       {%- liquid
         # Chef photos used to be bundled assets picked by index, so they could
         # not be changed from Admin. An image set on the product (or the section)
@@ -1048,7 +1048,7 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec mealplan-steps"{% if area_steps != blank %} {{ area_steps.shopify_attributes }}{% endif %}><div class="mealplan-wrap">
+    <section class="mealplan-sec mealplan-steps" {% render 'cm-area-attrs', section: section, type: 'area_steps' %}><div class="mealplan-wrap">
       {%- if c_steps_eyebrow != blank -%}
         <p class="mp-eye">{{ c_steps_eyebrow | escape }}</p>
       {%- endif -%}
@@ -1109,7 +1109,7 @@
     </div></section>
     {%- endif -%}
 
-    <section class="mealplan-sec"{% if area_delivery != blank %} {{ area_delivery.shopify_attributes }}{% endif %}><div class="mealplan-wrap">
+    <section class="mealplan-sec" {% render 'cm-area-attrs', section: section, type: 'area_delivery' %}><div class="mealplan-wrap">
       {%- if section.settings.delivery_style == 'plate' -%}
         {% render 'cm-delivery-area', section: section, meta: plan_meta, areas: mo_areas, shared: shared_meta %}
       {%- elsif section.settings.delivery_checker -%}
@@ -1166,7 +1166,7 @@
       {%- endif -%}
     </div></section>
 
-    <section class="mealplan-sec mealplan-rev"{% if area_reviews != blank %} {{ area_reviews.shopify_attributes }}{% endif %}><div class="mealplan-wrap">
+    <section class="mealplan-sec mealplan-rev" {% render 'cm-area-attrs', section: section, type: 'area_reviews' %}><div class="mealplan-wrap">
       {%- if c_reviews_eyebrow != blank -%}
         <p class="mp-eye">{{ c_reviews_eyebrow | escape }}</p>
       {%- endif -%}
@@ -1239,7 +1239,7 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec"{% if area_faq != blank %} {{ area_faq.shopify_attributes }}{% endif %}><div class="mealplan-wrap mealplan-faq">
+    <section class="mealplan-sec" {% render 'cm-area-attrs', section: section, type: 'area_faq' %}><div class="mealplan-wrap mealplan-faq">
       <div>
         {%- if c_faq_eyebrow != blank -%}
           <p class="mp-eye">{{ c_faq_eyebrow | escape }}</p>
@@ -1270,7 +1270,7 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec mealplan-rel"{% if area_related != blank %} {{ area_related.shopify_attributes }}{% endif %}><div class="mealplan-wrap">
+    <section class="mealplan-sec mealplan-rel" {% render 'cm-area-attrs', section: section, type: 'area_related' %}><div class="mealplan-wrap">
       <div class="mealplan-rel__head" style="margin-bottom:60px">
         {%- if c_related_eyebrow != blank -%}
           <p class="mp-eye">{{ c_related_eyebrow | escape }}</p>
@@ -1306,7 +1306,7 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec"{% if area_cta != blank %} {{ area_cta.shopify_attributes }}{% endif %}><div class="mealplan-wrap"><div class="mealplan-cta">
+    <section class="mealplan-sec" {% render 'cm-area-attrs', section: section, type: 'area_cta' %}><div class="mealplan-wrap"><div class="mealplan-cta">
       {%- liquid
         assign cta_image = plan_meta.cta_image.value | default: shared_meta.cta_image.value | default: section.settings.cta_image
         if area_cta != blank and area_cta.settings.image != blank
@@ -1338,13 +1338,14 @@
   "tag": "section",
   "class": "section cm-section",
   "settings": [
-    { "type": "header", "content": "Content source" },
-    { "type": "paragraph", "content": "Every text and meal on this page comes from the plan product in Shopify Admin, then from the shop-level shared content, then from the fields below. Open Products, pick the plan product, and fill the custom metafields and metaobjects listed in docs/PLAN-PRODUCT-CONTENT.md. Anything left blank falls back to the next source, so the page never breaks mid-edit." },
-    { "type": "product", "id": "content_product", "label": "Plan product", "info": "Its variants become the meals; its custom.* metafields become the page copy. This is the same product the order box adds to the cart." },
+    { "type": "header", "content": "Easy edit" },
+    { "type": "paragraph", "content": "On the left, open CM meal plan page and click a folder (Hero, Benefits, This week's menu, …). Or click that band in the preview. The right sidebar then shows only that folder's fields." },
+    { "type": "checkbox", "id": "show_hero", "label": "Show hero", "default": true },
+    { "type": "product", "id": "content_product", "label": "Plan product", "info": "Meals come from this product's variants; page copy can also come from its metafields." },
     { "type": "checkbox", "id": "detail_show_allergens", "label": "Show allergens on the meal detail", "default": true },
 
-    { "type": "header", "content": "Hero" },
-    { "type": "checkbox", "id": "show_hero", "label": "Show hero", "default": true, "info": "Turn off to hide the plan hero on this page only." },
+    { "type": "header", "content": "Hero fallbacks" },
+    { "type": "paragraph", "content": "Used only when the Hero folder fields are empty. Prefer editing the Hero folder on the left." },
     { "type": "text", "id": "plan_label", "label": "Plan label", "default": "5 Meal Plan" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Chef-prepared meals.\\nMade for your week." },
     { "type": "textarea", "id": "text", "label": "Text", "default": "Calorie counted. High protein. Low oil. Pick five meals from this week's menu and we cook and deliver them." },
