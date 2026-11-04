@@ -40,6 +40,48 @@
             "note": "Flexible menu: choose any six from 10+ options, and change your picks each week."
           }
         },
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "title": "24oz",
+            "text": "PER CONTAINER"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "title": "2-3 min",
+            "text": "HEAT AND EAT"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "title": "Fresh",
+            "text": "NEVER FROZEN"
+          }
+        },
+        "benefit_4": {
+          "type": "benefit",
+          "settings": {
+            "title": "Gluten free",
+            "text": "OPTIONS"
+          }
+        },
+        "benefit_5": {
+          "type": "benefit",
+          "settings": {
+            "title": "40+ YEARS",
+            "text": "EXPERIENCE"
+          }
+        },
+        "benefit_6": {
+          "type": "benefit",
+          "settings": {
+            "title": "45g PROTEIN",
+            "text": "MOST MEALS"
+          }
+        },
         "area_menu": {
           "type": "area_menu",
           "settings": {
@@ -139,6 +181,12 @@
       "block_order": [
         "area_hero",
         "area_benefits",
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
+        "benefit_4",
+        "benefit_5",
+        "benefit_6",
         "area_menu",
         "area_thali",
         "thali_card_1",

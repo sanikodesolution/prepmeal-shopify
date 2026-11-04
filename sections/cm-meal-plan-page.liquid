@@ -928,13 +928,12 @@
     <section class="ben" {% render 'cm-area-attrs', section: section, type: 'area_benefits' %}>
       <div class="ben__glow" aria-hidden="true"></div>
       {%- liquid
-        # Prefer Benefit blocks as chip copy when present; preview clicks always
-        # select the Benefits band folder (area_benefits), not individual chips.
+        # Theme Editor Benefit blocks win whenever present so merchants can
+        # edit chips without clearing product metafields. Metafield/stat rows
+        # are the fallback when no Benefit blocks exist.
         assign use_benefit_blocks = false
         if benefit_blocks.size > 0
-          if request.design_mode or mo_stats == blank and legacy_benefits == blank
-            assign use_benefit_blocks = true
-          endif
+          assign use_benefit_blocks = true
         endif
       -%}
       {%- if benefit_rows.size > 0 or use_benefit_blocks -%}
@@ -944,7 +943,7 @@
               <ul class="ben__group"{% if pass > 1 %} aria-hidden="true"{% endif %}>
                 {%- if use_benefit_blocks -%}
                   {%- for block in benefit_blocks -%}
-                    <li class="ben__item">
+                    <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}>
                       <b>{{ block.settings.title | escape }}</b>
                       <span>{{ block.settings.text | escape }}</span>
                     </li>
@@ -1580,7 +1579,7 @@
       "name": "Benefits",
       "limit": 1,
       "settings": [
-        { "type": "paragraph", "content": "Click the big benefits headline band in the preview to edit it here. Stat chips are separate Benefit blocks." },
+        { "type": "paragraph", "content": "This folder edits the big headline only (Eyebrow / 6 meals / Zero stress). To edit the scrolling chips above it: left sidebar → CM meal plan page → Add block → Benefit. Or click a chip in the preview. Each Benefit block = one chip (Title + Text)." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Hartland's #1 meal prep chef" },
         { "type": "text", "id": "line_1", "label": "Line 1", "default": "6 meals." },
         { "type": "text", "id": "line_2", "label": "Line 2", "default": "1 week." },
