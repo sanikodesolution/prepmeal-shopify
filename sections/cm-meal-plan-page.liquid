@@ -14,7 +14,10 @@
   assign review_blocks = section.blocks | where: 'type', 'review'
   assign faq_blocks = section.blocks | where: 'type', 'faq'
   assign related_blocks = section.blocks | where: 'type', 'related'
-  # Clickable theme-editor regions — selecting one opens its settings sidebar.
+  # Clickable theme-editor regions — selecting one opens its settings sidebar
+  # and highlights that block in the left panel (requires shopify_attributes).
+  assign area_hero = section.blocks | where: 'type', 'area_hero' | first
+  assign area_benefits = section.blocks | where: 'type', 'area_benefits' | first
   assign area_menu = section.blocks | where: 'type', 'area_menu' | first
   assign area_chef = section.blocks | where: 'type', 'area_chef' | first
   assign area_delivery = section.blocks | where: 'type', 'area_delivery' | first
@@ -92,26 +95,92 @@
   assign mo_stats_thali = plan_meta.thali_stat_items.value | default: shared_meta.thali_stat_items.value
   assign mo_facts = plan_meta.thali_fact_items.value | default: shared_meta.thali_fact_items.value
 
-  # Copy: metafield first, shop shared value second, theme editor setting third.
-  assign c_plan_label = plan_meta.plan_label.value | default: section.settings.plan_label
-  assign c_heading = plan_meta.heading.value | default: section.settings.heading
-  assign c_text = plan_meta.subheading.value | default: section.settings.text
-  assign c_fact_1_label = plan_meta.fact_1_label.value | default: section.settings.fact_1_label
-  assign c_fact_1_value = plan_meta.fact_1_value.value | default: section.settings.fact_1_value
-  assign c_fact_2_label = plan_meta.fact_2_label.value | default: section.settings.fact_2_label
-  assign c_fact_2_value = plan_meta.fact_2_value.value | default: section.settings.fact_2_value
-  assign c_fact_3_label = plan_meta.fact_3_label.value | default: section.settings.fact_3_label
-  assign c_fact_3_value = plan_meta.fact_3_value.value | default: section.settings.fact_3_value
-  assign c_button_label = plan_meta.button_label.value | default: section.settings.button_label
-  assign c_button_label_2 = plan_meta.button_label_2.value | default: section.settings.button_label_2
-  assign c_badge_value = plan_meta.badge_value.value | default: section.settings.badge_value
-  assign c_badge_label = plan_meta.badge_label.value | default: section.settings.badge_label
+  # Copy: metafield → area block (theme editor click target) → section setting.
+  assign area_hero_plan = ''
+  assign area_hero_heading = ''
+  assign area_hero_text = ''
+  assign area_hero_fact_1_label = ''
+  assign area_hero_fact_1_value = ''
+  assign area_hero_fact_2_label = ''
+  assign area_hero_fact_2_value = ''
+  assign area_hero_fact_3_label = ''
+  assign area_hero_fact_3_value = ''
+  assign area_hero_button = ''
+  assign area_hero_button_2 = ''
+  assign area_hero_badge_value = ''
+  assign area_hero_badge_label = ''
+  if area_hero != blank
+    assign area_hero_plan = area_hero.settings.plan_label
+    assign area_hero_heading = area_hero.settings.heading
+    assign area_hero_text = area_hero.settings.text
+    assign area_hero_fact_1_label = area_hero.settings.fact_1_label
+    assign area_hero_fact_1_value = area_hero.settings.fact_1_value
+    assign area_hero_fact_2_label = area_hero.settings.fact_2_label
+    assign area_hero_fact_2_value = area_hero.settings.fact_2_value
+    assign area_hero_fact_3_label = area_hero.settings.fact_3_label
+    assign area_hero_fact_3_value = area_hero.settings.fact_3_value
+    assign area_hero_button = area_hero.settings.button_label
+    assign area_hero_button_2 = area_hero.settings.button_label_2
+    assign area_hero_badge_value = area_hero.settings.badge_value
+    assign area_hero_badge_label = area_hero.settings.badge_label
+  endif
+  # In Customize, area block settings win so click-to-edit matches the preview.
+  # On the live storefront, product metafields still win when present.
+  if request.design_mode and area_hero != blank
+    assign c_plan_label = area_hero_plan | default: plan_meta.plan_label.value | default: section.settings.plan_label
+    assign c_heading = area_hero_heading | default: plan_meta.heading.value | default: section.settings.heading
+    assign c_text = area_hero_text | default: plan_meta.subheading.value | default: section.settings.text
+    assign c_fact_1_label = area_hero_fact_1_label | default: plan_meta.fact_1_label.value | default: section.settings.fact_1_label
+    assign c_fact_1_value = area_hero_fact_1_value | default: plan_meta.fact_1_value.value | default: section.settings.fact_1_value
+    assign c_fact_2_label = area_hero_fact_2_label | default: plan_meta.fact_2_label.value | default: section.settings.fact_2_label
+    assign c_fact_2_value = area_hero_fact_2_value | default: plan_meta.fact_2_value.value | default: section.settings.fact_2_value
+    assign c_fact_3_label = area_hero_fact_3_label | default: plan_meta.fact_3_label.value | default: section.settings.fact_3_label
+    assign c_fact_3_value = area_hero_fact_3_value | default: plan_meta.fact_3_value.value | default: section.settings.fact_3_value
+    assign c_button_label = area_hero_button | default: plan_meta.button_label.value | default: section.settings.button_label
+    assign c_button_label_2 = area_hero_button_2 | default: plan_meta.button_label_2.value | default: section.settings.button_label_2
+    assign c_badge_value = area_hero_badge_value | default: plan_meta.badge_value.value | default: section.settings.badge_value
+    assign c_badge_label = area_hero_badge_label | default: plan_meta.badge_label.value | default: section.settings.badge_label
+  else
+    assign c_plan_label = plan_meta.plan_label.value | default: area_hero_plan | default: section.settings.plan_label
+    assign c_heading = plan_meta.heading.value | default: area_hero_heading | default: section.settings.heading
+    assign c_text = plan_meta.subheading.value | default: area_hero_text | default: section.settings.text
+    assign c_fact_1_label = plan_meta.fact_1_label.value | default: area_hero_fact_1_label | default: section.settings.fact_1_label
+    assign c_fact_1_value = plan_meta.fact_1_value.value | default: area_hero_fact_1_value | default: section.settings.fact_1_value
+    assign c_fact_2_label = plan_meta.fact_2_label.value | default: area_hero_fact_2_label | default: section.settings.fact_2_label
+    assign c_fact_2_value = plan_meta.fact_2_value.value | default: area_hero_fact_2_value | default: section.settings.fact_2_value
+    assign c_fact_3_label = plan_meta.fact_3_label.value | default: area_hero_fact_3_label | default: section.settings.fact_3_label
+    assign c_fact_3_value = plan_meta.fact_3_value.value | default: area_hero_fact_3_value | default: section.settings.fact_3_value
+    assign c_button_label = plan_meta.button_label.value | default: area_hero_button | default: section.settings.button_label
+    assign c_button_label_2 = plan_meta.button_label_2.value | default: area_hero_button_2 | default: section.settings.button_label_2
+    assign c_badge_value = plan_meta.badge_value.value | default: area_hero_badge_value | default: section.settings.badge_value
+    assign c_badge_label = plan_meta.badge_label.value | default: area_hero_badge_label | default: section.settings.badge_label
+  endif
 
-  assign c_ben_eyebrow = plan_meta.ben_eyebrow.value | default: shared_meta.ben_eyebrow.value | default: section.settings.ben_eyebrow
-  assign c_ben_line_1 = plan_meta.ben_line_1.value | default: section.settings.ben_line_1
-  assign c_ben_line_2 = plan_meta.ben_line_2.value | default: section.settings.ben_line_2
-  assign c_ben_line_3 = plan_meta.ben_line_3.value | default: section.settings.ben_line_3
-  assign c_ben_note = plan_meta.ben_note.value | default: section.settings.ben_note
+  assign area_ben_eyebrow = ''
+  assign area_ben_line_1 = ''
+  assign area_ben_line_2 = ''
+  assign area_ben_line_3 = ''
+  assign area_ben_note = ''
+  if area_benefits != blank
+    assign area_ben_eyebrow = area_benefits.settings.eyebrow
+    assign area_ben_line_1 = area_benefits.settings.line_1
+    assign area_ben_line_2 = area_benefits.settings.line_2
+    assign area_ben_line_3 = area_benefits.settings.line_3
+    assign area_ben_note = area_benefits.settings.note
+  endif
+  if request.design_mode and area_benefits != blank
+    assign c_ben_eyebrow = area_ben_eyebrow | default: plan_meta.ben_eyebrow.value | default: shared_meta.ben_eyebrow.value | default: section.settings.ben_eyebrow
+    assign c_ben_line_1 = area_ben_line_1 | default: plan_meta.ben_line_1.value | default: section.settings.ben_line_1
+    assign c_ben_line_2 = area_ben_line_2 | default: plan_meta.ben_line_2.value | default: section.settings.ben_line_2
+    assign c_ben_line_3 = area_ben_line_3 | default: plan_meta.ben_line_3.value | default: section.settings.ben_line_3
+    assign c_ben_note = area_ben_note | default: plan_meta.ben_note.value | default: section.settings.ben_note
+  else
+    assign c_ben_eyebrow = plan_meta.ben_eyebrow.value | default: shared_meta.ben_eyebrow.value | default: area_ben_eyebrow | default: section.settings.ben_eyebrow
+    assign c_ben_line_1 = plan_meta.ben_line_1.value | default: area_ben_line_1 | default: section.settings.ben_line_1
+    assign c_ben_line_2 = plan_meta.ben_line_2.value | default: area_ben_line_2 | default: section.settings.ben_line_2
+    assign c_ben_line_3 = plan_meta.ben_line_3.value | default: area_ben_line_3 | default: section.settings.ben_line_3
+    assign c_ben_note = plan_meta.ben_note.value | default: area_ben_note | default: section.settings.ben_note
+  endif
 
   assign area_menu_eyebrow = ''
   assign area_menu_heading = ''
@@ -743,8 +812,16 @@
     </div>
   {%- endif -%}
 
-  {%- if section.settings.show_hero -%}
-  <section class="mph">
+  {%- liquid
+    # Show hero when enabled, or always in the theme editor when an area_hero
+    # block exists so merchants can click it to open its settings.
+    assign show_hero_band = section.settings.show_hero
+    if request.design_mode and area_hero != blank
+      assign show_hero_band = true
+    endif
+  -%}
+  {%- if show_hero_band -%}
+  <section class="mph"{% if area_hero != blank %} {{ area_hero.shopify_attributes }}{% endif %}>
     <div class="mph__inner">
       <div class="mph__copy">
         {%- if c_plan_label != blank -%}
@@ -800,24 +877,45 @@
   {%- endif -%}
 
   <div class="mealplan-a">
-    <section class="ben">
+    <section class="ben"{% if area_benefits != blank %} {{ area_benefits.shopify_attributes }}{% endif %}>
       <div class="ben__glow" aria-hidden="true"></div>
-      {%- if benefit_rows.size > 0 -%}
+      {%- liquid
+        # In the theme editor, prefer Benefit blocks so each chip is clickable
+        # and selects that block in the left sidebar.
+        assign use_benefit_blocks = false
+        if benefit_blocks.size > 0
+          if request.design_mode or mo_stats == blank and legacy_benefits == blank
+            assign use_benefit_blocks = true
+          endif
+        endif
+      -%}
+      {%- if benefit_rows.size > 0 or use_benefit_blocks -%}
         {%- comment -%}
           The stat rail leads the band, so the numbers a visitor scans first sit
           at the very top. Four identical groups keep the -25% loop seamless.
+          Only the first pass carries shopify_attributes so the editor can
+          select each Benefit block from the preview.
         {%- endcomment -%}
         <div class="ben__marquee">
           <div class="ben__track">
             {%- for pass in (1..4) -%}
               <ul class="ben__group"{% if pass > 1 %} aria-hidden="true"{% endif %}>
-                {%- for row in benefit_rows -%}
-                  {%- assign cells = row | split: '|' -%}
-                  <li class="ben__item">
-                    <b>{{ cells[0] | escape }}</b>
-                    <span>{{ cells[1] | escape }}</span>
-                  </li>
-                {%- endfor -%}
+                {%- if use_benefit_blocks -%}
+                  {%- for block in benefit_blocks -%}
+                    <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                      <b>{{ block.settings.title | escape }}</b>
+                      <span>{{ block.settings.text | escape }}</span>
+                    </li>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for row in benefit_rows -%}
+                    {%- assign cells = row | split: '|' -%}
+                    <li class="ben__item">
+                      <b>{{ cells[0] | escape }}</b>
+                      <span>{{ cells[1] | escape }}</span>
+                    </li>
+                  {%- endfor -%}
+                {%- endif -%}
               </ul>
             {%- endfor -%}
           </div>
@@ -1396,6 +1494,40 @@
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 }
   ],
   "blocks": [
+    {
+      "type": "area_hero",
+      "name": "Hero",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click the hero in the preview to open these settings. In Customize these fields drive the preview; on the live site product metafields still win when filled." },
+        { "type": "text", "id": "plan_label", "label": "Plan label", "default": "6 Meal Plan" },
+        { "type": "textarea", "id": "heading", "label": "Heading", "default": "Chef-cooked meals, delivered across Lake Country" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Calorie counted. High protein. Low oil." },
+        { "type": "text", "id": "fact_1_label", "label": "Fact 1 label", "default": "Price" },
+        { "type": "text", "id": "fact_1_value", "label": "Fact 1 value", "default": "From $00.00" },
+        { "type": "text", "id": "fact_2_label", "label": "Fact 2 label", "default": "Meals" },
+        { "type": "text", "id": "fact_2_value", "label": "Fact 2 value", "default": "6 per week" },
+        { "type": "text", "id": "fact_3_label", "label": "Fact 3 label", "default": "Menu" },
+        { "type": "text", "id": "fact_3_value", "label": "Fact 3 value", "default": "10+ options" },
+        { "type": "text", "id": "button_label", "label": "Primary button", "default": "Build my 6 meals" },
+        { "type": "text", "id": "button_label_2", "label": "Secondary button", "default": "View this week's menu" },
+        { "type": "text", "id": "badge_value", "label": "Badge value", "default": "10+" },
+        { "type": "text", "id": "badge_label", "label": "Badge label", "default": "meal options" }
+      ]
+    },
+    {
+      "type": "area_benefits",
+      "name": "Benefits band",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click the big benefits headline band in the preview to edit it here. Stat chips are separate Benefit blocks." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Hartland's #1 meal prep chef" },
+        { "type": "text", "id": "line_1", "label": "Line 1", "default": "6 meals." },
+        { "type": "text", "id": "line_2", "label": "Line 2", "default": "1 week." },
+        { "type": "text", "id": "line_3", "label": "Line 3 (outline)", "default": "Zero stress." },
+        { "type": "textarea", "id": "note", "label": "Note", "default": "Flexible menu: choose any six from 10+ options, and change your picks each week." }
+      ]
+    },
     {
       "type": "area_menu",
       "name": "Menu & order box",
