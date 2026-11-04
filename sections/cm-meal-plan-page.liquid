@@ -27,6 +27,8 @@
   assign area_faq = section.blocks | where: 'type', 'area_faq' | first
   assign area_related = section.blocks | where: 'type', 'area_related' | first
   assign area_cta = section.blocks | where: 'type', 'area_cta' | first
+  assign area_thali = section.blocks | where: 'type', 'area_thali' | first
+  assign thali_card_blocks = section.blocks | where: 'type', 'thali_card'
 
   # ---------------------------------------------------------------
   # Content source
@@ -1006,9 +1008,21 @@
       </div></section>
     </div>
 
-    {%- if section.settings.thali_show -%}
-      {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
-      {% render 'cm-thali-story', section: section, s: section.settings, meta: plan_meta, features: mo_features, stats: mo_stats_thali, facts: mo_facts, shared: shared_meta %}
+    {%- if section.settings.thali_show or request.design_mode and area_thali != blank -%}
+      <div class="mp-editor-area"{% for block in section.blocks %}{% if block.type == 'area_thali' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}>
+        {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
+        {% render 'cm-thali-story',
+          section: section,
+          s: section.settings,
+          meta: plan_meta,
+          features: mo_features,
+          stats: mo_stats_thali,
+          facts: mo_facts,
+          shared: shared_meta,
+          area: area_thali,
+          card_blocks: thali_card_blocks
+        %}
+      </div>
     {%- endif -%}
 
     <section class="ex" {% render 'cm-area-attrs', section: section, type: 'area_explore' %}><div class="wrap">
@@ -1669,6 +1683,29 @@
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Build my 6 meal plan" },
         { "type": "url", "id": "button_link", "label": "Button link" },
         { "type": "image_picker", "id": "image", "label": "Background image" }
+      ]
+    },
+    {
+      "type": "area_thali",
+      "name": "Chef story plate",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click the Chef Matt plate band (heading + plate + two cards) in the preview to edit it here." },
+        { "type": "text", "id": "badge", "label": "Eyebrow / badge", "default": "Chef Matt's · Hartland, WI" },
+        { "type": "textarea", "id": "heading", "label": "Heading", "default": "Chef-cooked meals, delivered across Lake Country." },
+        { "type": "textarea", "id": "intro", "label": "Intro", "default": "Calorie-counted, high-protein, low-oil meals prepared in our Hartland kitchen and delivered across Lake Country." },
+        { "type": "textarea", "id": "stats", "label": "Stats (value|label per line)", "default": "45g|Protein in most meals\n40+|Years of cooking\n24oz|Generous portions" },
+        { "type": "textarea", "id": "chips", "label": "Plate tags (one per line, four)", "default": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted" },
+        { "type": "textarea", "id": "cards", "label": "Feature cards (title|text per line)", "info": "Or add Thali card blocks below for click-to-edit on each card.", "default": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens.\nReal ingredients|Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today." }
+      ]
+    },
+    {
+      "type": "thali_card",
+      "name": "Thali card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Cooked by Chef Matt" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Every tray is seasoned and finished by Chef Matt." },
+        { "type": "image_picker", "id": "image", "label": "Image (optional)" }
       ]
     },
     {

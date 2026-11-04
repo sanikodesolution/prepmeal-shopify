@@ -9,6 +9,8 @@
   - features: {Array} feature_card metaobjects for the two story cards
   - stats: {Array} stat_item metaobjects for the hero numbers
   - facts: {Array} stat_item metaobjects for the closing numbers
+  - area: {Object} optional area_thali block (Customize click-to-edit)
+  - card_blocks: {Array} optional thali_card blocks (each card selectable)
 
   Everything below is optional; a blank value simply drops that line.
   Line-based settings use the form "value|label" or "day|time|order by|cutoff".
@@ -142,10 +144,42 @@
 
   # Single-value copy: product metafield first, then the shop-level shared
   # value, then the theme setting, so the chef story and delivery copy can be
-  # written once for every plan.
-  assign gkk_badge = meta.thali_badge.value | default: shared.thali_badge.value | default: s.thali_badge
-  assign gkk_heading = meta.thali_heading.value | default: shared.thali_heading.value | default: s.thali_heading
-  assign gkk_intro = meta.thali_intro.value | default: shared.thali_intro.value | default: s.thali_intro
+  # written once for every plan. In Customize, the Chef story plate block wins
+  # so click-to-edit matches the preview.
+  assign area_badge = ''
+  assign area_heading = ''
+  assign area_intro = ''
+  assign area_stats = ''
+  assign area_chips = ''
+  assign area_cards = ''
+  if area != blank
+    assign area_badge = area.settings.badge
+    assign area_heading = area.settings.heading
+    assign area_intro = area.settings.intro
+    assign area_stats = area.settings.stats
+    assign area_chips = area.settings.chips
+    assign area_cards = area.settings.cards
+  endif
+  if request.design_mode and area != blank
+    assign gkk_badge = area_badge | default: meta.thali_badge.value | default: shared.thali_badge.value | default: s.thali_badge
+    assign gkk_heading = area_heading | default: meta.thali_heading.value | default: shared.thali_heading.value | default: s.thali_heading
+    assign gkk_intro = area_intro | default: meta.thali_intro.value | default: shared.thali_intro.value | default: s.thali_intro
+    if area_stats != blank
+      assign gkk_stats = area_stats | newline_to_br | split: '<br />'
+    endif
+    if area_chips != blank
+      assign gkk_chips = area_chips | newline_to_br | split: '<br />'
+    endif
+    if area_cards != blank
+      if card_blocks == blank or card_blocks.size == 0
+        assign gkk_cards = area_cards | newline_to_br | split: '<br />'
+      endif
+    endif
+  else
+    assign gkk_badge = meta.thali_badge.value | default: shared.thali_badge.value | default: area_badge | default: s.thali_badge
+    assign gkk_heading = meta.thali_heading.value | default: shared.thali_heading.value | default: area_heading | default: s.thali_heading
+    assign gkk_intro = meta.thali_intro.value | default: shared.thali_intro.value | default: area_intro | default: s.thali_intro
+  endif
   assign gkk_plate_alt = meta.thali_plate_alt.value | default: s.thali_plate_alt
   assign gkk_image = meta.thali_image.value | default: s.thali_image
   assign gkk_delivery_heading = meta.thali_delivery_heading.value | default: shared.thali_delivery_heading.value | default: s.thali_delivery_heading
@@ -218,7 +252,26 @@
       </div>
     </div>
 
-    {%- if gkk_cards.size > 0 -%}
+    {%- if card_blocks.size > 0 -%}
+      <div class="gkk__trio">
+        {%- for block in card_blocks -%}
+          {%- assign card_title = block.settings.title | strip -%}
+          {%- if card_title != blank -%}
+            <div class="gkk__card" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 720 | image_tag: class: 'gkk__card-img', loading: 'lazy', widths: '320, 480, 720', sizes: '(min-width: 750px) 40vw, 90vw', alt: card_title }}
+              {%- elsif forloop.first -%}
+                <svg viewBox="0 0 240 170" aria-hidden="true"><rect width="240" height="170" rx="6" fill="#15251C"/><path d="M60 40q-8-18 4-26M90 36q-8-18 4-26M120 40q-8-18 4-26" stroke="#F5A623" stroke-width="2" fill="none" opacity=".6"/><circle cx="120" cy="64" r="22" fill="#e0a77a"/><circle cx="102" cy="44" r="14" fill="#fff"/><circle cx="120" cy="38" r="16" fill="#fff"/><circle cx="138" cy="44" r="14" fill="#fff"/><rect x="100" y="46" width="40" height="10" fill="#fff"/><circle cx="112" cy="66" r="2.5" fill="#15251C"/><circle cx="128" cy="66" r="2.5" fill="#15251C"/><path d="M110 74q10 8 20 0" stroke="#15251C" stroke-width="2" fill="none"/><path d="M70 170q4-70 50-76 46 6 50 76z" fill="#fff"/><g fill="#d9d2c4"><circle cx="120" cy="116" r="3"/><circle cx="120" cy="134" r="3"/></g><path d="M20 150h200v20H20z" fill="#0F1A13"/><ellipse cx="190" cy="140" rx="34" ry="10" fill="#F5A623"/><path d="M156 140h68v14q-34 12-68 0z" fill="#8f98a3"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 240 170" aria-hidden="true"><rect x="30" y="20" width="180" height="130" rx="10" fill="#15251C" transform="rotate(-6 120 85)"/><g fill="#ffffff" opacity=".55"><circle cx="60" cy="48" r="3"/><circle cx="90" cy="40" r="3"/><circle cx="130" cy="36" r="3"/><circle cx="170" cy="30" r="3"/><circle cx="195" cy="120" r="3"/></g><circle cx="120" cy="92" r="58" fill="#c98c45"/><circle cx="112" cy="84" r="56" fill="#dfae6c"/><circle cx="106" cy="76" r="52" fill="#e9c386"/><g fill="#8a4a1c" opacity=".7"><circle cx="86" cy="64" r="5"/><circle cx="118" cy="90" r="4"/><circle cx="100" cy="100" r="3"/><circle cx="130" cy="60" r="4"/></g></svg>
+              {%- endif -%}
+              <h4>{{ card_title | escape }}</h4>
+              {%- if block.settings.text != blank -%}<p>{{ block.settings.text | escape }}</p>{%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- elsif gkk_cards.size > 0 -%}
       <div class="gkk__trio">
         {%- assign card_i = 0 -%}
         {%- for line in gkk_cards -%}
