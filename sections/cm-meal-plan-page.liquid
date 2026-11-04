@@ -14,6 +14,7 @@
   assign review_blocks = section.blocks | where: 'type', 'review'
   assign faq_blocks = section.blocks | where: 'type', 'faq'
   assign related_blocks = section.blocks | where: 'type', 'related'
+  assign hero_button_blocks = section.blocks | where: 'type', 'hero_button'
   # Clickable theme-editor regions — selecting one opens its settings sidebar
   # and highlights that block in the left panel (requires shopify_attributes).
   assign area_hero = section.blocks | where: 'type', 'area_hero' | first
@@ -893,13 +894,23 @@
           {%- endif -%}
         </dl>
         <div class="mph__actions">
-          {%- if c_button_label != blank -%}
-            {%- assign mph_link = section.settings.button_link | default: '#menu' -%}
-            {% render 'pm-button', label: c_button_label, link: mph_link, style: 'light' %}
-          {%- endif -%}
-          {%- if c_button_label_2 != blank -%}
-            {%- assign mph_link_2 = section.settings.button_link_2 | default: '#menu' -%}
-            {% render 'pm-button', label: c_button_label_2, link: mph_link_2, style: 'brand' %}
+          {%- if hero_button_blocks.size > 0 -%}
+            {%- for block in hero_button_blocks -%}
+              {%- if block.settings.label != blank -%}
+                {%- assign mph_btn_link = block.settings.link | default: '#menu' -%}
+                {%- assign mph_btn_style = block.settings.style | default: 'light' -%}
+                {% render 'pm-button', label: block.settings.label, link: mph_btn_link, style: mph_btn_style, attributes: block.shopify_attributes %}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- else -%}
+            {%- if c_button_label != blank -%}
+              {%- assign mph_link = section.settings.button_link | default: '#menu' -%}
+              {% render 'pm-button', label: c_button_label, link: mph_link, style: 'light' %}
+            {%- endif -%}
+            {%- if c_button_label_2 != blank -%}
+              {%- assign mph_link_2 = section.settings.button_link_2 | default: '#menu' -%}
+              {% render 'pm-button', label: c_button_label_2, link: mph_link_2, style: 'brand' %}
+            {%- endif -%}
           {%- endif -%}
         </div>
       </div>
@@ -1568,7 +1579,7 @@
       "name": "Hero",
       "limit": 1,
       "settings": [
-        { "type": "paragraph", "content": "Click the hero in the preview to open these settings. In Customize these fields drive the preview; on the live site product metafields still win when filled." },
+        { "type": "paragraph", "content": "Click the hero in the preview to open these settings. Edit the two CTA buttons as separate blocks: Add block → Hero button (or click a button in the preview)." },
         { "type": "text", "id": "plan_label", "label": "Plan label", "default": "6 Meal Plan" },
         { "type": "textarea", "id": "heading", "label": "Heading", "default": "Chef-cooked meals, delivered across Lake Country" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Calorie counted. High protein. Low oil." },
@@ -1578,10 +1589,26 @@
         { "type": "text", "id": "fact_2_value", "label": "Fact 2 value", "default": "6 per week" },
         { "type": "text", "id": "fact_3_label", "label": "Fact 3 label", "default": "Menu" },
         { "type": "text", "id": "fact_3_value", "label": "Fact 3 value", "default": "10+ options" },
-        { "type": "text", "id": "button_label", "label": "Primary button", "default": "Build my 6 meals" },
-        { "type": "text", "id": "button_label_2", "label": "Secondary button", "default": "View this week's menu" },
+        { "type": "text", "id": "button_label", "label": "Primary button (fallback)", "default": "Build my 6 meals" },
+        { "type": "text", "id": "button_label_2", "label": "Secondary button (fallback)", "default": "View this week's menu" },
         { "type": "text", "id": "badge_value", "label": "Badge value", "default": "10+" },
         { "type": "text", "id": "badge_label", "label": "Badge label", "default": "meal options" }
+      ]
+    },
+    {
+      "type": "hero_button",
+      "name": "Hero button",
+      "limit": 2,
+      "settings": [
+        { "type": "paragraph", "content": "Edit this button on this page — label, link, and style. Click the button in the preview to open these fields." },
+        { "type": "text", "id": "label", "label": "Label", "default": "Build my 6 meals" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "select", "id": "style", "label": "Style", "options": [
+          { "value": "light", "label": "Light (white)" },
+          { "value": "brand", "label": "Brand (orange)" },
+          { "value": "ink", "label": "Ink" },
+          { "value": "outline", "label": "Outline" }
+        ], "default": "light" }
       ]
     },
     {
