@@ -1,0 +1,4 @@
+# Local API dumps from metafield rename scripts (not source)
+scripts/mf-ids.json
+scripts/mf-rename-result.json
+scripts/mf-verify.json
