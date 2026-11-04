@@ -1,0 +1,962 @@
+mutation UpdateProductMetafieldLabels {
+  u1: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "plan_label"
+      name: "Hero \u00b7 Plan label"
+      description: "Small label above the headline, e.g. 6 Meal Plan."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u2: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "heading"
+      name: "Hero \u00b7 Section title"
+      description: "Main plan headline. Line breaks become new lines."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u3: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "subheading"
+      name: "Hero \u00b7 Text"
+      description: "Supporting paragraph under the headline."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u4: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "fact_1_label"
+      name: "Hero \u00b7 Fact 1 label"
+      description: "First fact pill label, e.g. Price."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u5: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "fact_1_value"
+      name: "Hero \u00b7 Fact 1 value"
+      description: "First fact pill value."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u6: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "fact_2_label"
+      name: "Hero \u00b7 Fact 2 label"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u7: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "fact_2_value"
+      name: "Hero \u00b7 Fact 2 value"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u8: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "fact_3_label"
+      name: "Hero \u00b7 Fact 3 label"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u9: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "fact_3_value"
+      name: "Hero \u00b7 Fact 3 value"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u10: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "button_label"
+      name: "Hero \u00b7 Button"
+      description: "Primary hero button label."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u11: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "button_label_2"
+      name: "Hero \u00b7 Button 2"
+      description: "Secondary hero button label."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u12: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "badge_value"
+      name: "Hero \u00b7 Badge value"
+      description: "Big number on the hero badge, e.g. 10+."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u13: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "badge_label"
+      name: "Hero \u00b7 Badge label"
+      description: "Small text under the badge value."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u14: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "ben_eyebrow"
+      name: "Benefits \u00b7 Eyebrow"
+      description: "Small label above the benefits headline."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u15: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "ben_line_1"
+      name: "Benefits \u00b7 Line 1"
+      description: "First headline line, e.g. 6 meals."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u16: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "ben_line_2"
+      name: "Benefits \u00b7 Line 2"
+      description: "Second headline line, e.g. 1 week."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u17: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "ben_line_3"
+      name: "Benefits \u00b7 Line 3 (outline)"
+      description: "Third outlined headline line."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u18: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "ben_note"
+      name: "Benefits \u00b7 Text"
+      description: "Short note under the benefits headline."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u19: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "benefits"
+      name: "Benefits \u00b7 Stat chips"
+      description: "One chip per row as value|label."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u20: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "menu_eyebrow"
+      name: "Menu \u00b7 Eyebrow"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u21: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "menu_heading"
+      name: "Menu \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u22: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "menu_text"
+      name: "Menu \u00b7 Text"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u23: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "menu_button"
+      name: "Menu \u00b7 Button"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u24: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "explore_heading"
+      name: "Explore \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u25: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "detail_note"
+      name: "Menu \u00b7 Detail note"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u26: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "total_label"
+      name: "Order box \u00b7 Total label"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u27: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "load_more_label"
+      name: "Explore \u00b7 Load more label"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u28: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "menu_modal_heading"
+      name: "Menu \u00b7 Modal title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u29: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "menu_caption"
+      name: "Menu \u00b7 Caption"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u30: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "picker_placeholder"
+      name: "Order box \u00b7 Dropdown placeholder"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u31: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "order_panel_title"
+      name: "Order box \u00b7 Panel title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u32: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "meal_slots"
+      name: "Order box \u00b7 Meal slots"
+      description: "How many MEAL dropdowns to show (e.g. 6)."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u33: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "chef_eyebrow"
+      name: "Chef \u00b7 Eyebrow"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u34: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "chef_heading"
+      name: "Chef \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u35: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "chef_text"
+      name: "Chef \u00b7 Text"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u36: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "steps_eyebrow"
+      name: "How it works \u00b7 Eyebrow"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u37: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "steps_heading"
+      name: "How it works \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u38: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "steps"
+      name: "How it works \u00b7 Steps"
+      description: "One row as title|text."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u39: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "quality_points"
+      name: "Quality \u00b7 Points"
+      description: "One row as title|text|detail."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u40: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "delivery_eyebrow"
+      name: "Delivery \u00b7 Eyebrow"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u41: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "delivery_heading"
+      name: "Delivery \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u42: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "delivery_text"
+      name: "Delivery \u00b7 Text"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u43: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "delivery_areas_title"
+      name: "Delivery areas \u00b7 Section title"
+      description: "Heading above the town list."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u44: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "delivery_areas"
+      name: "Delivery areas \u00b7 Town chips"
+      description: "One town name per row."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u45: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "delivery_towns"
+      name: "Delivery map \u00b7 Town list"
+      description: "One per row: Name|ZIP|left%|top%. Add kitchen on the kitchen row."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u46: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "delivery_map_query"
+      name: "Delivery map \u00b7 Location"
+      description: "Place the map centres on, e.g. Hartland, Wisconsin."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u47: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "delivery_map_title"
+      name: "Delivery map \u00b7 Label"
+      description: "Caption printed on/near the map."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u48: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "reviews_eyebrow"
+      name: "Reviews \u00b7 Eyebrow"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u49: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "reviews_heading"
+      name: "Reviews \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u50: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "reviews"
+      name: "Reviews \u00b7 List"
+      description: "Legacy pipe list. Prefer Review blocks in the theme editor."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u51: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "faq_eyebrow"
+      name: "FAQ \u00b7 Eyebrow"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u52: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "faq_heading"
+      name: "FAQ \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u53: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "faq"
+      name: "FAQ \u00b7 List"
+      description: "Legacy pipe list. Prefer FAQ blocks in the theme editor."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u54: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "related_eyebrow"
+      name: "Related plans \u00b7 Eyebrow"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u55: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "related_heading"
+      name: "Related plans \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u56: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "related_plans"
+      name: "Related plans \u00b7 List"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u57: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "cta_eyebrow"
+      name: "Closing CTA \u00b7 Eyebrow"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u58: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "cta_heading"
+      name: "Closing CTA \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u59: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "cta_text"
+      name: "Closing CTA \u00b7 Text"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u60: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "cta_button_label"
+      name: "Closing CTA \u00b7 Button"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u61: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_badge"
+      name: "Chef story \u00b7 Badge"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u62: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_heading"
+      name: "Chef story \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u63: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_intro"
+      name: "Chef story \u00b7 Text"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u64: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_stats"
+      name: "Chef story \u00b7 Stats"
+      description: "One row as value|label."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u65: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_chips"
+      name: "Chef story \u00b7 Plate labels"
+      description: "Exactly four labels, one per corner."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u66: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_cards"
+      name: "Chef story \u00b7 Cards"
+      description: "One row as title|text."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u67: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_delivery_heading"
+      name: "Chef story delivery \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u68: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_delivery_text"
+      name: "Chef story delivery \u00b7 Text"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u69: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_tickets"
+      name: "Chef story delivery \u00b7 Cutoff tickets"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u70: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_cutoff_note"
+      name: "Chef story delivery \u00b7 Note"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u71: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_fresh_heading"
+      name: "Chef story fresh \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u72: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_fresh_text"
+      name: "Chef story fresh \u00b7 Text"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u73: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_steps"
+      name: "Chef story \u00b7 Steps"
+      description: "One row as title|text."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u74: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_towns"
+      name: "Chef story \u00b7 Towns"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u75: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_image"
+      name: "Chef story \u00b7 Plate photo"
+      description: "Transparent PNG plate cut-out reads best."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u76: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_cta_heading"
+      name: "Chef story CTA \u00b7 Section title"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u77: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_cta_text"
+      name: "Chef story CTA \u00b7 Text"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u78: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_cta_label"
+      name: "Chef story CTA \u00b7 Button"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u79: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_cta_note"
+      name: "Chef story CTA \u00b7 Note"
+      description: null
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+  u80: metafieldDefinitionUpdate(
+    definition: {
+      namespace: "custom"
+      key: "thali_facts"
+      name: "Chef story CTA \u00b7 Facts"
+      description: "One row as value|label."
+      ownerType: PRODUCT
+    }
+  ) {
+    updatedDefinition { id name }
+    userErrors { field message code }
+  }
+}

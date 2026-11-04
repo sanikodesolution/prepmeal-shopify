@@ -1,0 +1,9 @@
+query {
+  metafieldDefinitions(first: 250, ownerType: PRODUCT, namespace: "custom") {
+    nodes {
+      id
+      key
+      name
+    }
+  }
+}
