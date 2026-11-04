@@ -775,3 +775,13 @@ color:var(--ben-ink);padding:0 0 0
 from{transform:translate3d(0,0,0)}
 to{transform:translate3d(-25%,0,0)}
 }
+
+/* Theme editor: let clicks select editable areas instead of opening pickers. */
+html.mp-theme-editor .mealplan-menu__order,
+html.mp-theme-editor .mealplan-menu__picker,
+html.mp-theme-editor .mealplan-menu__panel{
+  pointer-events:none;
+}
+html.mp-theme-editor .mealplan-sec[data-shopify-editor-block]{
+  scroll-margin-top:1.5rem;
+}

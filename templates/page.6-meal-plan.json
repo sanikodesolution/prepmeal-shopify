@@ -12,6 +12,56 @@
     "mp_page": {
       "type": "cm-meal-plan-page",
       "blocks": {
+        "area_menu": {
+          "type": "area_menu",
+          "settings": {
+            "eyebrow": "This week at ChefMatts",
+            "heading": "This week's menu",
+            "text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
+            "button": "Order 6 meals",
+            "order_title": "6 Meal Plan"
+          }
+        },
+        "area_chef": {
+          "type": "area_chef",
+          "settings": {
+            "eyebrow": "The Chef Matt way",
+            "heading": "40 years in the kitchen. Now cooking for you.",
+            "text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you."
+          }
+        },
+        "area_delivery": {
+          "type": "area_delivery",
+          "settings": {
+            "eyebrow": "We deliver",
+            "heading": "Fresh meals, delivered to your door.",
+            "text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door."
+          }
+        },
+        "area_reviews": {
+          "type": "area_reviews",
+          "settings": {
+            "eyebrow": "Loved by our customers",
+            "heading": "Loved by people who love good food"
+          }
+        },
+        "area_faq": {
+          "type": "area_faq",
+          "settings": {
+            "eyebrow": "Good to know",
+            "heading": "Questions, answered"
+          }
+        },
+        "area_cta": {
+          "type": "area_cta",
+          "settings": {
+            "eyebrow": "Ready when you are",
+            "heading": "Your week just got easier.",
+            "text": "Six chef-prepared meals, delivered. Choose yours and we handle the rest.",
+            "button_label": "Build my 6 meal plan",
+            "button_link": "/products/6-meal-plan"
+          }
+        },
         "meal_1": {
           "type": "meal",
           "settings": {

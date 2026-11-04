@@ -6,6 +6,11 @@
   const root = document.querySelector('[data-mp-page]');
   if (!root) return;
 
+  // Theme editor: skip heavy UI so preview clicks select editable areas.
+  if (window.Shopify && window.Shopify.designMode) {
+    root.classList.add('is-theme-editor');
+  }
+
   const $ = (s, c = root) => c.querySelector(s);
   const $$ = (s, c = root) => Array.from(c.querySelectorAll(s));
 
@@ -762,7 +767,8 @@
     }
 
     const orderForm = week.querySelector('[data-mp-order]');
-    if (orderForm) {
+    // Skip custom pickers in the theme editor so clicks open area settings.
+    if (orderForm && !(window.Shopify && window.Shopify.designMode)) {
       // Custom dropdown UI. A native <select> popup is painted by the OS and
       // cannot be styled, so each select is wrapped by a button + listbox. The
       // select itself stays in the DOM (visually hidden) so the existing submit

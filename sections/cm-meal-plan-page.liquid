@@ -1,6 +1,9 @@
 {% render 'cm-section-assets', section: section %}
 {{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'cm-meal-plan-page.js' | asset_url }}" defer="defer"></script>
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {%- liquid
   assign meal_blocks = section.blocks | where: 'type', 'meal'
@@ -11,6 +14,13 @@
   assign review_blocks = section.blocks | where: 'type', 'review'
   assign faq_blocks = section.blocks | where: 'type', 'faq'
   assign related_blocks = section.blocks | where: 'type', 'related'
+  # Clickable theme-editor regions — selecting one opens its settings sidebar.
+  assign area_menu = section.blocks | where: 'type', 'area_menu' | first
+  assign area_chef = section.blocks | where: 'type', 'area_chef' | first
+  assign area_delivery = section.blocks | where: 'type', 'area_delivery' | first
+  assign area_reviews = section.blocks | where: 'type', 'area_reviews' | first
+  assign area_faq = section.blocks | where: 'type', 'area_faq' | first
+  assign area_cta = section.blocks | where: 'type', 'area_cta' | first
 
   # ---------------------------------------------------------------
   # Content source
@@ -103,10 +113,22 @@
   assign c_ben_line_3 = plan_meta.ben_line_3.value | default: section.settings.ben_line_3
   assign c_ben_note = plan_meta.ben_note.value | default: section.settings.ben_note
 
-  assign c_menu_eyebrow = plan_meta.menu_eyebrow.value | default: shared_meta.menu_eyebrow.value | default: section.settings.menu_eyebrow
-  assign c_menu_heading = plan_meta.menu_heading.value | default: shared_meta.menu_heading.value | default: section.settings.menu_heading
-  assign c_menu_text = plan_meta.menu_text.value | default: shared_meta.menu_text.value | default: section.settings.menu_text
-  assign c_menu_button = plan_meta.menu_button.value | default: section.settings.quality_button
+  assign area_menu_eyebrow = ''
+  assign area_menu_heading = ''
+  assign area_menu_text = ''
+  assign area_menu_button = ''
+  assign area_menu_order_title = ''
+  if area_menu != blank
+    assign area_menu_eyebrow = area_menu.settings.eyebrow
+    assign area_menu_heading = area_menu.settings.heading
+    assign area_menu_text = area_menu.settings.text
+    assign area_menu_button = area_menu.settings.button
+    assign area_menu_order_title = area_menu.settings.order_title
+  endif
+  assign c_menu_eyebrow = plan_meta.menu_eyebrow.value | default: shared_meta.menu_eyebrow.value | default: area_menu_eyebrow | default: section.settings.menu_eyebrow
+  assign c_menu_heading = plan_meta.menu_heading.value | default: shared_meta.menu_heading.value | default: area_menu_heading | default: section.settings.menu_heading
+  assign c_menu_text = plan_meta.menu_text.value | default: shared_meta.menu_text.value | default: area_menu_text | default: section.settings.menu_text
+  assign c_menu_button = plan_meta.menu_button.value | default: area_menu_button | default: section.settings.quality_button
   assign c_explore_heading = plan_meta.explore_heading.value | default: shared_meta.explore_heading.value | default: section.settings.explore_heading
   assign c_detail_note = plan_meta.detail_note.value | default: section.settings.detail_note
   assign c_total_label = plan_meta.total_label.value | default: section.settings.total_label
@@ -117,17 +139,33 @@
   assign c_menu_modal_heading = plan_meta.menu_modal_heading.value | default: "This Week's Menu"
   assign c_menu_caption = plan_meta.menu_caption.value | default: 'Fresh, ready to heat'
   assign c_picker_placeholder = plan_meta.picker_placeholder.value | default: 'Choose a meal'
-  assign c_order_panel_title = plan_meta.order_panel_title.value | default: section.settings.detail_title | strip
+  assign c_order_panel_title = plan_meta.order_panel_title.value | default: area_menu_order_title | default: section.settings.detail_title | strip
 
-  assign c_chef_eyebrow = plan_meta.chef_eyebrow.value | default: shared_meta.chef_eyebrow.value | default: section.settings.chef_eyebrow
-  assign c_chef_heading = plan_meta.chef_heading.value | default: shared_meta.chef_heading.value | default: section.settings.chef_heading
-  assign c_chef_text = plan_meta.chef_text.value | default: shared_meta.chef_text.value | default: section.settings.chef_text
+  assign area_chef_eyebrow = ''
+  assign area_chef_heading = ''
+  assign area_chef_text = ''
+  if area_chef != blank
+    assign area_chef_eyebrow = area_chef.settings.eyebrow
+    assign area_chef_heading = area_chef.settings.heading
+    assign area_chef_text = area_chef.settings.text
+  endif
+  assign c_chef_eyebrow = plan_meta.chef_eyebrow.value | default: shared_meta.chef_eyebrow.value | default: area_chef_eyebrow | default: section.settings.chef_eyebrow
+  assign c_chef_heading = plan_meta.chef_heading.value | default: shared_meta.chef_heading.value | default: area_chef_heading | default: section.settings.chef_heading
+  assign c_chef_text = plan_meta.chef_text.value | default: shared_meta.chef_text.value | default: area_chef_text | default: section.settings.chef_text
   assign c_steps_eyebrow = plan_meta.steps_eyebrow.value | default: shared_meta.steps_eyebrow.value | default: section.settings.steps_eyebrow
   assign c_steps_heading = plan_meta.steps_heading.value | default: shared_meta.steps_heading.value | default: section.settings.steps_heading
 
-  assign c_delivery_eyebrow = plan_meta.delivery_eyebrow.value | default: shared_meta.delivery_eyebrow.value | default: section.settings.delivery_eyebrow
-  assign c_delivery_heading = plan_meta.delivery_heading.value | default: shared_meta.delivery_heading.value | default: section.settings.delivery_heading
-  assign c_delivery_text = plan_meta.delivery_text.value | default: shared_meta.delivery_text.value | default: section.settings.delivery_text
+  assign area_delivery_eyebrow = ''
+  assign area_delivery_heading = ''
+  assign area_delivery_text = ''
+  if area_delivery != blank
+    assign area_delivery_eyebrow = area_delivery.settings.eyebrow
+    assign area_delivery_heading = area_delivery.settings.heading
+    assign area_delivery_text = area_delivery.settings.text
+  endif
+  assign c_delivery_eyebrow = plan_meta.delivery_eyebrow.value | default: shared_meta.delivery_eyebrow.value | default: area_delivery_eyebrow | default: section.settings.delivery_eyebrow
+  assign c_delivery_heading = plan_meta.delivery_heading.value | default: shared_meta.delivery_heading.value | default: area_delivery_heading | default: section.settings.delivery_heading
+  assign c_delivery_text = plan_meta.delivery_text.value | default: shared_meta.delivery_text.value | default: area_delivery_text | default: section.settings.delivery_text
   assign c_delivery_areas = plan_meta.delivery_areas.value
   if c_delivery_areas == blank
     assign c_delivery_areas = section.settings.delivery_areas | split: ','
@@ -135,18 +173,42 @@
   assign c_delivery_map_query = plan_meta.delivery_map_query.value | default: section.settings.map_query
   assign c_delivery_map_title = plan_meta.delivery_map_title.value | default: section.settings.map_title
 
-  assign c_reviews_eyebrow = plan_meta.reviews_eyebrow.value | default: shared_meta.reviews_eyebrow.value | default: section.settings.reviews_eyebrow
-  assign c_reviews_heading = plan_meta.reviews_heading.value | default: shared_meta.reviews_heading.value | default: section.settings.reviews_heading
-  assign c_faq_eyebrow = plan_meta.faq_eyebrow.value | default: shared_meta.faq_eyebrow.value | default: section.settings.faq_eyebrow
-  assign c_faq_heading = plan_meta.faq_heading.value | default: shared_meta.faq_heading.value | default: section.settings.faq_heading
+  assign area_reviews_eyebrow = ''
+  assign area_reviews_heading = ''
+  if area_reviews != blank
+    assign area_reviews_eyebrow = area_reviews.settings.eyebrow
+    assign area_reviews_heading = area_reviews.settings.heading
+  endif
+  assign c_reviews_eyebrow = plan_meta.reviews_eyebrow.value | default: shared_meta.reviews_eyebrow.value | default: area_reviews_eyebrow | default: section.settings.reviews_eyebrow
+  assign c_reviews_heading = plan_meta.reviews_heading.value | default: shared_meta.reviews_heading.value | default: area_reviews_heading | default: section.settings.reviews_heading
+  assign area_faq_eyebrow = ''
+  assign area_faq_heading = ''
+  if area_faq != blank
+    assign area_faq_eyebrow = area_faq.settings.eyebrow
+    assign area_faq_heading = area_faq.settings.heading
+  endif
+  assign c_faq_eyebrow = plan_meta.faq_eyebrow.value | default: shared_meta.faq_eyebrow.value | default: area_faq_eyebrow | default: section.settings.faq_eyebrow
+  assign c_faq_heading = plan_meta.faq_heading.value | default: shared_meta.faq_heading.value | default: area_faq_heading | default: section.settings.faq_heading
   assign c_related_eyebrow = plan_meta.related_eyebrow.value | default: shared_meta.related_eyebrow.value | default: section.settings.related_eyebrow
   assign c_related_heading = plan_meta.related_heading.value | default: shared_meta.related_heading.value | default: section.settings.related_heading
 
-  assign c_cta_eyebrow = plan_meta.cta_eyebrow.value | default: shared_meta.cta_eyebrow.value | default: section.settings.cta_eyebrow
-  assign c_cta_heading = plan_meta.cta_heading.value | default: shared_meta.cta_heading.value | default: section.settings.cta_heading
-  assign c_cta_text = plan_meta.cta_text.value | default: shared_meta.cta_text.value | default: section.settings.cta_text
-  assign c_cta_button_label = plan_meta.cta_button_label.value | default: section.settings.cta_button_label
-  assign c_cta_button_link = plan_meta.cta_button_link.value | default: section.settings.cta_button_link
+  assign area_cta_eyebrow = ''
+  assign area_cta_heading = ''
+  assign area_cta_text = ''
+  assign area_cta_button = ''
+  assign area_cta_link = ''
+  if area_cta != blank
+    assign area_cta_eyebrow = area_cta.settings.eyebrow
+    assign area_cta_heading = area_cta.settings.heading
+    assign area_cta_text = area_cta.settings.text
+    assign area_cta_button = area_cta.settings.button_label
+    assign area_cta_link = area_cta.settings.button_link
+  endif
+  assign c_cta_eyebrow = plan_meta.cta_eyebrow.value | default: shared_meta.cta_eyebrow.value | default: area_cta_eyebrow | default: section.settings.cta_eyebrow
+  assign c_cta_heading = plan_meta.cta_heading.value | default: shared_meta.cta_heading.value | default: area_cta_heading | default: section.settings.cta_heading
+  assign c_cta_text = plan_meta.cta_text.value | default: shared_meta.cta_text.value | default: area_cta_text | default: section.settings.cta_text
+  assign c_cta_button_label = plan_meta.cta_button_label.value | default: area_cta_button | default: section.settings.cta_button_label
+  assign c_cta_button_link = plan_meta.cta_button_link.value | default: area_cta_link | default: section.settings.cta_button_link
 
   # Hero photos and their alt text. A file_reference metafield and an
   # image_picker setting both support image_url, so either source renders the
@@ -350,7 +412,7 @@
 
   {%- if menu_blocks.size > 0 or variant_menu -%}
     <div class="mealplan">
-      <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}">
+      <section class="mealplan-sec mealplan-menu" id="mealplan-menu-{{ section.id }}"{% if area_menu != blank %} {{ area_menu.shopify_attributes }}{% endif %}>
         <div class="mealplan-wrap mealplan-menu__inner">
           {%- comment -%}
             Header row: heading and tagline left, eyebrow pill centred on the
@@ -816,7 +878,7 @@
   </div>
 
   <div class="mealplan">
-    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-chef">
+    <section class="mealplan-sec"{% if area_chef != blank %} {{ area_chef.shopify_attributes }}{% endif %}><div class="mealplan-wrap mealplan-chef">
       {%- liquid
         # Chef photos used to be bundled assets picked by index, so they could
         # not be changed from Admin. An image set on the product (or the section)
@@ -905,7 +967,7 @@
     </div></section>
     {%- endif -%}
 
-    <section class="mealplan-sec"><div class="mealplan-wrap">
+    <section class="mealplan-sec"{% if area_delivery != blank %} {{ area_delivery.shopify_attributes }}{% endif %}><div class="mealplan-wrap">
       {%- if section.settings.delivery_style == 'plate' -%}
         {% render 'cm-delivery-area', section: section, meta: plan_meta, areas: mo_areas, shared: shared_meta %}
       {%- elsif section.settings.delivery_checker -%}
@@ -962,44 +1024,80 @@
       {%- endif -%}
     </div></section>
 
-    <section class="mealplan-sec mealplan-rev"><div class="mealplan-wrap">
+    <section class="mealplan-sec mealplan-rev"{% if area_reviews != blank %} {{ area_reviews.shopify_attributes }}{% endif %}><div class="mealplan-wrap">
       {%- if c_reviews_eyebrow != blank -%}
         <p class="mp-eye">{{ c_reviews_eyebrow | escape }}</p>
       {%- endif -%}
       <h2 class="mealplan-h">{{ c_reviews_heading | escape }}</h2>
       <div class="mealplan-cols" id="rev">
-        {%- for row in review_rows -%}
-          {%- liquid
-            assign cells = row | split: '|'
-            assign review_name = cells[0]
-            assign review_rating = cells[1] | default: 5 | plus: 0
-            assign review_text = cells[2]
-            assign review_aspect = cells[3] | default: '1'
-            assign review_show = cells[4] | default: '1'
-            assign review_image = cells[5]
-            assign fallback_index = forloop.index0 | modulo: 10
-          -%}
-          <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs">
-            {%- if review_show != '0' -%}
-              <div class="mealplan-img" style="--ar:{{ review_aspect }}">
-                {%- if review_image != blank -%}
-                  <img class="mp-food mealplan-ph" src="{{ review_image }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
-                {%- else -%}
-                  <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
-                {%- endif -%}
+        {%- if mo_testimonials == blank and legacy_reviews == blank and review_blocks.size > 0 -%}
+          {%- for block in review_blocks -%}
+            {%- liquid
+              assign review_name = block.settings.name
+              assign review_rating = block.settings.rating | default: 5 | plus: 0
+              assign review_text = block.settings.review
+              assign review_aspect = block.settings.aspect | default: '1'
+              assign review_show = '0'
+              if block.settings.show_image
+                assign review_show = '1'
+              endif
+              assign review_image = ''
+              if block.settings.image != blank
+                assign review_image = block.settings.image | image_url: width: 700
+              endif
+              assign fallback_index = forloop.index0 | modulo: 10
+            -%}
+            <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs" {{ block.shopify_attributes }}>
+              {%- if review_show != '0' -%}
+                <div class="mealplan-img" style="--ar:{{ review_aspect }}">
+                  {%- if review_image != blank -%}
+                    <img class="mp-food mealplan-ph" src="{{ review_image }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- else -%}
+                    <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <div>
+                <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}{% if i <= review_rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+                <q>{{ review_text | escape }}</q>
+                <small>{{ review_name | escape }}</small>
               </div>
-            {%- endif -%}
-            <div>
-              <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}{% if i <= review_rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
-              <q>{{ review_text | escape }}</q>
-              <small>{{ review_name | escape }}</small>
-            </div>
-          </article>
-        {%- endfor -%}
+            </article>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for row in review_rows -%}
+            {%- liquid
+              assign cells = row | split: '|'
+              assign review_name = cells[0]
+              assign review_rating = cells[1] | default: 5 | plus: 0
+              assign review_text = cells[2]
+              assign review_aspect = cells[3] | default: '1'
+              assign review_show = cells[4] | default: '1'
+              assign review_image = cells[5]
+              assign fallback_index = forloop.index0 | modulo: 10
+            -%}
+            <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs">
+              {%- if review_show != '0' -%}
+                <div class="mealplan-img" style="--ar:{{ review_aspect }}">
+                  {%- if review_image != blank -%}
+                    <img class="mp-food mealplan-ph" src="{{ review_image }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- else -%}
+                    <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <div>
+                <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}{% if i <= review_rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+                <q>{{ review_text | escape }}</q>
+                <small>{{ review_name | escape }}</small>
+              </div>
+            </article>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
     </div></section>
 
-    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-faq">
+    <section class="mealplan-sec"{% if area_faq != blank %} {{ area_faq.shopify_attributes }}{% endif %}><div class="mealplan-wrap mealplan-faq">
       <div>
         {%- if c_faq_eyebrow != blank -%}
           <p class="mp-eye">{{ c_faq_eyebrow | escape }}</p>
@@ -1007,15 +1105,26 @@
         <h2 class="mealplan-h">{{ c_faq_heading | escape }}</h2>
       </div>
       <div id="faq">
-        {%- for row in faq_rows -%}
-          {%- assign cells = row | split: '|' -%}
-          <div class="mealplan-qi">
-            <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
-              {{ cells[0] | escape }}<i></i>
-            </button>
-            <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ cells[1] | escape }}</p></div></div>
-          </div>
-        {%- endfor -%}
+        {%- if mo_faq == blank and legacy_faq == blank and faq_blocks.size > 0 -%}
+          {%- for block in faq_blocks -%}
+            <div class="mealplan-qi" {{ block.shopify_attributes }}>
+              <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
+                {{ block.settings.question | escape }}<i></i>
+              </button>
+              <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ block.settings.answer | escape }}</p></div></div>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for row in faq_rows -%}
+            {%- assign cells = row | split: '|' -%}
+            <div class="mealplan-qi">
+              <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
+                {{ cells[0] | escape }}<i></i>
+              </button>
+              <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ cells[1] | escape }}</p></div></div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
     </div></section>
 
@@ -1055,9 +1164,12 @@
       </div>
     </div></section>
 
-    <section class="mealplan-sec"><div class="mealplan-wrap"><div class="mealplan-cta">
+    <section class="mealplan-sec"{% if area_cta != blank %} {{ area_cta.shopify_attributes }}{% endif %}><div class="mealplan-wrap"><div class="mealplan-cta">
       {%- liquid
         assign cta_image = plan_meta.cta_image.value | default: shared_meta.cta_image.value | default: section.settings.cta_image
+        if area_cta != blank and area_cta.settings.image != blank
+          assign cta_image = area_cta.settings.image
+        endif
       -%}
       <div class="mealplan-img"{% unless cta_image != blank %} data-p="3"{% endunless %}>
         {%- if cta_image != blank -%}
@@ -1284,6 +1396,75 @@
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 }
   ],
   "blocks": [
+    {
+      "type": "area_menu",
+      "name": "Menu & order box",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click this area in the preview to open these settings. Meal names and prices still come from the Plan product variants." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "This week at ChefMatts" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "This week's menu" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Featured meals from the weekly rotation. Hover or tap a meal for the details." },
+        { "type": "text", "id": "button", "label": "Order button label", "default": "Order 6 meals" },
+        { "type": "text", "id": "order_title", "label": "Order panel title", "default": "6 Meal Plan" }
+      ]
+    },
+    {
+      "type": "area_chef",
+      "name": "Chef story",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click the chef section in the preview to edit it here." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Chef Matt way" },
+        { "type": "textarea", "id": "heading", "label": "Heading", "default": "40 years in the kitchen. Now cooking for you." },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you." }
+      ]
+    },
+    {
+      "type": "area_delivery",
+      "name": "Delivery",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click the delivery section in the preview to edit it here." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "We deliver" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Fresh meals, delivered to your door." },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "We deliver across Hartland and the towns around it." }
+      ]
+    },
+    {
+      "type": "area_reviews",
+      "name": "Reviews",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click the reviews section in the preview to edit headings here. Individual reviews are Review blocks or product metafields." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by our customers" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by people who love good food" }
+      ]
+    },
+    {
+      "type": "area_faq",
+      "name": "FAQ",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click the FAQ section in the preview to edit headings here. Questions are FAQ blocks or product metafields." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Good to know" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered" }
+      ]
+    },
+    {
+      "type": "area_cta",
+      "name": "Final CTA",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Click the bottom CTA in the preview to edit it here." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ready when you are" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Your week just got easier." },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Six chef-prepared meals, delivered. Choose yours and we handle the rest." },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "Build my 6 meal plan" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "image_picker", "id": "image", "label": "Background image" }
+      ]
+    },
     {
       "type": "meal",
       "name": "Meal",
