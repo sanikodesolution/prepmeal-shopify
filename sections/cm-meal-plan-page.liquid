@@ -1079,7 +1079,7 @@
       </ol>
     </div></section>
 
-    {%- if menu_blocks.size == 0 -%}
+    {%- if section.settings.show_quality_band and menu_blocks.size == 0 -%}
       <section class="mealplan-sec"><div class="mealplan-wrap mealplan-q">
         <div class="mealplan-img mp-gs" id="qImg" data-p="2" aria-live="polite"></div>
         <div class="mp-gs mealplan-q__copy">
@@ -1444,6 +1444,7 @@
     { "type": "image_picker", "id": "chef_image_2", "label": "Chef photo (small)" },
     { "type": "text", "id": "steps_eyebrow", "label": "Steps eyebrow", "default": "Simple by design" },
     { "type": "text", "id": "steps_heading", "label": "Steps heading", "default": "How it works" },
+    { "type": "checkbox", "id": "show_quality_band", "label": "Show Premium ingredients / weekly menu band", "default": false, "info": "The image + meal list panel (Premium ingredients). Off on 6 Meal Plan by default." },
     { "type": "text", "id": "quality_eyebrow", "label": "Quality eyebrow", "default": "Premium ingredients" },
     { "type": "text", "id": "quality_heading", "label": "Quality heading", "default": "Fresh in, quality out." },
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },

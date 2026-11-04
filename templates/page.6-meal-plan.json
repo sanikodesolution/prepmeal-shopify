@@ -307,7 +307,8 @@
         "cta_button_label": "Build my 6 meal plan",
         "cta_button_link": "/products/6-meal-plan",
         "padding_top": 0,
-        "padding_bottom": 0
+        "padding_bottom": 0,
+        "show_quality_band": false
       }
     }
   },
