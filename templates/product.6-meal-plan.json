@@ -113,6 +113,34 @@
             "heading": "Your week, sorted in three steps."
           }
         },
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Choose your meals",
+            "text": "Pick six from this week's menu."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "We prepare",
+            "text": "Our chefs cook your order."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "We pack",
+            "text": "Meals are packed ready for delivery."
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "title": "We deliver",
+            "text": "They arrive at your door. Heat and eat."
+          }
+        },
         "area_delivery": {
           "type": "area_delivery",
           "settings": {
@@ -194,6 +222,10 @@
         "area_explore",
         "area_chef",
         "area_steps",
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
         "area_delivery",
         "area_reviews",
         "area_faq",
