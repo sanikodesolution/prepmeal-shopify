@@ -9,7 +9,8 @@ alwaysApply: true
 - Every content section supports **Metaobject list** mode and **blocks fallback**.
 - If a `metaobject_list` setting has entries, render from it; otherwise render blocks.
 - Shared snippets render both sources via params — never duplicate markup.
-- Field names must match `docs/CONTENT-GUIDE.md` exactly. Do not invent fields.
+- Field names must match `../prepmeal-shopify-doc/CONTENT-GUIDE.md` and `../prepmeal-shopify-doc/PLAN-PRODUCT-CONTENT.md` exactly. Do not invent fields.
+- 6-meal templates use separate `cm-mp-hero` + `cm-mp-benefits` + `cm-meal-plan-page` sections for Customize click-to-edit.
 
 ## Metaobject types
 - `meal_plan`, `how_it_works_step`, `faq_item`, `testimonial`, `delivery_zone`
