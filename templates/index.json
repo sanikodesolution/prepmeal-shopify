@@ -38,11 +38,11 @@
           "settings": {
             "button_label_1": "Order your meal plan",
             "button_link_1": "shopify://collections/meal-plans",
-            "button_style_secondary_1": true,
+            "button_style_secondary_1": false,
             "button_animated_1": true,
             "button_label_2": "How it works",
             "button_link_2": "shopify://pages/how-it-works",
-            "button_style_secondary_2": true,
+            "button_style_secondary_2": false,
             "button_animated_2": true
           }
         }
