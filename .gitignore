@@ -25,3 +25,7 @@ scripts/page-update.graphql
 scripts/private-chef-pages.json
 scripts/query-private-chef-page.graphql
 scripts/meal-plans-1-30-missing.csv
+scripts/delivery-query-result.json
+scripts/delete-delivery-result.json
+scripts/delete-page-delivery.json
+scripts/query-delivery-page.graphql
