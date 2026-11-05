@@ -108,10 +108,35 @@
             "order_title": "6 Meal Plan"
           }
         },
+        "area_thali": {
+          "type": "area_thali",
+          "settings": {
+            "badge": "Chef Matt's · Hartland, WI",
+            "heading": "Chef-cooked meals, delivered across Lake Country.",
+            "intro": "Calorie-counted, high-protein, low-oil meals prepared in our Hartland kitchen and delivered across Lake Country.",
+            "stats": "45g|Protein in most meals\n40+|Years of cooking\n24oz|Generous portions",
+            "chips": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted",
+            "cards": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens.\nReal ingredients|Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
+          }
+        },
+        "thali_card_1": {
+          "type": "thali_card",
+          "settings": {
+            "title": "Cooked by Chef Matt",
+            "text": "Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens."
+          }
+        },
+        "thali_card_2": {
+          "type": "thali_card",
+          "settings": {
+            "title": "Real ingredients",
+            "text": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
+          }
+        },
         "area_explore": {
           "type": "area_explore",
           "settings": {
-            "heading": "Explore the full menu"
+            "heading": "À la carte"
           }
         },
         "area_chef": {
@@ -291,31 +316,6 @@
             "button_label": "Build my 6 meal plan",
             "button_link": "/products/6-meal-plan"
           }
-        },
-        "area_thali": {
-          "type": "area_thali",
-          "settings": {
-            "badge": "Chef Matt's · Hartland, WI",
-            "heading": "Chef-cooked meals, delivered across Lake Country.",
-            "intro": "Calorie-counted, high-protein, low-oil meals prepared in our Hartland kitchen and delivered across Lake Country.",
-            "stats": "45g|Protein in most meals\n40+|Years of cooking\n24oz|Generous portions",
-            "chips": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted",
-            "cards": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens.\nReal ingredients|Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
-          }
-        },
-        "thali_card_1": {
-          "type": "thali_card",
-          "settings": {
-            "title": "Cooked by Chef Matt",
-            "text": "Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens."
-          }
-        },
-        "thali_card_2": {
-          "type": "thali_card",
-          "settings": {
-            "title": "Real ingredients",
-            "text": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
-          }
         }
       },
       "block_order": [
@@ -359,9 +359,9 @@
         "area_cta"
       ],
       "settings": {
+        "show_hero": true,
         "content_product": "6-meal-plan",
         "detail_show_allergens": true,
-        "show_hero": true,
         "plan_label": "6 Meal Plan",
         "heading": "Chef-cooked meals, delivered across Lake Country",
         "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
@@ -433,6 +433,7 @@
         "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
         "steps_eyebrow": "Simple by design",
         "steps_heading": "How it works",
+        "show_quality_band": false,
         "quality_eyebrow": "Premium ingredients",
         "quality_heading": "This Week's Menu",
         "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
@@ -513,8 +514,7 @@
         "cta_button_label": "Build my 6 meal plan",
         "cta_button_link": "/products/6-meal-plan",
         "padding_top": 0,
-        "padding_bottom": 0,
-        "show_quality_band": false
+        "padding_bottom": 0
       }
     }
   },
