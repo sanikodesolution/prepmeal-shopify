@@ -148,13 +148,47 @@
               class="banner__buttons{% if block.settings.button_label_1 != blank and block.settings.button_label_2 != blank %} banner__buttons--multiple{% endif %}"
               {{ block.shopify_attributes }}
             >
+              {%- liquid
+                assign btn1_css = ''
+                if block.settings.button_bg_1 != blank
+                  assign btn1_css = btn1_css | append: '--pm-bg:' | append: block.settings.button_bg_1 | append: ';background-color:' | append: block.settings.button_bg_1 | append: ';'
+                endif
+                if block.settings.button_text_1 != blank
+                  assign btn1_css = btn1_css | append: '--pm-text:' | append: block.settings.button_text_1 | append: ';--pm-accent-text:' | append: block.settings.button_text_1 | append: ';color:' | append: block.settings.button_text_1 | append: ';'
+                endif
+                if block.settings.button_icon_bg_1 != blank
+                  assign btn1_css = btn1_css | append: '--pm-icon-bg:' | append: block.settings.button_icon_bg_1 | append: ';'
+                endif
+                if block.settings.button_icon_color_1 != blank
+                  assign btn1_css = btn1_css | append: '--pm-icon-text:' | append: block.settings.button_icon_color_1 | append: ';'
+                endif
+                if block.settings.button_font_size_1 != blank
+                  assign btn1_css = btn1_css | append: 'font-size:' | append: block.settings.button_font_size_1 | append: 'px;'
+                endif
+                assign btn2_css = ''
+                if block.settings.button_bg_2 != blank
+                  assign btn2_css = btn2_css | append: '--pm-bg:' | append: block.settings.button_bg_2 | append: ';background-color:' | append: block.settings.button_bg_2 | append: ';'
+                endif
+                if block.settings.button_text_2 != blank
+                  assign btn2_css = btn2_css | append: '--pm-text:' | append: block.settings.button_text_2 | append: ';--pm-accent-text:' | append: block.settings.button_text_2 | append: ';color:' | append: block.settings.button_text_2 | append: ';'
+                endif
+                if block.settings.button_icon_bg_2 != blank
+                  assign btn2_css = btn2_css | append: '--pm-icon-bg:' | append: block.settings.button_icon_bg_2 | append: ';'
+                endif
+                if block.settings.button_icon_color_2 != blank
+                  assign btn2_css = btn2_css | append: '--pm-icon-text:' | append: block.settings.button_icon_color_2 | append: ';'
+                endif
+                if block.settings.button_font_size_2 != blank
+                  assign btn2_css = btn2_css | append: 'font-size:' | append: block.settings.button_font_size_2 | append: 'px;'
+                endif
+              -%}
               {%- if block.settings.button_label_1 != blank and block.settings.button_animated_1 -%}
                 {%- liquid
                   assign pm_style = 'brand'
                   if section.settings.hero_style == 'prep'
                     assign pm_style = 'light'
                   endif
-                  render 'pm-button', label: block.settings.button_label_1, link: block.settings.button_link_1, style: pm_style
+                  render 'pm-button', label: block.settings.button_label_1, link: block.settings.button_link_1, style: pm_style, css: btn1_css
                 -%}
               {%- elsif block.settings.button_label_1 != blank -%}
                 <a
@@ -164,6 +198,7 @@
                     href="{{ block.settings.button_link_1 }}"
                   {% endif %}
                   class="button{% if block.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}"
+                  {% if btn1_css != blank %}style="{{ btn1_css }}"{% endif %}
                 >
                   {{- block.settings.button_label_1 | escape -}}
                 </a>
@@ -174,7 +209,7 @@
                   if section.settings.hero_style == 'prep'
                     assign pm_style_2 = 'brand'
                   endif
-                  render 'pm-button', label: block.settings.button_label_2, link: block.settings.button_link_2, style: pm_style_2
+                  render 'pm-button', label: block.settings.button_label_2, link: block.settings.button_link_2, style: pm_style_2, css: btn2_css
                 -%}
               {%- elsif block.settings.button_label_2 != blank -%}
                 <a
@@ -184,6 +219,7 @@
                     href="{{ block.settings.button_link_2 }}"
                   {% endif %}
                   class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+                  {% if btn2_css != blank %}style="{{ btn2_css }}"{% endif %}
                 >
                   {{- block.settings.button_label_2 | escape -}}
                 </a>
@@ -594,6 +630,40 @@
           "label": "Animated pill style"
         },
         {
+          "type": "header",
+          "content": "Button 1 colors & type"
+        },
+        {
+          "type": "color",
+          "id": "button_text_1",
+          "label": "Text color"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_1",
+          "label": "Background color"
+        },
+        {
+          "type": "color",
+          "id": "button_icon_bg_1",
+          "label": "Icon background"
+        },
+        {
+          "type": "color",
+          "id": "button_icon_color_1",
+          "label": "Icon color"
+        },
+        {
+          "type": "range",
+          "id": "button_font_size_1",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 16
+        },
+        {
         "type": "header",
         "content": "t:sections.image-banner.blocks.buttons.settings.header_2.content"
         },
@@ -620,6 +690,40 @@
           "id": "button_animated_2",
           "default": false,
           "label": "Animated outline style"
+        },
+        {
+          "type": "header",
+          "content": "Button 2 colors & type"
+        },
+        {
+          "type": "color",
+          "id": "button_text_2",
+          "label": "Text color"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_2",
+          "label": "Background color"
+        },
+        {
+          "type": "color",
+          "id": "button_icon_bg_2",
+          "label": "Icon background"
+        },
+        {
+          "type": "color",
+          "id": "button_icon_color_2",
+          "label": "Icon color"
+        },
+        {
+          "type": "range",
+          "id": "button_font_size_2",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 16
         }
       ]
     }
