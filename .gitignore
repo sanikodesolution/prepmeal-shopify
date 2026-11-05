@@ -5,4 +5,7 @@ scripts/mf-verify.json
 scripts/menus.json
 scripts/menu-update-result.json
 scripts/delete-*-result.json
+scripts/delete-page-*.json
+scripts/delete-theme-files-vars.json
+scripts/update-main-menu-vars.json
 scripts/burger-pages.json
