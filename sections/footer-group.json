@@ -24,12 +24,12 @@
             "link_2": "shopify://pages/custom-meal-plans",
             "label_3": "Private chef experience",
             "link_3": "shopify://pages/private-chef-experience",
-            "label_4": "Burgers",
-            "link_4": "shopify://pages/burgers",
-            "label_5": "FAQs",
-            "link_5": "shopify://pages/faqs",
-            "label_6": "Contact us",
-            "link_6": "shopify://pages/contact"
+            "label_4": "FAQs",
+            "link_4": "shopify://pages/faqs",
+            "label_5": "Contact us",
+            "link_5": "shopify://pages/contact",
+            "label_6": "",
+            "link_6": ""
           }
         },
         "contact": {
