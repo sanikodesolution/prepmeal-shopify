@@ -1,4 +1,8 @@
-# Local API dumps from metafield rename scripts (not source)
+# Local API dumps / one-off Admin script outputs (not source)
 scripts/mf-ids.json
 scripts/mf-rename-result.json
 scripts/mf-verify.json
+scripts/menus.json
+scripts/menu-update-result.json
+scripts/delete-*-result.json
+scripts/burger-pages.json

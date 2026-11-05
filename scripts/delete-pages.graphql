@@ -1,0 +1,9 @@
+mutation pageDelete($id: ID!) {
+  pageDelete(id: $id) {
+    deletedPageId
+    userErrors {
+      field
+      message
+    }
+  }
+}

@@ -1,0 +1,30 @@
+query {
+  menus(first: 20) {
+    nodes {
+      id
+      handle
+      title
+      items {
+        id
+        title
+        url
+        type
+        resourceId
+        items {
+          id
+          title
+          url
+          type
+          resourceId
+          items {
+            id
+            title
+            url
+            type
+            resourceId
+          }
+        }
+      }
+    }
+  }
+}
