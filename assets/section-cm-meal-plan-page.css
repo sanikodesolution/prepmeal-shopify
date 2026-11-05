@@ -20,7 +20,14 @@
  .mph__facts { display: flex; flex-wrap: wrap; gap: 1.25rem 2.5rem; margin: 2rem 0; padding: 1.25rem 0; border-block: 1px solid rgba(21,37,28,.25); }
  .mph__facts dt { opacity: .8; font-weight: 600; }
  .mph__facts dd { margin: .25rem 0 0; font-family: var(--mph-display); line-height: 1.15; }
- .mph__actions { display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; }
+ .mph__actions { display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; position: relative; z-index: 2; }
+ /* Keep Theme Editor focus / in-page anchors below the sticky header */
+ .mph__actions,
+ .mph__btn-wrap,
+ .mph__actions .pm {
+   scroll-margin-top: calc(var(--header-height, 8rem) + 1.5rem);
+ }
+ .mph__btn-wrap { display: inline-flex; flex: 0 0 auto; position: relative; z-index: 2; }
  .mph__actions .pm { flex: 0 0 auto; font-size: 1.6rem; }
  .mph__btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.4rem; padding: 0 1.75rem; border-radius: 999px; font-family: var(--mph-body); font-weight: 600; line-height: 1.2; letter-spacing: 0; text-decoration: none; border: 1.5px solid var(--mph-forest); transition: background-color .25s, color .25s, transform .25s; }
  .mph__btn--primary,

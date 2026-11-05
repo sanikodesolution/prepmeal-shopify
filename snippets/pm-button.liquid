@@ -9,6 +9,7 @@
   - tag: {String} 'a' (default) or 'button'
   - type: {String} Button type when tag is 'button' (default: 'button')
   - attributes: {String} Extra HTML attributes (e.g. data-gc-add)
+  - css: {String} Inline style / CSS variables (e.g. --pm-bg:#fff;font-size:16px)
 {%- endcomment -%}
 {{ 'component-pm-button.css' | asset_url | stylesheet_tag }}
 {%- liquid
@@ -52,6 +53,9 @@
   <button
     type="{{ pm_type }}"
     class="{{ pm_class }}{% if class != blank %} {{ class }}{% endif %}"
+    {% if css != blank %}
+      style="{{ css }}"
+    {% endif %}
     {% if hidden %}
       hidden
     {% endif %}
@@ -67,6 +71,9 @@
       role="link" aria-disabled="true"
     {% endif %}
     class="{{ pm_class }}{% if class != blank %} {{ class }}{% endif %}"
+    {% if css != blank %}
+      style="{{ css }}"
+    {% endif %}
     {% if hidden %}
       hidden
     {% endif %}

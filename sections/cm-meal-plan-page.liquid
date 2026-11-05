@@ -897,9 +897,29 @@
           {%- if hero_button_blocks.size > 0 -%}
             {%- for block in hero_button_blocks -%}
               {%- if block.settings.label != blank -%}
-                {%- assign mph_btn_link = block.settings.link | default: '#menu' -%}
-                {%- assign mph_btn_style = block.settings.style | default: 'light' -%}
-                {% render 'pm-button', label: block.settings.label, link: mph_btn_link, style: mph_btn_style, attributes: block.shopify_attributes %}
+                {%- liquid
+                  assign mph_btn_link = block.settings.link | default: '#menu'
+                  assign mph_btn_style = block.settings.style | default: 'light'
+                  assign mph_btn_css = ''
+                  if block.settings.bg_color != blank
+                    assign mph_btn_css = mph_btn_css | append: '--pm-bg:' | append: block.settings.bg_color | append: ';'
+                  endif
+                  if block.settings.text_color != blank
+                    assign mph_btn_css = mph_btn_css | append: '--pm-text:' | append: block.settings.text_color | append: ';--pm-accent-text:' | append: block.settings.text_color | append: ';'
+                  endif
+                  if block.settings.icon_bg != blank
+                    assign mph_btn_css = mph_btn_css | append: '--pm-icon-bg:' | append: block.settings.icon_bg | append: ';'
+                  endif
+                  if block.settings.icon_color != blank
+                    assign mph_btn_css = mph_btn_css | append: '--pm-icon-text:' | append: block.settings.icon_color | append: ';'
+                  endif
+                  if block.settings.font_size != blank
+                    assign mph_btn_css = mph_btn_css | append: 'font-size:' | append: block.settings.font_size | append: 'px;'
+                  endif
+                -%}
+                <span class="mph__btn-wrap" {{ block.shopify_attributes }}>
+                  {% render 'pm-button', label: block.settings.label, link: mph_btn_link, style: mph_btn_style, css: mph_btn_css %}
+                </span>
               {%- endif -%}
             {%- endfor -%}
           {%- else -%}
@@ -1600,15 +1620,21 @@
       "name": "Hero button",
       "limit": 2,
       "settings": [
-        { "type": "paragraph", "content": "Edit this button on this page — label, link, and style. Click the button in the preview to open these fields." },
+        { "type": "paragraph", "content": "Edit this button on this page. Click the button in the preview to open these fields." },
         { "type": "text", "id": "label", "label": "Label", "default": "Build my 6 meals" },
         { "type": "url", "id": "link", "label": "Link" },
-        { "type": "select", "id": "style", "label": "Style", "options": [
+        { "type": "select", "id": "style", "label": "Style preset", "info": "Base look. Colors below override the preset when set.", "options": [
           { "value": "light", "label": "Light (white)" },
           { "value": "brand", "label": "Brand (orange)" },
           { "value": "ink", "label": "Ink" },
           { "value": "outline", "label": "Outline" }
-        ], "default": "light" }
+        ], "default": "light" },
+        { "type": "header", "content": "Colors & type" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "color", "id": "bg_color", "label": "Background color" },
+        { "type": "color", "id": "icon_bg", "label": "Icon background" },
+        { "type": "color", "id": "icon_color", "label": "Icon color" },
+        { "type": "range", "id": "font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 }
       ]
     },
     {
