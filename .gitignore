@@ -18,3 +18,10 @@ scripts/delete-dark-result.json
 scripts/delete-light-result.json
 scripts/menu-update-result.json
 scripts/menus.json
+scripts/menu-rename-result.json
+scripts/page-rename-result.json
+scripts/page-update-vars.json
+scripts/page-update.graphql
+scripts/private-chef-pages.json
+scripts/query-private-chef-page.graphql
+scripts/meal-plans-1-30-missing.csv
