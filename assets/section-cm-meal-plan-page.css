@@ -29,6 +29,7 @@
  }
  .mph__btn-wrap { display: inline-flex; flex: 0 0 auto; position: relative; z-index: 2; }
  .mph__actions .pm { flex: 0 0 auto; font-size: 1.6rem; }
+ #menu { scroll-margin-top: calc(var(--header-height, 8rem) + 1.5rem); }
  .mph__btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.4rem; padding: 0 1.75rem; border-radius: 999px; font-family: var(--mph-body); font-weight: 600; line-height: 1.2; letter-spacing: 0; text-decoration: none; border: 1.5px solid var(--mph-forest); transition: background-color .25s, color .25s, transform .25s; }
  .mph__btn--primary,
  .mph__btn--ghost {}
