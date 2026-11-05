@@ -1,0 +1,24 @@
+THEME-WIDE BUTTON STYLE — paste into section/block schema after button label + link.
+
+Single button:
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 }
+
+Render:
+{% render 'pm-button',
+  label: section.settings.button_label,
+  link: section.settings.button_link,
+  style: 'brand',
+  text_color: section.settings.button_text_color,
+  bg_color: section.settings.button_bg_color,
+  icon_bg: section.settings.button_icon_bg,
+  icon_color: section.settings.button_icon_color,
+  font_size: section.settings.button_font_size
+%}
+
+Two buttons: use button_text_color_2 / button_bg_color_2 / button_icon_bg_2 / button_icon_color_2 / button_font_size_2
+(or button_text_1 pattern on image-banner).
