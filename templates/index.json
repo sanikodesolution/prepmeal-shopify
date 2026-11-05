@@ -38,11 +38,11 @@
           "settings": {
             "button_label_1": "Order your meal plan",
             "button_link_1": "shopify://collections/meal-plans",
-            "button_style_secondary_1": false,
+            "button_style_secondary_1": true,
             "button_animated_1": true,
             "button_label_2": "How it works",
             "button_link_2": "shopify://pages/how-it-works",
-            "button_style_secondary_2": false,
+            "button_style_secondary_2": true,
             "button_animated_2": true
           }
         }
@@ -501,8 +501,192 @@
         "text": "<p>A new menu every week, cooked by Chef Matt. Choose the plates you want and we bring them to your door.</p>",
         "button_label": "Shop now",
         "button_link": "shopify://collections/meal-plans",
+        "bg": "#20100c",
         "text_color": "#fffaf3",
         "accent": "#f5a623"
+      }
+    },
+    "featured_product_F3HaEM": {
+      "type": "cm-product-details",
+      "blocks": {
+        "dish_1": {
+          "type": "dish",
+          "settings": {
+            "name": "Chicken Biryani with Raita",
+            "image_asset": "mp-food-0.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_2": {
+          "type": "dish",
+          "settings": {
+            "name": "Tandoori Chicken Leg with Veg Jalfrezi",
+            "image_asset": "mp-food-1.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_3": {
+          "type": "dish",
+          "settings": {
+            "name": "Butter Chicken with Aloo Methi",
+            "image_asset": "mp-food-2.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_4": {
+          "type": "dish",
+          "settings": {
+            "name": "Coconut Fish Curry with Jeera Aloo",
+            "image_asset": "mp-food-3.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_5": {
+          "type": "dish",
+          "settings": {
+            "name": "Lamb Korma with Green Salad",
+            "image_asset": "mp-food-4.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_6": {
+          "type": "dish",
+          "settings": {
+            "name": "Chana Masala with Jeera Aloo",
+            "image_asset": "mp-food-5.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_7": {
+          "type": "dish",
+          "settings": {
+            "name": "Palak Paneer with Aloo Gobi",
+            "image_asset": "mp-food-6.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_8": {
+          "type": "dish",
+          "settings": {
+            "name": "Dal Makhani with Bhindi Masala",
+            "image_asset": "mp-food-7.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_9": {
+          "type": "dish",
+          "settings": {
+            "name": "Malai Kofta with Rajma",
+            "image_asset": "mp-food-8.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "dish_10": {
+          "type": "dish",
+          "settings": {
+            "name": "Baingan Bharta with Rajma Masala",
+            "image_asset": "mp-food-9.jpg",
+            "description": "",
+            "cal": "",
+            "protein": "",
+            "carbs": "",
+            "fat": ""
+          }
+        },
+        "acc_1": {
+          "type": "accordion",
+          "settings": {
+            "title": "What's included",
+            "text": "<p>Main dish, sides, basmati rice and 2 roti. Packed fresh in a microwave-safe tray.</p>",
+            "open": true
+          }
+        },
+        "acc_2": {
+          "type": "accordion",
+          "settings": {
+            "title": "Reheating",
+            "text": "<p>Microwave for 2 to 3 minutes, stir halfway, and enjoy.</p>",
+            "open": false
+          }
+        },
+        "acc_3": {
+          "type": "accordion",
+          "settings": {
+            "title": "Storage & allergens",
+            "text": "<p>Keep refrigerated and eat within 5 days. Check the label for allergens.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "dish_1",
+        "dish_2",
+        "dish_3",
+        "dish_4",
+        "dish_5",
+        "dish_6",
+        "dish_7",
+        "dish_8",
+        "dish_9",
+        "dish_10",
+        "acc_1",
+        "acc_2",
+        "acc_3"
+      ],
+      "settings": {
+        "product": "5-meals",
+        "product_10": "10-meals",
+        "product_custom": "",
+        "eyebrow": "Chef cooked, fresh weekly",
+        "heading": "Chicken Biryani with Raita",
+        "badge": "Fresh • Chef cooked • Never frozen •",
+        "text": "Fragrant basmati rice layered with tender spiced chicken, served with cooling raita. Cooked fresh by our chefs, packed the same day and ready in minutes.",
+        "chip_1": "Fresh, never frozen",
+        "chip_2": "Ready in 3 minutes",
+        "chip_3": "Chef cooked",
+        "note": "Free delivery on weekly plans over $60",
+        "custom_label": "Custom Meal",
+        "custom_heading": "Build your custom meal",
+        "cal": "540",
+        "protein": "42g",
+        "carbs": "48g",
+        "fat": "16g"
       }
     },
     "featured_collection1": {
@@ -774,138 +958,6 @@
         "plate_tr_alt": "Chef prepared meal",
         "plate_bl_alt": "Chicken and vegetables plate",
         "plate_br_alt": "Salad bowl"
-      }
-    },
-    "featured_product_F3HaEM": {
-      "type": "cm-product-details",
-      "blocks": {
-        "dish_1": {
-          "type": "dish",
-          "settings": {
-            "name": "Chicken Biryani with Raita",
-            "image_asset": "mp-food-0.jpg"
-          }
-        },
-        "dish_2": {
-          "type": "dish",
-          "settings": {
-            "name": "Tandoori Chicken Leg with Veg Jalfrezi",
-            "image_asset": "mp-food-1.jpg"
-          }
-        },
-        "dish_3": {
-          "type": "dish",
-          "settings": {
-            "name": "Butter Chicken with Aloo Methi",
-            "image_asset": "mp-food-2.jpg"
-          }
-        },
-        "dish_4": {
-          "type": "dish",
-          "settings": {
-            "name": "Coconut Fish Curry with Jeera Aloo",
-            "image_asset": "mp-food-3.jpg"
-          }
-        },
-        "dish_5": {
-          "type": "dish",
-          "settings": {
-            "name": "Lamb Korma with Green Salad",
-            "image_asset": "mp-food-4.jpg"
-          }
-        },
-        "dish_6": {
-          "type": "dish",
-          "settings": {
-            "name": "Chana Masala with Jeera Aloo",
-            "image_asset": "mp-food-5.jpg"
-          }
-        },
-        "dish_7": {
-          "type": "dish",
-          "settings": {
-            "name": "Palak Paneer with Aloo Gobi",
-            "image_asset": "mp-food-6.jpg"
-          }
-        },
-        "dish_8": {
-          "type": "dish",
-          "settings": {
-            "name": "Dal Makhani with Bhindi Masala",
-            "image_asset": "mp-food-7.jpg"
-          }
-        },
-        "dish_9": {
-          "type": "dish",
-          "settings": {
-            "name": "Malai Kofta with Rajma",
-            "image_asset": "mp-food-8.jpg"
-          }
-        },
-        "dish_10": {
-          "type": "dish",
-          "settings": {
-            "name": "Baingan Bharta with Rajma Masala",
-            "image_asset": "mp-food-9.jpg"
-          }
-        },
-        "acc_1": {
-          "type": "accordion",
-          "settings": {
-            "title": "What's included",
-            "text": "<p>Main dish, sides, basmati rice and 2 roti. Packed fresh in a microwave-safe tray.</p>",
-            "open": true
-          }
-        },
-        "acc_2": {
-          "type": "accordion",
-          "settings": {
-            "title": "Reheating",
-            "text": "<p>Microwave for 2 to 3 minutes, stir halfway, and enjoy.</p>",
-            "open": false
-          }
-        },
-        "acc_3": {
-          "type": "accordion",
-          "settings": {
-            "title": "Storage & allergens",
-            "text": "<p>Keep refrigerated and eat within 5 days. Check the label for allergens.</p>",
-            "open": false
-          }
-        }
-      },
-      "block_order": [
-        "dish_1",
-        "dish_2",
-        "dish_3",
-        "dish_4",
-        "dish_5",
-        "dish_6",
-        "dish_7",
-        "dish_8",
-        "dish_9",
-        "dish_10",
-        "acc_1",
-        "acc_2",
-        "acc_3"
-      ],
-      "settings": {
-        "product": "5-meals",
-        "product_10": "10-meals",
-        "eyebrow": "Chef cooked, fresh weekly",
-        "heading": "Chicken Biryani with Raita",
-        "badge": "Fresh • Chef cooked • Never frozen • ",
-        "text": "Fragrant basmati rice layered with tender spiced chicken, served with cooling raita. Cooked fresh by our chefs, packed the same day and ready in minutes.",
-        "chip_1": "Fresh, never frozen",
-        "chip_2": "Ready in 3 minutes",
-        "chip_3": "Chef cooked",
-        "note": "Free delivery on weekly plans over $60",
-        "custom_label": "Custom Meal",
-        "custom_heading": "Build your custom meal",
-        "cal": "540",
-        "protein": "42g",
-        "carbs": "48g",
-        "fat": "16g"
       }
     }
   },
