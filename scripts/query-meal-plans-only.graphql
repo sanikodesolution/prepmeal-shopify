@@ -1,0 +1,28 @@
+query {
+  products(first: 50, query: "title:*Meal Plan*") {
+    nodes {
+      id
+      title
+      handle
+      totalInventory
+      tracksInventory
+      variants(first: 50) {
+        nodes {
+          id
+          title
+          inventoryQuantity
+          inventoryItem {
+            id
+            tracked
+          }
+        }
+      }
+    }
+  }
+  locations(first: 5) {
+    nodes {
+      id
+      name
+    }
+  }
+}

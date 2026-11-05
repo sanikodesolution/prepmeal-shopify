@@ -9,3 +9,12 @@ scripts/delete-page-*.json
 scripts/delete-theme-files-vars.json
 scripts/update-main-menu-vars.json
 scripts/burger-pages.json
+scripts/_tmp-*.graphql
+scripts/_tmp-*.json
+scripts/meal-products.json
+scripts/meal-products-verify.json
+scripts/inventory-plan.json
+scripts/delete-dark-result.json
+scripts/delete-light-result.json
+scripts/menu-update-result.json
+scripts/menus.json
