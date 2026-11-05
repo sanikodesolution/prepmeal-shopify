@@ -348,6 +348,7 @@
           {% else %}
             href="{{ routes.all_products_collection_url }}"
           {% endif %}
+          style="{% if section.settings.order_color != blank %}--cmh-order:{{ section.settings.order_color }};{% endif %}{% if section.settings.order_text_color != blank %}color:{{ section.settings.order_text_color }};{% endif %}{% if section.settings.order_font_size != blank %}font-size:{{ section.settings.order_font_size }}px;{% endif %}"
         >
           {{- section.settings.order_label | escape -}}
         </a>
@@ -697,8 +698,23 @@
     {
       "type": "color",
       "id": "order_color",
-      "label": "Order button color",
+      "label": "Order button background",
       "default": "#f5a623"
+    },
+    {
+      "type": "color",
+      "id": "order_text_color",
+      "label": "Order button text color"
+    },
+    {
+      "type": "range",
+      "id": "order_font_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Order button font size",
+      "default": 13
     },
     {
       "type": "header",

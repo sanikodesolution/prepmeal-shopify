@@ -35,14 +35,30 @@
       {%- if section.settings.button_label != blank or section.settings.secondary_label != blank -%}
         <div class="prep-hero__actions">
           {%- if section.settings.button_label != blank -%}
-            <a class="prep__btn" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
-              {{ section.settings.button_label | escape }}
-            </a>
+            {%- assign prep_btn_link = section.settings.button_link | default: routes.all_products_collection_url -%}
+            {% render 'pm-button',
+              label: section.settings.button_label,
+              link: prep_btn_link,
+              style: 'brand',
+              text_color: section.settings.button_text_color,
+              bg_color: section.settings.button_bg_color,
+              icon_bg: section.settings.button_icon_bg,
+              icon_color: section.settings.button_icon_color,
+              font_size: section.settings.button_font_size
+            %}
           {%- endif -%}
           {%- if section.settings.secondary_label != blank -%}
-            <a class="prep__btn prep__btn--ghost" href="{{ section.settings.secondary_link | default: '#' }}">
-              {{ section.settings.secondary_label | escape }}
-            </a>
+            {%- assign prep_btn_link_2 = section.settings.secondary_link | default: '#' -%}
+            {% render 'pm-button',
+              label: section.settings.secondary_label,
+              link: prep_btn_link_2,
+              style: 'outline',
+              text_color: section.settings.button_text_color_2,
+              bg_color: section.settings.button_bg_color_2,
+              icon_bg: section.settings.button_icon_bg_2,
+              icon_color: section.settings.button_icon_color_2,
+              font_size: section.settings.button_font_size_2
+            %}
           {%- endif -%}
         </div>
       {%- endif -%}
@@ -84,6 +100,12 @@
       "id": "button_link",
       "label": "Primary button link"
     },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     {
       "type": "text",
       "id": "secondary_label",
@@ -95,6 +117,12 @@
       "id": "secondary_link",
       "label": "Secondary button link"
     },
+    { "type": "header", "content": "Button 2 style" },
+    { "type": "color", "id": "button_text_color_2", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color_2", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg_2", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color_2", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size_2", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     {
       "type": "range",
       "id": "min_height",

@@ -47,7 +47,7 @@
         <div class="tw__text">{{ s.text }}</div>
       {%- endif -%}
       {%- if s.button_label != blank -%}
-        {% render 'pm-button', label: s.button_label, link: s.button_link, style: 'light' %}
+        {% render 'pm-button', label: s.button_label, link: s.button_link, style: 'light', text_color: s.button_text_color, bg_color: s.button_bg_color, icon_bg: s.button_icon_bg, icon_color: s.button_icon_color, font_size: s.button_font_size %}
       {%- endif -%}
     </div>
   </div>
@@ -66,6 +66,12 @@
     { "type": "richtext", "id": "text", "label": "Text", "default": "<p>A new menu every week, cooked by Chef Matt. Choose the plates you want and we bring them to your door.</p>" },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
     { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "color", "id": "bg", "label": "Background", "default": "#20100c" },
     { "type": "color", "id": "text_color", "label": "Text", "default": "#fdf3e7" },
     { "type": "color", "id": "accent", "label": "Accent", "default": "#f5a623" }

@@ -38,10 +38,18 @@
       {%- endif -%}
 
       {%- if section.settings.button_label != blank -%}
-        <a class="food-btn food-hero__btn" href="{{ section.settings.button_link | default: '#food-menu' }}">
-          <span>{{ section.settings.button_label | escape }}</span>
-          <span class="food-btn__icon">{%- render 'food-icon', icon: 'arrow' -%}</span>
-        </a>
+        {%- assign food_btn_link = section.settings.button_link | default: '#food-menu' -%}
+        {% render 'pm-button',
+          label: section.settings.button_label,
+          link: food_btn_link,
+          style: 'brand',
+          class: 'food-hero__btn',
+          text_color: section.settings.button_text_color,
+          bg_color: section.settings.button_bg_color,
+          icon_bg: section.settings.button_icon_bg,
+          icon_color: section.settings.button_icon_color,
+          font_size: section.settings.button_font_size
+        %}
       {%- endif -%}
 
       {%- if section.settings.proof_text != blank or avatars.size > 0 -%}
@@ -145,6 +153,12 @@
     },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore burgers" },
     { "type": "url", "id": "button_link", "label": "Button link", "info": "Empty scrolls to the menu section on this page." },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "header", "content": "Social proof" },
     { "type": "text", "id": "proof_text", "label": "Text", "default": "4.8k+ Happy Customers" },
     { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "label": "Stars", "default": 5 },

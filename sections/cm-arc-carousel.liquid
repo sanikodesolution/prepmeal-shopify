@@ -118,7 +118,12 @@
                 link: '#',
                 style: 'light',
                 class: 'cm-arc__btn',
-                hidden: true
+                hidden: true,
+                text_color: section.settings.button_text_color,
+                bg_color: section.settings.button_bg_color,
+                icon_bg: section.settings.button_icon_bg,
+                icon_color: section.settings.button_icon_color,
+                font_size: section.settings.button_font_size
               %}
             {%- endif -%}
             {%- if section.settings.button_label_2 != blank -%}
@@ -126,7 +131,12 @@
                 label: section.settings.button_label_2,
                 link: section.settings.button_link_2,
                 style: 'brand',
-                class: 'cm-arc__btn-2'
+                class: 'cm-arc__btn-2',
+                text_color: section.settings.button_text_color_2,
+                bg_color: section.settings.button_bg_color_2,
+                icon_bg: section.settings.button_icon_bg_2,
+                icon_color: section.settings.button_icon_color_2,
+                font_size: section.settings.button_font_size_2
               %}
             {%- endif -%}
           </div>
@@ -210,8 +220,20 @@
     },
     { "type": "range", "id": "products_limit", "min": 3, "max": 20, "step": 1, "label": "Products to show", "default": 9 },
     { "type": "text", "id": "button_label", "label": "Primary button (white)", "default": "Shop now" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "text", "id": "button_label_2", "label": "Secondary button (theme)", "default": "How it works" },
     { "type": "url", "id": "button_link_2", "label": "Secondary button link" },
+    { "type": "header", "content": "Button 2 style" },
+    { "type": "color", "id": "button_text_color_2", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color_2", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg_2", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color_2", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size_2", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     {
       "type": "header",
       "content": "Carousel"

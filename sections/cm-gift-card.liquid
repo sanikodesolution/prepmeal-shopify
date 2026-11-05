@@ -185,7 +185,12 @@
           tag: 'button',
           type: 'submit',
           class: 'cm-gc__cta',
-          attributes: 'data-gc-add'
+          attributes: 'data-gc-add',
+          text_color: section.settings.button_text_color,
+          bg_color: section.settings.button_bg_color,
+          icon_bg: section.settings.button_icon_bg,
+          icon_color: section.settings.button_icon_color,
+          font_size: section.settings.button_font_size
         %}
       </form>
 
@@ -386,7 +391,12 @@
               style: 'brand',
               tag: 'button',
               type: 'submit',
-              class: 'cm-gc__cta'
+              class: 'cm-gc__cta',
+              text_color: section.settings.review_button_text_color,
+              bg_color: section.settings.review_button_bg_color,
+              icon_bg: section.settings.review_button_icon_bg,
+              icon_color: section.settings.review_button_icon_color,
+              font_size: section.settings.review_button_font_size
             %}
           </form>
         {%- endif -%}
@@ -500,6 +510,12 @@
     { "type": "text", "id": "message_label", "label": "Message label", "default": "Message" },
     { "type": "text", "id": "message_placeholder", "label": "Message placeholder", "default": "Happy birthday! Dinner is on me this week." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Add gift card to cart" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "text", "id": "added_text", "label": "Added message", "default": "gift card added to your cart" },
     { "type": "text", "id": "unavailable_text", "label": "Unavailable message", "default": "Gift cards are coming soon." },
     { "type": "text", "id": "fine_print", "label": "Fine print", "default": "Secure checkout. Delivered by email, so it arrives in minutes." },
@@ -543,6 +559,12 @@
       "default": "Up to 3 images, 5 MB each (JPG, PNG, WebP)"
     },
     { "type": "text", "id": "review_button_label", "label": "Submit button", "default": "Post review" },
+    { "type": "header", "content": "Button 2 style" },
+    { "type": "color", "id": "review_button_text_color", "label": "Text color" },
+    { "type": "color", "id": "review_button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "review_button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "review_button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "review_button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     {
       "type": "text",
       "id": "review_thanks",

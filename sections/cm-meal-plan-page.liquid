@@ -900,36 +900,20 @@
                 {%- liquid
                   assign mph_btn_link = block.settings.link | default: '#menu'
                   assign mph_btn_style = block.settings.style | default: 'light'
-                  assign mph_btn_css = ''
-                  if block.settings.bg_color != blank
-                    assign mph_btn_css = mph_btn_css | append: '--pm-bg:' | append: block.settings.bg_color | append: ';'
-                  endif
-                  if block.settings.text_color != blank
-                    assign mph_btn_css = mph_btn_css | append: '--pm-text:' | append: block.settings.text_color | append: ';--pm-accent-text:' | append: block.settings.text_color | append: ';'
-                  endif
-                  if block.settings.icon_bg != blank
-                    assign mph_btn_css = mph_btn_css | append: '--pm-icon-bg:' | append: block.settings.icon_bg | append: ';'
-                  endif
-                  if block.settings.icon_color != blank
-                    assign mph_btn_css = mph_btn_css | append: '--pm-icon-text:' | append: block.settings.icon_color | append: ';'
-                  endif
-                  if block.settings.font_size != blank
-                    assign mph_btn_css = mph_btn_css | append: 'font-size:' | append: block.settings.font_size | append: 'px;'
-                  endif
                 -%}
                 <span class="mph__btn-wrap" {{ block.shopify_attributes }}>
-                  {% render 'pm-button', label: block.settings.label, link: mph_btn_link, style: mph_btn_style, css: mph_btn_css %}
+                  {% render 'pm-button', label: block.settings.label, link: mph_btn_link, style: mph_btn_style, text_color: block.settings.text_color, bg_color: block.settings.bg_color, icon_bg: block.settings.icon_bg, icon_color: block.settings.icon_color, font_size: block.settings.font_size %}
                 </span>
               {%- endif -%}
             {%- endfor -%}
           {%- else -%}
             {%- if c_button_label != blank -%}
               {%- assign mph_link = section.settings.button_link | default: '#menu' -%}
-              {% render 'pm-button', label: c_button_label, link: mph_link, style: 'light' %}
+              {% render 'pm-button', label: c_button_label, link: mph_link, style: 'light', text_color: section.settings.button_text_color, bg_color: section.settings.button_bg_color, icon_bg: section.settings.button_icon_bg, icon_color: section.settings.button_icon_color, font_size: section.settings.button_font_size %}
             {%- endif -%}
             {%- if c_button_label_2 != blank -%}
               {%- assign mph_link_2 = section.settings.button_link_2 | default: '#menu' -%}
-              {% render 'pm-button', label: c_button_label_2, link: mph_link_2, style: 'brand' %}
+              {% render 'pm-button', label: c_button_label_2, link: mph_link_2, style: 'brand', text_color: section.settings.button_text_color_2, bg_color: section.settings.button_bg_color_2, icon_bg: section.settings.button_icon_bg_2, icon_color: section.settings.button_icon_color_2, font_size: section.settings.button_font_size_2 %}
             {%- endif -%}
           {%- endif -%}
         </div>
@@ -1212,7 +1196,7 @@
               {%- endif -%}
               {%- if section.settings.delivery_button_label != blank -%}
                 {%- assign delivery_link = section.settings.delivery_button_link | default: '#' -%}
-                {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand' %}
+                {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand', text_color: section.settings.delivery_button_text_color, bg_color: section.settings.delivery_button_bg_color, icon_bg: section.settings.delivery_button_icon_bg, icon_color: section.settings.delivery_button_icon_color, font_size: section.settings.delivery_button_font_size %}
               {%- endif -%}
             </div>
           </div>
@@ -1379,7 +1363,32 @@
         <h2 class="mealplan-h">{{ c_cta_heading | escape }}</h2>
         <p class="mealplan-p">{{ c_cta_text | escape }}</p>
         {%- if c_cta_button_label != blank -%}
-          <a class="mealplan-btn mealplan-btn--solid" href="{{ c_cta_button_link | default: '#' }}">{{ c_cta_button_label | escape }}</a>
+          {%- liquid
+            assign cta_btn_link = c_cta_button_link | default: '#'
+            assign cta_text_color = section.settings.cta_button_text_color
+            assign cta_bg_color = section.settings.cta_button_bg_color
+            assign cta_icon_bg = section.settings.cta_button_icon_bg
+            assign cta_icon_color = section.settings.cta_button_icon_color
+            assign cta_font_size = section.settings.cta_button_font_size
+            if area_cta != blank
+              if area_cta.settings.button_text_color != blank
+                assign cta_text_color = area_cta.settings.button_text_color
+              endif
+              if area_cta.settings.button_bg_color != blank
+                assign cta_bg_color = area_cta.settings.button_bg_color
+              endif
+              if area_cta.settings.button_icon_bg != blank
+                assign cta_icon_bg = area_cta.settings.button_icon_bg
+              endif
+              if area_cta.settings.button_icon_color != blank
+                assign cta_icon_color = area_cta.settings.button_icon_color
+              endif
+              if area_cta.settings.button_font_size != blank
+                assign cta_font_size = area_cta.settings.button_font_size
+              endif
+            endif
+          -%}
+          {% render 'pm-button', label: c_cta_button_label, link: cta_btn_link, style: 'brand', text_color: cta_text_color, bg_color: cta_bg_color, icon_bg: cta_icon_bg, icon_color: cta_icon_color, font_size: cta_font_size %}
         {%- endif -%}
       </div>
     </div></div></section>
@@ -1411,8 +1420,20 @@
     { "type": "text", "id": "fact_3_value", "label": "Fact 3 value", "default": "10+ options" },
     { "type": "text", "id": "button_label", "label": "Primary button", "default": "Build my 5 meals" },
     { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "text", "id": "button_label_2", "label": "Secondary button", "default": "View this week's menu" },
     { "type": "url", "id": "button_link_2", "label": "Secondary button link" },
+    { "type": "header", "content": "Button 2 style" },
+    { "type": "color", "id": "button_text_color_2", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color_2", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg_2", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color_2", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size_2", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "image_picker", "id": "hero_image_1", "label": "Hero image (main)" },
     { "type": "text", "id": "hero_image_1_alt", "label": "Hero image 1 alt", "default": "Chimichurri Steak" },
     { "type": "image_picker", "id": "hero_image_2", "label": "Hero image (secondary)" },
@@ -1521,6 +1542,12 @@
     { "type": "text", "id": "delivery_areas", "label": "Areas (plain block only)", "info": "Comma-separated. Used when the checker is off.", "default": "Hartland, Nearby areas" },
     { "type": "text", "id": "delivery_button_label", "label": "Button label (plain block only)", "default": "Check my area" },
     { "type": "url", "id": "delivery_button_link", "label": "Button link (plain block only)" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "delivery_button_text_color", "label": "Text color" },
+    { "type": "color", "id": "delivery_button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "delivery_button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "delivery_button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "delivery_button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "text", "id": "map_title", "label": "Map label (plain block only)", "default": "Richmond Station � Toronto, Canada" },
     { "type": "text", "id": "map_query", "label": "Google Maps search (plain block only)", "default": "Richmond Station Toronto Ontario Canada", "info": "Used when Embed URL is empty." },
     { "type": "text", "id": "map_embed_url", "label": "Google Maps embed URL (plain block only)", "info": "Optional. Paste full embed src from Google Maps ? Share ? Embed a map." },
@@ -1587,6 +1614,12 @@
     { "type": "textarea", "id": "cta_text", "label": "CTA text", "default": "Five chef-prepared meals, delivered. Choose yours and we handle the rest." },
     { "type": "text", "id": "cta_button_label", "label": "CTA button", "default": "Build my meal plan" },
     { "type": "url", "id": "cta_button_link", "label": "CTA button link" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "cta_button_text_color", "label": "Text color" },
+    { "type": "color", "id": "cta_button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "cta_button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "cta_button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "cta_button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "image_picker", "id": "cta_image", "label": "CTA background image" },
 
     { "type": "header", "content": "Padding" },
@@ -1745,6 +1778,12 @@
         { "type": "textarea", "id": "text", "label": "Text", "default": "Six chef-prepared meals, delivered. Choose yours and we handle the rest." },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Build my 6 meal plan" },
         { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "header", "content": "Button style" },
+        { "type": "color", "id": "button_text_color", "label": "Text color" },
+        { "type": "color", "id": "button_bg_color", "label": "Background color" },
+        { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+        { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+        { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
         { "type": "image_picker", "id": "image", "label": "Background image" }
       ]
     },

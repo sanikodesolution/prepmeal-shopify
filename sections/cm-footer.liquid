@@ -68,7 +68,12 @@
               label: section.settings.cta_button_label,
               link: section.settings.cta_button_link,
               style: 'ink',
-              class: 'cm-footer__pm'
+              class: 'cm-footer__pm',
+              text_color: section.settings.cta_button_text_color,
+              bg_color: section.settings.cta_button_bg_color,
+              icon_bg: section.settings.cta_button_icon_bg,
+              icon_color: section.settings.cta_button_icon_color,
+              font_size: section.settings.cta_button_font_size
             %}
           {%- endif -%}
           {%- if section.settings.cta_phone != blank -%}
@@ -383,6 +388,12 @@
     { "type": "text", "id": "promise_3", "label": "Promise 3", "default": "Local delivery" },
     { "type": "text", "id": "cta_button_label", "label": "Button label", "default": "View meal plans" },
     { "type": "url", "id": "cta_button_link", "label": "Button link" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "cta_button_text_color", "label": "Text color" },
+    { "type": "color", "id": "cta_button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "cta_button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "cta_button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "cta_button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "text", "id": "cta_phone", "label": "Phone button", "info": "Leave empty to hide the call button." },
     {
       "type": "header",

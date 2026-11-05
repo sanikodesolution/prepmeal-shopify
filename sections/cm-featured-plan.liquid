@@ -57,12 +57,18 @@
             </p>
           {%- endif -%}
           {%- if section.settings.button_label != blank -%}
-            <a class="cm-table__cta" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
-              {{ section.settings.button_label | escape }}
-              <span aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>
-              </span>
-            </a>
+            {%- assign featured_btn_link = section.settings.button_link | default: routes.all_products_collection_url -%}
+            {% render 'pm-button',
+              label: section.settings.button_label,
+              link: featured_btn_link,
+              style: 'brand',
+              class: 'cm-table__cta',
+              text_color: section.settings.button_text_color,
+              bg_color: section.settings.button_bg_color,
+              icon_bg: section.settings.button_icon_bg,
+              icon_color: section.settings.button_icon_color,
+              font_size: section.settings.button_font_size
+            %}
           {%- endif -%}
         </div>
       </div>
@@ -84,7 +90,13 @@
     { "type": "text", "id": "meta_title", "label": "Footer title", "default": "From 5 meals" },
     { "type": "text", "id": "meta_text", "label": "Footer text", "default": "No subscription. New menu every week." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "See the menu" },
-    { "type": "url", "id": "button_link", "label": "Button link" }
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 }
   ],
   "blocks": [
     {

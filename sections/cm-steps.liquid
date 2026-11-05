@@ -39,12 +39,18 @@
             <p class="cm-hiw__sub">{{ section.settings.subheading | escape }}</p>
           {%- endif -%}
           {%- if section.settings.button_label != blank -%}
-            <a
-              class="cm-hiw__cta"
-              href="{{ section.settings.button_link | default: '/collections/all' }}"
-            >
-              {{- section.settings.button_label | escape -}}
-            </a>
+            {%- assign steps_btn_link = section.settings.button_link | default: '/collections/all' -%}
+            {% render 'pm-button',
+              label: section.settings.button_label,
+              link: steps_btn_link,
+              style: 'brand',
+              class: 'cm-hiw__cta',
+              text_color: section.settings.button_text_color,
+              bg_color: section.settings.button_bg_color,
+              icon_bg: section.settings.button_icon_bg,
+              icon_color: section.settings.button_icon_color,
+              font_size: section.settings.button_font_size
+            %}
           {%- endif -%}
         </div>
 
@@ -229,6 +235,12 @@
       "id": "button_link",
       "label": "Button link"
     },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     {
       "type": "select",
       "id": "background",

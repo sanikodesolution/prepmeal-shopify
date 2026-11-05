@@ -1,15 +1,26 @@
 {%- comment -%}
-  Animated pill button.
+  Animated pill button — theme-wide shared control.
+
   Accepts:
   - label: {String} Button text
   - link: {String} Button URL (renders a disabled link when blank)
-  - style: {String} 'dark'/'brand' (theme, default), 'light', 'ink' or 'outline'
+  - style: {String} 'brand' (default), 'light', 'ink', 'outline'
   - class: {String} Extra class names
   - hidden: {Boolean} Start hidden
   - tag: {String} 'a' (default) or 'button'
   - type: {String} Button type when tag is 'button' (default: 'button')
   - attributes: {String} Extra HTML attributes (e.g. data-gc-add)
-  - css: {String} Inline style / CSS variables (e.g. --pm-bg:#fff;font-size:16px)
+  - css: {String} Extra inline CSS (merged after color params)
+  - text_color, bg_color, icon_bg, icon_color: {Color} Theme Editor overrides
+  - font_size: {Number} px font size from Theme Editor
+
+  Schema fields to add next to any button label/link (copy-paste):
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 }
 {%- endcomment -%}
 {{ 'component-pm-button.css' | asset_url | stylesheet_tag }}
 {%- liquid
@@ -28,6 +39,23 @@
   endcase
   assign pm_tag = tag | default: 'a'
   assign pm_type = type | default: 'button'
+
+  assign pm_css = css | default: ''
+  if bg_color != blank
+    assign pm_css = pm_css | append: '--pm-bg:' | append: bg_color | append: ';background-color:' | append: bg_color | append: ';'
+  endif
+  if text_color != blank
+    assign pm_css = pm_css | append: '--pm-text:' | append: text_color | append: ';--pm-accent-text:' | append: text_color | append: ';color:' | append: text_color | append: ';'
+  endif
+  if icon_bg != blank
+    assign pm_css = pm_css | append: '--pm-icon-bg:' | append: icon_bg | append: ';'
+  endif
+  if icon_color != blank
+    assign pm_css = pm_css | append: '--pm-icon-text:' | append: icon_color | append: ';'
+  endif
+  if font_size != blank
+    assign pm_css = pm_css | append: 'font-size:' | append: font_size | append: 'px;'
+  endif
 -%}
 {%- capture pm_inner -%}
   {%- if style == 'outline' -%}
@@ -53,8 +81,8 @@
   <button
     type="{{ pm_type }}"
     class="{{ pm_class }}{% if class != blank %} {{ class }}{% endif %}"
-    {% if css != blank %}
-      style="{{ css }}"
+    {% if pm_css != blank %}
+      style="{{ pm_css }}"
     {% endif %}
     {% if hidden %}
       hidden
@@ -71,8 +99,8 @@
       role="link" aria-disabled="true"
     {% endif %}
     class="{{ pm_class }}{% if class != blank %} {{ class }}{% endif %}"
-    {% if css != blank %}
-      style="{{ css }}"
+    {% if pm_css != blank %}
+      style="{{ pm_css }}"
     {% endif %}
     {% if hidden %}
       hidden
