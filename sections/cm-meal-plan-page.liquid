@@ -215,7 +215,9 @@
   if area_explore != blank
     assign area_explore_heading = area_explore.settings.heading
   endif
-  if request.design_mode and area_explore != blank
+  if area_explore_heading != blank
+    assign c_explore_heading = area_explore_heading
+  elsif request.design_mode and area_explore != blank
     assign c_explore_heading = area_explore_heading | default: plan_meta.explore_heading.value | default: shared_meta.explore_heading.value | default: section.settings.explore_heading
   else
     assign c_explore_heading = plan_meta.explore_heading.value | default: shared_meta.explore_heading.value | default: area_explore_heading | default: section.settings.explore_heading
