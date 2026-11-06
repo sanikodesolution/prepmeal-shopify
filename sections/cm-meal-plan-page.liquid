@@ -958,7 +958,7 @@
               <ul class="ben__group"{% if pass > 1 %} aria-hidden="true"{% endif %}>
                 {%- if use_benefit_blocks -%}
                   {%- for block in benefit_blocks -%}
-                    <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}>
+                    <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}{% render 'pm-area-style', block: block %}>
                       <b>{{ block.settings.title | escape }}</b>
                       <span>{{ block.settings.text | escape }}</span>
                     </li>
@@ -1084,7 +1084,8 @@
       <ol class="mealplan-list">
         {%- if step_blocks.size > 0 -%}
           {%- for block in step_blocks -%}
-            <li class="mp-gs" style="--i:{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            {%- assign step_extra = '--i:' | append: forloop.index0 | append: ';' -%}
+            <li class="mp-gs" {{ block.shopify_attributes }}{% render 'pm-area-style', block: block, extra: step_extra %}>
               <span class="mealplan-num">{{ forloop.index }}</span>
               <h3>{{ block.settings.title | escape }}</h3>
               <p>{{ block.settings.text | escape }}</p>
@@ -1227,7 +1228,7 @@
               endif
               assign fallback_index = forloop.index0 | modulo: 10
             -%}
-            <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs" {{ block.shopify_attributes }}>
+            <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs" {{ block.shopify_attributes }}{% render 'pm-area-style', block: block %}>
               {%- if review_show != '0' -%}
                 <div class="mealplan-img" style="--ar:{{ review_aspect }}">
                   {%- if review_image != blank -%}
@@ -1287,7 +1288,7 @@
       <div id="faq">
         {%- if faq_blocks.size > 0 -%}
           {%- for block in faq_blocks -%}
-            <div class="mealplan-qi" {{ block.shopify_attributes }}>
+            <div class="mealplan-qi" {{ block.shopify_attributes }}{% render 'pm-area-style', block: block %}>
               <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
                 {{ block.settings.question | escape }}<i></i>
               </button>
@@ -1392,6 +1393,7 @@
         {%- endif -%}
       </div>
     </div></div></section>
+
   </div>
 </main>
 
@@ -1440,6 +1442,29 @@
     { "type": "text", "id": "hero_image_2_alt", "label": "Hero image 2 alt", "default": "Orange Basil Salmon" },
     { "type": "text", "id": "badge_value", "label": "Badge value", "default": "10+" },
     { "type": "text", "id": "badge_label", "label": "Badge label", "default": "meal options" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" },
 
     { "type": "header", "content": "Benefits" },
     { "type": "text", "id": "ben_eyebrow", "label": "Eyebrow", "default": "Hartland's #1 meal prep chef" },
@@ -1680,7 +1705,30 @@
         { "type": "text", "id": "line_1", "label": "Line 1", "default": "6 meals." },
         { "type": "text", "id": "line_2", "label": "Line 2", "default": "1 week." },
         { "type": "text", "id": "line_3", "label": "Line 3 (outline)", "default": "Zero stress." },
-        { "type": "textarea", "id": "note", "label": "Note", "default": "Flexible menu: choose any six from 10+ options, and change your picks each week." }
+        { "type": "textarea", "id": "note", "label": "Note", "default": "Flexible menu: choose any six from 10+ options, and change your picks each week." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1693,7 +1741,30 @@
         { "type": "text", "id": "heading", "label": "Heading", "default": "This week's menu" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Featured meals from the weekly rotation. Hover or tap a meal for the details." },
         { "type": "text", "id": "button", "label": "Order button label", "default": "Order 6 meals" },
-        { "type": "text", "id": "order_title", "label": "Order panel title", "default": "6 Meal Plan" }
+        { "type": "text", "id": "order_title", "label": "Order panel title", "default": "6 Meal Plan" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1702,7 +1773,30 @@
       "limit": 1,
       "settings": [
         { "type": "paragraph", "content": "Click the explore / filter menu band in the preview to edit it here." },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Explore the full menu" }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Explore the full menu" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1713,7 +1807,30 @@
         { "type": "paragraph", "content": "Click the chef section in the preview to edit it here." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Chef Matt way" },
         { "type": "textarea", "id": "heading", "label": "Heading", "default": "40 years in the kitchen. Now cooking for you." },
-        { "type": "textarea", "id": "text", "label": "Text", "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you." }
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1723,7 +1840,30 @@
       "settings": [
         { "type": "paragraph", "content": "This folder edits Eyebrow + Heading only. To edit the numbered cards: left sidebar → Add block → Step (or click a card in the preview). Each Step block = one card." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Your week, sorted in three steps." }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Your week, sorted in three steps." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1734,7 +1874,30 @@
         { "type": "paragraph", "content": "Click the delivery section in the preview to edit it here." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "We deliver" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Fresh meals, delivered to your door." },
-        { "type": "textarea", "id": "text", "label": "Text", "default": "We deliver across Hartland and the towns around it." }
+        { "type": "textarea", "id": "text", "label": "Text", "default": "We deliver across Hartland and the towns around it." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1744,7 +1907,30 @@
       "settings": [
         { "type": "paragraph", "content": "This folder edits Eyebrow + Heading only. To edit reviews: left sidebar → Add block → Review (or click a card in the preview). Each Review block = name, rating, text, optional image." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by our customers" },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by people who love good food" }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by people who love good food" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1754,7 +1940,30 @@
       "settings": [
         { "type": "paragraph", "content": "This folder edits Eyebrow + Heading only. To edit Q&A: left sidebar → Add block → FAQ (or click a question in the preview). Each FAQ block = one question + answer." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Good to know" },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered" }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1764,7 +1973,30 @@
       "settings": [
         { "type": "paragraph", "content": "Click the related plans section in the preview to edit headings here." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "More ways to eat well" },
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Other ways to eat well" }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Other ways to eat well" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1784,7 +2016,30 @@
         { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
         { "type": "color", "id": "button_icon_color", "label": "Icon color" },
         { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
-        { "type": "image_picker", "id": "image", "label": "Background image" }
+        { "type": "image_picker", "id": "image", "label": "Background image" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1798,7 +2053,30 @@
         { "type": "textarea", "id": "intro", "label": "Intro", "default": "Calorie-counted, high-protein, low-oil meals prepared in our Hartland kitchen and delivered across Lake Country." },
         { "type": "textarea", "id": "stats", "label": "Stats (value|label per line)", "default": "45g|Protein in most meals\n40+|Years of cooking\n24oz|Generous portions" },
         { "type": "textarea", "id": "chips", "label": "Plate tags (one per line, four)", "default": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted" },
-        { "type": "textarea", "id": "cards", "label": "Feature cards (title|text per line)", "info": "Or add Thali card blocks below for click-to-edit on each card.", "default": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens.\nReal ingredients|Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today." }
+        { "type": "textarea", "id": "cards", "label": "Feature cards (title|text per line)", "info": "Or add Thali card blocks below for click-to-edit on each card.", "default": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens.\nReal ingredients|Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+        { "type": "color", "id": "heading_color", "label": "Heading color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+        { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" },
+        { "type": "select", "id": "text_align", "label": "Text align", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ], "default": "" }
       ]
     },
     {
@@ -1807,6 +2085,12 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Cooked by Chef Matt" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Every tray is seasoned and finished by Chef Matt." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "title_color", "label": "Title color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 15 },
         { "type": "image_picker", "id": "image", "label": "Image (optional)" }
       ]
     },
@@ -1836,7 +2120,13 @@
       "name": "Benefit",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Chef prepared" },
-        { "type": "textarea", "id": "text", "label": "Text", "default": "Every meal is cooked by our chefs, not assembled from a kit." }
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Every meal is cooked by our chefs, not assembled from a kit." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "title_color", "label": "Title color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 15 }
       ]
     },
     {
@@ -1844,7 +2134,13 @@
       "name": "Step",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Choose your meals" },
-        { "type": "textarea", "id": "text", "label": "Text", "default": "Pick five from this week's menu." }
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Pick five from this week's menu." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "title_color", "label": "Title color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 15 }
       ]
     },
     {
@@ -1853,7 +2149,13 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Fresh ingredients" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Real food, prepared in small batches." },
-        { "type": "textarea", "id": "detail", "label": "Detail", "default": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot." }
+        { "type": "textarea", "id": "detail", "label": "Detail", "default": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "title_color", "label": "Title color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 15 }
       ]
     },
     {
@@ -1876,7 +2178,13 @@
         { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "label": "Rating", "default": 5 },
         { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
         { "type": "text", "id": "aspect", "label": "Image aspect", "default": "1" },
-        { "type": "image_picker", "id": "image", "label": "Image" }
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "title_color", "label": "Title color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 15 }
       ]
     },
     {
@@ -1884,7 +2192,13 @@
       "name": "FAQ",
       "settings": [
         { "type": "text", "id": "question", "label": "Question", "default": "How does the 5 meal plan work?" },
-        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Choose five meals from the weekly menu and we prepare and deliver them to you." }
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Choose five meals from the weekly menu and we prepare and deliver them to you." },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "title_color", "label": "Title color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 15 }
       ]
     },
     {
@@ -1896,7 +2210,13 @@
         { "type": "text", "id": "price_note", "label": "Price note", "default": "Price at checkout" },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "View plan" },
         { "type": "url", "id": "link", "label": "Link" },
-        { "type": "image_picker", "id": "image", "label": "Image" }
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "background_color", "label": "Background" },
+        { "type": "color", "id": "title_color", "label": "Title color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 15 }
       ]
     }
   ],
