@@ -9,27 +9,27 @@
  */
 {
   "sections": {
-    "mp_page": {
-      "type": "cm-meal-plan-page",
+    "mp_order": {
+      "type": "cm-mp-order",
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "This week at ChefMatts",
+        "heading": "This week's menu",
+        "text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
+        "button": "Order 6 meals",
+        "order_title": "6 Meal Plan",
+        "detail_title": "Chef-Made Meal Prep in Hartland, WI | 6 Meal Plan",
+        "detail_use_plan_total": true,
+        "detail_sale_label": "Sale",
+        "picker_count": 16,
+        "meal_price": 1500,
+        "total_label": "Plan total",
+        "quality_button": "Order 6 meals"
+      }
+    },
+    "mp_hero": {
+      "type": "cm-mp-hero",
       "blocks": {
-        "area_hero": {
-          "type": "area_hero",
-          "settings": {
-            "plan_label": "16 Meal Plan",
-            "heading": "Chef-cooked meals, delivered across Lake Country",
-            "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
-            "fact_1_label": "Price",
-            "fact_1_value": "From $00.00",
-            "fact_2_label": "Meals",
-            "fact_2_value": "6 per week",
-            "fact_3_label": "Menu",
-            "fact_3_value": "10+ options",
-            "button_label": "Build my 16 meals",
-            "button_label_2": "View this week's menu",
-            "badge_value": "10+",
-            "badge_label": "meal options"
-          }
-        },
         "hero_button_1": {
           "type": "hero_button",
           "settings": {
@@ -45,17 +45,36 @@
             "link": "#menu",
             "style": "brand"
           }
-        },
-        "area_benefits": {
-          "type": "area_benefits",
-          "settings": {
-            "eyebrow": "Hartland's #1 meal prep chef",
-            "line_1": "16 meals.",
-            "line_2": "1 week.",
-            "line_3": "Zero stress.",
-            "note": "Flexible menu: choose any six from 10+ options, and change your picks each week."
-          }
-        },
+        }
+      },
+      "block_order": [
+        "hero_button_1",
+        "hero_button_2"
+      ],
+      "settings": {
+        "content_product": "16-meal-plan",
+        "plan_label": "16 Meal Plan",
+        "heading": "Chef-cooked meals, delivered across Lake Country",
+        "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
+        "fact_1_label": "Price",
+        "fact_1_value": "From $00.00",
+        "fact_2_label": "Meals",
+        "fact_2_value": "6 per week",
+        "fact_3_label": "Menu",
+        "fact_3_value": "10+ options",
+        "button_label": "Build my 16 meals",
+        "button_link": "/products/6-meal-plan",
+        "button_label_2": "View this week's menu",
+        "button_link_2": "#menu",
+        "hero_image_1_alt": "Chimichurri Steak",
+        "hero_image_2_alt": "Orange Basil Salmon",
+        "badge_value": "10+",
+        "badge_label": "meal options"
+      }
+    },
+    "mp_benefits": {
+      "type": "cm-mp-benefits",
+      "blocks": {
         "benefit_1": {
           "type": "benefit",
           "settings": {
@@ -97,38 +116,122 @@
             "title": "45g PROTEIN",
             "text": "MOST MEALS"
           }
-        },
-        "area_menu": {
-          "type": "area_menu",
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
+        "benefit_4",
+        "benefit_5",
+        "benefit_6"
+      ],
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "Hartland's #1 meal prep chef",
+        "line_1": "16 meals.",
+        "line_2": "1 week.",
+        "line_3": "Zero stress.",
+        "note": "Flexible menu: choose any six from 10+ options, and change your picks each week."
+      }
+    },
+    "mp_menu_grid": {
+      "type": "cm-mp-menu-grid",
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "This week at ChefMatts",
+        "heading": "This week's menu",
+        "text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
+        "button": "Order 6 meals",
+        "menu_count": 5,
+        "view_meal_label": "View meal",
+        "detail_note": "Meal names and nutrition values are from the current menu.",
+        "detail_show_allergens": true,
+        "allergen_label": "Contains",
+        "reheat_label": "Heating",
+        "protein_label": "Protein",
+        "carbs_label": "Carbs",
+        "fat_label": "Fat"
+      }
+    },
+    "mp_thali": {
+      "type": "cm-mp-thali",
+      "blocks": {
+        "thali_card_1": {
+          "type": "thali_card",
           "settings": {
-            "eyebrow": "This week at ChefMatts",
-            "heading": "This week's menu",
-            "text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
-            "button": "Order 6 meals",
-            "order_title": "6 Meal Plan"
+            "title": "Cooked by Chef Matt",
+            "text": "Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens."
           }
         },
-        "area_explore": {
-          "type": "area_explore",
+        "thali_card_2": {
+          "type": "thali_card",
           "settings": {
-            "heading": "Explore the full menu"
+            "title": "Real ingredients",
+            "text": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
           }
-        },
-        "area_chef": {
-          "type": "area_chef",
-          "settings": {
-            "eyebrow": "The Chef Matt way",
-            "heading": "40 years in the kitchen. Now cooking for you.",
-            "text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you."
-          }
-        },
-        "area_steps": {
-          "type": "area_steps",
-          "settings": {
-            "eyebrow": "How it works",
-            "heading": "Your week, sorted in three steps."
-          }
-        },
+        }
+      },
+      "block_order": [
+        "thali_card_1",
+        "thali_card_2"
+      ],
+      "settings": {
+        "content_product": "16-meal-plan",
+        "badge": "Chef Matt's · Hartland, WI",
+        "heading": "Chef-cooked meals, delivered across Lake Country.",
+        "intro": "Calorie-counted, high-protein, low-oil meals prepared in our Hartland kitchen and delivered across Lake Country.",
+        "stats": "45g|Protein in most meals\n40+|Years of cooking\n24oz|Generous portions",
+        "chips": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted",
+        "cards": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens.\nReal ingredients|Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today.",
+        "thali_show": true,
+        "thali_badge": "Ghar Ka Khana � Delivered Across the GTA",
+        "thali_heading": "GTA's Best Thalis, Delivered to Your Door",
+        "thali_intro": "Fresh Indian homestyle meals made with traditional spices, proper tadka, handmade rotis, and delivered to your door.",
+        "thali_stats": "5?|Star reviews\n30|Years of experience\n32oz|Generous portions",
+        "thali_plate_alt": "A thali with two curries, rice and two rotis",
+        "thali_chips": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted",
+        "thali_cards": "Crafted by expert chefs|Every thali is prepared fresh by our team of Indian cooks, led by Head Chef Rahul. They bring years of experience and traditional methods to every meal, so you can enjoy the flavours, spices and quality you expect from home.\nHandmade roti|Our signature rotis are all rolled by hand, just like your mom would at home. Soft, fresh, and made by hand, never store-bought or factory-made.",
+        "thali_delivery_heading": "We deliver across the GTA",
+        "thali_delivery_text": "Fresh ghar ka khana delivered every Sunday (10 AM � 2 PM) and Wednesday (5 PM � 9 PM) to homes within 50 km of our kitchen in Midtown Toronto. If your home is within 50 km, we deliver to you.",
+        "thali_tickets": "Sunday|Delivery 10 AM � 2 PM|Order by|11:59 PM Friday\nWednesday|Delivery 5 PM � 9 PM|Order by|11:59 PM Monday",
+        "thali_cutoff_note": "Every batch is cooked fresh for its delivery day, so orders close at 11:59 PM, two days before delivery. That way we know exactly how much khana to make.",
+        "thali_fresh_heading": "Cooked fresh, like home",
+        "thali_fresh_text": "Miss ghar ka khana? Every thali is made with the care of a homemade meal, with flavourful curries, fresh rotis, sabzis and the perfect tadka in every bite. Prepared fresh for every delivery day, so you can enjoy a complete Indian meal that tastes like it came straight from your own kitchen.",
+        "thali_steps": "We cook fresh|A fresh batch made for each delivery day\nWe deliver|Sunday or Wednesday, straight to your door",
+        "thali_towns": "Newmarket, Vaughan, Brampton, Markham, Oshawa, Scarborough, Mississauga, Milton, Oakville",
+        "thali_cta_heading": "Ghar Ka Khana, Delivered",
+        "thali_cta_text": "Every thali comes with curry, sabzi, chawal and roti. Proper portions, proper taste, zero cooking.",
+        "thali_cta_label": "Order Now",
+        "thali_cta_note": "Har meal ammi ke haath jaisa.",
+        "thali_facts": "4|Items in every thali\n32 oz|Generous portion\n50 km|Delivery radius\n2�|Deliveries every week",
+        "thali_bg": "#e3eadf",
+        "thali_accent": "#f5a623"
+      }
+    },
+    "mp_explore": {
+      "type": "cm-mp-explore",
+      "settings": {
+        "content_product": "16-meal-plan",
+        "heading": "Explore the full menu",
+        "load_more_label": "Load more",
+        "grid_page_size": 6,
+        "filter_all_label": "All",
+        "filter_meals_label": "Filter meals"
+      }
+    },
+    "mp_chef": {
+      "type": "cm-mp-chef",
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "The Chef Matt way",
+        "heading": "40 years in the kitchen. Now cooking for you.",
+        "text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you."
+      }
+    },
+    "mp_steps": {
+      "type": "cm-mp-steps",
+      "blocks": {
         "step_1": {
           "type": "step",
           "settings": {
@@ -156,22 +259,78 @@
             "title": "We deliver",
             "text": "They arrive at your door. Heat and eat."
           }
-        },
-        "area_delivery": {
-          "type": "area_delivery",
-          "settings": {
-            "eyebrow": "We deliver",
-            "heading": "Fresh meals, delivered to your door.",
-            "text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door."
-          }
-        },
-        "area_reviews": {
-          "type": "area_reviews",
-          "settings": {
-            "eyebrow": "Loved by our customers",
-            "heading": "Loved by people who love good food"
-          }
-        },
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4"
+      ],
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "How it works",
+        "heading": "Your week, sorted in three steps."
+      }
+    },
+    "mp_delivery": {
+      "type": "cm-mp-delivery",
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "We deliver",
+        "heading": "Fresh meals, delivered to your door.",
+        "text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door.",
+        "delivery_style": "plate",
+        "delivery_checker": false,
+        "delivery_areas": "Hartland, Nearby areas",
+        "delivery_button_label": "Check my area",
+        "map_title": "Richmond Station · Toronto, Canada",
+        "map_query": "Richmond Station Toronto Ontario Canada",
+        "delivery_placeholder": "Postal code or town",
+        "delivery_button": "Check my area",
+        "delivery_msg_yes": "Yes, we deliver to {town}.",
+        "delivery_msg_yes_sub": "Add your plan and confirm your address at checkout.",
+        "delivery_msg_no": "We do not deliver to \"{query}\" yet.",
+        "delivery_contact_label": "Ask us about your area",
+        "delivery_lookup_row": "Look up \"{query}\" on the map",
+        "delivery_lookup_loading": "Looking up \"{query}\"�",
+        "delivery_msg_lookup_yes": "{place} sits inside our delivery zone.",
+        "delivery_msg_lookup_no": "{place} is about {distance} from our kitchen, outside the delivery zone.",
+        "delivery_msg_lookup_fail": "We could not find \"{query}\". Try a town, a ZIP code or a nearby landmark.",
+        "delivery_show_all": "Show all",
+        "delivery_show_less": "Show less",
+        "delivery_initial_chips": 10,
+        "delivery_kitchen_lat": "43.1051",
+        "delivery_kitchen_lng": "-88.3420",
+        "delivery_radius_km": 0,
+        "delivery_legend_kitchen": "Our kitchen",
+        "delivery_legend_areas": "Delivery areas",
+        "delivery_legend_zone": "Delivery zone",
+        "delivery_reset_label": "Show full zone",
+        "plate_towns": "Hartland|53029|41|29|kitchen\nDelafield|53018|34.5|35.5\nPewaukee|53072|49.3|32.6\nWaukesha|53186, 53188, 53189|50.3|40.2\nSussex|53089|52|25.3\nMerton|53056|44.8|22.9\nNashotah|53058|33.3|31.8\nOkauchee Lake|53069|34.6|26.9\nOconomowoc|53066|27.4|27.3\nOconomowoc Lake||30|30.1\nChenequa||37.6|24.7\nLisbon||48.4|22.5\nLannon|53046|56|24.8\nMenomonee Falls|53051|58.1|20.7\nBrookfield|53005, 53045|58.7|33\nElm Grove|53122|60.2|36.7\nWales|53183|38.4|42.3\nDousman|53118|30.4|39.6\nSummit||30.9|35.3\nLake Country||30.9|23.7\nStone Bank||35.1|21.4\nNorth Lake|53064|38.7|19.1\nMapleton||25.4|30.7\nGenesee|53127|42|44.2\nMukwonago|53149|41.9|51.6",
+        "plate_areas_title": "We deliver to",
+        "plate_visible": 12,
+        "plate_more_label": "Show all {count} areas",
+        "plate_less_label": "Show fewer",
+        "plate_map_label": "Map of our delivery area",
+        "plate_kitchen_label": "Our kitchen",
+        "plate_kitchen_address": "Hartland, Wisconsin",
+        "plate_maps_label": "Open in Maps",
+        "plate_zone_radius": 22,
+        "plate_legend_kitchen": "Our kitchen",
+        "plate_legend_area": "Delivery areas",
+        "plate_legend_zone": "Delivery zone",
+        "plate_msg_yes": "Good news, we deliver to {area}.",
+        "plate_msg_no": "We don't deliver to “{query}” yet. Check the list below or contact us.",
+        "plate_msg_empty": "Type a postal code or town first.",
+        "plate_msg_lookup_loading": "Looking up “{query}”…",
+        "plate_msg_lookup_in": "{place} is inside our delivery zone.",
+        "plate_msg_lookup_out": "{place} is about {distance} from our kitchen, outside the delivery zone."
+      }
+    },
+    "mp_reviews": {
+      "type": "cm-mp-reviews",
+      "blocks": {
         "review_1": {
           "type": "review",
           "settings": {
@@ -211,14 +370,23 @@
             "show_image": true,
             "aspect": "0.8"
           }
-        },
-        "area_faq": {
-          "type": "area_faq",
-          "settings": {
-            "eyebrow": "Good to know",
-            "heading": "Questions, answered"
-          }
-        },
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4"
+      ],
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "Loved by our customers",
+        "heading": "Loved by people who love good food"
+      }
+    },
+    "mp_faq": {
+      "type": "cm-mp-faq",
+      "blocks": {
         "faq_1": {
           "type": "faq",
           "settings": {
@@ -274,79 +442,9 @@
             "question": "Are nutrition facts available?",
             "answer": "Yes. Calories, protein, carbs and fat are listed for each meal."
           }
-        },
-        "area_related": {
-          "type": "area_related",
-          "settings": {
-            "eyebrow": "More ways to eat well",
-            "heading": "Other ways to eat well"
-          }
-        },
-        "area_cta": {
-          "type": "area_cta",
-          "settings": {
-            "eyebrow": "Ready when you are",
-            "heading": "Your week just got easier.",
-            "text": "Six chef-prepared meals, delivered. Choose yours and we handle the rest.",
-            "button_label": "Build my 16 meal plan",
-            "button_link": "/products/6-meal-plan"
-          }
-        },
-        "area_thali": {
-          "type": "area_thali",
-          "settings": {
-            "badge": "Chef Matt's · Hartland, WI",
-            "heading": "Chef-cooked meals, delivered across Lake Country.",
-            "intro": "Calorie-counted, high-protein, low-oil meals prepared in our Hartland kitchen and delivered across Lake Country.",
-            "stats": "45g|Protein in most meals\n40+|Years of cooking\n24oz|Generous portions",
-            "chips": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted",
-            "cards": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens.\nReal ingredients|Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
-          }
-        },
-        "thali_card_1": {
-          "type": "thali_card",
-          "settings": {
-            "title": "Cooked by Chef Matt",
-            "text": "Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens."
-          }
-        },
-        "thali_card_2": {
-          "type": "thali_card",
-          "settings": {
-            "title": "Real ingredients",
-            "text": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today."
-          }
         }
       },
       "block_order": [
-        "area_hero",
-        "hero_button_1",
-        "hero_button_2",
-        "area_benefits",
-        "benefit_1",
-        "benefit_2",
-        "benefit_3",
-        "benefit_4",
-        "benefit_5",
-        "benefit_6",
-        "area_menu",
-        "area_thali",
-        "thali_card_1",
-        "thali_card_2",
-        "area_explore",
-        "area_chef",
-        "area_steps",
-        "step_1",
-        "step_2",
-        "step_3",
-        "step_4",
-        "area_delivery",
-        "area_reviews",
-        "review_1",
-        "review_2",
-        "review_3",
-        "review_4",
-        "area_faq",
         "faq_1",
         "faq_2",
         "faq_3",
@@ -354,171 +452,47 @@
         "faq_5",
         "faq_6",
         "faq_7",
-        "faq_8",
-        "area_related",
-        "area_cta"
+        "faq_8"
       ],
       "settings": {
         "content_product": "16-meal-plan",
-        "detail_show_allergens": true,
-        "show_hero": true,
-        "plan_label": "16 Meal Plan",
-        "heading": "Chef-cooked meals, delivered across Lake Country",
-        "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
-        "fact_1_label": "Price",
-        "fact_1_value": "From $00.00",
-        "fact_2_label": "Meals",
-        "fact_2_value": "6 per week",
-        "fact_3_label": "Menu",
-        "fact_3_value": "10+ options",
-        "button_label": "Build my 16 meals",
-        "button_link": "/products/6-meal-plan",
-        "button_label_2": "View this week's menu",
-        "button_link_2": "#menu",
-        "hero_image_1_alt": "Chimichurri Steak",
-        "hero_image_2_alt": "Orange Basil Salmon",
-        "badge_value": "10+",
-        "badge_label": "meal options",
-        "ben_eyebrow": "Hartland's #1 meal prep chef",
-        "ben_line_1": "16 meals.",
-        "ben_line_2": "1 week.",
-        "ben_line_3": "Zero stress.",
-        "ben_note": "Flexible menu: choose any six from 10+ options, and change your picks each week.",
-        "menu_eyebrow": "This week at ChefMatts",
-        "menu_heading": "This week's menu",
-        "menu_text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
-        "explore_heading": "Explore all meals",
-        "thali_show": true,
-        "thali_badge": "Ghar Ka Khana � Delivered Across the GTA",
-        "thali_heading": "GTA's Best Thalis, Delivered to Your Door",
-        "thali_intro": "Fresh Indian homestyle meals made with traditional spices, proper tadka, handmade rotis, and delivered to your door.",
-        "thali_stats": "5?|Star reviews\n30|Years of experience\n32oz|Generous portions",
-        "thali_plate_alt": "A thali with two curries, rice and two rotis",
-        "thali_chips": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted",
-        "thali_cards": "Crafted by expert chefs|Every thali is prepared fresh by our team of Indian cooks, led by Head Chef Rahul. They bring years of experience and traditional methods to every meal, so you can enjoy the flavours, spices and quality you expect from home.\nHandmade roti|Our signature rotis are all rolled by hand, just like your mom would at home. Soft, fresh, and made by hand, never store-bought or factory-made.",
-        "thali_delivery_heading": "We deliver across the GTA",
-        "thali_delivery_text": "Fresh ghar ka khana delivered every Sunday (10 AM � 2 PM) and Wednesday (5 PM � 9 PM) to homes within 50 km of our kitchen in Midtown Toronto. If your home is within 50 km, we deliver to you.",
-        "thali_tickets": "Sunday|Delivery 10 AM � 2 PM|Order by|11:59 PM Friday\nWednesday|Delivery 5 PM � 9 PM|Order by|11:59 PM Monday",
-        "thali_cutoff_note": "Every batch is cooked fresh for its delivery day, so orders close at 11:59 PM, two days before delivery. That way we know exactly how much khana to make.",
-        "thali_fresh_heading": "Cooked fresh, like home",
-        "thali_fresh_text": "Miss ghar ka khana? Every thali is made with the care of a homemade meal, with flavourful curries, fresh rotis, sabzis and the perfect tadka in every bite. Prepared fresh for every delivery day, so you can enjoy a complete Indian meal that tastes like it came straight from your own kitchen.",
-        "thali_steps": "We cook fresh|A fresh batch made for each delivery day\nWe deliver|Sunday or Wednesday, straight to your door",
-        "thali_towns": "Newmarket, Vaughan, Brampton, Markham, Oshawa, Scarborough, Mississauga, Milton, Oakville",
-        "thali_cta_heading": "Ghar Ka Khana, Delivered",
-        "thali_cta_text": "Every thali comes with curry, sabzi, chawal and roti. Proper portions, proper taste, zero cooking.",
-        "thali_cta_label": "Order Now",
-        "thali_cta_link": "",
-        "thali_cta_note": "Har meal ammi ke haath jaisa.",
-        "thali_facts": "4|Items in every thali\n32 oz|Generous portion\n50 km|Delivery radius\n2�|Deliveries every week",
-        "thali_bg": "#e3eadf",
-        "thali_accent": "#f5a623",
-        "load_more_label": "Load more",
-        "menu_count": 5,
-        "grid_page_size": 6,
-        "view_meal_label": "View meal",
-        "filter_all_label": "All",
-        "filter_meals_label": "Filter meals",
-        "gallery_prev_label": "Previous",
-        "gallery_next_label": "Next",
-        "allergen_label": "Contains",
-        "reheat_label": "Heating",
-        "protein_label": "Protein",
-        "carbs_label": "Carbs",
-        "fat_label": "Fat",
-        "detail_note": "Meal names and nutrition values are from the current menu.",
-        "meal_price": 1500,
-        "total_label": "Plan total",
-        "chef_eyebrow": "The Chef Matt way",
-        "chef_heading": "40 years in the kitchen. Now cooking for you.",
-        "chef_text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
-        "steps_eyebrow": "Simple by design",
-        "steps_heading": "How it works",
-        "quality_eyebrow": "Premium ingredients",
-        "quality_heading": "This Week's Menu",
-        "quality_text": "Chef-cooked every week. Hover a meal to see what's on the plate.",
-        "quality_button": "Order 6 meals",
-        "detail_title": "Chef-Made Meal Prep in Hartland, WI | 6 Meal Plan",
-        "detail_use_plan_total": true,
-        "detail_sale_label": "Sale",
-        "picker_count": 16,
-        "plan_product": "16-meal-plan",
-        "meals_product": "16-meal-plan",
-        "show_gallery": false,
-        "gallery_eyebrow": "Fresh from our kitchen",
-        "gallery_heading": "10+\nmeal options",
-        "delivery_style": "plate",
-        "delivery_checker": false,
-        "delivery_eyebrow": "We deliver",
-        "delivery_heading": "Fresh meals, delivered to your door.",
-        "delivery_text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door.",
-        "delivery_areas": "Hartland, Nearby areas",
-        "delivery_button_label": "Check my area",
-        "delivery_button_link": "",
-        "map_title": "Richmond Station · Toronto, Canada",
-        "map_query": "Richmond Station Toronto Ontario Canada",
-        "map_embed_url": "",
-        "delivery_placeholder": "Postal code or town",
-        "delivery_button": "Check my area",
-        "delivery_msg_yes": "Yes, we deliver to {town}.",
-        "delivery_msg_yes_sub": "Add your plan and confirm your address at checkout.",
-        "delivery_msg_no": "We do not deliver to \"{query}\" yet.",
-        "delivery_contact_url": "",
-        "delivery_contact_label": "Ask us about your area",
-        "delivery_lookup_row": "Look up \"{query}\" on the map",
-        "delivery_lookup_loading": "Looking up \"{query}\"�",
-        "delivery_msg_lookup_yes": "{place} sits inside our delivery zone.",
-        "delivery_msg_lookup_no": "{place} is about {distance} from our kitchen, outside the delivery zone.",
-        "delivery_msg_lookup_fail": "We could not find \"{query}\". Try a town, a ZIP code or a nearby landmark.",
-        "delivery_show_all": "Show all",
-        "delivery_show_less": "Show less",
-        "delivery_initial_chips": 10,
-        "delivery_towns": "",
-        "delivery_kitchen_lat": "43.1051",
-        "delivery_kitchen_lng": "-88.3420",
-        "delivery_country": "",
-        "delivery_radius_km": 0,
-        "delivery_legend_kitchen": "Our kitchen",
-        "delivery_legend_areas": "Delivery areas",
-        "delivery_legend_zone": "Delivery zone",
-        "delivery_reset_label": "Show full zone",
-        "plate_towns": "Hartland|53029|41|29|kitchen\nDelafield|53018|34.5|35.5\nPewaukee|53072|49.3|32.6\nWaukesha|53186, 53188, 53189|50.3|40.2\nSussex|53089|52|25.3\nMerton|53056|44.8|22.9\nNashotah|53058|33.3|31.8\nOkauchee Lake|53069|34.6|26.9\nOconomowoc|53066|27.4|27.3\nOconomowoc Lake||30|30.1\nChenequa||37.6|24.7\nLisbon||48.4|22.5\nLannon|53046|56|24.8\nMenomonee Falls|53051|58.1|20.7\nBrookfield|53005, 53045|58.7|33\nElm Grove|53122|60.2|36.7\nWales|53183|38.4|42.3\nDousman|53118|30.4|39.6\nSummit||30.9|35.3\nLake Country||30.9|23.7\nStone Bank||35.1|21.4\nNorth Lake|53064|38.7|19.1\nMapleton||25.4|30.7\nGenesee|53127|42|44.2\nMukwonago|53149|41.9|51.6",
-        "plate_areas_title": "We deliver to",
-        "plate_visible": 12,
-        "plate_more_label": "Show all {count} areas",
-        "plate_less_label": "Show fewer",
-        "plate_map_label": "Map of our delivery area",
-        "plate_kitchen_label": "Our kitchen",
-        "plate_kitchen_address": "Hartland, Wisconsin",
-        "plate_maps_url": "",
-        "plate_maps_label": "Open in Maps",
-        "plate_zone_radius": 22,
-        "plate_legend_kitchen": "Our kitchen",
-        "plate_legend_area": "Delivery areas",
-        "plate_legend_zone": "Delivery zone",
-        "plate_msg_yes": "Good news, we deliver to {area}.",
-        "plate_msg_no": "We don't deliver to “{query}” yet. Check the list below or contact us.",
-        "plate_msg_empty": "Type a postal code or town first.",
-        "plate_msg_lookup_loading": "Looking up “{query}”…",
-        "plate_msg_lookup_in": "{place} is inside our delivery zone.",
-        "plate_msg_lookup_out": "{place} is about {distance} from our kitchen, outside the delivery zone.",
-        "reviews_eyebrow": "Loved by our customers",
-        "reviews_heading": "Loved by people who love good food",
-        "faq_eyebrow": "Good to know",
-        "faq_heading": "Questions, answered",
-        "related_eyebrow": "More ways to eat well",
-        "related_heading": "Other ways to eat well",
-        "cta_eyebrow": "Ready when you are",
-        "cta_heading": "Your week just got easier.",
-        "cta_text": "Six chef-prepared meals, delivered. Choose yours and we handle the rest.",
-        "cta_button_label": "Build my 16 meal plan",
-        "cta_button_link": "/products/6-meal-plan",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "show_quality_band": false
+        "eyebrow": "Good to know",
+        "heading": "Questions, answered"
+      }
+    },
+    "mp_related": {
+      "type": "cm-mp-related",
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "More ways to eat well",
+        "heading": "Other ways to eat well"
+      }
+    },
+    "mp_cta": {
+      "type": "cm-mp-cta",
+      "settings": {
+        "content_product": "16-meal-plan",
+        "eyebrow": "Ready when you are",
+        "heading": "Your week just got easier.",
+        "text": "Six chef-prepared meals, delivered. Choose yours and we handle the rest.",
+        "button_label": "Build my 16 meal plan",
+        "button_link": "/products/6-meal-plan"
       }
     }
   },
   "order": [
-    "mp_page"
+    "mp_order",
+    "mp_hero",
+    "mp_benefits",
+    "mp_menu_grid",
+    "mp_thali",
+    "mp_explore",
+    "mp_chef",
+    "mp_steps",
+    "mp_delivery",
+    "mp_reviews",
+    "mp_faq",
+    "mp_related",
+    "mp_cta"
   ]
 }
