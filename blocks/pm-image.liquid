@@ -1,0 +1,49 @@
+{%- if block.settings.image != blank -%}
+  <figure
+    class="pm-b-image"
+    {{ block.shopify_attributes }}
+    style="margin:0;{% if block.settings.text_align != blank %}text-align:{{ block.settings.text_align }};{% endif %}{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}"
+  >
+    {{
+      block.settings.image
+      | image_url: width: block.settings.max_width
+      | image_tag:
+        loading: 'lazy',
+        widths: '400, 700, 1000, 1400',
+        sizes: '(min-width: 990px) 50vw, 100vw',
+        alt: block.settings.alt,
+        style: 'max-width:100%;height:auto;border-radius:inherit;'
+    }}
+    {%- if block.settings.caption != blank -%}
+      <figcaption style="{% if block.settings.text_color != blank %}color:{{ block.settings.text_color }};{% endif %}{% if block.settings.text_size > 0 %}font-size:{{ block.settings.text_size }}px;{% endif %}margin-top:0.5rem;">
+        {{ block.settings.caption | escape }}
+      </figcaption>
+    {%- endif -%}
+  </figure>
+{%- elsif request.design_mode -%}
+  <div class="pm-b-image pm-b-image--empty" {{ block.shopify_attributes }} style="padding:2rem;border:1px dashed #ccc;text-align:center;">
+    Add an image
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Image",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "alt", "label": "Alt text" },
+    { "type": "text", "id": "caption", "label": "Caption" },
+    { "type": "range", "id": "max_width", "min": 200, "max": 1600, "step": 50, "unit": "px", "label": "Max width", "default": 1200 },
+    { "type": "header", "content": "Colors & typography" },
+    { "type": "color", "id": "background_color", "label": "Background" },
+    { "type": "color", "id": "text_color", "label": "Caption color" },
+    { "type": "range", "id": "text_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Caption size", "default": 14 },
+    { "type": "select", "id": "text_align", "label": "Align", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ], "default": "center" }
+  ],
+  "presets": [{ "name": "Image" }]
+}
+{% endschema %}

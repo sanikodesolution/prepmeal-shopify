@@ -1,0 +1,40 @@
+<div
+  class="pm-b-group"
+  {{ block.shopify_attributes }}
+  style="{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}{% if block.settings.text_color != blank %}color:{{ block.settings.text_color }};{% endif %}{% if block.settings.text_align != blank %}text-align:{{ block.settings.text_align }};{% endif %}padding:{{ block.settings.padding }}px;{% if block.settings.gap > 0 %}display:flex;flex-direction:column;gap:{{ block.settings.gap }}px;{% endif %}{% if block.settings.max_width > 0 %}max-width:{{ block.settings.max_width }}px;margin-inline:auto;{% endif %}"
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% schema %}
+{
+  "name": "Group",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    { "type": "header", "content": "Colors & typography" },
+    { "type": "color", "id": "background_color", "label": "Background" },
+    { "type": "color", "id": "text_color", "label": "Text color" },
+    { "type": "select", "id": "text_align", "label": "Align", "options": [
+      { "value": "", "label": "Theme default" },
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ], "default": "" },
+    { "type": "range", "id": "padding", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Padding", "default": 24 },
+    { "type": "range", "id": "gap", "min": 0, "max": 48, "step": 2, "unit": "px", "label": "Gap between blocks", "default": 16 },
+    { "type": "range", "id": "max_width", "min": 0, "max": 1400, "step": 20, "unit": "px", "label": "Max width (0 = full)", "default": 0 }
+  ],
+  "presets": [
+    {
+      "name": "Group",
+      "blocks": [
+        { "type": "pm-heading" },
+        { "type": "pm-text" }
+      ]
+    }
+  ]
+}
+{% endschema %}

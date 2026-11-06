@@ -1,0 +1,17 @@
+<div
+  class="pm-b-spacer"
+  {{ block.shopify_attributes }}
+  style="height:{{ block.settings.height }}px;{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}"
+  aria-hidden="true"
+></div>
+
+{% schema %}
+{
+  "name": "Spacer",
+  "settings": [
+    { "type": "range", "id": "height", "min": 8, "max": 160, "step": 4, "unit": "px", "label": "Height", "default": 32 },
+    { "type": "color", "id": "background_color", "label": "Background" }
+  ],
+  "presets": [{ "name": "Spacer" }]
+}
+{% endschema %}

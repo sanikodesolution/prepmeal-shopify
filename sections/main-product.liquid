@@ -93,14 +93,15 @@
                 <p
                   class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
                   {{ block.shopify_attributes }}
+                  {% if block.settings.text_color != blank or block.settings.text_size > 0 %}style="{% if block.settings.text_color != blank %}color:{{ block.settings.text_color }};{% endif %}{% if block.settings.text_size > 0 %}font-size:{{ block.settings.text_size }}px;{% endif %}"{% endif %}
                 >
                   {{- block.settings.text -}}
                 </p>
               {%- when 'title' -%}
-                <div class="product__title" {{ block.shopify_attributes }}>
-                  <h1>{{ product.title | escape }}</h1>
+                <div class="product__title" {{ block.shopify_attributes }}{% render 'pm-area-style', block: block %}>
+                  <h1{% if block.settings.heading_color != blank or block.settings.heading_size > 0 or block.settings.heading_weight != blank %} style="{% if block.settings.heading_color != blank %}color:{{ block.settings.heading_color }};{% endif %}{% if block.settings.heading_size > 0 %}font-size:{{ block.settings.heading_size }}px;{% endif %}{% if block.settings.heading_weight != blank %}font-weight:{{ block.settings.heading_weight }};{% endif %}"{% endif %}>{{ product.title | escape }}</h1>
                   <a href="{{ product.url }}" class="product__title">
-                    <h2 class="h1">
+                    <h2 class="h1"{% if block.settings.heading_color != blank or block.settings.heading_size > 0 or block.settings.heading_weight != blank %} style="{% if block.settings.heading_color != blank %}color:{{ block.settings.heading_color }};{% endif %}{% if block.settings.heading_size > 0 %}font-size:{{ block.settings.heading_size }}px;{% endif %}{% if block.settings.heading_weight != blank %}font-weight:{{ block.settings.heading_weight }};{% endif %}"{% endif %}>
                       {{ product.title | escape }}
                     </h2>
                   </a>
@@ -193,7 +194,7 @@
                 </p>
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
-                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}{% if block.settings.text_color != blank or block.settings.text_size > 0 %} style="{% if block.settings.text_color != blank %}color:{{ block.settings.text_color }};{% endif %}{% if block.settings.text_size > 0 %}font-size:{{ block.settings.text_size }}px;{% endif %}"{% endif %}>
                     {{ product.description }}
                   </div>
                 {%- endif -%}
@@ -776,13 +777,29 @@
           ],
           "default": "body",
           "label": "t:sections.main-product.blocks.text.settings.text_style.label"
-        }
+        },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "text_size", "min": 12, "max": 32, "step": 1, "unit": "px", "label": "Font size", "default": 16 }
       ]
     },
     {
       "type": "title",
       "name": "t:sections.main-product.blocks.title.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "heading_color", "label": "Title color" },
+        { "type": "range", "id": "heading_size", "min": 18, "max": 64, "step": 1, "unit": "px", "label": "Font size", "default": 40 },
+        { "type": "select", "id": "heading_weight", "label": "Weight", "options": [
+          { "value": "", "label": "Theme default" },
+          { "value": "400", "label": "Regular" },
+          { "value": "500", "label": "Medium" },
+          { "value": "600", "label": "Semi-bold" },
+          { "value": "700", "label": "Bold" },
+          { "value": "800", "label": "Extra-bold" }
+        ], "default": "" }
+      ]
     },
     {
       "type": "price",
@@ -931,7 +948,12 @@
     {
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Font size", "default": 16 }
+      ]
     },
     {
       "type": "share",

@@ -1,0 +1,42 @@
+{%- if block.settings.label != blank -%}
+  <div class="pm-b-button" {{ block.shopify_attributes }} style="{% if block.settings.text_align != blank %}text-align:{{ block.settings.text_align }};{% endif %}">
+    {% render 'pm-button',
+      label: block.settings.label,
+      link: block.settings.link,
+      style: block.settings.style,
+      text_color: block.settings.text_color,
+      bg_color: block.settings.bg_color,
+      icon_bg: block.settings.icon_bg,
+      icon_color: block.settings.icon_color,
+      font_size: block.settings.font_size
+    %}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Button",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "Shop now" },
+    { "type": "url", "id": "link", "label": "Link" },
+    { "type": "select", "id": "style", "label": "Style preset", "options": [
+      { "value": "light", "label": "Light" },
+      { "value": "brand", "label": "Brand" },
+      { "value": "ink", "label": "Ink" },
+      { "value": "outline", "label": "Outline" }
+    ], "default": "brand" },
+    { "type": "header", "content": "Colors & typography" },
+    { "type": "color", "id": "text_color", "label": "Text color" },
+    { "type": "color", "id": "bg_color", "label": "Background color" },
+    { "type": "color", "id": "icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "icon_color", "label": "Icon color" },
+    { "type": "range", "id": "font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
+    { "type": "select", "id": "text_align", "label": "Align", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ], "default": "left" }
+  ],
+  "presets": [{ "name": "Button" }]
+}
+{% endschema %}

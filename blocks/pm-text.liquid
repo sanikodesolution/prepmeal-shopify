@@ -1,0 +1,34 @@
+<div
+  class="pm-b-text"
+  {{ block.shopify_attributes }}
+  style="{% if block.settings.text_color != blank %}color:{{ block.settings.text_color }};{% endif %}{% if block.settings.text_size > 0 %}font-size:{{ block.settings.text_size }}px;{% endif %}{% if block.settings.heading_weight != blank %}font-weight:{{ block.settings.heading_weight }};{% endif %}{% if block.settings.text_align != blank %}text-align:{{ block.settings.text_align }};{% endif %}{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}line-height:1.55;"
+>
+  {{ block.settings.text }}
+</div>
+
+{% schema %}
+{
+  "name": "Text",
+  "settings": [
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add your text. Change color and size anytime in the right panel.</p>" },
+    { "type": "header", "content": "Colors & typography" },
+    { "type": "color", "id": "background_color", "label": "Background" },
+    { "type": "color", "id": "text_color", "label": "Text color" },
+    { "type": "range", "id": "text_size", "min": 12, "max": 32, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
+    { "type": "select", "id": "heading_weight", "label": "Weight", "options": [
+      { "value": "", "label": "Theme default" },
+      { "value": "400", "label": "Regular" },
+      { "value": "500", "label": "Medium" },
+      { "value": "600", "label": "Semi-bold" },
+      { "value": "700", "label": "Bold" }
+    ], "default": "" },
+    { "type": "select", "id": "text_align", "label": "Align", "options": [
+      { "value": "", "label": "Theme default" },
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ], "default": "left" }
+  ],
+  "presets": [{ "name": "Text" }]
+}
+{% endschema %}

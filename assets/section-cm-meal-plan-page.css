@@ -893,3 +893,44 @@ html.mp-theme-editor .ex[data-shopify-editor-block]:hover{
   outline:2px dashed rgba(42,111,232,.55);
   outline-offset:4px;
 }
+
+/* Per-block Colors & typography (Theme Editor ? block ? Colors & typography) */
+.mph .mph__plan,
+.ben .mp-eye,
+.ben .ben__eyebrow,
+.mealplan-sec .mp-eye {
+  color: var(--pm-eyebrow, inherit);
+  font-size: var(--pm-eyebrow-size, inherit);
+}
+.mph .mph__title,
+.ben .big,
+.mealplan-sec .mealplan-h,
+.mealplan-cta .mealplan-h {
+  color: var(--pm-heading, inherit);
+  font-size: var(--pm-heading-size, inherit);
+  font-weight: var(--pm-heading-weight, inherit);
+}
+.mph .mph__text,
+.ben .ben__note,
+.mealplan-sec .mealplan-lead,
+.mealplan-cta p {
+  color: var(--pm-text, inherit);
+  font-size: var(--pm-text-size, inherit);
+}
+.ben__item b,
+.mealplan-list h3,
+.mealplan-qi .mealplan-qb,
+.mealplan-r small {
+  color: var(--pm-title, inherit);
+  font-size: var(--pm-title-size, inherit);
+}
+.ben__item span,
+.mealplan-list p,
+.mealplan-qi .mealplan-qa,
+.mealplan-r q {
+  color: var(--pm-text, inherit);
+  font-size: var(--pm-text-size, inherit);
+}
+.mealplan-app {
+  padding-block: 1.5rem;
+}

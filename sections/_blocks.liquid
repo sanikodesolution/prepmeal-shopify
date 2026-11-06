@@ -1,0 +1,43 @@
+{%- comment -%}
+  Wrapper so merchants can add theme blocks + app blocks anywhere on a
+  product (or other) JSON template — WordPress-like flexible content.
+{%- endcomment -%}
+<div
+  class="pm-blocks section-{{ section.id }}{% if section.settings.include_margins %} page-width{% endif %}{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %}"
+  style="padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px;{% if section.settings.background_color != blank %}background-color:{{ section.settings.background_color }};{% endif %}"
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% stylesheet %}
+  .pm-blocks {
+    width: 100%;
+  }
+  .pm-blocks > * + * {
+    margin-top: 1rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Theme & app blocks",
+  "tag": "section",
+  "class": "section pm-blocks-section",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    { "type": "checkbox", "id": "include_margins", "label": "Make section margins the same as theme", "default": true },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "color", "id": "background_color", "label": "Background override" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 36 }
+  ],
+  "presets": [
+    {
+      "name": "Theme & app blocks"
+    }
+  ]
+}
+{% endschema %}
