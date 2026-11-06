@@ -188,7 +188,7 @@
       "type": "cm-mp-explore",
       "settings": {
         "load_more_label": "Load more",
-        "heading": "Explore all meals",
+        "heading": "À la carte",
         "content_product": "7-meal-plan"
       }
     },

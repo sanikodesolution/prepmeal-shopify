@@ -12,17 +12,16 @@
     "mp_order": {
       "type": "cm-mp-order",
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "This week at ChefMatts",
         "heading": "This week's menu",
         "text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
         "button": "Order 6 meals",
         "order_title": "6 Meal Plan",
-        "content_product": "14-meal-plan",
-        "plan_product": "14-meal-plan",
-        "picker_count": 14,
         "detail_title": "Chef-Made Meal Prep in Hartland, WI | 6 Meal Plan",
         "detail_use_plan_total": true,
         "detail_sale_label": "Sale",
+        "picker_count": 14,
         "meal_price": 1500,
         "total_label": "Plan total",
         "quality_button": "Order 6 meals"
@@ -53,6 +52,7 @@
         "hero_button_2"
       ],
       "settings": {
+        "content_product": "14-meal-plan",
         "plan_label": "14 Meal Plan",
         "heading": "Chef-cooked meals, delivered across Lake Country",
         "text": "Calorie counted. High protein. Low oil. Pick six meals from this week's menu and we cook and deliver them.",
@@ -63,14 +63,13 @@
         "fact_3_label": "Menu",
         "fact_3_value": "10+ options",
         "button_label": "Build my 14 meals",
-        "button_label_2": "View this week's menu",
-        "badge_value": "10+",
-        "badge_label": "meal options",
-        "content_product": "14-meal-plan",
         "button_link": "/products/6-meal-plan",
+        "button_label_2": "View this week's menu",
         "button_link_2": "#menu",
         "hero_image_1_alt": "Chimichurri Steak",
-        "hero_image_2_alt": "Orange Basil Salmon"
+        "hero_image_2_alt": "Orange Basil Salmon",
+        "badge_value": "10+",
+        "badge_label": "meal options"
       }
     },
     "mp_benefits": {
@@ -128,23 +127,22 @@
         "benefit_6"
       ],
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "Hartland's #1 meal prep chef",
         "line_1": "14 meals.",
         "line_2": "1 week.",
         "line_3": "Zero stress.",
-        "note": "Flexible menu: choose any six from 10+ options, and change your picks each week.",
-        "content_product": "14-meal-plan"
+        "note": "Flexible menu: choose any six from 10+ options, and change your picks each week."
       }
     },
     "mp_menu_grid": {
       "type": "cm-mp-menu-grid",
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "This week at ChefMatts",
         "heading": "This week's menu",
         "text": "Featured meals from the weekly rotation. Hover or tap a meal for the details.",
         "button": "Order 6 meals",
-        "order_title": "6 Meal Plan",
-        "content_product": "14-meal-plan",
         "menu_count": 5,
         "view_meal_label": "View meal",
         "detail_note": "Meal names and nutrition values are from the current menu.",
@@ -179,6 +177,7 @@
         "thali_card_2"
       ],
       "settings": {
+        "content_product": "14-meal-plan",
         "badge": "Chef Matt's · Hartland, WI",
         "heading": "Chef-cooked meals, delivered across Lake Country.",
         "intro": "Calorie-counted, high-protein, low-oil meals prepared in our Hartland kitchen and delivered across Lake Country.",
@@ -207,15 +206,14 @@
         "thali_cta_note": "Har meal ammi ke haath jaisa.",
         "thali_facts": "4|Items in every thali\n32 oz|Generous portion\n50 km|Delivery radius\n2�|Deliveries every week",
         "thali_bg": "#e3eadf",
-        "thali_accent": "#f5a623",
-        "content_product": "14-meal-plan"
+        "thali_accent": "#f5a623"
       }
     },
     "mp_explore": {
       "type": "cm-mp-explore",
       "settings": {
-        "heading": "Explore the full menu",
         "content_product": "14-meal-plan",
+        "heading": "À la carte",
         "load_more_label": "Load more",
         "grid_page_size": 6,
         "filter_all_label": "All",
@@ -225,10 +223,10 @@
     "mp_chef": {
       "type": "cm-mp-chef",
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "The Chef Matt way",
         "heading": "40 years in the kitchen. Now cooking for you.",
-        "text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
-        "content_product": "14-meal-plan"
+        "text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you."
       }
     },
     "mp_steps": {
@@ -270,14 +268,15 @@
         "step_4"
       ],
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "How it works",
-        "heading": "Your week, sorted in three steps.",
-        "content_product": "14-meal-plan"
+        "heading": "Your week, sorted in three steps."
       }
     },
     "mp_delivery": {
       "type": "cm-mp-delivery",
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "We deliver",
         "heading": "Fresh meals, delivered to your door.",
         "text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door.",
@@ -326,8 +325,7 @@
         "plate_msg_empty": "Type a postal code or town first.",
         "plate_msg_lookup_loading": "Looking up “{query}”…",
         "plate_msg_lookup_in": "{place} is inside our delivery zone.",
-        "plate_msg_lookup_out": "{place} is about {distance} from our kitchen, outside the delivery zone.",
-        "content_product": "14-meal-plan"
+        "plate_msg_lookup_out": "{place} is about {distance} from our kitchen, outside the delivery zone."
       }
     },
     "mp_reviews": {
@@ -381,9 +379,9 @@
         "review_4"
       ],
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "Loved by our customers",
-        "heading": "Loved by people who love good food",
-        "content_product": "14-meal-plan"
+        "heading": "Loved by people who love good food"
       }
     },
     "mp_faq": {
@@ -457,28 +455,28 @@
         "faq_8"
       ],
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "Good to know",
-        "heading": "Questions, answered",
-        "content_product": "14-meal-plan"
+        "heading": "Questions, answered"
       }
     },
     "mp_related": {
       "type": "cm-mp-related",
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "More ways to eat well",
-        "heading": "Other ways to eat well",
-        "content_product": "14-meal-plan"
+        "heading": "Other ways to eat well"
       }
     },
     "mp_cta": {
       "type": "cm-mp-cta",
       "settings": {
+        "content_product": "14-meal-plan",
         "eyebrow": "Ready when you are",
         "heading": "Your week just got easier.",
         "text": "Six chef-prepared meals, delivered. Choose yours and we handle the rest.",
         "button_label": "Build my 14 meal plan",
-        "button_link": "/products/6-meal-plan",
-        "content_product": "14-meal-plan"
+        "button_link": "/products/6-meal-plan"
       }
     }
   },
