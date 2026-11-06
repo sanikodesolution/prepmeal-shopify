@@ -1,0 +1,27 @@
+query {
+  shop {
+    metafield(namespace: "custom", key: "explore_heading") {
+      id
+      value
+    }
+  }
+  products(first: 50, query: "title:*meal plan*") {
+    nodes {
+      id
+      title
+      handle
+      metafield(namespace: "custom", key: "explore_heading") {
+        id
+        value
+      }
+    }
+  }
+  pages(first: 20, query: "handle:6-meal-plan OR title:6 meal") {
+    nodes {
+      id
+      title
+      handle
+      templateSuffix
+    }
+  }
+}

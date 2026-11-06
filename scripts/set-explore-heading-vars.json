@@ -1,0 +1,18 @@
+{
+  "metafields": [
+    {
+      "ownerId": "gid://shopify/Product/15440654631218",
+      "namespace": "custom",
+      "key": "explore_heading",
+      "type": "single_line_text_field",
+      "value": "À la carte"
+    },
+    {
+      "ownerId": "gid://shopify/Product/15480757223730",
+      "namespace": "custom",
+      "key": "explore_heading",
+      "type": "single_line_text_field",
+      "value": "À la carte"
+    }
+  ]
+}

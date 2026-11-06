@@ -1,0 +1,73 @@
+{
+  "shop": {
+    "metafield": null
+  },
+  "products": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Product/15440654631218",
+        "title": "6 Meal Plan",
+        "handle": "6-meal-plan",
+        "metafield": {
+          "id": "gid://shopify/Metafield/193087449989426",
+          "value": "Explore all meals"
+        }
+      },
+      {
+        "id": "gid://shopify/Product/15440730194226",
+        "title": "5 Meal Plan",
+        "handle": "5-meal-plan",
+        "metafield": null
+      },
+      {
+        "id": "gid://shopify/Product/15440730292530",
+        "title": "10 Meal Plan",
+        "handle": "10-meal-plan",
+        "metafield": null
+      },
+      {
+        "id": "gid://shopify/Product/15444083015986",
+        "title": "7 Meal Plan",
+        "handle": "7-meal-plan",
+        "metafield": null
+      },
+      {
+        "id": "gid://shopify/Product/15444084195634",
+        "title": "15 Meal Plan",
+        "handle": "15-meal-plan",
+        "metafield": null
+      },
+      {
+        "id": "gid://shopify/Product/15480757223730",
+        "title": "12 Meal Plan",
+        "handle": "12-meal-plan",
+        "metafield": {
+          "id": "gid://shopify/Metafield/193203192332594",
+          "value": "Explore all meals"
+        }
+      },
+      {
+        "id": "gid://shopify/Product/15480973623602",
+        "title": "1 Meal Plan",
+        "handle": "1-meal-plan",
+        "metafield": null
+      },
+      {
+        "id": "gid://shopify/Product/15480983978290",
+        "title": "2 Meal Plan",
+        "handle": "2-meal-plan",
+        "metafield": null
+      }
+    ]
+  },
+  "pages": {
+    "nodes": [
+      {
+        "id": "gid://shopify/Page/166157451570",
+        "title": "6 meal plan",
+        "handle": "6-meal-plan",
+        "templateSuffix": "6-meal-plan"
+      }
+    ]
+  }
+}

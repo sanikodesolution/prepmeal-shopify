@@ -1,0 +1,19 @@
+{
+  "metafieldsSet": {
+    "metafields": [
+      {
+        "id": "gid://shopify/Metafield/193087449989426",
+        "key": "explore_heading",
+        "value": "À la carte",
+        "ownerType": "PRODUCT"
+      },
+      {
+        "id": "gid://shopify/Metafield/193203192332594",
+        "key": "explore_heading",
+        "value": "À la carte",
+        "ownerType": "PRODUCT"
+      }
+    ],
+    "userErrors": []
+  }
+}
