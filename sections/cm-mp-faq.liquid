@@ -1,0 +1,273 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-meal-plan-page.js' | asset_url }}" defer="defer"></script>
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-faq" {% render 'pm-section-style', section: section %}>
+  <div class="mealplan">
+    <section class="mealplan-sec"><div class="mealplan-wrap mealplan-faq">
+      <div>
+        {%- if c_faq_eyebrow != blank -%}
+          <p class="mp-eye">{{ c_faq_eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="mealplan-h">{{ c_faq_heading | escape }}</h2>
+      </div>
+      <div id="faq">
+        {%- if faq_blocks.size > 0 -%}
+          {%- for block in faq_blocks -%}
+            <div class="mealplan-qi" {{ block.shopify_attributes }}{% render 'pm-area-style', block: block %}>
+              <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
+                {{ block.settings.question | escape }}<i></i>
+              </button>
+              <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ block.settings.answer | escape }}</p></div></div>
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for row in faq_rows -%}
+            {%- assign cells = row | split: '|' -%}
+            <div class="mealplan-qi">
+              <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
+                {{ cells[0] | escape }}<i></i>
+              </button>
+              <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ cells[1] | escape }}</p></div></div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div></section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MP FAQ",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Good to know"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Questions, answered"
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra-bold"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "MP FAQ"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How does the meal plan work?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Choose meals from the weekly menu and we prepare and deliver them."
+        },
+        {
+          "type": "header",
+          "content": "Colors & typography"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 12,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Title size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 12,
+          "max": 28,
+          "step": 1,
+          "unit": "px",
+          "label": "Text size",
+          "default": 15
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

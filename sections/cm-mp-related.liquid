@@ -1,0 +1,299 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-related" {% render 'pm-section-style', section: section %}>
+  <div class="mealplan">
+    <section class="mealplan-sec mealplan-rel"><div class="mealplan-wrap">
+      <div class="mealplan-rel__head" style="margin-bottom:60px">
+        {%- if c_related_eyebrow != blank -%}
+          <p class="mp-eye">{{ c_related_eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="mealplan-h">{{ c_related_heading | escape }}</h2>
+      </div>
+      <div class="mealplan-track" id="plans">
+        {%- for row in related_rows -%}
+          {%- liquid
+            assign cells = row | split: '|'
+            assign related_title = cells[0]
+            assign related_text = cells[1]
+            assign related_url = cells[2]
+            assign related_button = cells[3] | default: 'View plan'
+            assign related_note = cells[4]
+            assign related_image = cells[5]
+            assign fallback_index = forloop.index | modulo: 10
+          -%}
+          <article class="mealplan-card">
+            <div class="mealplan-img">
+              {%- if related_image != blank -%}
+                <img class="mp-food mealplan-ph" src="{{ related_image }}" alt="{{ related_title | escape }}" width="700" height="700" loading="lazy">
+              {%- else -%}
+                <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ related_title | escape }}" width="700" height="700" loading="lazy">
+              {%- endif -%}
+            </div>
+            <h3>{{ related_title | escape }}</h3>
+            <p>{{ related_text | escape }}</p>
+            {%- if related_note != blank -%}<b>{{ related_note | escape }}</b>{%- endif -%}
+            <a class="mealplan-btn" href="{{ related_url | default: '#' }}">{{ related_button | escape }}</a>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div></section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MP Related",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "More ways to eat well"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Other ways to eat well"
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra-bold"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "MP Related"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "related",
+      "name": "Related plan",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "6 Meal Plan"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Six meals from the weekly menu."
+        },
+        {
+          "type": "text",
+          "id": "price_note",
+          "label": "Price note",
+          "default": "Price at checkout"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "View plan"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Colors & typography"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 12,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Title size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 12,
+          "max": 28,
+          "step": 1,
+          "unit": "px",
+          "label": "Text size",
+          "default": 15
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

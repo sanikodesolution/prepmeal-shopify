@@ -1,0 +1,632 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-delivery" {% render 'pm-section-style', section: section %}>
+  <div class="mealplan">
+    <section class="mealplan-sec"><div class="mealplan-wrap">
+      {%- if section.settings.delivery_style == 'plate' -%}
+        {% render 'cm-delivery-area', section: section, meta: plan_meta, areas: mo_areas, shared: shared_meta %}
+      {%- elsif section.settings.delivery_checker -%}
+        {% render 'cm-delivery-checker', section: section, meta: plan_meta, shared: shared_meta, areas: mo_areas %}
+      {%- else -%}
+        <div class="mealplan-del">
+          {%- liquid
+            assign map_query = c_delivery_map_query | default: 'Hartland Wisconsin'
+            assign map_src = section.settings.map_embed_url
+            if map_src == blank
+              assign map_q = map_query | url_encode
+              assign map_src = 'https://maps.google.com/maps?q=' | append: map_q | append: '&z=15&output=embed'
+            endif
+          -%}
+          <div class="mealplan-map mp-gs">
+            <iframe
+              class="mealplan-map__frame"
+              title="{{ c_delivery_map_title | default: map_query | escape }}"
+              src="{{ map_src }}"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen
+            ></iframe>
+            {%- if c_delivery_map_title != blank -%}
+              <p class="mealplan-map__label">{{ c_delivery_map_title | escape }}</p>
+            {%- endif -%}
+          </div>
+          <div class="mealplan-del__copy mp-gs">
+            {%- if c_delivery_eyebrow != blank -%}
+              <p class="mp-eye">{{ c_delivery_eyebrow | escape }}</p>
+            {%- endif -%}
+            <h2 class="mealplan-h">{{ c_delivery_heading | escape }}</h2>
+            <p class="mealplan-p">{{ c_delivery_text | escape }}</p>
+            <div class="mealplan-del__actions">
+              {%- if c_delivery_areas.size > 0 -%}
+                <ul class="mealplan-areas">
+                  {%- for area in c_delivery_areas -%}
+                    <li>
+                      <span class="mealplan-areas__pin" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
+                      </span>
+                      {{ area | strip | escape }}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+              {%- if section.settings.delivery_button_label != blank -%}
+                {%- assign delivery_link = section.settings.delivery_button_link | default: '#' -%}
+                {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand', text_color: section.settings.delivery_button_text_color, bg_color: section.settings.delivery_button_bg_color, icon_bg: section.settings.delivery_button_icon_bg, icon_color: section.settings.delivery_button_icon_color, font_size: section.settings.delivery_button_font_size %}
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div></section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MP Delivery",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Delivery band — plate map, street checker, or embed."
+    },
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "We deliver"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Fresh meals, delivered to your door."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "We deliver across Hartland and the towns around it."
+    },
+    {
+      "type": "select",
+      "id": "delivery_style",
+      "label": "Delivery style",
+      "options": [
+        {
+          "value": "plate",
+          "label": "Plate map + area checker"
+        },
+        {
+          "value": "leaflet",
+          "label": "Interactive street map"
+        },
+        {
+          "value": "embed",
+          "label": "Google Maps embed"
+        }
+      ],
+      "default": "plate",
+      "info": "Plate map is the stylised SVG map with town chips. Interactive street map uses Leaflet. Google Maps embed is the plain iframe."
+    },
+    {
+      "type": "checkbox",
+      "id": "delivery_checker",
+      "label": "Use the street-map checker",
+      "default": false,
+      "info": "Only used when Delivery style is the interactive street map."
+    },
+    {
+      "type": "text",
+      "id": "delivery_areas",
+      "label": "Areas (plain block only)",
+      "info": "Comma-separated. Used when the checker is off.",
+      "default": "Hartland, Nearby areas"
+    },
+    {
+      "type": "text",
+      "id": "delivery_button_label",
+      "label": "Button label (plain block only)",
+      "default": "Check my area"
+    },
+    {
+      "type": "url",
+      "id": "delivery_button_link",
+      "label": "Button link (plain block only)"
+    },
+    {
+      "type": "color",
+      "id": "delivery_button_text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "delivery_button_bg_color",
+      "label": "Background color"
+    },
+    {
+      "type": "color",
+      "id": "delivery_button_icon_bg",
+      "label": "Icon background"
+    },
+    {
+      "type": "color",
+      "id": "delivery_button_icon_color",
+      "label": "Icon color"
+    },
+    {
+      "type": "range",
+      "id": "delivery_button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "text",
+      "id": "map_title",
+      "label": "Map label (plain block only)",
+      "default": "Richmond Station � Toronto, Canada"
+    },
+    {
+      "type": "text",
+      "id": "map_query",
+      "label": "Google Maps search (plain block only)",
+      "default": "Richmond Station Toronto Ontario Canada",
+      "info": "Used when Embed URL is empty."
+    },
+    {
+      "type": "text",
+      "id": "map_embed_url",
+      "label": "Google Maps embed URL (plain block only)",
+      "info": "Optional. Paste full embed src from Google Maps ? Share ? Embed a map."
+    },
+    {
+      "type": "text",
+      "id": "delivery_placeholder",
+      "label": "Search placeholder",
+      "default": "Enter your town or ZIP code"
+    },
+    {
+      "type": "text",
+      "id": "delivery_button",
+      "label": "Check button label",
+      "default": "Check my area"
+    },
+    {
+      "type": "text",
+      "id": "delivery_msg_yes",
+      "label": "Found message",
+      "default": "Yes, we deliver to {town}.",
+      "info": "{town} is replaced with the town name."
+    },
+    {
+      "type": "text",
+      "id": "delivery_msg_yes_sub",
+      "label": "Found message follow-up",
+      "default": "Add your plan and confirm your address at checkout."
+    },
+    {
+      "type": "text",
+      "id": "delivery_msg_no",
+      "label": "Not-found message",
+      "default": "We do not deliver to \"{query}\" yet.",
+      "info": "{query} is replaced with what the visitor typed."
+    },
+    {
+      "type": "url",
+      "id": "delivery_contact_url",
+      "label": "Not-found link"
+    },
+    {
+      "type": "text",
+      "id": "delivery_contact_label",
+      "label": "Not-found link label",
+      "default": "Ask us about your area"
+    },
+    {
+      "type": "text",
+      "id": "delivery_lookup_row",
+      "label": "Place-lookup suggestion row",
+      "default": "Look up \"{query}\" on the map",
+      "info": "{query} is replaced with what the visitor typed. Shown under the town list when the text is not a town you listed."
+    },
+    {
+      "type": "text",
+      "id": "delivery_lookup_loading",
+      "label": "Place-lookup loading text",
+      "default": "Looking up \"{query}\"�"
+    },
+    {
+      "type": "text",
+      "id": "delivery_msg_lookup_yes",
+      "label": "Place lookup: inside zone",
+      "default": "{place} sits inside our delivery zone.",
+      "info": "{place} is the resolved place, {distance} the distance from your kitchen."
+    },
+    {
+      "type": "text",
+      "id": "delivery_msg_lookup_no",
+      "label": "Place lookup: outside zone",
+      "default": "{place} is about {distance} from our kitchen, outside the delivery zone."
+    },
+    {
+      "type": "text",
+      "id": "delivery_msg_lookup_fail",
+      "label": "Place lookup: not found",
+      "default": "We could not find \"{query}\". Try a town, a ZIP code or a nearby landmark."
+    },
+    {
+      "type": "text",
+      "id": "delivery_show_all",
+      "label": "Show-all label",
+      "default": "Show all"
+    },
+    {
+      "type": "text",
+      "id": "delivery_show_less",
+      "label": "Show-less label",
+      "default": "Show less"
+    },
+    {
+      "type": "range",
+      "id": "delivery_initial_chips",
+      "label": "Towns shown before \"Show all\"",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "textarea",
+      "id": "delivery_towns",
+      "label": "Delivery towns",
+      "info": "One per line. Name|lat|lng|ZIP,ZIP for exact placement, or just Name|ZIP,ZIP to let the theme look the place up automatically. Leave empty for the built-in Hartland list."
+    },
+    {
+      "type": "text",
+      "id": "delivery_kitchen_lat",
+      "label": "Kitchen latitude or place name",
+      "default": "43.1051",
+      "info": "Numbers place the pin exactly. A place name such as \"Hartland, Wisconsin\" is looked up automatically."
+    },
+    {
+      "type": "text",
+      "id": "delivery_kitchen_lng",
+      "label": "Kitchen longitude",
+      "default": "-88.3420",
+      "info": "Ignored when the latitude field holds a place name."
+    },
+    {
+      "type": "text",
+      "id": "delivery_country",
+      "label": "Country hint for place lookup",
+      "info": "Optional, for example United States or United Kingdom. Narrows results when a town name is ambiguous."
+    },
+    {
+      "type": "range",
+      "id": "delivery_radius_km",
+      "label": "Delivery zone radius (km)",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "default": 0,
+      "info": "0 fits the circle to the farthest town automatically."
+    },
+    {
+      "type": "text",
+      "id": "delivery_legend_kitchen",
+      "label": "Legend: kitchen",
+      "default": "Our kitchen"
+    },
+    {
+      "type": "text",
+      "id": "delivery_legend_areas",
+      "label": "Legend: areas",
+      "default": "Delivery areas"
+    },
+    {
+      "type": "text",
+      "id": "delivery_legend_zone",
+      "label": "Legend: zone",
+      "default": "Delivery zone"
+    },
+    {
+      "type": "text",
+      "id": "delivery_reset_label",
+      "label": "Reset link label",
+      "default": "Show full zone"
+    },
+    {
+      "type": "textarea",
+      "id": "plate_towns",
+      "label": "Delivery towns",
+      "info": "One per line. Only the name is required: write \"Waukesha|53186\" and the place is looked up automatically. Add |left%|top%|lat|lng columns only for exact placement. Add the word kitchen as the fifth column on your base row. Leave empty for the built-in Hartland list."
+    },
+    {
+      "type": "text",
+      "id": "plate_areas_title",
+      "label": "Town list title",
+      "default": "We deliver to"
+    },
+    {
+      "type": "range",
+      "id": "plate_visible",
+      "label": "Towns shown before \"show all\"",
+      "min": 6,
+      "max": 30,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "plate_more_label",
+      "label": "Show-all label",
+      "info": "Use {count} for the total.",
+      "default": "Show all {count} areas"
+    },
+    {
+      "type": "text",
+      "id": "plate_less_label",
+      "label": "Show-fewer label",
+      "default": "Show fewer"
+    },
+    {
+      "type": "text",
+      "id": "plate_map_label",
+      "label": "Map accessible label",
+      "default": "Map of our delivery area"
+    },
+    {
+      "type": "text",
+      "id": "plate_kitchen_label",
+      "label": "Kitchen label",
+      "default": "Our kitchen"
+    },
+    {
+      "type": "text",
+      "id": "plate_kitchen_address",
+      "label": "Kitchen address",
+      "default": "Hartland, Wisconsin"
+    },
+    {
+      "type": "url",
+      "id": "plate_maps_url",
+      "label": "\"Open in Maps\" link"
+    },
+    {
+      "type": "text",
+      "id": "plate_maps_label",
+      "label": "Maps link label",
+      "default": "Open in Maps"
+    },
+    {
+      "type": "range",
+      "id": "plate_zone_radius",
+      "label": "Delivery zone size",
+      "min": 22,
+      "max": 34,
+      "step": 1,
+      "default": 22,
+      "info": "The town list is fitted inside this ring, so the pins always stay within the zone. Bigger values zoom the map out."
+    },
+    {
+      "type": "text",
+      "id": "plate_legend_kitchen",
+      "label": "Legend: kitchen",
+      "default": "Our kitchen"
+    },
+    {
+      "type": "text",
+      "id": "plate_legend_area",
+      "label": "Legend: area",
+      "default": "Delivery areas"
+    },
+    {
+      "type": "text",
+      "id": "plate_legend_zone",
+      "label": "Legend: zone",
+      "default": "Delivery zone"
+    },
+    {
+      "type": "text",
+      "id": "plate_msg_yes",
+      "label": "Message: we deliver",
+      "info": "Use {area} for the matched town.",
+      "default": "Good news, we deliver to {area}."
+    },
+    {
+      "type": "text",
+      "id": "plate_msg_no",
+      "label": "Message: not found",
+      "info": "Use {query} for what was typed.",
+      "default": "We don't deliver to “{query}” yet. Check the list below or contact us."
+    },
+    {
+      "type": "text",
+      "id": "plate_msg_empty",
+      "label": "Message: empty input",
+      "default": "Type a postal code or town first."
+    },
+    {
+      "type": "text",
+      "id": "plate_msg_lookup_loading",
+      "label": "Place lookup: loading",
+      "info": "Use {query} for what was typed.",
+      "default": "Looking up “{query}”…"
+    },
+    {
+      "type": "text",
+      "id": "plate_msg_lookup_in",
+      "label": "Place lookup: inside zone",
+      "info": "Use {place} for the found place and {distance} for the distance from your kitchen.",
+      "default": "{place} is inside our delivery zone."
+    },
+    {
+      "type": "text",
+      "id": "plate_msg_lookup_out",
+      "label": "Place lookup: outside zone",
+      "info": "Use {place} and {distance}.",
+      "default": "{place} is about {distance} from our kitchen, outside the delivery zone."
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra-bold"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "MP Delivery"
+    }
+  ]
+}
+{% endschema %}

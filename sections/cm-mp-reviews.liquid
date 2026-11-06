@@ -1,0 +1,340 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-reviews" {% render 'pm-section-style', section: section %}>
+  <div class="mealplan">
+    <section class="mealplan-sec mealplan-rev"><div class="mealplan-wrap">
+      {%- if c_reviews_eyebrow != blank -%}
+        <p class="mp-eye">{{ c_reviews_eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 class="mealplan-h">{{ c_reviews_heading | escape }}</h2>
+      <div class="mealplan-cols" id="rev">
+        {%- if review_blocks.size > 0 -%}
+          {%- for block in review_blocks -%}
+            {%- liquid
+              assign review_name = block.settings.name
+              assign review_rating = block.settings.rating | default: 5 | plus: 0
+              assign review_text = block.settings.review
+              assign review_aspect = block.settings.aspect | default: '1'
+              assign review_show = '0'
+              if block.settings.show_image
+                assign review_show = '1'
+              endif
+              assign review_image = ''
+              if block.settings.image != blank
+                assign review_image = block.settings.image | image_url: width: 700
+              endif
+              assign fallback_index = forloop.index0 | modulo: 10
+            -%}
+            <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs" {{ block.shopify_attributes }}{% render 'pm-area-style', block: block %}>
+              {%- if review_show != '0' -%}
+                <div class="mealplan-img" style="--ar:{{ review_aspect }}">
+                  {%- if review_image != blank -%}
+                    <img class="mp-food mealplan-ph" src="{{ review_image }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- else -%}
+                    <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <div>
+                <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}{% if i <= review_rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+                <q>{{ review_text | escape }}</q>
+                <small>{{ review_name | escape }}</small>
+              </div>
+            </article>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for row in review_rows -%}
+            {%- liquid
+              assign cells = row | split: '|'
+              assign review_name = cells[0]
+              assign review_rating = cells[1] | default: 5 | plus: 0
+              assign review_text = cells[2]
+              assign review_aspect = cells[3] | default: '1'
+              assign review_show = cells[4] | default: '1'
+              assign review_image = cells[5]
+              assign fallback_index = forloop.index0 | modulo: 10
+            -%}
+            <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs">
+              {%- if review_show != '0' -%}
+                <div class="mealplan-img" style="--ar:{{ review_aspect }}">
+                  {%- if review_image != blank -%}
+                    <img class="mp-food mealplan-ph" src="{{ review_image }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- else -%}
+                    <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <div>
+                <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}{% if i <= review_rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+                <q>{{ review_text | escape }}</q>
+                <small>{{ review_name | escape }}</small>
+              </div>
+            </article>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div></section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MP Reviews",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Loved by our customers"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by people who love good food"
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra-bold"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "MP Reviews"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Customer name"
+        },
+        {
+          "type": "textarea",
+          "id": "review",
+          "label": "Review",
+          "default": "Short review text goes here."
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "show_image",
+          "label": "Show image",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "aspect",
+          "label": "Image aspect",
+          "default": "1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "header",
+          "content": "Colors & typography"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 12,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Title size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 12,
+          "max": 28,
+          "step": 1,
+          "unit": "px",
+          "label": "Text size",
+          "default": 15
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

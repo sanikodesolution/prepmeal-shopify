@@ -3,16 +3,26 @@
  * Expects root [data-mp-page] with data-foods JSON of image URLs + meal blocks JSON.
  */
 (() => {
-  const root = document.querySelector('[data-mp-page]');
-  if (!root) return;
+  if (window.__cmMpPageBound) return;
+  window.__cmMpPageBound = true;
+
+  const roots = Array.from(document.querySelectorAll('[data-mp-page]'));
+  if (!roots.length) return;
+
+  // Prefer a root that carries meals/foods JSON (order / menu-grid / explore).
+  const dataRoot =
+    roots.find((r) => r.querySelector('[data-mp-meals], [data-mp-foods]')) || roots[0];
+  const root = dataRoot;
 
   // Theme editor: skip heavy UI so preview clicks select editable areas.
   if (window.Shopify && window.Shopify.designMode) {
-    root.classList.add('is-theme-editor');
+    roots.forEach((r) => r.classList.add('is-theme-editor'));
   }
 
-  const $ = (s, c = root) => c.querySelector(s);
-  const $$ = (s, c = root) => Array.from(c.querySelectorAll(s));
+  // Search the whole document so split MP sections still find #menu, #grid, FAQ, etc.
+  const scope = document;
+  const $ = (s, c = scope) => c.querySelector(s);
+  const $$ = (s, c = scope) => Array.from(c.querySelectorAll(s));
 
   let foods = [];
   let alts = [];

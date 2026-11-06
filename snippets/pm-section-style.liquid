@@ -1,0 +1,43 @@
+{%- comment -%}
+  Outputs a style="" attribute with CSS vars from section Color & typography settings.
+  Same vars as pm-area-style: --pm-bg, --pm-eyebrow, --pm-heading, --pm-text, sizes, weight, align.
+  Optional: extra — raw CSS declarations to merge.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign css = extra | default: ''
+  if s.background_color != blank
+    assign css = css | append: '--pm-bg:' | append: s.background_color | append: ';background-color:' | append: s.background_color | append: ';'
+  endif
+  if s.eyebrow_color != blank
+    assign css = css | append: '--pm-eyebrow:' | append: s.eyebrow_color | append: ';'
+  endif
+  if s.heading_color != blank
+    assign css = css | append: '--pm-heading:' | append: s.heading_color | append: ';'
+  endif
+  if s.title_color != blank
+    assign css = css | append: '--pm-title:' | append: s.title_color | append: ';'
+  endif
+  if s.text_color != blank
+    assign css = css | append: '--pm-text:' | append: s.text_color | append: ';color:' | append: s.text_color | append: ';'
+  endif
+  if s.eyebrow_size != blank and s.eyebrow_size > 0
+    assign css = css | append: '--pm-eyebrow-size:' | append: s.eyebrow_size | append: 'px;'
+  endif
+  if s.heading_size != blank and s.heading_size > 0
+    assign css = css | append: '--pm-heading-size:' | append: s.heading_size | append: 'px;'
+  endif
+  if s.title_size != blank and s.title_size > 0
+    assign css = css | append: '--pm-title-size:' | append: s.title_size | append: 'px;'
+  endif
+  if s.text_size != blank and s.text_size > 0
+    assign css = css | append: '--pm-text-size:' | append: s.text_size | append: 'px;'
+  endif
+  if s.heading_weight != blank
+    assign css = css | append: '--pm-heading-weight:' | append: s.heading_weight | append: ';'
+  endif
+  if s.text_align != blank
+    assign css = css | append: '--pm-align:' | append: s.text_align | append: ';text-align:' | append: s.text_align | append: ';'
+  endif
+-%}
+{%- if css != blank -%} style="{{ css }}"{%- endif -%}

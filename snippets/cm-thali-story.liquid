@@ -161,9 +161,9 @@
     assign area_cards = area.settings.cards
   endif
   if request.design_mode and area != blank
-    assign gkk_badge = area_badge | default: meta.thali_badge.value | default: shared.thali_badge.value | default: s.thali_badge
-    assign gkk_heading = area_heading | default: meta.thali_heading.value | default: shared.thali_heading.value | default: s.thali_heading
-    assign gkk_intro = area_intro | default: meta.thali_intro.value | default: shared.thali_intro.value | default: s.thali_intro
+    assign gkk_badge = area_badge | default: meta.thali_badge.value | default: shared.thali_badge.value | default: s.badge | default: s.thali_badge
+    assign gkk_heading = area_heading | default: meta.thali_heading.value | default: shared.thali_heading.value | default: s.heading | default: s.thali_heading
+    assign gkk_intro = area_intro | default: meta.thali_intro.value | default: shared.thali_intro.value | default: s.intro | default: s.thali_intro
     if area_stats != blank
       assign gkk_stats = area_stats | newline_to_br | split: '<br />'
     endif
@@ -176,9 +176,9 @@
       endif
     endif
   else
-    assign gkk_badge = meta.thali_badge.value | default: shared.thali_badge.value | default: area_badge | default: s.thali_badge
-    assign gkk_heading = meta.thali_heading.value | default: shared.thali_heading.value | default: area_heading | default: s.thali_heading
-    assign gkk_intro = meta.thali_intro.value | default: shared.thali_intro.value | default: area_intro | default: s.thali_intro
+    assign gkk_badge = meta.thali_badge.value | default: shared.thali_badge.value | default: area_badge | default: s.badge | default: s.thali_badge
+    assign gkk_heading = meta.thali_heading.value | default: shared.thali_heading.value | default: area_heading | default: s.heading | default: s.thali_heading
+    assign gkk_intro = meta.thali_intro.value | default: shared.thali_intro.value | default: area_intro | default: s.intro | default: s.thali_intro
   endif
   assign gkk_plate_alt = meta.thali_plate_alt.value | default: s.thali_plate_alt
   assign gkk_image = meta.thali_image.value | default: s.thali_image

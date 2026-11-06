@@ -1,0 +1,224 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-chef" {% render 'pm-section-style', section: section %}>
+  <div class="mealplan">
+    <section class="mealplan-sec">
+      <div class="mealplan-wrap mealplan-chef">
+        {%- liquid
+          assign chef_image_1 = plan_meta.chef_image_1.value | default: shared_meta.chef_image_1.value | default: section.settings.chef_image_1
+          assign chef_image_2 = plan_meta.chef_image_2.value | default: shared_meta.chef_image_2.value | default: section.settings.chef_image_2
+        -%}
+        <div class="mealplan-img mealplan-big mp-gs mp-reveal mp-float"{% unless chef_image_1 != blank %} data-p="0"{% endunless %}>
+          {%- if chef_image_1 != blank -%}
+            {{ chef_image_1 | image_url: width: 900 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '400, 700, 900', sizes: '(min-width: 750px) 55vw, 90vw', alt: c_chef_heading }}
+          {%- endif -%}
+        </div>
+        <div class="mealplan-txt mp-gs mp-reveal">
+          {%- if c_chef_eyebrow != blank -%}
+            <p class="mp-eye">{{ c_chef_eyebrow | escape }}</p>
+          {%- endif -%}
+          <h2 class="mealplan-h">{{ c_chef_heading | escape | newline_to_br }}</h2>
+          <p class="mealplan-p">{{ c_chef_text | escape }}</p>
+        </div>
+        <div class="mealplan-img mealplan-small mp-gs mp-reveal mp-float mp-float--late"{% unless chef_image_2 != blank %} data-p="1"{% endunless %}>
+          {%- if chef_image_2 != blank -%}
+            {{ chef_image_2 | image_url: width: 700 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '300, 500, 700', sizes: '30vw', alt: c_chef_eyebrow }}
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MP Chef",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Chef Matt way"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "40 years in the kitchen. Now cooking for you."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you."
+    },
+    {
+      "type": "image_picker",
+      "id": "chef_image_1",
+      "label": "Chef image (large)"
+    },
+    {
+      "type": "image_picker",
+      "id": "chef_image_2",
+      "label": "Chef image (small)"
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra-bold"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "MP Chef"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,296 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-meal-plan-page.js' | asset_url }}" defer="defer"></script>
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
+
+<div class="mealplan-page mealplan-a" data-mp-page data-cm="meal-plan-menu-grid" data-mp-menu-count="{{ section.settings.menu_count | default: 5 }}"
+  data-mp-grid-page="{{ section.settings.grid_page_size | default: 6 }}"
+  data-mp-view-label="{{ section.settings.view_meal_label | default: 'View meal' | escape }}"
+  data-mp-all-label="{{ section.settings.filter_all_label | default: 'All' | escape }}"
+  data-mp-allergen-label="{{ section.settings.allergen_label | default: 'Contains' | escape }}"
+  data-mp-reheat-label="{{ section.settings.reheat_label | default: 'Heating' | escape }}"
+  data-mp-protein-label="{{ section.settings.protein_label | default: 'Protein' | escape }}"
+  data-mp-carbs-label="{{ section.settings.carbs_label | default: 'Carbs' | escape }}"
+  data-mp-fat-label="{{ section.settings.fat_label | default: 'Fat' | escape }}"
+  data-mp-diet-gluten-label="{{ plan_meta.diet_gluten_label.value | default: 'Gluten free' | escape }}"
+  data-mp-diet-dairy-label="{{ plan_meta.diet_dairy_label.value | default: 'Dairy free' | escape }}"
+ {% render 'pm-section-style', section: section %}>
+  <script type="application/json" data-mp-foods>{{ foods_json }}</script>
+  <script type="application/json" data-mp-alts>{{ alts_json }}</script>
+  <script type="application/json" data-mp-meals>{{ meals_json }}</script>
+  <section class="mealplan-menu-grid">
+    <div class="wrap">
+      <div class="menu-head">
+        <h2>{{ c_menu_heading | escape }}</h2>
+        <p>{{ c_menu_text | escape }}</p>
+      </div>
+      <div class="mg" id="menu"></div>
+    </div>
+  </section>
+
+  <section id="detail"><div class="wrap dt-grid dt">
+    <div class="dt-img" id="dImg"></div>
+    <div>
+      <h2 id="dName"></h2>
+      <p id="dDesc"></p>
+      <ul class="ing" id="dIng"></ul>
+      <div class="nut">
+        <div class="ring" id="ring"><div><span id="dCal"></span><small>{{ c_calories_label | escape }}</small></div></div>
+        <div class="bars" id="bars"></div>
+      </div>
+      <div class="mp-detail-notes">
+        <div class="mp-detail-note" id="dAllergens" hidden></div>
+        <div class="mp-detail-note" id="dReheat" hidden></div>
+      </div>
+      <p class="note">{{ c_detail_note | escape }}</p>
+    </div>
+  </div></section>
+</div>
+
+{% schema %}
+{
+  "name": "MP Menu grid",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "This week's menu grid + meal detail panel. Needs JS + meals JSON."
+    },
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "This week at ChefMatts"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "This week's menu"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Featured meals from the weekly rotation. Hover or tap a meal for the details."
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Order button label",
+      "default": "Order 6 meals"
+    },
+    {
+      "type": "range",
+      "id": "menu_count",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "label": "Meals in the featured row",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "view_meal_label",
+      "label": "View meal label",
+      "default": "View meal"
+    },
+    {
+      "type": "textarea",
+      "id": "detail_note",
+      "label": "Detail note",
+      "default": "Meal names and nutrition values are from the current menu."
+    },
+    {
+      "type": "checkbox",
+      "id": "detail_show_allergens",
+      "label": "Show allergens on the meal detail",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "allergen_label",
+      "label": "Allergen label",
+      "default": "Contains"
+    },
+    {
+      "type": "text",
+      "id": "reheat_label",
+      "label": "Heating label",
+      "default": "Heating"
+    },
+    {
+      "type": "text",
+      "id": "protein_label",
+      "label": "Protein label",
+      "default": "Protein"
+    },
+    {
+      "type": "text",
+      "id": "carbs_label",
+      "label": "Carbs label",
+      "default": "Carbs"
+    },
+    {
+      "type": "text",
+      "id": "fat_label",
+      "label": "Fat label",
+      "default": "Fat"
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra-bold"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "MP Menu grid"
+    }
+  ]
+}
+{% endschema %}

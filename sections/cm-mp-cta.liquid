@@ -1,0 +1,101 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-cta" {% render 'pm-section-style', section: section %}>
+  <div class="mealplan">
+    <section class="mealplan-sec">
+      <div class="mealplan-wrap">
+        <div class="mealplan-cta">
+          {%- liquid
+            assign cta_image = section.settings.image | default: plan_meta.cta_image.value | default: shared_meta.cta_image.value | default: section.settings.cta_image
+          -%}
+          <div class="mealplan-img mp-reveal mp-ken"{% unless cta_image != blank %} data-p="3"{% endunless %}>
+            {%- if cta_image != blank -%}
+              {{ cta_image | image_url: width: 1400 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '600, 900, 1400', sizes: '(min-width: 750px) 70vw, 92vw', alt: c_cta_heading }}
+            {%- endif -%}
+          </div>
+          <div class="mealplan-cta-in">
+            {%- if c_cta_eyebrow != blank -%}
+              <p class="mp-eye mp-eye--dark">{{ c_cta_eyebrow | escape }}</p>
+            {%- endif -%}
+            <h2 class="mealplan-h">{{ c_cta_heading | escape }}</h2>
+            <p class="mealplan-p">{{ c_cta_text | escape }}</p>
+            {%- if c_cta_button_label != blank -%}
+              {%- liquid
+                assign cta_btn_link = c_cta_button_link | default: '#'
+                assign cta_text_color = section.settings.button_text_color | default: section.settings.cta_button_text_color
+                assign cta_bg_color = section.settings.button_bg_color | default: section.settings.cta_button_bg_color
+                assign cta_icon_bg = section.settings.button_icon_bg | default: section.settings.cta_button_icon_bg
+                assign cta_icon_color = section.settings.button_icon_color | default: section.settings.cta_button_icon_color
+                assign cta_font_size = section.settings.button_font_size | default: section.settings.cta_button_font_size
+              -%}
+              {% render 'pm-button', label: c_cta_button_label, link: cta_btn_link, style: 'brand', text_color: cta_text_color, bg_color: cta_bg_color, icon_bg: cta_icon_bg, icon_color: cta_icon_color, font_size: cta_font_size %}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "MP CTA",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Ready when you are" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your week just got easier." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Six chef-prepared meals, delivered. Choose yours and we handle the rest." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Build my 6 meal plan" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Button style" },
+    { "type": "color", "id": "button_text_color", "label": "Text color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+    { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "header", "content": "Colors & typography" },
+    { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
+    { "type": "color", "id": "background_color", "label": "Background" },
+    { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
+    { "type": "color", "id": "heading_color", "label": "Heading color" },
+    { "type": "color", "id": "text_color", "label": "Text color" },
+    { "type": "range", "id": "eyebrow_size", "min": 10, "max": 28, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 14 },
+    { "type": "range", "id": "heading_size", "min": 18, "max": 80, "step": 1, "unit": "px", "label": "Heading size", "default": 40 },
+    { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 16 },
+    { "type": "select", "id": "heading_weight", "label": "Heading weight", "options": [
+      { "value": "", "label": "Theme default" },
+      { "value": "400", "label": "Regular" },
+      { "value": "500", "label": "Medium" },
+      { "value": "600", "label": "Semi-bold" },
+      { "value": "700", "label": "Bold" },
+      { "value": "800", "label": "Extra-bold" }
+    ], "default": "" },
+    { "type": "select", "id": "text_align", "label": "Text align", "options": [
+      { "value": "", "label": "Theme default" },
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ], "default": "" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 }
+  ],
+  "presets": [
+    { "name": "MP CTA" }
+  ]
+}
+{% endschema %}

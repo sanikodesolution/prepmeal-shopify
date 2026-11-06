@@ -1,0 +1,467 @@
+{% render 'cm-section-assets', section: section %}
+{{ 'section-cm-meal-plan-page.css' | asset_url | stylesheet_tag }}
+{%- if request.design_mode -%}
+  <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
+
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-thali" {% render 'pm-section-style', section: section %}>
+  {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
+  {%- liquid
+    # Standalone section uses badge/heading/intro/stats/chips/cards;
+    # cm-thali-story also reads thali_* keys — mirror short ids into those.
+    if section.settings.thali_badge == blank and section.settings.badge != blank
+      assign thali_badge_bridge = section.settings.badge
+    else
+      assign thali_badge_bridge = section.settings.thali_badge
+    endif
+  -%}
+  {% render 'cm-thali-story',
+    section: section,
+    s: section.settings,
+    meta: plan_meta,
+    features: mo_features,
+    stats: mo_stats_thali,
+    facts: mo_facts,
+    shared: shared_meta,
+    area: blank,
+    card_blocks: thali_card_blocks
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "MP Thali",
+  "tag": "section",
+  "class": "section cm-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Chef story / thali plate band. Card blocks below are click-to-edit."
+    },
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Eyebrow / badge",
+      "default": "Chef Matt's · Hartland, WI"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Chef-cooked meals, delivered across Lake Country."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "Calorie-counted, high-protein, low-oil meals prepared in our Hartland kitchen."
+    },
+    {
+      "type": "textarea",
+      "id": "stats",
+      "label": "Stats (value|label per line)",
+      "default": "45g|Protein in most meals\n40+|Years of cooking\n24oz|Generous portions"
+    },
+    {
+      "type": "textarea",
+      "id": "chips",
+      "label": "Plate tags (one per line, four)",
+      "default": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted"
+    },
+    {
+      "type": "textarea",
+      "id": "cards",
+      "label": "Feature cards (title|text per line)",
+      "default": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt.\nReal ingredients|Produce and proteins come in close to cook day."
+    },
+    {
+      "type": "checkbox",
+      "id": "thali_show",
+      "label": "Show the Ghar Ka Khana panel",
+      "default": false,
+      "info": "Sits above Explore all meals. Its text is now read from the plan product's custom.thali_* metafields first, and falls back to the fields here."
+    },
+    {
+      "type": "text",
+      "id": "thali_badge",
+      "label": "Badge",
+      "default": "Ghar Ka Khana � Delivered Across the GTA"
+    },
+    {
+      "type": "text",
+      "id": "thali_heading",
+      "label": "Heading",
+      "default": "GTA's Best Thalis, Delivered to Your Door"
+    },
+    {
+      "type": "textarea",
+      "id": "thali_intro",
+      "label": "Intro",
+      "default": "Fresh Indian homestyle meals made with traditional spices, proper tadka, handmade rotis, and delivered to your door."
+    },
+    {
+      "type": "textarea",
+      "id": "thali_stats",
+      "label": "Stats",
+      "info": "One per line as value|label. Example: 5?|Star reviews",
+      "default": "5?|Star reviews\n30|Years of experience\n32oz|Generous portions"
+    },
+    {
+      "type": "text",
+      "id": "thali_plate_alt",
+      "label": "Plate image alt text",
+      "default": "A thali with two curries, rice and two rotis"
+    },
+    {
+      "type": "image_picker",
+      "id": "thali_image",
+      "label": "Plate photo",
+      "info": "Optional. Blank uses the bundled four-items-plate.webp cut-out. Transparent PNG reads best."
+    },
+    {
+      "type": "textarea",
+      "id": "thali_chips",
+      "label": "Plate labels",
+      "info": "One per line. Use exactly four — top-left, top-right, bottom-left, bottom-right.",
+      "default": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted"
+    },
+    {
+      "type": "textarea",
+      "id": "thali_cards",
+      "label": "Cards",
+      "info": "One per line as title|text.",
+      "default": "Crafted by expert chefs|Every thali is prepared fresh by our team of Indian cooks, led by Head Chef Rahul. They bring years of experience and traditional methods to every meal, so you can enjoy the flavours, spices and quality you expect from home.\nHandmade roti|Our signature rotis are all rolled by hand, just like your mom would at home. Soft, fresh, and made by hand, never store-bought or factory-made."
+    },
+    {
+      "type": "text",
+      "id": "thali_delivery_heading",
+      "label": "Delivery heading",
+      "default": "We deliver across the GTA"
+    },
+    {
+      "type": "textarea",
+      "id": "thali_delivery_text",
+      "label": "Delivery text",
+      "default": "Fresh ghar ka khana delivered every Sunday (10 AM � 2 PM) and Wednesday (5 PM � 9 PM) to homes within 50 km of our kitchen in Midtown Toronto. If your home is within 50 km, we deliver to you."
+    },
+    {
+      "type": "textarea",
+      "id": "thali_tickets",
+      "label": "Cutoff tickets",
+      "info": "One per line as day|delivery window|order-by label|order-by value.",
+      "default": "Sunday|Delivery 10 AM � 2 PM|Order by|11:59 PM Friday\nWednesday|Delivery 5 PM � 9 PM|Order by|11:59 PM Monday"
+    },
+    {
+      "type": "textarea",
+      "id": "thali_cutoff_note",
+      "label": "Cutoff note",
+      "default": "Every batch is cooked fresh for its delivery day, so orders close at 11:59 PM, two days before delivery. That way we know exactly how much khana to make."
+    },
+    {
+      "type": "text",
+      "id": "thali_fresh_heading",
+      "label": "Fresh heading",
+      "default": "Cooked fresh, like home"
+    },
+    {
+      "type": "textarea",
+      "id": "thali_fresh_text",
+      "label": "Fresh text",
+      "default": "Miss ghar ka khana? Every thali is made with the care of a homemade meal, with flavourful curries, fresh rotis, sabzis and the perfect tadka in every bite. Prepared fresh for every delivery day, so you can enjoy a complete Indian meal that tastes like it came straight from your own kitchen."
+    },
+    {
+      "type": "textarea",
+      "id": "thali_steps",
+      "label": "Steps",
+      "info": "One per line as title|text.",
+      "default": "We cook fresh|A fresh batch made for each delivery day\nWe deliver|Sunday or Wednesday, straight to your door"
+    },
+    {
+      "type": "textarea",
+      "id": "thali_towns",
+      "label": "Delivery towns",
+      "info": "Comma separated.",
+      "default": "Newmarket, Vaughan, Brampton, Markham, Oshawa, Scarborough, Mississauga, Milton, Oakville"
+    },
+    {
+      "type": "text",
+      "id": "thali_cta_heading",
+      "label": "CTA heading",
+      "default": "Ghar Ka Khana, Delivered"
+    },
+    {
+      "type": "textarea",
+      "id": "thali_cta_text",
+      "label": "CTA text",
+      "default": "Every thali comes with curry, sabzi, chawal and roti. Proper portions, proper taste, zero cooking."
+    },
+    {
+      "type": "text",
+      "id": "thali_cta_label",
+      "label": "CTA button label",
+      "default": "Order Now"
+    },
+    {
+      "type": "url",
+      "id": "thali_cta_link",
+      "label": "CTA button link"
+    },
+    {
+      "type": "text",
+      "id": "thali_cta_note",
+      "label": "CTA note",
+      "default": "Har meal ammi ke haath jaisa."
+    },
+    {
+      "type": "textarea",
+      "id": "thali_facts",
+      "label": "CTA facts",
+      "info": "One per line as value|label.",
+      "default": "4|Items in every thali\n32 oz|Generous portion\n50 km|Delivery radius\n2�|Deliveries every week"
+    },
+    {
+      "type": "color",
+      "id": "thali_bg",
+      "label": "Panel background",
+      "default": "#E3EADF"
+    },
+    {
+      "type": "color",
+      "id": "thali_accent",
+      "label": "Panel accent",
+      "default": "#F5A623"
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra-bold"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "MP Thali",
+      "blocks": [
+        {
+          "type": "thali_card",
+          "settings": {
+            "title": "Cooked by Chef Matt",
+            "text": "Every tray is seasoned and finished by Chef Matt."
+          }
+        },
+        {
+          "type": "thali_card",
+          "settings": {
+            "title": "Real ingredients",
+            "text": "Produce and proteins come in close to cook day."
+          }
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "thali_card",
+      "name": "Thali card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Cooked by Chef Matt"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Every tray is seasoned and finished by Chef Matt."
+        },
+        {
+          "type": "header",
+          "content": "Colors & typography"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 12,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Title size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 12,
+          "max": 28,
+          "step": 1,
+          "unit": "px",
+          "label": "Text size",
+          "default": 15
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (optional)"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

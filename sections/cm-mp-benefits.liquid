@@ -3,53 +3,65 @@
 {%- if request.design_mode -%}
   <script src="{{ 'cm-meal-plan-editor.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
+{% comment %} include (not render) so assigns leak into this section {% endcomment %}
+{% include 'cm-mp-context' %}
 
-{%- liquid
-  assign plan_product = section.settings.content_product
-  assign plan_meta = plan_product.metafields.custom
-  assign shared_meta = shop.metafields.custom
-  assign benefit_blocks = section.blocks | where: 'type', 'benefit'
-
-  assign c_ben_eyebrow = section.settings.eyebrow | default: plan_meta.ben_eyebrow.value | default: shared_meta.ben_eyebrow.value
-  assign c_ben_line_1 = section.settings.line_1 | default: plan_meta.ben_line_1.value
-  assign c_ben_line_2 = section.settings.line_2 | default: plan_meta.ben_line_2.value
-  assign c_ben_line_3 = section.settings.line_3 | default: plan_meta.ben_line_3.value
-  assign c_ben_note = section.settings.note | default: plan_meta.ben_note.value
--%}
-
-<div class="mealplan-page mealplan-a" data-mp-page data-cm="meal-plan-benefits">
-  <section class="ben">
-    <div class="ben__glow" aria-hidden="true"></div>
-    {%- if benefit_blocks.size > 0 -%}
-      <div class="ben__marquee">
-        <div class="ben__track">
-          {%- for pass in (1..4) -%}
-            <ul class="ben__group"{% if pass > 1 %} aria-hidden="true"{% endif %}>
-              {%- for block in benefit_blocks -%}
-                <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}>
-                  <b>{{ block.settings.title | escape }}</b>
-                  <span>{{ block.settings.text | escape }}</span>
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- endfor -%}
+<div class="mealplan-page" data-mp-page data-cm="meal-plan-benefits"  {% render 'pm-section-style', section: section %}>
+<div class="mealplan-a">
+    <section class="ben">
+      <div class="ben__glow" aria-hidden="true"></div>
+      {%- liquid
+        # Theme Editor Benefit blocks win whenever present so merchants can
+        # edit chips without clearing product metafields. Metafield/stat rows
+        # are the fallback when no Benefit blocks exist.
+        assign use_benefit_blocks = false
+        if benefit_blocks.size > 0
+          assign use_benefit_blocks = true
+        endif
+      -%}
+      {%- if benefit_rows.size > 0 or use_benefit_blocks -%}
+        <div class="ben__marquee">
+          <div class="ben__track">
+            {%- for pass in (1..4) -%}
+              <ul class="ben__group"{% if pass > 1 %} aria-hidden="true"{% endif %}>
+                {%- if use_benefit_blocks -%}
+                  {%- for block in benefit_blocks -%}
+                    <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}{% render 'pm-area-style', block: block %}>
+                      <b>{{ block.settings.title | escape }}</b>
+                      <span>{{ block.settings.text | escape }}</span>
+                    </li>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for row in benefit_rows -%}
+                    {%- assign cells = row | split: '|' -%}
+                    <li class="ben__item">
+                      <b>{{ cells[0] | escape }}</b>
+                      <span>{{ cells[1] | escape }}</span>
+                    </li>
+                  {%- endfor -%}
+                {%- endif -%}
+              </ul>
+            {%- endfor -%}
+          </div>
         </div>
+      {%- endif -%}
+      <div class="ben__inner">
+        {%- if c_ben_eyebrow != blank -%}
+          <p class="mp-eye ben__eyebrow">{{ c_ben_eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 class="big">
+          <span>{{ c_ben_line_1 | escape }}</span>
+          <span>{{ c_ben_line_2 | escape }}</span>
+          <span class="out">{{ c_ben_line_3 | escape }}</span>
+        </h2>
+        {%- if c_ben_note != blank -%}
+          <p class="ben__note">{{ c_ben_note | escape }}</p>
+        {%- endif -%}
       </div>
-    {%- endif -%}
-    <div class="ben__inner">
-      {%- if c_ben_eyebrow != blank -%}
-        <p class="mp-eye ben__eyebrow">{{ c_ben_eyebrow | escape }}</p>
-      {%- endif -%}
-      <h2 class="big">
-        <span>{{ c_ben_line_1 | escape }}</span>
-        <span>{{ c_ben_line_2 | escape }}</span>
-        <span class="out">{{ c_ben_line_3 | escape }}</span>
-      </h2>
-      {%- if c_ben_note != blank -%}
-        <p class="ben__note">{{ c_ben_note | escape }}</p>
-      {%- endif -%}
-    </div>
-  </section>
+    </section>
+
+
+</div>
 </div>
 
 {% schema %}
@@ -58,33 +70,269 @@
   "tag": "section",
   "class": "section cm-section",
   "settings": [
-    { "type": "paragraph", "content": "Click this band in the preview to edit these fields. Stat chips are Benefit blocks below." },
-    { "type": "product", "id": "content_product", "label": "Plan product (optional metafields)" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Hartland's #1 meal prep chef" },
-    { "type": "text", "id": "line_1", "label": "Line 1", "default": "6 meals." },
-    { "type": "text", "id": "line_2", "label": "Line 2", "default": "1 week." },
-    { "type": "text", "id": "line_3", "label": "Line 3 (outline)", "default": "Zero stress." },
-    { "type": "textarea", "id": "note", "label": "Note", "default": "Flexible menu: choose any six from 10+ options, and change your picks each week." },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 0 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 }
-  ],
-  "blocks": [
     {
-      "type": "benefit",
-      "name": "Benefit chip",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "24oz" },
-        { "type": "textarea", "id": "text", "label": "Text", "default": "Per container" }
-      ]
+      "type": "paragraph",
+      "content": "Stat chips are Benefit blocks below."
+    },
+    {
+      "type": "product",
+      "id": "content_product",
+      "label": "Plan product",
+      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Hartland's #1 meal prep chef"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Line 1",
+      "default": "6 meals."
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Line 2",
+      "default": "1 week."
+    },
+    {
+      "type": "text",
+      "id": "line_3",
+      "label": "Line 3 (outline)",
+      "default": "Zero stress."
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "Note",
+      "default": "Flexible menu: choose any six from 10+ options, and change your picks each week."
+    },
+    {
+      "type": "header",
+      "content": "Colors & typography"
+    },
+    {
+      "type": "paragraph",
+      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "800",
+          "label": "Extra-bold"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text align",
+      "options": [
+        {
+          "value": "",
+          "label": "Theme default"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 0
     }
   ],
   "presets": [
     {
       "name": "MP Benefits",
       "blocks": [
-        { "type": "benefit", "settings": { "title": "24oz", "text": "Per container" } },
-        { "type": "benefit", "settings": { "title": "2 min", "text": "To reheat" } },
-        { "type": "benefit", "settings": { "title": "Fresh", "text": "Never frozen" } }
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "24oz",
+            "text": "PER CONTAINER"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "2-3 min",
+            "text": "HEAT AND EAT"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Fresh",
+            "text": "NEVER FROZEN"
+          }
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit chip",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "24oz"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "PER CONTAINER"
+        },
+        {
+          "type": "header",
+          "content": "Colors & typography"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Title color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "title_size",
+          "min": 12,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Title size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 12,
+          "max": 28,
+          "step": 1,
+          "unit": "px",
+          "label": "Text size",
+          "default": 15
+        }
       ]
     }
   ]
