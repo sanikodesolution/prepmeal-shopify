@@ -191,8 +191,6 @@
 
 .cm-gc .cm-gc__title {
  margin: 0;
- font-weight:800;line-height:1.02;
- letter-spacing: -1.5px;
  color: var(--gc-ink);
 }
 
@@ -844,11 +842,6 @@
 @media screen and (max-width: 749px) {
  .cm-gc .cm-gc__how {
   padding-bottom: 100px;
- }
-
- .cm-gc__title {
-  font-size: 30px;
-  letter-spacing: -0.5px;
  }
 
  .cm-gc .cm-gc__t {
