@@ -213,7 +213,7 @@
   {%- if steps.size > 0 -%}
     <section class="cm-gc__how section-{{ section.id }}-padding">
       {%- if section.settings.how_heading != blank -%}
-        <h2 class="cm-gc__t">{{ section.settings.how_heading | escape }}</h2>
+        <h3 class="cm-gc__t">{{ section.settings.how_heading | escape }}</h3>
       {%- endif -%}
       <ol class="cm-gc__steps" style="--gc-steps: {{ steps.size | at_most: 4 }};">
         {%- for block in steps -%}
@@ -232,7 +232,7 @@
   {%- if faqs.size > 0 -%}
     <section class="cm-gc__faq section-{{ section.id }}-padding">
       {%- if section.settings.faq_heading != blank -%}
-        <h2 class="cm-gc__t">{{ section.settings.faq_heading | escape }}</h2>
+        <h3 class="cm-gc__t">{{ section.settings.faq_heading | escape }}</h3>
       {%- endif -%}
       {%- for block in faqs -%}
         <details {{ block.shopify_attributes }}>
@@ -263,7 +263,7 @@
     >
       <div class="cm-gc__rv-head">
         {%- if section.settings.reviews_heading != blank -%}
-          <h2 class="cm-gc__t">{{ section.settings.reviews_heading | escape }}</h2>
+          <h3 class="cm-gc__t">{{ section.settings.reviews_heading | escape }}</h3>
         {%- endif -%}
         <div class="cm-gc__rv-sum" data-gc-rv-sum aria-live="polite">
           {%- if review_total > 0 -%}
