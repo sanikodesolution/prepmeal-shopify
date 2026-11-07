@@ -418,9 +418,7 @@
 
 .cm-gc .cm-gc__t {
  margin: 0 0 28px;
- font-weight:800;line-height:1.1;
  letter-spacing: -1px;
- color: var(--gc-ink);
 }
 
 .cm-gc__steps {
@@ -845,9 +843,7 @@
  }
 
  .cm-gc .cm-gc__t {
-  font-size: 24px;
   margin-bottom: 18px;
-  letter-spacing: -0.4px;
  }
 
  .cm-gc .cm-gc__steps li {
