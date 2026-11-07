@@ -934,3 +934,53 @@ html.mp-theme-editor .ex[data-shopify-editor-block]:hover{
 .mealplan-app {
   padding-block: 1.5rem;
 }
+/* pm-section background overrides */
+.mealplan-page[style*="--pm-bg"],
+.mealplan-page[style*="--pm-bg-image"] {
+  position: relative;
+  background-repeat: no-repeat;
+  isolation: isolate;
+}
+.mealplan-page[style*="--pm-overlay-opacity"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--pm-overlay-color, #000);
+  opacity: var(--pm-overlay-opacity, 0);
+}
+.mealplan-page[style*="--pm-bg"] > *,
+.mealplan-page[style*="--pm-bg-image"] > * {
+  position: relative;
+  z-index: 1;
+}
+.mealplan-page[style*="--pm-bg"] .mph,
+.mealplan-page[style*="--pm-bg"] .ben,
+.mealplan-page[style*="--pm-bg"] .ex,
+.mealplan-page[style*="--pm-bg"] .mealplan,
+.mealplan-page[style*="--pm-bg"] .mealplan-sec,
+.mealplan-page[style*="--pm-bg"] .mealplan-menu,
+.mealplan-page[style*="--pm-bg"] .mealplan-menu-grid,
+.mealplan-page[style*="--pm-bg"] .mealplan-cta,
+.mealplan-page[style*="--pm-bg"] .mealplan-rev,
+.mealplan-page[style*="--pm-bg"] .mealplan-rel,
+.mealplan-page[style*="--pm-bg"] .mealplan-steps,
+.mealplan-page[style*="--pm-bg"] .mealplan-faq,
+.mealplan-page[style*="--pm-bg"] .mp-editor-area,
+.mealplan-page[style*="--pm-bg-image"] .mph,
+.mealplan-page[style*="--pm-bg-image"] .ben,
+.mealplan-page[style*="--pm-bg-image"] .ex,
+.mealplan-page[style*="--pm-bg-image"] .mealplan,
+.mealplan-page[style*="--pm-bg-image"] .mealplan-sec,
+.mealplan-page[style*="--pm-bg-image"] .mealplan-menu,
+.mealplan-page[style*="--pm-bg-image"] .mealplan-menu-grid,
+.mealplan-page[style*="--pm-bg-image"] .mealplan-cta,
+.mealplan-page[style*="--pm-bg-image"] .mealplan-rev,
+.mealplan-page[style*="--pm-bg-image"] .mealplan-rel,
+.mealplan-page[style*="--pm-bg-image"] .mealplan-steps,
+.mealplan-page[style*="--pm-bg-image"] .mealplan-faq,
+.mealplan-page[style*="--pm-bg-image"] .mp-editor-area {
+  background-color: transparent !important;
+  background-image: none !important;
+}

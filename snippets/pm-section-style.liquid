@@ -1,14 +1,33 @@
 {%- comment -%}
-  Outputs a style="" attribute with CSS vars from section Color & typography settings.
-  Same vars as pm-area-style: --pm-bg, --pm-eyebrow, --pm-heading, --pm-text, sizes, weight, align.
+  Outputs style="" for section Color / Background settings.
+  Use CSS attribute selectors on --pm-bg / --pm-bg-image (no extra class= —
+  wrappers already have class="mealplan-page").
   Optional: extra — raw CSS declarations to merge.
 {%- endcomment -%}
 {%- liquid
   assign s = section.settings
   assign css = extra | default: ''
+
   if s.background_color != blank
     assign css = css | append: '--pm-bg:' | append: s.background_color | append: ';background-color:' | append: s.background_color | append: ';'
   endif
+
+  if s.background_image != blank
+    assign bg_url = s.background_image | image_url: width: 2400
+    assign bg_fit = s.background_image_fit | default: 'cover'
+    assign bg_pos = s.background_image_position | default: 'center'
+    assign css = css | append: '--pm-bg-image:url(' | append: bg_url | append: ');background-image:url(' | append: bg_url | append: ');'
+    assign css = css | append: '--pm-bg-size:' | append: bg_fit | append: ';background-size:' | append: bg_fit | append: ';'
+    assign css = css | append: '--pm-bg-position:' | append: bg_pos | append: ';background-position:' | append: bg_pos | append: ';'
+    assign css = css | append: 'background-repeat:no-repeat;'
+  endif
+
+  if s.background_overlay_opacity != blank and s.background_overlay_opacity > 0
+    assign ov_color = s.background_overlay_color | default: '#000000'
+    assign ov_alpha = s.background_overlay_opacity | times: 0.01
+    assign css = css | append: '--pm-overlay-color:' | append: ov_color | append: ';--pm-overlay-opacity:' | append: ov_alpha | append: ';'
+  endif
+
   if s.eyebrow_color != blank
     assign css = css | append: '--pm-eyebrow:' | append: s.eyebrow_color | append: ';'
   endif

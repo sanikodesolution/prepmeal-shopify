@@ -67,9 +67,54 @@
     { "type": "color", "id": "button_icon_color", "label": "Icon color" },
     { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "image_picker", "id": "image", "label": "Background image" },
-    { "type": "header", "content": "Colors & typography" },
+    { "type": "header", "content": "Background, colors & typography" },
     { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
     { "type": "color", "id": "background_color", "label": "Background" },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "select",
+      "id": "background_image_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "auto", "label": "Original" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "background_overlay_color",
+      "label": "Image overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "background_overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Image overlay opacity",
+      "default": 0
+    },
     { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
     { "type": "color", "id": "heading_color", "label": "Heading color" },
     { "type": "color", "id": "text_color", "label": "Text color" },

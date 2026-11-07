@@ -2,9 +2,21 @@
   Wrapper so merchants can add theme blocks + app blocks anywhere on a
   product (or other) JSON template — WordPress-like flexible content.
 {%- endcomment -%}
+{%- liquid
+  assign bg_css = ''
+  if section.settings.background_color != blank
+    assign bg_css = bg_css | append: 'background-color:' | append: section.settings.background_color | append: ';'
+  endif
+  if section.settings.background_image != blank
+    assign bg_url = section.settings.background_image | image_url: width: 2400
+    assign bg_fit = section.settings.background_image_fit | default: 'cover'
+    assign bg_pos = section.settings.background_image_position | default: 'center'
+    assign bg_css = bg_css | append: 'background-image:url(' | append: bg_url | append: ');background-size:' | append: bg_fit | append: ';background-position:' | append: bg_pos | append: ';background-repeat:no-repeat;'
+  endif
+-%}
 <div
   class="pm-blocks section-{{ section.id }}{% if section.settings.include_margins %} page-width{% endif %}{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %}"
-  style="padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px;{% if section.settings.background_color != blank %}background-color:{{ section.settings.background_color }};{% endif %}"
+  style="padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px;{{ bg_css }}"
 >
   {% content_for 'blocks' %}
 </div>
@@ -30,7 +42,33 @@
   "settings": [
     { "type": "checkbox", "id": "include_margins", "label": "Make section margins the same as theme", "default": true },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "color", "id": "background_color", "label": "Background override" },
+    { "type": "header", "content": "Background" },
+    { "type": "color", "id": "background_color", "label": "Background color" },
+    { "type": "image_picker", "id": "background_image", "label": "Background image" },
+    {
+      "type": "select",
+      "id": "background_image_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "auto", "label": "Original" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 36 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 36 }
   ],
