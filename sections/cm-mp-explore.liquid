@@ -7,7 +7,29 @@
 {% comment %} include (not render) so assigns leak into this section {% endcomment %}
 {% include 'cm-mp-context' %}
 
-<div class="mealplan-page" data-mp-page data-cm="meal-plan-explore" data-mp-menu-count="{{ section.settings.menu_count | default: 5 }}"
+{%- liquid
+  assign explore_meal_blocks = section.blocks | where: 'type', 'meal'
+  assign explore_filter_blocks = section.blocks | where: 'type', 'filter'
+  assign meals_source = section.settings.meals_source | default: 'blocks_first'
+  assign prefer_editor_meals = false
+  if meals_source == 'blocks'
+    assign prefer_editor_meals = true
+  elsif meals_source == 'blocks_first' and explore_meal_blocks.size > 0
+    assign prefer_editor_meals = true
+  endif
+-%}
+{%- if prefer_editor_meals and explore_meal_blocks.size > 0 -%}
+  {%- capture meals_json -%}
+    {%- render 'cm-plan-meals', plan: blank, meals: blank, blocks: explore_meal_blocks, food_count: 10, prefer_blocks: true -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+<div
+  class="mealplan-page"
+  data-mp-page
+  data-cm="meal-plan-explore"
+  data-mp-explore="1"
+  data-mp-menu-count="{{ section.settings.menu_count | default: 5 }}"
   data-mp-grid-page="{{ section.settings.grid_page_size | default: 6 }}"
   data-mp-view-label="{{ section.settings.view_meal_label | default: 'View meal' | escape }}"
   data-mp-all-label="{{ section.settings.filter_all_label | default: 'All' | escape }}"
@@ -18,7 +40,8 @@
   data-mp-fat-label="{{ section.settings.fat_label | default: 'Fat' | escape }}"
   data-mp-diet-gluten-label="{{ plan_meta.diet_gluten_label.value | default: 'Gluten free' | escape }}"
   data-mp-diet-dairy-label="{{ plan_meta.diet_dairy_label.value | default: 'Dairy free' | escape }}"
- {% render 'pm-section-style', section: section %}>
+  {% render 'pm-section-style', section: section %}
+>
   <script type="application/json" data-mp-foods>{{ foods_json }}</script>
   <script type="application/json" data-mp-alts>{{ alts_json }}</script>
   <script type="application/json" data-mp-meals>{{ meals_json }}</script>
@@ -26,8 +49,74 @@
     <section class="ex">
       <div class="wrap">
         <h2>{{ c_explore_heading | escape }}</h2>
-        <div class="filters" id="filters" role="group" aria-label="{{ c_filter_label | escape }}"></div>
-        <div class="eg" id="grid"></div>
+
+        <div class="filters" id="filters" role="group" aria-label="{{ section.settings.filter_meals_label | default: 'Filter meals' | escape }}"{% if explore_filter_blocks.size > 0 %} data-mp-ssr="1"{% endif %}>
+          {%- if explore_filter_blocks.size > 0 -%}
+            <button type="button" aria-pressed="true" data-t="all">{{ section.settings.filter_all_label | default: 'All' | escape }}</button>
+            {%- for block in explore_filter_blocks -%}
+              {%- assign filter_slug = block.settings.tag | default: block.settings.label | strip | downcase -%}
+              <button type="button" aria-pressed="false" data-t="{{ filter_slug | escape }}" {{ block.shopify_attributes }}>
+                {{ block.settings.label | default: block.settings.tag | escape }}
+              </button>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+
+        <div class="eg" id="grid"{% if explore_meal_blocks.size > 0 and prefer_editor_meals %} data-mp-ssr="1"{% endif %}>
+          {%- if explore_meal_blocks.size > 0 and prefer_editor_meals -%}
+            {%- for block in explore_meal_blocks -%}
+              {%- liquid
+                assign tag_bits = block.settings.tags | default: '' | split: ','
+                assign tag_data = ''
+                for t in tag_bits
+                  assign t_clean = t | strip | downcase
+                  if t_clean != blank
+                    if tag_data != blank
+                      assign tag_data = tag_data | append: '|'
+                    endif
+                    assign tag_data = tag_data | append: t_clean
+                  endif
+                endfor
+                if block.settings.gluten_free
+                  unless tag_data contains 'gluten'
+                    if tag_data != blank
+                      assign tag_data = tag_data | append: '|gluten free'
+                    else
+                      assign tag_data = 'gluten free'
+                    endif
+                  endunless
+                endif
+                if block.settings.dairy_free
+                  unless tag_data contains 'dairy'
+                    if tag_data != blank
+                      assign tag_data = tag_data | append: '|dairy free'
+                    else
+                      assign tag_data = 'dairy free'
+                    endif
+                  endunless
+                endif
+                assign card_name = block.settings.short | default: block.settings.name
+              -%}
+              <article class="e" data-t="{{ tag_data | escape }}" {{ block.shopify_attributes }}{% render 'pm-area-style', block: block %}>
+                <div class="thumb">
+                  {%- if block.settings.image != blank -%}
+                    {{ block.settings.image | image_url: width: 700 | image_tag: class: 'mp-food mealplan-ph ph', loading: 'lazy', widths: '320,480,700', alt: card_name }}
+                  {%- else -%}
+                    {%- assign fi = block.settings.image_index | default: forloop.index0 | modulo: 10 -%}
+                    <img class="mp-food mealplan-ph ph" src="{{ 'mp-food-' | append: fi | append: '.jpg' | asset_url }}" alt="{{ card_name | escape }}" width="700" height="700" loading="lazy">
+                  {%- endif -%}
+                </div>
+                <h4>{{ card_name | escape }}</h4>
+                <small>
+                  {%- if block.settings.calories != blank -%}{{ block.settings.calories }} cal{%- else -%}— cal{%- endif -%}
+                  ·
+                  {%- if block.settings.protein != blank -%}{{ block.settings.protein }}g protein{%- else -%}— protein{%- endif -%}
+                </small>
+                <button type="button" data-i="{{ forloop.index0 }}">{{ section.settings.view_meal_label | default: 'View meal' | escape }}</button>
+              </article>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
         <div class="more"><button type="button" class="btn" id="more">{{ c_load_more_label | escape }}</button></div>
       </div>
     </section>
@@ -41,16 +130,38 @@
   "class": "section cm-section",
   "settings": [
     {
+      "type": "paragraph",
+      "content": "Edit meals in the left sidebar: open MP À la carte → Add block → Meal. Each Meal block is one card. Filters: Add block → Filter (optional). If no Meal blocks, the plan product variants are used."
+    },
+    {
       "type": "product",
       "id": "content_product",
       "label": "Plan product",
-      "info": "Optional. Meals/copy can come from this product's variants and metafields. On a product template the current product is used when blank."
+      "info": "Used when Meal source is Product, or when there are no Meal blocks yet."
+    },
+    {
+      "type": "select",
+      "id": "meals_source",
+      "label": "Meal source",
+      "options": [
+        { "value": "blocks_first", "label": "Theme Editor blocks first (recommended)" },
+        { "value": "blocks", "label": "Theme Editor blocks only" },
+        { "value": "product", "label": "Plan product variants only" }
+      ],
+      "default": "blocks_first",
+      "info": "Blocks first = page-specific list from sidebar Meal blocks when any exist."
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "À la carte"
+    },
+    {
+      "type": "text",
+      "id": "view_meal_label",
+      "label": "View meal label",
+      "default": "View meal"
     },
     {
       "type": "text",
@@ -85,18 +196,10 @@
     },
     {
       "type": "paragraph",
-      "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress."
+      "content": "Leave blank to keep the theme default."
     },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background"
-    },
-    {
-      "type": "image_picker",
-      "id": "background_image",
-      "label": "Background image"
-    },
+    { "type": "color", "id": "background_color", "label": "Background" },
+    { "type": "image_picker", "id": "background_image", "label": "Background image" },
     {
       "type": "select",
       "id": "background_image_fit",
@@ -121,12 +224,7 @@
       ],
       "default": "center"
     },
-    {
-      "type": "color",
-      "id": "background_overlay_color",
-      "label": "Image overlay color",
-      "default": "#000000"
-    },
+    { "type": "color", "id": "background_overlay_color", "label": "Image overlay color", "default": "#000000" },
     {
       "type": "range",
       "id": "background_overlay_opacity",
@@ -137,31 +235,8 @@
       "label": "Image overlay opacity",
       "default": 0
     },
-    {
-      "type": "color",
-      "id": "eyebrow_color",
-      "label": "Eyebrow color"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading color"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text color"
-    },
-    {
-      "type": "range",
-      "id": "eyebrow_size",
-      "min": 10,
-      "max": 28,
-      "step": 1,
-      "unit": "px",
-      "label": "Eyebrow size",
-      "default": 14
-    },
+    { "type": "color", "id": "heading_color", "label": "Heading color" },
+    { "type": "color", "id": "text_color", "label": "Text color" },
     {
       "type": "range",
       "id": "heading_size",
@@ -187,30 +262,12 @@
       "id": "heading_weight",
       "label": "Heading weight",
       "options": [
-        {
-          "value": "",
-          "label": "Theme default"
-        },
-        {
-          "value": "400",
-          "label": "Regular"
-        },
-        {
-          "value": "500",
-          "label": "Medium"
-        },
-        {
-          "value": "600",
-          "label": "Semi-bold"
-        },
-        {
-          "value": "700",
-          "label": "Bold"
-        },
-        {
-          "value": "800",
-          "label": "Extra-bold"
-        }
+        { "value": "", "label": "Theme default" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra-bold" }
       ],
       "default": ""
     },
@@ -219,29 +276,14 @@
       "id": "text_align",
       "label": "Text align",
       "options": [
-        {
-          "value": "",
-          "label": "Theme default"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "", "label": "Theme default" },
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
       ],
       "default": ""
     },
-    {
-      "type": "header",
-      "content": "Padding"
-    },
+    { "type": "header", "content": "Padding" },
     {
       "type": "range",
       "id": "padding_top",
@@ -263,9 +305,98 @@
       "default": 0
     }
   ],
+  "blocks": [
+    {
+      "type": "meal",
+      "name": "Meal",
+      "settings": [
+        { "type": "paragraph", "content": "One card in À la carte. Click the card in the preview to edit it here." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Chicken Biryani with Raita" },
+        { "type": "text", "id": "short", "label": "Short name (card title)", "info": "Optional shorter label for the grid." },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "number", "id": "calories", "label": "Calories", "default": 620 },
+        { "type": "number", "id": "protein", "label": "Protein (g)", "default": 42 },
+        { "type": "number", "id": "carbs", "label": "Carbs (g)" },
+        { "type": "number", "id": "fat", "label": "Fat (g)" },
+        { "type": "text", "id": "tags", "label": "Filter tags", "info": "Comma-separated, e.g. chicken, gluten free", "default": "chicken" },
+        { "type": "text", "id": "ingredients", "label": "Ingredients", "info": "Comma-separated" },
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "checkbox", "id": "gluten_free", "label": "Gluten free", "default": false },
+        { "type": "checkbox", "id": "dairy_free", "label": "Dairy free", "default": false },
+        { "type": "product", "id": "product", "label": "Linked product (optional)" },
+        { "type": "number", "id": "price", "label": "Price override (cents)", "info": "Optional. Leave 0 to use linked product." },
+        { "type": "range", "id": "image_index", "min": 0, "max": 9, "step": 1, "label": "Default image index", "default": 0 },
+        { "type": "image_picker", "id": "image", "label": "Custom image" },
+        { "type": "header", "content": "Colors & typography" },
+        { "type": "color", "id": "background_color", "label": "Card background" },
+        { "type": "color", "id": "title_color", "label": "Title color" },
+        { "type": "color", "id": "text_color", "label": "Text color" },
+        { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
+        { "type": "range", "id": "text_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Text size", "default": 15 }
+      ]
+    },
+    {
+      "type": "filter",
+      "name": "Filter",
+      "settings": [
+        { "type": "paragraph", "content": "Optional. If you add Filter blocks, only these chips show (plus All). Tag must match a Meal block’s tags." },
+        { "type": "text", "id": "label", "label": "Label", "default": "Chicken" },
+        { "type": "text", "id": "tag", "label": "Tag value", "info": "Must match meal tags (lowercase), e.g. chicken", "default": "chicken" }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "MP À la carte"
+      "name": "MP À la carte",
+      "blocks": [
+        {
+          "type": "meal",
+          "settings": {
+            "name": "Chicken Biryani with Raita",
+            "short": "Chicken Biryani",
+            "calories": 620,
+            "protein": 42,
+            "tags": "chicken",
+            "image_index": 0
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "name": "Tandoori Chicken Leg",
+            "short": "Tandoori Chicken",
+            "calories": 540,
+            "protein": 48,
+            "tags": "chicken, gluten free",
+            "gluten_free": true,
+            "image_index": 1
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "name": "Butter Chicken with Almond Rice",
+            "short": "Butter Chicken",
+            "calories": 680,
+            "protein": 38,
+            "tags": "chicken",
+            "image_index": 2
+          }
+        },
+        {
+          "type": "meal",
+          "settings": {
+            "name": "Coconut Fish Curry with Rice",
+            "short": "Coconut Fish Curry",
+            "calories": 510,
+            "protein": 36,
+            "tags": "seafood, gluten free, dairy free",
+            "gluten_free": true,
+            "dairy_free": true,
+            "image_index": 3
+          }
+        }
+      ]
     }
   ]
 }

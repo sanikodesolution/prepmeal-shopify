@@ -43,11 +43,22 @@
     if (foods[i]) img.src = foods[i];
   });
 
-  // Meals from JSON
+  // Meals from JSON — order/menu use the first meals payload; À la carte prefers
+  // its own [data-mp-explore] payload so sidebar Meal blocks can differ per page.
   let meals = [];
   try {
     meals = JSON.parse($('[data-mp-meals]')?.textContent || '[]');
   } catch (e) {}
+
+  const exploreRoot = document.querySelector('[data-mp-explore]');
+  let exploreMeals = meals;
+  if (exploreRoot) {
+    try {
+      const raw = exploreRoot.querySelector('[data-mp-meals]')?.textContent || '[]';
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) exploreMeals = parsed;
+    } catch (e) {}
+  }
 
   const v = (x, u = '') => (x == null || x === '' ? '—' : x + u);
   const pad = (n) => String(n + 1).padStart(2, '0');
@@ -71,8 +82,12 @@
   // Counts and labels are section settings so the admin can change how many
   // meals the featured row and the explore grid show without editing the theme.
   const menuLimit = Math.max(parseInt(root.dataset.mpMenuCount, 10) || 5, 1);
-  const gridPage = Math.max(parseInt(root.dataset.mpGridPage, 10) || 6, 1);
-  const labelView = root.dataset.mpViewLabel || 'View meal';
+  const gridPage = Math.max(
+    parseInt((exploreRoot || root).dataset.mpGridPage, 10) || parseInt(root.dataset.mpGridPage, 10) || 6,
+    1
+  );
+  const labelView =
+    (exploreRoot && exploreRoot.dataset.mpViewLabel) || root.dataset.mpViewLabel || 'View meal';
 
   if (menuEl && meals.length) {
     menuEl.innerHTML = meals
@@ -90,29 +105,45 @@
       .join('');
   }
 
-  if (filtersEl && gridEl && meals.length) {
-    const tags = ['all', ...new Set(meals.flatMap((m) => (m.tags || '').split(',').map((t) => t.trim().toLowerCase()).filter(Boolean)))];
-    const labelAll = root.dataset.mpAllLabel || 'All';
-    let cur = 'all';
-    let shown = gridPage;
-    filtersEl.innerHTML = tags
-      .map((t) => {
-        const text = t === 'all' ? labelAll : t[0].toUpperCase() + t.slice(1);
-        return `<button type="button" aria-pressed="${t === 'all'}" data-t="${t}">${text}</button>`;
-      })
-      .join('');
-    gridEl.innerHTML = meals
-      .map(
-        (m, k) =>
-          `<article class="e" data-t="${(m.tags || '')
+  if (filtersEl && gridEl && exploreMeals.length) {
+    const gridSsr = gridEl.getAttribute('data-mp-ssr') === '1';
+    const filtersSsr = filtersEl.getAttribute('data-mp-ssr') === '1';
+    const tags = [
+      'all',
+      ...new Set(
+        exploreMeals.flatMap((m) =>
+          (m.tags || '')
             .split(',')
             .map((t) => t.trim().toLowerCase())
-            .join('|')}"><div class="thumb">${imgFor(m, k)}</div><h4>${label(m)}</h4><small>${v(m.calories)} cal · ${v(
-            m.protein,
-            'g'
-          )} protein</small><button type="button" data-i="${k}">${labelView}</button></article>`
-      )
-      .join('');
+            .filter(Boolean)
+        )
+      ),
+    ];
+    const labelAll = (exploreRoot && exploreRoot.dataset.mpAllLabel) || root.dataset.mpAllLabel || 'All';
+    let cur = 'all';
+    let shown = gridPage;
+    if (!filtersSsr) {
+      filtersEl.innerHTML = tags
+        .map((t) => {
+          const text = t === 'all' ? labelAll : t[0].toUpperCase() + t.slice(1);
+          return `<button type="button" aria-pressed="${t === 'all'}" data-t="${t}">${text}</button>`;
+        })
+        .join('');
+    }
+    if (!gridSsr) {
+      gridEl.innerHTML = exploreMeals
+        .map(
+          (m, k) =>
+            `<article class="e" data-t="${(m.tags || '')
+              .split(',')
+              .map((t) => t.trim().toLowerCase())
+              .join('|')}"><div class="thumb">${imgFor(m, k)}</div><h4>${label(m)}</h4><small>${v(m.calories)} cal · ${v(
+              m.protein,
+              'g'
+            )} protein</small><button type="button" data-i="${k}">${labelView}</button></article>`
+        )
+        .join('');
+    }
 
     const apply = (animate) => {
       const cards = [...gridEl.querySelectorAll('.e')];
@@ -198,8 +229,9 @@
     apply(false);
   }
 
-  function showMeal(k) {
-    const m = meals[k];
+  function showMeal(k, list) {
+    const source = Array.isArray(list) && list.length ? list : meals;
+    const m = source[k];
     if (!m || !detail) return;
     const ok = m.protein != null;
     const tot = ok ? m.protein * 4 + m.carbs * 4 + m.fat * 9 : 1;
@@ -263,7 +295,7 @@
     }
   }
 
-  if (meals.length) showMeal(0);
+  if (meals.length) showMeal(0, meals);
 
   const scrollToDetail = () => {
     if (!detail) return;
@@ -278,11 +310,13 @@
     });
   };
 
-  root.addEventListener('click', (e) => {
+  // Listen on document — À la carte / menu live in other MP section roots.
+  document.addEventListener('click', (e) => {
     const t = e.target.closest('[data-i]');
-    if (!t) return;
+    if (!t || !t.closest('[data-mp-page]')) return;
     e.preventDefault();
-    showMeal(+t.dataset.i);
+    const fromExplore = t.closest('[data-mp-explore], #grid, .eg');
+    showMeal(+t.dataset.i, fromExplore ? exploreMeals : meals);
     scrollToDetail();
   });
 

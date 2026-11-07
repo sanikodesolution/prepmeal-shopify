@@ -15,15 +15,20 @@
   metaobject, so the order box keeps charging what Shopify charges.
 
   Accepts:
-  - plan       {Product} Plan product. Its variants are the meals.
-  - meals      {Array}   Meal metaobjects, linked to a variant. Optional.
-  - blocks     {Array}   Meal blocks, the fallback source.
-  - food_count {Number}  Number of bundled mp-food-N.jpg images.
+  - plan          {Product} Plan product. Its variants are the meals.
+  - meals         {Array}   Meal metaobjects, linked to a variant. Optional.
+  - blocks        {Array}   Meal blocks (Theme Editor). Fallback, or preferred when prefer_blocks.
+  - food_count    {Number}  Number of bundled mp-food-N.jpg images.
+  - prefer_blocks {Boolean} When true and blocks exist, use Theme Editor meals (page-specific).
 {%- endcomment -%}
 {%- liquid
   assign food_total = food_count | default: 10
   assign plan_has_meals = false
   assign meal_base_cents = 0
+  assign use_editor_blocks = false
+  if prefer_blocks and blocks != blank and blocks.size > 0
+    assign use_editor_blocks = true
+  endif
   if plan != blank and plan.variants.size > 0
     assign real_variants = 0
     for variant in plan.variants
@@ -42,7 +47,86 @@
   endif
 -%}
 [
-{%- if plan_has_meals -%}
+{%- if use_editor_blocks -%}
+  {%- for block in blocks -%}
+    {%- liquid
+      assign fallback_index = block.settings.image_index | default: forloop.index0
+      assign fallback_index = fallback_index | modulo: food_total
+      assign meal_image = ''
+      assign meal_image_alt = block.settings.name
+      if block.settings.image != blank
+        assign meal_image = block.settings.image | image_url: width: 900
+        if block.settings.image.alt != blank
+          assign meal_image_alt = block.settings.image.alt
+        endif
+      endif
+      assign meal_variant_id = null
+      assign meal_price = block.settings.price | default: 0
+      assign meal_available = true
+      assign meal_source = block.settings.product
+      if meal_source != blank
+        for variant in meal_source.variants
+          if variant.title == block.settings.name
+            assign meal_variant_id = variant.id
+            if meal_price <= 0
+              assign meal_price = variant.price
+            endif
+            assign meal_available = variant.available
+            break
+          endif
+        endfor
+        if meal_variant_id == null
+          assign meal_variant = meal_source.selected_or_first_available_variant
+          assign meal_variant_id = meal_variant.id
+          if meal_price <= 0
+            assign meal_price = meal_variant.price
+          endif
+          assign meal_available = meal_variant.available
+        endif
+      endif
+      assign meal_tags = block.settings.tags | default: ''
+      if block.settings.gluten_free and meal_tags == blank
+        assign meal_tags = 'gluten free'
+      elsif block.settings.gluten_free and meal_tags != blank
+        unless meal_tags contains 'gluten'
+          assign meal_tags = meal_tags | append: ', gluten free'
+        endunless
+      endif
+      if block.settings.dairy_free
+        unless meal_tags contains 'dairy'
+          if meal_tags != blank
+            assign meal_tags = meal_tags | append: ', dairy free'
+          else
+            assign meal_tags = 'dairy free'
+          endif
+        endunless
+      endif
+    -%}
+    {%- if forloop.index0 > 0 -%},{%- endif -%}
+    {
+      "id": {{ meal_variant_id | json }},
+      "name": {{ block.settings.name | json }},
+      "short": {{ block.settings.short | default: block.settings.name | json }},
+      "description": {{ block.settings.description | strip_newlines | json }},
+      "calories": {{ block.settings.calories | json }},
+      "protein": {{ block.settings.protein | json }},
+      "carbs": {{ block.settings.carbs | json }},
+      "fat": {{ block.settings.fat | json }},
+      "tags": {{ meal_tags | json }},
+      "ingredients": {{ block.settings.ingredients | json }},
+      "badge": {{ block.settings.badge | json }},
+      "gluten_free": {{ block.settings.gluten_free | json }},
+      "dairy_free": {{ block.settings.dairy_free | json }},
+      "allergens": "",
+      "reheat": "",
+      "price": {{ meal_price | json }},
+      "available": {{ meal_available | json }},
+      "imageIndex": {{ fallback_index | json }},
+      "image": {% if meal_image != blank %}{{ meal_image | json }}{% else %}null{% endif %},
+      "imageAlt": {{ meal_image_alt | json }}
+    }
+  {%- endfor -%}
+{%- elsif plan_has_meals -%}
   {%- assign meal_i = 0 -%}
   {%- for variant in plan.variants -%}
     {%- unless variant.title == 'Default Title' -%}

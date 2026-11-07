@@ -984,3 +984,6 @@ html.mp-theme-editor .ex[data-shopify-editor-block]:hover{
   background-color: transparent !important;
   background-image: none !important;
 }
+/* explore card typography from Meal block Colors */
+.eg .e[style*="--pm-title"] h4 { color: var(--pm-title); font-size: var(--pm-title-size, inherit); }
+.eg .e[style*="--pm-text"] small { color: var(--pm-text); font-size: var(--pm-text-size, inherit); }
