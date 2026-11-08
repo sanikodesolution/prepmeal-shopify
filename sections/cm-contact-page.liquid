@@ -89,6 +89,9 @@
               {%- endcapture -%}
               {%- capture item_body_style -%}
                 {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+                {%- if block.settings.body_background_color != blank -%}
+                  background-color:{{ block.settings.body_background_color }};
+                {%- endif -%}
               {%- endcapture -%}
               {%- liquid
                 assign item_link = block.settings.link
@@ -567,6 +570,7 @@
         { "type": "range", "id": "label_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
         { "type": "header", "content": "Value typography" },
         { "type": "color", "id": "body_color", "label": "Text color" },
+        { "type": "color", "id": "body_background_color", "label": "Background color" },
         { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
         { "type": "select", "id": "body_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
         { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
