@@ -15,26 +15,24 @@
   .gce {
     --gce-font-body: {{ gce_body.family }}, {{ gce_body.fallback_families }};
     --gce-font-heading: {{ gce_heading_bold.family }}, {{ gce_heading_bold.fallback_families }};
-    --gce-font-body-weight: {{ gce_body.weight }};
-    --gce-font-heading-weight: {{ gce_heading_bold.weight }};
   }
 {%- endstyle -%}
 
 <section
   class="gce"
   data-gce
-  data-gce-font-body="{{ gce_body.family }}, {{ gce_body.fallback_families }}"
-  data-gce-font-heading="{{ gce_heading_bold.family }}, {{ gce_heading_bold.fallback_families }}"
+  data-gce-theme-body="{{ gce_body.family | escape }}, {{ gce_body.fallback_families | escape }}"
+  data-gce-theme-heading="{{ gce_heading_bold.family | escape }}, {{ gce_heading_bold.fallback_families | escape }}"
 >
   <div class="gce__wrap">
     <div class="gce__preview">
       <div class="gce__stage" data-gce-stage>
         <svg class="gce__svg" data-gce-svg viewBox="0 0 800 680" role="img" aria-label="Gift Card"></svg>
       </div>
-      <p class="gce__hint">বাঁদিকে লাইভ প্রিভিউ। ডানদিকের ফিল্ড বদলালে কার্ড সাথে সাথে আপডেট হবে।</p>
+      <p class="gce__hint">বাঁদিকে লাইভ প্রিভিউ। ডানদিকের customization বদলালে কার্ড সাথে সাথে আপডেট হবে।</p>
     </div>
 
-    <aside class="gce__panel">
+    <aside class="gce__panel" data-gce-panel>
       <h1 class="gce__title">Gift Card Editor</h1>
 
       <div class="gce__group">
@@ -66,14 +64,109 @@
       </div>
 
       <div class="gce__group">
-        <p class="gce__group-title">সাইজ</p>
-        <p class="gce__note">Theme heading/body font ব্যবহার হয় — Download ফাইলের Poppins নয়।</p>
+        <p class="gce__group-title">টাইপোগ্রাফি</p>
+        <div class="gce__field">
+          <label for="GceFont-{{ section.id }}">ফন্ট ফ্যামিলি</label>
+          <select id="GceFont-{{ section.id }}" data-gce-field="fontFamily">
+            <option value="theme" selected>Theme default</option>
+            <option value="Inter">Inter</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Nunito">Nunito</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Oswald">Oswald</option>
+            <option value="DM Sans">DM Sans</option>
+            <option value="Space Grotesk">Space Grotesk</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Merriweather">Merriweather</option>
+            <option value="Libre Baskerville">Libre Baskerville</option>
+            <option value="system-ui">System UI</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Arial">Arial</option>
+          </select>
+        </div>
+        <div class="gce__row">
+          <div class="gce__field">
+            <label for="GceWeightHead-{{ section.id }}">হেডিং ওয়েট</label>
+            <select id="GceWeightHead-{{ section.id }}" data-gce-field="weightHead">
+              <option value="400">Regular 400</option>
+              <option value="500">Medium 500</option>
+              <option value="600">Semi-bold 600</option>
+              <option value="700" selected>Bold 700</option>
+              <option value="800">Extra-bold 800</option>
+            </select>
+          </div>
+          <div class="gce__field">
+            <label for="GceWeightBody-{{ section.id }}">বডি ওয়েট</label>
+            <select id="GceWeightBody-{{ section.id }}" data-gce-field="weightBody">
+              <option value="400" selected>Regular 400</option>
+              <option value="500">Medium 500</option>
+              <option value="600">Semi-bold 600</option>
+              <option value="700">Bold 700</option>
+            </select>
+          </div>
+        </div>
         <div class="gce__field">
           <div class="gce__meta">
-            <label for="GceScale-{{ section.id }}">লেখার সাইজ</label>
-            <span data-gce-scale-val>100%</span>
+            <label for="GceGiftSize-{{ section.id }}">১ম লাইন সাইজ</label>
+            <span data-gce-val="giftSize">84px</span>
           </div>
-          <input id="GceScale-{{ section.id }}" type="range" min="60" max="120" step="5" value="100" data-gce-field="scale">
+          <input id="GceGiftSize-{{ section.id }}" type="range" min="14" max="120" step="1" value="84" data-gce-field="giftSize">
+        </div>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceCardSize-{{ section.id }}">২য় লাইন সাইজ</label>
+            <span data-gce-val="cardSize">62px</span>
+          </div>
+          <input id="GceCardSize-{{ section.id }}" type="range" min="14" max="100" step="1" value="62" data-gce-field="cardSize">
+        </div>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceBrandSize-{{ section.id }}">ব্র্যান্ড সাইজ</label>
+            <span data-gce-val="brandSize">15px</span>
+          </div>
+          <input id="GceBrandSize-{{ section.id }}" type="range" min="14" max="40" step="1" value="15" data-gce-field="brandSize">
+        </div>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceSubSize-{{ section.id }}">সাবটাইটেল সাইজ</label>
+            <span data-gce-val="subSize">14px</span>
+          </div>
+          <input id="GceSubSize-{{ section.id }}" type="range" min="14" max="28" step="1" value="14" data-gce-field="subSize">
+        </div>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceBadgeSize-{{ section.id }}">ব্যাজ সাইজ</label>
+            <span data-gce-val="badgeSize">22px</span>
+          </div>
+          <input id="GceBadgeSize-{{ section.id }}" type="range" min="14" max="40" step="1" value="22" data-gce-field="badgeSize">
+        </div>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceNoteSize-{{ section.id }}">নোট সাইজ</label>
+            <span data-gce-val="noteSize">14px</span>
+          </div>
+          <input id="GceNoteSize-{{ section.id }}" type="range" min="14" max="28" step="1" value="14" data-gce-field="noteSize">
+        </div>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceTracking-{{ section.id }}">লেটার স্পেসিং</label>
+            <span data-gce-val="tracking">-2</span>
+          </div>
+          <input id="GceTracking-{{ section.id }}" type="range" min="-4" max="8" step="1" value="-2" data-gce-field="tracking">
+        </div>
+      </div>
+
+      <div class="gce__group">
+        <p class="gce__group-title">কার্ড সাইজ</p>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceCardWidth-{{ section.id }}">প্রিভিউ প্রস্থ</label>
+            <span data-gce-val="cardWidth">560px</span>
+          </div>
+          <input id="GceCardWidth-{{ section.id }}" type="range" min="300" max="900" step="20" value="560" data-gce-field="cardWidth">
         </div>
       </div>
 
@@ -112,7 +205,7 @@
         <div class="gce__field">
           <div class="gce__meta">
             <label for="GceTilt-{{ section.id }}">কাত করা (ডিগ্রি)</label>
-            <span data-gce-tilt-val>-7°</span>
+            <span data-gce-val="tilt">-7°</span>
           </div>
           <input id="GceTilt-{{ section.id }}" type="range" min="-20" max="20" step="1" value="-7" data-gce-field="tilt">
         </div>
@@ -146,7 +239,7 @@
         <button type="button" class="gce__btn gce__btn--ghost" data-gce-svg>SVG ডাউনলোড</button>
         <button type="button" class="gce__btn gce__btn--ghost" data-gce-reset>রিসেট</button>
       </div>
-      <p class="gce__note">PNG ২× সাইজে (১৬০০×১৩৬০) সেভ হবে — Shopify gift card product media তে আপলোড করুন।</p>
+      <p class="gce__note">PNG ২× সাইজে (১৬০০×১৩৬০) সেভ হবে — Shopify gift card product media তে আপলোড করুন। সব ফন্ট সাইজ সর্বনিম্ন ১৪px।</p>
     </aside>
   </div>
 </section>
