@@ -1,0 +1,45 @@
+{%- comment -%}
+  Outputs inline CSS for text block typography + spacing.
+  Usage: {% capture style %}{% render 'pm-block-type-style', block: block %}{% endcapture %}
+{%- endcomment -%}
+{%- liquid
+  if block.settings.text_color != blank
+    echo 'color:' | append: block.settings.text_color | append: ';'
+  endif
+  if block.settings.font_size >= 14
+    echo 'font-size:' | append: block.settings.font_size | append: 'px;'
+  endif
+  if block.settings.font_weight != blank and block.settings.font_weight != 'inherit'
+    echo 'font-weight:' | append: block.settings.font_weight | append: ';'
+  endif
+  if block.settings.letter_spacing != blank and block.settings.letter_spacing != 0
+    echo 'letter-spacing:' | append: block.settings.letter_spacing | append: 'px;'
+  endif
+  if block.settings.line_height != blank and block.settings.line_height != 0
+    echo 'line-height:' | append: block.settings.line_height | append: ';'
+  endif
+  if block.settings.padding_top > 0
+    echo 'padding-top:' | append: block.settings.padding_top | append: 'px;'
+  endif
+  if block.settings.padding_bottom > 0
+    echo 'padding-bottom:' | append: block.settings.padding_bottom | append: 'px;'
+  endif
+  if block.settings.padding_left > 0
+    echo 'padding-left:' | append: block.settings.padding_left | append: 'px;'
+  endif
+  if block.settings.padding_right > 0
+    echo 'padding-right:' | append: block.settings.padding_right | append: 'px;'
+  endif
+  if block.settings.margin_top > 0
+    echo 'margin-top:' | append: block.settings.margin_top | append: 'px;'
+  endif
+  if block.settings.margin_bottom > 0
+    echo 'margin-bottom:' | append: block.settings.margin_bottom | append: 'px;'
+  endif
+  if block.settings.margin_left > 0
+    echo 'margin-left:' | append: block.settings.margin_left | append: 'px;'
+  endif
+  if block.settings.margin_right > 0
+    echo 'margin-right:' | append: block.settings.margin_right | append: 'px;'
+  endif
+-%}

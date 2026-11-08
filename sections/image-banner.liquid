@@ -160,56 +160,26 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
-            {%- liquid
-              assign banner_type_style = ''
-              if block.settings.text_color != blank
-                assign banner_type_style = banner_type_style | append: 'color:' | append: block.settings.text_color | append: ';'
-              endif
-              if block.settings.font_size >= 14
-                assign banner_type_style = banner_type_style | append: 'font-size:' | append: block.settings.font_size | append: 'px;'
-              endif
-              if block.settings.font_weight != blank and block.settings.font_weight != 'inherit'
-                assign banner_type_style = banner_type_style | append: 'font-weight:' | append: block.settings.font_weight | append: ';'
-              endif
-              if block.settings.letter_spacing != 0
-                assign banner_type_style = banner_type_style | append: 'letter-spacing:' | append: block.settings.letter_spacing | append: 'px;'
-              endif
-              if block.settings.line_height != 0
-                assign banner_type_style = banner_type_style | append: 'line-height:' | append: block.settings.line_height | append: ';'
-              endif
-            -%}
+            {%- capture banner_type_style -%}
+              {%- render 'pm-block-type-style', block: block -%}
+            {%- endcapture -%}
             <h2
               class="banner__heading inline-richtext {{ block.settings.heading_size }}"
               {% if banner_type_style != blank %}
-                style="{{ banner_type_style }}"
+                style="{{ banner_type_style | strip }}"
               {% endif %}
               {{ block.shopify_attributes }}
             >
               {{ block.settings.heading }}
             </h2>
           {%- when 'text' -%}
-            {%- liquid
-              assign banner_type_style = ''
-              if block.settings.text_color != blank
-                assign banner_type_style = banner_type_style | append: 'color:' | append: block.settings.text_color | append: ';'
-              endif
-              if block.settings.font_size >= 14
-                assign banner_type_style = banner_type_style | append: 'font-size:' | append: block.settings.font_size | append: 'px;'
-              endif
-              if block.settings.font_weight != blank and block.settings.font_weight != 'inherit'
-                assign banner_type_style = banner_type_style | append: 'font-weight:' | append: block.settings.font_weight | append: ';'
-              endif
-              if block.settings.letter_spacing != 0
-                assign banner_type_style = banner_type_style | append: 'letter-spacing:' | append: block.settings.letter_spacing | append: 'px;'
-              endif
-              if block.settings.line_height != 0
-                assign banner_type_style = banner_type_style | append: 'line-height:' | append: block.settings.line_height | append: ';'
-              endif
-            -%}
+            {%- capture banner_type_style -%}
+              {%- render 'pm-block-type-style', block: block -%}
+            {%- endcapture -%}
             <div
               class="banner__text rte {{ block.settings.text_style }}"
               {% if banner_type_style != blank %}
-                style="{{ banner_type_style }}"
+                style="{{ banner_type_style | strip }}"
               {% endif %}
               {{ block.shopify_attributes }}
             >
@@ -732,7 +702,16 @@
           "label": "Line height",
           "default": 0,
           "info": "0 = theme default"
-        }
+        },
+        { "type": "header", "content": "Spacing" },
+        { "type": "range", "id": "padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 }
       ]
     },
     {
@@ -819,7 +798,16 @@
           "label": "Line height",
           "default": 0,
           "info": "0 = theme default"
-        }
+        },
+        { "type": "header", "content": "Spacing" },
+        { "type": "range", "id": "padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 }
       ]
     },
     {
