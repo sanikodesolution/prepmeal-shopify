@@ -34,11 +34,14 @@
 {%- capture pd_eyebrow_style -%}
   {%- render 'pm-block-type-style', settings: section.settings, prefix: 'eyebrow_' -%}
 {%- endcapture -%}
-{%- capture pd_heading_style -%}
+{%- capture pd_title_style -%}
   {%- render 'pm-block-type-style', settings: section.settings, prefix: 'heading_' -%}
 {%- endcapture -%}
 {%- capture pd_body_style -%}
   {%- render 'pm-block-type-style', settings: section.settings, prefix: 'body_' -%}
+{%- endcapture -%}
+{%- capture pd_price_style -%}
+  {%- render 'pm-block-type-style', settings: section.settings, prefix: 'price_' -%}
 {%- endcapture -%}
 {%- capture pd_note_style -%}
   {%- render 'pm-block-type-style', settings: section.settings, prefix: 'note_' -%}
@@ -133,19 +136,31 @@
         class="mealplan-pd__title"
         data-pd-reveal
         data-pd-title
-        {% if pd_heading_style != blank %}
-          style="{{ pd_heading_style | strip }}"
+        {% if pd_title_style != blank %}
+          style="{{ pd_title_style | strip }}"
         {% endif %}
       >{{ first_dish.settings.name | default: pd_title | escape }}</h2>
       <div class="mealplan-pd__priceRow" data-pd-reveal>
         {%- if product != blank -%}
-          <span class="mealplan-pd__price" data-pd-price>{{ current.price | money }}</span>
+          <span
+            class="mealplan-pd__price"
+            data-pd-price
+            {% if pd_price_style != blank %}
+              style="{{ pd_price_style | strip }}"
+            {% endif %}
+          >{{ current.price | money }}</span>
           <s class="mealplan-pd__compare" data-pd-compare {% unless current.compare_at_price > current.price %}hidden{% endunless %}>
             {%- if current.compare_at_price > current.price -%}{{ current.compare_at_price | money }}{%- endif -%}
           </s>
           <span class="mealplan-pd__sold" data-pd-sold {% if current.available %}hidden{% endif %}>Sold out</span>
         {%- else -%}
-          <span class="mealplan-pd__price" data-pd-price>$64.99</span>
+          <span
+            class="mealplan-pd__price"
+            data-pd-price
+            {% if pd_price_style != blank %}
+              style="{{ pd_price_style | strip }}"
+            {% endif %}
+          >$64.99</span>
           <s class="mealplan-pd__compare" data-pd-compare hidden></s>
           <span class="mealplan-pd__sold" data-pd-sold hidden>Sold out</span>
         {%- endif -%}
@@ -505,6 +520,35 @@
     { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
     { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
 
+    { "type": "header", "content": "Price typography" },
+    { "type": "color", "id": "price_color", "label": "Text color" },
+    { "type": "range", "id": "price_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "price_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-bold 800" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "price_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "price_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Price spacing" },
+    { "type": "range", "id": "price_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "price_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "price_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "price_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "price_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "price_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "price_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "price_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+
     { "type": "header", "content": "Delivery note typography" },
     { "type": "color", "id": "note_color", "label": "Text color" },
     { "type": "range", "id": "note_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
@@ -514,7 +558,6 @@
       "label": "Font weight",
       "options": [
         { "value": "inherit", "label": "Theme default" },
-        { "value": "300", "label": "Light 300" },
         { "value": "400", "label": "Regular 400" },
         { "value": "500", "label": "Medium 500" },
         { "value": "600", "label": "Semi-bold 600" },
