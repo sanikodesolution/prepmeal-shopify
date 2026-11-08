@@ -437,6 +437,17 @@
   margin-bottom: 0;
 }
 
+/* Per-block typography from the theme editor (color, size, weight, spacing) */
+.banner__text[style] p,
+.banner__text[style] a,
+.banner__heading[style] a {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
 .banner__box .banner__heading + * {
   margin-top: 1rem;
 }

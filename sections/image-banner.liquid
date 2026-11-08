@@ -133,14 +133,59 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
+            {%- liquid
+              assign banner_type_style = ''
+              if block.settings.text_color != blank
+                assign banner_type_style = banner_type_style | append: 'color:' | append: block.settings.text_color | append: ';'
+              endif
+              if block.settings.font_size >= 14
+                assign banner_type_style = banner_type_style | append: 'font-size:' | append: block.settings.font_size | append: 'px;'
+              endif
+              if block.settings.font_weight != blank and block.settings.font_weight != 'inherit'
+                assign banner_type_style = banner_type_style | append: 'font-weight:' | append: block.settings.font_weight | append: ';'
+              endif
+              if block.settings.letter_spacing != 0
+                assign banner_type_style = banner_type_style | append: 'letter-spacing:' | append: block.settings.letter_spacing | append: 'px;'
+              endif
+              if block.settings.line_height != 0
+                assign banner_type_style = banner_type_style | append: 'line-height:' | append: block.settings.line_height | append: ';'
+              endif
+            -%}
             <h2
               class="banner__heading inline-richtext {{ block.settings.heading_size }}"
+              {% if banner_type_style != blank %}
+                style="{{ banner_type_style }}"
+              {% endif %}
               {{ block.shopify_attributes }}
             >
               {{ block.settings.heading }}
             </h2>
           {%- when 'text' -%}
-            <div class="banner__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
+            {%- liquid
+              assign banner_type_style = ''
+              if block.settings.text_color != blank
+                assign banner_type_style = banner_type_style | append: 'color:' | append: block.settings.text_color | append: ';'
+              endif
+              if block.settings.font_size >= 14
+                assign banner_type_style = banner_type_style | append: 'font-size:' | append: block.settings.font_size | append: 'px;'
+              endif
+              if block.settings.font_weight != blank and block.settings.font_weight != 'inherit'
+                assign banner_type_style = banner_type_style | append: 'font-weight:' | append: block.settings.font_weight | append: ';'
+              endif
+              if block.settings.letter_spacing != 0
+                assign banner_type_style = banner_type_style | append: 'letter-spacing:' | append: block.settings.letter_spacing | append: 'px;'
+              endif
+              if block.settings.line_height != 0
+                assign banner_type_style = banner_type_style | append: 'line-height:' | append: block.settings.line_height | append: ';'
+              endif
+            -%}
+            <div
+              class="banner__text rte {{ block.settings.text_style }}"
+              {% if banner_type_style != blank %}
+                style="{{ banner_type_style }}"
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
               <p>{{ block.settings.text }}</p>
             </div>
           {%- when 'buttons' -%}
@@ -530,6 +575,60 @@
           ],
           "default": "h1",
           "label": "t:sections.all.heading_size.label"
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 0,
+          "max": 96,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 0,
+          "info": "0 = use Style size above. Custom sizes start at 14px."
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra-bold 800" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "range",
+          "id": "letter_spacing",
+          "min": -4,
+          "max": 12,
+          "step": 1,
+          "unit": "px",
+          "label": "Letter spacing",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "line_height",
+          "min": 0,
+          "max": 2,
+          "step": 0.1,
+          "label": "Line height",
+          "default": 0,
+          "info": "0 = theme default"
         }
       ]
     },
@@ -563,6 +662,60 @@
           ],
           "default": "body",
           "label": "t:sections.image-banner.blocks.text.settings.text_style.label"
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 0,
+          "max": 48,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 0,
+          "info": "0 = use Style size above. Custom sizes start at 14px."
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra-bold 800" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "range",
+          "id": "letter_spacing",
+          "min": -4,
+          "max": 12,
+          "step": 1,
+          "unit": "px",
+          "label": "Letter spacing",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "line_height",
+          "min": 0,
+          "max": 2,
+          "step": 0.1,
+          "label": "Line height",
+          "default": 0,
+          "info": "0 = theme default"
         }
       ]
     },
