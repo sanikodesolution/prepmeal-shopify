@@ -1,10 +1,31 @@
 {{ 'section-cm-gift-card-editor.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'cm-gift-card-editor.js' | asset_url }}" defer="defer"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Plus+Jakarta+Sans:wght@400;700;800&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+{%- liquid
+  assign gce_body = settings.type_body_font
+  assign gce_heading = settings.type_header_font
+  assign gce_heading_bold = gce_heading | font_modify: 'weight', 'bold'
+  if gce_heading_bold == blank
+    assign gce_heading_bold = gce_heading
+  endif
+-%}
+{%- style -%}
+  {{ gce_body | font_face: font_display: 'swap' }}
+  {{ gce_heading | font_face: font_display: 'swap' }}
+  {{ gce_heading_bold | font_face: font_display: 'swap' }}
+  .gce {
+    --gce-font-body: {{ gce_body.family }}, {{ gce_body.fallback_families }};
+    --gce-font-heading: {{ gce_heading_bold.family }}, {{ gce_heading_bold.fallback_families }};
+    --gce-font-body-weight: {{ gce_body.weight }};
+    --gce-font-heading-weight: {{ gce_heading_bold.weight }};
+  }
+{%- endstyle -%}
 
-<section class="gce" data-gce>
+<section
+  class="gce"
+  data-gce
+  data-gce-font-body="{{ gce_body.family }}, {{ gce_body.fallback_families }}"
+  data-gce-font-heading="{{ gce_heading_bold.family }}, {{ gce_heading_bold.fallback_families }}"
+>
   <div class="gce__wrap">
     <div class="gce__preview">
       <div class="gce__stage" data-gce-stage>
@@ -45,15 +66,8 @@
       </div>
 
       <div class="gce__group">
-        <p class="gce__group-title">ফন্ট</p>
-        <div class="gce__field">
-          <label for="GceFont-{{ section.id }}">ফন্ট</label>
-          <select id="GceFont-{{ section.id }}" data-gce-field="font">
-            <option value="Poppins" selected>Poppins / Sans (ডিফল্ট)</option>
-            <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
-            <option value="Inter">Inter</option>
-          </select>
-        </div>
+        <p class="gce__group-title">সাইজ</p>
+        <p class="gce__note">Theme heading/body font ব্যবহার হয় — Download ফাইলের Poppins নয়।</p>
         <div class="gce__field">
           <div class="gce__meta">
             <label for="GceScale-{{ section.id }}">লেখার সাইজ</label>

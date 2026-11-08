@@ -41,7 +41,7 @@
   <div class="cm-gc__hero">
     <div class="cm-gc__stage" data-gc-stage>
       <div class="cm-gc__label" data-gc-label>
-        {% render 'gift-card-visual', settings: section.settings, uid: section.id, embedded: true %}
+        {% render 'gift-card-visual', card: section.settings, uid: section.id, embedded: true %}
       </div>
     </div>
 
@@ -453,7 +453,7 @@
     { "type": "text", "id": "subtitle", "label": "Brand subtitle", "default": "FRESH MEAL PREP" },
     { "type": "text", "id": "badge", "label": "Badge text (when no logo)", "default": "CM" },
     { "type": "text", "id": "note", "label": "Small note", "default": "Redeemable on any meal plan" },
-    { "type": "font_picker", "id": "font", "label": "Card font", "default": "poppins_n4" },
+    { "type": "paragraph", "content": "Card uses your theme heading and body fonts." },
     { "type": "range", "id": "text_scale", "label": "Text size", "min": 60, "max": 120, "step": 5, "default": 100, "unit": "%" },
     { "type": "image_picker", "id": "logo", "label": "Logo (replaces badge and brand text)" },
     { "type": "color", "id": "card_bg", "label": "Card background", "default": "#FFFDF6" },
@@ -494,7 +494,7 @@
     { "type": "color", "id": "button_bg_color", "label": "Background color" },
     { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
     { "type": "color", "id": "button_icon_color", "label": "Icon color" },
-    { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
+    { "type": "range", "id": "button_font_size", "min": 14, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "text", "id": "added_text", "label": "Added message", "default": "gift card added to your cart" },
     { "type": "text", "id": "unavailable_text", "label": "Unavailable message", "default": "Gift cards are coming soon." },
     { "type": "text", "id": "fine_print", "label": "Fine print", "default": "Secure checkout. Delivered by email, so it arrives in minutes." },
@@ -543,7 +543,7 @@
     { "type": "color", "id": "review_button_bg_color", "label": "Background color" },
     { "type": "color", "id": "review_button_icon_bg", "label": "Icon background" },
     { "type": "color", "id": "review_button_icon_color", "label": "Icon color" },
-    { "type": "range", "id": "review_button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
+    { "type": "range", "id": "review_button_font_size", "min": 14, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     {
       "type": "text",
       "id": "review_thanks",

@@ -10,7 +10,6 @@
     subtitle: 'FRESH MEAL PREP',
     badge: 'CM',
     note: 'Redeemable on any meal plan',
-    font: 'Poppins',
     scale: 100,
     cardBg: '#FFFDF6',
     sectionBg: '#E6E6E3',
@@ -23,6 +22,9 @@
     transparentBg: false,
   };
 
+  const fontBody = root.dataset.gceFontBody || 'var(--font-body-family), system-ui, sans-serif';
+  const fontHeading = root.dataset.gceFontHeading || 'var(--font-heading-family), system-ui, sans-serif';
+
   const $ = (id) => root.querySelector(`[data-gce-field="${id}"]`);
   const els = {
     gift: $('gift'),
@@ -31,7 +33,6 @@
     subtitle: $('subtitle'),
     badge: $('badge'),
     note: $('note'),
-    font: $('font'),
     scale: $('scale'),
     scaleVal: root.querySelector('[data-gce-scale-val]'),
     cardBg: $('cardBg'),
@@ -76,12 +77,6 @@
     return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
   };
 
-  const fontStack = (name) => {
-    if (name === 'Plus Jakarta Sans') return `'Plus Jakarta Sans', Poppins, Arial, sans-serif`;
-    if (name === 'Inter') return `Inter, Poppins, Arial, sans-serif`;
-    return `Poppins, 'Plus Jakarta Sans', Arial, sans-serif`;
-  };
-
   const state = () => ({
     gift: els.gift.value.trim() || defaults.gift,
     card: els.card.value.trim() || defaults.card,
@@ -89,7 +84,6 @@
     subtitle: els.subtitle.value.trim() || defaults.subtitle,
     badge: els.badge.value.trim() || defaults.badge,
     note: els.note.value.trim() || defaults.note,
-    font: els.font.value,
     scale: Number(els.scale.value) || 100,
     cardBg: els.cardBg.value,
     sectionBg: els.sectionBg.value,
@@ -102,11 +96,12 @@
     transparentBg: els.transparentBg.checked,
   });
 
+  const minSize = (n) => Math.max(14, Math.round(n));
+
   const render = () => {
     const s = state();
-    const stack = fontStack(s.font);
-    const giftSize = Math.round(84 * (s.scale / 100));
-    const cardSize = Math.round(62 * (s.scale / 100));
+    const giftSize = minSize(84 * (s.scale / 100));
+    const cardSize = minSize(62 * (s.scale / 100));
     const bowDark = darken(s.bow, 0.1);
     const bowLight = lighten(s.bow, 0.18);
 
@@ -133,9 +128,9 @@
     const brand = logoUrl
       ? `<image href="${logoUrl}" x="36" y="30" width="170" height="64" preserveAspectRatio="xMinYMid meet"/>`
       : `<circle cx="62" cy="62" r="26" fill="${s.textAccent}" stroke="${s.textMain}" stroke-width="3"/>
-         <text x="62" y="70" text-anchor="middle" font-family="${stack}" font-weight="800" font-size="22" fill="${s.textMain}">${escapeXml(s.badge)}</text>
-         <text x="98" y="58" font-family="${stack}" font-weight="700" font-size="15" letter-spacing="3" fill="${s.textMain}">${escapeXml(s.brand)}</text>
-         <text x="98" y="76" font-family="${stack}" font-size="10" letter-spacing="2" fill="#7A8194">${escapeXml(s.subtitle)}</text>`;
+         <text x="62" y="70" text-anchor="middle" font-family="${fontHeading}" font-weight="700" font-size="22" fill="${s.textMain}">${escapeXml(s.badge)}</text>
+         <text x="98" y="58" font-family="${fontHeading}" font-weight="700" font-size="15" letter-spacing="3" fill="${s.textMain}">${escapeXml(s.brand)}</text>
+         <text x="98" y="78" font-family="${fontBody}" font-size="14" letter-spacing="2" fill="#7A8194">${escapeXml(s.subtitle)}</text>`;
 
     svg.innerHTML = `
       <defs>
@@ -148,9 +143,9 @@
         <rect width="480" height="300" rx="18" fill="${s.cardBg}"/>
         ${ribbon}
         ${brand}
-        <text x="36" y="188" font-family="${stack}" font-weight="800" font-size="${giftSize}" letter-spacing="-2" fill="${s.textMain}">${escapeXml(s.gift)}</text>
-        <text x="36" y="252" font-family="${stack}" font-weight="400" font-size="${cardSize}" fill="${s.textAccent}">${escapeXml(s.card)}</text>
-        <text x="444" y="276" text-anchor="end" font-family="${stack}" font-size="11" fill="#7A8194">${escapeXml(s.note)}</text>
+        <text x="36" y="188" font-family="${fontHeading}" font-weight="700" font-size="${giftSize}" letter-spacing="-2" fill="${s.textMain}">${escapeXml(s.gift)}</text>
+        <text x="36" y="252" font-family="${fontBody}" font-weight="400" font-size="${cardSize}" fill="${s.textAccent}">${escapeXml(s.card)}</text>
+        <text x="444" y="276" text-anchor="end" font-family="${fontBody}" font-size="14" fill="#7A8194">${escapeXml(s.note)}</text>
       </g>
     `;
     svg.setAttribute('aria-label', `${s.gift} ${s.card}`);
@@ -225,7 +220,6 @@
     els.subtitle.value = defaults.subtitle;
     els.badge.value = defaults.badge;
     els.note.value = defaults.note;
-    els.font.value = defaults.font;
     els.scale.value = defaults.scale;
     els.cardBg.value = defaults.cardBg;
     els.sectionBg.value = defaults.sectionBg;

@@ -1,7 +1,7 @@
 {%- comment -%}
   Theme block: Gift card visual — place inside product / group sections.
 {%- endcomment -%}
-{% render 'gift-card-visual', settings: block.settings, uid: block.id %}
+{% render 'gift-card-visual', card: block.settings, uid: block.id %}
 
 {% schema %}
 {
@@ -14,7 +14,7 @@
     { "type": "text", "id": "subtitle", "label": "Brand subtitle", "default": "FRESH MEAL PREP" },
     { "type": "text", "id": "badge", "label": "Badge text (when no logo)", "default": "CM" },
     { "type": "text", "id": "note", "label": "Small note", "default": "Redeemable on any meal plan" },
-    { "type": "font_picker", "id": "font", "label": "Font", "default": "poppins_n4" },
+    { "type": "paragraph", "content": "Uses your theme heading and body fonts." },
     { "type": "range", "id": "text_scale", "label": "Text size", "min": 60, "max": 120, "step": 5, "default": 100, "unit": "%" },
 
     { "type": "header", "content": "Logo" },

@@ -1,26 +1,36 @@
 {%- comment -%}
   Tilted gift-card SVG visual.
+  Uses theme heading/body fonts only (no Download-folder fonts).
   Accepts:
-  - settings  {Object}  Section/block settings (required)
+  - card      {Object}  Section/block settings (required)
   - uid       {String}  Unique id for clip/filter (required)
   - embedded  {Boolean} When true, skip outer stage chrome (used inside CM gift card hero)
 {%- endcomment -%}
 {%- liquid
-  assign s = settings
-  assign font_bold = s.font | font_modify: 'weight', 'bold'
-  if font_bold == blank
-    assign font_bold = s.font
+  assign s = card
+  assign font_body = settings.type_body_font
+  assign font_heading = settings.type_header_font
+  assign font_heading_bold = font_heading | font_modify: 'weight', 'bold'
+  if font_heading_bold == blank
+    assign font_heading_bold = font_heading
   endif
   assign bow_dark = s.bow_color | color_darken: 10
   assign bow_light = s.bow_color | color_lighten: 18
   assign scale = s.text_scale | default: 100 | times: 1.0 | divided_by: 100
   assign gift_size = 84 | times: scale
   assign card_size = 62 | times: scale
+  if gift_size < 14
+    assign gift_size = 14
+  endif
+  if card_size < 14
+    assign card_size = 14
+  endif
 -%}
 
 <style>
-  {{ s.font | font_face: font_display: 'swap' }}
-  {{ font_bold | font_face: font_display: 'swap' }}
+  {{ font_body | font_face: font_display: 'swap' }}
+  {{ font_heading | font_face: font_display: 'swap' }}
+  {{ font_heading_bold | font_face: font_display: 'swap' }}
 
   #gcv-{{ uid }} {
     {% unless embedded %}
@@ -45,12 +55,12 @@
     height: auto;
   }
   #gcv-{{ uid }} .gcv__t {
-    font-family: {{ s.font.family }}, {{ s.font.fallback_families }};
-    font-weight: {{ s.font.weight }};
+    font-family: {{ font_body.family }}, {{ font_body.fallback_families }};
+    font-weight: {{ font_body.weight }};
   }
   #gcv-{{ uid }} .gcv__t--bold {
-    font-family: {{ font_bold.family }}, {{ font_bold.fallback_families }};
-    font-weight: {{ font_bold.weight }};
+    font-family: {{ font_heading_bold.family }}, {{ font_heading_bold.fallback_families }};
+    font-weight: {{ font_heading_bold.weight }};
   }
 </style>
 
@@ -96,12 +106,12 @@
           <circle cx="62" cy="62" r="26" fill="{{ s.text_accent }}" stroke="{{ s.text_main }}" stroke-width="3"/>
           <text class="gcv__t gcv__t--bold" x="62" y="70" text-anchor="middle" font-size="22" fill="{{ s.text_main }}">{{ s.badge | escape }}</text>
           <text class="gcv__t gcv__t--bold" x="98" y="58" font-size="15" letter-spacing="3" fill="{{ s.text_main }}">{{ s.brand | escape }}</text>
-          <text class="gcv__t" x="98" y="76" font-size="10" letter-spacing="2" fill="#7A8194">{{ s.subtitle | escape }}</text>
+          <text class="gcv__t" x="98" y="78" font-size="14" letter-spacing="2" fill="#7A8194">{{ s.subtitle | escape }}</text>
         {%- endif -%}
 
         <text class="gcv__t gcv__t--bold" x="36" y="188" font-size="{{ gift_size }}" letter-spacing="-2" fill="{{ s.text_main }}">{{ s.gift_text | escape }}</text>
         <text class="gcv__t" x="36" y="252" font-size="{{ card_size }}" fill="{{ s.text_accent }}">{{ s.card_text | escape }}</text>
-        <text class="gcv__t" x="444" y="276" text-anchor="end" font-size="11" fill="#7A8194">{{ s.note | escape }}</text>
+        <text class="gcv__t" x="444" y="276" text-anchor="end" font-size="14" fill="#7A8194">{{ s.note | escape }}</text>
       </g>
     </svg>
   </div>
