@@ -33,6 +33,16 @@
   assign feature_heading_custom = section.settings.feature_heading_custom
   assign feature_heading_font = section.settings.feature_heading_font
   assign feature_heading_height = section.settings.feature_heading_height
+  assign feature_heading_weight = section.settings.feature_heading_weight
+  assign feature_heading_letter_spacing = section.settings.feature_heading_letter_spacing
+  assign feature_heading_pt = section.settings.feature_heading_padding_top
+  assign feature_heading_pb = section.settings.feature_heading_padding_bottom
+  assign feature_heading_pl = section.settings.feature_heading_padding_left
+  assign feature_heading_pr = section.settings.feature_heading_padding_right
+  assign feature_heading_mt = section.settings.feature_heading_mt
+  assign feature_heading_mb = section.settings.feature_heading_margin_bottom
+  assign feature_heading_ml = section.settings.feature_heading_margin_left
+  assign feature_heading_mr = section.settings.feature_heading_margin_right
 
   assign feature_text_size = section.settings.feature_text_size
   assign feature_text_size_mobile = section.settings.feature_text_size_mobile
@@ -40,7 +50,16 @@
   assign feature_text_custom = section.settings.feature_text_custom
   assign feature_text_font = section.settings.feature_text_font
   assign feature_text_height = section.settings.feature_text_height
+  assign feature_text_weight = section.settings.feature_text_weight
+  assign feature_text_letter_spacing = section.settings.feature_text_letter_spacing
+  assign feature_text_pt = section.settings.feature_text_padding_top
+  assign feature_text_pb = section.settings.feature_text_padding_bottom
+  assign feature_text_pl = section.settings.feature_text_padding_left
+  assign feature_text_pr = section.settings.feature_text_padding_right
   assign feature_text_mt = section.settings.feature_text_mt
+  assign feature_text_mb = section.settings.feature_text_margin_bottom
+  assign feature_text_ml = section.settings.feature_text_margin_left
+  assign feature_text_mr = section.settings.feature_text_margin_right
 
   assign feature_icon_size_mobile = section.settings.feature_icon_size_mobile
   assign feature_icon_size = section.settings.feature_icon_size
@@ -66,35 +85,44 @@
   }
 
   .feature-{{ section.id }} .box__title {
-    margin: 0px;
+    margin: 0;
+    margin-top: {{ feature_heading_mt | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ feature_heading_mb | times: 0.75 | round: 0 }}px;
+    margin-left: {{ feature_heading_ml | times: 0.75 | round: 0 }}px;
+    margin-right: {{ feature_heading_mr | times: 0.75 | round: 0 }}px;
+    padding-top: {{ feature_heading_pt | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ feature_heading_pb | times: 0.75 | round: 0 }}px;
+    padding-left: {{ feature_heading_pl | times: 0.75 | round: 0 }}px;
+    padding-right: {{ feature_heading_pr | times: 0.75 | round: 0 }}px;
     font-size: {{ feature_heading_size_mobile }}px;
     color: {{ feature_heading_color }};
     line-height: {{ feature_heading_height }}%;
+    letter-spacing: {{ feature_heading_letter_spacing }}px;
     text-transform: unset;
-    font-weight: bold;
-    margin-top: {{section.settings.feature_heading_mt}}px;
+    font-weight: {% if feature_heading_weight != blank and feature_heading_weight != 'inherit' %}{{ feature_heading_weight }}{% else %}bold{% endif %};
   }
   
   .feature-{{ section.id }} .box__description {
     margin-top: {{ feature_text_mt | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ feature_text_mb | times: 0.75 | round: 0 }}px;
+    margin-left: {{ feature_text_ml | times: 0.75 | round: 0 }}px;
+    margin-right: {{ feature_text_mr | times: 0.75 | round: 0 }}px;
+    padding-top: {{ feature_text_pt | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ feature_text_pb | times: 0.75 | round: 0 }}px;
+    padding-left: {{ feature_text_pl | times: 0.75 | round: 0 }}px;
+    padding-right: {{ feature_text_pr | times: 0.75 | round: 0 }}px;
   }
 
   .feature-{{ section.id }} .box__description * {
-    margin: 0px;
+    margin: 0;
     font-size: {{ feature_text_size_mobile }}px;
     color: {{ feature_text_color }};
     line-height: {{ feature_text_height }}%;
+    letter-spacing: {{ feature_text_letter_spacing }}px;
     text-transform: unset;
-  }
-
-  .feature-{{ section.id }} .box__title[style],
-  .feature-{{ section.id }} .box__description[style],
-  .feature-{{ section.id }} .box__description[style] * {
-    color: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    letter-spacing: inherit;
-    line-height: inherit;
+    {% if feature_text_weight != blank and feature_text_weight != 'inherit' %}
+      font-weight: {{ feature_text_weight }};
+    {% endif %}
   }
 
   .feature-{{ section.id }} .wrapper-box {
@@ -167,10 +195,25 @@
     
     .feature-{{ section.id }} .box__title {
       font-size: {{ feature_heading_size }}px;
+      margin-top: {{ feature_heading_mt }}px;
+      margin-bottom: {{ feature_heading_mb }}px;
+      margin-left: {{ feature_heading_ml }}px;
+      margin-right: {{ feature_heading_mr }}px;
+      padding-top: {{ feature_heading_pt }}px;
+      padding-bottom: {{ feature_heading_pb }}px;
+      padding-left: {{ feature_heading_pl }}px;
+      padding-right: {{ feature_heading_pr }}px;
     }
 
     .feature-{{ section.id }} .box__description {
       margin-top: {{ feature_text_mt }}px;
+      margin-bottom: {{ feature_text_mb }}px;
+      margin-left: {{ feature_text_ml }}px;
+      margin-right: {{ feature_text_mr }}px;
+      padding-top: {{ feature_text_pt }}px;
+      padding-bottom: {{ feature_text_pb }}px;
+      padding-left: {{ feature_text_pl }}px;
+      padding-right: {{ feature_text_pr }}px;
     }
 
     .feature-{{ section.id }} .box__description * {
@@ -188,8 +231,10 @@
   <style>
     .feature-{{ section.id }} .box__title {
       font-family: {{ feature_heading_font.family }}, {{ feature_heading_font.fallback_families }};
-      font-weight: {{ feature_heading_font.weight }};
       font-style: {{ feature_heading_font.style }};
+      {% if feature_heading_weight == blank or feature_heading_weight == 'inherit' %}
+        font-weight: {{ feature_heading_font.weight }};
+      {% endif %}
     }
   </style>
 {% endif %}
@@ -198,8 +243,10 @@
   <style>
     .feature-{{ section.id }} .box__description * {
       font-family: {{ feature_text_font.family }}, {{ feature_text_font.fallback_families }};
-      font-weight: {{ feature_text_font.weight }};
       font-style: {{ feature_text_font.style }};
+      {% if feature_text_weight == blank or feature_text_weight == 'inherit' %}
+        font-weight: {{ feature_text_font.weight }};
+      {% endif %}
     }
   </style>
 {% endif %}
@@ -415,6 +462,12 @@
         "default": "josefin_sans_n4"
       },
       {
+        "type": "color",
+        "id": "feature_heading_color",
+        "label": "Text color",
+        "default": "#000000"
+      },
+      {
         "type": "range",
         "id": "feature_heading_size",
         "min": 0,
@@ -422,7 +475,8 @@
         "step": 2,
         "unit": "px",
         "label": "Font size",
-        "default": 14
+        "default": 14,
+        "info": "Custom sizes start at 14px recommended."
       },
       {
         "type": "range",
@@ -435,6 +489,30 @@
         "default": 12
       },
       {
+        "type": "select",
+        "id": "feature_heading_weight",
+        "label": "Font weight",
+        "options": [
+          { "value": "inherit", "label": "Theme default (bold)" },
+          { "value": "400", "label": "Regular 400" },
+          { "value": "500", "label": "Medium 500" },
+          { "value": "600", "label": "Semi-bold 600" },
+          { "value": "700", "label": "Bold 700" },
+          { "value": "800", "label": "Extra-bold 800" }
+        ],
+        "default": "inherit"
+      },
+      {
+        "type": "range",
+        "id": "feature_heading_letter_spacing",
+        "min": -4,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "Letter spacing",
+        "default": 0
+      },
+      {
         "type": "range",
         "id": "feature_heading_height",
         "min": 50,
@@ -445,14 +523,88 @@
         "default": 130
       },
       {
+        "type": "header",
+        "content": "Feature heading spacing"
+      },
+      {
+        "type": "range",
+        "id": "feature_heading_padding_top",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_heading_padding_bottom",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_heading_padding_left",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding left",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_heading_padding_right",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding right",
+        "default": 0
+      },
+      {
         "type": "range",
         "id": "feature_heading_mt",
         "min": 0,
-        "max": 50,
+        "max": 80,
         "step": 2,
         "unit": "px",
         "label": "Margin top",
         "default": 8
+      },
+      {
+        "type": "range",
+        "id": "feature_heading_margin_bottom",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Margin bottom",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_heading_margin_left",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Margin left",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_heading_margin_right",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Margin right",
+        "default": 0
       },
       {
         "type":"header",
@@ -471,6 +623,12 @@
         "default": "josefin_sans_n4"
       },
       {
+        "type": "color",
+        "id": "feature_text_color",
+        "label": "Text color",
+        "default": "#000000"
+      },
+      {
         "type": "range",
         "id": "feature_text_size",
         "min": 0,
@@ -478,7 +636,8 @@
         "step": 2,
         "unit": "px",
         "label": "Font size",
-        "default": 12
+        "default": 12,
+        "info": "Custom sizes start at 14px recommended."
       },
       {
         "type": "range",
@@ -491,6 +650,30 @@
         "default": 12
       },
       {
+        "type": "select",
+        "id": "feature_text_weight",
+        "label": "Font weight",
+        "options": [
+          { "value": "inherit", "label": "Theme default" },
+          { "value": "400", "label": "Regular 400" },
+          { "value": "500", "label": "Medium 500" },
+          { "value": "600", "label": "Semi-bold 600" },
+          { "value": "700", "label": "Bold 700" },
+          { "value": "800", "label": "Extra-bold 800" }
+        ],
+        "default": "inherit"
+      },
+      {
+        "type": "range",
+        "id": "feature_text_letter_spacing",
+        "min": -4,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "Letter spacing",
+        "default": 0
+      },
+      {
         "type": "range",
         "id": "feature_text_height",
         "min": 50,
@@ -501,14 +684,88 @@
         "default": 130
       },
       {
+        "type": "header",
+        "content": "Feature text spacing"
+      },
+      {
+        "type": "range",
+        "id": "feature_text_padding_top",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_text_padding_bottom",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_text_padding_left",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding left",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_text_padding_right",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Padding right",
+        "default": 0
+      },
+      {
         "type": "range",
         "id": "feature_text_mt",
         "min": 0,
-        "max": 50,
+        "max": 80,
         "step": 2,
         "unit": "px",
         "label": "Margin top",
         "default": 4
+      },
+      {
+        "type": "range",
+        "id": "feature_text_margin_bottom",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Margin bottom",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_text_margin_left",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Margin left",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "feature_text_margin_right",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "Margin right",
+        "default": 0
       },
       {
         "type":"header",
@@ -559,18 +816,6 @@
       {
         "type":"header",
         "content":"Feature content colors"
-      },
-      {
-        "type":"color",
-        "id":"feature_heading_color",
-        "label":"Heading color",
-        "default":"#000000"
-      },
-      {
-        "type":"color",
-        "id":"feature_text_color",
-        "label":"Text color",
-        "default":"#000000"
       },
       {
         "type":"color",
