@@ -1,13 +1,19 @@
 {%- comment -%}
-  Outputs inline CSS for text typography + spacing from a block.
+  Outputs inline CSS for text typography + spacing.
   Usage:
     {% render 'pm-block-type-style', block: block %}
     {% render 'pm-block-type-style', block: block, prefix: 'title_' %}
+    {% render 'pm-block-type-style', settings: section.settings, prefix: 'heading_' %}
   With prefix blank, reads: text_color, font_size, font_weight, letter_spacing, line_height, padding_*, margin_*
   With prefix 'title_', reads: title_color, title_font_size, title_font_weight, ...
 {%- endcomment -%}
 {%- liquid
   assign p = prefix | default: ''
+  if settings != blank
+    assign src = settings
+  else
+    assign src = block.settings
+  endif
   if p == blank
     assign key_color = 'text_color'
     assign key_size = 'font_size'
@@ -38,19 +44,19 @@
     assign key_mr = p | append: 'margin_right'
   endif
 
-  assign val_color = block.settings[key_color]
-  assign val_size = block.settings[key_size]
-  assign val_weight = block.settings[key_weight]
-  assign val_track = block.settings[key_track]
-  assign val_leading = block.settings[key_leading]
-  assign val_pt = block.settings[key_pt]
-  assign val_pb = block.settings[key_pb]
-  assign val_pl = block.settings[key_pl]
-  assign val_pr = block.settings[key_pr]
-  assign val_mt = block.settings[key_mt]
-  assign val_mb = block.settings[key_mb]
-  assign val_ml = block.settings[key_ml]
-  assign val_mr = block.settings[key_mr]
+  assign val_color = src[key_color]
+  assign val_size = src[key_size]
+  assign val_weight = src[key_weight]
+  assign val_track = src[key_track]
+  assign val_leading = src[key_leading]
+  assign val_pt = src[key_pt]
+  assign val_pb = src[key_pb]
+  assign val_pl = src[key_pl]
+  assign val_pr = src[key_pr]
+  assign val_mt = src[key_mt]
+  assign val_mb = src[key_mb]
+  assign val_ml = src[key_ml]
+  assign val_mr = src[key_mr]
 
   if val_color != blank
     echo 'color:' | append: val_color | append: ';'
