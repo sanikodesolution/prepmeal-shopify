@@ -1,39 +1,100 @@
 {% render 'cm-section-assets', section: section %}
 
 {%- liquid
+  assign s = section.settings
   assign columns = section.blocks.size
   if columns > 5
     assign columns = 5
   endif
 -%}
+{%- capture plans_eyebrow_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'eyebrow_' -%}
+{%- endcapture -%}
+{%- capture plans_heading_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'heading_' -%}
+{%- endcapture -%}
+{%- capture plans_body_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'body_' -%}
+{%- endcapture -%}
 
-<div class="cm cm-plans cm--{{ section.settings.background }}" data-cm="plans">
+<div class="cm cm-plans cm--{{ s.background }}" data-cm="plans">
   <div class="page-width section-{{ section.id }}-padding">
     <div class="cm-inner--narrow">
       <div class="cm-center">
-        {%- if section.settings.label != blank -%}
-          <span class="cm-label">{{ section.settings.label | escape }}</span>
+        {%- if s.label != blank -%}
+          <span
+            class="cm-label"
+            {% if plans_eyebrow_style != blank %}
+              style="{{ plans_eyebrow_style | strip }}"
+            {% endif %}
+          >
+            {{- s.label | escape -}}
+          </span>
         {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h2 class="cm-heading">{{ section.settings.heading | escape | newline_to_br }}</h2>
+        {%- if s.heading != blank -%}
+          <h2
+            class="cm-heading"
+            {% if plans_heading_style != blank %}
+              style="{{ plans_heading_style | strip }}"
+            {% endif %}
+          >
+            {{- s.heading | escape | newline_to_br -}}
+          </h2>
         {%- endif -%}
-        {%- if section.settings.text != blank -%}
-          <div class="cm-body">{{ section.settings.text }}</div>
+        {%- if s.text != blank -%}
+          <div
+            class="cm-body"
+            {% if plans_body_style != blank %}
+              style="{{ plans_body_style | strip }}"
+            {% endif %}
+          >
+            {{ s.text }}
+          </div>
         {%- endif -%}
       </div>
 
       {%- if section.blocks.size > 0 -%}
         <div class="cm-plans__grid" style="--cm-cols: {{ columns }};">
           {%- for block in section.blocks -%}
+            {%- capture plan_title_style -%}
+              {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+            {%- endcapture -%}
+            {%- capture plan_label_style -%}
+              {%- render 'pm-block-type-style', block: block, prefix: 'label_' -%}
+            {%- endcapture -%}
+            {%- capture plan_body_style -%}
+              {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+            {%- endcapture -%}
             <a
               class="cm-plan"
               href="{{ block.settings.link | default: '#' }}"
               {{ block.shopify_attributes }}
             >
-              <span class="cm-plan__num">{{ block.settings.number | escape }}</span>
-              <span class="cm-plan__label">{{ block.settings.label | escape }}</span>
+              <span
+                class="cm-plan__num"
+                {% if plan_title_style != blank %}
+                  style="{{ plan_title_style | strip }}"
+                {% endif %}
+              >
+                {{- block.settings.number | escape -}}
+              </span>
+              <span
+                class="cm-plan__label"
+                {% if plan_label_style != blank %}
+                  style="{{ plan_label_style | strip }}"
+                {% endif %}
+              >
+                {{- block.settings.label | escape -}}
+              </span>
               {%- if block.settings.button_label != blank -%}
-                <span class="cm-plan__cta">{{ block.settings.button_label | escape }}</span>
+                <span
+                  class="cm-plan__cta"
+                  {% if plan_body_style != blank %}
+                    style="{{ plan_body_style | strip }}"
+                  {% endif %}
+                >
+                  {{- block.settings.button_label | escape -}}
+                </span>
               {%- endif -%}
             </a>
           {%- endfor -%}
@@ -57,7 +118,91 @@
         { "type": "text", "id": "number", "label": "Number", "default": "6" },
         { "type": "text", "id": "label", "label": "Label", "default": "Meal Plan" },
         { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop Now" },
-        { "type": "url", "id": "link", "label": "Link" }
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "header", "content": "Number typography" },
+        { "type": "color", "id": "title_color", "label": "Text color" },
+        { "type": "range", "id": "title_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra-bold 800" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "title_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "title_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Number spacing" },
+        { "type": "range", "id": "title_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "title_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "title_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "title_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "title_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "title_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "title_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Label typography" },
+        { "type": "color", "id": "label_color", "label": "Text color" },
+        { "type": "range", "id": "label_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        {
+          "type": "select",
+          "id": "label_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra-bold 800" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "label_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "label_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Label spacing" },
+        { "type": "range", "id": "label_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "label_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "label_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "label_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "label_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "label_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "label_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "label_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Button label typography" },
+        { "type": "color", "id": "body_color", "label": "Text color" },
+        { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        {
+          "type": "select",
+          "id": "body_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra-bold 800" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Button label spacing" },
+        { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 }
       ]
     }
   ],
@@ -81,6 +226,90 @@
       ],
       "default": "cream"
     },
+    { "type": "header", "content": "Label typography" },
+    { "type": "color", "id": "eyebrow_color", "label": "Text color" },
+    { "type": "range", "id": "eyebrow_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-bold 800" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "eyebrow_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "eyebrow_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Label spacing" },
+    { "type": "range", "id": "eyebrow_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+    { "type": "header", "content": "Heading typography" },
+    { "type": "color", "id": "heading_color", "label": "Text color" },
+    { "type": "range", "id": "heading_font_size", "min": 0, "max": 72, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-bold 800" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "heading_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "heading_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Heading spacing" },
+    { "type": "range", "id": "heading_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "heading_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "heading_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "heading_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "heading_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "heading_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "heading_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "heading_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+    { "type": "header", "content": "Text typography" },
+    { "type": "color", "id": "body_color", "label": "Text color" },
+    { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "body_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-bold 800" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Text spacing" },
+    { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
     { "type": "header", "content": "Section padding" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 64 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 64 }

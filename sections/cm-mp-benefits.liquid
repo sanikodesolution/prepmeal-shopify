@@ -5,6 +5,19 @@
 {%- endif -%}
 {% comment %} include (not render) so assigns leak into this section {% endcomment %}
 {% include 'cm-mp-context' %}
+{%- liquid
+  assign s = section.settings
+-%}
+{%- capture mp_eyebrow_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'eyebrow_' -%}
+{%- endcapture -%}
+{%- capture mp_heading_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'heading_' -%}
+{%- endcapture -%}
+{%- capture mp_body_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'body_' -%}
+{%- endcapture -%}
+
 
 <div class="mealplan-page" data-mp-page data-cm="meal-plan-benefits"  {% render 'pm-section-style', section: section %}>
 <div class="mealplan-a">
@@ -27,15 +40,31 @@
                 {%- if use_benefit_blocks -%}
                   {%- for block in benefit_blocks -%}
                     <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}{% render 'pm-area-style', block: block %}>
-                      <b>{{ block.settings.title | escape }}</b>
-                      <span>{{ block.settings.text | escape }}</span>
+                      {%- capture ben_title_style -%}
+                        {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+                      {%- endcapture -%}
+                      {%- capture ben_body_style -%}
+                        {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+                      {%- endcapture -%}
+                      <b{{ block.settings.title | escape }}</b>
+                      <span
+                        {% if ben_body_style != blank %}
+                          style="{{ ben_body_style | strip }}"
+                        {% endif %}
+                      >{{ block.settings.text | escape }}</span>
                     </li>
                   {%- endfor -%}
                 {%- else -%}
                   {%- for row in benefit_rows -%}
                     {%- assign cells = row | split: '|' -%}
                     <li class="ben__item">
-                      <b>{{ cells[0] | escape }}</b>
+                      {%- capture ben_title_style -%}
+                        {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+                      {%- endcapture -%}
+                      {%- capture ben_body_style -%}
+                        {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+                      {%- endcapture -%}
+                      <b{{ cells[0] | escape }}</b>
                       <span>{{ cells[1] | escape }}</span>
                     </li>
                   {%- endfor -%}
@@ -47,15 +76,27 @@
       {%- endif -%}
       <div class="ben__inner">
         {%- if c_ben_eyebrow != blank -%}
-          <p class="mp-eye ben__eyebrow">{{ c_ben_eyebrow | escape }}</p>
+          <p class="mp-eye ben__eyebrow"
+        {% if mp_eyebrow_style != blank %}
+          style="{{ mp_eyebrow_style | strip }}"
+        {% endif %}
+      >{{ c_ben_eyebrow | escape }}</p>
         {%- endif -%}
-        <h2 class="big">
+        <h2 class="big"
+          {% if mp_heading_style != blank %}
+            style="{{ mp_heading_style | strip }}"
+          {% endif %}
+        >
           <span>{{ c_ben_line_1 | escape }}</span>
           <span>{{ c_ben_line_2 | escape }}</span>
           <span class="out">{{ c_ben_line_3 | escape }}</span>
         </h2>
         {%- if c_ben_note != blank -%}
-          <p class="ben__note">{{ c_ben_note | escape }}</p>
+          <p class="ben__note"
+          {% if mp_body_style != blank %}
+            style="{{ mp_body_style | strip }}"
+          {% endif %}
+        >{{ c_ben_note | escape }}</p>
         {%- endif -%}
       </div>
     </section>
@@ -292,7 +333,50 @@
       "unit": "px",
       "label": "Bottom padding",
       "default": 0
-    }
+    },
+    {"type":"header","content":"Eyebrow typography"},
+    {"type":"range","id":"eyebrow_font_size","min":0,"max":48,"step":1,"unit":"px","label":"Font size","default":0,"info":"0 = theme default. Custom sizes start at 14px."},
+    {"type":"select","id":"eyebrow_font_weight","label":"Font weight","options":[{"value":"inherit","label":"Theme default"},{"value":"400","label":"Regular 400"},{"value":"500","label":"Medium 500"},{"value":"600","label":"Semi-bold 600"},{"value":"700","label":"Bold 700"},{"value":"800","label":"Extra-bold 800"}],"default":"inherit"},
+    {"type":"range","id":"eyebrow_letter_spacing","min":-4,"max":12,"step":1,"unit":"px","label":"Letter spacing","default":0},
+    {"type":"range","id":"eyebrow_line_height","min":0,"max":2,"step":0.1,"label":"Line height","default":0,"info":"0 = theme default"},
+    {"type":"header","content":"Eyebrow spacing"},
+    {"type":"range","id":"eyebrow_padding_top","min":0,"max":80,"step":2,"unit":"px","label":"Padding top","default":0},
+    {"type":"range","id":"eyebrow_padding_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Padding bottom","default":0},
+    {"type":"range","id":"eyebrow_padding_left","min":0,"max":80,"step":2,"unit":"px","label":"Padding left","default":0},
+    {"type":"range","id":"eyebrow_padding_right","min":0,"max":80,"step":2,"unit":"px","label":"Padding right","default":0},
+    {"type":"range","id":"eyebrow_margin_top","min":0,"max":80,"step":2,"unit":"px","label":"Margin top","default":0},
+    {"type":"range","id":"eyebrow_margin_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Margin bottom","default":0},
+    {"type":"range","id":"eyebrow_margin_left","min":0,"max":80,"step":2,"unit":"px","label":"Margin left","default":0},
+    {"type":"range","id":"eyebrow_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0},
+    {"type":"header","content":"Heading typography"},
+    {"type":"range","id":"heading_font_size","min":0,"max":72,"step":1,"unit":"px","label":"Font size","default":0,"info":"0 = theme default. Custom sizes start at 14px."},
+    {"type":"select","id":"heading_font_weight","label":"Font weight","options":[{"value":"inherit","label":"Theme default"},{"value":"400","label":"Regular 400"},{"value":"500","label":"Medium 500"},{"value":"600","label":"Semi-bold 600"},{"value":"700","label":"Bold 700"},{"value":"800","label":"Extra-bold 800"}],"default":"inherit"},
+    {"type":"range","id":"heading_letter_spacing","min":-4,"max":12,"step":1,"unit":"px","label":"Letter spacing","default":0},
+    {"type":"range","id":"heading_line_height","min":0,"max":2,"step":0.1,"label":"Line height","default":0,"info":"0 = theme default"},
+    {"type":"header","content":"Heading spacing"},
+    {"type":"range","id":"heading_padding_top","min":0,"max":80,"step":2,"unit":"px","label":"Padding top","default":0},
+    {"type":"range","id":"heading_padding_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Padding bottom","default":0},
+    {"type":"range","id":"heading_padding_left","min":0,"max":80,"step":2,"unit":"px","label":"Padding left","default":0},
+    {"type":"range","id":"heading_padding_right","min":0,"max":80,"step":2,"unit":"px","label":"Padding right","default":0},
+    {"type":"range","id":"heading_margin_top","min":0,"max":80,"step":2,"unit":"px","label":"Margin top","default":0},
+    {"type":"range","id":"heading_margin_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Margin bottom","default":0},
+    {"type":"range","id":"heading_margin_left","min":0,"max":80,"step":2,"unit":"px","label":"Margin left","default":0},
+    {"type":"range","id":"heading_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0},
+    {"type":"header","content":"Body typography"},
+    {"type":"color","id":"body_color","label":"Text color"},
+    {"type":"range","id":"body_font_size","min":0,"max":48,"step":1,"unit":"px","label":"Font size","default":0,"info":"0 = theme default. Custom sizes start at 14px."},
+    {"type":"select","id":"body_font_weight","label":"Font weight","options":[{"value":"inherit","label":"Theme default"},{"value":"300","label":"Light 300"},{"value":"400","label":"Regular 400"},{"value":"500","label":"Medium 500"},{"value":"600","label":"Semi-bold 600"},{"value":"700","label":"Bold 700"}],"default":"inherit"},
+    {"type":"range","id":"body_letter_spacing","min":-4,"max":12,"step":1,"unit":"px","label":"Letter spacing","default":0},
+    {"type":"range","id":"body_line_height","min":0,"max":2,"step":0.1,"label":"Line height","default":0,"info":"0 = theme default"},
+    {"type":"header","content":"Body spacing"},
+    {"type":"range","id":"body_padding_top","min":0,"max":80,"step":2,"unit":"px","label":"Padding top","default":0},
+    {"type":"range","id":"body_padding_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Padding bottom","default":0},
+    {"type":"range","id":"body_padding_left","min":0,"max":80,"step":2,"unit":"px","label":"Padding left","default":0},
+    {"type":"range","id":"body_padding_right","min":0,"max":80,"step":2,"unit":"px","label":"Padding right","default":0},
+    {"type":"range","id":"body_margin_top","min":0,"max":80,"step":2,"unit":"px","label":"Margin top","default":0},
+    {"type":"range","id":"body_margin_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Margin bottom","default":0},
+    {"type":"range","id":"body_margin_left","min":0,"max":80,"step":2,"unit":"px","label":"Margin left","default":0},
+    {"type":"range","id":"body_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0}
   ],
   "presets": [
     {
@@ -377,7 +461,35 @@
           "unit": "px",
           "label": "Text size",
           "default": 15
-        }
+        },
+        {"type":"header","content":"Title typography"},
+        {"type":"range","id":"title_font_size","min":0,"max":48,"step":1,"unit":"px","label":"Font size","default":0,"info":"0 = theme default. Custom sizes start at 14px."},
+        {"type":"select","id":"title_font_weight","label":"Font weight","options":[{"value":"inherit","label":"Theme default"},{"value":"400","label":"Regular 400"},{"value":"500","label":"Medium 500"},{"value":"600","label":"Semi-bold 600"},{"value":"700","label":"Bold 700"},{"value":"800","label":"Extra-bold 800"}],"default":"inherit"},
+        {"type":"range","id":"title_letter_spacing","min":-4,"max":12,"step":1,"unit":"px","label":"Letter spacing","default":0},
+        {"type":"range","id":"title_line_height","min":0,"max":2,"step":0.1,"label":"Line height","default":0,"info":"0 = theme default"},
+        {"type":"header","content":"Title spacing"},
+        {"type":"range","id":"title_padding_top","min":0,"max":80,"step":2,"unit":"px","label":"Padding top","default":0},
+        {"type":"range","id":"title_padding_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Padding bottom","default":0},
+        {"type":"range","id":"title_padding_left","min":0,"max":80,"step":2,"unit":"px","label":"Padding left","default":0},
+        {"type":"range","id":"title_padding_right","min":0,"max":80,"step":2,"unit":"px","label":"Padding right","default":0},
+        {"type":"range","id":"title_margin_top","min":0,"max":80,"step":2,"unit":"px","label":"Margin top","default":0},
+        {"type":"range","id":"title_margin_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Margin bottom","default":0},
+        {"type":"range","id":"title_margin_left","min":0,"max":80,"step":2,"unit":"px","label":"Margin left","default":0},
+        {"type":"range","id":"title_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0},
+        {"type":"header","content":"Text typography"},
+        {"type":"range","id":"body_font_size","min":0,"max":48,"step":1,"unit":"px","label":"Font size","default":0,"info":"0 = theme default. Custom sizes start at 14px."},
+        {"type":"select","id":"body_font_weight","label":"Font weight","options":[{"value":"inherit","label":"Theme default"},{"value":"300","label":"Light 300"},{"value":"400","label":"Regular 400"},{"value":"500","label":"Medium 500"},{"value":"600","label":"Semi-bold 600"},{"value":"700","label":"Bold 700"}],"default":"inherit"},
+        {"type":"range","id":"body_letter_spacing","min":-4,"max":12,"step":1,"unit":"px","label":"Letter spacing","default":0},
+        {"type":"range","id":"body_line_height","min":0,"max":2,"step":0.1,"label":"Line height","default":0,"info":"0 = theme default"},
+        {"type":"header","content":"Text spacing"},
+        {"type":"range","id":"body_padding_top","min":0,"max":80,"step":2,"unit":"px","label":"Padding top","default":0},
+        {"type":"range","id":"body_padding_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Padding bottom","default":0},
+        {"type":"range","id":"body_padding_left","min":0,"max":80,"step":2,"unit":"px","label":"Padding left","default":0},
+        {"type":"range","id":"body_padding_right","min":0,"max":80,"step":2,"unit":"px","label":"Padding right","default":0},
+        {"type":"range","id":"body_margin_top","min":0,"max":80,"step":2,"unit":"px","label":"Margin top","default":0},
+        {"type":"range","id":"body_margin_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Margin bottom","default":0},
+        {"type":"range","id":"body_margin_left","min":0,"max":80,"step":2,"unit":"px","label":"Margin left","default":0},
+        {"type":"range","id":"body_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0}
       ]
     }
   ]

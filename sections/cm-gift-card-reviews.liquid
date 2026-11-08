@@ -12,6 +12,16 @@
   endif
 -%}
 
+{%- capture gc_rv_heading_style -%}
+  {%- render 'pm-block-type-style', settings: section.settings, prefix: 'heading_' -%}
+{%- endcapture -%}
+{%- capture gc_rv_label_style -%}
+  {%- render 'pm-block-type-style', settings: section.settings, prefix: 'label_' -%}
+{%- endcapture -%}
+{%- capture gc_rv_body_style -%}
+  {%- render 'pm-block-type-style', settings: section.settings, prefix: 'body_' -%}
+{%- endcapture -%}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top }}px;
@@ -29,7 +39,14 @@
 >
   <div class="cm-gc__rv-head">
     {%- if section.settings.heading != blank -%}
-      <h3 class="cm-gc__t">{{ section.settings.heading | escape }}</h3>
+      <h3
+        class="cm-gc__t"
+        {% if gc_rv_heading_style != blank %}
+          style="{{ gc_rv_heading_style | strip }}"
+        {% endif %}
+      >
+        {{- section.settings.heading | escape -}}
+      </h3>
     {%- endif -%}
     <div class="cm-gc__rv-sum" data-gc-rv-sum aria-live="polite">
       {%- if review_total > 0 -%}
@@ -53,14 +70,32 @@
   <div class="cm-gc__rv-wrap">
     <div class="cm-gc__rv-list" data-gc-rv-list>
       {%- if section.blocks.size == 0 -%}
-        <p class="cm-gc__rv-empty" data-gc-rv-empty>
+        <p
+          class="cm-gc__rv-empty"
+          data-gc-rv-empty
+          {% if gc_rv_body_style != blank %}
+            style="{{ gc_rv_body_style | strip }}"
+          {% endif %}
+        >
           {{- section.settings.reviews_empty_text | escape -}}
         </p>
       {%- endif -%}
       {%- for block in section.blocks -%}
+        {%- capture gc_rv_title_style -%}
+          {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+        {%- endcapture -%}
+        {%- capture gc_rv_card_body_style -%}
+          {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+        {%- endcapture -%}
         <article class="cm-gc__rv-card" data-gc-rv-card data-rating="{{ block.settings.rating }}" {{ block.shopify_attributes }}>
           <div class="cm-gc__rv-top">
-            <b>{{ block.settings.author | escape }}</b>
+            <b
+              {% if gc_rv_title_style != blank %}
+                style="{{ gc_rv_title_style | strip }}"
+              {% endif %}
+            >
+              {{- block.settings.author | escape -}}
+            </b>
             {%- if block.settings.date != blank -%}
               <time>{{ block.settings.date | escape }}</time>
             {%- endif -%}
@@ -71,7 +106,13 @@
             {%- endfor -%}
           </div>
           {%- if block.settings.text != blank -%}
-            <p>{{ block.settings.text | escape }}</p>
+            <p
+              {% if gc_rv_card_body_style != blank %}
+                style="{{ gc_rv_card_body_style | strip }}"
+              {% endif %}
+            >
+              {{- block.settings.text | escape -}}
+            </p>
           {%- endif -%}
           {%- if block.settings.photo_1 != blank or block.settings.photo_2 != blank or block.settings.photo_3 != blank -%}
             <div class="cm-gc__rv-photos">
@@ -104,7 +145,14 @@
 
     {%- if section.settings.show_review_form -%}
       <form class="cm-gc__rv-form" data-gc-rv-form novalidate>
-        <h4 class="cm-gc__rv-heading">{{ section.settings.review_form_heading | escape }}</h4>
+        <h4
+          class="cm-gc__rv-heading"
+          {% if gc_rv_label_style != blank %}
+            style="{{ gc_rv_label_style | strip }}"
+          {% endif %}
+        >
+          {{- section.settings.review_form_heading | escape -}}
+        </h4>
         <fieldset>
           <legend>{{ section.settings.review_rating_label | escape }}</legend>
           <div class="cm-gc__rate">
@@ -192,12 +240,96 @@
         },
         { "type": "image_picker", "id": "photo_1", "label": "Photo 1" },
         { "type": "image_picker", "id": "photo_2", "label": "Photo 2" },
-        { "type": "image_picker", "id": "photo_3", "label": "Photo 3" }
+        { "type": "image_picker", "id": "photo_3", "label": "Photo 3" },
+        { "type": "header", "content": "Name typography" },
+        { "type": "color", "id": "title_color", "label": "Text color" },
+        { "type": "range", "id": "title_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra-bold 800" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "title_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "title_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Name spacing" },
+        { "type": "range", "id": "title_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "title_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "title_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "title_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "title_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "title_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "title_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Review typography" },
+        { "type": "color", "id": "body_color", "label": "Text color" },
+        { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        {
+          "type": "select",
+          "id": "body_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "300", "label": "Light 300" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Review spacing" },
+        { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 }
       ]
     }
   ],
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Customer reviews" },
+    { "type": "header", "content": "Heading typography" },
+    { "type": "color", "id": "heading_color", "label": "Text color" },
+    { "type": "range", "id": "heading_font_size", "min": 0, "max": 72, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-bold 800" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "heading_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "heading_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Heading spacing" },
+    { "type": "range", "id": "heading_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "heading_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "heading_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "heading_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "heading_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "heading_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "heading_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "heading_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
     {
       "type": "text",
       "id": "reviews_empty_summary",
@@ -210,8 +342,64 @@
       "label": "Empty list text",
       "default": "No reviews yet. Bought a gift card or ordered a meal plan? Be the first to share how it went."
     },
+    { "type": "header", "content": "Empty list text typography" },
+    { "type": "color", "id": "body_color", "label": "Text color" },
+    { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "body_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Empty list text spacing" },
+    { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
     { "type": "checkbox", "id": "show_review_form", "label": "Show write-a-review form", "default": true },
     { "type": "text", "id": "review_form_heading", "label": "Form heading", "default": "Write a review" },
+    { "type": "header", "content": "Form heading typography" },
+    { "type": "color", "id": "label_color", "label": "Text color" },
+    { "type": "range", "id": "label_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "label_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-bold 800" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "label_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "label_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Form heading spacing" },
+    { "type": "range", "id": "label_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "label_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "label_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "label_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "label_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "label_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "label_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "label_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
     { "type": "text", "id": "review_rating_label", "label": "Rating legend", "default": "Your rating" },
     { "type": "text", "id": "review_name_label", "label": "Name label", "default": "Your name" },
     { "type": "text", "id": "review_text_label", "label": "Review label", "default": "Your review" },

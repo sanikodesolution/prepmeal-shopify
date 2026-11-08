@@ -1,0 +1,36 @@
+{
+  "_usage": "Copy these setting groups into section/block schema. Prefix keys: eyebrow_, heading_, body_, title_, sub_, label_, caption_, about_, news_, note_, copy_, promise_, zone_. Defaults 0/inherit keep theme look. Wire with: {% render 'pm-block-type-style', settings: section.settings, prefix: 'heading_' %} or block: block, prefix: 'title_'. Apply only when capture != blank. Do NOT change existing visual defaults.",
+  "weight_options_full": [
+    { "value": "inherit", "label": "Theme default" },
+    { "value": "300", "label": "Light 300" },
+    { "value": "400", "label": "Regular 400" },
+    { "value": "500", "label": "Medium 500" },
+    { "value": "600", "label": "Semi-bold 600" },
+    { "value": "700", "label": "Bold 700" },
+    { "value": "800", "label": "Extra-bold 800" }
+  ],
+  "group_template": [
+    { "type": "header", "content": "{{LABEL}} typography" },
+    { "type": "color", "id": "{{PREFIX}}color", "label": "Text color" },
+    { "type": "range", "id": "{{PREFIX}}font_size", "min": 0, "max": 72, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    { "type": "select", "id": "{{PREFIX}}font_weight", "label": "Font weight", "options": [
+      { "value": "inherit", "label": "Theme default" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semi-bold 600" },
+      { "value": "700", "label": "Bold 700" },
+      { "value": "800", "label": "Extra-bold 800" }
+    ], "default": "inherit" },
+    { "type": "range", "id": "{{PREFIX}}letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "{{LABEL}} spacing" },
+    { "type": "range", "id": "{{PREFIX}}padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 }
+  ]
+}

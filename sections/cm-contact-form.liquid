@@ -1,22 +1,65 @@
 {% render 'cm-section-assets', section: section %}
 
-{%- assign form_id = 'CmContactForm-' | append: section.id -%}
+{%- liquid
+  assign s = section.settings
+  assign form_id = 'CmContactForm-' | append: section.id
+-%}
+{%- capture form_eyebrow_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'eyebrow_' -%}
+{%- endcapture -%}
+{%- capture form_heading_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'heading_' -%}
+{%- endcapture -%}
+{%- capture form_body_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'body_' -%}
+{%- endcapture -%}
+{%- capture form_note_style -%}
+  {%- render 'pm-block-type-style', settings: s, prefix: 'note_' -%}
+{%- endcapture -%}
 
 <div class="cm cm-contact-form cm--{{ section.settings.background }}" data-cm="form">
   <div class="page-width section-{{ section.id }}-padding">
     <div class="cm-form" style="--cm-form-width: {{ section.settings.max_width }}px;">
       <div class="cm-form__header{% if section.settings.alignment == 'center' %} cm-center{% endif %}">
-        {%- if section.settings.label != blank -%}
-          <span class="cm-label">{{ section.settings.label | escape }}</span>
+        {%- if s.label != blank -%}
+          <span
+            class="cm-label"
+            {% if form_eyebrow_style != blank %}
+              style="{{ form_eyebrow_style | strip }}"
+            {% endif %}
+          >
+            {{- s.label | escape -}}
+          </span>
         {%- endif -%}
-        {%- if section.settings.heading != blank -%}
-          <h2 class="cm-heading">{{ section.settings.heading | escape }}</h2>
+        {%- if s.heading != blank -%}
+          <h2
+            class="cm-heading"
+            {% if form_heading_style != blank %}
+              style="{{ form_heading_style | strip }}"
+            {% endif %}
+          >
+            {{- s.heading | escape -}}
+          </h2>
         {%- endif -%}
-        {%- if section.settings.text != blank -%}
-          <div class="cm-body">{{ section.settings.text }}</div>
+        {%- if s.text != blank -%}
+          <div
+            class="cm-body"
+            {% if form_body_style != blank %}
+              style="{{ form_body_style | strip }}"
+            {% endif %}
+          >
+            {{ s.text }}
+          </div>
         {%- endif -%}
-        {%- if section.settings.note != blank -%}
-          <span class="cm-form__cost">{{ section.settings.note | escape }}</span>
+        {%- if s.note != blank -%}
+          <span
+            class="cm-form__cost"
+            {% if form_note_style != blank %}
+              style="{{ form_note_style | strip }}"
+            {% endif %}
+          >
+            {{- s.note | escape -}}
+          </span>
         {%- endif -%}
       </div>
 
@@ -35,7 +78,18 @@
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'group_heading' -%}
-                <h3 class="cm-form__group-title" {{ block.shopify_attributes }}>{{ block.settings.heading | escape }}</h3>
+                {%- capture group_title_style -%}
+                  {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+                {%- endcapture -%}
+                <h3
+                  class="cm-form__group-title"
+                  {% if group_title_style != blank %}
+                    style="{{ group_title_style | strip }}"
+                  {% endif %}
+                  {{ block.shopify_attributes }}
+                >
+                  {{- block.settings.heading | escape -}}
+                </h3>
               {%- when 'field' -%}
                 {%- liquid
                   assign field_id = form_id | append: '-' | append: block.id
@@ -156,7 +210,22 @@
       "type": "group_heading",
       "name": "Group heading",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Dietary needs & preferences" }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Dietary needs & preferences" },
+        { "type": "header", "content": "Title typography" },
+        { "type": "color", "id": "title_color", "label": "Text color" },
+        { "type": "range", "id": "title_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "select", "id": "title_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
+        { "type": "range", "id": "title_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "title_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Title spacing" },
+        { "type": "range", "id": "title_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "title_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "title_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "title_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "title_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "title_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "title_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 }
       ]
     }
   ],
@@ -199,6 +268,66 @@
       ],
       "default": "warm"
     },
+    { "type": "header", "content": "Label typography" },
+    { "type": "color", "id": "eyebrow_color", "label": "Text color" },
+    { "type": "range", "id": "eyebrow_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    { "type": "select", "id": "eyebrow_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
+    { "type": "range", "id": "eyebrow_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "eyebrow_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Label spacing" },
+    { "type": "range", "id": "eyebrow_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+    { "type": "header", "content": "Heading typography" },
+    { "type": "color", "id": "heading_color", "label": "Text color" },
+    { "type": "range", "id": "heading_font_size", "min": 0, "max": 72, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    { "type": "select", "id": "heading_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
+    { "type": "range", "id": "heading_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "heading_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Heading spacing" },
+    { "type": "range", "id": "heading_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "heading_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "heading_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "heading_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "heading_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "heading_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "heading_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "heading_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+    { "type": "header", "content": "Text typography" },
+    { "type": "color", "id": "body_color", "label": "Text color" },
+    { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    { "type": "select", "id": "body_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
+    { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Text spacing" },
+    { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+    { "type": "header", "content": "Note typography" },
+    { "type": "color", "id": "note_color", "label": "Text color" },
+    { "type": "range", "id": "note_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    { "type": "select", "id": "note_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
+    { "type": "range", "id": "note_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "note_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Note spacing" },
+    { "type": "range", "id": "note_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "note_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "note_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "note_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "note_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "note_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "note_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "note_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
     { "type": "header", "content": "Section padding" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 56 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 56 }

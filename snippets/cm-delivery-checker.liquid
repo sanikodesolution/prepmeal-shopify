@@ -248,11 +248,23 @@ Mukwonago|42.8667|-88.3334|53149
 
   <div class="mpd__copy">
     {%- if s.delivery_eyebrow != blank -%}
-      <p class="mp-eye">{{ s.delivery_eyebrow | escape }}</p>
+      <p class="mp-eye"
+        {% if eyebrow_style != blank %}
+          style="{{ eyebrow_style | strip }}"
+        {% endif %}
+      >{{ s.delivery_eyebrow | escape }}</p>
     {%- endif -%}
-    <h2 class="mealplan-h mpd__title" id="mpd-h-{{ section.id }}">{{ s.delivery_heading | escape }}</h2>
+    <h2 class="mealplan-h mpd__title" id="mpd-h-{{ section.id }}"
+      {% if heading_style != blank %}
+        style="{{ heading_style | strip }}"
+      {% endif %}
+    >{{ s.delivery_heading | escape }}</h2>
     {%- if s.delivery_text != blank -%}
-      <p class="mealplan-p mpd__lead">{{ s.delivery_text | escape }}</p>
+      <p class="mealplan-p mpd__lead"
+        {% if body_style != blank %}
+          style="{{ body_style | strip }}"
+        {% endif %}
+      >{{ s.delivery_text | escape }}</p>
     {%- endif -%}
 
     <div class="mpd__search">

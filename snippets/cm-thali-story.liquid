@@ -204,13 +204,25 @@
     <div class="gkk__hero">
       <div>
         {%- if gkk_badge != blank -%}
-          <span class="cm-label gkk__badge">{{ gkk_badge | escape }}</span>
+          <span class="cm-label gkk__badge"
+          {% if eyebrow_style != blank %}
+            style="{{ eyebrow_style | strip }}"
+          {% endif %}
+        >{{ gkk_badge | escape }}</span>
         {%- endif -%}
         {%- if gkk_heading != blank -%}
-          <h2>{{ gkk_heading | escape }}</h2>
+          <h2
+          {% if heading_style != blank %}
+            style="{{ heading_style | strip }}"
+          {% endif %}
+        >{{ gkk_heading | escape }}</h2>
         {%- endif -%}
         {%- if gkk_intro != blank -%}
-          <p>{{ gkk_intro | escape }}</p>
+          <p
+            {% if body_style != blank %}
+              style="{{ body_style | strip }}"
+            {% endif %}
+          >{{ gkk_intro | escape }}</p>
         {%- endif -%}
         {%- if gkk_stats.size > 0 -%}
           <div class="gkk__stats">
@@ -258,6 +270,12 @@
           {%- assign card_title = block.settings.title | strip -%}
           {%- if card_title != blank -%}
             <div class="gkk__card" {{ block.shopify_attributes }}>
+              {%- capture gkk_card_title_style -%}
+                {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+              {%- endcapture -%}
+              {%- capture gkk_card_body_style -%}
+                {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+              {%- endcapture -%}
               {%- if block.settings.image != blank -%}
                 {{ block.settings.image | image_url: width: 720 | image_tag: class: 'gkk__card-img', loading: 'lazy', widths: '320, 480, 720', sizes: '(min-width: 750px) 40vw, 90vw', alt: card_title }}
               {%- elsif forloop.first -%}
@@ -265,8 +283,16 @@
               {%- else -%}
                 <svg viewBox="0 0 240 170" aria-hidden="true"><rect x="30" y="20" width="180" height="130" rx="10" fill="#15251C" transform="rotate(-6 120 85)"/><g fill="#ffffff" opacity=".55"><circle cx="60" cy="48" r="3"/><circle cx="90" cy="40" r="3"/><circle cx="130" cy="36" r="3"/><circle cx="170" cy="30" r="3"/><circle cx="195" cy="120" r="3"/></g><circle cx="120" cy="92" r="58" fill="#c98c45"/><circle cx="112" cy="84" r="56" fill="#dfae6c"/><circle cx="106" cy="76" r="52" fill="#e9c386"/><g fill="#8a4a1c" opacity=".7"><circle cx="86" cy="64" r="5"/><circle cx="118" cy="90" r="4"/><circle cx="100" cy="100" r="3"/><circle cx="130" cy="60" r="4"/></g></svg>
               {%- endif -%}
-              <h4>{{ card_title | escape }}</h4>
-              {%- if block.settings.text != blank -%}<p>{{ block.settings.text | escape }}</p>{%- endif -%}
+              <h4
+                {% if gkk_card_title_style != blank %}
+                  style="{{ gkk_card_title_style | strip }}"
+                {% endif %}
+              >{{ card_title | escape }}</h4>
+              {%- if block.settings.text != blank -%}<p
+                {% if gkk_card_body_style != blank %}
+                  style="{{ gkk_card_body_style | strip }}"
+                {% endif %}
+              >{{ block.settings.text | escape }}</p>{%- endif -%}
             </div>
           {%- endif -%}
         {%- endfor -%}

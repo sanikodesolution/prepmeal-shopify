@@ -176,11 +176,23 @@ Mukwonago|53149|41.9|51.6
 
     <header class="mealplan-dl__head">
       {%- if d_eyebrow != blank -%}
-        <p class="mp-eye">{{ d_eyebrow | escape }}</p>
+        <p class="mp-eye"
+          {% if eyebrow_style != blank %}
+            style="{{ eyebrow_style | strip }}"
+          {% endif %}
+        >{{ d_eyebrow | escape }}</p>
       {%- endif -%}
-      <h2 class="mealplan-h mealplan-dl__title" id="mealplan-dl-h-{{ uid }}">{{ d_heading | escape }}</h2>
+      <h2 class="mealplan-h mealplan-dl__title" id="mealplan-dl-h-{{ uid }}"
+        {% if heading_style != blank %}
+          style="{{ heading_style | strip }}"
+        {% endif %}
+      >{{ d_heading | escape }}</h2>
       {%- if d_text != blank -%}
-        <p class="mealplan-p mealplan-dl__text">{{ d_text | escape }}</p>
+        <p class="mealplan-p mealplan-dl__text"
+          {% if body_style != blank %}
+            style="{{ body_style | strip }}"
+          {% endif %}
+        >{{ d_text | escape }}</p>
       {%- endif -%}
     </header>
 
