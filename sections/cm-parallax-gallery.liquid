@@ -56,11 +56,31 @@
 
           {%- if block.settings.title != blank or block.settings.text != blank or block.settings.link_label != blank -%}
             <div class="cm-pg__text">
+              {%- capture pg_title_style -%}
+                {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+              {%- endcapture -%}
+              {%- capture pg_body_style -%}
+                {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+              {%- endcapture -%}
               {%- if block.settings.title != blank -%}
-                <h4 class="cm-pg__title">{{ block.settings.title | escape }}</h4>
+                <h4
+                  class="cm-pg__title"
+                  {% if pg_title_style != blank %}
+                    style="{{ pg_title_style | strip }}"
+                  {% endif %}
+                >
+                  {{ block.settings.title | escape }}
+                </h4>
               {%- endif -%}
               {%- if block.settings.text != blank -%}
-                <div class="cm-body">{{ block.settings.text }}</div>
+                <div
+                  class="cm-body"
+                  {% if pg_body_style != blank %}
+                    style="{{ pg_body_style | strip }}"
+                  {% endif %}
+                >
+                  {{ block.settings.text }}
+                </div>
               {%- endif -%}
               {%- if block.settings.link_label != blank -%}
                 <div class="cm-pg__btn">
@@ -112,6 +132,101 @@
           "label": "Text",
           "default": "<p>Global flavors crafted with classical French technique.</p>"
         },
+        { "type": "header", "content": "Heading typography" },
+        { "type": "color", "id": "title_color", "label": "Text color" },
+        {
+          "type": "range",
+          "id": "title_font_size",
+          "min": 0,
+          "max": 48,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 0,
+          "info": "0 = theme default. Custom sizes start at 14px."
+        },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra-bold 800" },
+            { "value": "900", "label": "Black 900" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "title_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        {
+          "type": "range",
+          "id": "title_line_height",
+          "min": 0,
+          "max": 2,
+          "step": 0.1,
+          "label": "Line height",
+          "default": 0,
+          "info": "0 = theme default"
+        },
+        { "type": "header", "content": "Heading spacing" },
+        { "type": "range", "id": "title_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "title_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "title_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "title_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "title_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "title_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "title_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Text typography" },
+        { "type": "color", "id": "body_color", "label": "Text color" },
+        {
+          "type": "range",
+          "id": "body_font_size",
+          "min": 0,
+          "max": 48,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 0,
+          "info": "0 = theme default. Custom sizes start at 14px."
+        },
+        {
+          "type": "select",
+          "id": "body_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "300", "label": "Light 300" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        {
+          "type": "range",
+          "id": "body_line_height",
+          "min": 0,
+          "max": 2,
+          "step": 0.1,
+          "label": "Line height",
+          "default": 0,
+          "info": "0 = theme default"
+        },
+        { "type": "header", "content": "Text spacing" },
+        { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
         { "type": "text", "id": "link_label", "label": "Link label" },
         { "type": "url", "id": "link", "label": "Link" },
         { "type": "header", "content": "Button style" },
