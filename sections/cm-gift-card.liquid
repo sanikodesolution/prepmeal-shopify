@@ -5,9 +5,6 @@
   assign gc_product = section.settings.product
   assign hd_700 = settings.type_header_font | font_modify: 'weight', '700'
   assign hd_800 = settings.type_header_font | font_modify: 'weight', '800'
-  assign steps = section.blocks | where: 'type', 'step'
-  assign faqs = section.blocks | where: 'type', 'faq'
-  assign reviews = section.blocks | where: 'type', 'review'
   assign default_amount = section.settings.default_amount | plus: 0
 
   assign selected_variant = gc_product.selected_or_first_available_variant
@@ -23,10 +20,6 @@
 {%- style -%}
   {%- if hd_700 -%}{{ hd_700 | font_face: font_display: 'swap' }}{%- endif -%}
   {%- if hd_800 -%}{{ hd_800 | font_face: font_display: 'swap' }}{%- endif -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
-  }
 {%- endstyle -%}
 
 <cm-gift-card
@@ -181,200 +174,6 @@
     </div>
   {%- endif -%}
 
-  {%- if steps.size > 0 -%}
-    <section class="cm-gc__how section-{{ section.id }}-padding">
-      {%- if section.settings.how_heading != blank -%}
-        <h3 class="cm-gc__t">{{ section.settings.how_heading | escape }}</h3>
-      {%- endif -%}
-      <ol class="cm-gc__steps" style="--gc-steps: {{ steps.size | at_most: 4 }};">
-        {%- for block in steps -%}
-          <li {{ block.shopify_attributes }}>
-            <b>{{ forloop.index }}</b>
-            <h4>{{ block.settings.title | escape }}</h4>
-            {%- if block.settings.text != blank -%}
-              <p>{{ block.settings.text | escape }}</p>
-            {%- endif -%}
-          </li>
-        {%- endfor -%}
-      </ol>
-    </section>
-  {%- endif -%}
-
-  {%- if faqs.size > 0 -%}
-    <section class="cm-gc__faq section-{{ section.id }}-padding">
-      {%- if section.settings.faq_heading != blank -%}
-        <h3 class="cm-gc__t">{{ section.settings.faq_heading | escape }}</h3>
-      {%- endif -%}
-      {%- for block in faqs -%}
-        <details {{ block.shopify_attributes }}>
-          <summary>{{ block.settings.question | escape }}</summary>
-          <div class="cm-gc__answer">{{ block.settings.answer }}</div>
-        </details>
-      {%- endfor -%}
-    </section>
-  {%- endif -%}
-
-  {%- liquid
-    assign review_total = reviews.size
-    assign review_sum = 0
-    for block in reviews
-      assign review_sum = review_sum | plus: block.settings.rating
-    endfor
-    if review_total > 0
-      assign review_avg = review_sum | times: 1.0 | divided_by: review_total
-    endif
-  -%}
-
-  {%- if section.settings.show_reviews -%}
-    <section
-      class="cm-gc__reviews"
-      id="GiftCardReviews-{{ section.id }}"
-      data-gc-reviews
-      data-thanks="{{ section.settings.review_thanks | escape }}"
-    >
-      <div class="cm-gc__rv-head">
-        {%- if section.settings.reviews_heading != blank -%}
-          <h3 class="cm-gc__t">{{ section.settings.reviews_heading | escape }}</h3>
-        {%- endif -%}
-        <div class="cm-gc__rv-sum" data-gc-rv-sum aria-live="polite">
-          {%- if review_total > 0 -%}
-            <strong>{{ review_avg | round: 1 }}</strong>
-            <span class="cm-gc__stars" aria-hidden="true">
-              {%- assign avg_round = review_avg | round -%}
-              {%- for i in (1..5) -%}
-                {%- if i <= avg_round -%}★{%- else -%}☆{%- endif -%}
-              {%- endfor -%}
-            </span>
-            <span>
-              {{- review_total -}}
-              {%- if review_total == 1 %} review{% else %} reviews{% endif -%}
-            </span>
-          {%- else -%}
-            {{ section.settings.reviews_empty_summary | escape }}
-          {%- endif -%}
-        </div>
-      </div>
-
-      <div class="cm-gc__rv-wrap">
-        <div class="cm-gc__rv-list" data-gc-rv-list>
-          {%- if reviews.size == 0 -%}
-            <p class="cm-gc__rv-empty" data-gc-rv-empty>
-              {{- section.settings.reviews_empty_text | escape -}}
-            </p>
-          {%- endif -%}
-          {%- for block in reviews -%}
-            <article class="cm-gc__rv-card" data-gc-rv-card data-rating="{{ block.settings.rating }}" {{ block.shopify_attributes }}>
-              <div class="cm-gc__rv-top">
-                <b>{{ block.settings.author | escape }}</b>
-                {%- if block.settings.date != blank -%}
-                  <time>{{ block.settings.date | escape }}</time>
-                {%- endif -%}
-              </div>
-              <div
-                class="cm-gc__stars"
-                role="img"
-                aria-label="{{ block.settings.rating }} out of 5 stars"
-              >
-                {%- for i in (1..5) -%}
-                  {%- if i <= block.settings.rating -%}★{%- else -%}☆{%- endif -%}
-                {%- endfor -%}
-              </div>
-              {%- if block.settings.text != blank -%}
-                <p>{{ block.settings.text | escape }}</p>
-              {%- endif -%}
-              {%- if block.settings.photo_1 != blank or block.settings.photo_2 != blank or block.settings.photo_3 != blank -%}
-                <div class="cm-gc__rv-photos">
-                  {%- if block.settings.photo_1 != blank -%}
-                    {{
-                      block.settings.photo_1
-                      | image_url: width: 240
-                      | image_tag: loading: 'lazy', widths: '96, 192, 240', sizes: '96px', alt: block.settings.author
-                    }}
-                  {%- endif -%}
-                  {%- if block.settings.photo_2 != blank -%}
-                    {{
-                      block.settings.photo_2
-                      | image_url: width: 240
-                      | image_tag: loading: 'lazy', widths: '96, 192, 240', sizes: '96px', alt: block.settings.author
-                    }}
-                  {%- endif -%}
-                  {%- if block.settings.photo_3 != blank -%}
-                    {{
-                      block.settings.photo_3
-                      | image_url: width: 240
-                      | image_tag: loading: 'lazy', widths: '96, 192, 240', sizes: '96px', alt: block.settings.author
-                    }}
-                  {%- endif -%}
-                </div>
-              {%- endif -%}
-            </article>
-          {%- endfor -%}
-        </div>
-
-        {%- if section.settings.show_review_form -%}
-          <form class="cm-gc__rv-form" data-gc-rv-form novalidate>
-            <h4 class="cm-gc__rv-heading">{{ section.settings.review_form_heading | escape }}</h4>
-            <fieldset>
-              <legend>{{ section.settings.review_rating_label | escape }}</legend>
-              <div class="cm-gc__rate">
-                {%- assign rate_values = '5,4,3,2,1' | split: ',' -%}
-                {%- for i in rate_values -%}
-                  <input
-                    type="radio"
-                    name="gc-rate-{{ section.id }}"
-                    id="GcRate-{{ section.id }}-{{ i }}"
-                    value="{{ i }}"
-                    data-gc-rate
-                  >
-                  <label for="GcRate-{{ section.id }}-{{ i }}" title="{{ i }} stars">
-                    <span aria-hidden="true">★</span>
-                    <span class="visually-hidden">{{ i }} stars</span>
-                  </label>
-                {%- endfor -%}
-              </div>
-            </fieldset>
-            <label class="cm-gc__rv-f">
-              {{- section.settings.review_name_label | escape -}}
-              <input type="text" maxlength="40" autocomplete="name" data-gc-rv-name>
-            </label>
-            <label class="cm-gc__rv-f">
-              {{- section.settings.review_text_label | escape -}}
-              <textarea
-                maxlength="500"
-                placeholder="{{ section.settings.review_text_placeholder | escape }}"
-                data-gc-rv-text
-              ></textarea>
-            </label>
-            <label class="cm-gc__drop">
-              <span>{{ section.settings.review_photos_label | escape }}</span>
-              <small>{{ section.settings.review_photos_help | escape }}</small>
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                multiple
-                data-gc-rv-files
-              >
-            </label>
-            <div class="cm-gc__thumbs" data-gc-rv-thumbs></div>
-            <p class="cm-gc__rv-err" data-gc-rv-err role="alert"></p>
-            {% render 'pm-button',
-              label: section.settings.review_button_label,
-              style: 'brand',
-              tag: 'button',
-              type: 'submit',
-              class: 'cm-gc__cta',
-              text_color: section.settings.review_button_text_color,
-              bg_color: section.settings.review_button_bg_color,
-              icon_bg: section.settings.review_button_icon_bg,
-              icon_color: section.settings.review_button_icon_color,
-              font_size: section.settings.review_button_font_size
-            %}
-          </form>
-        {%- endif -%}
-      </div>
-    </section>
-  {%- endif -%}
-
   <div class="cm-gc__toast" data-gc-toast role="status"></div>
 </cm-gift-card>
 
@@ -383,59 +182,6 @@
   "name": "CM gift card",
   "tag": "section",
   "class": "section cm-section",
-  "max_blocks": 30,
-  "blocks": [
-    {
-      "type": "fact",
-      "name": "Label row",
-      "settings": [
-        { "type": "text", "id": "label", "label": "Label", "default": "Cooking required" },
-        { "type": "text", "id": "value", "label": "Value", "default": "0 min" }
-      ]
-    },
-    {
-      "type": "step",
-      "name": "Step",
-      "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Pick an amount" },
-        { "type": "textarea", "id": "text", "label": "Text" }
-      ]
-    },
-    {
-      "type": "faq",
-      "name": "FAQ",
-      "settings": [
-        { "type": "text", "id": "question", "label": "Question", "default": "Can they use it on any meal plan?" },
-        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Yes. The balance applies at checkout to any meal plan on the menu.</p>" }
-      ]
-    },
-    {
-      "type": "review",
-      "name": "Review",
-      "settings": [
-        { "type": "text", "id": "author", "label": "Name", "default": "Jordan M." },
-        {
-          "type": "range",
-          "id": "rating",
-          "min": 1,
-          "max": 5,
-          "step": 1,
-          "label": "Rating",
-          "default": 5
-        },
-        { "type": "text", "id": "date", "label": "Date", "default": "Mar 12, 2026" },
-        {
-          "type": "textarea",
-          "id": "text",
-          "label": "Review",
-          "default": "Bought this for my sister. She said the meals tasted homemade and she actually looked unstressed for once."
-        },
-        { "type": "image_picker", "id": "photo_1", "label": "Photo 1" },
-        { "type": "image_picker", "id": "photo_2", "label": "Photo 2" },
-        { "type": "image_picker", "id": "photo_3", "label": "Photo 3" }
-      ]
-    }
-  ],
   "settings": [
     { "type": "product", "id": "product", "label": "Gift card product" },
     { "type": "number", "id": "default_amount", "label": "Default amount", "default": 50 },
@@ -464,7 +210,6 @@
     { "type": "range", "id": "tilt", "label": "Tilt (degrees)", "min": -20, "max": 20, "step": 1, "default": -7 },
     { "type": "checkbox", "id": "show_ribbon", "label": "Show ribbon and bow", "default": true },
     { "type": "range", "id": "max_width", "label": "Card max width", "min": 300, "max": 900, "step": 20, "default": 560, "unit": "px" },
-
     { "type": "header", "content": "Buy panel" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Give someone a week off from cooking." },
     {
@@ -501,93 +246,13 @@
     { "type": "header", "content": "Scrolling strip" },
     { "type": "text", "id": "strip_text", "label": "Text", "default": "REAL INGREDIENTS. REAL FLAVOUR. REAL CHEF MATT." },
     { "type": "range", "id": "strip_speed", "min": 10, "max": 60, "step": 2, "unit": "s", "label": "Loop duration", "default": 28 },
-    { "type": "header", "content": "Steps and FAQ" },
-    { "type": "text", "id": "how_heading", "label": "Steps heading", "default": "How a gift card works" },
-    { "type": "text", "id": "faq_heading", "label": "FAQ heading", "default": "Gift card questions" },
-    { "type": "header", "content": "Reviews" },
-    { "type": "checkbox", "id": "show_reviews", "label": "Show reviews section", "default": true },
-    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Customer reviews" },
-    {
-      "type": "text",
-      "id": "reviews_empty_summary",
-      "label": "Empty summary",
-      "default": "No reviews yet"
-    },
-    {
-      "type": "textarea",
-      "id": "reviews_empty_text",
-      "label": "Empty list text",
-      "default": "No reviews yet. Bought a gift card or ordered a meal plan? Be the first to share how it went."
-    },
-    { "type": "checkbox", "id": "show_review_form", "label": "Show write-a-review form", "default": true },
-    { "type": "text", "id": "review_form_heading", "label": "Form heading", "default": "Write a review" },
-    { "type": "text", "id": "review_rating_label", "label": "Rating legend", "default": "Your rating" },
-    { "type": "text", "id": "review_name_label", "label": "Name label", "default": "Your name" },
-    { "type": "text", "id": "review_text_label", "label": "Review label", "default": "Your review" },
-    {
-      "type": "text",
-      "id": "review_text_placeholder",
-      "label": "Review placeholder",
-      "default": "What did you or the person you gifted think of the meals?"
-    },
-    { "type": "text", "id": "review_photos_label", "label": "Photos label", "default": "Add photos" },
-    {
-      "type": "text",
-      "id": "review_photos_help",
-      "label": "Photos help text",
-      "default": "Up to 3 images, 5 MB each (JPG, PNG, WebP)"
-    },
-    { "type": "text", "id": "review_button_label", "label": "Submit button", "default": "Post review" },
-    { "type": "header", "content": "Button 2 style" },
-    { "type": "color", "id": "review_button_text_color", "label": "Text color" },
-    { "type": "color", "id": "review_button_bg_color", "label": "Background color" },
-    { "type": "color", "id": "review_button_icon_bg", "label": "Icon background" },
-    { "type": "color", "id": "review_button_icon_color", "label": "Icon color" },
-    { "type": "range", "id": "review_button_font_size", "min": 14, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
-    {
-      "type": "text",
-      "id": "review_thanks",
-      "label": "Thanks message",
-      "default": "Thanks! Your review is posted"
-    },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "accent", "label": "Accent", "default": "#f5a623" },
     { "type": "color", "id": "ink", "label": "Ink", "default": "#14213d" },
-    { "type": "color", "id": "paper", "label": "Background", "default": "#fffdf8" },
-    { "type": "header", "content": "Steps and FAQ padding" },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 72 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 72 }
+    { "type": "color", "id": "paper", "label": "Background", "default": "#fffdf8" }
   ],
   "presets": [
-    {
-      "name": "CM gift card",
-      "blocks": [
-        { "type": "step", "settings": { "title": "Pick an amount", "text": "Choose $10 to $100 and add a personal message if you want to send it as a gift." } },
-        { "type": "step", "settings": { "title": "They get it by email", "text": "The card arrives with your note, on the day you pick." } },
-        { "type": "step", "settings": { "title": "They choose their meals", "text": "They build their week from the menu, and we deliver it fresh." } },
-        { "type": "faq", "settings": { "question": "Can they use it on any meal plan?", "answer": "<p>Yes. The balance applies at checkout to any meal plan on the menu.</p>" } },
-        { "type": "faq", "settings": { "question": "How does the recipient get the card?", "answer": "<p>By email, on the date you choose. If you pick no date, it is sent right after checkout.</p>" } },
-        { "type": "faq", "settings": { "question": "Can I buy more than one?", "answer": "<p>Yes. Add as many cards as you like, in any mix of amounts.</p>" } },
-        {
-          "type": "review",
-          "settings": {
-            "author": "Jordan M.",
-            "rating": 5,
-            "date": "Mar 12, 2026",
-            "text": "Bought this for my sister. She said the meals tasted homemade and she actually looked unstressed for once."
-          }
-        },
-        {
-          "type": "review",
-          "settings": {
-            "author": "Priya S.",
-            "rating": 5,
-            "date": "Feb 28, 2026",
-            "text": "Perfect birthday gift. The email delivery was instant and the $50 covered almost a full week of dinners."
-          }
-        }
-      ]
-    }
+    { "name": "CM gift card" }
   ]
 }
 {% endschema %}

@@ -1,36 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "gift_card": {
       "type": "cm-gift-card",
+      "settings": {
+        "default_amount": 50,
+        "fallback_amounts": "10, 25, 50, 100",
+        "gift_text": "Gift",
+        "card_text": "Card",
+        "brand": "MEALS",
+        "subtitle": "FRESH MEAL PREP",
+        "badge": "CM",
+        "note": "Redeemable on any meal plan",
+        "text_scale": 100,
+        "card_bg": "#FFFDF6",
+        "text_main": "#14213D",
+        "text_accent": "#F5A623",
+        "ribbon_color": "#14213D",
+        "bow_color": "#F5A623",
+        "tilt": -7,
+        "show_ribbon": true,
+        "max_width": 560,
+        "heading": "Give someone a week off from cooking.",
+        "text": "<p>A Chef Matt's Meals gift card lets them pick from the rotating menu and get fresh, chef-made meals delivered to their home.</p>",
+        "amount_legend": "Choose an amount",
+        "hints": "10 | A small treat toward any plan.\n25 | A good top-up toward a 5-meal plan, which starts at $60.\n50 | Close to a full 5-meal plan, which starts at $60.\n100 | Covers a 7-meal plan ($84 and up) with room to spare.",
+        "gift_label": "I want to send this as a gift",
+        "button_label": "Add gift card to cart",
+        "fine_print": "Secure checkout. Delivered by email, so it arrives in minutes.",
+        "strip_text": "REAL INGREDIENTS. REAL FLAVOUR. REAL CHEF MATT.",
+        "strip_speed": 28,
+        "accent": "#f5a623",
+        "ink": "#14213d",
+        "paper": "#fffdf8"
+      }
+    },
+    "gift_card_how": {
+      "type": "cm-gift-card-how",
       "blocks": {
-        "fact_1": {
-          "type": "fact",
-          "settings": {
-            "label": "Cooking required",
-            "value": "0 min"
-          }
-        },
-        "fact_2": {
-          "type": "fact",
-          "settings": {
-            "label": "Delivered fresh to the door",
-            "value": "100%"
-          }
-        },
-        "fact_3": {
-          "type": "fact",
-          "settings": {
-            "label": "Real ingredients",
-            "value": "100%"
-          }
-        },
-        "fact_4": {
-          "type": "fact",
-          "settings": {
-            "label": "Recipient's reaction",
-            "value": "Very happy"
-          }
-        },
         "step_1": {
           "type": "step",
           "settings": {
@@ -51,7 +66,21 @@
             "title": "They choose their meals",
             "text": "They build their week from the menu, and we deliver it fresh."
           }
-        },
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3"],
+      "settings": {
+        "heading": "How a gift card works",
+        "accent": "#f5a623",
+        "ink": "#14213d",
+        "paper": "#fffdf8",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "gift_card_faq": {
+      "type": "cm-gift-card-faq",
+      "blocks": {
         "faq_1": {
           "type": "faq",
           "settings": {
@@ -72,7 +101,21 @@
             "question": "Can I buy more than one?",
             "answer": "<p>Yes. Add as many cards as you like, in any mix of amounts.</p>"
           }
-        },
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3"],
+      "settings": {
+        "heading": "Gift card questions",
+        "accent": "#f5a623",
+        "ink": "#14213d",
+        "paper": "#fffdf8",
+        "padding_top": 40,
+        "padding_bottom": 72
+      }
+    },
+    "gift_card_reviews": {
+      "type": "cm-gift-card-reviews",
+      "blocks": {
         "review_1": {
           "type": "review",
           "settings": {
@@ -92,41 +135,9 @@
           }
         }
       },
-      "block_order": [
-        "fact_1",
-        "fact_2",
-        "fact_3",
-        "fact_4",
-        "step_1",
-        "step_2",
-        "step_3",
-        "faq_1",
-        "faq_2",
-        "faq_3",
-        "review_1",
-        "review_2"
-      ],
+      "block_order": ["review_1", "review_2"],
       "settings": {
-        "default_amount": 50,
-        "fallback_amounts": "10, 25, 50, 100",
-        "card_title": "Gift Facts",
-        "card_subtitle": "Serving size: one very good week",
-        "card_amount_label": "Amount per card",
-        "stamp_initials": "CM",
-        "stamp_text": "Made from scratch by Chef Matt, with 40+ years in the kitchen. Redeemable on any meal plan.",
-        "heading": "Give someone a week off from cooking.",
-        "text": "<p>A Chef Matt's Meals gift card lets them pick from the rotating menu and get fresh, chef-made meals delivered to their home.</p>",
-        "amount_legend": "Choose an amount",
-        "hints": "10 | A small treat toward any plan.\n25 | A good top-up toward a 5-meal plan, which starts at $60.\n50 | Close to a full 5-meal plan, which starts at $60.\n100 | Covers a 7-meal plan ($84 and up) with room to spare.",
-        "gift_label": "I want to send this as a gift",
-        "button_label": "Add gift card to cart",
-        "fine_print": "Secure checkout. Delivered by email, so it arrives in minutes.",
-        "strip_text": "REAL INGREDIENTS. REAL FLAVOUR. REAL CHEF MATT.",
-        "strip_speed": 28,
-        "how_heading": "How a gift card works",
-        "faq_heading": "Gift card questions",
-        "show_reviews": true,
-        "reviews_heading": "Customer reviews",
+        "heading": "Customer reviews",
         "reviews_empty_summary": "No reviews yet",
         "reviews_empty_text": "No reviews yet. Bought a gift card or ordered a meal plan? Be the first to share how it went.",
         "show_review_form": true,
@@ -139,15 +150,19 @@
         "review_photos_help": "Up to 3 images, 5 MB each (JPG, PNG, WebP)",
         "review_button_label": "Post review",
         "review_thanks": "Thanks! Your review is posted",
+        "review_button_font_size": 16,
         "accent": "#f5a623",
         "ink": "#14213d",
         "paper": "#fffdf8",
-        "padding_top": 72,
+        "padding_top": 40,
         "padding_bottom": 72
       }
     }
   },
   "order": [
-    "gift_card"
+    "gift_card",
+    "gift_card_how",
+    "gift_card_faq",
+    "gift_card_reviews"
   ]
 }

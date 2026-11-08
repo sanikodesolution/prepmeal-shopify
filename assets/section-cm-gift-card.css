@@ -377,13 +377,13 @@
  margin: 0 auto;
  padding-right: clamp(16px, 6vw, 96px);
  padding-left: clamp(16px, 6vw, 96px);
+ color: var(--gc-ink, #14213d);
 }
 
-.cm-gc__faq {
- padding-top: 0;
-}
-
-.cm-gc .cm-gc__t {
+.cm-gc .cm-gc__t,
+.cm-gc__how .cm-gc__t,
+.cm-gc__faq .cm-gc__t,
+.cm-gc__reviews .cm-gc__t {
  margin: 0 0 28px;
  letter-spacing: -1px;
 }
@@ -467,10 +467,13 @@
 /* Reviews */
 
 .cm-gc__reviews {
+ display: block;
  max-width: var(--page-width);
  margin: 0 auto;
- padding: clamp(40px, 6vw, 88px) clamp(16px, 6vw, 96px);
- border-top: 3px solid var(--gc-ink);
+ padding-right: clamp(16px, 6vw, 96px);
+ padding-left: clamp(16px, 6vw, 96px);
+ border-top: 3px solid var(--gc-ink, #14213d);
+ color: var(--gc-ink, #14213d);
 }
 
 .cm-gc__rv-head {
