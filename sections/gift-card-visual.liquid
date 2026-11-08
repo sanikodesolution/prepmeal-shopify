@@ -1,0 +1,45 @@
+{%- comment -%}
+  Section: Gift card visual — Theme Editor → Add section → "Gift card visual"
+{%- endcomment -%}
+{% render 'gift-card-visual', settings: section.settings, uid: section.id %}
+
+{% schema %}
+{
+  "name": "Gift card visual",
+  "tag": "section",
+  "class": "section-gift-card-visual",
+  "settings": [
+    { "type": "header", "content": "Text" },
+    { "type": "text", "id": "gift_text", "label": "Big text (line 1)", "default": "Gift" },
+    { "type": "text", "id": "card_text", "label": "Big text (line 2)", "default": "Card" },
+    { "type": "text", "id": "brand", "label": "Brand name", "default": "MEALS" },
+    { "type": "text", "id": "subtitle", "label": "Brand subtitle", "default": "FRESH MEAL PREP" },
+    { "type": "text", "id": "badge", "label": "Badge text (when no logo)", "default": "CM" },
+    { "type": "text", "id": "note", "label": "Small note", "default": "Redeemable on any meal plan" },
+    { "type": "font_picker", "id": "font", "label": "Font", "default": "poppins_n4" },
+    { "type": "range", "id": "text_scale", "label": "Text size", "min": 60, "max": 120, "step": 5, "default": 100, "unit": "%" },
+
+    { "type": "header", "content": "Logo" },
+    { "type": "image_picker", "id": "logo", "label": "Logo (replaces badge and brand text)" },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "card_bg", "label": "Card", "default": "#FFFDF6" },
+    { "type": "color", "id": "section_bg", "label": "Background", "default": "#E6E6E3" },
+    { "type": "color", "id": "text_main", "label": "Main text", "default": "#14213D" },
+    { "type": "color", "id": "text_accent", "label": "Accent text", "default": "#F5A623" },
+    { "type": "color", "id": "ribbon_color", "label": "Ribbon", "default": "#14213D" },
+    { "type": "color", "id": "bow_color", "label": "Bow", "default": "#F5A623" },
+    { "type": "checkbox", "id": "transparent_bg", "label": "Transparent background", "default": false },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "tilt", "label": "Tilt (degrees)", "min": -20, "max": 20, "step": 1, "default": -7 },
+    { "type": "checkbox", "id": "show_ribbon", "label": "Show ribbon and bow", "default": true },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 300, "max": 900, "step": 20, "default": 560, "unit": "px" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 4, "default": 24, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 4, "default": 24, "unit": "px" }
+  ],
+  "presets": [
+    { "name": "Gift card visual" }
+  ]
+}
+{% endschema %}

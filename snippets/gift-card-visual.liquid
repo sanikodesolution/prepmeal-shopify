@@ -1,0 +1,108 @@
+{%- comment -%}
+  Tilted gift-card SVG visual.
+  Accepts:
+  - settings  {Object}  Section/block settings (required)
+  - uid       {String}  Unique id for clip/filter (required)
+  - embedded  {Boolean} When true, skip outer stage chrome (used inside CM gift card hero)
+{%- endcomment -%}
+{%- liquid
+  assign s = settings
+  assign font_bold = s.font | font_modify: 'weight', 'bold'
+  if font_bold == blank
+    assign font_bold = s.font
+  endif
+  assign bow_dark = s.bow_color | color_darken: 10
+  assign bow_light = s.bow_color | color_lighten: 18
+  assign scale = s.text_scale | default: 100 | times: 1.0 | divided_by: 100
+  assign gift_size = 84 | times: scale
+  assign card_size = 62 | times: scale
+-%}
+
+<style>
+  {{ s.font | font_face: font_display: 'swap' }}
+  {{ font_bold | font_face: font_display: 'swap' }}
+
+  #gcv-{{ uid }} {
+    {% unless embedded %}
+      padding-top: {{ s.padding_top }}px;
+      padding-bottom: {{ s.padding_bottom }}px;
+      padding-left: 16px;
+      padding-right: 16px;
+    {% endunless %}
+  }
+  #gcv-{{ uid }} .gcv__stage {
+    max-width: {{ s.max_width }}px;
+    margin: 0 auto;
+    {% unless embedded %}
+      border-radius: 20px;
+      {% unless s.transparent_bg %}background: {{ s.section_bg }};{% endunless %}
+    {% endunless %}
+    overflow: visible;
+  }
+  #gcv-{{ uid }} .gcv__svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  #gcv-{{ uid }} .gcv__t {
+    font-family: {{ s.font.family }}, {{ s.font.fallback_families }};
+    font-weight: {{ s.font.weight }};
+  }
+  #gcv-{{ uid }} .gcv__t--bold {
+    font-family: {{ font_bold.family }}, {{ font_bold.fallback_families }};
+    font-weight: {{ font_bold.weight }};
+  }
+</style>
+
+<div id="gcv-{{ uid }}" class="gcv{% if embedded %} gcv--embedded{% endif %}">
+  <div class="gcv__stage">
+    <svg
+      class="gcv__svg"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 800 680"
+      role="img"
+      aria-label="{{ s.gift_text | escape }} {{ s.card_text | escape }}"
+    >
+      <defs>
+        <clipPath id="gcv-clip-{{ uid }}"><rect width="480" height="300" rx="18"/></clipPath>
+        <filter id="gcv-blur-{{ uid }}" x="-20%" y="-50%" width="140%" height="200%">
+          <feGaussianBlur stdDeviation="10"/>
+        </filter>
+      </defs>
+
+      <ellipse cx="400" cy="520" rx="230" ry="14" fill="#000" opacity="0.22" filter="url(#gcv-blur-{{ uid }})"/>
+
+      <g transform="translate(400 330) rotate({{ s.tilt }}) translate(-240 -150)">
+        <rect x="4" y="10" width="480" height="300" rx="18" fill="#000" opacity="0.12" filter="url(#gcv-blur-{{ uid }})"/>
+        <rect width="480" height="300" rx="18" fill="{{ s.card_bg }}"/>
+
+        {%- if s.show_ribbon -%}
+          <g clip-path="url(#gcv-clip-{{ uid }})">
+            <polygon points="340,0 392,0 480,88 480,140" fill="{{ s.ribbon_color }}"/>
+            <polygon points="352,0 362,0 480,118 480,128" fill="{{ s.text_accent }}" opacity="0.9"/>
+          </g>
+          <g transform="translate(423 57)">
+            <path d="M0 0 C-10 -46 -56 -40 -48 -6 C-44 8 -14 8 0 0Z" fill="{{ s.bow_color }}"/>
+            <path d="M0 0 C46 -10 40 -56 6 -48 C-8 -44 -8 -14 0 0Z" fill="{{ bow_dark }}"/>
+            <path d="M0 0 C10 46 56 40 48 6 C44 -8 14 -8 0 0Z" fill="{{ bow_dark }}"/>
+            <path d="M0 0 C-46 10 -40 56 -6 48 C8 44 8 14 0 0Z" fill="{{ s.bow_color }}"/>
+            <rect x="-13" y="-13" width="26" height="26" rx="6" fill="{{ bow_light }}" transform="rotate(45)"/>
+          </g>
+        {%- endif -%}
+
+        {%- if s.logo != blank -%}
+          <image href="{{ s.logo | image_url: width: 600 }}" x="36" y="30" width="170" height="64" preserveAspectRatio="xMinYMid meet"/>
+        {%- else -%}
+          <circle cx="62" cy="62" r="26" fill="{{ s.text_accent }}" stroke="{{ s.text_main }}" stroke-width="3"/>
+          <text class="gcv__t gcv__t--bold" x="62" y="70" text-anchor="middle" font-size="22" fill="{{ s.text_main }}">{{ s.badge | escape }}</text>
+          <text class="gcv__t gcv__t--bold" x="98" y="58" font-size="15" letter-spacing="3" fill="{{ s.text_main }}">{{ s.brand | escape }}</text>
+          <text class="gcv__t" x="98" y="76" font-size="10" letter-spacing="2" fill="#7A8194">{{ s.subtitle | escape }}</text>
+        {%- endif -%}
+
+        <text class="gcv__t gcv__t--bold" x="36" y="188" font-size="{{ gift_size }}" letter-spacing="-2" fill="{{ s.text_main }}">{{ s.gift_text | escape }}</text>
+        <text class="gcv__t" x="36" y="252" font-size="{{ card_size }}" fill="{{ s.text_accent }}">{{ s.card_text | escape }}</text>
+        <text class="gcv__t" x="444" y="276" text-anchor="end" font-size="11" fill="#7A8194">{{ s.note | escape }}</text>
+      </g>
+    </svg>
+  </div>
+</div>

@@ -5,7 +5,6 @@
   assign gc_product = section.settings.product
   assign hd_700 = settings.type_header_font | font_modify: 'weight', '700'
   assign hd_800 = settings.type_header_font | font_modify: 'weight', '800'
-  assign facts = section.blocks | where: 'type', 'fact'
   assign steps = section.blocks | where: 'type', 'step'
   assign faqs = section.blocks | where: 'type', 'faq'
   assign reviews = section.blocks | where: 'type', 'review'
@@ -41,36 +40,8 @@
 >
   <div class="cm-gc__hero">
     <div class="cm-gc__stage" data-gc-stage>
-      <div class="cm-gc__label" data-gc-label aria-hidden="true">
-        {%- if section.settings.card_title != blank -%}
-          <h2 class="cm-gc__label-title">{{ section.settings.card_title | escape }}</h2>
-        {%- endif -%}
-        {%- if section.settings.card_subtitle != blank -%}
-          <small class="cm-gc__label-sub">{{ section.settings.card_subtitle | escape }}</small>
-        {%- endif -%}
-        <div class="cm-gc__rule"></div>
-        <div class="cm-gc__amt">
-          <span>{{ section.settings.card_amount_label | escape }}</span>
-          <strong data-gc-big>
-            {%- if selected_variant -%}
-              {{ selected_variant.price | money_without_trailing_zeros }}
-            {%- else -%}
-              ${{ default_amount }}
-            {%- endif -%}
-          </strong>
-        </div>
-        {%- for block in facts -%}
-          <div class="cm-gc__row" {{ block.shopify_attributes }}>
-            <b>{{ block.settings.label | escape }}</b>
-            <span>{{ block.settings.value | escape }}</span>
-          </div>
-        {%- endfor -%}
-        {%- if section.settings.stamp_text != blank -%}
-          <div class="cm-gc__stamp">
-            <i>{{ section.settings.stamp_initials | escape }}</i>
-            <span>{{ section.settings.stamp_text | escape }}</span>
-          </div>
-        {%- endif -%}
+      <div class="cm-gc__label" data-gc-label>
+        {% render 'gift-card-visual', settings: section.settings, uid: section.id, embedded: true %}
       </div>
     </div>
 
@@ -475,17 +446,25 @@
       "info": "Shown only when no gift card product is selected. Separate with commas.",
       "default": "10, 25, 50, 100"
     },
-    { "type": "header", "content": "Gift facts card" },
-    { "type": "text", "id": "card_title", "label": "Title", "default": "Gift Facts" },
-    { "type": "text", "id": "card_subtitle", "label": "Subtitle", "default": "Serving size: one very good week" },
-    { "type": "text", "id": "card_amount_label", "label": "Amount label", "default": "Amount per card" },
-    { "type": "text", "id": "stamp_initials", "label": "Stamp initials", "default": "CM" },
-    {
-      "type": "textarea",
-      "id": "stamp_text",
-      "label": "Stamp text",
-      "default": "Made from scratch by Chef Matt, with 40+ years in the kitchen. Redeemable on any meal plan."
-    },
+    { "type": "header", "content": "Gift card visual" },
+    { "type": "text", "id": "gift_text", "label": "Big text (line 1)", "default": "Gift" },
+    { "type": "text", "id": "card_text", "label": "Big text (line 2)", "default": "Card" },
+    { "type": "text", "id": "brand", "label": "Brand name", "default": "MEALS" },
+    { "type": "text", "id": "subtitle", "label": "Brand subtitle", "default": "FRESH MEAL PREP" },
+    { "type": "text", "id": "badge", "label": "Badge text (when no logo)", "default": "CM" },
+    { "type": "text", "id": "note", "label": "Small note", "default": "Redeemable on any meal plan" },
+    { "type": "font_picker", "id": "font", "label": "Card font", "default": "poppins_n4" },
+    { "type": "range", "id": "text_scale", "label": "Text size", "min": 60, "max": 120, "step": 5, "default": 100, "unit": "%" },
+    { "type": "image_picker", "id": "logo", "label": "Logo (replaces badge and brand text)" },
+    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#FFFDF6" },
+    { "type": "color", "id": "text_main", "label": "Main text", "default": "#14213D" },
+    { "type": "color", "id": "text_accent", "label": "Accent text", "default": "#F5A623" },
+    { "type": "color", "id": "ribbon_color", "label": "Ribbon", "default": "#14213D" },
+    { "type": "color", "id": "bow_color", "label": "Bow", "default": "#F5A623" },
+    { "type": "range", "id": "tilt", "label": "Tilt (degrees)", "min": -20, "max": 20, "step": 1, "default": -7 },
+    { "type": "checkbox", "id": "show_ribbon", "label": "Show ribbon and bow", "default": true },
+    { "type": "range", "id": "max_width", "label": "Card max width", "min": 300, "max": 900, "step": 20, "default": 560, "unit": "px" },
+
     { "type": "header", "content": "Buy panel" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Give someone a week off from cooking." },
     {
@@ -583,10 +562,6 @@
     {
       "name": "CM gift card",
       "blocks": [
-        { "type": "fact", "settings": { "label": "Cooking required", "value": "0 min" } },
-        { "type": "fact", "settings": { "label": "Delivered fresh to the door", "value": "100%" } },
-        { "type": "fact", "settings": { "label": "Real ingredients", "value": "100%" } },
-        { "type": "fact", "settings": { "label": "Recipient's reaction", "value": "Very happy" } },
         { "type": "step", "settings": { "title": "Pick an amount", "text": "Choose $10 to $100 and add a personal message if you want to send it as a gift." } },
         { "type": "step", "settings": { "title": "They get it by email", "text": "The card arrives with your note, on the day you pick." } },
         { "type": "step", "settings": { "title": "They choose their meals", "text": "They build their week from the menu, and we deliver it fresh." } },
