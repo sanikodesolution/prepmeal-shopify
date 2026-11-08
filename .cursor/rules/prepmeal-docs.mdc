@@ -1,0 +1,17 @@
+---
+description: Always update prepmeal-shopify-doc when theme/page structure or content guides change
+alwaysApply: true
+---
+
+# Prep Meal documentation
+
+When this theme’s pages, sections, templates, or merchant-facing content workflow change:
+
+1. Update **`G:\kodesolution\htdocs\sanikodesolution\shopify\prepmeal-shopify-doc`** (not a `docs/` folder inside the theme).
+2. Keep at least these in sync when relevant:
+   - `PAGE-SECTIONS.md` — page → section map
+   - `CONTENT-GUIDE.md` — Bangla merchant content guide
+   - `PLAN-PRODUCT-CONTENT.md` — meal plan Customize / product content
+   - `index.html` — HTML documentation site (templates, sections, changelog)
+3. Commit and push **`prepmeal-shopify-doc`** GitHub repo after doc edits.
+4. Do **not** put long-form docs inside the theme repo.
