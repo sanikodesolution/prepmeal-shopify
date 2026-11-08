@@ -535,6 +535,18 @@
   letter-spacing: 0.02em;
 }
 
+/* Per-block typography from the theme editor */
+.image-with-text__text[style] p,
+.image-with-text__text[style] li,
+.image-with-text__text[style] a,
+.image-with-text__heading[style] a {
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
 /*
   Multirow
   note: consider removing from this stylesheet if multirow-specific styles increase signficantly
