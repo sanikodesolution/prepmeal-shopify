@@ -31,6 +31,18 @@
 {%- assign pd_protein = product.metafields.custom.protein.value | default: section.settings.protein -%}
 {%- assign pd_carbs = product.metafields.custom.carbs.value | default: section.settings.carbs -%}
 {%- assign pd_fat = product.metafields.custom.fat.value | default: section.settings.fat -%}
+{%- capture pd_eyebrow_style -%}
+  {%- render 'pm-block-type-style', settings: section.settings, prefix: 'eyebrow_' -%}
+{%- endcapture -%}
+{%- capture pd_heading_style -%}
+  {%- render 'pm-block-type-style', settings: section.settings, prefix: 'heading_' -%}
+{%- endcapture -%}
+{%- capture pd_body_style -%}
+  {%- render 'pm-block-type-style', settings: section.settings, prefix: 'body_' -%}
+{%- endcapture -%}
+{%- capture pd_note_style -%}
+  {%- render 'pm-block-type-style', settings: section.settings, prefix: 'note_' -%}
+{%- endcapture -%}
 <section class="mealplan-pd mealplan-pd--plate" id="MealplanPd-{{ section.id }}" data-mealplan-pd data-anim="true">
   <div class="mealplan-pd__inner">
     <div class="mealplan-pd__gallery">
@@ -108,10 +120,23 @@
 
     <div class="mealplan-pd__info">
       {%- if section.settings.eyebrow != blank -%}
-        <span class="mealplan-pd__eyebrow" data-pd-reveal>{{ section.settings.eyebrow | escape }}</span>
+        <span
+          class="mealplan-pd__eyebrow"
+          data-pd-reveal
+          {% if pd_eyebrow_style != blank %}
+            style="{{ pd_eyebrow_style | strip }}"
+          {% endif %}
+        >{{ section.settings.eyebrow | escape }}</span>
       {%- endif -%}
       {%- assign first_dish = dishes | first -%}
-      <h2 class="mealplan-pd__title" data-pd-reveal data-pd-title>{{ first_dish.settings.name | default: pd_title | escape }}</h2>
+      <h2
+        class="mealplan-pd__title"
+        data-pd-reveal
+        data-pd-title
+        {% if pd_heading_style != blank %}
+          style="{{ pd_heading_style | strip }}"
+        {% endif %}
+      >{{ first_dish.settings.name | default: pd_title | escape }}</h2>
       <div class="mealplan-pd__priceRow" data-pd-reveal>
         {%- if product != blank -%}
           <span class="mealplan-pd__price" data-pd-price>{{ current.price | money }}</span>
@@ -127,13 +152,42 @@
         <span class="mealplan-pd__save" data-pd-save hidden></span>
       </div>
       {%- if first_dish.settings.description != blank -%}
-        <p class="mealplan-pd__desc" data-pd-reveal data-pd-desc>{{ first_dish.settings.description | escape }}</p>
+        <p
+          class="mealplan-pd__desc"
+          data-pd-reveal
+          data-pd-desc
+          {% if pd_body_style != blank %}
+            style="{{ pd_body_style | strip }}"
+          {% endif %}
+        >{{ first_dish.settings.description | escape }}</p>
       {%- elsif section.settings.text != blank -%}
-        <p class="mealplan-pd__desc" data-pd-reveal data-pd-desc>{{ section.settings.text | escape }}</p>
+        <p
+          class="mealplan-pd__desc"
+          data-pd-reveal
+          data-pd-desc
+          {% if pd_body_style != blank %}
+            style="{{ pd_body_style | strip }}"
+          {% endif %}
+        >{{ section.settings.text | escape }}</p>
       {%- elsif product.description != blank -%}
-        <div class="mealplan-pd__desc" data-pd-reveal data-pd-desc>{{ product.description }}</div>
+        <div
+          class="mealplan-pd__desc"
+          data-pd-reveal
+          data-pd-desc
+          {% if pd_body_style != blank %}
+            style="{{ pd_body_style | strip }}"
+          {% endif %}
+        >{{ product.description }}</div>
       {%- else -%}
-        <p class="mealplan-pd__desc" data-pd-reveal data-pd-desc hidden></p>
+        <p
+          class="mealplan-pd__desc"
+          data-pd-reveal
+          data-pd-desc
+          hidden
+          {% if pd_body_style != blank %}
+            style="{{ pd_body_style | strip }}"
+          {% endif %}
+        ></p>
       {%- endif -%}
 
       <div class="mealplan-pd__chips" data-pd-reveal>
@@ -254,7 +308,13 @@
             </div>
             <p class="mealplan-pd__msg" role="alert" data-pd-msg></p>
             {%- if section.settings.note != blank -%}
-              <p class="mealplan-pd__note" data-pd-reveal><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>{{ section.settings.note | escape }}</p>
+              <p
+                class="mealplan-pd__note"
+                data-pd-reveal
+                {% if pd_note_style != blank %}
+                  style="{{ pd_note_style | strip }}"
+                {% endif %}
+              ><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg>{{ section.settings.note | escape }}</p>
             {%- endif -%}
       {%- endcapture -%}
       {%- if product != blank -%}
@@ -306,11 +366,30 @@
       {%- if details.size > 0 -%}
         <div class="mealplan-pd__acc" data-pd-reveal>
           {%- for block in details -%}
+            {%- capture pd_acc_title_style -%}
+              {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+            {%- endcapture -%}
+            {%- capture pd_acc_body_style -%}
+              {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+            {%- endcapture -%}
             <div class="mealplan-pd__accItem{% if block.settings.open %} is-open{% endif %}" {{ block.shopify_attributes }}>
-              <button type="button" class="mealplan-pd__accBtn" aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}" data-pd-acc>
+              <button
+                type="button"
+                class="mealplan-pd__accBtn"
+                aria-expanded="{% if block.settings.open %}true{% else %}false{% endif %}"
+                data-pd-acc
+                {% if pd_acc_title_style != blank %}
+                  style="{{ pd_acc_title_style | strip }}"
+                {% endif %}
+              >
                 {{ block.settings.title | escape }}<span class="mealplan-pd__plus" aria-hidden="true"></span>
               </button>
-              <div class="mealplan-pd__accPanel"><div class="mealplan-pd__accInner"><div class="mealplan-pd__accBody">{{ block.settings.text }}</div></div></div>
+              <div class="mealplan-pd__accPanel"><div class="mealplan-pd__accInner"><div
+                class="mealplan-pd__accBody"
+                {% if pd_acc_body_style != blank %}
+                  style="{{ pd_acc_body_style | strip }}"
+                {% endif %}
+              >{{ block.settings.text }}</div></div></div>
             </div>
           {%- endfor -%}
         </div>
@@ -338,6 +417,123 @@
     { "type": "text", "id": "note", "label": "Delivery note", "default": "Free delivery on weekly plans over $60" },
     { "type": "text", "id": "custom_label", "label": "Custom option name", "default": "Custom Meal", "info": "The variant option value that opens the dish picker." },
     { "type": "text", "id": "custom_heading", "label": "Custom picker heading", "default": "Build your custom meal" },
+
+    { "type": "header", "content": "Eyebrow typography" },
+    { "type": "color", "id": "eyebrow_color", "label": "Text color" },
+    { "type": "range", "id": "eyebrow_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "eyebrow_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-bold 800" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "eyebrow_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "eyebrow_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Eyebrow spacing" },
+    { "type": "range", "id": "eyebrow_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "eyebrow_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "eyebrow_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+
+    { "type": "header", "content": "Heading typography" },
+    { "type": "color", "id": "heading_color", "label": "Text color" },
+    { "type": "range", "id": "heading_font_size", "min": 0, "max": 72, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" },
+        { "value": "800", "label": "Extra-bold 800" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "heading_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "heading_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Heading spacing" },
+    { "type": "range", "id": "heading_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "heading_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "heading_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "heading_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "heading_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "heading_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "heading_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "heading_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+
+    { "type": "header", "content": "Description typography" },
+    { "type": "color", "id": "body_color", "label": "Text color" },
+    { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "body_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Description spacing" },
+    { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+
+    { "type": "header", "content": "Delivery note typography" },
+    { "type": "color", "id": "note_color", "label": "Text color" },
+    { "type": "range", "id": "note_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+    {
+      "type": "select",
+      "id": "note_font_weight",
+      "label": "Font weight",
+      "options": [
+        { "value": "inherit", "label": "Theme default" },
+        { "value": "300", "label": "Light 300" },
+        { "value": "400", "label": "Regular 400" },
+        { "value": "500", "label": "Medium 500" },
+        { "value": "600", "label": "Semi-bold 600" },
+        { "value": "700", "label": "Bold 700" }
+      ],
+      "default": "inherit"
+    },
+    { "type": "range", "id": "note_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "note_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "header", "content": "Delivery note spacing" },
+    { "type": "range", "id": "note_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+    { "type": "range", "id": "note_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+    { "type": "range", "id": "note_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+    { "type": "range", "id": "note_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+    { "type": "range", "id": "note_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+    { "type": "range", "id": "note_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+    { "type": "range", "id": "note_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+    { "type": "range", "id": "note_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+
     { "type": "header", "content": "Default nutrition" },
     { "type": "paragraph", "content": "Order used: dish block value, then product metafields custom.calories / custom.protein / custom.carbs / custom.fat, then these fields." },
     { "type": "text", "id": "cal", "label": "Calories", "default": "540" },
@@ -367,7 +563,63 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "What's included" },
         { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Main dish, sides, and rice. Packed fresh in a microwave-safe tray.</p>" },
-        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false },
+        { "type": "header", "content": "Title typography" },
+        { "type": "color", "id": "title_color", "label": "Text color" },
+        { "type": "range", "id": "title_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        {
+          "type": "select",
+          "id": "title_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" },
+            { "value": "800", "label": "Extra-bold 800" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "title_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "title_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Title spacing" },
+        { "type": "range", "id": "title_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "title_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "title_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "title_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "title_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "title_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "title_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Text typography" },
+        { "type": "color", "id": "body_color", "label": "Text color" },
+        { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        {
+          "type": "select",
+          "id": "body_font_weight",
+          "label": "Font weight",
+          "options": [
+            { "value": "inherit", "label": "Theme default" },
+            { "value": "300", "label": "Light 300" },
+            { "value": "400", "label": "Regular 400" },
+            { "value": "500", "label": "Medium 500" },
+            { "value": "600", "label": "Semi-bold 600" },
+            { "value": "700", "label": "Bold 700" }
+          ],
+          "default": "inherit"
+        },
+        { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Text spacing" },
+        { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 }
       ]
     }
   ],
