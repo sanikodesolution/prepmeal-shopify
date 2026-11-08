@@ -35,4 +35,6 @@ scripts/query-apps-and-6meal.graphql
 scripts/apps-and-6meal.json
 scripts/create-gift-card-editor-page-vars.json
 scripts/create-gift-card-editor-page-result.json
+scripts/publish-gift-card-editor-page.graphql
+scripts/publish-gift-card-editor-page-vars.json
 
