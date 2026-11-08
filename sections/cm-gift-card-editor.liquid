@@ -1,0 +1,150 @@
+{{ 'section-cm-gift-card-editor.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-gift-card-editor.js' | asset_url }}" defer="defer"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Plus+Jakarta+Sans:wght@400;700;800&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+
+<section class="gce" data-gce>
+  <div class="gce__wrap">
+    <div class="gce__preview">
+      <div class="gce__stage" data-gce-stage>
+        <svg class="gce__svg" data-gce-svg viewBox="0 0 800 680" role="img" aria-label="Gift Card"></svg>
+      </div>
+      <p class="gce__hint">বাঁদিকে লাইভ প্রিভিউ। ডানদিকের ফিল্ড বদলালে কার্ড সাথে সাথে আপডেট হবে।</p>
+    </div>
+
+    <aside class="gce__panel">
+      <h1 class="gce__title">Gift Card Editor</h1>
+
+      <div class="gce__group">
+        <p class="gce__group-title">লেখা</p>
+        <div class="gce__field">
+          <label for="GceGift-{{ section.id }}">বড় লেখা (১ম লাইন)</label>
+          <input id="GceGift-{{ section.id }}" type="text" data-gce-field="gift" value="Gift">
+        </div>
+        <div class="gce__field">
+          <label for="GceCard-{{ section.id }}">বড় লেখা (২য় লাইন)</label>
+          <input id="GceCard-{{ section.id }}" type="text" data-gce-field="card" value="Card">
+        </div>
+        <div class="gce__field">
+          <label for="GceBrand-{{ section.id }}">ব্র্যান্ডের নাম</label>
+          <input id="GceBrand-{{ section.id }}" type="text" data-gce-field="brand" value="MEALS">
+        </div>
+        <div class="gce__field">
+          <label for="GceSub-{{ section.id }}">ব্র্যান্ডের নিচের লেখা</label>
+          <input id="GceSub-{{ section.id }}" type="text" data-gce-field="subtitle" value="FRESH MEAL PREP">
+        </div>
+        <div class="gce__field">
+          <label for="GceBadge-{{ section.id }}">ব্যাজের লেখা (লোগো না থাকলে)</label>
+          <input id="GceBadge-{{ section.id }}" type="text" data-gce-field="badge" value="CM">
+        </div>
+        <div class="gce__field">
+          <label for="GceNote-{{ section.id }}">নিচের ছোট নোট</label>
+          <input id="GceNote-{{ section.id }}" type="text" data-gce-field="note" value="Redeemable on any meal plan">
+        </div>
+      </div>
+
+      <div class="gce__group">
+        <p class="gce__group-title">ফন্ট</p>
+        <div class="gce__field">
+          <label for="GceFont-{{ section.id }}">ফন্ট</label>
+          <select id="GceFont-{{ section.id }}" data-gce-field="font">
+            <option value="Poppins" selected>Poppins / Sans (ডিফল্ট)</option>
+            <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+            <option value="Inter">Inter</option>
+          </select>
+        </div>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceScale-{{ section.id }}">লেখার সাইজ</label>
+            <span data-gce-scale-val>100%</span>
+          </div>
+          <input id="GceScale-{{ section.id }}" type="range" min="60" max="120" step="5" value="100" data-gce-field="scale">
+        </div>
+      </div>
+
+      <div class="gce__group">
+        <p class="gce__group-title">রং</p>
+        <div class="gce__colors">
+          <div class="gce__color">
+            <label for="GceCardBg-{{ section.id }}">কার্ড</label>
+            <input id="GceCardBg-{{ section.id }}" type="color" value="#FFFDF6" data-gce-field="cardBg">
+          </div>
+          <div class="gce__color">
+            <label for="GceSectionBg-{{ section.id }}">ব্যাকগ্রাউন্ড</label>
+            <input id="GceSectionBg-{{ section.id }}" type="color" value="#E6E6E3" data-gce-field="sectionBg">
+          </div>
+          <div class="gce__color">
+            <label for="GceMain-{{ section.id }}">বড় লেখা</label>
+            <input id="GceMain-{{ section.id }}" type="color" value="#14213D" data-gce-field="textMain">
+          </div>
+          <div class="gce__color">
+            <label for="GceAccent-{{ section.id }}">২য় লেখা</label>
+            <input id="GceAccent-{{ section.id }}" type="color" value="#F5A623" data-gce-field="textAccent">
+          </div>
+          <div class="gce__color">
+            <label for="GceRibbon-{{ section.id }}">রিবন</label>
+            <input id="GceRibbon-{{ section.id }}" type="color" value="#14213D" data-gce-field="ribbon">
+          </div>
+          <div class="gce__color">
+            <label for="GceBow-{{ section.id }}">বো</label>
+            <input id="GceBow-{{ section.id }}" type="color" value="#F5A623" data-gce-field="bow">
+          </div>
+        </div>
+      </div>
+
+      <div class="gce__group">
+        <p class="gce__group-title">লেআউট</p>
+        <div class="gce__field">
+          <div class="gce__meta">
+            <label for="GceTilt-{{ section.id }}">কাত করা (ডিগ্রি)</label>
+            <span data-gce-tilt-val>-7°</span>
+          </div>
+          <input id="GceTilt-{{ section.id }}" type="range" min="-20" max="20" step="1" value="-7" data-gce-field="tilt">
+        </div>
+        <label class="gce__check">
+          <input type="checkbox" checked data-gce-field="showRibbon">
+          রিবন ও বো দেখাও
+        </label>
+        <label class="gce__check">
+          <input type="checkbox" data-gce-field="transparentBg">
+          ব্যাকগ্রাউন্ড স্বচ্ছ
+        </label>
+      </div>
+
+      <div class="gce__group">
+        <p class="gce__group-title">লোগো</p>
+        <div class="gce__logo">
+          <div class="gce__logo-row">
+            <label class="gce__file">
+              Choose File
+              <input type="file" accept="image/*" data-gce-field="logo">
+            </label>
+            <button type="button" class="gce__btn gce__btn--ghost" data-gce-remove-logo>লোগো সরাও</button>
+          </div>
+          <span class="gce__logo-name" data-gce-logo-name>কোনো ফাইল নেই</span>
+          <p class="gce__note">লোগো দিলে CM ব্যাজ ও ব্র্যান্ড টেক্সট হাইড হবে।</p>
+        </div>
+      </div>
+
+      <div class="gce__actions">
+        <button type="button" class="gce__btn gce__btn--primary" data-gce-png>PNG ডাউনলোড</button>
+        <button type="button" class="gce__btn gce__btn--ghost" data-gce-svg>SVG ডাউনলোড</button>
+        <button type="button" class="gce__btn gce__btn--ghost" data-gce-reset>রিসেট</button>
+      </div>
+      <p class="gce__note">PNG ২× সাইজে (১৬০০×১৩৬০) সেভ হবে — Shopify gift card product media তে আপলোড করুন।</p>
+    </aside>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gift card editor",
+  "tag": "section",
+  "class": "section-gift-card-editor",
+  "settings": [],
+  "presets": [
+    { "name": "Gift card editor" }
+  ]
+}
+{% endschema %}
