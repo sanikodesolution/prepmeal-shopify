@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "private_chef": {
@@ -5,23 +14,87 @@
       "blocks": {
         "perk_1": { "type": "perk", "settings": { "title": "No crowds", "text": "Your table, your pace" } },
         "perk_2": { "type": "perk", "settings": { "title": "No rush", "text": "Courses served as you wish" } },
-        "perk_3": { "type": "perk", "settings": { "title": "No cleanup", "text": "Kitchen left spotless" } },
+        "perk_3": { "type": "perk", "settings": { "title": "No cleanup", "text": "Kitchen left spotless" } }
+      },
+      "block_order": ["perk_1", "perk_2", "perk_3"],
+      "settings": {
+        "eyebrow": "Private Chef Experience",
+        "heading": "Restaurant-level dining,",
+        "heading_highlight": "in the comfort of your home.",
+        "text": "<p>A private dining evening crafted by Chef Matt, with over 40 years of culinary mastery. Custom menu, polished presentation, and a spotless kitchen when he leaves.</p>",
+        "button_label": "Request a quote",
+        "button_link": "#pc-quote",
+        "button_label_2": "How it works",
+        "button_link_2": "#pc-how",
+        "plate_number": "40+",
+        "plate_label": "Years of craft"
+      }
+    },
+    "pc_occasions": {
+      "type": "cm-private-chef-occasions",
+      "blocks": {
         "occasion_1": { "type": "occasion", "settings": { "label": "Birthdays" } },
         "occasion_2": { "type": "occasion", "settings": { "label": "Anniversaries" } },
         "occasion_3": { "type": "occasion", "settings": { "label": "Date Nights" } },
         "occasion_4": { "type": "occasion", "settings": { "label": "Girls' Night In" } },
         "occasion_5": { "type": "occasion", "settings": { "label": "Executive Dinners" } },
         "occasion_6": { "type": "occasion", "settings": { "label": "Team Meetings" } },
-        "occasion_7": { "type": "occasion", "settings": { "label": "Small Celebrations" } },
+        "occasion_7": { "type": "occasion", "settings": { "label": "Small Celebrations" } }
+      },
+      "block_order": [
+        "occasion_1",
+        "occasion_2",
+        "occasion_3",
+        "occasion_4",
+        "occasion_5",
+        "occasion_6",
+        "occasion_7"
+      ],
+      "settings": {
+        "label": "Perfect for",
+        "heading": "Every occasion worth savoring",
+        "padding_top": 84,
+        "padding_bottom": 84
+      }
+    },
+    "pc_expect": {
+      "type": "cm-private-chef-expect",
+      "blocks": {
         "expect_1": { "type": "expect", "settings": { "text": "Custom-curated menu" } },
         "expect_2": { "type": "expect", "settings": { "text": "Professional in-home preparation" } },
         "expect_3": { "type": "expect", "settings": { "text": "Elevated presentation" } },
         "expect_4": { "type": "expect", "settings": { "text": "High-quality, clean ingredients" } },
-        "expect_5": { "type": "expect", "settings": { "text": "Full kitchen cleanup after service" } },
+        "expect_5": { "type": "expect", "settings": { "text": "Full kitchen cleanup after service" } }
+      },
+      "block_order": ["expect_1", "expect_2", "expect_3", "expect_4", "expect_5"],
+      "settings": {
+        "label": "What you can expect",
+        "heading": "Thoughtful from the first course to the last",
+        "quote": "From classical French techniques to globally inspired flavors, every dish reflects decades of culinary experience.",
+        "quote_author": "Chef Matt",
+        "padding_top": 84,
+        "padding_bottom": 84
+      }
+    },
+    "pc_steps": {
+      "type": "cm-private-chef-steps",
+      "blocks": {
         "step_1": { "type": "step", "settings": { "title": "Submit details", "text": "Tell us about your event, guests and tastes." } },
         "step_2": { "type": "step", "settings": { "title": "We design your menu", "text": "A custom menu tailored to your occasion." } },
         "step_3": { "type": "step", "settings": { "title": "Chef Matt cooks", "text": "He prepares and serves in your home." } },
-        "step_4": { "type": "step", "settings": { "title": "You relax", "text": "Enjoy the evening. We handle the rest." } },
+        "step_4": { "type": "step", "settings": { "title": "You relax", "text": "Enjoy the evening. We handle the rest." } }
+      },
+      "block_order": ["step_1", "step_2", "step_3", "step_4"],
+      "settings": {
+        "label": "How it works",
+        "heading": "Four easy steps to your evening",
+        "padding_top": 84,
+        "padding_bottom": 84
+      }
+    },
+    "pc_quote": {
+      "type": "cm-private-chef-quote",
+      "blocks": {
         "field_1": { "type": "field", "settings": { "label": "Name", "type": "text", "placeholder": "", "required": true, "half_width": true } },
         "field_2": { "type": "field", "settings": { "label": "Email", "type": "email", "placeholder": "", "required": true, "half_width": true } },
         "field_3": { "type": "field", "settings": { "label": "Phone", "type": "tel", "placeholder": "", "required": true, "half_width": true } },
@@ -49,51 +122,8 @@
           }
         }
       },
-      "block_order": [
-        "perk_1",
-        "perk_2",
-        "perk_3",
-        "occasion_1",
-        "occasion_2",
-        "occasion_3",
-        "occasion_4",
-        "occasion_5",
-        "occasion_6",
-        "occasion_7",
-        "expect_1",
-        "expect_2",
-        "expect_3",
-        "expect_4",
-        "expect_5",
-        "step_1",
-        "step_2",
-        "step_3",
-        "step_4",
-        "field_1",
-        "field_2",
-        "field_3",
-        "field_4",
-        "field_5",
-        "field_6",
-        "field_7"
-      ],
+      "block_order": ["field_1", "field_2", "field_3", "field_4", "field_5", "field_6", "field_7"],
       "settings": {
-        "eyebrow": "Private Chef Experience",
-        "heading": "Restaurant-level dining,",
-        "heading_highlight": "in the comfort of your home.",
-        "text": "<p>A private dining evening crafted by Chef Matt, with over 40 years of culinary mastery. Custom menu, polished presentation, and a spotless kitchen when he leaves.</p>",
-        "button_label": "Request a quote",
-        "button_label_2": "How it works",
-        "plate_number": "40+",
-        "plate_label": "Years of craft",
-        "occasions_label": "Perfect for",
-        "occasions_heading": "Every occasion worth savoring",
-        "expect_label": "What you can expect",
-        "expect_heading": "Thoughtful from the first course to the last",
-        "quote": "From classical French techniques to globally inspired flavors, every dish reflects decades of culinary experience.",
-        "quote_author": "Chef Matt",
-        "steps_label": "How it works",
-        "steps_heading": "Four easy steps to your evening",
         "form_label": "Intimate event catering",
         "form_heading": "Let's create something special",
         "form_text": "<p>Exceptional, memorable, custom catered events. Why not stay home and let Chef Matt create a menu for your event?</p>",
@@ -106,6 +136,10 @@
     }
   },
   "order": [
-    "private_chef"
+    "private_chef",
+    "pc_occasions",
+    "pc_expect",
+    "pc_steps",
+    "pc_quote"
   ]
 }

@@ -1,0 +1,65 @@
+{{ 'section-cm-private-chef.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+<section class="cm cm-pc cm-pc__section section-{{ section.id }}-padding">
+  <div class="cm-pc__wrap">
+    <div class="cm-pc__head">
+      {%- if section.settings.label != blank -%}
+        <span class="cm-label">{{ section.settings.label | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="cm-heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+    </div>
+    {%- if section.blocks.size > 0 -%}
+      <div class="cm-pc__chips">
+        {%- for block in section.blocks -%}
+          <span class="cm-pc__chip" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PC occasions",
+  "tag": "section",
+  "class": "section cm-section",
+  "max_blocks": 20,
+  "blocks": [
+    {
+      "type": "occasion",
+      "name": "Occasion",
+      "settings": [{ "type": "text", "id": "label", "label": "Label", "default": "Birthdays" }]
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "Perfect for" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Every occasion worth savoring" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Top padding", "default": 84 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Bottom padding", "default": 84 }
+  ],
+  "presets": [
+    {
+      "name": "PC occasions",
+      "blocks": [
+        { "type": "occasion", "settings": { "label": "Birthdays" } },
+        { "type": "occasion", "settings": { "label": "Anniversaries" } },
+        { "type": "occasion", "settings": { "label": "Date Nights" } },
+        { "type": "occasion", "settings": { "label": "Girls' Night In" } },
+        { "type": "occasion", "settings": { "label": "Executive Dinners" } },
+        { "type": "occasion", "settings": { "label": "Team Meetings" } },
+        { "type": "occasion", "settings": { "label": "Small Celebrations" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
