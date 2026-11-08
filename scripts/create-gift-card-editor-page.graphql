@@ -1,0 +1,14 @@
+mutation CreateGiftCardEditorPage($page: PageCreateInput!) {
+  pageCreate(page: $page) {
+    page {
+      id
+      title
+      handle
+      templateSuffix
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
