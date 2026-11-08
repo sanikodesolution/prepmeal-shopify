@@ -1,45 +1,94 @@
 {%- comment -%}
-  Outputs inline CSS for text block typography + spacing.
-  Usage: {% capture style %}{% render 'pm-block-type-style', block: block %}{% endcapture %}
+  Outputs inline CSS for text typography + spacing from a block.
+  Usage:
+    {% render 'pm-block-type-style', block: block %}
+    {% render 'pm-block-type-style', block: block, prefix: 'title_' %}
+  With prefix blank, reads: text_color, font_size, font_weight, letter_spacing, line_height, padding_*, margin_*
+  With prefix 'title_', reads: title_color, title_font_size, title_font_weight, ...
 {%- endcomment -%}
 {%- liquid
-  if block.settings.text_color != blank
-    echo 'color:' | append: block.settings.text_color | append: ';'
+  assign p = prefix | default: ''
+  if p == blank
+    assign key_color = 'text_color'
+    assign key_size = 'font_size'
+    assign key_weight = 'font_weight'
+    assign key_track = 'letter_spacing'
+    assign key_leading = 'line_height'
+    assign key_pt = 'padding_top'
+    assign key_pb = 'padding_bottom'
+    assign key_pl = 'padding_left'
+    assign key_pr = 'padding_right'
+    assign key_mt = 'margin_top'
+    assign key_mb = 'margin_bottom'
+    assign key_ml = 'margin_left'
+    assign key_mr = 'margin_right'
+  else
+    assign key_color = p | append: 'color'
+    assign key_size = p | append: 'font_size'
+    assign key_weight = p | append: 'font_weight'
+    assign key_track = p | append: 'letter_spacing'
+    assign key_leading = p | append: 'line_height'
+    assign key_pt = p | append: 'padding_top'
+    assign key_pb = p | append: 'padding_bottom'
+    assign key_pl = p | append: 'padding_left'
+    assign key_pr = p | append: 'padding_right'
+    assign key_mt = p | append: 'margin_top'
+    assign key_mb = p | append: 'margin_bottom'
+    assign key_ml = p | append: 'margin_left'
+    assign key_mr = p | append: 'margin_right'
   endif
-  if block.settings.font_size >= 14
-    echo 'font-size:' | append: block.settings.font_size | append: 'px;'
+
+  assign val_color = block.settings[key_color]
+  assign val_size = block.settings[key_size]
+  assign val_weight = block.settings[key_weight]
+  assign val_track = block.settings[key_track]
+  assign val_leading = block.settings[key_leading]
+  assign val_pt = block.settings[key_pt]
+  assign val_pb = block.settings[key_pb]
+  assign val_pl = block.settings[key_pl]
+  assign val_pr = block.settings[key_pr]
+  assign val_mt = block.settings[key_mt]
+  assign val_mb = block.settings[key_mb]
+  assign val_ml = block.settings[key_ml]
+  assign val_mr = block.settings[key_mr]
+
+  if val_color != blank
+    echo 'color:' | append: val_color | append: ';'
   endif
-  if block.settings.font_weight != blank and block.settings.font_weight != 'inherit'
-    echo 'font-weight:' | append: block.settings.font_weight | append: ';'
+  if val_size >= 14
+    echo 'font-size:' | append: val_size | append: 'px;'
   endif
-  if block.settings.letter_spacing != blank and block.settings.letter_spacing != 0
-    echo 'letter-spacing:' | append: block.settings.letter_spacing | append: 'px;'
+  if val_weight != blank and val_weight != 'inherit'
+    echo 'font-weight:' | append: val_weight | append: ';'
   endif
-  if block.settings.line_height != blank and block.settings.line_height != 0
-    echo 'line-height:' | append: block.settings.line_height | append: ';'
+  if val_track != blank and val_track != 0
+    echo 'letter-spacing:' | append: val_track | append: 'px;'
   endif
-  if block.settings.padding_top > 0
-    echo 'padding-top:' | append: block.settings.padding_top | append: 'px;'
+  if val_leading != blank and val_leading != 0
+    echo 'line-height:' | append: val_leading | append: ';'
   endif
-  if block.settings.padding_bottom > 0
-    echo 'padding-bottom:' | append: block.settings.padding_bottom | append: 'px;'
+  if val_pt > 0
+    echo 'padding-top:' | append: val_pt | append: 'px;'
   endif
-  if block.settings.padding_left > 0
-    echo 'padding-left:' | append: block.settings.padding_left | append: 'px;'
+  if val_pb > 0
+    echo 'padding-bottom:' | append: val_pb | append: 'px;'
   endif
-  if block.settings.padding_right > 0
-    echo 'padding-right:' | append: block.settings.padding_right | append: 'px;'
+  if val_pl > 0
+    echo 'padding-left:' | append: val_pl | append: 'px;'
   endif
-  if block.settings.margin_top > 0
-    echo 'margin-top:' | append: block.settings.margin_top | append: 'px;'
+  if val_pr > 0
+    echo 'padding-right:' | append: val_pr | append: 'px;'
   endif
-  if block.settings.margin_bottom > 0
-    echo 'margin-bottom:' | append: block.settings.margin_bottom | append: 'px;'
+  if val_mt > 0
+    echo 'margin-top:' | append: val_mt | append: 'px;'
   endif
-  if block.settings.margin_left > 0
-    echo 'margin-left:' | append: block.settings.margin_left | append: 'px;'
+  if val_mb > 0
+    echo 'margin-bottom:' | append: val_mb | append: 'px;'
   endif
-  if block.settings.margin_right > 0
-    echo 'margin-right:' | append: block.settings.margin_right | append: 'px;'
+  if val_ml > 0
+    echo 'margin-left:' | append: val_ml | append: 'px;'
+  endif
+  if val_mr > 0
+    echo 'margin-right:' | append: val_mr | append: 'px;'
   endif
 -%}

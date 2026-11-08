@@ -87,6 +87,16 @@
     text-transform: unset;
   }
 
+  .feature-{{ section.id }} .box__title[style],
+  .feature-{{ section.id }} .box__description[style],
+  .feature-{{ section.id }} .box__description[style] * {
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+  }
+
   .feature-{{ section.id }} .wrapper-box {
     display: grid;
     grid-template-columns: repeat({{ feature_row_mobile}}, minmax(0, 1fr));
@@ -265,8 +275,28 @@
                   </div>
                   {% endunless %}
                   <div class="box__content-wrapper">
-                      <div class="box__title">{{ block.settings.feature_title }}</div>
-                      <div class="box__description">{{ block.settings.feature_text }}</div>
+                      {%- capture feature_title_style -%}
+                        {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
+                      {%- endcapture -%}
+                      {%- capture feature_body_style -%}
+                        {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+                      {%- endcapture -%}
+                      <div
+                        class="box__title"
+                        {% if feature_title_style != blank %}
+                          style="{{ feature_title_style | strip }}"
+                        {% endif %}
+                      >
+                        {{ block.settings.feature_title }}
+                      </div>
+                      <div
+                        class="box__description"
+                        {% if feature_body_style != blank %}
+                          style="{{ feature_body_style | strip }}"
+                        {% endif %}
+                      >
+                        {{ block.settings.feature_text }}
+                      </div>
                   </div>
               </{% if block.settings.feature_url != blank %}a{% else %}div{% endif %}>
           {%- endfor -%}
@@ -726,7 +756,63 @@
                 "default": false,
                 "label":"Animate icon only",
                 "info":"Icon pops in and floats; title and text stay still."
-             }
+             },
+             { "type": "header", "content": "Title typography" },
+             { "type": "color", "id": "title_color", "label": "Text color" },
+             { "type": "range", "id": "title_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = section Feature heading size. Custom sizes start at 14px." },
+             {
+               "type": "select",
+               "id": "title_font_weight",
+               "label": "Font weight",
+               "options": [
+                 { "value": "inherit", "label": "Theme default" },
+                 { "value": "400", "label": "Regular 400" },
+                 { "value": "500", "label": "Medium 500" },
+                 { "value": "600", "label": "Semi-bold 600" },
+                 { "value": "700", "label": "Bold 700" },
+                 { "value": "800", "label": "Extra-bold 800" }
+               ],
+               "default": "inherit"
+             },
+             { "type": "range", "id": "title_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+             { "type": "range", "id": "title_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+             { "type": "header", "content": "Title spacing" },
+             { "type": "range", "id": "title_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+             { "type": "range", "id": "title_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+             { "type": "range", "id": "title_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+             { "type": "range", "id": "title_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+             { "type": "range", "id": "title_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+             { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+             { "type": "range", "id": "title_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+             { "type": "range", "id": "title_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+             { "type": "header", "content": "Body text typography" },
+             { "type": "color", "id": "body_color", "label": "Text color" },
+             { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = section Feature text size. Custom sizes start at 14px." },
+             {
+               "type": "select",
+               "id": "body_font_weight",
+               "label": "Font weight",
+               "options": [
+                 { "value": "inherit", "label": "Theme default" },
+                 { "value": "400", "label": "Regular 400" },
+                 { "value": "500", "label": "Medium 500" },
+                 { "value": "600", "label": "Semi-bold 600" },
+                 { "value": "700", "label": "Bold 700" },
+                 { "value": "800", "label": "Extra-bold 800" }
+               ],
+               "default": "inherit"
+             },
+             { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+             { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+             { "type": "header", "content": "Body text spacing" },
+             { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+             { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+             { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+             { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+             { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+             { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+             { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+             { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 }
           ]
        }
     ],
