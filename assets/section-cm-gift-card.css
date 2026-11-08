@@ -808,38 +808,38 @@
 }
 
 @media screen and (max-width: 749px) {
- .cm-gc .cm-gc__how {
+ .cm-gc__how {
   padding-bottom: 100px;
  }
 
- .cm-gc .cm-gc__t {
+ .cm-gc__t {
   margin-bottom: 18px;
  }
 
- .cm-gc .cm-gc__steps li {
+ .cm-gc__steps li {
   padding: 18px 0 6px;
  }
 
- .cm-gc .cm-gc__steps b {
+ .cm-gc__steps b {
   width: 34px;
   height: 34px;
   margin-bottom: 10px;
   font-size: 15px;
  }
 
- .cm-gc .cm-gc__lead,
- .cm-gc .cm-gc__lead p,
- .cm-gc .cm-gc__steps p {
+ .cm-gc__lead,
+ .cm-gc__lead p,
+ .cm-gc__steps p {
   font-size: 15px;
   line-height: 1.55;
  }
 
- .cm-gc .cm-gc__faq summary {
+ .cm-gc__faq summary {
   font-size: 17px;
  }
 
- .cm-gc .cm-gc__rv-form h4,
- .cm-gc .cm-gc__rv-form .cm-gc__rv-heading {
+ .cm-gc__rv-form h4,
+ .cm-gc__rv-form .cm-gc__rv-heading {
   margin: 0 0 2px;
   padding: 0;
  }
