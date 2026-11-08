@@ -43,6 +43,12 @@
     padding-right: {{ section.settings.padding_right | times: 0.75 | round: 0 }}px;
   }
 
+  {% if section.settings.content_background_color != blank %}
+    #Banner-{{ section.id }} .banner__box {
+      background-color: {{ section.settings.content_background_color }};
+    }
+  {% endif %}
+
   @media screen and (min-width: 750px) {
     #Banner-{{ section.id }} {
       padding-top: {{ section.settings.padding_top }}px;
@@ -522,49 +528,19 @@
     },
     {
       "type": "header",
-      "content": "t:sections.image-banner.settings.mobile.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "stack_images_on_mobile",
-      "default": true,
-      "label": "t:sections.image-banner.settings.stack_images_on_mobile.label"
-    },    
-    {
-      "type": "select",
-      "id": "mobile_content_alignment",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__1.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__2.label"
-        },
-        {
-          "value": "right",
-          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__3.label"
-        }
-      ],
-      "default": "center",
-      "label": "t:sections.image-banner.settings.mobile_content_alignment.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_text_below",
-      "default": true,
-      "label": "t:sections.image-banner.settings.show_text_below.label"
-    },
-    {
-      "type": "header",
       "content": "Section background & spacing"
     },
     {
       "type": "color",
       "id": "background_color",
       "label": "Background color",
-      "info": "Optional. Leave empty to use the image / theme default."
+      "info": "Section background (shows around padding / behind content)."
+    },
+    {
+      "type": "color",
+      "id": "content_background_color",
+      "label": "Content box background",
+      "info": "Optional background for the text/button area."
     },
     {
       "type": "range",
@@ -625,6 +601,42 @@
       "unit": "px",
       "label": "Margin bottom",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:sections.image-banner.settings.mobile.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_images_on_mobile",
+      "default": true,
+      "label": "t:sections.image-banner.settings.stack_images_on_mobile.label"
+    },
+    {
+      "type": "select",
+      "id": "mobile_content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.image-banner.settings.mobile_content_alignment.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_text_below",
+      "default": true,
+      "label": "t:sections.image-banner.settings.show_text_below.label"
     }
   ],
   "blocks": [
