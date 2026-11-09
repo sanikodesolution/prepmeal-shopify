@@ -104,9 +104,35 @@
   background: rgba(var(--color-foreground), 0.04);
 }
 
-.collapsible-content summary:hover .accordion__title {
-  text-decoration: underline;
-  text-underline-offset: 0.3rem;
+.collapsible-content .accordion__title {
+  position: relative;
+  text-decoration: none;
+}
+
+.collapsible-content .accordion__title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.3rem;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+  pointer-events: none;
+}
+
+.collapsible-content summary:hover .accordion__title::after,
+.collapsible-content summary:focus-visible .accordion__title::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapsible-content .accordion__title::after {
+    transition: none;
+  }
 }
 
 /* check for flexbox gap in older Safari versions */
