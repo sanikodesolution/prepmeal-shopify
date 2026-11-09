@@ -403,7 +403,7 @@
  
  font-weight: 400;
  font-size: var(--cmc-field-label-size, inherit);
- color: var(--cmc-field-label, var(--cmc-muted));
+ color: var(--pm-field-placeholder, var(--cmc-field-label, var(--cmc-muted)));
  pointer-events: none;
  transform: translateY(-50%);
  transform-origin: left center;
@@ -445,6 +445,11 @@
 .cmc__field textarea::placeholder {
  color: var(--pm-field-placeholder, var(--pm-form-placeholder, var(--cmc-muted)));
  opacity: 1;
+}
+
+.cmc__field input:not(:placeholder-shown) ~ label,
+.cmc__field textarea:not(:placeholder-shown) ~ label {
+ color: var(--cmc-field-label, var(--cmc-muted));
 }
 
 .cmc__field input:focus ~ label,
