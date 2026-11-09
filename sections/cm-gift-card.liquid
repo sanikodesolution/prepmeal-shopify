@@ -7,6 +7,19 @@
   assign hd_800 = settings.type_header_font | font_modify: 'weight', '800'
   assign default_amount = section.settings.default_amount | plus: 0
 
+  assign gc_accent = section.settings.accent | default: '#f5a623'
+  assign gc_ink = section.settings.ink | default: '#14213d'
+  assign gc_paper = section.settings.paper | default: '#fffdf8'
+  if section.settings.accent == blank
+    assign gc_accent = '#f5a623'
+  endif
+  if section.settings.ink == blank
+    assign gc_ink = '#14213d'
+  endif
+  if section.settings.paper == blank
+    assign gc_paper = '#fffdf8'
+  endif
+
   assign selected_variant = gc_product.selected_or_first_available_variant
   for variant in gc_product.variants
     assign variant_amount = variant.price | divided_by: 100
@@ -35,7 +48,7 @@
 <cm-gift-card
   class="cm-gc"
   data-cm="gift-card"
-  style="--gc-accent: {{ section.settings.accent }}; --gc-ink: {{ section.settings.ink }}; --gc-paper: {{ section.settings.paper }};"
+  style="--gc-accent: {{ gc_accent }}; --gc-ink: {{ gc_ink }}; --gc-paper: {{ gc_paper }};"
   data-hints="{{ section.settings.hints | escape }}"
   data-added="{{ section.settings.added_text | escape }}"
   data-unavailable="{{ section.settings.unavailable_text | escape }}"
@@ -361,9 +374,9 @@
     { "type": "text", "id": "strip_text", "label": "Text", "default": "REAL INGREDIENTS. REAL FLAVOUR. REAL CHEF MATT." },
     { "type": "range", "id": "strip_speed", "min": 10, "max": 60, "step": 2, "unit": "s", "label": "Loop duration", "default": 28 },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "accent", "label": "Accent", "default": "#f5a623" },
-    { "type": "color", "id": "ink", "label": "Ink", "default": "#14213d" },
-    { "type": "color", "id": "paper", "label": "Background", "default": "#fffdf8" }
+    { "type": "color", "id": "accent", "label": "Accent", "info": "Default #f5a623. Clear the swatch (empty) to reset." },
+    { "type": "color", "id": "ink", "label": "Ink", "info": "Default #14213d. Clear the swatch to reset." },
+    { "type": "color", "id": "paper", "label": "Background", "info": "Default #fffdf8. Clear the swatch to reset." }
   ],
   "presets": [
     { "name": "CM gift card" }
