@@ -65,7 +65,7 @@
   if pm_hover_text != blank
     assign pm_css = pm_css | append: '--pm-hover-text:' | append: pm_hover_text | append: ';'
   endif
-  if font_size != blank
+  if font_size != blank and font_size >= 12
     assign pm_css = pm_css | append: 'font-size:' | append: font_size | append: 'px;'
   endif
 -%}

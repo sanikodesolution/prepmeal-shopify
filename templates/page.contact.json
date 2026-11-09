@@ -256,7 +256,7 @@
             "button_bg_color": "",
             "button_hover_text_color": "",
             "button_hover_bg_color": "",
-            "button_font_size": 0,
+            "button_font_size": 16,
             "note_color": ""
           }
         }
