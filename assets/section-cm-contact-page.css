@@ -442,10 +442,6 @@
  transform: translateY(-2px);
 }
 
-.cmc__note {
- color: var(--cmc-note-color, inherit);
-}
-
 .cmc__send:focus-visible,
 .cmc__call:focus-visible {
  outline: 3px solid var(--cmc-navy);
@@ -462,8 +458,7 @@
 }
 
 .cmc__note {
- 
- color: var(--cmc-muted);
+ color: var(--cmc-note-color, var(--cmc-muted));
 }
 
 .cmc__msg {
