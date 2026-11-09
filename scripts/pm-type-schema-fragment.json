@@ -12,6 +12,7 @@
   "group_template": [
     { "type": "header", "content": "{{LABEL}} typography" },
     { "type": "color", "id": "{{PREFIX}}color", "label": "Text color" },
+    { "type": "color", "id": "{{PREFIX}}hover_color", "label": "Hover text color", "info": "Clear to keep default." },
     { "type": "range", "id": "{{PREFIX}}font_size", "min": 0, "max": 72, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
     { "type": "select", "id": "{{PREFIX}}font_weight", "label": "Font weight", "options": [
       { "value": "inherit", "label": "Theme default" },
