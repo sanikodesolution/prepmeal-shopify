@@ -88,7 +88,13 @@
           {%- capture pc_field_title_style -%}
             {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
           {%- endcapture -%}
-          <div class="cm-field{% if block.settings.half_width %} cm-field--half{% endif %}" {{ block.shopify_attributes }}>
+          <div
+            class="cm-field{% if block.settings.half_width %} cm-field--half{% endif %}"
+            {{ block.shopify_attributes }}
+            {% if block.settings.placeholder_color != blank %}
+              style="--pm-field-placeholder:{{ block.settings.placeholder_color }};"
+            {% endif %}
+          >
             <label
               for="{{ field_id }}"
               {% if pc_field_title_style != blank %}
@@ -228,6 +234,7 @@
           "default": "text"
         },
         { "type": "text", "id": "placeholder", "label": "Placeholder" },
+        { "type": "color", "id": "placeholder_color", "label": "Placeholder color", "info": "Clear to use Theme settings → Buttons → Placeholder color." },
         {
           "type": "textarea",
           "id": "options",

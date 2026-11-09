@@ -432,6 +432,12 @@
  padding-bottom: 0.7em;
 }
 
+.cmc__field input::placeholder,
+.cmc__field textarea::placeholder {
+ color: var(--pm-field-placeholder, var(--pm-form-placeholder, var(--cmc-muted)));
+ opacity: 1;
+}
+
 .cmc__field input:focus ~ label,
 .cmc__field textarea:focus ~ label {
  color: var(--cmc-field-label-focus, var(--cmc-amber-deep));

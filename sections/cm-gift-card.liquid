@@ -177,6 +177,9 @@
                 placeholder="{{ section.settings.message_placeholder | escape }}"
                 disabled
                 data-gc-message
+                {% if section.settings.message_placeholder_color != blank %}
+                  style="--pm-field-placeholder:{{ section.settings.message_placeholder_color }};"
+                {% endif %}
               ></textarea>
             </label>
             <input type="hidden" name="properties[__shopify_send_gift_card_to_recipient]" value="on" disabled>
@@ -438,6 +441,7 @@
     { "type": "text", "id": "sender_name_label", "label": "Sender name label", "default": "Your name" },
     { "type": "text", "id": "message_label", "label": "Message label", "default": "Message" },
     { "type": "text", "id": "message_placeholder", "label": "Message placeholder", "default": "Happy birthday! Dinner is on me this week." },
+    { "type": "color", "id": "message_placeholder_color", "label": "Placeholder color", "info": "Clear to use Theme settings → Buttons → Placeholder color." },
     { "type": "text", "id": "button_label", "label": "Button label", "default": "Add gift card to cart" },
     { "type": "header", "content": "Button style" },
     { "type": "color", "id": "button_text_color", "label": "Text color" },

@@ -287,6 +287,20 @@
       },
       {
         "type": "header",
+        "content": "Form inputs"
+      },
+      {
+        "type": "paragraph",
+        "content": "Theme-wide placeholder color for contact, quote, newsletter, delivery search, and other form inputs. Field-level Placeholder color overrides this."
+      },
+      {
+        "type": "color",
+        "id": "form_placeholder_color",
+        "label": "Placeholder color",
+        "info": "Clear to keep each form’s default."
+      },
+      {
+        "type": "header",
         "content": "t:settings_schema.global.settings.header__border.content"
       },
       {

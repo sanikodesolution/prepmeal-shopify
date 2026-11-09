@@ -267,16 +267,23 @@
                     {%- if block.settings.input_bg_color != blank -%}--cmc-field-bg:{{ block.settings.input_bg_color }};{%- endif -%}
                     {%- if block.settings.input_border_color != blank -%}--cmc-field-border:{{ block.settings.input_border_color }};{%- endif -%}
                     {%- if block.settings.input_focus_border_color != blank -%}--cmc-field-border-focus:{{ block.settings.input_focus_border_color }};{%- endif -%}
+                    {%- if block.settings.placeholder_color != blank -%}--pm-field-placeholder:{{ block.settings.placeholder_color }};{%- endif -%}
                     {%- if block.settings.input_font_size >= 14 -%}--cmc-field-text-size:{{ block.settings.input_font_size }}px;{%- endif -%}
                     {%- if block.settings.input_radius != blank -%}--cmc-field-radius:{{ block.settings.input_radius }}px;{%- endif -%}
                   "
                 >
+                  {%- liquid
+                    assign field_placeholder = block.settings.placeholder
+                    if field_placeholder == blank
+                      assign field_placeholder = ' '
+                    endif
+                  -%}
                   {%- if field_type == 'textarea' -%}
                     <textarea
                       id="{{ field_id }}"
                       name="{{ field_name }}"
                       rows="5"
-                      placeholder=" "
+                      placeholder="{{ field_placeholder | escape }}"
                       {% if block.settings.required %}
                         required aria-required="true"
                       {% endif %}
@@ -286,7 +293,7 @@
                       id="{{ field_id }}"
                       name="{{ field_name }}"
                       type="{{ field_type }}"
-                      placeholder=" "
+                      placeholder="{{ field_placeholder | escape }}"
                       {% if field_type == 'email' %}
                         autocomplete="email" autocapitalize="off" autocorrect="off"
                       {% elsif field_type == 'tel' %}
@@ -792,6 +799,12 @@
           "label": "Half width on desktop",
           "default": false
         },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Placeholder",
+          "info": "Optional. Leave empty to keep the floating label look."
+        },
         { "type": "header", "content": "Label style" },
         { "type": "color", "id": "label_color", "label": "Label color", "info": "Clear to keep theme default." },
         { "type": "color", "id": "label_focus_color", "label": "Label focus color", "info": "Clear to keep theme default." },
@@ -799,6 +812,7 @@
         { "type": "header", "content": "Input style" },
         { "type": "color", "id": "input_color", "label": "Text color", "info": "Clear to keep theme default." },
         { "type": "color", "id": "input_bg_color", "label": "Background color", "info": "Clear to keep theme default." },
+        { "type": "color", "id": "placeholder_color", "label": "Placeholder color", "info": "Clear to use Theme settings → Buttons → Placeholder color." },
         { "type": "color", "id": "input_border_color", "label": "Border color", "info": "Clear to keep theme default." },
         { "type": "color", "id": "input_focus_border_color", "label": "Focus border color", "info": "Clear to keep theme default." },
         { "type": "range", "id": "input_font_size", "min": 0, "max": 28, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },

@@ -182,6 +182,9 @@
             maxlength="500"
             placeholder="{{ section.settings.review_text_placeholder | escape }}"
             data-gc-rv-text
+            {% if section.settings.review_placeholder_color != blank %}
+              style="--pm-field-placeholder:{{ section.settings.review_placeholder_color }};"
+            {% endif %}
           ></textarea>
         </label>
         <label class="cm-gc__drop">
@@ -538,6 +541,12 @@
       "id": "review_text_placeholder",
       "label": "Review placeholder",
       "default": "What did you or the person you gifted think of the meals?"
+    },
+    {
+      "type": "color",
+      "id": "review_placeholder_color",
+      "label": "Placeholder color",
+      "info": "Clear to use Theme settings → Buttons → Placeholder color."
     },
     { "type": "text", "id": "review_photos_label", "label": "Photos label", "default": "Add photos" },
     {

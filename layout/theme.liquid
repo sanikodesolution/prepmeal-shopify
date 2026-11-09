@@ -274,6 +274,41 @@
           {%- endif -%}
         }
       {%- endif -%}
+
+      {%- if settings.form_placeholder_color != blank -%}
+        :root {
+          --pm-form-placeholder: {{ settings.form_placeholder_color }};
+        }
+      {%- endif -%}
+
+      .cmc__field input::placeholder,
+      .cmc__field textarea::placeholder,
+      .cm-field input::placeholder,
+      .cm-field textarea::placeholder,
+      .cm-footer__input::placeholder,
+      .mpd__form input::placeholder,
+      .da__check-input::placeholder,
+      .mealplan-dl__input::placeholder,
+      .mealplan-pd__customBox textarea::placeholder,
+      .cm-gc textarea::placeholder,
+      .cm-gc__rv-f textarea::placeholder,
+      .cm-gc input::placeholder,
+      input[type='text']::placeholder,
+      input[type='email']::placeholder,
+      input[type='tel']::placeholder,
+      input[type='search']::placeholder,
+      input[type='password']::placeholder,
+      input[type='number']::placeholder,
+      textarea::placeholder {
+        color: var(--pm-field-placeholder, var(--pm-form-placeholder, inherit));
+        opacity: 1;
+      }
+
+      /* Keep Dawn floating-label fields invisible unless a real placeholder is shown */
+      .field__input::placeholder,
+      .customer .field input::placeholder {
+        opacity: 0;
+      }
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
