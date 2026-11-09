@@ -14,6 +14,20 @@
     "cm_footer": {
       "type": "cm-footer",
       "blocks": {
+        "cta": {
+          "type": "cta",
+          "settings": {
+            "eyebrow": "Fresh every week",
+            "heading": "Ready to eat better this week?",
+            "text": "<p>Chef-made, portion-controlled meals prepared fresh with local ingredients and delivered across Milwaukee.</p>",
+            "promise_1": "Chef-made weekly",
+            "promise_2": "Locally sourced",
+            "promise_3": "Milwaukee delivery",
+            "button_label": "View meal plans",
+            "button_link": "shopify://collections/meal-plans",
+            "phone": "+1 (920)-355-1137"
+          }
+        },
         "explore": {
           "type": "links",
           "settings": {
@@ -43,18 +57,8 @@
           }
         }
       },
-      "block_order": ["explore", "contact"],
+      "block_order": ["cta", "explore", "contact"],
       "settings": {
-        "show_cta": true,
-        "cta_eyebrow": "Fresh every week",
-        "cta_heading": "Ready to eat better this week?",
-        "cta_text": "<p>Chef-made, portion-controlled meals prepared fresh with local ingredients and delivered across Milwaukee.</p>",
-        "promise_1": "Chef-made weekly",
-        "promise_2": "Locally sourced",
-        "promise_3": "Milwaukee delivery",
-        "cta_button_label": "View meal plans",
-        "cta_button_link": "shopify://collections/meal-plans",
-        "cta_phone": "+1 (920)-355-1137",
         "logo_width": 110,
         "about": "<p>Healthy, flavour-forward meal prep made with clean, honest, and locally sourced ingredients — prepared with care by Chef Matthew, who draws on more than 40 years of culinary mastery.</p>",
         "show_social": true,
