@@ -183,16 +183,25 @@
 .cmc__item b {
  display: block;
  font-weight: 600;
- color: var(--cmc-item-label-color, rgba(255, 255, 255, 0.62));
- margin-bottom: 0.15em;
- letter-spacing: 0.02em;
+ font-size: 0.78em;
+ line-height: 1.3;
+ color: var(--cmc-item-label-color, var(--cmc-amber));
+ margin: 0 0 0.28em;
+ letter-spacing: 0.06em;
+ text-transform: uppercase;
+ opacity: 0.92;
 }
 
 .cmc__item a,
 .cmc__item span {
+ display: block;
  color: var(--cmc-item-value-color, #fff);
- line-height: 1.45;
+ font-size: 1.05em;
+ font-weight: 500;
+ line-height: 1.4;
  text-decoration: none;
+ letter-spacing: 0;
+ text-transform: none;
 }
 
 .cmc__item a:hover {
