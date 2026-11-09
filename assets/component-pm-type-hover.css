@@ -1,0 +1,18 @@
+/* Hover color/bg for elements styled via pm-block-type-style CSS vars */
+[style*='--pm-hover-color'],
+[style*='--pm-hover-bg'] {
+  transition: color 0.25s ease, background-color 0.25s ease, -webkit-text-fill-color 0.25s ease;
+}
+
+[style*='--pm-hover-color']:hover,
+[style*='--pm-hover-color']:hover a,
+[style*='--pm-hover-color']:focus-visible,
+[style*='--pm-hover-color']:focus-visible a {
+  color: var(--pm-hover-color) !important;
+  -webkit-text-fill-color: var(--pm-hover-color);
+}
+
+[style*='--pm-hover-bg']:hover,
+[style*='--pm-hover-bg']:focus-visible {
+  background-color: var(--pm-hover-bg) !important;
+}

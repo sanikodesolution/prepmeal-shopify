@@ -4,7 +4,7 @@
 <{{ tag }}
   class="pm-b-heading"
   {{ block.shopify_attributes }}
-  style="{% if block.settings.heading_color != blank %}color:{{ block.settings.heading_color }};{% endif %}{% if block.settings.heading_size > 0 %}font-size:{{ block.settings.heading_size }}px;{% endif %}{% if block.settings.heading_weight != blank %}font-weight:{{ block.settings.heading_weight }};{% endif %}{% if block.settings.text_align != blank %}text-align:{{ block.settings.text_align }};{% endif %}{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}margin:0;line-height:1.15;"
+  style="{% if block.settings.heading_color != blank %}color:{{ block.settings.heading_color }};{% endif %}{% if block.settings.heading_hover_color != blank %}--pm-hover-color:{{ block.settings.heading_hover_color }};{% endif %}{% if block.settings.heading_size > 0 %}font-size:{{ block.settings.heading_size }}px;{% endif %}{% if block.settings.heading_weight != blank %}font-weight:{{ block.settings.heading_weight }};{% endif %}{% if block.settings.text_align != blank %}text-align:{{ block.settings.text_align }};{% endif %}{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}margin:0;line-height:1.15;"
 >
   {{ block.settings.heading | escape | newline_to_br }}
 </{{ tag }}>
@@ -23,7 +23,7 @@
     ], "default": "h2" },
     { "type": "header", "content": "Colors & typography" },
     { "type": "color", "id": "background_color", "label": "Background" },
-    { "type": "color", "id": "heading_color", "label": "Text color" },
+    { "type": "color", "id": "heading_color", "label": "Text color" }, { "type": "color", "id": "heading_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
     { "type": "range", "id": "heading_size", "min": 14, "max": 80, "step": 1, "unit": "px", "label": "Font size", "default": 36 },
     { "type": "select", "id": "heading_weight", "label": "Weight", "options": [
       { "value": "", "label": "Theme default" },

@@ -1,11 +1,11 @@
 {%- comment -%}
-  Outputs inline CSS for text typography + spacing + background.
+  Outputs inline CSS for text typography + spacing + background + hover.
   Usage:
     {% render 'pm-block-type-style', block: block %}
     {% render 'pm-block-type-style', block: block, prefix: 'title_' %}
     {% render 'pm-block-type-style', settings: section.settings, prefix: 'heading_' %}
-  With prefix blank, reads: text_color, font_size, ..., bg_color, bg_image, bg_mask, ...
-  With prefix 'title_', reads: title_color, title_bg_color, title_bg_image, ...
+  With prefix blank, reads: text_color, text_hover_color, bg_color, hover_bg_color, ...
+  With prefix 'title_', reads: title_color, title_hover_color, title_bg_color, title_hover_bg_color, ...
   Prefer block.settings when block is passed (global theme settings is always present).
 {%- endcomment -%}
 {%- liquid
@@ -17,6 +17,7 @@
   endif
   if p == blank
     assign key_color = 'text_color'
+    assign key_hover_color = 'text_hover_color'
     assign key_size = 'font_size'
     assign key_weight = 'font_weight'
     assign key_track = 'letter_spacing'
@@ -30,6 +31,7 @@
     assign key_ml = 'margin_left'
     assign key_mr = 'margin_right'
     assign key_bg_color = 'bg_color'
+    assign key_hover_bg = 'hover_bg_color'
     assign key_bg_color_alt = 'background_color'
     assign key_bg_image = 'bg_image'
     assign key_bg_size = 'bg_size'
@@ -39,6 +41,7 @@
     assign key_bg_clip_text = 'bg_clip_text'
   else
     assign key_color = p | append: 'color'
+    assign key_hover_color = p | append: 'hover_color'
     assign key_size = p | append: 'font_size'
     assign key_weight = p | append: 'font_weight'
     assign key_track = p | append: 'letter_spacing'
@@ -52,6 +55,7 @@
     assign key_ml = p | append: 'margin_left'
     assign key_mr = p | append: 'margin_right'
     assign key_bg_color = p | append: 'bg_color'
+    assign key_hover_bg = p | append: 'hover_bg_color'
     assign key_bg_color_alt = p | append: 'background_color'
     assign key_bg_image = p | append: 'bg_image'
     assign key_bg_size = p | append: 'bg_size'
@@ -62,6 +66,7 @@
   endif
 
   assign val_color = src[key_color]
+  assign val_hover_color = src[key_hover_color]
   assign val_size = src[key_size]
   assign val_weight = src[key_weight]
   assign val_track = src[key_track]
@@ -78,6 +83,7 @@
   if val_bg_color == blank
     assign val_bg_color = src[key_bg_color_alt]
   endif
+  assign val_hover_bg = src[key_hover_bg]
   assign val_bg_image = src[key_bg_image]
   assign val_bg_size = src[key_bg_size] | default: 'cover'
   assign val_bg_position = src[key_bg_position] | default: 'center'
@@ -87,6 +93,12 @@
 -%}
 {%- if val_color != blank and val_bg_clip_text != true -%}
   color:{{ val_color }};
+{%- endif -%}
+{%- if val_hover_color != blank -%}
+  --pm-hover-color:{{ val_hover_color }};
+{%- endif -%}
+{%- if val_hover_bg != blank -%}
+  --pm-hover-bg:{{ val_hover_bg }};
 {%- endif -%}
 {%- liquid
   if val_size >= 14

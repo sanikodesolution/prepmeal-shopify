@@ -100,7 +100,14 @@
     letter-spacing: {{ feature_heading_letter_spacing }}px;
     text-transform: unset;
     font-weight: {% if feature_heading_weight != blank and feature_heading_weight != 'inherit' %}{{ feature_heading_weight }}{% else %}bold{% endif %};
+    transition: color 0.25s ease;
   }
+
+  {%- if section.settings.feature_heading_hover_color != blank -%}
+  .feature-{{ section.id }} .box__title:hover {
+    color: {{ section.settings.feature_heading_hover_color }};
+  }
+  {%- endif -%}
   
   .feature-{{ section.id }} .box__description {
     margin-top: {{ feature_text_mt | times: 0.75 | round: 0 }}px;
@@ -119,7 +126,15 @@
     {% if feature_text_weight != blank and feature_text_weight != 'inherit' %}
       font-weight: {{ feature_text_weight }};
     {% endif %}
+    transition: color 0.25s ease;
   }
+
+  {%- if section.settings.feature_text_hover_color != blank -%}
+  .feature-{{ section.id }} .box__description:hover,
+  .feature-{{ section.id }} .box__description:hover * {
+    color: {{ section.settings.feature_text_hover_color }};
+  }
+  {%- endif -%}
 
   .feature-{{ section.id }} .box__description * {
     margin: 0;
@@ -471,6 +486,12 @@
         "default": "#000000"
       },
       {
+        "type": "color",
+        "id": "feature_heading_hover_color",
+        "label": "Hover text color",
+        "info": "Clear to keep default."
+      },
+      {
         "type": "range",
         "id": "feature_heading_size",
         "min": 0,
@@ -630,6 +651,12 @@
         "id": "feature_text_color",
         "label": "Text color",
         "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "feature_text_hover_color",
+        "label": "Hover text color",
+        "info": "Clear to keep default."
       },
       {
         "type": "range",
@@ -1006,7 +1033,7 @@
                 "info":"Icon pops in and floats; title and text stay still."
              },
              { "type": "header", "content": "Title typography" },
-             { "type": "color", "id": "title_color", "label": "Text color" },
+             { "type": "color", "id": "title_color", "label": "Text color" }, { "type": "color", "id": "title_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
              { "type": "range", "id": "title_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = section Feature heading size. Custom sizes start at 14px." },
              {
                "type": "select",
@@ -1034,7 +1061,7 @@
              { "type": "range", "id": "title_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
              { "type": "range", "id": "title_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
         { "type": "header", "content": "Title background" },
-        { "type": "color", "id": "title_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "color", "id": "title_bg_color", "label": "Background color", "info": "Clear swatch to reset." }, { "type": "color", "id": "title_hover_bg_color", "label": "Hover background color", "info": "Clear to keep default." },
         { "type": "image_picker", "id": "title_bg_image", "label": "Background image" },
         { "type": "select", "id": "title_bg_size", "label": "Image size", "options": [
           { "value": "cover", "label": "Cover" },
@@ -1060,7 +1087,7 @@
         { "type": "image_picker", "id": "title_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
         { "type": "checkbox", "id": "title_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
              { "type": "header", "content": "Body text typography" },
-             { "type": "color", "id": "body_color", "label": "Text color" },
+             { "type": "color", "id": "body_color", "label": "Text color" }, { "type": "color", "id": "body_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
              { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = section Feature text size. Custom sizes start at 14px." },
              {
                "type": "select",
@@ -1088,7 +1115,7 @@
              { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
              { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
         { "type": "header", "content": "Text background" },
-        { "type": "color", "id": "body_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "color", "id": "body_bg_color", "label": "Background color", "info": "Clear swatch to reset." }, { "type": "color", "id": "body_hover_bg_color", "label": "Hover background color", "info": "Clear to keep default." },
         { "type": "image_picker", "id": "body_bg_image", "label": "Background image" },
         { "type": "select", "id": "body_bg_size", "label": "Image size", "options": [
           { "value": "cover", "label": "Cover" },
