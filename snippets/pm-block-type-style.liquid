@@ -7,12 +7,16 @@
   With prefix blank, reads: text_color, font_size, font_weight, letter_spacing, line_height, padding_*, margin_*
   With prefix 'title_', reads: title_color, title_font_size, title_font_weight, ...
 {%- endcomment -%}
+{%- comment -%}
+  Prefer block.settings when block is passed. Global theme `settings` is always
+  present in snippets, so checking settings first ignored every block color.
+{%- endcomment -%}
 {%- liquid
   assign p = prefix | default: ''
-  if settings != blank
-    assign src = settings
-  else
+  if block != blank
     assign src = block.settings
+  else
+    assign src = settings
   endif
   if p == blank
     assign key_color = 'text_color'
