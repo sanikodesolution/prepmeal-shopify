@@ -259,6 +259,17 @@
                 <div
                   class="cmc__field{% if field_type == 'textarea' %} cmc__field--grow{% endif %}{% if block.settings.half_width and field_type != 'textarea' %} cmc__field--half{% endif %}"
                   {{ block.shopify_attributes }}
+                  style="
+                    {%- if block.settings.label_color != blank -%}--cmc-field-label:{{ block.settings.label_color }};{%- endif -%}
+                    {%- if block.settings.label_focus_color != blank -%}--cmc-field-label-focus:{{ block.settings.label_focus_color }};{%- endif -%}
+                    {%- if block.settings.label_font_size >= 14 -%}--cmc-field-label-size:{{ block.settings.label_font_size }}px;{%- endif -%}
+                    {%- if block.settings.input_color != blank -%}--cmc-field-text:{{ block.settings.input_color }};{%- endif -%}
+                    {%- if block.settings.input_bg_color != blank -%}--cmc-field-bg:{{ block.settings.input_bg_color }};{%- endif -%}
+                    {%- if block.settings.input_border_color != blank -%}--cmc-field-border:{{ block.settings.input_border_color }};{%- endif -%}
+                    {%- if block.settings.input_focus_border_color != blank -%}--cmc-field-border-focus:{{ block.settings.input_focus_border_color }};{%- endif -%}
+                    {%- if block.settings.input_font_size >= 14 -%}--cmc-field-text-size:{{ block.settings.input_font_size }}px;{%- endif -%}
+                    {%- if block.settings.input_radius != blank -%}--cmc-field-radius:{{ block.settings.input_radius }}px;{%- endif -%}
+                  "
                 >
                   {%- if field_type == 'textarea' -%}
                     <textarea
@@ -313,7 +324,20 @@
             {%- endif -%}
           </div>
 
-          <div class="cmc__foot"{% if form_submit != blank %} {{ form_submit.shopify_attributes }}{% endif %}>
+          <div
+            class="cmc__foot"
+            {% if form_submit != blank %}
+              {{ form_submit.shopify_attributes }}
+              style="
+                {%- if form_submit.settings.button_text_color != blank -%}--cmc-send-text:{{ form_submit.settings.button_text_color }};{%- endif -%}
+                {%- if form_submit.settings.button_bg_color != blank -%}--cmc-send-bg:{{ form_submit.settings.button_bg_color }};{%- endif -%}
+                {%- if form_submit.settings.button_hover_text_color != blank -%}--cmc-send-hover-text:{{ form_submit.settings.button_hover_text_color }};{%- endif -%}
+                {%- if form_submit.settings.button_hover_bg_color != blank -%}--cmc-send-hover-bg:{{ form_submit.settings.button_hover_bg_color }};{%- endif -%}
+                {%- if form_submit.settings.button_font_size >= 14 -%}--cmc-send-size:{{ form_submit.settings.button_font_size }}px;{%- endif -%}
+                {%- if form_submit.settings.note_color != blank -%}--cmc-note-color:{{ form_submit.settings.note_color }};{%- endif -%}
+              "
+            {% endif %}
+          >
             <button type="submit" class="cmc__send">
               {%- if form_submit != blank -%}
                 {{- form_submit.settings.label | escape -}}
@@ -767,7 +791,18 @@
           "id": "half_width",
           "label": "Half width on desktop",
           "default": false
-        }
+        },
+        { "type": "header", "content": "Label style" },
+        { "type": "color", "id": "label_color", "label": "Label color", "info": "Clear to keep theme default." },
+        { "type": "color", "id": "label_focus_color", "label": "Label focus color", "info": "Clear to keep theme default." },
+        { "type": "range", "id": "label_font_size", "min": 0, "max": 28, "step": 1, "unit": "px", "label": "Label size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "header", "content": "Input style" },
+        { "type": "color", "id": "input_color", "label": "Text color", "info": "Clear to keep theme default." },
+        { "type": "color", "id": "input_bg_color", "label": "Background color", "info": "Clear to keep theme default." },
+        { "type": "color", "id": "input_border_color", "label": "Border color", "info": "Clear to keep theme default." },
+        { "type": "color", "id": "input_focus_border_color", "label": "Focus border color", "info": "Clear to keep theme default." },
+        { "type": "range", "id": "input_font_size", "min": 0, "max": 28, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "range", "id": "input_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 14 }
       ]
     },
     {
@@ -786,7 +821,15 @@
           "id": "privacy_note",
           "label": "Privacy note",
           "default": "We never share your details."
-        }
+        },
+        { "type": "header", "content": "Button style" },
+        { "type": "color", "id": "button_text_color", "label": "Text color", "info": "Clear to keep theme default." },
+        { "type": "color", "id": "button_bg_color", "label": "Background color", "info": "Clear to keep theme default." },
+        { "type": "color", "id": "button_hover_text_color", "label": "Hover text color", "info": "Clear to keep theme default." },
+        { "type": "color", "id": "button_hover_bg_color", "label": "Hover background color", "info": "Clear to keep theme default." },
+        { "type": "range", "id": "button_font_size", "min": 0, "max": 28, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "header", "content": "Privacy note style" },
+        { "type": "color", "id": "note_color", "label": "Note color", "info": "Clear to keep theme default." }
       ]
     },
     {

@@ -364,16 +364,17 @@
  margin: 0;
  
  
- color: var(--cmc-ink);
- background: #fff;
- border: 1.5px solid var(--cmc-line);
- border-radius: 14px;
+ color: var(--cmc-field-text, var(--cmc-ink));
+ background: var(--cmc-field-bg, #fff);
+ border: 1.5px solid var(--cmc-field-border, var(--cmc-line));
+ border-radius: var(--cmc-field-radius, 14px);
  padding: 1.55em 1em 0.6em;
  outline: 0;
  box-shadow: none;
  -webkit-appearance: none;
  appearance: none;
- transition: border-color 0.2s, box-shadow 0.2s;
+ font-size: var(--cmc-field-text-size, inherit);
+ transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, background-color 0.2s;
 }
 
 .cmc__field textarea {
@@ -387,7 +388,8 @@
  top: 1.05em;
  
  font-weight: 400;
- color: var(--cmc-muted);
+ font-size: var(--cmc-field-label-size, inherit);
+ color: var(--cmc-field-label, var(--cmc-muted));
  pointer-events: none;
  transform-origin: left top;
  transition: transform 0.18s, color 0.18s;
@@ -402,13 +404,13 @@
 
 .cmc__field input:focus,
 .cmc__field textarea:focus {
- border-color: var(--cmc-amber);
+ border-color: var(--cmc-field-border-focus, var(--cmc-amber));
  box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.22);
 }
 
 .cmc__field input:focus ~ label,
 .cmc__field textarea:focus ~ label {
- color: var(--cmc-amber-deep);
+ color: var(--cmc-field-label-focus, var(--cmc-amber-deep));
 }
 
 .cmc__send {
@@ -421,21 +423,27 @@
  
  
  font-weight: 700;
+ font-size: var(--cmc-send-size, inherit);
  line-height: inherit;
  letter-spacing: normal;
  text-transform: none;
- background: var(--cmc-amber);
- color: var(--cmc-ink);
+ background: var(--cmc-send-bg, var(--cmc-amber));
+ color: var(--cmc-send-text, var(--cmc-ink));
  border-radius: 999px;
  padding: 1em 2.1em;
  min-height: 0;
  box-shadow: 0 12px 24px -12px rgba(232, 146, 12, 0.8);
- transition: transform 0.15s, background 0.2s;
+ transition: transform 0.15s, background 0.2s, color 0.2s;
 }
 
 .cmc__send:hover {
- background: #ffbb45;
+ background: var(--cmc-send-hover-bg, #ffbb45);
+ color: var(--cmc-send-hover-text, var(--cmc-send-text, var(--cmc-ink)));
  transform: translateY(-2px);
+}
+
+.cmc__note {
+ color: var(--cmc-note-color, inherit);
 }
 
 .cmc__send:focus-visible,
