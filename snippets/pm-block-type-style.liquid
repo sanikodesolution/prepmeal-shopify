@@ -1,15 +1,12 @@
 {%- comment -%}
-  Outputs inline CSS for text typography + spacing.
+  Outputs inline CSS for text typography + spacing + background.
   Usage:
     {% render 'pm-block-type-style', block: block %}
     {% render 'pm-block-type-style', block: block, prefix: 'title_' %}
     {% render 'pm-block-type-style', settings: section.settings, prefix: 'heading_' %}
-  With prefix blank, reads: text_color, font_size, font_weight, letter_spacing, line_height, padding_*, margin_*
-  With prefix 'title_', reads: title_color, title_font_size, title_font_weight, ...
-{%- endcomment -%}
-{%- comment -%}
-  Prefer block.settings when block is passed. Global theme `settings` is always
-  present in snippets, so checking settings first ignored every block color.
+  With prefix blank, reads: text_color, font_size, ..., bg_color, bg_image, bg_mask, ...
+  With prefix 'title_', reads: title_color, title_bg_color, title_bg_image, ...
+  Prefer block.settings when block is passed (global theme settings is always present).
 {%- endcomment -%}
 {%- liquid
   assign p = prefix | default: ''
@@ -32,6 +29,14 @@
     assign key_mb = 'margin_bottom'
     assign key_ml = 'margin_left'
     assign key_mr = 'margin_right'
+    assign key_bg_color = 'bg_color'
+    assign key_bg_color_alt = 'background_color'
+    assign key_bg_image = 'bg_image'
+    assign key_bg_size = 'bg_size'
+    assign key_bg_position = 'bg_position'
+    assign key_bg_mask = 'bg_mask'
+    assign key_bg_mask_image = 'bg_mask_image'
+    assign key_bg_clip_text = 'bg_clip_text'
   else
     assign key_color = p | append: 'color'
     assign key_size = p | append: 'font_size'
@@ -46,6 +51,14 @@
     assign key_mb = p | append: 'margin_bottom'
     assign key_ml = p | append: 'margin_left'
     assign key_mr = p | append: 'margin_right'
+    assign key_bg_color = p | append: 'bg_color'
+    assign key_bg_color_alt = p | append: 'background_color'
+    assign key_bg_image = p | append: 'bg_image'
+    assign key_bg_size = p | append: 'bg_size'
+    assign key_bg_position = p | append: 'bg_position'
+    assign key_bg_mask = p | append: 'bg_mask'
+    assign key_bg_mask_image = p | append: 'bg_mask_image'
+    assign key_bg_clip_text = p | append: 'bg_clip_text'
   endif
 
   assign val_color = src[key_color]
@@ -61,9 +74,18 @@
   assign val_mb = src[key_mb]
   assign val_ml = src[key_ml]
   assign val_mr = src[key_mr]
-
+  assign val_bg_color = src[key_bg_color]
+  if val_bg_color == blank
+    assign val_bg_color = src[key_bg_color_alt]
+  endif
+  assign val_bg_image = src[key_bg_image]
+  assign val_bg_size = src[key_bg_size] | default: 'cover'
+  assign val_bg_position = src[key_bg_position] | default: 'center'
+  assign val_bg_mask = src[key_bg_mask] | default: 'none'
+  assign val_bg_mask_image = src[key_bg_mask_image]
+  assign val_bg_clip_text = src[key_bg_clip_text]
 -%}
-{%- if val_color != blank -%}
+{%- if val_color != blank and val_bg_clip_text != true -%}
   color:{{ val_color }};
 {%- endif -%}
 {%- liquid
@@ -104,3 +126,63 @@
     echo 'margin-right:' | append: val_mr | append: 'px;'
   endif
 -%}
+{%- if val_bg_color != blank -%}
+  background-color:{{ val_bg_color }};
+{%- endif -%}
+{%- if val_bg_image != blank -%}
+  background-image:url({{ val_bg_image | image_url: width: 2000 }});
+  background-size:{{ val_bg_size }};
+  background-position:{{ val_bg_position }};
+{%- endif -%}
+{%- if val_bg_color != blank or val_bg_image != blank -%}
+  background-repeat:no-repeat;
+{%- endif -%}
+{%- if val_bg_clip_text == true -%}
+  {%- if val_bg_image != blank or val_bg_color != blank -%}
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+  {%- endif -%}
+{%- endif -%}
+{%- if val_bg_mask == 'fade' -%}
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);
+  mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);
+  -webkit-mask-size:cover;
+  mask-size:cover;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+{%- elsif val_bg_mask == 'fade_edges' -%}
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);
+  -webkit-mask-size:cover;
+  mask-size:cover;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+{%- elsif val_bg_mask == 'circle' -%}
+  -webkit-mask-image:radial-gradient(circle at center,#000 58%,transparent 72%);
+  mask-image:radial-gradient(circle at center,#000 58%,transparent 72%);
+  -webkit-mask-size:cover;
+  mask-size:cover;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+{%- elsif val_bg_mask == 'soft' -%}
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 35%,transparent 75%);
+  mask-image:radial-gradient(ellipse at center,#000 35%,transparent 75%);
+  -webkit-mask-size:cover;
+  mask-size:cover;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+{%- elsif val_bg_mask == 'rounded' -%}
+  border-radius:12px;
+  overflow:hidden;
+{%- elsif val_bg_mask == 'custom' and val_bg_mask_image != blank -%}
+  -webkit-mask-image:url({{ val_bg_mask_image | image_url: width: 1600 }});
+  mask-image:url({{ val_bg_mask_image | image_url: width: 1600 }});
+  -webkit-mask-size:{{ val_bg_size }};
+  mask-size:{{ val_bg_size }};
+  -webkit-mask-position:{{ val_bg_position }};
+  mask-position:{{ val_bg_position }};
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+{%- endif -%}

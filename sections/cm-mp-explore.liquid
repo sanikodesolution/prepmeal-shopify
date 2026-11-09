@@ -335,6 +335,32 @@
     {"type":"range","id":"eyebrow_margin_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Margin bottom","default":0},
     {"type":"range","id":"eyebrow_margin_left","min":0,"max":80,"step":2,"unit":"px","label":"Margin left","default":0},
     {"type":"range","id":"eyebrow_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0},
+        { "type": "header", "content": "Label background" },
+        { "type": "color", "id": "eyebrow_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "image_picker", "id": "eyebrow_bg_image", "label": "Background image" },
+        { "type": "select", "id": "eyebrow_bg_size", "label": "Image size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Auto" }
+        ], "default": "cover" },
+        { "type": "select", "id": "eyebrow_bg_position", "label": "Image position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "eyebrow_bg_mask", "label": "Image mask", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "fade", "label": "Fade bottom" },
+          { "value": "fade_edges", "label": "Fade edges" },
+          { "value": "circle", "label": "Circle" },
+          { "value": "soft", "label": "Soft vignette" },
+          { "value": "rounded", "label": "Rounded box" },
+          { "value": "custom", "label": "Custom mask image" }
+        ], "default": "none" },
+        { "type": "image_picker", "id": "eyebrow_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
+        { "type": "checkbox", "id": "eyebrow_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
     {"type":"header","content":"Heading typography"},
     {"type":"range","id":"heading_font_size","min":0,"max":72,"step":1,"unit":"px","label":"Font size","default":0,"info":"0 = theme default. Custom sizes start at 14px."},
     {"type":"select","id":"heading_font_weight","label":"Font weight","options":[{"value":"inherit","label":"Theme default"},{"value":"400","label":"Regular 400"},{"value":"500","label":"Medium 500"},{"value":"600","label":"Semi-bold 600"},{"value":"700","label":"Bold 700"},{"value":"800","label":"Extra-bold 800"}],"default":"inherit"},
@@ -349,6 +375,32 @@
     {"type":"range","id":"heading_margin_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Margin bottom","default":0},
     {"type":"range","id":"heading_margin_left","min":0,"max":80,"step":2,"unit":"px","label":"Margin left","default":0},
     {"type":"range","id":"heading_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0},
+        { "type": "header", "content": "Heading background" },
+        { "type": "color", "id": "heading_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "image_picker", "id": "heading_bg_image", "label": "Background image" },
+        { "type": "select", "id": "heading_bg_size", "label": "Image size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Auto" }
+        ], "default": "cover" },
+        { "type": "select", "id": "heading_bg_position", "label": "Image position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "heading_bg_mask", "label": "Image mask", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "fade", "label": "Fade bottom" },
+          { "value": "fade_edges", "label": "Fade edges" },
+          { "value": "circle", "label": "Circle" },
+          { "value": "soft", "label": "Soft vignette" },
+          { "value": "rounded", "label": "Rounded box" },
+          { "value": "custom", "label": "Custom mask image" }
+        ], "default": "none" },
+        { "type": "image_picker", "id": "heading_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
+        { "type": "checkbox", "id": "heading_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
     {"type":"header","content":"Body typography"},
     {"type":"color","id":"body_color","label":"Text color"},
     {"type":"range","id":"body_font_size","min":0,"max":48,"step":1,"unit":"px","label":"Font size","default":0,"info":"0 = theme default. Custom sizes start at 14px."},
@@ -363,7 +415,33 @@
     {"type":"range","id":"body_margin_top","min":0,"max":80,"step":2,"unit":"px","label":"Margin top","default":0},
     {"type":"range","id":"body_margin_bottom","min":0,"max":80,"step":2,"unit":"px","label":"Margin bottom","default":0},
     {"type":"range","id":"body_margin_left","min":0,"max":80,"step":2,"unit":"px","label":"Margin left","default":0},
-    {"type":"range","id":"body_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0}
+    {"type":"range","id":"body_margin_right","min":0,"max":80,"step":2,"unit":"px","label":"Margin right","default":0},
+        { "type": "header", "content": "Text background" },
+        { "type": "color", "id": "body_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "image_picker", "id": "body_bg_image", "label": "Background image" },
+        { "type": "select", "id": "body_bg_size", "label": "Image size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Auto" }
+        ], "default": "cover" },
+        { "type": "select", "id": "body_bg_position", "label": "Image position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "body_bg_mask", "label": "Image mask", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "fade", "label": "Fade bottom" },
+          { "value": "fade_edges", "label": "Fade edges" },
+          { "value": "circle", "label": "Circle" },
+          { "value": "soft", "label": "Soft vignette" },
+          { "value": "rounded", "label": "Rounded box" },
+          { "value": "custom", "label": "Custom mask image" }
+        ], "default": "none" },
+        { "type": "image_picker", "id": "body_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
+        { "type": "checkbox", "id": "body_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." }
   ],
   "blocks": [
     {
