@@ -101,7 +101,16 @@
                   assign item_link = 'tel:' | append: item_tel
                 endif
               -%}
-              <li class="cmc__item" {{ block.shopify_attributes }}>
+              <li
+                class="cmc__item"
+                {{ block.shopify_attributes }}
+                {% if block.settings.label_color != blank or block.settings.body_color != blank %}
+                  style="
+                    {%- if block.settings.label_color != blank -%}--cmc-item-label-color:{{ block.settings.label_color }};{%- endif -%}
+                    {%- if block.settings.body_color != blank -%}--cmc-item-value-color:{{ block.settings.body_color }};{%- endif -%}
+                  "
+                {% endif %}
+              >
                 <div class="cmc__ico" aria-hidden="true">
                   {%- case block.settings.icon -%}
                     {%- when 'pin' -%}

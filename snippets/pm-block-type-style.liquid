@@ -58,9 +58,11 @@
   assign val_ml = src[key_ml]
   assign val_mr = src[key_mr]
 
-  if val_color != blank
-    echo 'color:' | append: val_color | append: ';'
-  endif
+-%}
+{%- if val_color != blank -%}
+  color:{{ val_color }};
+{%- endif -%}
+{%- liquid
   if val_size >= 14
     echo 'font-size:' | append: val_size | append: 'px;'
   endif

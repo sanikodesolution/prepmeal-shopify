@@ -183,22 +183,20 @@
 .cmc__item b {
  display: block;
  font-weight: 600;
- 
- color: rgba(255, 255, 255, 0.62);
+ color: var(--cmc-item-label-color, rgba(255, 255, 255, 0.62));
  margin-bottom: 0.15em;
  letter-spacing: 0.02em;
 }
 
 .cmc__item a,
 .cmc__item span {
- color: #fff;
- 
+ color: var(--cmc-item-value-color, #fff);
  line-height: 1.45;
  text-decoration: none;
 }
 
 .cmc__item a:hover {
- color: var(--cmc-amber);
+ color: var(--cmc-item-value-hover, var(--cmc-amber));
 }
 
 .cmc__call {
