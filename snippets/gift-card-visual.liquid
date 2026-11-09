@@ -14,8 +14,32 @@
   if font_heading_bold == blank
     assign font_heading_bold = font_heading
   endif
-  assign bow_dark = s.bow_color | color_darken: 10
-  assign bow_light = s.bow_color | color_lighten: 18
+  assign gcv_card_bg = s.card_bg | default: '#FFFDF6'
+  assign gcv_text_main = s.text_main | default: '#14213D'
+  assign gcv_text_accent = s.text_accent | default: '#F5A623'
+  assign gcv_ribbon = s.ribbon_color | default: '#14213D'
+  assign gcv_bow = s.bow_color | default: '#F5A623'
+  if s.card_bg == blank
+    assign gcv_card_bg = '#FFFDF6'
+  endif
+  if s.text_main == blank
+    assign gcv_text_main = '#14213D'
+  endif
+  if s.text_accent == blank
+    assign gcv_text_accent = '#F5A623'
+  endif
+  if s.ribbon_color == blank
+    assign gcv_ribbon = '#14213D'
+  endif
+  if s.bow_color == blank
+    assign gcv_bow = '#F5A623'
+  endif
+  assign gcv_section_bg = s.section_bg | default: '#E6E6E3'
+  if s.section_bg == blank
+    assign gcv_section_bg = '#E6E6E3'
+  endif
+  assign bow_dark = gcv_bow | color_darken: 10
+  assign bow_light = gcv_bow | color_lighten: 18
   assign scale = s.text_scale | default: 100 | times: 1.0 | divided_by: 100
   assign gift_size = 84 | times: scale
   assign card_size = 62 | times: scale
@@ -45,7 +69,7 @@
     margin: 0 auto;
     {% unless embedded %}
       border-radius: 20px;
-      {% unless s.transparent_bg %}background: {{ s.section_bg }};{% endunless %}
+      {% unless s.transparent_bg %}background: {{ gcv_section_bg }};{% endunless %}
     {% endunless %}
     overflow: visible;
   }
@@ -84,18 +108,18 @@
 
       <g transform="translate(400 330) rotate({{ s.tilt }}) translate(-240 -150)">
         <rect x="4" y="10" width="480" height="300" rx="18" fill="#000" opacity="0.12" filter="url(#gcv-blur-{{ uid }})"/>
-        <rect width="480" height="300" rx="18" fill="{{ s.card_bg }}"/>
+        <rect width="480" height="300" rx="18" fill="{{ gcv_card_bg }}"/>
 
         {%- if s.show_ribbon -%}
           <g clip-path="url(#gcv-clip-{{ uid }})">
-            <polygon points="340,0 392,0 480,88 480,140" fill="{{ s.ribbon_color }}"/>
-            <polygon points="352,0 362,0 480,118 480,128" fill="{{ s.text_accent }}" opacity="0.9"/>
+            <polygon points="340,0 392,0 480,88 480,140" fill="{{ gcv_ribbon }}"/>
+            <polygon points="352,0 362,0 480,118 480,128" fill="{{ gcv_text_accent }}" opacity="0.9"/>
           </g>
           <g transform="translate(423 57)">
-            <path d="M0 0 C-10 -46 -56 -40 -48 -6 C-44 8 -14 8 0 0Z" fill="{{ s.bow_color }}"/>
+            <path d="M0 0 C-10 -46 -56 -40 -48 -6 C-44 8 -14 8 0 0Z" fill="{{ gcv_bow }}"/>
             <path d="M0 0 C46 -10 40 -56 6 -48 C-8 -44 -8 -14 0 0Z" fill="{{ bow_dark }}"/>
             <path d="M0 0 C10 46 56 40 48 6 C44 -8 14 -8 0 0Z" fill="{{ bow_dark }}"/>
-            <path d="M0 0 C-46 10 -40 56 -6 48 C8 44 8 14 0 0Z" fill="{{ s.bow_color }}"/>
+            <path d="M0 0 C-46 10 -40 56 -6 48 C8 44 8 14 0 0Z" fill="{{ gcv_bow }}"/>
             <rect x="-13" y="-13" width="26" height="26" rx="6" fill="{{ bow_light }}" transform="rotate(45)"/>
           </g>
         {%- endif -%}
@@ -103,14 +127,14 @@
         {%- if s.logo != blank -%}
           <image href="{{ s.logo | image_url: width: 600 }}" x="36" y="30" width="170" height="64" preserveAspectRatio="xMinYMid meet"/>
         {%- else -%}
-          <circle cx="62" cy="62" r="26" fill="{{ s.text_accent }}" stroke="{{ s.text_main }}" stroke-width="3"/>
-          <text class="gcv__t gcv__t--bold" x="62" y="70" text-anchor="middle" font-size="22" fill="{{ s.text_main }}">{{ s.badge | escape }}</text>
-          <text class="gcv__t gcv__t--bold" x="98" y="58" font-size="15" letter-spacing="3" fill="{{ s.text_main }}">{{ s.brand | escape }}</text>
+          <circle cx="62" cy="62" r="26" fill="{{ gcv_text_accent }}" stroke="{{ gcv_text_main }}" stroke-width="3"/>
+          <text class="gcv__t gcv__t--bold" x="62" y="70" text-anchor="middle" font-size="22" fill="{{ gcv_text_main }}">{{ s.badge | escape }}</text>
+          <text class="gcv__t gcv__t--bold" x="98" y="58" font-size="15" letter-spacing="3" fill="{{ gcv_text_main }}">{{ s.brand | escape }}</text>
           <text class="gcv__t" x="98" y="78" font-size="14" letter-spacing="2" fill="#7A8194">{{ s.subtitle | escape }}</text>
         {%- endif -%}
 
-        <text class="gcv__t gcv__t--bold" x="36" y="188" font-size="{{ gift_size }}" letter-spacing="-2" fill="{{ s.text_main }}">{{ s.gift_text | escape }}</text>
-        <text class="gcv__t" x="36" y="252" font-size="{{ card_size }}" fill="{{ s.text_accent }}">{{ s.card_text | escape }}</text>
+        <text class="gcv__t gcv__t--bold" x="36" y="188" font-size="{{ gift_size }}" letter-spacing="-2" fill="{{ gcv_text_main }}">{{ s.gift_text | escape }}</text>
+        <text class="gcv__t" x="36" y="252" font-size="{{ card_size }}" fill="{{ gcv_text_accent }}">{{ s.card_text | escape }}</text>
         <text class="gcv__t" x="444" y="276" text-anchor="end" font-size="14" fill="#7A8194">{{ s.note | escape }}</text>
       </g>
     </svg>
