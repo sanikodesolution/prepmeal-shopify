@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -34,12 +43,64 @@
             "label": "Order deadline",
             "value": "Order by Thursday for next week's delivery"
           }
+        },
+        "field_name": {
+          "type": "form_field",
+          "settings": {
+            "label": "Name",
+            "field_key": "name",
+            "input_type": "text",
+            "required": false,
+            "half_width": true
+          }
+        },
+        "field_email": {
+          "type": "form_field",
+          "settings": {
+            "label": "Email *",
+            "field_key": "email",
+            "input_type": "email",
+            "required": true,
+            "half_width": true
+          }
+        },
+        "field_phone": {
+          "type": "form_field",
+          "settings": {
+            "label": "Phone number",
+            "field_key": "phone",
+            "input_type": "tel",
+            "required": false,
+            "half_width": false
+          }
+        },
+        "field_comment": {
+          "type": "form_field",
+          "settings": {
+            "label": "Comment",
+            "field_key": "body",
+            "input_type": "textarea",
+            "required": false,
+            "half_width": false
+          }
+        },
+        "form_submit": {
+          "type": "form_button",
+          "settings": {
+            "label": "Send message",
+            "privacy_note": "We never share your details."
+          }
         }
       },
       "block_order": [
         "item_phone",
         "item_area",
-        "item_deadline"
+        "item_deadline",
+        "field_name",
+        "field_email",
+        "field_phone",
+        "field_comment",
+        "form_submit"
       ],
       "settings": {
         "heading": "Questions or comments? Tell us what you're craving.",
@@ -54,11 +115,6 @@
         "show_social": true,
         "ticket_heading": "Your message",
         "ticket_note": "We reply within one business day",
-        "label_name": "Name",
-        "label_email": "Email *",
-        "label_phone": "Phone number",
-        "label_comment": "Comment",
-        "button_label": "Send message",
         "privacy_note": "We never share your details.",
         "success_message": "Thanks for reaching out! We'll get back to you as soon as possible.",
         "accent": "#f5a623",
