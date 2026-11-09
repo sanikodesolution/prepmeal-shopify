@@ -111,10 +111,6 @@
     padding-bottom: {{ feature_text_pb | times: 0.75 | round: 0 }}px;
     padding-left: {{ feature_text_pl | times: 0.75 | round: 0 }}px;
     padding-right: {{ feature_text_pr | times: 0.75 | round: 0 }}px;
-  }
-
-  .feature-{{ section.id }} .box__description * {
-    margin: 0;
     font-size: {{ feature_text_size_mobile }}px;
     color: {{ feature_text_color }};
     line-height: {{ feature_text_height }}%;
@@ -123,6 +119,16 @@
     {% if feature_text_weight != blank and feature_text_weight != 'inherit' %}
       font-weight: {{ feature_text_weight }};
     {% endif %}
+  }
+
+  .feature-{{ section.id }} .box__description * {
+    margin: 0;
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    font-weight: inherit;
+    text-transform: unset;
   }
 
   .feature-{{ section.id }} .wrapper-box {
@@ -214,9 +220,6 @@
       padding-bottom: {{ feature_text_pb }}px;
       padding-left: {{ feature_text_pl }}px;
       padding-right: {{ feature_text_pr }}px;
-    }
-
-    .feature-{{ section.id }} .box__description * {
       font-size: {{ feature_text_size }}px;
     }
 
@@ -241,7 +244,7 @@
 
 {% if feature_text_custom %}
   <style>
-    .feature-{{ section.id }} .box__description * {
+    .feature-{{ section.id }} .box__description {
       font-family: {{ feature_text_font.family }}, {{ feature_text_font.fallback_families }};
       font-style: {{ feature_text_font.style }};
       {% if feature_text_weight == blank or feature_text_weight == 'inherit' %}
