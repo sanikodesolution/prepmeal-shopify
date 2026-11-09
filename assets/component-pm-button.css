@@ -5,6 +5,8 @@
  --pm-accent-text: #111;
  --pm-icon-bg: #111;
  --pm-icon-text: #fff;
+ --pm-hover-bg: var(--pm-icon-bg);
+ --pm-hover-text: var(--pm-accent-text);
 
  position: relative;
  overflow: hidden;
@@ -37,8 +39,13 @@
 }
 
 .pm.pm-a:hover {
- background: var(--pm-bg);
+ background: var(--pm-hover-bg, var(--pm-bg));
+ color: var(--pm-hover-text, var(--pm-text));
  filter: brightness(1.04);
+}
+
+.pm.pm-a[style*='--pm-hover-bg']:hover {
+ filter: none;
 }
 
 .pm-roll {
@@ -65,6 +72,10 @@
  transform: translateY(-100%);
 }
 
+.pm-a:hover .pm-roll span + span {
+ color: var(--pm-hover-text, var(--pm-accent-text)) !important;
+}
+
 .pm-dot {
  position: relative;
  z-index: 1;
@@ -83,6 +94,7 @@
 
 .pm.pm-a:hover .pm-bg {
  transform: scale(24);
+ background: var(--pm-hover-bg, var(--pm-icon-bg));
 }
 
 .pm-clip {
@@ -129,6 +141,8 @@
  --pm-accent-text: #111;
  --pm-icon-bg: #f5a623;
  --pm-icon-text: #111;
+ --pm-hover-bg: #f5a623;
+ --pm-hover-text: #111;
  box-shadow: 0 1.4rem 3rem -1.6rem rgba(0, 0, 0, 0.45);
 }
 
@@ -139,6 +153,8 @@
  --pm-accent-text: #111;
  --pm-icon-bg: #f5a623;
  --pm-icon-text: #111;
+ --pm-hover-bg: #f5a623;
+ --pm-hover-text: #111;
  box-shadow: 0 1.4rem 3rem -1.6rem rgba(0, 0, 0, 0.55);
 }
 
@@ -149,19 +165,14 @@
  --pm-accent-text: #111;
  --pm-icon-bg: #111;
  --pm-icon-text: #fff;
+ --pm-hover-bg: #111;
+ --pm-hover-text: #fff;
  box-shadow: 0 1.2rem 2.6rem -1.4rem rgba(245, 166, 35, 0.65);
 }
 
-.pm.pm--brand:hover {
- --pm-icon-bg: #111;
- --pm-icon-text: #fff;
-}
-
-.pm.pm--brand:hover .pm-roll span + span {
- color: #fff !important;
-}
-
 .pm.pm-s {
+ --pm-hover-bg: #fff;
+ --pm-hover-text: #092a49;
  justify-content: center;
  min-height: calc(4.5rem + var(--buttons-border-width, 1px) * 2);
  padding: 0 28px;
@@ -179,13 +190,13 @@
  inset: 0;
  z-index: 0;
  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
- background: #fff;
+ background: var(--pm-hover-bg, #fff);
  transform: translateY(101%);
  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), border-radius 0.6s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .pm.pm-s:hover {
- color: #092a49;
+ color: var(--pm-hover-text, #092a49);
  filter: none;
 }
 

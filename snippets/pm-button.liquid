@@ -12,12 +12,15 @@
   - attributes: {String} Extra HTML attributes (e.g. data-gc-add)
   - css: {String} Extra inline CSS (merged after color params)
   - text_color, bg_color, icon_bg, icon_color: {Color} Theme Editor overrides
+  - hover_text_color, hover_bg_color: {Color} Hover overrides (falls back to Theme settings → Buttons)
   - font_size: {Number} px font size from Theme Editor
 
   Schema fields to add next to any button label/link (copy-paste):
     { "type": "header", "content": "Button style" },
     { "type": "color", "id": "button_text_color", "label": "Text color" },
     { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_hover_text_color", "label": "Hover text color", "info": "Clear to keep the style preset hover." },
+    { "type": "color", "id": "button_hover_bg_color", "label": "Hover background color", "info": "Clear to keep the style preset hover." },
     { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
     { "type": "color", "id": "button_icon_color", "label": "Icon color" },
     { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 }
@@ -40,6 +43,9 @@
   assign pm_tag = tag | default: 'a'
   assign pm_type = type | default: 'button'
 
+  assign pm_hover_text = hover_text_color | default: settings.pm_button_hover_text
+  assign pm_hover_bg = hover_bg_color | default: settings.pm_button_hover_bg
+
   assign pm_css = css | default: ''
   if bg_color != blank
     assign pm_css = pm_css | append: '--pm-bg:' | append: bg_color | append: ';background-color:' | append: bg_color | append: ';'
@@ -52,6 +58,12 @@
   endif
   if icon_color != blank
     assign pm_css = pm_css | append: '--pm-icon-text:' | append: icon_color | append: ';'
+  endif
+  if pm_hover_bg != blank
+    assign pm_css = pm_css | append: '--pm-hover-bg:' | append: pm_hover_bg | append: ';'
+  endif
+  if pm_hover_text != blank
+    assign pm_css = pm_css | append: '--pm-hover-text:' | append: pm_hover_text | append: ';'
   endif
   if font_size != blank
     assign pm_css = pm_css | append: 'font-size:' | append: font_size | append: 'px;'

@@ -260,6 +260,20 @@
           font-size: 1.6rem;
         }
       }
+
+      {%- if settings.button_hover_bg != blank or settings.button_hover_text != blank -%}
+        .button:not([disabled]):hover,
+        .shopify-challenge__button:hover,
+        .customer button:not([disabled]):hover,
+        .shopify-payment-button__button--unbranded:hover:not([disabled]) {
+          {%- if settings.button_hover_bg != blank -%}
+            background-color: {{ settings.button_hover_bg }} !important;
+          {%- endif -%}
+          {%- if settings.button_hover_text != blank -%}
+            color: {{ settings.button_hover_text }} !important;
+          {%- endif -%}
+        }
+      {%- endif -%}
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}

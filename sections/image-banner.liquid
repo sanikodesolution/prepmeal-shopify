@@ -196,7 +196,7 @@
                   if section.settings.hero_style == 'prep'
                     assign pm_style = 'light'
                   endif
-                  render 'pm-button', label: block.settings.button_label_1, link: block.settings.button_link_1, style: pm_style, text_color: block.settings.button_text_1, bg_color: block.settings.button_bg_1, icon_bg: block.settings.button_icon_bg_1, icon_color: block.settings.button_icon_color_1, font_size: block.settings.button_font_size_1
+                  render 'pm-button', label: block.settings.button_label_1, link: block.settings.button_link_1, style: pm_style, text_color: block.settings.button_text_1, bg_color: block.settings.button_bg_1, icon_bg: block.settings.button_icon_bg_1, icon_color: block.settings.button_icon_color_1, font_size: block.settings.button_font_size_1, hover_text_color: block.settings.button_hover_text_1, hover_bg_color: block.settings.button_hover_bg_1
                 -%}
               {%- elsif block.settings.button_label_1 != blank -%}
                 <a
@@ -219,7 +219,7 @@
                   if section.settings.hero_style == 'prep'
                     assign pm_style_2 = 'brand'
                   endif
-                  render 'pm-button', label: block.settings.button_label_2, link: block.settings.button_link_2, style: pm_style_2, text_color: block.settings.button_text_2, bg_color: block.settings.button_bg_2, icon_bg: block.settings.button_icon_bg_2, icon_color: block.settings.button_icon_color_2, font_size: block.settings.button_font_size_2
+                  render 'pm-button', label: block.settings.button_label_2, link: block.settings.button_link_2, style: pm_style_2, text_color: block.settings.button_text_2, bg_color: block.settings.button_bg_2, icon_bg: block.settings.button_icon_bg_2, icon_color: block.settings.button_icon_color_2, font_size: block.settings.button_font_size_2, hover_text_color: block.settings.button_hover_text_2, hover_bg_color: block.settings.button_hover_bg_2
                 -%}
               {%- elsif block.settings.button_label_2 != blank -%}
                 <a
@@ -909,6 +909,8 @@
           "id": "button_bg_1",
           "label": "Background color"
         },
+    { "type": "color", "id": "button_hover_text_1", "label": "Hover text color", "info": "Clear to keep the style preset hover." },
+    { "type": "color", "id": "button_hover_bg_1", "label": "Hover background color", "info": "Clear to keep the style preset hover." },
         {
           "type": "color",
           "id": "button_icon_bg_1",
@@ -971,6 +973,8 @@
           "id": "button_bg_2",
           "label": "Background color"
         },
+    { "type": "color", "id": "button_hover_text_2", "label": "Hover text color", "info": "Clear to keep the style preset hover." },
+    { "type": "color", "id": "button_hover_bg_2", "label": "Hover background color", "info": "Clear to keep the style preset hover." },
         {
           "type": "color",
           "id": "button_icon_bg_2",

@@ -255,6 +255,38 @@
     "settings": [
       {
         "type": "header",
+        "content": "Hover colors"
+      },
+      {
+        "type": "paragraph",
+        "content": "Theme-wide defaults for button hover. Leave blank to keep each button’s style preset. Section/block Button style fields override these."
+      },
+      {
+        "type": "color",
+        "id": "pm_button_hover_text",
+        "label": "Prep button hover text",
+        "info": "Animated pill buttons (pm-button) across the theme."
+      },
+      {
+        "type": "color",
+        "id": "pm_button_hover_bg",
+        "label": "Prep button hover background",
+        "info": "Animated pill buttons (pm-button) across the theme."
+      },
+      {
+        "type": "color",
+        "id": "button_hover_text",
+        "label": "Theme button hover text",
+        "info": "Standard Shopify .button / customer / checkout-style buttons."
+      },
+      {
+        "type": "color",
+        "id": "button_hover_bg",
+        "label": "Theme button hover background",
+        "info": "Standard Shopify .button / customer / checkout-style buttons."
+      },
+      {
+        "type": "header",
         "content": "t:settings_schema.global.settings.header__border.content"
       },
       {

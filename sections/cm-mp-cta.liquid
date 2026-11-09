@@ -58,8 +58,10 @@
                 assign cta_icon_bg = section.settings.button_icon_bg | default: section.settings.cta_button_icon_bg
                 assign cta_icon_color = section.settings.button_icon_color | default: section.settings.cta_button_icon_color
                 assign cta_font_size = section.settings.button_font_size | default: section.settings.cta_button_font_size
+                assign cta_hover_text = section.settings.button_hover_text_color | default: section.settings.cta_button_hover_text_color
+                assign cta_hover_bg = section.settings.button_hover_bg_color | default: section.settings.cta_button_hover_bg_color
               -%}
-              {% render 'pm-button', label: c_cta_button_label, link: cta_btn_link, style: 'brand', text_color: cta_text_color, bg_color: cta_bg_color, icon_bg: cta_icon_bg, icon_color: cta_icon_color, font_size: cta_font_size %}
+              {% render 'pm-button', label: c_cta_button_label, link: cta_btn_link, style: 'brand', text_color: cta_text_color, bg_color: cta_bg_color, icon_bg: cta_icon_bg, icon_color: cta_icon_color, font_size: cta_font_size, hover_text_color: cta_hover_text, hover_bg_color: cta_hover_bg %}
             {%- endif -%}
           </div>
         </div>
@@ -87,7 +89,7 @@
     { "type": "url", "id": "button_link", "label": "Button link" },
     { "type": "header", "content": "Button style" },
     { "type": "color", "id": "button_text_color", "label": "Text color" },
-    { "type": "color", "id": "button_bg_color", "label": "Background color" },
+    { "type": "color", "id": "button_bg_color", "label": "Background color" }, { "type": "color", "id": "button_hover_text_color", "label": "Hover text color", "info": "Clear to keep the style preset hover." }, { "type": "color", "id": "button_hover_bg_color", "label": "Hover background color", "info": "Clear to keep the style preset hover." },
     { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
     { "type": "color", "id": "button_icon_color", "label": "Icon color" },
     { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },

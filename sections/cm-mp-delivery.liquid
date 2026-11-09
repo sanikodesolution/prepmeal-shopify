@@ -84,7 +84,7 @@
               {%- endif -%}
               {%- if section.settings.delivery_button_label != blank -%}
                 {%- assign delivery_link = section.settings.delivery_button_link | default: '#' -%}
-                {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand', text_color: section.settings.delivery_button_text_color, bg_color: section.settings.delivery_button_bg_color, icon_bg: section.settings.delivery_button_icon_bg, icon_color: section.settings.delivery_button_icon_color, font_size: section.settings.delivery_button_font_size %}
+                {% render 'pm-button', label: section.settings.delivery_button_label, link: delivery_link, style: 'brand', text_color: section.settings.delivery_button_text_color, bg_color: section.settings.delivery_button_bg_color, icon_bg: section.settings.delivery_button_icon_bg, icon_color: section.settings.delivery_button_icon_color, font_size: section.settings.delivery_button_font_size, hover_text_color: section.settings.delivery_button_hover_text_color, hover_bg_color: section.settings.delivery_button_hover_bg_color %}
               {%- endif -%}
             </div>
           </div>
@@ -184,6 +184,8 @@
       "id": "delivery_button_bg_color",
       "label": "Background color"
     },
+    { "type": "color", "id": "delivery_button_hover_text_color", "label": "Hover text color", "info": "Clear to keep the style preset hover." },
+    { "type": "color", "id": "delivery_button_hover_bg_color", "label": "Hover background color", "info": "Clear to keep the style preset hover." },
     {
       "type": "color",
       "id": "delivery_button_icon_bg",
