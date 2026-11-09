@@ -487,6 +487,11 @@
  margin-top: 0.5em;
 }
 
+.cmc__foot .cmc__pm,
+.cmc__foot .pm {
+ flex: 0 0 auto;
+}
+
 .cmc__note {
  color: var(--cmc-note-color, var(--cmc-muted));
 }

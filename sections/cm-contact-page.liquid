@@ -331,33 +331,41 @@
             {%- endif -%}
           </div>
 
+          {%- liquid
+            assign submit_label = 'Send message'
+            assign privacy_text = section.settings.privacy_note
+            if form_submit != blank
+              if form_submit.settings.label != blank
+                assign submit_label = form_submit.settings.label
+              endif
+              if form_submit.settings.privacy_note != blank
+                assign privacy_text = form_submit.settings.privacy_note
+              endif
+            endif
+          -%}
           <div
             class="cmc__foot"
             {% if form_submit != blank %}
               {{ form_submit.shopify_attributes }}
-              style="
-                {%- if form_submit.settings.button_text_color != blank -%}--cmc-send-text:{{ form_submit.settings.button_text_color }};{%- endif -%}
-                {%- if form_submit.settings.button_bg_color != blank -%}--cmc-send-bg:{{ form_submit.settings.button_bg_color }};{%- endif -%}
-                {%- if form_submit.settings.button_hover_text_color != blank -%}--cmc-send-hover-text:{{ form_submit.settings.button_hover_text_color }};{%- endif -%}
-                {%- if form_submit.settings.button_hover_bg_color != blank -%}--cmc-send-hover-bg:{{ form_submit.settings.button_hover_bg_color }};{%- endif -%}
-                {%- if form_submit.settings.button_font_size >= 14 -%}--cmc-send-size:{{ form_submit.settings.button_font_size }}px;{%- endif -%}
-                {%- if form_submit.settings.note_color != blank -%}--cmc-note-color:{{ form_submit.settings.note_color }};{%- endif -%}
-              "
+              {% if form_submit.settings.note_color != blank %}
+                style="--cmc-note-color:{{ form_submit.settings.note_color }};"
+              {% endif %}
             {% endif %}
           >
-            <button type="submit" class="cmc__send">
-              {%- if form_submit != blank -%}
-                {{- form_submit.settings.label | escape -}}
-              {%- else -%}
-                Send message
-              {%- endif -%}
-            </button>
-            {%- liquid
-              assign privacy_text = section.settings.privacy_note
-              if form_submit != blank and form_submit.settings.privacy_note != blank
-                assign privacy_text = form_submit.settings.privacy_note
-              endif
-            -%}
+            {% render 'pm-button',
+              label: submit_label,
+              style: 'brand',
+              tag: 'button',
+              type: 'submit',
+              class: 'cmc__pm',
+              text_color: form_submit.settings.button_text_color,
+              bg_color: form_submit.settings.button_bg_color,
+              hover_text_color: form_submit.settings.button_hover_text_color,
+              hover_bg_color: form_submit.settings.button_hover_bg_color,
+              icon_bg: form_submit.settings.button_icon_bg,
+              icon_color: form_submit.settings.button_icon_color,
+              font_size: form_submit.settings.button_font_size
+            %}
             {%- if privacy_text != blank -%}
               <span class="cmc__note">{{ privacy_text | escape }}</span>
             {%- endif -%}
@@ -837,11 +845,13 @@
           "default": "We never share your details."
         },
         { "type": "header", "content": "Button style" },
-        { "type": "color", "id": "button_text_color", "label": "Text color", "info": "Clear to keep theme default." },
-        { "type": "color", "id": "button_bg_color", "label": "Background color", "info": "Clear to keep theme default." },
-        { "type": "color", "id": "button_hover_text_color", "label": "Hover text color", "info": "Clear to keep theme default." },
-        { "type": "color", "id": "button_hover_bg_color", "label": "Hover background color", "info": "Clear to keep theme default." },
-        { "type": "range", "id": "button_font_size", "min": 0, "max": 28, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "color", "id": "button_text_color", "label": "Text color" },
+        { "type": "color", "id": "button_bg_color", "label": "Background color" },
+        { "type": "color", "id": "button_hover_text_color", "label": "Hover text color", "info": "Clear to keep the style preset hover." },
+        { "type": "color", "id": "button_hover_bg_color", "label": "Hover background color", "info": "Clear to keep the style preset hover." },
+        { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+        { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+        { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
         { "type": "header", "content": "Privacy note style" },
         { "type": "color", "id": "note_color", "label": "Note color", "info": "Clear to keep theme default." }
       ]
