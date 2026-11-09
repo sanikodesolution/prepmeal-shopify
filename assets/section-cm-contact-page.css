@@ -333,6 +333,12 @@
  right: -13px;
 }
 
+.cmc__fields {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ column-gap: 1em;
+}
+
 .cmc__row {
  display: grid;
  grid-template-columns: 1fr 1fr;
@@ -342,6 +348,11 @@
 .cmc__field {
  position: relative;
  margin-bottom: 1em;
+ grid-column: 1 / -1;
+}
+
+.cmc__field--half {
+ grid-column: span 1;
 }
 
 .cmc__field input,
@@ -586,9 +597,14 @@
  text-align: left;
  }
 
+ .cmc__fields,
  .cmc__row {
  grid-template-columns: 1fr;
  gap: 0;
+ }
+
+ .cmc__field--half {
+ grid-column: 1 / -1;
  }
 
  .cmc__field textarea {

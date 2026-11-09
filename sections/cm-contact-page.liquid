@@ -6,6 +6,8 @@
   assign phone_display = section.settings.phone
   assign phone_digits = phone_display | remove: ' ' | remove: '(' | remove: ')' | remove: '-' | remove: '.'
   assign contact_items = section.blocks | where: 'type', 'contact_item'
+  assign form_fields = section.blocks | where: 'type', 'form_field'
+  assign form_submit = section.blocks | where: 'type', 'form_button' | first
 -%}
 {%- capture cp_heading_style -%}
   {%- render 'pm-block-type-style', settings: s, prefix: 'heading_' -%}
@@ -218,61 +220,115 @@
             </div>
           {%- endif -%}
 
-          <div class="cmc__row">
-            <div class="cmc__field">
-              <input
-                id="{{ form_id }}-name"
-                name="contact[name]"
-                type="text"
-                autocomplete="name"
-                placeholder=" "
-                value="{% if form.name %}{{ form.name | escape }}{% endif %}"
-              >
-              <label for="{{ form_id }}-name">{{ section.settings.label_name | escape }}</label>
-            </div>
-            <div class="cmc__field">
-              <input
-                id="{{ form_id }}-email"
-                name="contact[email]"
-                type="email"
-                autocomplete="email"
-                autocapitalize="off"
-                autocorrect="off"
-                placeholder=" "
-                required
-                aria-required="true"
-                value="{% if form.email %}{{ form.email | escape }}{% endif %}"
-              >
-              <label for="{{ form_id }}-email">{{ section.settings.label_email | escape }}</label>
-            </div>
+          <div class="cmc__fields">
+            {%- if form_fields.size > 0 -%}
+              {%- for block in form_fields -%}
+                {%- liquid
+                  assign field_id = form_id | append: '-' | append: block.id
+                  assign field_key = block.settings.field_key | default: 'custom'
+                  assign field_type = block.settings.input_type | default: 'text'
+                  case field_key
+                    when 'name'
+                      assign field_name = 'contact[name]'
+                      assign field_type = 'text'
+                      assign field_value = form.name
+                    when 'email'
+                      assign field_name = 'contact[email]'
+                      assign field_type = 'email'
+                      assign field_value = form.email
+                    when 'phone'
+                      assign field_name = 'contact[phone]'
+                      assign field_type = 'tel'
+                      assign field_value = form.phone
+                    when 'body'
+                      assign field_name = 'contact[body]'
+                      assign field_type = 'textarea'
+                      assign field_value = form.body
+                    else
+                      assign custom_key = block.settings.custom_key | default: block.settings.label | handleize
+                      if custom_key == blank
+                        assign custom_key = 'field'
+                      endif
+                      assign field_name = 'contact[' | append: custom_key | append: ']'
+                      assign field_value = blank
+                  endcase
+                  if block.settings.input_type == 'textarea' and field_key == 'custom'
+                    assign field_type = 'textarea'
+                  endif
+                -%}
+                <div
+                  class="cmc__field{% if field_type == 'textarea' %} cmc__field--grow{% endif %}{% if block.settings.half_width and field_type != 'textarea' %} cmc__field--half{% endif %}"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if field_type == 'textarea' -%}
+                    <textarea
+                      id="{{ field_id }}"
+                      name="{{ field_name }}"
+                      rows="5"
+                      placeholder=" "
+                      {% if block.settings.required %}
+                        required aria-required="true"
+                      {% endif %}
+                    >{% if field_value != blank %}{{ field_value | escape }}{% endif %}</textarea>
+                  {%- else -%}
+                    <input
+                      id="{{ field_id }}"
+                      name="{{ field_name }}"
+                      type="{{ field_type }}"
+                      placeholder=" "
+                      {% if field_type == 'email' %}
+                        autocomplete="email" autocapitalize="off" autocorrect="off"
+                      {% elsif field_type == 'tel' %}
+                        autocomplete="tel"
+                      {% elsif field_key == 'name' %}
+                        autocomplete="name"
+                      {% endif %}
+                      {% if block.settings.required %}
+                        required aria-required="true"
+                      {% endif %}
+                      value="{% if field_value != blank %}{{ field_value | escape }}{% endif %}"
+                    >
+                  {%- endif -%}
+                  <label for="{{ field_id }}">{{ block.settings.label | escape }}</label>
+                </div>
+              {%- endfor -%}
+            {%- else -%}
+              {%- comment -%} Fallback if no Form field blocks yet {%- endcomment -%}
+              <div class="cmc__field cmc__field--half">
+                <input id="{{ form_id }}-name" name="contact[name]" type="text" autocomplete="name" placeholder=" " value="{% if form.name %}{{ form.name | escape }}{% endif %}">
+                <label for="{{ form_id }}-name">Name</label>
+              </div>
+              <div class="cmc__field cmc__field--half">
+                <input id="{{ form_id }}-email" name="contact[email]" type="email" autocomplete="email" autocapitalize="off" autocorrect="off" placeholder=" " required aria-required="true" value="{% if form.email %}{{ form.email | escape }}{% endif %}">
+                <label for="{{ form_id }}-email">Email *</label>
+              </div>
+              <div class="cmc__field">
+                <input id="{{ form_id }}-phone" name="contact[phone]" type="tel" autocomplete="tel" placeholder=" " value="{% if form.phone %}{{ form.phone | escape }}{% endif %}">
+                <label for="{{ form_id }}-phone">Phone number</label>
+              </div>
+              <div class="cmc__field cmc__field--grow">
+                <textarea id="{{ form_id }}-body" name="contact[body]" rows="5" placeholder=" ">{% if form.body %}{{ form.body | escape }}{% endif %}</textarea>
+                <label for="{{ form_id }}-body">Comment</label>
+              </div>
+            {%- endif -%}
           </div>
 
-          <div class="cmc__field">
-            <input
-              id="{{ form_id }}-phone"
-              name="contact[phone]"
-              type="tel"
-              autocomplete="tel"
-              placeholder=" "
-              value="{% if form.phone %}{{ form.phone | escape }}{% endif %}"
-            >
-            <label for="{{ form_id }}-phone">{{ section.settings.label_phone | escape }}</label>
-          </div>
-
-          <div class="cmc__field cmc__field--grow">
-            <textarea
-              id="{{ form_id }}-body"
-              name="contact[body]"
-              rows="5"
-              placeholder=" "
-            >{% if form.body %}{{ form.body | escape }}{% endif %}</textarea>
-            <label for="{{ form_id }}-body">{{ section.settings.label_comment | escape }}</label>
-          </div>
-
-          <div class="cmc__foot">
-            <button type="submit" class="cmc__send">{{ section.settings.button_label | escape }}</button>
-            {%- if section.settings.privacy_note != blank -%}
-              <span class="cmc__note">{{ section.settings.privacy_note | escape }}</span>
+          <div class="cmc__foot"{% if form_submit != blank %} {{ form_submit.shopify_attributes }}{% endif %}>
+            <button type="submit" class="cmc__send">
+              {%- if form_submit != blank -%}
+                {{- form_submit.settings.label | escape -}}
+              {%- else -%}
+                Send message
+              {%- endif -%}
+            </button>
+            {%- liquid
+              assign privacy_text = section.settings.privacy_note
+              if form_submit != blank and form_submit.settings.privacy_note != blank
+                assign privacy_text = form_submit.settings.privacy_note
+              endif
+            -%}
+            {%- if privacy_text != blank -%}
+              <span class="cmc__note">{{ privacy_text | escape }}</span>
             {%- endif -%}
           </div>
         {%- endform -%}
@@ -376,40 +432,15 @@
       "default": "We reply within one business day"
     },
     {
-      "type": "text",
-      "id": "label_name",
-      "label": "Name label",
-      "default": "Name"
-    },
-    {
-      "type": "text",
-      "id": "label_email",
-      "label": "Email label",
-      "default": "Email *"
-    },
-    {
-      "type": "text",
-      "id": "label_phone",
-      "label": "Phone label",
-      "default": "Phone number"
-    },
-    {
-      "type": "text",
-      "id": "label_comment",
-      "label": "Comment label",
-      "default": "Comment"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Submit button",
-      "default": "Send message"
+      "type": "paragraph",
+      "content": "Form inputs and the submit button are blocks under this section (Add block → Form field / Submit button)."
     },
     {
       "type": "text",
       "id": "privacy_note",
-      "label": "Privacy note",
-      "default": "We never share your details."
+      "label": "Privacy note (fallback)",
+      "default": "We never share your details.",
+      "info": "Used when the Submit button block has no privacy note."
     },
     {
       "type": "text",
@@ -680,7 +711,84 @@
       "default": "#0b1b36"
     }
   ],
+  "max_blocks": 20,
   "blocks": [
+    {
+      "type": "form_field",
+      "name": "Form field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Name"
+        },
+        {
+          "type": "select",
+          "id": "field_key",
+          "label": "Maps to",
+          "options": [
+            { "value": "name", "label": "Name" },
+            { "value": "email", "label": "Email" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "body", "label": "Message / comment" },
+            { "value": "custom", "label": "Custom field" }
+          ],
+          "default": "name",
+          "info": "Name, Email, Phone and Message use Shopify contact form keys."
+        },
+        {
+          "type": "text",
+          "id": "custom_key",
+          "label": "Custom key",
+          "info": "Only for Custom field. Letters/numbers; used in contact[key]."
+        },
+        {
+          "type": "select",
+          "id": "input_type",
+          "label": "Input type",
+          "options": [
+            { "value": "text", "label": "Text" },
+            { "value": "email", "label": "Email" },
+            { "value": "tel", "label": "Phone" },
+            { "value": "textarea", "label": "Long text" }
+          ],
+          "default": "text",
+          "info": "For Name/Email/Phone/Message this is overridden by Maps to."
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "half_width",
+          "label": "Half width on desktop",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "form_button",
+      "name": "Submit button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button label",
+          "default": "Send message"
+        },
+        {
+          "type": "text",
+          "id": "privacy_note",
+          "label": "Privacy note",
+          "default": "We never share your details."
+        }
+      ]
+    },
     {
       "type": "contact_item",
       "name": "Contact detail",
@@ -826,6 +934,44 @@
             "icon": "clock",
             "label": "Order deadline",
             "value": "Order by Thursday for next week's delivery"
+          }
+        },
+        {
+          "type": "form_field",
+          "settings": {
+            "label": "Name",
+            "field_key": "name",
+            "half_width": true
+          }
+        },
+        {
+          "type": "form_field",
+          "settings": {
+            "label": "Email *",
+            "field_key": "email",
+            "required": true,
+            "half_width": true
+          }
+        },
+        {
+          "type": "form_field",
+          "settings": {
+            "label": "Phone number",
+            "field_key": "phone"
+          }
+        },
+        {
+          "type": "form_field",
+          "settings": {
+            "label": "Comment",
+            "field_key": "body"
+          }
+        },
+        {
+          "type": "form_button",
+          "settings": {
+            "label": "Send message",
+            "privacy_note": "We never share your details."
           }
         }
       ]
