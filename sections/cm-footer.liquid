@@ -3,7 +3,6 @@
 
 {%- liquid
   assign logo = section.settings.logo | default: settings.logo
-  assign phone_digits = section.settings.cta_phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' | remove: '.'
   assign s = section.settings
 
   assign social_keys = 'facebook,instagram,youtube,tiktok,twitter,pinterest,snapchat,tumblr,vimeo' | split: ','
@@ -22,19 +21,14 @@
       break
     endif
   endfor
+
+  assign col_count = 0
+  for block in section.blocks
+    unless block.type == 'cta'
+      assign col_count = col_count | plus: 1
+    endunless
+  endfor
 -%}
-{%- capture cmf_eyebrow_style -%}
-  {%- render 'pm-block-type-style', settings: s, prefix: 'eyebrow_' -%}
-{%- endcapture -%}
-{%- capture cmf_heading_style -%}
-  {%- render 'pm-block-type-style', settings: s, prefix: 'heading_' -%}
-{%- endcapture -%}
-{%- capture cmf_body_style -%}
-  {%- render 'pm-block-type-style', settings: s, prefix: 'body_' -%}
-{%- endcapture -%}
-{%- capture cmf_promise_style -%}
-  {%- render 'pm-block-type-style', settings: s, prefix: 'promise_' -%}
-{%- endcapture -%}
 {%- capture cmf_about_style -%}
   {%- render 'pm-block-type-style', settings: s, prefix: 'about_' -%}
 {%- endcapture -%}
@@ -54,86 +48,101 @@
 <footer
   class="cm cm-footer section-{{ section.id }}-padding"
   data-cm="footer"
-  style="--cmf-bg: {{ section.settings.background }}; --cmf-accent: {{ section.settings.accent }}; --cmf-cols: {{ section.blocks.size }}; --cmf-logo: {{ section.settings.logo_width }}px;"
+  style="--cmf-bg: {{ section.settings.background }}; --cmf-accent: {{ section.settings.accent }}; --cmf-cols: {{ col_count }}; --cmf-logo: {{ section.settings.logo_width }}px;"
 >
   <div class="cm-footer__glow" aria-hidden="true"></div>
 
   <div class="page-width cm-footer__inner">
-    {%- if section.settings.show_cta -%}
-      <div class="cm-footer__cta">
-        <div class="cm-footer__cta-copy">
-          {%- if section.settings.cta_eyebrow != blank -%}
-            <p
-              class="cm-footer__eyebrow"
-              {% if cmf_eyebrow_style != blank %}
-                style="{{ cmf_eyebrow_style | strip }}"
-              {% endif %}
-            >{{ section.settings.cta_eyebrow | escape }}</p>
-          {%- endif -%}
-          {%- if section.settings.cta_heading != blank -%}
-            <h2
-              class="cm-footer__cta-title"
-              {% if cmf_heading_style != blank %}
-                style="{{ cmf_heading_style | strip }}"
-              {% endif %}
-            >{{ section.settings.cta_heading | escape }}</h2>
-          {%- endif -%}
-          {%- if section.settings.cta_text != blank -%}
-            <div
-              class="cm-footer__cta-text"
-              {% if cmf_body_style != blank %}
-                style="{{ cmf_body_style | strip }}"
-              {% endif %}
-            >{{ section.settings.cta_text }}</div>
-          {%- endif -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'cta' -%}
+        {%- liquid
+          assign cta = block.settings
+          assign phone_digits = cta.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' | remove: '.'
+        -%}
+        {%- capture cmf_eyebrow_style -%}
+          {%- render 'pm-block-type-style', block: block, prefix: 'eyebrow_' -%}
+        {%- endcapture -%}
+        {%- capture cmf_heading_style -%}
+          {%- render 'pm-block-type-style', block: block, prefix: 'heading_' -%}
+        {%- endcapture -%}
+        {%- capture cmf_body_style -%}
+          {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
+        {%- endcapture -%}
+        {%- capture cmf_promise_style -%}
+          {%- render 'pm-block-type-style', block: block, prefix: 'promise_' -%}
+        {%- endcapture -%}
+        <div class="cm-footer__cta" {{ block.shopify_attributes }}>
+          <div class="cm-footer__cta-copy">
+            {%- if cta.eyebrow != blank -%}
+              <p
+                class="cm-footer__eyebrow"
+                {% if cmf_eyebrow_style != blank %}
+                  style="{{ cmf_eyebrow_style | strip }}"
+                {% endif %}
+              >{{ cta.eyebrow | escape }}</p>
+            {%- endif -%}
+            {%- if cta.heading != blank -%}
+              <h2
+                class="cm-footer__cta-title"
+                {% if cmf_heading_style != blank %}
+                  style="{{ cmf_heading_style | strip }}"
+                {% endif %}
+              >{{ cta.heading | escape }}</h2>
+            {%- endif -%}
+            {%- if cta.text != blank -%}
+              <div
+                class="cm-footer__cta-text"
+                {% if cmf_body_style != blank %}
+                  style="{{ cmf_body_style | strip }}"
+                {% endif %}
+              >{{ cta.text }}</div>
+            {%- endif -%}
 
-          {%- if section.settings.promise_1 != blank
-            or section.settings.promise_2 != blank
-            or section.settings.promise_3 != blank
-          -%}
-            <ul
-              class="cm-footer__promises"
-              role="list"
-              {% if cmf_promise_style != blank %}
-                style="{{ cmf_promise_style | strip }}"
-              {% endif %}
-            >
-              {%- if section.settings.promise_1 != blank -%}
-                <li>{% render 'cm-footer-icon', icon: 'chef' %}{{ section.settings.promise_1 | escape }}</li>
-              {%- endif -%}
-              {%- if section.settings.promise_2 != blank -%}
-                <li>{% render 'cm-footer-icon', icon: 'leaf' %}{{ section.settings.promise_2 | escape }}</li>
-              {%- endif -%}
-              {%- if section.settings.promise_3 != blank -%}
-                <li>{% render 'cm-footer-icon', icon: 'truck' %}{{ section.settings.promise_3 | escape }}</li>
-              {%- endif -%}
-            </ul>
-          {%- endif -%}
-        </div>
+            {%- if cta.promise_1 != blank or cta.promise_2 != blank or cta.promise_3 != blank -%}
+              <ul
+                class="cm-footer__promises"
+                role="list"
+                {% if cmf_promise_style != blank %}
+                  style="{{ cmf_promise_style | strip }}"
+                {% endif %}
+              >
+                {%- if cta.promise_1 != blank -%}
+                  <li>{% render 'cm-footer-icon', icon: 'chef' %}{{ cta.promise_1 | escape }}</li>
+                {%- endif -%}
+                {%- if cta.promise_2 != blank -%}
+                  <li>{% render 'cm-footer-icon', icon: 'leaf' %}{{ cta.promise_2 | escape }}</li>
+                {%- endif -%}
+                {%- if cta.promise_3 != blank -%}
+                  <li>{% render 'cm-footer-icon', icon: 'truck' %}{{ cta.promise_3 | escape }}</li>
+                {%- endif -%}
+              </ul>
+            {%- endif -%}
+          </div>
 
-        <div class="cm-footer__cta-actions">
-          {%- if section.settings.cta_button_label != blank -%}
-            {% render 'pm-button',
-              label: section.settings.cta_button_label,
-              link: section.settings.cta_button_link,
-              style: 'ink',
-              class: 'cm-footer__pm',
-              text_color: section.settings.cta_button_text_color,
-              bg_color: section.settings.cta_button_bg_color,
-              icon_bg: section.settings.cta_button_icon_bg,
-              icon_color: section.settings.cta_button_icon_color,
-              font_size: section.settings.cta_button_font_size
-            %}
-          {%- endif -%}
-          {%- if section.settings.cta_phone != blank -%}
-            <a class="cm-footer__btn cm-footer__btn--ghost" href="tel:{{ phone_digits }}">
-              {% render 'cm-footer-icon', icon: 'phone' %}
-              <span>{{ section.settings.cta_phone | escape }}</span>
-            </a>
-          {%- endif -%}
+          <div class="cm-footer__cta-actions">
+            {%- if cta.button_label != blank -%}
+              {% render 'pm-button',
+                label: cta.button_label,
+                link: cta.button_link,
+                style: 'ink',
+                class: 'cm-footer__pm',
+                text_color: cta.button_text_color,
+                bg_color: cta.button_bg_color,
+                icon_bg: cta.button_icon_bg,
+                icon_color: cta.button_icon_color,
+                font_size: cta.button_font_size
+              %}
+            {%- endif -%}
+            {%- if cta.phone != blank -%}
+              <a class="cm-footer__btn cm-footer__btn--ghost" href="tel:{{ phone_digits }}">
+                {% render 'cm-footer-icon', icon: 'phone' %}
+                <span>{{ cta.phone | escape }}</span>
+              </a>
+            {%- endif -%}
+          </div>
         </div>
-      </div>
-    {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
 
     <div class="cm-footer__grid{% unless section.settings.show_newsletter %} cm-footer__grid--no-news{% endunless %}">
       <div class="cm-footer__col cm-footer__brand">
@@ -197,6 +206,7 @@
       </div>
 
       {%- for block in section.blocks -%}
+        {%- unless block.type == 'cta' -%}
         {%- capture cmf_col_heading_style -%}
           {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
         {%- endcapture -%}
@@ -302,6 +312,7 @@
               </ul>
           {%- endcase -%}
         </div>
+        {%- endunless -%}
       {%- endfor -%}
 
       {%- if section.settings.show_newsletter -%}
@@ -428,8 +439,127 @@
   "enabled_on": {
     "groups": ["footer"]
   },
-  "max_blocks": 4,
+  "max_blocks": 6,
   "blocks": [
+    {
+      "type": "cta",
+      "name": "Call to action",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Fresh every week" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Ready to eat better this week?" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Chef-made, portion-controlled meals prepared fresh and delivered to your door.</p>"
+        },
+        { "type": "text", "id": "promise_1", "label": "Promise 1", "default": "Chef-made weekly" },
+        { "type": "text", "id": "promise_2", "label": "Promise 2", "default": "Locally sourced" },
+        { "type": "text", "id": "promise_3", "label": "Promise 3", "default": "Local delivery" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "View meal plans" },
+        { "type": "url", "id": "button_link", "label": "Button link" },
+        { "type": "header", "content": "Button style" },
+        { "type": "color", "id": "button_text_color", "label": "Text color" },
+        { "type": "color", "id": "button_bg_color", "label": "Background color" },
+        { "type": "color", "id": "button_icon_bg", "label": "Icon background" },
+        { "type": "color", "id": "button_icon_color", "label": "Icon color" },
+        { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
+        { "type": "text", "id": "phone", "label": "Phone button", "info": "Leave empty to hide the call button." },
+        { "type": "header", "content": "Eyebrow typography" },
+        { "type": "color", "id": "eyebrow_color", "label": "Text color" },
+        { "type": "range", "id": "eyebrow_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "select", "id": "eyebrow_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
+        { "type": "range", "id": "eyebrow_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "eyebrow_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Eyebrow spacing" },
+        { "type": "range", "id": "eyebrow_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "eyebrow_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "eyebrow_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "eyebrow_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "eyebrow_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "eyebrow_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "eyebrow_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "eyebrow_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Eyebrow background" },
+        { "type": "color", "id": "eyebrow_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "image_picker", "id": "eyebrow_bg_image", "label": "Background image" },
+        { "type": "select", "id": "eyebrow_bg_size", "label": "Image size", "options": [{ "value": "cover", "label": "Cover" }, { "value": "contain", "label": "Contain" }, { "value": "auto", "label": "Auto" }], "default": "cover" },
+        { "type": "select", "id": "eyebrow_bg_position", "label": "Image position", "options": [{ "value": "center", "label": "Center" }, { "value": "top", "label": "Top" }, { "value": "bottom", "label": "Bottom" }, { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }], "default": "center" },
+        { "type": "select", "id": "eyebrow_bg_mask", "label": "Image mask", "options": [{ "value": "none", "label": "None" }, { "value": "fade", "label": "Fade bottom" }, { "value": "fade_edges", "label": "Fade edges" }, { "value": "circle", "label": "Circle" }, { "value": "soft", "label": "Soft vignette" }, { "value": "rounded", "label": "Rounded box" }, { "value": "custom", "label": "Custom mask image" }], "default": "none" },
+        { "type": "image_picker", "id": "eyebrow_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
+        { "type": "checkbox", "id": "eyebrow_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
+        { "type": "header", "content": "Heading typography" },
+        { "type": "color", "id": "heading_color", "label": "Text color" },
+        { "type": "range", "id": "heading_font_size", "min": 0, "max": 72, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "select", "id": "heading_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
+        { "type": "range", "id": "heading_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "heading_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Heading spacing" },
+        { "type": "range", "id": "heading_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "heading_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "heading_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "heading_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "heading_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "heading_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "heading_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "heading_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Heading background" },
+        { "type": "color", "id": "heading_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "image_picker", "id": "heading_bg_image", "label": "Background image" },
+        { "type": "select", "id": "heading_bg_size", "label": "Image size", "options": [{ "value": "cover", "label": "Cover" }, { "value": "contain", "label": "Contain" }, { "value": "auto", "label": "Auto" }], "default": "cover" },
+        { "type": "select", "id": "heading_bg_position", "label": "Image position", "options": [{ "value": "center", "label": "Center" }, { "value": "top", "label": "Top" }, { "value": "bottom", "label": "Bottom" }, { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }], "default": "center" },
+        { "type": "select", "id": "heading_bg_mask", "label": "Image mask", "options": [{ "value": "none", "label": "None" }, { "value": "fade", "label": "Fade bottom" }, { "value": "fade_edges", "label": "Fade edges" }, { "value": "circle", "label": "Circle" }, { "value": "soft", "label": "Soft vignette" }, { "value": "rounded", "label": "Rounded box" }, { "value": "custom", "label": "Custom mask image" }], "default": "none" },
+        { "type": "image_picker", "id": "heading_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
+        { "type": "checkbox", "id": "heading_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
+        { "type": "header", "content": "Text typography" },
+        { "type": "color", "id": "body_color", "label": "Text color" },
+        { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "select", "id": "body_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "300", "label": "Light 300" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }], "default": "inherit" },
+        { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Text spacing" },
+        { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Text background" },
+        { "type": "color", "id": "body_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "image_picker", "id": "body_bg_image", "label": "Background image" },
+        { "type": "select", "id": "body_bg_size", "label": "Image size", "options": [{ "value": "cover", "label": "Cover" }, { "value": "contain", "label": "Contain" }, { "value": "auto", "label": "Auto" }], "default": "cover" },
+        { "type": "select", "id": "body_bg_position", "label": "Image position", "options": [{ "value": "center", "label": "Center" }, { "value": "top", "label": "Top" }, { "value": "bottom", "label": "Bottom" }, { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }], "default": "center" },
+        { "type": "select", "id": "body_bg_mask", "label": "Image mask", "options": [{ "value": "none", "label": "None" }, { "value": "fade", "label": "Fade bottom" }, { "value": "fade_edges", "label": "Fade edges" }, { "value": "circle", "label": "Circle" }, { "value": "soft", "label": "Soft vignette" }, { "value": "rounded", "label": "Rounded box" }, { "value": "custom", "label": "Custom mask image" }], "default": "none" },
+        { "type": "image_picker", "id": "body_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
+        { "type": "checkbox", "id": "body_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
+        { "type": "header", "content": "Promises typography" },
+        { "type": "color", "id": "promise_color", "label": "Text color" },
+        { "type": "range", "id": "promise_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
+        { "type": "select", "id": "promise_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }], "default": "inherit" },
+        { "type": "range", "id": "promise_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+        { "type": "range", "id": "promise_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Promises spacing" },
+        { "type": "range", "id": "promise_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
+        { "type": "range", "id": "promise_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
+        { "type": "range", "id": "promise_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
+        { "type": "range", "id": "promise_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
+        { "type": "range", "id": "promise_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
+        { "type": "range", "id": "promise_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
+        { "type": "range", "id": "promise_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
+        { "type": "range", "id": "promise_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
+        { "type": "header", "content": "Promise background" },
+        { "type": "color", "id": "promise_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
+        { "type": "image_picker", "id": "promise_bg_image", "label": "Background image" },
+        { "type": "select", "id": "promise_bg_size", "label": "Image size", "options": [{ "value": "cover", "label": "Cover" }, { "value": "contain", "label": "Contain" }, { "value": "auto", "label": "Auto" }], "default": "cover" },
+        { "type": "select", "id": "promise_bg_position", "label": "Image position", "options": [{ "value": "center", "label": "Center" }, { "value": "top", "label": "Top" }, { "value": "bottom", "label": "Bottom" }, { "value": "left", "label": "Left" }, { "value": "right", "label": "Right" }], "default": "center" },
+        { "type": "select", "id": "promise_bg_mask", "label": "Image mask", "options": [{ "value": "none", "label": "None" }, { "value": "fade", "label": "Fade bottom" }, { "value": "fade_edges", "label": "Fade edges" }, { "value": "circle", "label": "Circle" }, { "value": "soft", "label": "Soft vignette" }, { "value": "rounded", "label": "Rounded box" }, { "value": "custom", "label": "Custom mask image" }], "default": "none" },
+        { "type": "image_picker", "id": "promise_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
+        { "type": "checkbox", "id": "promise_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." }
+      ]
+    },
     {
       "type": "links",
       "name": "Custom links",
@@ -718,200 +848,6 @@
   "settings": [
     {
       "type": "header",
-      "content": "Call to action"
-    },
-    { "type": "checkbox", "id": "show_cta", "label": "Show call to action banner", "default": true },
-    { "type": "text", "id": "cta_eyebrow", "label": "Eyebrow", "default": "Fresh every week" },
-    { "type": "text", "id": "cta_heading", "label": "Heading", "default": "Ready to eat better this week?" },
-    {
-      "type": "richtext",
-      "id": "cta_text",
-      "label": "Text",
-      "default": "<p>Chef-made, portion-controlled meals prepared fresh and delivered to your door.</p>"
-    },
-    { "type": "text", "id": "promise_1", "label": "Promise 1", "default": "Chef-made weekly" },
-    { "type": "text", "id": "promise_2", "label": "Promise 2", "default": "Locally sourced" },
-    { "type": "text", "id": "promise_3", "label": "Promise 3", "default": "Local delivery" },
-    { "type": "text", "id": "cta_button_label", "label": "Button label", "default": "View meal plans" },
-    { "type": "url", "id": "cta_button_link", "label": "Button link" },
-    { "type": "header", "content": "Button style" },
-    { "type": "color", "id": "cta_button_text_color", "label": "Text color" },
-    { "type": "color", "id": "cta_button_bg_color", "label": "Background color" },
-    { "type": "color", "id": "cta_button_icon_bg", "label": "Icon background" },
-    { "type": "color", "id": "cta_button_icon_color", "label": "Icon color" },
-    { "type": "range", "id": "cta_button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
-    { "type": "text", "id": "cta_phone", "label": "Phone button", "info": "Leave empty to hide the call button." },
-
-    { "type": "header", "content": "CTA eyebrow typography" },
-    { "type": "color", "id": "eyebrow_color", "label": "Text color" },
-    { "type": "range", "id": "eyebrow_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
-    { "type": "select", "id": "eyebrow_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
-    { "type": "range", "id": "eyebrow_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
-    { "type": "range", "id": "eyebrow_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
-    { "type": "header", "content": "CTA eyebrow spacing" },
-    { "type": "range", "id": "eyebrow_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
-    { "type": "range", "id": "eyebrow_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
-    { "type": "range", "id": "eyebrow_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
-    { "type": "range", "id": "eyebrow_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
-    { "type": "range", "id": "eyebrow_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
-    { "type": "range", "id": "eyebrow_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
-    { "type": "range", "id": "eyebrow_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
-    { "type": "range", "id": "eyebrow_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
-        { "type": "header", "content": "Label background" },
-        { "type": "color", "id": "eyebrow_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
-        { "type": "image_picker", "id": "eyebrow_bg_image", "label": "Background image" },
-        { "type": "select", "id": "eyebrow_bg_size", "label": "Image size", "options": [
-          { "value": "cover", "label": "Cover" },
-          { "value": "contain", "label": "Contain" },
-          { "value": "auto", "label": "Auto" }
-        ], "default": "cover" },
-        { "type": "select", "id": "eyebrow_bg_position", "label": "Image position", "options": [
-          { "value": "center", "label": "Center" },
-          { "value": "top", "label": "Top" },
-          { "value": "bottom", "label": "Bottom" },
-          { "value": "left", "label": "Left" },
-          { "value": "right", "label": "Right" }
-        ], "default": "center" },
-        { "type": "select", "id": "eyebrow_bg_mask", "label": "Image mask", "options": [
-          { "value": "none", "label": "None" },
-          { "value": "fade", "label": "Fade bottom" },
-          { "value": "fade_edges", "label": "Fade edges" },
-          { "value": "circle", "label": "Circle" },
-          { "value": "soft", "label": "Soft vignette" },
-          { "value": "rounded", "label": "Rounded box" },
-          { "value": "custom", "label": "Custom mask image" }
-        ], "default": "none" },
-        { "type": "image_picker", "id": "eyebrow_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
-        { "type": "checkbox", "id": "eyebrow_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
-
-    { "type": "header", "content": "CTA heading typography" },
-    { "type": "color", "id": "heading_color", "label": "Text color" },
-    { "type": "range", "id": "heading_font_size", "min": 0, "max": 72, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
-    { "type": "select", "id": "heading_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }, { "value": "800", "label": "Extra-bold 800" }], "default": "inherit" },
-    { "type": "range", "id": "heading_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
-    { "type": "range", "id": "heading_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
-    { "type": "header", "content": "CTA heading spacing" },
-    { "type": "range", "id": "heading_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
-    { "type": "range", "id": "heading_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
-    { "type": "range", "id": "heading_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
-    { "type": "range", "id": "heading_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
-    { "type": "range", "id": "heading_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
-    { "type": "range", "id": "heading_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
-    { "type": "range", "id": "heading_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
-    { "type": "range", "id": "heading_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
-        { "type": "header", "content": "Heading background" },
-        { "type": "color", "id": "heading_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
-        { "type": "image_picker", "id": "heading_bg_image", "label": "Background image" },
-        { "type": "select", "id": "heading_bg_size", "label": "Image size", "options": [
-          { "value": "cover", "label": "Cover" },
-          { "value": "contain", "label": "Contain" },
-          { "value": "auto", "label": "Auto" }
-        ], "default": "cover" },
-        { "type": "select", "id": "heading_bg_position", "label": "Image position", "options": [
-          { "value": "center", "label": "Center" },
-          { "value": "top", "label": "Top" },
-          { "value": "bottom", "label": "Bottom" },
-          { "value": "left", "label": "Left" },
-          { "value": "right", "label": "Right" }
-        ], "default": "center" },
-        { "type": "select", "id": "heading_bg_mask", "label": "Image mask", "options": [
-          { "value": "none", "label": "None" },
-          { "value": "fade", "label": "Fade bottom" },
-          { "value": "fade_edges", "label": "Fade edges" },
-          { "value": "circle", "label": "Circle" },
-          { "value": "soft", "label": "Soft vignette" },
-          { "value": "rounded", "label": "Rounded box" },
-          { "value": "custom", "label": "Custom mask image" }
-        ], "default": "none" },
-        { "type": "image_picker", "id": "heading_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
-        { "type": "checkbox", "id": "heading_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
-
-    { "type": "header", "content": "CTA text typography" },
-    { "type": "color", "id": "body_color", "label": "Text color" },
-    { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
-    { "type": "select", "id": "body_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "300", "label": "Light 300" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }], "default": "inherit" },
-    { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
-    { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
-    { "type": "header", "content": "CTA text spacing" },
-    { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
-    { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
-    { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
-    { "type": "range", "id": "body_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
-    { "type": "range", "id": "body_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
-    { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
-    { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
-    { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
-        { "type": "header", "content": "Text background" },
-        { "type": "color", "id": "body_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
-        { "type": "image_picker", "id": "body_bg_image", "label": "Background image" },
-        { "type": "select", "id": "body_bg_size", "label": "Image size", "options": [
-          { "value": "cover", "label": "Cover" },
-          { "value": "contain", "label": "Contain" },
-          { "value": "auto", "label": "Auto" }
-        ], "default": "cover" },
-        { "type": "select", "id": "body_bg_position", "label": "Image position", "options": [
-          { "value": "center", "label": "Center" },
-          { "value": "top", "label": "Top" },
-          { "value": "bottom", "label": "Bottom" },
-          { "value": "left", "label": "Left" },
-          { "value": "right", "label": "Right" }
-        ], "default": "center" },
-        { "type": "select", "id": "body_bg_mask", "label": "Image mask", "options": [
-          { "value": "none", "label": "None" },
-          { "value": "fade", "label": "Fade bottom" },
-          { "value": "fade_edges", "label": "Fade edges" },
-          { "value": "circle", "label": "Circle" },
-          { "value": "soft", "label": "Soft vignette" },
-          { "value": "rounded", "label": "Rounded box" },
-          { "value": "custom", "label": "Custom mask image" }
-        ], "default": "none" },
-        { "type": "image_picker", "id": "body_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
-        { "type": "checkbox", "id": "body_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
-
-    { "type": "header", "content": "Promises typography" },
-    { "type": "color", "id": "promise_color", "label": "Text color" },
-    { "type": "range", "id": "promise_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = theme default. Custom sizes start at 14px." },
-    { "type": "select", "id": "promise_font_weight", "label": "Font weight", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "400", "label": "Regular 400" }, { "value": "500", "label": "Medium 500" }, { "value": "600", "label": "Semi-bold 600" }, { "value": "700", "label": "Bold 700" }], "default": "inherit" },
-    { "type": "range", "id": "promise_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
-    { "type": "range", "id": "promise_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
-    { "type": "header", "content": "Promises spacing" },
-    { "type": "range", "id": "promise_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
-    { "type": "range", "id": "promise_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
-    { "type": "range", "id": "promise_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
-    { "type": "range", "id": "promise_padding_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding right", "default": 0 },
-    { "type": "range", "id": "promise_margin_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin top", "default": 0 },
-    { "type": "range", "id": "promise_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
-    { "type": "range", "id": "promise_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
-    { "type": "range", "id": "promise_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
-        { "type": "header", "content": "Promise background" },
-        { "type": "color", "id": "promise_bg_color", "label": "Background color", "info": "Clear swatch to reset." },
-        { "type": "image_picker", "id": "promise_bg_image", "label": "Background image" },
-        { "type": "select", "id": "promise_bg_size", "label": "Image size", "options": [
-          { "value": "cover", "label": "Cover" },
-          { "value": "contain", "label": "Contain" },
-          { "value": "auto", "label": "Auto" }
-        ], "default": "cover" },
-        { "type": "select", "id": "promise_bg_position", "label": "Image position", "options": [
-          { "value": "center", "label": "Center" },
-          { "value": "top", "label": "Top" },
-          { "value": "bottom", "label": "Bottom" },
-          { "value": "left", "label": "Left" },
-          { "value": "right", "label": "Right" }
-        ], "default": "center" },
-        { "type": "select", "id": "promise_bg_mask", "label": "Image mask", "options": [
-          { "value": "none", "label": "None" },
-          { "value": "fade", "label": "Fade bottom" },
-          { "value": "fade_edges", "label": "Fade edges" },
-          { "value": "circle", "label": "Circle" },
-          { "value": "soft", "label": "Soft vignette" },
-          { "value": "rounded", "label": "Rounded box" },
-          { "value": "custom", "label": "Custom mask image" }
-        ], "default": "none" },
-        { "type": "image_picker", "id": "promise_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
-        { "type": "checkbox", "id": "promise_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
-
-    {
-      "type": "header",
       "content": "Brand"
     },
     { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Uses the theme logo when empty. A light or white logo works best." },
@@ -1173,6 +1109,7 @@
     {
       "name": "Chef Matt footer",
       "blocks": [
+        { "type": "cta" },
         { "type": "links" },
         { "type": "contact" }
       ]
