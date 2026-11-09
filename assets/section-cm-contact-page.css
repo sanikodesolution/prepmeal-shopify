@@ -109,7 +109,7 @@
  display: grid;
  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
  gap: clamp(1.25em, 3vw, 2.5em);
- align-items: stretch;
+ align-items: start;
 }
 
 .cmc__panel {
@@ -269,25 +269,28 @@
  box-shadow:
  0 30px 60px -28px rgba(11, 27, 54, 0.35),
  0 0 0 1px var(--cmc-line);
- padding: 0 clamp(1.5em, 3vw, 2.5em) clamp(1.75em, 3vw, 2.5em);
+ padding: 0 clamp(1.5em, 3vw, 2.5em) clamp(1.35em, 2.5vw, 1.85em);
  display: flex;
  flex-direction: column;
+ height: auto;
+ align-self: start;
 }
 
 .cmc__ticket form {
- flex: 1;
+ flex: 0 0 auto;
  display: flex;
  flex-direction: column;
 }
 
 .cmc__field--grow {
- flex: 1;
+ flex: 0 0 auto;
  display: flex;
  flex-direction: column;
 }
 
 .cmc__field--grow textarea {
- flex: 1;
+ flex: none;
+ min-height: 140px;
 }
 
 .cmc__stub {
@@ -360,7 +363,7 @@
  width: 100%;
  max-width: 100%;
  height: auto;
- min-height: 0;
+ min-height: 3.35em;
  margin: 0;
  
  
@@ -368,44 +371,65 @@
  background: var(--cmc-field-bg, #fff);
  border: 1.5px solid var(--cmc-field-border, var(--cmc-line));
  border-radius: var(--cmc-field-radius, 14px);
- padding: 1.55em 1em 0.6em;
+ padding: 1.05em 1em;
  outline: 0;
  box-shadow: none;
  -webkit-appearance: none;
  appearance: none;
  font-size: var(--cmc-field-text-size, inherit);
+ line-height: 1.35;
  transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, background-color 0.2s;
 }
 
 .cmc__field textarea {
  min-height: 140px;
+ padding-top: 1.35em;
  resize: vertical;
 }
 
 .cmc__field label {
  position: absolute;
  left: 1em;
- top: 1.05em;
+ top: 50%;
  
  font-weight: 400;
  font-size: var(--cmc-field-label-size, inherit);
  color: var(--cmc-field-label, var(--cmc-muted));
  pointer-events: none;
+ transform: translateY(-50%);
+ transform-origin: left center;
+ transition: transform 0.18s, color 0.18s, top 0.18s;
+}
+
+.cmc__field--grow label,
+.cmc__field textarea ~ label {
+ top: 1.2em;
+ transform: none;
  transform-origin: left top;
- transition: transform 0.18s, color 0.18s;
 }
 
 .cmc__field input:focus ~ label,
+.cmc__field input:not(:placeholder-shown) ~ label {
+ top: 0.45em;
+ transform: translateY(0) scale(0.78);
+}
+
 .cmc__field textarea:focus ~ label,
-.cmc__field input:not(:placeholder-shown) ~ label,
 .cmc__field textarea:not(:placeholder-shown) ~ label {
- transform: translateY(-0.62em) scale(0.78);
+ top: 0.55em;
+ transform: scale(0.78);
 }
 
 .cmc__field input:focus,
 .cmc__field textarea:focus {
  border-color: var(--cmc-field-border-focus, var(--cmc-amber));
  box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.22);
+}
+
+.cmc__field input:focus,
+.cmc__field input:not(:placeholder-shown) {
+ padding-top: 1.45em;
+ padding-bottom: 0.7em;
 }
 
 .cmc__field input:focus ~ label,
