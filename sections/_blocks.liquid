@@ -3,20 +3,11 @@
   product (or other) JSON template — WordPress-like flexible content.
 {%- endcomment -%}
 {%- liquid
-  assign bg_css = ''
-  if section.settings.background_color != blank
-    assign bg_css = bg_css | append: 'background-color:' | append: section.settings.background_color | append: ';'
-  endif
-  if section.settings.background_image != blank
-    assign bg_url = section.settings.background_image | image_url: width: 2400
-    assign bg_fit = section.settings.background_image_fit | default: 'cover'
-    assign bg_pos = section.settings.background_image_position | default: 'center'
-    assign bg_css = bg_css | append: 'background-image:url(' | append: bg_url | append: ');background-size:' | append: bg_fit | append: ';background-position:' | append: bg_pos | append: ';background-repeat:no-repeat;'
-  endif
+  assign pad_css = 'padding-top:' | append: section.settings.padding_top | append: 'px;padding-bottom:' | append: section.settings.padding_bottom | append: 'px;'
 -%}
 <div
-  class="pm-blocks section-{{ section.id }}{% if section.settings.include_margins %} page-width{% endif %}{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %}"
-  style="padding-top:{{ section.settings.padding_top }}px;padding-bottom:{{ section.settings.padding_bottom }}px;{{ bg_css }}"
+  class="pm-blocks section-{{ section.id }} mealplan-page{% if section.settings.include_margins %} page-width{% endif %}{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %}"
+  {% render 'pm-section-style', section: section, extra: pad_css %}
 >
   {% content_for 'blocks' %}
 </div>
@@ -42,35 +33,52 @@
   "settings": [
     { "type": "checkbox", "id": "include_margins", "label": "Make section margins the same as theme", "default": true },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "header", "content": "Background" },
-    { "type": "color", "id": "background_color", "label": "Background color" },
-    { "type": "image_picker", "id": "background_image", "label": "Background image" },
-    {
-      "type": "select",
-      "id": "background_image_fit",
-      "label": "Image fit",
-      "options": [
-        { "value": "cover", "label": "Cover" },
-        { "value": "contain", "label": "Contain" },
-        { "value": "auto", "label": "Original" }
-      ],
-      "default": "cover"
-    },
-    {
-      "type": "select",
-      "id": "background_image_position",
-      "label": "Image position",
-      "options": [
-        { "value": "center", "label": "Center" },
-        { "value": "top", "label": "Top" },
-        { "value": "bottom", "label": "Bottom" },
-        { "value": "left", "label": "Left" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "center"
-    },
-    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 36 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 36 }
+    { "type": "header", "content": "Section background" },
+    { "type": "paragraph", "content": "Pick a color, gradient, and/or image. Leave blank for the theme default." },
+    { "type": "color", "id": "background_color", "label": "Color" },
+    { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+    { "type": "image_picker", "id": "background_image", "label": "Image" },
+    { "type": "header", "content": "Image layout" },
+    { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+      { "value": "cover", "label": "Cover" },
+      { "value": "contain", "label": "Contain" },
+      { "value": "auto", "label": "Original" }
+    ], "default": "cover" },
+    { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "top", "label": "Top" },
+      { "value": "bottom", "label": "Bottom" },
+      { "value": "left", "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ], "default": "center" },
+    { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+      { "value": "no-repeat", "label": "No repeat" },
+      { "value": "repeat", "label": "Repeat" },
+      { "value": "repeat-x", "label": "Repeat X" },
+      { "value": "repeat-y", "label": "Repeat Y" }
+    ], "default": "no-repeat" },
+    { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+      { "value": "scroll", "label": "Scroll with page" },
+      { "value": "fixed", "label": "Fixed (parallax)" }
+    ], "default": "scroll" },
+    { "type": "header", "content": "Overlay" },
+    { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+    { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+    { "type": "header", "content": "Advanced background" },
+    { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+      { "value": "normal", "label": "Normal" },
+      { "value": "multiply", "label": "Multiply" },
+      { "value": "screen", "label": "Screen" },
+      { "value": "overlay", "label": "Overlay" },
+      { "value": "soft-light", "label": "Soft light" },
+      { "value": "darken", "label": "Darken" },
+      { "value": "lighten", "label": "Lighten" }
+    ], "default": "normal" },
+    { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+    { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom", "default": 36 }
   ],
   "presets": [
     {

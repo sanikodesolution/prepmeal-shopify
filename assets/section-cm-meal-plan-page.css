@@ -936,9 +936,9 @@ html.mp-theme-editor .ex[data-shopify-editor-block]:hover{
 }
 /* pm-section background overrides */
 .mealplan-page[style*="--pm-bg"],
-.mealplan-page[style*="--pm-bg-image"] {
+.mealplan-page[style*="--pm-bg-image"],
+.mealplan-page[style*="--pm-bg-gradient"] {
   position: relative;
-  background-repeat: no-repeat;
   isolation: isolate;
 }
 .mealplan-page[style*="--pm-overlay-opacity"]::before {
@@ -951,7 +951,8 @@ html.mp-theme-editor .ex[data-shopify-editor-block]:hover{
   opacity: var(--pm-overlay-opacity, 0);
 }
 .mealplan-page[style*="--pm-bg"] > *,
-.mealplan-page[style*="--pm-bg-image"] > * {
+.mealplan-page[style*="--pm-bg-image"] > *,
+.mealplan-page[style*="--pm-bg-gradient"] > * {
   position: relative;
   z-index: 1;
 }

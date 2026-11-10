@@ -546,10 +546,7 @@
         "label": "Line height",
         "default": 130
       },
-      {
-        "type": "header",
-        "content": "Feature heading spacing"
-      },
+      { "type": "header", "content": "Feature heading space" },
       {
         "type": "range",
         "id": "feature_heading_padding_top",
@@ -713,10 +710,7 @@
         "label": "Line height",
         "default": 130
       },
-      {
-        "type": "header",
-        "content": "Feature text spacing"
-      },
+      { "type": "header", "content": "Feature text space" },
       {
         "type": "range",
         "id": "feature_text_padding_top",
@@ -1032,7 +1026,7 @@
                 "label":"Animate icon only",
                 "info":"Icon pops in and floats; title and text stay still."
              },
-             { "type": "header", "content": "Title typography" },
+             { "type": "header", "content": "Title type" },
              { "type": "color", "id": "title_color", "label": "Text color" }, { "type": "color", "id": "title_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
              { "type": "range", "id": "title_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = section Feature heading size. Custom sizes start at 14px." },
              {
@@ -1051,6 +1045,7 @@
              },
              { "type": "range", "id": "title_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
              { "type": "range", "id": "title_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Title format" },
         { "type": "select", "id": "title_font_style", "label": "Font style", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "normal", "label": "Normal" }, { "value": "italic", "label": "Italic" }], "default": "inherit" },
         { "type": "select", "id": "title_font_family", "label": "Font family", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "heading", "label": "Heading font" }, { "value": "body", "label": "Body font" }], "default": "inherit" },
         { "type": "range", "id": "title_word_spacing", "min": -4, "max": 20, "step": 1, "unit": "px", "label": "Word spacing", "default": 0, "info": "0 = theme default" },
@@ -1058,11 +1053,12 @@
         { "type": "select", "id": "title_text_decoration", "label": "Text decoration", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "none", "label": "None" }, { "value": "underline", "label": "Underline" }, { "value": "line-through", "label": "Line through" }], "default": "inherit" },
         { "type": "select", "id": "title_text_align", "label": "Text align", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }], "default": "inherit" },
         { "type": "range", "id": "title_opacity", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Opacity", "default": 100, "info": "100 = fully opaque" },
+        { "type": "header", "content": "Title box" },
         { "type": "range", "id": "title_max_width", "min": 0, "max": 1000, "step": 10, "unit": "px", "label": "Max width", "default": 0, "info": "0 = no limit" },
         { "type": "range", "id": "title_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
         { "type": "color", "id": "title_bg_color", "label": "Background color", "info": "Clear swatch to reset." }, { "type": "color", "id": "title_hover_bg_color", "label": "Hover background color", "info": "Clear to keep default." },
         { "type": "image_picker", "id": "title_bg_image", "label": "Background image" },
-             { "type": "header", "content": "Title spacing" },
+             { "type": "header", "content": "Title space" },
              { "type": "range", "id": "title_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
              { "type": "range", "id": "title_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
              { "type": "range", "id": "title_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
@@ -1071,7 +1067,7 @@
              { "type": "range", "id": "title_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
              { "type": "range", "id": "title_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
              { "type": "range", "id": "title_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
-        { "type": "header", "content": "Title background" },
+        { "type": "header", "content": "Title mask" },
         { "type": "select", "id": "title_bg_size", "label": "Image size", "options": [
           { "value": "cover", "label": "Cover" },
           { "value": "contain", "label": "Contain" },
@@ -1095,7 +1091,7 @@
         ], "default": "none" },
         { "type": "image_picker", "id": "title_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
         { "type": "checkbox", "id": "title_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
-             { "type": "header", "content": "Body text typography" },
+             { "type": "header", "content": "Body text type" },
              { "type": "color", "id": "body_color", "label": "Text color" }, { "type": "color", "id": "body_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
              { "type": "range", "id": "body_font_size", "min": 0, "max": 48, "step": 1, "unit": "px", "label": "Font size", "default": 0, "info": "0 = section Feature text size. Custom sizes start at 14px." },
              {
@@ -1114,6 +1110,7 @@
              },
              { "type": "range", "id": "body_letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
              { "type": "range", "id": "body_line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+        { "type": "header", "content": "Body format" },
         { "type": "select", "id": "body_font_style", "label": "Font style", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "normal", "label": "Normal" }, { "value": "italic", "label": "Italic" }], "default": "inherit" },
         { "type": "select", "id": "body_font_family", "label": "Font family", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "heading", "label": "Heading font" }, { "value": "body", "label": "Body font" }], "default": "inherit" },
         { "type": "range", "id": "body_word_spacing", "min": -4, "max": 20, "step": 1, "unit": "px", "label": "Word spacing", "default": 0, "info": "0 = theme default" },
@@ -1121,11 +1118,12 @@
         { "type": "select", "id": "body_text_decoration", "label": "Text decoration", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "none", "label": "None" }, { "value": "underline", "label": "Underline" }, { "value": "line-through", "label": "Line through" }], "default": "inherit" },
         { "type": "select", "id": "body_text_align", "label": "Text align", "options": [{ "value": "inherit", "label": "Theme default" }, { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" }, { "value": "right", "label": "Right" }], "default": "inherit" },
         { "type": "range", "id": "body_opacity", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Opacity", "default": 100, "info": "100 = fully opaque" },
+        { "type": "header", "content": "Body box" },
         { "type": "range", "id": "body_max_width", "min": 0, "max": 1000, "step": 10, "unit": "px", "label": "Max width", "default": 0, "info": "0 = no limit" },
         { "type": "range", "id": "body_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
         { "type": "color", "id": "body_bg_color", "label": "Background color", "info": "Clear swatch to reset." }, { "type": "color", "id": "body_hover_bg_color", "label": "Hover background color", "info": "Clear to keep default." },
         { "type": "image_picker", "id": "body_bg_image", "label": "Background image" },
-             { "type": "header", "content": "Body text spacing" },
+             { "type": "header", "content": "Body text space" },
              { "type": "range", "id": "body_padding_top", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding top", "default": 0 },
              { "type": "range", "id": "body_padding_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding bottom", "default": 0 },
              { "type": "range", "id": "body_padding_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Padding left", "default": 0 },
@@ -1134,7 +1132,7 @@
              { "type": "range", "id": "body_margin_bottom", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin bottom", "default": 0 },
              { "type": "range", "id": "body_margin_left", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin left", "default": 0 },
              { "type": "range", "id": "body_margin_right", "min": 0, "max": 80, "step": 2, "unit": "px", "label": "Margin right", "default": 0 },
-        { "type": "header", "content": "Text background" },
+        { "type": "header", "content": "Text mask" },
         { "type": "select", "id": "body_bg_size", "label": "Image size", "options": [
           { "value": "cover", "label": "Cover" },
           { "value": "contain", "label": "Contain" },
