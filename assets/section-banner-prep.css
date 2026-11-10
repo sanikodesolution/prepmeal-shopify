@@ -82,38 +82,104 @@
  display: none;
 }
 
-@media screen and (min-width: 750px) {
+/* Tablet: full-width copy, no plate collage (it collided with the headline at 768) */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+ .banner--prep::after {
+ background: linear-gradient(
+ 105deg,
+ rgba(var(--bp-navy), 0.97) 0%,
+ rgba(var(--bp-navy), 0.88) 48%,
+ rgba(var(--bp-navy), 0.55) 72%,
+ rgba(var(--bp-navy), 0.2) 100%
+ );
+ }
+
  .banner--prep .banner__content {
  justify-content: flex-start;
- padding: 5rem 1.2rem;
+ align-items: center;
+ padding: 5rem clamp(1.6rem, 3.5vw, 3.2rem);
  }
 
  .banner--prep .banner__box {
  width: 100%;
  min-width: 0;
- max-width: min(60rem, 54%);
- padding: 4rem 0;
+ max-width: 48rem;
+ padding: 3.2rem 0;
+ text-shadow: 0 1px 1.4rem rgba(var(--bp-navy), 0.55);
  }
 
- .banner--prep .banner__text.subtitle {
- 
+ .banner--prep .banner__heading {
+ max-width: 14ch;
  }
 
- .banner--prep .banner__text:not(.subtitle) {
- 
+ .banner--prep .banner__buttons {
+ margin-top: 2.2rem;
+ gap: 1rem;
  }
 
  .banner.banner--prep.banner--prep-plates:not(.banner--adapt) {
- min-height: calc(clamp(26rem, 36vw, 50rem) + 15rem);
+ min-height: 42rem;
+ }
+}
+
+@media screen and (max-width: 749px) {
+ .banner--prep::after {
+ background: linear-gradient(
+ 180deg,
+ rgba(var(--bp-navy), 0.55) 0%,
+ rgba(var(--bp-navy), 0.7) 40%,
+ rgba(var(--bp-navy), 1) 100%
+ );
+ }
+
+ .banner--prep .banner__box {
+ text-shadow: 0 1px 1.2rem rgba(var(--bp-navy), 0.6);
+ }
+
+ .banner--prep .banner__buttons {
+ text-shadow: none;
+ }
+
+ .banner--prep .banner__content {
+ align-items: flex-end;
+ padding-left: clamp(1.6rem, 4vw, 2.4rem);
+ padding-right: clamp(1.6rem, 4vw, 2.4rem);
+ }
+
+ .banner--prep .banner__box {
+ padding: 6rem 0 4rem;
+ }
+
+ .banner--prep .banner__heading {
+ max-width: 14ch;
+ }
+}
+
+/* Desktop split: copy left, plates right */
+@media screen and (min-width: 990px) {
+ .banner--prep .banner__content {
+ justify-content: flex-start;
+ padding: 5rem clamp(1.6rem, 3.5vw, 4rem);
+ }
+
+ .banner--prep .banner__box {
+ width: 100%;
+ min-width: 0;
+ max-width: min(60rem, 50%);
+ padding: 4rem 0;
+ }
+
+ .banner.banner--prep.banner--prep-plates:not(.banner--adapt) {
+ min-height: calc(clamp(28rem, 34vw, 50rem) + 12rem);
  }
 
  .banner-prep__visual {
  position: absolute;
  top: calc(50% - 1rem);
- right: max(1.2rem, calc((100% - 54rem) / 2 + 1.2rem));
+ right: max(1.6rem, calc((100% - 96rem) / 2 + 1.6rem));
  z-index: 3;
  display: block;
- width: clamp(26rem, 36vw, 50rem);
+ width: clamp(28rem, 34vw, 50rem);
  aspect-ratio: 1;
  transform: translateY(-50%);
  pointer-events: none;
@@ -199,9 +265,9 @@
  background: linear-gradient(
  90deg,
  rgba(var(--bp-navy), 1) 0%,
- rgba(var(--bp-navy), 0.9) 42%,
- rgba(var(--bp-navy), 0.5) 63%,
- rgba(var(--bp-navy), 0) 75%
+ rgba(var(--bp-navy), 0.92) 40%,
+ rgba(var(--bp-navy), 0.55) 62%,
+ rgba(var(--bp-navy), 0) 78%
  );
  }
 
@@ -234,7 +300,6 @@
  color: #092a49;
  background: #fff;
  box-shadow: 0 1.8rem 4rem -1.6rem rgba(0, 0, 0, 0.45);
- 
  font-weight: 500;
  line-height: 1;
  animation: bp-float 6s ease-in-out infinite alternate;
@@ -251,56 +316,20 @@
  }
 }
 
-@media screen and (max-width: 749px) {
- .banner--prep::after {
- background: linear-gradient(
- 180deg,
- rgba(var(--bp-navy), 0.55) 0%,
- rgba(var(--bp-navy), 0.7) 40%,
- rgba(var(--bp-navy), 1) 100%
- );
- }
-
- .banner--prep .banner__box {
- text-shadow: 0 1px 1.2rem rgba(var(--bp-navy), 0.6);
- }
-
- .banner--prep .banner__buttons {
- text-shadow: none;
- }
-
- .banner--prep .banner__content {
- align-items: flex-end;
- padding-left: 1.2rem;
- padding-right: 1.2rem;
- }
-
- .banner--prep .banner__box {
- padding: 6rem 0 4rem;
- }
-}
-
-@media screen and (min-width: 768px) {
- .banner-prep__visual {
- right: max(1.2rem, calc((100% - 72rem) / 2 + 1.2rem));
- }
-}
-
-@media screen and (min-width: 992px) {
- .banner-prep__visual {
- right: max(1.2rem, calc((100% - 96rem) / 2 + 1.2rem));
- }
-}
-
 @media screen and (min-width: 1200px) {
  .banner-prep__visual {
- right: max(1.2rem, calc((100% - 114rem) / 2 + 1.2rem));
+ right: max(1.6rem, calc((100% - 114rem) / 2 + 1.6rem));
+ width: clamp(32rem, 36vw, 50rem);
+ }
+
+ .banner--prep .banner__box {
+ max-width: min(60rem, 48%);
  }
 }
 
 @media screen and (min-width: 1400px) {
  .banner-prep__visual {
- right: max(1.2rem, calc((100% - 132rem) / 2 + 1.2rem));
+ right: max(1.6rem, calc((100% - 132rem) / 2 + 1.6rem));
  }
 }
 
