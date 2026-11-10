@@ -96,6 +96,18 @@
  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 }
 
+/* Dawn pulls the first link left by -1.2rem to align plain text with
+   page content. CM menu items are pills with their own padding, so that
+   negative margin makes Home sit flush on the viewport edge. */
+.cm-header .header__inline-menu {
+ margin-left: 0;
+}
+
+.cm-header .header.page-width {
+ padding-left: clamp(1.6rem, 3.5vw, 4rem);
+ padding-right: clamp(1.6rem, 3.5vw, 4rem);
+}
+
 .cm-header .header > .header__heading,
 .cm-header .header > .header__heading-link {
  position: relative;
