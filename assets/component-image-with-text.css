@@ -203,6 +203,10 @@
   .image-with-text.collapse-borders:not(.image-with-text--overlap) .image-with-text__content {
     border-top: 0;
   }
+
+  .image-with-text:not(.image-with-text--overlap) .image-with-text__text-item {
+    margin-top: 2rem;
+  }
 }
 
 .image-with-text__content--mobile-right > * {
