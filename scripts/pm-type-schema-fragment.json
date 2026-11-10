@@ -1,14 +1,5 @@
 {
   "_usage": "Copy these setting groups into section/block schema. Prefix keys: eyebrow_, heading_, body_, title_, sub_, label_, caption_, about_, news_, note_, copy_, promise_, zone_. Defaults 0/inherit keep theme look. Wire with: {% render 'pm-block-type-style', settings: section.settings, prefix: 'heading_' %} or block: block, prefix: 'title_'. Apply only when capture != blank. Do NOT change existing visual defaults. Background color/image sit in the typography accordion; mask/size/position stay under the background header.",
-  "weight_options_full": [
-    { "value": "inherit", "label": "Theme default" },
-    { "value": "300", "label": "Light 300" },
-    { "value": "400", "label": "Regular 400" },
-    { "value": "500", "label": "Medium 500" },
-    { "value": "600", "label": "Semi-bold 600" },
-    { "value": "700", "label": "Bold 700" },
-    { "value": "800", "label": "Extra-bold 800" }
-  ],
   "group_template": [
     { "type": "header", "content": "{{LABEL}} typography" },
     { "type": "color", "id": "{{PREFIX}}color", "label": "Text color" },
@@ -22,8 +13,41 @@
       { "value": "700", "label": "Bold 700" },
       { "value": "800", "label": "Extra-bold 800" }
     ], "default": "inherit" },
+    { "type": "select", "id": "{{PREFIX}}font_style", "label": "Font style", "options": [
+      { "value": "inherit", "label": "Theme default" },
+      { "value": "normal", "label": "Normal" },
+      { "value": "italic", "label": "Italic" }
+    ], "default": "inherit" },
+    { "type": "select", "id": "{{PREFIX}}font_family", "label": "Font family", "options": [
+      { "value": "inherit", "label": "Theme default" },
+      { "value": "heading", "label": "Heading font" },
+      { "value": "body", "label": "Body font" }
+    ], "default": "inherit" },
     { "type": "range", "id": "{{PREFIX}}letter_spacing", "min": -4, "max": 12, "step": 1, "unit": "px", "label": "Letter spacing", "default": 0 },
+    { "type": "range", "id": "{{PREFIX}}word_spacing", "min": -4, "max": 20, "step": 1, "unit": "px", "label": "Word spacing", "default": 0, "info": "0 = theme default" },
     { "type": "range", "id": "{{PREFIX}}line_height", "min": 0, "max": 2, "step": 0.1, "label": "Line height", "default": 0, "info": "0 = theme default" },
+    { "type": "select", "id": "{{PREFIX}}text_transform", "label": "Text transform", "options": [
+      { "value": "inherit", "label": "Theme default" },
+      { "value": "none", "label": "None" },
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "lowercase", "label": "Lowercase" },
+      { "value": "capitalize", "label": "Capitalize" }
+    ], "default": "inherit" },
+    { "type": "select", "id": "{{PREFIX}}text_decoration", "label": "Text decoration", "options": [
+      { "value": "inherit", "label": "Theme default" },
+      { "value": "none", "label": "None" },
+      { "value": "underline", "label": "Underline" },
+      { "value": "line-through", "label": "Line through" }
+    ], "default": "inherit" },
+    { "type": "select", "id": "{{PREFIX}}text_align", "label": "Text align", "options": [
+      { "value": "inherit", "label": "Theme default" },
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" },
+      { "value": "right", "label": "Right" }
+    ], "default": "inherit" },
+    { "type": "range", "id": "{{PREFIX}}opacity", "min": 0, "max": 100, "step": 1, "unit": "%", "label": "Opacity", "default": 100, "info": "100 = fully opaque" },
+    { "type": "range", "id": "{{PREFIX}}max_width", "min": 0, "max": 1000, "step": 10, "unit": "px", "label": "Max width", "default": 0, "info": "0 = no limit" },
+    { "type": "range", "id": "{{PREFIX}}border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
     { "type": "color", "id": "{{PREFIX}}bg_color", "label": "Background color", "info": "Clear swatch to reset." },
     { "type": "color", "id": "{{PREFIX}}hover_bg_color", "label": "Hover background color", "info": "Clear to keep default." },
     { "type": "image_picker", "id": "{{PREFIX}}bg_image", "label": "Background image" },
