@@ -6,7 +6,7 @@
   position: relative;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 990px) {
   .image-with-text__grid--reverse {
     flex-direction: row-reverse;
   }
@@ -29,7 +29,50 @@
   height: 43.5rem;
 }
 
-@media screen and (min-width: 750px) {
+/* Stacked tablet: keep media readable, not desktop side-by-side heights */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .image-with-text__media--small {
+    height: 28rem;
+  }
+
+  .image-with-text__media--medium {
+    height: 36rem;
+  }
+
+  .image-with-text__media--large {
+    height: 44rem;
+  }
+
+  .image-with-text .grid__item {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .image-with-text__media-item,
+  .image-with-text__text-item {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Image above text — clearer than a cramped split at 768 */
+  .image-with-text__media-item {
+    order: -1;
+  }
+
+  .image-with-text__content {
+    width: 100%;
+    max-width: 100%;
+    padding: 3.2rem clamp(1.6rem, 3.5vw, 3.2rem) 4rem;
+  }
+
+  .image-with-text--overlap .image-with-text__content {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+  }
+}
+
+@media screen and (min-width: 990px) {
   .image-with-text__media--small {
     height: 31.4rem;
   }
