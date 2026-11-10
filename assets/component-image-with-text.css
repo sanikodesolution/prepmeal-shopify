@@ -65,6 +65,11 @@
     padding: 3.2rem clamp(1.6rem, 3.5vw, 3.2rem) 4rem;
   }
 
+  /* Space between image and eyebrow / copy when stacked */
+  .image-with-text:not(.image-with-text--overlap) .image-with-text__text-item {
+    margin-top: 2.4rem;
+  }
+
   .image-with-text--overlap .image-with-text__content {
     width: 100%;
     min-width: 0;
