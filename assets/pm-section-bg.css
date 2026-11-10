@@ -1,0 +1,73 @@
+/* Shared section / band background overlay + stacking */
+.pm-section-bg[style*='--pm-bg'],
+.pm-section-bg[style*='--pm-bg-image'],
+.pm-section-bg[style*='--pm-bg-gradient'],
+.mealplan-page[style*='--pm-bg'],
+.mealplan-page[style*='--pm-bg-image'],
+.mealplan-page[style*='--pm-bg-gradient'],
+.mph[style*='--pm-bg'],
+.mph[style*='--pm-bg-image'],
+.mph[style*='--pm-bg-gradient'],
+.ben[style*='--pm-bg'],
+.ben[style*='--pm-bg-image'],
+.ben[style*='--pm-bg-gradient'],
+.ex[style*='--pm-bg'],
+.ex[style*='--pm-bg-image'],
+.ex[style*='--pm-bg-gradient'],
+.mealplan-sec[style*='--pm-bg'],
+.mealplan-sec[style*='--pm-bg-image'],
+.mealplan-sec[style*='--pm-bg-gradient'],
+.mp-editor-area[style*='--pm-bg'],
+.mp-editor-area[style*='--pm-bg-image'],
+.mp-editor-area[style*='--pm-bg-gradient'],
+.pm-b-group[style*='--pm-bg'],
+.pm-b-group[style*='--pm-bg-image'],
+.pm-b-group[style*='--pm-bg-gradient'] {
+  position: relative;
+  isolation: isolate;
+}
+
+.pm-section-bg[style*='--pm-overlay-opacity']::before,
+.mealplan-page[style*='--pm-overlay-opacity']::before,
+.mph[style*='--pm-overlay-opacity']::before,
+.ben[style*='--pm-overlay-opacity']::before,
+.ex[style*='--pm-overlay-opacity']::before,
+.mealplan-sec[style*='--pm-overlay-opacity']::before,
+.mp-editor-area[style*='--pm-overlay-opacity']::before,
+.pm-b-group[style*='--pm-overlay-opacity']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--pm-overlay-color, #000);
+  opacity: var(--pm-overlay-opacity, 0);
+}
+
+.pm-section-bg[style*='--pm-bg'] > *,
+.pm-section-bg[style*='--pm-bg-image'] > *,
+.pm-section-bg[style*='--pm-bg-gradient'] > *,
+.mealplan-page[style*='--pm-bg'] > *,
+.mealplan-page[style*='--pm-bg-image'] > *,
+.mealplan-page[style*='--pm-bg-gradient'] > *,
+.mph[style*='--pm-bg'] > *,
+.mph[style*='--pm-bg-image'] > *,
+.mph[style*='--pm-bg-gradient'] > *,
+.ben[style*='--pm-bg'] > *,
+.ben[style*='--pm-bg-image'] > *,
+.ben[style*='--pm-bg-gradient'] > *,
+.ex[style*='--pm-bg'] > *,
+.ex[style*='--pm-bg-image'] > *,
+.ex[style*='--pm-bg-gradient'] > *,
+.mealplan-sec[style*='--pm-bg'] > *,
+.mealplan-sec[style*='--pm-bg-image'] > *,
+.mealplan-sec[style*='--pm-bg-gradient'] > *,
+.mp-editor-area[style*='--pm-bg'] > *,
+.mp-editor-area[style*='--pm-bg-image'] > *,
+.mp-editor-area[style*='--pm-bg-gradient'] > *,
+.pm-b-group[style*='--pm-bg'] > *,
+.pm-b-group[style*='--pm-bg-image'] > *,
+.pm-b-group[style*='--pm-bg-gradient'] > * {
+  position: relative;
+  z-index: 1;
+}

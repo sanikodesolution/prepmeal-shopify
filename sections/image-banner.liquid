@@ -83,7 +83,8 @@
 
 <div
   id="Banner-{{ section.id }}"
-  class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if section.settings.hero_style == 'prep' %} banner--prep{% if section.settings.show_visual %} banner--prep-plates{% endif %}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  class="pm-section-bg banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if section.settings.hero_style == 'prep' %} banner--prep{% if section.settings.show_visual %} banner--prep-plates{% endif %}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  {% render 'pm-section-style', section: section %}
 >
   {%- if section.settings.image != blank -%}
     <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
@@ -156,7 +157,7 @@
     </div>
   {%- endif -%}
   <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    <div class="banner__box content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }} gradient">
+    <div class="pm-section-bg banner__box content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }} gradient" {% render 'pm-section-style', section: section %}>
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
@@ -496,13 +497,50 @@
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     },
-    { "type": "header", "content": "Section background & space" },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background color",
-      "info": "Section background (shows around padding / behind content)."
-    },
+        { "type": "header", "content": "Section background" },
+    { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+    { "type": "color", "id": "background_color", "label": "Color" },
+    { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+    { "type": "image_picker", "id": "background_image", "label": "Image" },
+    { "type": "header", "content": "Image layout" },
+    { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+      { "value": "cover", "label": "Cover" },
+      { "value": "contain", "label": "Contain" },
+      { "value": "auto", "label": "Original" }
+    ], "default": "cover" },
+    { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "top", "label": "Top" },
+      { "value": "bottom", "label": "Bottom" },
+      { "value": "left", "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ], "default": "center" },
+    { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+      { "value": "no-repeat", "label": "No repeat" },
+      { "value": "repeat", "label": "Repeat" },
+      { "value": "repeat-x", "label": "Repeat X" },
+      { "value": "repeat-y", "label": "Repeat Y" }
+    ], "default": "no-repeat" },
+    { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+      { "value": "scroll", "label": "Scroll with page" },
+      { "value": "fixed", "label": "Fixed (parallax)" }
+    ], "default": "scroll" },
+    { "type": "header", "content": "Overlay" },
+    { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+    { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+    { "type": "header", "content": "Advanced background" },
+    { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+      { "value": "normal", "label": "Normal" },
+      { "value": "multiply", "label": "Multiply" },
+      { "value": "screen", "label": "Screen" },
+      { "value": "overlay", "label": "Overlay" },
+      { "value": "soft-light", "label": "Soft light" },
+      { "value": "darken", "label": "Darken" },
+      { "value": "lighten", "label": "Lighten" }
+    ], "default": "normal" },
+    { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+    { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+    { "type": "header", "content": "Text colors" },
     {
       "type": "color",
       "id": "content_background_color",

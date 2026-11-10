@@ -1,7 +1,10 @@
+{%- capture text_extra -%}
+line-height:1.55;{% if block.settings.text_hover_color != blank %}--pm-hover-color:{{ block.settings.text_hover_color }};{% endif %}
+{%- endcapture -%}
 <div
-  class="pm-b-text"
+  class="pm-b-text pm-section-bg"
   {{ block.shopify_attributes }}
-  style="{% if block.settings.text_color != blank %}color:{{ block.settings.text_color }};{% endif %}{% if block.settings.text_hover_color != blank %}--pm-hover-color:{{ block.settings.text_hover_color }};{% endif %}{% if block.settings.text_size > 0 %}font-size:{{ block.settings.text_size }}px;{% endif %}{% if block.settings.heading_weight != blank %}font-weight:{{ block.settings.heading_weight }};{% endif %}{% if block.settings.text_align != blank %}text-align:{{ block.settings.text_align }};{% endif %}{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}line-height:1.55;"
+  {% render 'pm-area-style', block: block, extra: text_extra %}
 >
   {{ block.settings.text }}
 </div>
@@ -11,9 +14,52 @@
   "name": "Text",
   "settings": [
     { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Add your text. Change color and size anytime in the right panel.</p>" },
-    { "type": "header", "content": "Colors & typography" },
-    { "type": "color", "id": "background_color", "label": "Background" },
-    { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
+    { "type": "header", "content": "Band background" },
+    { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+    { "type": "color", "id": "background_color", "label": "Color" },
+    { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+    { "type": "image_picker", "id": "background_image", "label": "Image" },
+    { "type": "header", "content": "Image layout" },
+    { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+      { "value": "cover", "label": "Cover" },
+      { "value": "contain", "label": "Contain" },
+      { "value": "auto", "label": "Original" }
+    ], "default": "cover" },
+    { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "top", "label": "Top" },
+      { "value": "bottom", "label": "Bottom" },
+      { "value": "left", "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ], "default": "center" },
+    { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+      { "value": "no-repeat", "label": "No repeat" },
+      { "value": "repeat", "label": "Repeat" },
+      { "value": "repeat-x", "label": "Repeat X" },
+      { "value": "repeat-y", "label": "Repeat Y" }
+    ], "default": "no-repeat" },
+    { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+      { "value": "scroll", "label": "Scroll with page" },
+      { "value": "fixed", "label": "Fixed (parallax)" }
+    ], "default": "scroll" },
+    { "type": "header", "content": "Overlay" },
+    { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+    { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+    { "type": "header", "content": "Advanced background" },
+    { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+      { "value": "normal", "label": "Normal" },
+      { "value": "multiply", "label": "Multiply" },
+      { "value": "screen", "label": "Screen" },
+      { "value": "overlay", "label": "Overlay" },
+      { "value": "soft-light", "label": "Soft light" },
+      { "value": "darken", "label": "Darken" },
+      { "value": "lighten", "label": "Lighten" }
+    ], "default": "normal" },
+    { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+    { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+    { "type": "header", "content": "Text colors" },
+    { "type": "color", "id": "text_color", "label": "Text color" },
+    { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
     { "type": "range", "id": "text_size", "min": 12, "max": 32, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "select", "id": "heading_weight", "label": "Weight", "options": [
       { "value": "", "label": "Theme default" },

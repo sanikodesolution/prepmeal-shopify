@@ -1,16 +1,59 @@
 {%- comment -%}
-  Outputs a style="" attribute with CSS vars from block Color & typography settings.
+  Outputs a style="" attribute with CSS vars from block Color & typography /
+  Band background settings.
   Optional: extra — raw CSS declarations to merge (e.g. --i:0).
-  Vars: --pm-bg, --pm-eyebrow, --pm-heading, --pm-text, --pm-eyebrow-size,
-        --pm-heading-size, --pm-text-size, --pm-heading-weight, --pm-align,
-        --pm-title, --pm-title-size
 {%- endcomment -%}
 {%- liquid
   assign s = block.settings
   assign css = extra | default: ''
+
   if s.background_color != blank
     assign css = css | append: '--pm-bg:' | append: s.background_color | append: ';background-color:' | append: s.background_color | append: ';'
   endif
+
+  if s.background_gradient != blank
+    assign css = css | append: '--pm-bg-gradient:' | append: s.background_gradient | append: ';background-image:' | append: s.background_gradient | append: ';'
+  endif
+
+  if s.background_image != blank
+    assign bg_url = s.background_image | image_url: width: 2400
+    assign bg_fit = s.background_image_fit | default: 'cover'
+    assign bg_pos = s.background_image_position | default: 'center'
+    assign bg_repeat = s.background_repeat | default: 'no-repeat'
+    if s.background_gradient != blank
+      assign css = css | append: 'background-image:' | append: s.background_gradient | append: ',url(' | append: bg_url | append: ');'
+    else
+      assign css = css | append: '--pm-bg-image:url(' | append: bg_url | append: ');background-image:url(' | append: bg_url | append: ');'
+    endif
+    assign css = css | append: '--pm-bg-size:' | append: bg_fit | append: ';background-size:' | append: bg_fit | append: ';'
+    assign css = css | append: '--pm-bg-position:' | append: bg_pos | append: ';background-position:' | append: bg_pos | append: ';'
+    assign css = css | append: 'background-repeat:' | append: bg_repeat | append: ';'
+  elsif s.background_gradient == blank and s.background_color != blank
+    assign css = css | append: 'background-repeat:no-repeat;'
+  endif
+
+  if s.background_attachment != blank and s.background_attachment != 'scroll'
+    assign css = css | append: 'background-attachment:' | append: s.background_attachment | append: ';'
+  endif
+
+  if s.background_blend_mode != blank and s.background_blend_mode != 'normal'
+    assign css = css | append: 'background-blend-mode:' | append: s.background_blend_mode | append: ';'
+  endif
+
+  if s.background_border_radius != blank and s.background_border_radius > 0
+    assign css = css | append: 'border-radius:' | append: s.background_border_radius | append: 'px;overflow:hidden;'
+  endif
+
+  if s.background_min_height != blank and s.background_min_height > 0
+    assign css = css | append: 'min-height:' | append: s.background_min_height | append: 'px;'
+  endif
+
+  if s.background_overlay_opacity != blank and s.background_overlay_opacity > 0
+    assign ov_color = s.background_overlay_color | default: '#000000'
+    assign ov_alpha = s.background_overlay_opacity | times: 0.01
+    assign css = css | append: '--pm-overlay-color:' | append: ov_color | append: ';--pm-overlay-opacity:' | append: ov_alpha | append: ';'
+  endif
+
   if s.eyebrow_color != blank
     assign css = css | append: '--pm-eyebrow:' | append: s.eyebrow_color | append: ';'
   endif
@@ -22,21 +65,23 @@
   endif
   if s.text_color != blank
     assign css = css | append: '--pm-text:' | append: s.text_color | append: ';color:' | append: s.text_color | append: ';'
+  elsif s.heading_color != blank
+    assign css = css | append: 'color:' | append: s.heading_color | append: ';'
   endif
   if s.eyebrow_size != blank and s.eyebrow_size > 0
     assign css = css | append: '--pm-eyebrow-size:' | append: s.eyebrow_size | append: 'px;'
   endif
   if s.heading_size != blank and s.heading_size > 0
-    assign css = css | append: '--pm-heading-size:' | append: s.heading_size | append: 'px;'
+    assign css = css | append: '--pm-heading-size:' | append: s.heading_size | append: 'px;font-size:' | append: s.heading_size | append: 'px;'
   endif
   if s.title_size != blank and s.title_size > 0
     assign css = css | append: '--pm-title-size:' | append: s.title_size | append: 'px;'
   endif
   if s.text_size != blank and s.text_size > 0
-    assign css = css | append: '--pm-text-size:' | append: s.text_size | append: 'px;'
+    assign css = css | append: '--pm-text-size:' | append: s.text_size | append: 'px;font-size:' | append: s.text_size | append: 'px;'
   endif
   if s.heading_weight != blank
-    assign css = css | append: '--pm-heading-weight:' | append: s.heading_weight | append: ';'
+    assign css = css | append: '--pm-heading-weight:' | append: s.heading_weight | append: ';font-weight:' | append: s.heading_weight | append: ';'
   endif
   if s.text_align != blank
     assign css = css | append: '--pm-align:' | append: s.text_align | append: ';text-align:' | append: s.text_align | append: ';'

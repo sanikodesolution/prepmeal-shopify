@@ -6,7 +6,7 @@
   assign pad_css = 'padding-top:' | append: section.settings.padding_top | append: 'px;padding-bottom:' | append: section.settings.padding_bottom | append: 'px;'
 -%}
 <div
-  class="pm-blocks section-{{ section.id }} mealplan-page{% if section.settings.include_margins %} page-width{% endif %}{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %}"
+  class="pm-blocks section-{{ section.id }} mealplan-page{% if section.settings.include_margins %} page-width{% endif %}{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %} pm-section-bg"
   {% render 'pm-section-style', section: section, extra: pad_css %}
 >
   {% content_for 'blocks' %}

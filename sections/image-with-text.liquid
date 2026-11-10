@@ -33,7 +33,7 @@
   endif
 -%}
 
-<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
+<div class="pm-section-bg section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}" {% render 'pm-section-style', section: section %}>
   <div class="page-width">
     <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.text_boxes_border_thickness > 0 and settings.text_boxes_border_opacity > 0 and settings.media_border_thickness > 0 and settings.media_border_opacity > 0 %} collapse-borders{% endif %}{% unless section.settings.color_scheme == section.settings.section_color_scheme and settings.media_border_thickness > 0 and settings.text_boxes_shadow_opacity == 0 and settings.text_boxes_border_thickness == 0 or settings.text_boxes_border_opacity == 0 %} collapse-corners{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <div class="image-with-text__grid grid grid--gapless grid--1-col grid--{% if section.settings.desktop_image_width == 'medium' %}2-col-tablet{% else %}3-col-tablet{% endif %}{% if section.settings.layout == 'text_first' %} image-with-text__grid--reverse{% endif %}">
@@ -458,13 +458,50 @@
       "label": "t:sections.multirow.settings.container_color_scheme.label",
       "default": "scheme-1"
     },
-    { "type": "header", "content": "Section background & space" },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background color",
-      "info": "Optional override of the section color scheme background."
-    },
+        { "type": "header", "content": "Section background" },
+    { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+    { "type": "color", "id": "background_color", "label": "Color" },
+    { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+    { "type": "image_picker", "id": "background_image", "label": "Image" },
+    { "type": "header", "content": "Image layout" },
+    { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+      { "value": "cover", "label": "Cover" },
+      { "value": "contain", "label": "Contain" },
+      { "value": "auto", "label": "Original" }
+    ], "default": "cover" },
+    { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "top", "label": "Top" },
+      { "value": "bottom", "label": "Bottom" },
+      { "value": "left", "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ], "default": "center" },
+    { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+      { "value": "no-repeat", "label": "No repeat" },
+      { "value": "repeat", "label": "Repeat" },
+      { "value": "repeat-x", "label": "Repeat X" },
+      { "value": "repeat-y", "label": "Repeat Y" }
+    ], "default": "no-repeat" },
+    { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+      { "value": "scroll", "label": "Scroll with page" },
+      { "value": "fixed", "label": "Fixed (parallax)" }
+    ], "default": "scroll" },
+    { "type": "header", "content": "Overlay" },
+    { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+    { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+    { "type": "header", "content": "Advanced background" },
+    { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+      { "value": "normal", "label": "Normal" },
+      { "value": "multiply", "label": "Multiply" },
+      { "value": "screen", "label": "Screen" },
+      { "value": "overlay", "label": "Overlay" },
+      { "value": "soft-light", "label": "Soft light" },
+      { "value": "darken", "label": "Darken" },
+      { "value": "lighten", "label": "Lighten" }
+    ], "default": "normal" },
+    { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+    { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+    { "type": "header", "content": "Text colors" },
     {
       "type": "range",
       "id": "padding_top",

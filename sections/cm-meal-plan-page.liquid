@@ -1453,9 +1453,50 @@
     { "type": "text", "id": "hero_image_2_alt", "label": "Hero image 2 alt", "default": "Orange Basil Salmon" },
     { "type": "text", "id": "badge_value", "label": "Badge value", "default": "10+" },
     { "type": "text", "id": "badge_label", "label": "Badge label", "default": "meal options" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1721,9 +1762,50 @@
         { "type": "text", "id": "line_2", "label": "Line 2", "default": "1 week." },
         { "type": "text", "id": "line_3", "label": "Line 3 (outline)", "default": "Zero stress." },
         { "type": "textarea", "id": "note", "label": "Note", "default": "Flexible menu: choose any six from 10+ options, and change your picks each week." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1757,9 +1839,50 @@
         { "type": "textarea", "id": "text", "label": "Text", "default": "Featured meals from the weekly rotation. Hover or tap a meal for the details." },
         { "type": "text", "id": "button", "label": "Order button label", "default": "Order 6 meals" },
         { "type": "text", "id": "order_title", "label": "Order panel title", "default": "6 Meal Plan" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1789,9 +1912,50 @@
       "settings": [
         { "type": "paragraph", "content": "Click the explore / filter menu band in the preview to edit it here." },
         { "type": "text", "id": "heading", "label": "Heading", "default": "À la carte" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1823,9 +1987,50 @@
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Chef Matt way" },
         { "type": "textarea", "id": "heading", "label": "Heading", "default": "40 years in the kitchen. Now cooking for you." },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1856,9 +2061,50 @@
         { "type": "paragraph", "content": "This folder edits Eyebrow + Heading only. To edit the numbered cards: left sidebar → Add block → Step (or click a card in the preview). Each Step block = one card." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Your week, sorted in three steps." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1890,9 +2136,50 @@
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "We deliver" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Fresh meals, delivered to your door." },
         { "type": "textarea", "id": "text", "label": "Text", "default": "We deliver across Hartland and the towns around it." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1923,9 +2210,50 @@
         { "type": "paragraph", "content": "This folder edits Eyebrow + Heading only. To edit reviews: left sidebar → Add block → Review (or click a card in the preview). Each Review block = name, rating, text, optional image." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Loved by our customers" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by people who love good food" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1956,9 +2284,50 @@
         { "type": "paragraph", "content": "This folder edits Eyebrow + Heading only. To edit Q&A: left sidebar → Add block → FAQ (or click a question in the preview). Each FAQ block = one question + answer." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Good to know" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Questions, answered" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -1989,9 +2358,50 @@
         { "type": "paragraph", "content": "Click the related plans section in the preview to edit headings here." },
         { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "More ways to eat well" },
         { "type": "text", "id": "heading", "label": "Heading", "default": "Other ways to eat well" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -2032,9 +2442,50 @@
         { "type": "color", "id": "button_icon_color", "label": "Icon color" },
         { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
         { "type": "image_picker", "id": "image", "label": "Background image" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -2069,9 +2520,50 @@
         { "type": "textarea", "id": "stats", "label": "Stats (value|label per line)", "default": "45g|Protein in most meals\n40+|Years of cooking\n24oz|Generous portions" },
         { "type": "textarea", "id": "chips", "label": "Plate tags (one per line, four)", "default": "Chef-cooked weekly\nNever frozen\n2-3 min to heat\nCalorie counted" },
         { "type": "textarea", "id": "cards", "label": "Feature cards (title|text per line)", "info": "Or add Thali card blocks below for click-to-edit on each card.", "default": "Cooked by Chef Matt|Every tray is seasoned and finished by Chef Matt, who has spent four decades in professional kitchens.\nReal ingredients|Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot, so the plate tastes like it was cooked today." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "paragraph", "content": "Leave blank to keep the theme default. Change any value to override this band like WordPress." },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "eyebrow_color", "label": "Eyebrow color" },
         { "type": "color", "id": "heading_color", "label": "Heading color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
@@ -2100,8 +2592,50 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Cooked by Chef Matt" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Every tray is seasoned and finished by Chef Matt." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "title_color", "label": "Title color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
         { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
@@ -2136,8 +2670,50 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Chef prepared" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Every meal is cooked by our chefs, not assembled from a kit." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "title_color", "label": "Title color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
         { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
@@ -2150,8 +2726,50 @@
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Choose your meals" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Pick five from this week's menu." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "title_color", "label": "Title color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
         { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
@@ -2165,8 +2783,50 @@
         { "type": "text", "id": "title", "label": "Title", "default": "Fresh ingredients" },
         { "type": "textarea", "id": "text", "label": "Text", "default": "Real food, prepared in small batches." },
         { "type": "textarea", "id": "detail", "label": "Detail", "default": "Produce and proteins come in close to cook day. Nothing waits in a freezer for a menu slot." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "title_color", "label": "Title color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
         { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
@@ -2194,8 +2854,50 @@
         { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
         { "type": "text", "id": "aspect", "label": "Image aspect", "default": "1" },
         { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "title_color", "label": "Title color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
         { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
@@ -2208,8 +2910,50 @@
       "settings": [
         { "type": "text", "id": "question", "label": "Question", "default": "How does the 5 meal plan work?" },
         { "type": "textarea", "id": "answer", "label": "Answer", "default": "Choose five meals from the weekly menu and we prepare and deliver them to you." },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "title_color", "label": "Title color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
         { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
@@ -2226,8 +2970,50 @@
         { "type": "text", "id": "button_label", "label": "Button label", "default": "View plan" },
         { "type": "url", "id": "link", "label": "Link" },
         { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "header", "content": "Colors & typography" },
-        { "type": "color", "id": "background_color", "label": "Background" },
+                { "type": "header", "content": "Band background" },
+        { "type": "paragraph", "content": "Color, gradient, and/or image. Leave blank for theme default." },
+        { "type": "color", "id": "background_color", "label": "Color" },
+        { "type": "color_background", "id": "background_gradient", "label": "Gradient" },
+        { "type": "image_picker", "id": "background_image", "label": "Image" },
+        { "type": "header", "content": "Image layout" },
+        { "type": "select", "id": "background_image_fit", "label": "Size", "options": [
+          { "value": "cover", "label": "Cover" },
+          { "value": "contain", "label": "Contain" },
+          { "value": "auto", "label": "Original" }
+        ], "default": "cover" },
+        { "type": "select", "id": "background_image_position", "label": "Position", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "top", "label": "Top" },
+          { "value": "bottom", "label": "Bottom" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" },
+        { "type": "select", "id": "background_repeat", "label": "Repeat", "options": [
+          { "value": "no-repeat", "label": "No repeat" },
+          { "value": "repeat", "label": "Repeat" },
+          { "value": "repeat-x", "label": "Repeat X" },
+          { "value": "repeat-y", "label": "Repeat Y" }
+        ], "default": "no-repeat" },
+        { "type": "select", "id": "background_attachment", "label": "Scroll", "options": [
+          { "value": "scroll", "label": "Scroll with page" },
+          { "value": "fixed", "label": "Fixed (parallax)" }
+        ], "default": "scroll" },
+        { "type": "header", "content": "Overlay" },
+        { "type": "color", "id": "background_overlay_color", "label": "Color", "default": "#000000" },
+        { "type": "range", "id": "background_overlay_opacity", "min": 0, "max": 80, "step": 5, "unit": "%", "label": "Strength", "default": 0 },
+        { "type": "header", "content": "Advanced background" },
+        { "type": "select", "id": "background_blend_mode", "label": "Blend mode", "options": [
+          { "value": "normal", "label": "Normal" },
+          { "value": "multiply", "label": "Multiply" },
+          { "value": "screen", "label": "Screen" },
+          { "value": "overlay", "label": "Overlay" },
+          { "value": "soft-light", "label": "Soft light" },
+          { "value": "darken", "label": "Darken" },
+          { "value": "lighten", "label": "Lighten" }
+        ], "default": "normal" },
+        { "type": "range", "id": "background_border_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Corner radius", "default": 0 },
+        { "type": "range", "id": "background_min_height", "min": 0, "max": 800, "step": 10, "unit": "px", "label": "Min height", "default": 0, "info": "0 = auto" },
+        { "type": "header", "content": "Text colors" },
         { "type": "color", "id": "title_color", "label": "Title color" },
         { "type": "color", "id": "text_color", "label": "Text color" }, { "type": "color", "id": "text_hover_color", "label": "Hover text color", "info": "Clear to keep default." },
         { "type": "range", "id": "title_size", "min": 12, "max": 40, "step": 1, "unit": "px", "label": "Title size", "default": 18 },
