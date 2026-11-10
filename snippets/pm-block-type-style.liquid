@@ -20,8 +20,17 @@
     assign key_hover_color = 'text_hover_color'
     assign key_size = 'font_size'
     assign key_weight = 'font_weight'
+    assign key_style = 'font_style'
+    assign key_family = 'font_family'
     assign key_track = 'letter_spacing'
     assign key_leading = 'line_height'
+    assign key_transform = 'text_transform'
+    assign key_decoration = 'text_decoration'
+    assign key_align = 'text_align'
+    assign key_opacity = 'opacity'
+    assign key_word = 'word_spacing'
+    assign key_max_width = 'max_width'
+    assign key_radius = 'border_radius'
     assign key_pt = 'padding_top'
     assign key_pb = 'padding_bottom'
     assign key_pl = 'padding_left'
@@ -44,8 +53,17 @@
     assign key_hover_color = p | append: 'hover_color'
     assign key_size = p | append: 'font_size'
     assign key_weight = p | append: 'font_weight'
+    assign key_style = p | append: 'font_style'
+    assign key_family = p | append: 'font_family'
     assign key_track = p | append: 'letter_spacing'
     assign key_leading = p | append: 'line_height'
+    assign key_transform = p | append: 'text_transform'
+    assign key_decoration = p | append: 'text_decoration'
+    assign key_align = p | append: 'text_align'
+    assign key_opacity = p | append: 'opacity'
+    assign key_word = p | append: 'word_spacing'
+    assign key_max_width = p | append: 'max_width'
+    assign key_radius = p | append: 'border_radius'
     assign key_pt = p | append: 'padding_top'
     assign key_pb = p | append: 'padding_bottom'
     assign key_pl = p | append: 'padding_left'
@@ -69,8 +87,17 @@
   assign val_hover_color = src[key_hover_color]
   assign val_size = src[key_size]
   assign val_weight = src[key_weight]
+  assign val_style = src[key_style]
+  assign val_family = src[key_family]
   assign val_track = src[key_track]
   assign val_leading = src[key_leading]
+  assign val_transform = src[key_transform]
+  assign val_decoration = src[key_decoration]
+  assign val_align = src[key_align]
+  assign val_opacity = src[key_opacity]
+  assign val_word = src[key_word]
+  assign val_max_width = src[key_max_width]
+  assign val_radius = src[key_radius]
   assign val_pt = src[key_pt]
   assign val_pb = src[key_pb]
   assign val_pl = src[key_pl]
@@ -107,11 +134,45 @@
   if val_weight != blank and val_weight != 'inherit'
     echo 'font-weight:' | append: val_weight | append: ';'
   endif
+  if val_style != blank and val_style != 'inherit'
+    echo 'font-style:' | append: val_style | append: ';'
+  endif
+  if val_family == 'heading'
+    echo 'font-family:var(--font-heading-family),var(--cm-display),sans-serif;'
+  elsif val_family == 'body'
+    echo 'font-family:var(--font-body-family),var(--cm-body),sans-serif;'
+  endif
   if val_track != blank and val_track != 0
     echo 'letter-spacing:' | append: val_track | append: 'px;'
   endif
   if val_leading != blank and val_leading != 0
     echo 'line-height:' | append: val_leading | append: ';'
+  endif
+  if val_transform != blank and val_transform != 'inherit' and val_transform != 'none'
+    echo 'text-transform:' | append: val_transform | append: ';'
+  elsif val_transform == 'none'
+    echo 'text-transform:none;'
+  endif
+  if val_decoration != blank and val_decoration != 'inherit' and val_decoration != 'none'
+    echo 'text-decoration:' | append: val_decoration | append: ';'
+  elsif val_decoration == 'none'
+    echo 'text-decoration:none;'
+  endif
+  if val_align != blank and val_align != 'inherit'
+    echo 'text-align:' | append: val_align | append: ';'
+  endif
+  if val_opacity != blank and val_opacity < 100
+    assign opacity_css = val_opacity | times: 0.01
+    echo 'opacity:' | append: opacity_css | append: ';'
+  endif
+  if val_word != blank and val_word != 0
+    echo 'word-spacing:' | append: val_word | append: 'px;'
+  endif
+  if val_max_width != blank and val_max_width > 0
+    echo 'max-width:' | append: val_max_width | append: 'px;'
+  endif
+  if val_radius != blank and val_radius > 0
+    echo 'border-radius:' | append: val_radius | append: 'px;'
   endif
   if val_pt > 0
     echo 'padding-top:' | append: val_pt | append: 'px;'
