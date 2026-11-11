@@ -25,27 +25,45 @@
     var hovered = null;
     var drag = null;
     var justDragged = false;
-    var g = { size: 300, R: 200, cx: 0, cy: 0 };
+    var g = { size: 300, R: 200, cx: 0, cy: 0, mode: 'v', edgeScale: 0.9 };
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function isMobile() {
+      return window.innerWidth < 990;
+    }
 
     function measure() {
       var w = stage.clientWidth;
       var h = stage.clientHeight;
-      var m = window.innerWidth < 990;
-      var edgeScale = m ? 0.84 : 0.9;
-      /* Tablet/phone: smaller plates so the arc fits without clipping top/bottom */
-      var size = m
-        ? Math.max(132, Math.min(w * 0.36, h * 0.42, 200))
-        : Math.max(220, Math.min(h * 0.4, 340));
+      var m = isMobile();
+      root.classList.toggle('tw--mobile', m);
+
+      if (m) {
+        /* Horizontal cover-flow: hero plate centered, neighbours peek left/right */
+        var size = Math.round(Math.min(h * 0.78, w * 0.58, 300));
+        size = Math.max(168, size);
+        var R = Math.max(w * 0.38, size * 0.95);
+        g = { size: size, R: R, cx: w / 2, cy: h / 2, edgeScale: 0.72, mode: 'h' };
+        stage.style.setProperty('--s', size + 'px');
+        var outer = size * 0.92;
+        var inner = size * 0.62;
+        ring.style.width = ring.style.height = outer * 2 + 'px';
+        ring.style.transform = 'translate(' + (g.cx - outer) + 'px,' + (g.cy - outer) + 'px)';
+        ring2.style.width = ring2.style.height = inner * 2 + 'px';
+        ring2.style.transform = 'translate(' + (g.cx - inner) + 'px,' + (g.cy - inner) + 'px)';
+        return;
+      }
+
+      /* Desktop: original side wheel */
+      var edgeScale = 0.9;
+      var size = Math.max(220, Math.min(h * 0.4, 340));
       var slot = Math.min(step, 90) * Math.PI / 180;
-      var pad = m ? size * 0.58 : 0;
-      var R = Math.max((h / 2 - pad) / Math.sin(slot), size * 1.15);
-      /* Mobile: keep the active plate centered in the stage, not shoved left */
-      var ax = m ? w * 0.5 + R * 0.18 : w * 0.62;
-      g = { size: size, R: R, cx: ax - R, cy: h / 2, edgeScale: edgeScale };
+      var R = (h / 2) / Math.sin(slot);
+      var ax = w * 0.62;
+      g = { size: size, R: R, cx: ax - R, cy: h / 2, edgeScale: edgeScale, mode: 'v' };
       stage.style.setProperty('--s', size + 'px');
-      var outer = R + size * (m ? 0.55 : 0.65);
-      var inner = Math.max(outer - (m ? 120 : 200), 0);
+      var outer = R + size * 0.65;
+      var inner = Math.max(outer - 200, 0);
       ring.style.width = ring.style.height = outer * 2 + 'px';
       ring.style.transform = 'translate(' + (g.cx - outer) + 'px,' + (g.cy - outer) + 'px)';
       ring2.style.width = ring2.style.height = inner * 2 + 'px';
@@ -59,14 +77,21 @@
         var a = mod(i * step - rot + 180, 360) - 180;
         var ab = Math.abs(a);
         var rad = a * Math.PI / 180;
-        var x = g.cx + g.R * Math.cos(rad) - g.size / 2;
-        var y = g.cy + g.R * Math.sin(rad) - g.size / 2;
+        var x;
+        var y;
+        if (g.mode === 'h') {
+          x = g.cx + g.R * Math.sin(rad) - g.size / 2;
+          y = g.cy - g.size / 2 + (1 - Math.cos(rad)) * g.size * 0.06;
+        } else {
+          x = g.cx + g.R * Math.cos(rad) - g.size / 2;
+          y = g.cy + g.R * Math.sin(rad) - g.size / 2;
+        }
         var front = ab < 8;
         var t = step ? ab / step : 0;
         var sc = t <= 1
           ? 1 - t * (1 - g.edgeScale)
-          : Math.max(0.7, g.edgeScale - (t - 1) * 0.2);
-        var op = t <= 1.05 ? 1 : Math.max(0, 1 - (t - 1.05) / 0.7);
+          : Math.max(g.mode === 'h' ? 0.55 : 0.7, g.edgeScale - (t - 1) * 0.2);
+        var op = t <= 1.05 ? 1 : Math.max(0, 1 - (t - 1.05) / (g.mode === 'h' ? 0.55 : 0.7));
         var el = plates[i];
         var label = el.querySelector('.tw__label');
         el.classList.toggle('is-active', front);
@@ -113,7 +138,7 @@
     }
 
     function steer(e) {
-      if (drag || reduce || e.pointerType === 'touch') return;
+      if (drag || reduce || e.pointerType === 'touch' || isMobile()) return;
       var rect = stage.getBoundingClientRect();
       if (!rect.height) return;
       var fromCenter = (e.clientY - rect.top) / rect.height - 0.5;
@@ -168,14 +193,14 @@
         steer(e);
         return;
       }
-      var d = window.innerWidth < 990 ? e.clientX - drag.x : e.clientY - drag.y;
+      var d = isMobile() || g.mode === 'h' ? e.clientX - drag.x : e.clientY - drag.y;
       if (!drag.moved) {
         if (Math.abs(d) < 6) return;
         drag.moved = true;
         try { stage.setPointerCapture(e.pointerId); } catch (err) {}
         root.classList.add('dragging');
       }
-      rot = drag.rot - (d / g.R) * 180 / Math.PI;
+      rot = drag.rot - (d / Math.max(g.R, 1)) * 180 / Math.PI;
       var now = performance.now();
       var dt = now - drag.lt;
       if (dt > 16) { drag.vel = (rot - drag.lr) / dt; drag.lt = now; drag.lr = rot; }
