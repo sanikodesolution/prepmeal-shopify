@@ -48,6 +48,10 @@ const FILES = [
   'cm-pd-plate-1.png',
   'cm-pd-plate-2.png',
   'cm-pd-plate-3.png',
+  'cm-da-plate-tl.webp',
+  'cm-da-plate-tr.webp',
+  'cm-da-plate-bl.webp',
+  'cm-da-plate-br.webp',
 ];
 
 function gql(query, variables, allowMutations = false) {
