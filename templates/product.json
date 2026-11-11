@@ -324,7 +324,7 @@
         "row_4": {
           "type": "row",
           "settings": {
-            "image": "shopify://shop_images/cm-usp-menu.gif",
+            "image": "shopify://shop_images/cm-usp-menu.png",
             "image_asset": "cm-usp-menu.gif",
             "image_width": 900,
             "image_height": 525,

@@ -313,11 +313,27 @@
               <{% if block.settings.feature_url != blank %}a href="{{ block.settings.feature_url }}"{% else %}div{% endif %} class="box"{% if block.settings.animate_icon_only %} data-icon-motion{% endif %}>
                   {% unless block.settings.hide_image %}
                   <div class="box__image">
-                      {%- if block.settings.feature_image != blank -%}
-                        <img src="{{ block.settings.feature_image | image_url }}" alt="feature-item-{{ forloop.index }}" {% if lazy %}loading="lazy"{% endif %}>
-                      {%- elsif block.settings.feature_image_asset != blank -%}
+                      {%- liquid
+                        assign feature_asset = block.settings.feature_image_asset
+                        assign feature_asset_ext = feature_asset | split: '.' | last | downcase
+                        assign use_animated_asset = false
+                        if feature_asset != blank and feature_asset_ext == 'gif'
+                          assign use_animated_asset = true
+                        endif
+                      -%}
+                      {%- if use_animated_asset -%}
                         <img
-                          src="{{ block.settings.feature_image_asset | asset_img_url: '400x' }}"
+                          src="{{ feature_asset | asset_img_url: '400x' }}"
+                          alt="{{ block.settings.feature_title | default: block.settings.feature_image_alt | escape }}"
+                          width="400"
+                          height="400"
+                          {% if lazy %}loading="lazy"{% endif %}
+                        >
+                      {%- elsif block.settings.feature_image != blank -%}
+                        <img src="{{ block.settings.feature_image | image_url }}" alt="feature-item-{{ forloop.index }}" {% if lazy %}loading="lazy"{% endif %}>
+                      {%- elsif feature_asset != blank -%}
+                        <img
+                          src="{{ feature_asset | asset_img_url: '400x' }}"
                           alt="{{ block.settings.feature_title | default: block.settings.feature_image_alt | escape }}"
                           width="400"
                           height="400"
@@ -994,13 +1010,14 @@
              {
                 "type":"image_picker",
                 "id":"feature_image",
-                "label":"Icon"
+                "label":"Icon",
+                "info":"PNG/JPG shows a thumbnail here. For animated icons, also set a .gif filename below."
              },
              {
                 "type":"text",
                 "id":"feature_image_asset",
                 "label":"Icon from theme assets",
-                "info":"Filename in the theme assets folder. Used when no icon is selected."
+                "info":"Filename in the theme assets folder. A .gif here stays animated on the storefront even when a still PNG is selected above."
              },
              {
                 "type":"text",

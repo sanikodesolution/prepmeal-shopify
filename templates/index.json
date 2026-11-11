@@ -90,7 +90,7 @@
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
             "animate_icon_only": false,
-            "feature_image": "shopify://shop_images/cm-step-order.gif"
+            "feature_image": "shopify://shop_images/cm-step-order.png"
           }
         },
         "image_8fUBJ9": {
@@ -103,7 +103,7 @@
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
             "animate_icon_only": false,
-            "feature_image": "shopify://shop_images/cm-step-cook.gif"
+            "feature_image": "shopify://shop_images/cm-step-cook.png"
           }
         },
         "image_8cpN8t": {
@@ -116,7 +116,7 @@
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
             "animate_icon_only": false,
-            "feature_image": "shopify://shop_images/cm-step-delivery.gif"
+            "feature_image": "shopify://shop_images/cm-step-delivery.png"
           }
         },
         "image_kwNqAe": {
@@ -129,7 +129,7 @@
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
             "animate_icon_only": false,
-            "feature_image": "shopify://shop_images/cm-step-heat.gif"
+            "feature_image": "shopify://shop_images/cm-step-heat.png"
           }
         }
       },

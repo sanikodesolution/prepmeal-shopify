@@ -55,13 +55,7 @@
         <div class="cm-usp__row" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank or block.settings.image_asset != blank -%}
             <div class="cm-usp__media">
-              {%- if block.settings.image != blank -%}
-                {{
-                  block.settings.image
-                  | image_url: width: 1400
-                  | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 50vw, 100vw', alt: alt
-                }}
-              {%- elsif asset_ext == 'gif' -%}
+              {%- if asset_ext == 'gif' and block.settings.image_asset != blank -%}
                 <img
                   src="{{ block.settings.image_asset | asset_url }}"
                   alt="{{ alt | escape }}"
@@ -69,6 +63,12 @@
                   height="{{ block.settings.image_height }}"
                   loading="lazy"
                 >
+              {%- elsif block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 1400
+                  | image_tag: loading: 'lazy', sizes: '(min-width: 750px) 50vw, 100vw', alt: alt
+                }}
               {%- else -%}
                 {%- render 'asset-image',
                   src: block.settings.image_asset,
