@@ -39,14 +39,14 @@
       root.classList.toggle('tw--mobile', m);
 
       if (m) {
-        /* Horizontal cover-flow: hero plate centered, neighbours peek left/right */
-        var size = Math.round(Math.min(h * 0.78, w * 0.58, 300));
-        size = Math.max(168, size);
-        var R = Math.max(w * 0.38, size * 0.95);
-        g = { size: size, R: R, cx: w / 2, cy: h / 2, edgeScale: 0.72, mode: 'h' };
+        /* Full-width cover-flow: larger hero + wider spread so sides fill the stage */
+        var size = Math.round(Math.min(h * 0.86, w * 0.72, 380));
+        size = Math.max(200, size);
+        var R = Math.max(w * 0.52, size * 1.05);
+        g = { size: size, R: R, cx: w / 2, cy: h / 2, edgeScale: 0.68, mode: 'h' };
         stage.style.setProperty('--s', size + 'px');
-        var outer = size * 0.92;
-        var inner = size * 0.62;
+        var outer = size * 0.96;
+        var inner = size * 0.66;
         ring.style.width = ring.style.height = outer * 2 + 'px';
         ring.style.transform = 'translate(' + (g.cx - outer) + 'px,' + (g.cy - outer) + 'px)';
         ring2.style.width = ring2.style.height = inner * 2 + 'px';
