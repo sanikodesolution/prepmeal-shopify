@@ -69,8 +69,8 @@
     "mp_explore": {
       "type": "cm-mp-explore",
       "settings": {
-        "load_more_label": "Load more",
-        "heading": "À la carte"
+        "heading": "À la carte",
+        "load_more_label": "Load more"
       }
     },
     "mp_chef": {
@@ -312,8 +312,7 @@
         "text": "Five chef-prepared meals, delivered. Choose yours and we handle the rest.",
         "button_label": "Build my 5 meal plan",
         "button_link": "/products/5-meal-plan",
-        "image": "shopify://shop_images/cm-delivery-banner.jpg",
-        "cta_image": "shopify://shop_images/cm-delivery-banner.jpg"
+        "image": "shopify://shop_images/cm-delivery-banner.jpg"
       }
     }
   },

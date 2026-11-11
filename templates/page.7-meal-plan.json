@@ -97,10 +97,10 @@
       ],
       "settings": {
         "content_product": "7-meal-plan",
-        "picker_count": 7,
         "detail_title": "Chef-Made Meal Prep in Hartland, WI | 7 Meal Plan",
         "detail_use_plan_total": true,
         "detail_sale_label": "Sale",
+        "picker_count": 7,
         "meal_price": 1500,
         "quality_button": "Order 7 meals"
       }
@@ -108,9 +108,9 @@
     "mp_hero": {
       "type": "cm-mp-hero",
       "settings": {
+        "content_product": "7-meal-plan",
         "button_link": "/products/7-meal-plan",
         "button_link_2": "#menu",
-        "content_product": "7-meal-plan",
         "hero_image_1": "shopify://shop_images/chimichurri-steak.jpg",
         "hero_image_2": "shopify://shop_images/orange-basil-salmon.jpg"
       }
@@ -176,8 +176,8 @@
     "mp_menu_grid": {
       "type": "cm-mp-menu-grid",
       "settings": {
-        "detail_note": "Meal names and nutrition values are from the current menu.",
-        "content_product": "7-meal-plan"
+        "content_product": "7-meal-plan",
+        "detail_note": "Meal names and nutrition values are from the current menu."
       }
     },
     "mp_thali": {
@@ -190,9 +190,9 @@
     "mp_explore": {
       "type": "cm-mp-explore",
       "settings": {
-        "load_more_label": "Load more",
+        "content_product": "7-meal-plan",
         "heading": "À la carte",
-        "content_product": "7-meal-plan"
+        "load_more_label": "Load more"
       }
     },
     "mp_chef": {
@@ -248,10 +248,11 @@
     "mp_delivery": {
       "type": "cm-mp-delivery",
       "settings": {
-        "delivery_style": "plate",
+        "content_product": "7-meal-plan",
         "eyebrow": "We deliver",
         "heading": "Fresh meals, delivered to your door.",
         "text": "We deliver across Hartland and the towns around it. Enter your postal code or town to see if we reach your door.",
+        "delivery_style": "plate",
         "delivery_areas": "Hartland, Nearby areas",
         "delivery_button_label": "Check my area",
         "delivery_placeholder": "Postal code or town",
@@ -261,8 +262,7 @@
         "plate_visible": 12,
         "plate_kitchen_label": "Our kitchen",
         "plate_kitchen_address": "Hartland, Wisconsin",
-        "plate_zone_radius": 22,
-        "content_product": "7-meal-plan"
+        "plate_zone_radius": 22
       }
     },
     "mp_reviews": {
@@ -450,13 +450,12 @@
     "mp_cta": {
       "type": "cm-mp-cta",
       "settings": {
+        "content_product": "7-meal-plan",
         "heading": "Your week just got easier.",
         "text": "Seven chef-prepared meals, delivered. Choose yours and we handle the rest.",
         "button_label": "Build my 7 meal plan",
         "button_link": "/products/7-meal-plan",
-        "content_product": "7-meal-plan",
-        "image": "shopify://shop_images/cm-delivery-banner.jpg",
-        "cta_image": "shopify://shop_images/cm-delivery-banner.jpg"
+        "image": "shopify://shop_images/cm-delivery-banner.jpg"
       }
     }
   },

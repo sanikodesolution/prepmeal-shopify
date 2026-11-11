@@ -97,10 +97,10 @@
       ],
       "settings": {
         "content_product": "5-meal-plan",
-        "picker_count": 5,
         "detail_title": "Chef-Made Meal Prep in Hartland, WI | 5 Meal Plan",
         "detail_use_plan_total": true,
         "detail_sale_label": "Sale",
+        "picker_count": 5,
         "meal_price": 1500,
         "quality_button": "Order 5 meals"
       }
@@ -108,9 +108,9 @@
     "mp_hero": {
       "type": "cm-mp-hero",
       "settings": {
+        "content_product": "5-meal-plan",
         "button_link": "/products/5-meal-plan",
         "button_link_2": "#menu",
-        "content_product": "5-meal-plan",
         "hero_image_1": "shopify://shop_images/chimichurri-steak.jpg",
         "hero_image_2": "shopify://shop_images/orange-basil-salmon.jpg"
       }
@@ -176,8 +176,8 @@
     "mp_menu_grid": {
       "type": "cm-mp-menu-grid",
       "settings": {
-        "detail_note": "Meal names and nutrition values are from the current menu.",
-        "content_product": "5-meal-plan"
+        "content_product": "5-meal-plan",
+        "detail_note": "Meal names and nutrition values are from the current menu."
       }
     },
     "mp_thali": {
@@ -190,9 +190,9 @@
     "mp_explore": {
       "type": "cm-mp-explore",
       "settings": {
-        "load_more_label": "Load more",
+        "content_product": "5-meal-plan",
         "heading": "À la carte",
-        "content_product": "5-meal-plan"
+        "load_more_label": "Load more"
       }
     },
     "mp_chef": {
@@ -248,11 +248,11 @@
     "mp_delivery": {
       "type": "cm-mp-delivery",
       "settings": {
+        "content_product": "5-meal-plan",
         "heading": "Fresh meals, delivered to your door.",
         "text": "We deliver across Hartland and nearby areas. Enter your postcode at checkout to confirm we deliver to you.",
         "delivery_areas": "Hartland, Nearby areas",
-        "delivery_button_label": "Check my area",
-        "content_product": "5-meal-plan"
+        "delivery_button_label": "Check my area"
       }
     },
     "mp_reviews": {
@@ -440,13 +440,12 @@
     "mp_cta": {
       "type": "cm-mp-cta",
       "settings": {
+        "content_product": "5-meal-plan",
         "heading": "Your week just got easier.",
         "text": "Five chef-prepared meals, delivered. Choose yours and we handle the rest.",
         "button_label": "Build my 5 meal plan",
         "button_link": "/products/5-meal-plan",
-        "content_product": "5-meal-plan",
-        "image": "shopify://shop_images/cm-delivery-banner.jpg",
-        "cta_image": "shopify://shop_images/cm-delivery-banner.jpg"
+        "image": "shopify://shop_images/cm-delivery-banner.jpg"
       }
     }
   },

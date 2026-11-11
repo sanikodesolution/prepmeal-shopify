@@ -59,6 +59,7 @@
       },
       "block_order": ["cta", "explore", "contact"],
       "settings": {
+        "logo": "shopify://shop_images/chef-matts-meals-logo.png",
         "logo_width": 110,
         "about": "<p>Healthy, flavour-forward meal prep made with clean, honest, and locally sourced ingredients — prepared with care by Chef Matthew, who draws on more than 40 years of culinary mastery.</p>",
         "show_social": true,
