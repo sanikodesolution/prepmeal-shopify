@@ -354,7 +354,8 @@
             "review": "These meals made weeknights so much easier.",
             "rating": 5,
             "show_image": true,
-            "aspect": "1"
+            "aspect": "1",
+            "image": "shopify://shop_images/mp-food-0.jpg"
           }
         },
         "review_2": {
@@ -364,7 +365,8 @@
             "review": "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
             "rating": 5,
             "show_image": true,
-            "aspect": "1.3"
+            "aspect": "1.3",
+            "image": "shopify://shop_images/mp-food-1.jpg"
           }
         },
         "review_3": {
@@ -384,7 +386,8 @@
             "review": "Another placeholder review for the layout.",
             "rating": 5,
             "show_image": true,
-            "aspect": "0.8"
+            "aspect": "0.8",
+            "image": "shopify://shop_images/mp-food-3.jpg"
           }
         }
       },
