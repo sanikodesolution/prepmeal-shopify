@@ -32,15 +32,20 @@
       var w = stage.clientWidth;
       var h = stage.clientHeight;
       var m = window.innerWidth < 990;
-      var edgeScale = 0.9;
-      var size = m ? Math.max(160, Math.min(w * 0.5, 240)) : Math.max(220, Math.min(h * 0.4, 340));
+      var edgeScale = m ? 0.84 : 0.9;
+      /* Tablet/phone: smaller plates so the arc fits without clipping top/bottom */
+      var size = m
+        ? Math.max(132, Math.min(w * 0.36, h * 0.42, 200))
+        : Math.max(220, Math.min(h * 0.4, 340));
       var slot = Math.min(step, 90) * Math.PI / 180;
-      var R = (h / 2) / Math.sin(slot);
-      var ax = m ? w * 0.5 : w * 0.62;
+      var pad = m ? size * 0.58 : 0;
+      var R = Math.max((h / 2 - pad) / Math.sin(slot), size * 1.15);
+      /* Mobile: keep the active plate centered in the stage, not shoved left */
+      var ax = m ? w * 0.5 + R * 0.18 : w * 0.62;
       g = { size: size, R: R, cx: ax - R, cy: h / 2, edgeScale: edgeScale };
       stage.style.setProperty('--s', size + 'px');
-      var outer = R + size * 0.65;
-      var inner = Math.max(outer - 200, 0);
+      var outer = R + size * (m ? 0.55 : 0.65);
+      var inner = Math.max(outer - (m ? 120 : 200), 0);
       ring.style.width = ring.style.height = outer * 2 + 'px';
       ring.style.transform = 'translate(' + (g.cx - outer) + 'px,' + (g.cy - outer) + 'px)';
       ring2.style.width = ring2.style.height = inner * 2 + 'px';
