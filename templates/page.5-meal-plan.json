@@ -110,7 +110,9 @@
       "settings": {
         "button_link": "/products/5-meal-plan",
         "button_link_2": "#menu",
-        "content_product": "5-meal-plan"
+        "content_product": "5-meal-plan",
+        "hero_image_1": "shopify://shop_images/chimichurri-steak.jpg",
+        "hero_image_2": "shopify://shop_images/orange-basil-salmon.jpg"
       }
     },
     "mp_benefits": {
@@ -181,7 +183,8 @@
     "mp_thali": {
       "type": "cm-mp-thali",
       "settings": {
-        "content_product": "5-meal-plan"
+        "content_product": "5-meal-plan",
+        "thali_image": "shopify://shop_images/four-items-plate.webp"
       }
     },
     "mp_explore": {
@@ -195,7 +198,9 @@
     "mp_chef": {
       "type": "cm-mp-chef",
       "settings": {
-        "content_product": "5-meal-plan"
+        "content_product": "5-meal-plan",
+        "chef_image_1": "shopify://shop_images/mp-food-0.jpg",
+        "chef_image_2": "shopify://shop_images/mp-food-1.jpg"
       }
     },
     "mp_steps": {
@@ -439,7 +444,9 @@
         "text": "Five chef-prepared meals, delivered. Choose yours and we handle the rest.",
         "button_label": "Build my 5 meal plan",
         "button_link": "/products/5-meal-plan",
-        "content_product": "5-meal-plan"
+        "content_product": "5-meal-plan",
+        "image": "shopify://shop_images/cm-delivery-banner.jpg",
+        "cta_image": "shopify://shop_images/cm-delivery-banner.jpg"
       }
     }
   },

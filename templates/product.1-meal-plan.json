@@ -70,7 +70,9 @@
         "button_link": "/products/6-meal-plan",
         "button_link_2": "#menu",
         "hero_image_1_alt": "Chimichurri Steak",
-        "hero_image_2_alt": "Orange Basil Salmon"
+        "hero_image_2_alt": "Orange Basil Salmon",
+        "hero_image_1": "shopify://shop_images/chimichurri-steak.jpg",
+        "hero_image_2": "shopify://shop_images/orange-basil-salmon.jpg"
       }
     },
     "mp_benefits": {
@@ -208,7 +210,8 @@
         "thali_facts": "4|Items in every thali\n32 oz|Generous portion\n50 km|Delivery radius\n2�|Deliveries every week",
         "thali_bg": "#e3eadf",
         "thali_accent": "#f5a623",
-        "content_product": "1-meal-plan"
+        "content_product": "1-meal-plan",
+        "thali_image": "shopify://shop_images/four-items-plate.webp"
       }
     },
     "mp_explore": {
@@ -228,7 +231,9 @@
         "eyebrow": "The Chef Matt way",
         "heading": "40 years in the kitchen. Now cooking for you.",
         "text": "Chef Matt has spent four decades cooking. Now he cooks calorie-counted, high-protein, low-oil meals for you.",
-        "content_product": "1-meal-plan"
+        "content_product": "1-meal-plan",
+        "chef_image_1": "shopify://shop_images/mp-food-0.jpg",
+        "chef_image_2": "shopify://shop_images/mp-food-1.jpg"
       }
     },
     "mp_steps": {
@@ -478,7 +483,9 @@
         "text": "Six chef-prepared meals, delivered. Choose yours and we handle the rest.",
         "button_label": "Build my 1 meal plan",
         "button_link": "/products/6-meal-plan",
-        "content_product": "1-meal-plan"
+        "content_product": "1-meal-plan",
+        "image": "shopify://shop_images/cm-delivery-banner.jpg",
+        "cta_image": "shopify://shop_images/cm-delivery-banner.jpg"
       }
     }
   },

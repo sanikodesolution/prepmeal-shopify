@@ -21,7 +21,8 @@
         "author": "Matthew, Founder and Chef",
         "background": "cream",
         "padding_top": 80,
-        "padding_bottom": 72
+        "padding_bottom": 72,
+        "image": "shopify://shop_images/cm-healthy-meals.jpg"
       }
     },
     "usp": {
