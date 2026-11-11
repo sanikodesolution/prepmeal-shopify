@@ -265,7 +265,8 @@
             "review": "These meals made weeknights so much easier.",
             "rating": 5,
             "show_image": true,
-            "aspect": "1"
+            "aspect": "1",
+            "image": "shopify://shop_images/mp-food-0.jpg"
           }
         },
         "review_2": {
@@ -275,7 +276,8 @@
             "review": "A longer placeholder review sits here to show the masonry rhythm, with text and image together.",
             "rating": 5,
             "show_image": true,
-            "aspect": "1.3"
+            "aspect": "1.3",
+            "image": "shopify://shop_images/mp-food-1.jpg"
           }
         },
         "review_3": {
@@ -295,7 +297,8 @@
             "review": "Another placeholder review for the layout.",
             "rating": 5,
             "show_image": true,
-            "aspect": "0.8"
+            "aspect": "0.8",
+            "image": "shopify://shop_images/mp-food-3.jpg"
           }
         }
       },
@@ -393,7 +396,8 @@
             "text": "Six meals from the weekly menu.",
             "price_note": "Price at checkout",
             "button_label": "View plan",
-            "link": "/pages/6-meal-plan"
+            "link": "/pages/6-meal-plan",
+            "image": "shopify://shop_images/mp-food-0.jpg"
           }
         },
         "related_2": {
@@ -403,7 +407,8 @@
             "text": "Seven meals from the weekly menu.",
             "price_note": "Price at checkout",
             "button_label": "View plan",
-            "link": "/pages/7-meal-plan"
+            "link": "/pages/7-meal-plan",
+            "image": "shopify://shop_images/mp-food-1.jpg"
           }
         },
         "related_3": {
@@ -413,7 +418,8 @@
             "text": "Ten meals from the weekly menu.",
             "price_note": "Price at checkout",
             "button_label": "View plan",
-            "link": "/pages/10-meal-plan"
+            "link": "/pages/10-meal-plan",
+            "image": "shopify://shop_images/mp-food-2.jpg"
           }
         },
         "related_4": {
@@ -423,7 +429,8 @@
             "text": "Fifteen meals from the weekly menu.",
             "price_note": "Price at checkout",
             "button_label": "View plan",
-            "link": "/pages/15-meal-plan"
+            "link": "/pages/15-meal-plan",
+            "image": "shopify://shop_images/mp-food-3.jpg"
           }
         }
       },
