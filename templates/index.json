@@ -70,7 +70,11 @@
         "color_scheme": "scheme-4",
         "stack_images_on_mobile": true,
         "mobile_content_alignment": "left",
-        "show_text_below": false
+        "show_text_below": false,
+        "image": "shopify://shop_images/cm-hero-banner.jpg",
+        "visual_image_1": "shopify://shop_images/plate-chicken-veggies.png",
+        "visual_image_2": "shopify://shop_images/plate-chicken-potatoes.png",
+        "visual_image_3": "shopify://shop_images/plate-vegetables.png"
       }
     },
     "ss_feature_1_EbPbYE": {
@@ -85,7 +89,8 @@
             "feature_image_alt": "",
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
-            "animate_icon_only": false
+            "animate_icon_only": false,
+            "feature_image": "shopify://shop_images/cm-step-order.gif"
           }
         },
         "image_8fUBJ9": {
@@ -97,7 +102,8 @@
             "feature_image_alt": "",
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
-            "animate_icon_only": false
+            "animate_icon_only": false,
+            "feature_image": "shopify://shop_images/cm-step-cook.gif"
           }
         },
         "image_8cpN8t": {
@@ -109,7 +115,8 @@
             "feature_image_alt": "",
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
-            "animate_icon_only": false
+            "animate_icon_only": false,
+            "feature_image": "shopify://shop_images/cm-step-delivery.gif"
           }
         },
         "image_kwNqAe": {
@@ -121,7 +128,8 @@
             "feature_image_alt": "",
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
-            "animate_icon_only": false
+            "animate_icon_only": false,
+            "feature_image": "shopify://shop_images/cm-step-heat.gif"
           }
         }
       },
@@ -241,7 +249,8 @@
         "section_color_scheme": "scheme-b4f16753-5e7b-4814-897f-6645cc992ad0",
         "color_scheme": "scheme-b4f16753-5e7b-4814-897f-6645cc992ad0",
         "padding_top": 36,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "image": "shopify://shop_images/cm-healthy-meals-bg.jpg"
       }
     },
     "cm_parallax_gallery": {
@@ -257,7 +266,8 @@
             "title": "Chef-Crafted Flavors",
             "text": "<p>Classical French training and 40 years in the kitchen go into every container. Global flavors, cooked from scratch by Chef Matt.</p>",
             "link_label": "",
-            "link": ""
+            "link": "",
+            "image": "shopify://shop_images/cm-hero-banner.jpg"
           }
         },
         "item_2": {
@@ -270,7 +280,8 @@
             "title": "Clean Food, Clean Packaging",
             "text": "<p>Every meal is packed in <strong>environmentally friendly containers</strong> - designed to reduce waste without cutting corners on quality or freshness.</p>",
             "link_label": "",
-            "link": ""
+            "link": "",
+            "image": "shopify://shop_images/cm-usp-eco.jpg"
           }
         },
         "item_3": {
@@ -283,7 +294,8 @@
             "title": "Delivered Fresh",
             "text": "<p>Fresh, never frozen meals delivered across Hartland and Lake Country. Just heat for 2-3 minutes and enjoy.</p>",
             "link_label": "Order now",
-            "link": "shopify://collections/meal-plans"
+            "link": "shopify://collections/meal-plans",
+            "image": "shopify://shop_images/cm-delivery-banner.jpg"
           }
         }
       },
@@ -316,7 +328,8 @@
             "feature_image_alt": "Chef-Crafted Meals",
             "feature_url": "",
             "hide_image": false,
-            "animate_icon_only": true
+            "animate_icon_only": true,
+            "feature_image": "shopify://shop_images/cm-badge-icon-1-yellow.png"
           }
         },
         "image_DDUVzQ": {
@@ -328,7 +341,8 @@
             "feature_image_alt": "Low-Calorie & High Protein Meals",
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
-            "animate_icon_only": true
+            "animate_icon_only": true,
+            "feature_image": "shopify://shop_images/cm-badge-icon-2-yellow.png"
           }
         },
         "image_DVrxK4": {
@@ -340,7 +354,8 @@
             "feature_image_alt": "Clean Ingredients",
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
-            "animate_icon_only": true
+            "animate_icon_only": true,
+            "feature_image": "shopify://shop_images/cm-badge-icon-3-yellow.png"
           }
         },
         "image_abqaFA": {
@@ -352,7 +367,8 @@
             "feature_image_alt": "Delivered Fresh Weekly",
             "feature_url": "shopify://collections/meal-plans",
             "hide_image": false,
-            "animate_icon_only": true
+            "animate_icon_only": true,
+            "feature_image": "shopify://shop_images/cm-badge-icon-4-yellow.png"
           }
         }
       },
@@ -415,70 +431,80 @@
           "type": "item",
           "settings": {
             "image_asset": "mp-food-0.jpg",
-            "title": "Chicken Biryani with Raita"
+            "title": "Chicken Biryani with Raita",
+            "image": "shopify://shop_images/mp-food-0.jpg"
           }
         },
         "item_2": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-1.jpg",
-            "title": "Tandoori Chicken Leg with Veg Jalfrezi"
+            "title": "Tandoori Chicken Leg with Veg Jalfrezi",
+            "image": "shopify://shop_images/mp-food-1.jpg"
           }
         },
         "item_3": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-2.jpg",
-            "title": "Butter Chicken with Aloo Methi"
+            "title": "Butter Chicken with Aloo Methi",
+            "image": "shopify://shop_images/mp-food-2.jpg"
           }
         },
         "item_4": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-3.jpg",
-            "title": "Coconut Fish Curry with Jeera Aloo"
+            "title": "Coconut Fish Curry with Jeera Aloo",
+            "image": "shopify://shop_images/mp-food-3.jpg"
           }
         },
         "item_5": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-4.jpg",
-            "title": "Lamb Korma with Green Salad"
+            "title": "Lamb Korma with Green Salad",
+            "image": "shopify://shop_images/mp-food-4.jpg"
           }
         },
         "item_6": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-5.jpg",
-            "title": "Chana Masala with Jeera Aloo"
+            "title": "Chana Masala with Jeera Aloo",
+            "image": "shopify://shop_images/mp-food-5.jpg"
           }
         },
         "item_7": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-6.jpg",
-            "title": "Palak Paneer with Aloo Gobi"
+            "title": "Palak Paneer with Aloo Gobi",
+            "image": "shopify://shop_images/mp-food-6.jpg"
           }
         },
         "item_8": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-7.jpg",
-            "title": "Dal Makhani with Bhindi Masala"
+            "title": "Dal Makhani with Bhindi Masala",
+            "image": "shopify://shop_images/mp-food-7.jpg"
           }
         },
         "item_9": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-8.jpg",
-            "title": "Malai Kofta with Rajma"
+            "title": "Malai Kofta with Rajma",
+            "image": "shopify://shop_images/mp-food-8.jpg"
           }
         },
         "item_10": {
           "type": "item",
           "settings": {
             "image_asset": "mp-food-9.jpg",
-            "title": "Baingan Bharta with Rajma Masala"
+            "title": "Baingan Bharta with Rajma Masala",
+            "image": "shopify://shop_images/mp-food-9.jpg"
           }
         }
       },
@@ -518,7 +544,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-0.jpg"
           }
         },
         "dish_2": {
@@ -530,7 +557,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-1.jpg"
           }
         },
         "dish_3": {
@@ -542,7 +570,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-2.jpg"
           }
         },
         "dish_4": {
@@ -554,7 +583,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-3.jpg"
           }
         },
         "dish_5": {
@@ -566,7 +596,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-4.jpg"
           }
         },
         "dish_6": {
@@ -578,7 +609,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-5.jpg"
           }
         },
         "dish_7": {
@@ -590,7 +622,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-6.jpg"
           }
         },
         "dish_8": {
@@ -602,7 +635,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-7.jpg"
           }
         },
         "dish_9": {
@@ -614,7 +648,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-8.jpg"
           }
         },
         "dish_10": {
@@ -626,7 +661,8 @@
             "cal": "",
             "protein": "",
             "carbs": "",
-            "fat": ""
+            "fat": "",
+            "image": "shopify://shop_images/mp-food-9.jpg"
           }
         },
         "acc_1": {

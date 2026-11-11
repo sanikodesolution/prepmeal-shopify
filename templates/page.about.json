@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "story": {
@@ -34,7 +43,8 @@
             "image_alt": "Salmon with rice and carrots, annotated with macros",
             "label": "Built for Balance",
             "title": "Protein, carbs, and veggies in every container.",
-            "text": "<p>Every meal is built around a lean protein, a smart carb, and a serving of veggies, so your plate stays balanced without any extra thought. <strong>Macros portioned right</strong>, to help you hit your goals meal after meal.</p>"
+            "text": "<p>Every meal is built around a lean protein, a smart carb, and a serving of veggies, so your plate stays balanced without any extra thought. <strong>Macros portioned right</strong>, to help you hit your goals meal after meal.</p>",
+            "image": "shopify://shop_images/cm-usp-balance.jpg"
           }
         },
         "row_2": {
@@ -46,7 +56,8 @@
             "image_alt": "BBQ chicken meal in a 24oz container",
             "label": "Generous Portions You Can Count On",
             "title": "24oz every time. You won't go hungry.",
-            "text": "<p>Every meal comes packed in a <strong>24oz container</strong>, giving you satisfying portions that keep you full for hours.</p>"
+            "text": "<p>Every meal comes packed in a <strong>24oz container</strong>, giving you satisfying portions that keep you full for hours.</p>",
+            "image": "shopify://shop_images/cm-usp-portions.jpg"
           }
         },
         "row_3": {
@@ -58,7 +69,8 @@
             "image_alt": "Eco-friendly meal prep containers",
             "label": "Better for You. Better for the Planet.",
             "title": "Eco-friendly packaging on every order.",
-            "text": "<p>Every meal is packed in <strong>environmentally friendly containers</strong> - designed to reduce waste without cutting corners on quality or freshness. Clean food in clean packaging. That is the Chef Matt standard.</p>"
+            "text": "<p>Every meal is packed in <strong>environmentally friendly containers</strong> - designed to reduce waste without cutting corners on quality or freshness. Clean food in clean packaging. That is the Chef Matt standard.</p>",
+            "image": "shopify://shop_images/cm-usp-eco.jpg"
           }
         },
         "row_4": {
@@ -70,7 +82,8 @@
             "image_alt": "Rotating menu of Chef Matt meals",
             "label": "Always Something New",
             "title": "Over 10 meals to pick from.",
-            "text": "<p>Chef Matt adds new meals every two weeks. More choices, more variety. <strong>You will always find something you love.</strong></p>"
+            "text": "<p>Chef Matt adds new meals every two weeks. More choices, more variety. <strong>You will always find something you love.</strong></p>",
+            "image": "shopify://shop_images/cm-usp-menu.gif"
           }
         }
       },
