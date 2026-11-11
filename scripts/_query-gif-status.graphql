@@ -1,0 +1,13 @@
+query ($q: String!) {
+  files(first: 10, query: $q) {
+    nodes {
+      __typename
+      ... on MediaImage {
+        id
+        fileStatus
+        image { url width height }
+        mimeType
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+query ($q: String!) {
+  files(first: 20, query: $q) {
+    nodes {
+      __typename
+      ... on MediaImage {
+        id
+        image { url }
+        mimeType
+      }
+      ... on GenericFile {
+        id
+        url
+        mimeType
+      }
+    }
+  }
+}
