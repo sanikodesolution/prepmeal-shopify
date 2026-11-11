@@ -993,7 +993,11 @@
         "plate_tl_alt": "Fresh vegetables plate",
         "plate_tr_alt": "Chef prepared meal",
         "plate_bl_alt": "Chicken and vegetables plate",
-        "plate_br_alt": "Salad bowl"
+        "plate_br_alt": "Salad bowl",
+        "plate_tl": "shopify://shop_images/cm-da-plate-tl.webp",
+        "plate_tr": "shopify://shop_images/cm-da-plate-tr.webp",
+        "plate_bl": "shopify://shop_images/cm-da-plate-bl.webp",
+        "plate_br": "shopify://shop_images/cm-da-plate-br.webp"
       }
     }
   },
