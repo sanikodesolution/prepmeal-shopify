@@ -130,7 +130,8 @@
             "author": "Jordan M.",
             "rating": 5,
             "date": "Mar 12, 2026",
-            "text": "Bought this for my sister. She said the meals tasted homemade and she actually looked unstressed for once."
+            "text": "Bought this for my sister. She said the meals tasted homemade and she actually looked unstressed for once.",
+            "image": "shopify://shop_images/mp-food-0.jpg"
           }
         },
         "review_2": {
@@ -139,7 +140,8 @@
             "author": "Priya S.",
             "rating": 5,
             "date": "Feb 28, 2026",
-            "text": "Perfect birthday gift. The email delivery was instant and the $50 covered almost a full week of dinners."
+            "text": "Perfect birthday gift. The email delivery was instant and the $50 covered almost a full week of dinners.",
+            "image": "shopify://shop_images/mp-food-1.jpg"
           }
         }
       },
