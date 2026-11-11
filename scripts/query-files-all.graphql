@@ -1,0 +1,22 @@
+query ($q: String!) {
+  files(first: 100, query: $q) {
+    nodes {
+      ... on MediaImage {
+        id
+        alt
+        fileStatus
+        image {
+          url
+        }
+      }
+      ... on GenericFile {
+        id
+        url
+      }
+      ... on Video {
+        id
+        filename
+      }
+    }
+  }
+}

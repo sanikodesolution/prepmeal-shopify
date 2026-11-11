@@ -1,0 +1,18 @@
+query {
+  files(first: 80, query: "media_type:IMAGE") {
+    nodes {
+      ... on MediaImage {
+        id
+        alt
+        fileStatus
+        image {
+          url
+        }
+      }
+      ... on GenericFile {
+        id
+        url
+      }
+    }
+  }
+}
