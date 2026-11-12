@@ -665,18 +665,28 @@
 
  .cmc__foot {
  flex-direction: column;
- align-items: stretch;
+ align-items: center;
  gap: 0.75em;
+ }
+
+ .cmc__foot .cmc__pm,
+ .cmc__foot .pm {
+ width: auto;
+ max-width: 100%;
+ flex: 0 0 auto;
+ justify-content: flex-start;
  }
 
  .cmc__send,
  .cmc__call {
- width: 100%;
+ width: auto;
+ max-width: 100%;
  justify-content: center;
  }
 
  .cmc__note {
  text-align: center;
+ width: 100%;
  }
 
  .cmc__social a {
