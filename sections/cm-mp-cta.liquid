@@ -20,26 +20,26 @@
 
 
 <div class="mealplan-page pm-section-bg" data-mp-page data-cm="meal-plan-cta" {% render 'pm-section-style', section: section %}>
-  <div class="mealplan">
+<div class="mealplan">
     <section class="mealplan-sec">
       <div class="mealplan-wrap">
         <div class="mealplan-cta">
-          {%- liquid
-            assign cta_image = section.settings.image | default: plan_meta.cta_image.value | default: shared_meta.cta_image.value | default: section.settings.cta_image
-          -%}
-          <div class="mealplan-img mp-reveal mp-ken"{% unless cta_image != blank %} data-p="3"{% endunless %}>
-            {%- if cta_image != blank -%}
-              {{ cta_image | image_url: width: 1400 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '600, 900, 1400', sizes: '(min-width: 750px) 70vw, 92vw', alt: c_cta_heading }}
-            {%- endif -%}
-          </div>
-          <div class="mealplan-cta-in">
-            {%- if c_cta_eyebrow != blank -%}
+      {%- liquid
+        assign cta_image = section.settings.image | default: plan_meta.cta_image.value | default: shared_meta.cta_image.value | default: section.settings.cta_image
+      -%}
+      <div class="mealplan-img mp-reveal mp-ken"{% unless cta_image != blank %} data-p="3"{% endunless %}>
+        {%- if cta_image != blank -%}
+          {{ cta_image | image_url: width: 1400 | image_tag: class: 'mp-food mealplan-ph', loading: 'lazy', widths: '600, 900, 1400', sizes: '(min-width: 750px) 70vw, 92vw', alt: c_cta_heading }}
+        {%- endif -%}
+      </div>
+      <div class="mealplan-cta-in">
+        {%- if c_cta_eyebrow != blank -%}
               <p class="mp-eye mp-eye--dark"
         {% if mp_eyebrow_style != blank %}
           style="{{ mp_eyebrow_style | strip }}"
         {% endif %}
       >{{ c_cta_eyebrow | escape }}</p>
-            {%- endif -%}
+        {%- endif -%}
             <h2 class="mealplan-h"
         {% if mp_heading_style != blank %}
           style="{{ mp_heading_style | strip }}"
@@ -50,24 +50,24 @@
           style="{{ mp_body_style | strip }}"
         {% endif %}
       >{{ c_cta_text | escape }}</p>
-            {%- if c_cta_button_label != blank -%}
-              {%- liquid
-                assign cta_btn_link = c_cta_button_link | default: '#'
-                assign cta_text_color = section.settings.button_text_color | default: section.settings.cta_button_text_color
-                assign cta_bg_color = section.settings.button_bg_color | default: section.settings.cta_button_bg_color
-                assign cta_icon_bg = section.settings.button_icon_bg | default: section.settings.cta_button_icon_bg
-                assign cta_icon_color = section.settings.button_icon_color | default: section.settings.cta_button_icon_color
-                assign cta_font_size = section.settings.button_font_size | default: section.settings.cta_button_font_size
+        {%- if c_cta_button_label != blank -%}
+          {%- liquid
+            assign cta_btn_link = c_cta_button_link | default: '#'
+            assign cta_text_color = section.settings.button_text_color | default: section.settings.cta_button_text_color
+            assign cta_bg_color = section.settings.button_bg_color | default: section.settings.cta_button_bg_color
+            assign cta_icon_bg = section.settings.button_icon_bg | default: section.settings.cta_button_icon_bg
+            assign cta_icon_color = section.settings.button_icon_color | default: section.settings.cta_button_icon_color
+            assign cta_font_size = section.settings.button_font_size | default: section.settings.cta_button_font_size
                 assign cta_hover_text = section.settings.button_hover_text_color | default: section.settings.cta_button_hover_text_color
                 assign cta_hover_bg = section.settings.button_hover_bg_color | default: section.settings.cta_button_hover_bg_color
-              -%}
+          -%}
               {% render 'pm-button', label: c_cta_button_label, link: cta_btn_link, style: 'brand', text_color: cta_text_color, bg_color: cta_bg_color, icon_bg: cta_icon_bg, icon_color: cta_icon_color, font_size: cta_font_size, hover_text_color: cta_hover_text, hover_bg_color: cta_hover_bg %}
-            {%- endif -%}
+        {%- endif -%}
           </div>
         </div>
       </div>
     </section>
-  </div>
+</div>
 </div>
 
 {% schema %}

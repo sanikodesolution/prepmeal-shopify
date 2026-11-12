@@ -72,7 +72,7 @@
           {%- render 'pm-block-type-style', block: block, prefix: 'promise_' -%}
         {%- endcapture -%}
         <div class="cm-footer__cta" {{ block.shopify_attributes }}>
-          <div class="cm-footer__cta-copy">
+        <div class="cm-footer__cta-copy">
             {%- if cta.eyebrow != blank -%}
               <p
                 class="cm-footer__eyebrow"
@@ -80,7 +80,7 @@
                   style="{{ cmf_eyebrow_style | strip }}"
                 {% endif %}
               >{{ cta.eyebrow | escape }}</p>
-            {%- endif -%}
+          {%- endif -%}
             {%- if cta.heading != blank -%}
               <h2
                 class="cm-footer__cta-title"
@@ -88,7 +88,7 @@
                   style="{{ cmf_heading_style | strip }}"
                 {% endif %}
               >{{ cta.heading | escape }}</h2>
-            {%- endif -%}
+          {%- endif -%}
             {%- if cta.text != blank -%}
               <div
                 class="cm-footer__cta-text"
@@ -96,7 +96,7 @@
                   style="{{ cmf_body_style | strip }}"
                 {% endif %}
               >{{ cta.text }}</div>
-            {%- endif -%}
+          {%- endif -%}
 
             {%- if cta.promise_1 != blank or cta.promise_2 != blank or cta.promise_3 != blank -%}
               <ul
@@ -108,40 +108,40 @@
               >
                 {%- if cta.promise_1 != blank -%}
                   <li>{% render 'cm-footer-icon', icon: 'chef' %}{{ cta.promise_1 | escape }}</li>
-                {%- endif -%}
+              {%- endif -%}
                 {%- if cta.promise_2 != blank -%}
                   <li>{% render 'cm-footer-icon', icon: 'leaf' %}{{ cta.promise_2 | escape }}</li>
-                {%- endif -%}
+              {%- endif -%}
                 {%- if cta.promise_3 != blank -%}
                   <li>{% render 'cm-footer-icon', icon: 'truck' %}{{ cta.promise_3 | escape }}</li>
-                {%- endif -%}
-              </ul>
-            {%- endif -%}
-          </div>
+              {%- endif -%}
+            </ul>
+          {%- endif -%}
+        </div>
 
-          <div class="cm-footer__cta-actions">
+        <div class="cm-footer__cta-actions">
             {%- if cta.button_label != blank -%}
-              {% render 'pm-button',
+            {% render 'pm-button',
                 label: cta.button_label,
                 link: cta.button_link,
-                style: 'ink',
+              style: 'ink',
                 class: 'cm-footer__pm',
                 text_color: cta.button_text_color,
                 bg_color: cta.button_bg_color,
                 icon_bg: cta.button_icon_bg,
                 icon_color: cta.button_icon_color,
                 font_size: cta.button_font_size, hover_text_color: cta.button_hover_text_color, hover_bg_color: cta.button_hover_bg_color
-              %}
-            {%- endif -%}
+            %}
+          {%- endif -%}
             {%- if cta.phone != blank -%}
-              <a class="cm-footer__btn cm-footer__btn--ghost" href="tel:{{ phone_digits }}">
-                {% render 'cm-footer-icon', icon: 'phone' %}
+            <a class="cm-footer__btn cm-footer__btn--ghost" href="tel:{{ phone_digits }}">
+              {% render 'cm-footer-icon', icon: 'phone' %}
                 <span>{{ cta.phone | escape }}</span>
-              </a>
-            {%- endif -%}
-          </div>
+            </a>
+          {%- endif -%}
         </div>
-      {%- endif -%}
+      </div>
+    {%- endif -%}
     {%- endfor -%}
 
     <div class="cm-footer__grid{% unless section.settings.show_newsletter %} cm-footer__grid--no-news{% endunless %}">

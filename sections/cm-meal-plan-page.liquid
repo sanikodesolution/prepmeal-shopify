@@ -379,7 +379,7 @@
   # real variants — so editing the product updates both preview sections.
   assign meals_catalog = section.settings.meals_product
   if meals_catalog == blank
-    assign meals_catalog = plan_product
+  assign meals_catalog = plan_product
   endif
   assign variant_menu = false
   if meals_catalog != blank and meals_catalog.variants.size > 0
@@ -398,11 +398,11 @@
   if variant_menu
     for variant in meals_catalog.variants
       unless variant.title == 'Default Title'
-        if variant.price > 0
-          assign any_price = true
+      if variant.price > 0
+        assign any_price = true
           if meal_base_cents == 0 or variant.price < meal_base_cents
             assign meal_base_cents = variant.price
-          endif
+      endif
         endif
       endunless
     endfor
@@ -774,9 +774,9 @@
                     {%- endunless -%}
                   {%- endfor -%}
                 {%- else -%}
-                  {%- for block in menu_blocks -%}
-                    <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
-                  {%- endfor -%}
+                {%- for block in menu_blocks -%}
+                  <li data-mp-row{% if forloop.first %} class="is-active"{% endif %}>{{ block.settings.name | escape }}</li>
+                {%- endfor -%}
                 {%- endif -%}
               </ol>
               <button type="button" class="mealplan-menu__cta" data-mp-open aria-haspopup="dialog">{{ c_menu_button | default: 'See all plans' | escape }}</button>
@@ -909,12 +909,12 @@
               {%- endif -%}
             {%- endfor -%}
           {%- else -%}
-            {%- if c_button_label != blank -%}
-              {%- assign mph_link = section.settings.button_link | default: '#menu' -%}
+          {%- if c_button_label != blank -%}
+            {%- assign mph_link = section.settings.button_link | default: '#menu' -%}
               {% render 'pm-button', label: c_button_label, link: mph_link, style: 'light', text_color: section.settings.button_text_color, bg_color: section.settings.button_bg_color, icon_bg: section.settings.button_icon_bg, icon_color: section.settings.button_icon_color, font_size: section.settings.button_font_size, hover_text_color: section.settings.button_hover_text_color, hover_bg_color: section.settings.button_hover_bg_color %}
-            {%- endif -%}
-            {%- if c_button_label_2 != blank -%}
-              {%- assign mph_link_2 = section.settings.button_link_2 | default: '#menu' -%}
+          {%- endif -%}
+          {%- if c_button_label_2 != blank -%}
+            {%- assign mph_link_2 = section.settings.button_link_2 | default: '#menu' -%}
               {% render 'pm-button', label: c_button_label_2, link: mph_link_2, style: 'brand', text_color: section.settings.button_text_color_2, bg_color: section.settings.button_bg_color_2, icon_bg: section.settings.button_icon_bg_2, icon_color: section.settings.button_icon_color_2, font_size: section.settings.button_font_size_2, hover_text_color: section.settings.button_hover_text_color_2, hover_bg_color: section.settings.button_hover_bg_color_2 %}
             {%- endif -%}
           {%- endif -%}
@@ -966,13 +966,13 @@
                     </li>
                   {%- endfor -%}
                 {%- else -%}
-                  {%- for row in benefit_rows -%}
-                    {%- assign cells = row | split: '|' -%}
-                    <li class="ben__item">
-                      <b>{{ cells[0] | escape }}</b>
-                      <span>{{ cells[1] | escape }}</span>
-                    </li>
-                  {%- endfor -%}
+                {%- for row in benefit_rows -%}
+                  {%- assign cells = row | split: '|' -%}
+                  <li class="ben__item">
+                    <b>{{ cells[0] | escape }}</b>
+                    <span>{{ cells[1] | escape }}</span>
+                  </li>
+                {%- endfor -%}
                 {%- endif -%}
               </ul>
             {%- endfor -%}
@@ -997,36 +997,36 @@
     <div class="mp-editor-area" {% render 'cm-area-attrs', section: section, type: 'area_menu' %}>
       <section class="mealplan-menu-grid">
         <div class="wrap">
-          <div class="menu-head">
-            <h2>{{ c_menu_heading | escape }}</h2>
-            <p>{{ c_menu_text | escape }}</p>
-          </div>
-          <div class="mg" id="menu"></div>
+      <div class="menu-head">
+        <h2>{{ c_menu_heading | escape }}</h2>
+        <p>{{ c_menu_text | escape }}</p>
+      </div>
+      <div class="mg" id="menu"></div>
         </div>
       </section>
 
-      <section id="detail"><div class="wrap dt-grid dt">
-        <div class="dt-img" id="dImg"></div>
-        <div>
-          <h2 id="dName"></h2>
-          <p id="dDesc"></p>
-          <ul class="ing" id="dIng"></ul>
-          <div class="nut">
+    <section id="detail"><div class="wrap dt-grid dt">
+      <div class="dt-img" id="dImg"></div>
+      <div>
+        <h2 id="dName"></h2>
+        <p id="dDesc"></p>
+        <ul class="ing" id="dIng"></ul>
+        <div class="nut">
             <div class="ring" id="ring"><div><span id="dCal"></span><small>{{ c_calories_label | escape }}</small></div></div>
-            <div class="bars" id="bars"></div>
-          </div>
-          <div class="mp-detail-notes">
-            <div class="mp-detail-note" id="dAllergens" hidden></div>
-            <div class="mp-detail-note" id="dReheat" hidden></div>
-          </div>
-          <p class="note">{{ c_detail_note | escape }}</p>
+          <div class="bars" id="bars"></div>
         </div>
-      </div></section>
+        <div class="mp-detail-notes">
+          <div class="mp-detail-note" id="dAllergens" hidden></div>
+          <div class="mp-detail-note" id="dReheat" hidden></div>
+        </div>
+        <p class="note">{{ c_detail_note | escape }}</p>
+      </div>
+    </div></section>
     </div>
 
     {%- if section.settings.thali_show or request.design_mode and area_thali != blank -%}
       <div class="mp-editor-area"{% for block in section.blocks %}{% if block.type == 'area_thali' %} {{ block.shopify_attributes }}{% break %}{% endif %}{% endfor %}>
-        {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
+      {{ 'section-cm-thali-story.css' | asset_url | stylesheet_tag }}
         {% render 'cm-thali-story',
           section: section,
           s: section.settings,
@@ -1094,14 +1094,14 @@
             </li>
           {%- endfor -%}
         {%- else -%}
-          {%- for row in step_rows -%}
-            {%- assign cells = row | split: '|' -%}
-            <li class="mp-gs" style="--i:{{ forloop.index0 }}">
-              <span class="mealplan-num">{{ forloop.index }}</span>
-              <h3>{{ cells[0] | escape }}</h3>
-              <p>{{ cells[1] | escape }}</p>
-            </li>
-          {%- endfor -%}
+        {%- for row in step_rows -%}
+          {%- assign cells = row | split: '|' -%}
+          <li class="mp-gs" style="--i:{{ forloop.index0 }}">
+            <span class="mealplan-num">{{ forloop.index }}</span>
+            <h3>{{ cells[0] | escape }}</h3>
+            <p>{{ cells[1] | escape }}</p>
+          </li>
+        {%- endfor -%}
         {%- endif -%}
       </ol>
     </div></section>
@@ -1248,34 +1248,34 @@
             </article>
           {%- endfor -%}
         {%- else -%}
-          {%- for row in review_rows -%}
-            {%- liquid
-              assign cells = row | split: '|'
-              assign review_name = cells[0]
+        {%- for row in review_rows -%}
+          {%- liquid
+            assign cells = row | split: '|'
+            assign review_name = cells[0]
               assign review_rating = cells[1] | default: 5 | plus: 0
-              assign review_text = cells[2]
-              assign review_aspect = cells[3] | default: '1'
-              assign review_show = cells[4] | default: '1'
-              assign review_image = cells[5]
-              assign fallback_index = forloop.index0 | modulo: 10
-            -%}
-            <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs">
-              {%- if review_show != '0' -%}
-                <div class="mealplan-img" style="--ar:{{ review_aspect }}">
-                  {%- if review_image != blank -%}
-                    <img class="mp-food mealplan-ph" src="{{ review_image }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
-                  {%- else -%}
-                    <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
-                  {%- endif -%}
-                </div>
-              {%- endif -%}
-              <div>
-                <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}{% if i <= review_rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
-                <q>{{ review_text | escape }}</q>
-                <small>{{ review_name | escape }}</small>
+            assign review_text = cells[2]
+            assign review_aspect = cells[3] | default: '1'
+            assign review_show = cells[4] | default: '1'
+            assign review_image = cells[5]
+            assign fallback_index = forloop.index0 | modulo: 10
+          -%}
+          <article class="mealplan-r {% if review_show == '0' %}mealplan-r--text{% endif %} mp-gs">
+            {%- if review_show != '0' -%}
+              <div class="mealplan-img" style="--ar:{{ review_aspect }}">
+                {%- if review_image != blank -%}
+                  <img class="mp-food mealplan-ph" src="{{ review_image }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                {%- else -%}
+                  <img class="mp-food mealplan-ph" src="{{ 'mp-food-' | append: fallback_index | append: '.jpg' | asset_url }}" alt="{{ review_name | escape }}" width="700" height="700" loading="lazy">
+                {%- endif -%}
               </div>
-            </article>
-          {%- endfor -%}
+            {%- endif -%}
+            <div>
+                <span class="mealplan-stars" aria-label="{{ review_rating }} stars">{%- for i in (1..5) -%}{% if i <= review_rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+              <q>{{ review_text | escape }}</q>
+              <small>{{ review_name | escape }}</small>
+            </div>
+          </article>
+        {%- endfor -%}
         {%- endif -%}
       </div>
     </div></section>
@@ -1298,15 +1298,15 @@
             </div>
           {%- endfor -%}
         {%- else -%}
-          {%- for row in faq_rows -%}
-            {%- assign cells = row | split: '|' -%}
-            <div class="mealplan-qi">
-              <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
-                {{ cells[0] | escape }}<i></i>
-              </button>
-              <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ cells[1] | escape }}</p></div></div>
-            </div>
-          {%- endfor -%}
+        {%- for row in faq_rows -%}
+          {%- assign cells = row | split: '|' -%}
+          <div class="mealplan-qi">
+            <button type="button" class="mealplan-qb" aria-expanded="false" aria-controls="mp-a-{{ section.id }}-{{ forloop.index }}">
+              {{ cells[0] | escape }}<i></i>
+            </button>
+            <div class="mealplan-qa" id="mp-a-{{ section.id }}-{{ forloop.index }}"><div><p>{{ cells[1] | escape }}</p></div></div>
+          </div>
+        {%- endfor -%}
         {%- endif -%}
       </div>
     </div></section>
