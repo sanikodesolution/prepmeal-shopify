@@ -412,7 +412,7 @@
   assign variant_menu = false
   if meals_catalog != blank and meals_catalog.variants.size > 0
     for variant in meals_catalog.variants
-      unless variant.title == 'Default Title'
+      unless variant.title == 'Default Title' or variant.title == 'Base'
         assign variant_menu = true
         break
       endunless
@@ -423,7 +423,7 @@
   assign meal_base_cents = 0
   if variant_menu
     for variant in meals_catalog.variants
-      unless variant.title == 'Default Title'
+      unless variant.title == 'Default Title' or variant.title == 'Base'
         if variant.price > 0
           assign any_price = true
           if meal_base_cents == 0 or variant.price < meal_base_cents
@@ -449,7 +449,7 @@
 -%}
 {%- if variant_menu -%}
   {%- for variant in meals_catalog.variants -%}
-    {%- unless variant.title == 'Default Title' -%}
+    {%- unless variant.title == 'Default Title' or variant.title == 'Base' -%}
       {%- capture first_meal_label -%}{% render 'cm-meal-option-label', variant: variant, base_cents: meal_base_cents %}{%- endcapture -%}
       {%- assign first_meal_label = first_meal_label | strip -%}
       {%- break -%}
@@ -470,7 +470,7 @@
 [
 {%- if variant_menu -%}
   {%- for variant in meals_catalog.variants -%}
-    {%- unless variant.title == 'Default Title' -%}
+    {%- unless variant.title == 'Default Title' or variant.title == 'Base' -%}
       {{ variant.title | json }}{%- unless forloop.last -%},{%- endunless -%}
     {%- endunless -%}
   {%- endfor -%}

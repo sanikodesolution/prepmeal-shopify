@@ -32,7 +32,7 @@
   if plan != blank and plan.variants.size > 0
     assign real_variants = 0
     for variant in plan.variants
-      unless variant.title == 'Default Title'
+      unless variant.title == 'Default Title' or variant.title == 'Base'
         assign real_variants = real_variants | plus: 1
         if variant.price > 0
           if meal_base_cents == 0 or variant.price < meal_base_cents
@@ -129,7 +129,7 @@
 {%- elsif plan_has_meals -%}
   {%- assign meal_i = 0 -%}
   {%- for variant in plan.variants -%}
-    {%- unless variant.title == 'Default Title' -%}
+    {%- unless variant.title == 'Default Title' or variant.title == 'Base' -%}
       {%- liquid
         assign mv = variant.metafields.custom
 
@@ -189,7 +189,7 @@
         endif
 
         # Short label for the list, gallery, grid and dropdowns. Same rules as
-        # cm-meal-option-label so every preview stays in sync — including +$N
+        # cm-meal-option-label so every preview stays in sync � including +$N
         # when this meal costs more than the cheapest option.
         assign meal_short = mv.short_name.value | default: mo.short_name.value | strip
         if meal_short == blank
