@@ -561,6 +561,13 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__order--king{align-content:start}
 .mealplan-menu__king{display:grid;gap:12px;min-width:0}
 .mealplan-menu__king:empty{min-height:8px}
+/* YMQ / King Product active: hide theme Meal 1…N stack */
+.mealplan-menu__order--king-active .mealplan-menu__field,
+.mealplan-menu__order--king-active .mealplan-menu__picker,
+.mealplan-menu__order--king-active .mealplan-menu__sum,
+.mealplan-menu__order--king .mealplan-menu__field,
+.mealplan-menu__order--king .mealplan-menu__picker,
+.mealplan-menu__order--king .mealplan-menu__sum{display:none!important}
 .mealplan-menu__field{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;min-width:0}
 /* Only the field's own caption is styled here. A descendant selector would
    also hit the trigger text inside the picker button, forcing uppercase and

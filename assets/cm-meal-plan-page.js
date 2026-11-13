@@ -811,9 +811,67 @@
     }
 
     const orderForm = week.querySelector('[data-mp-order]');
+    // When King Product / YMQ injects options, hide theme Meal 1…N fields so
+    // customers do not see two stacks of dropdowns.
+    const isYmqNode = (node) => {
+      if (!node || node.nodeType !== 1) return false;
+      const cls = typeof node.className === 'string' ? node.className : '';
+      const id = node.id || '';
+      if (/ymq/i.test(cls) || /ymq/i.test(id)) return true;
+      if (node.matches?.('[class*="ymq"], [id*="ymq"], [data-ymq], .ymq-option, .ymq-options')) return true;
+      return /powered by\s*ymq/i.test(node.textContent || '');
+    };
+    const formHasYmq = (form) => {
+      if (!form) return false;
+      if (form.hasAttribute('data-mp-king')) return true;
+      if (form.querySelector('[class*="ymq"], [id*="ymq"], [data-ymq], .ymq-option, .ymq-options')) return true;
+      return Array.from(form.querySelectorAll('*')).some((el) => /powered by\s*ymq/i.test(el.textContent || '') && el.children.length === 0);
+    };
+    const adoptKingOptions = (form) => {
+      if (!form || form.dataset.mpKingAdopted === '1') return;
+      form.dataset.mpKingAdopted = '1';
+      form.setAttribute('data-mp-king', '1');
+      form.classList.add('mealplan-menu__order--king', 'mealplan-menu__order--king-active', 'product-form');
+      form.querySelectorAll('[data-mp-pick]').forEach((select) => {
+        select.required = false;
+        select.disabled = true;
+        select.removeAttribute('name');
+        const field = select.closest('.mealplan-menu__field, .mealplan-menu__picker');
+        if (field) field.hidden = true;
+        else select.hidden = true;
+      });
+      form.querySelectorAll('.mealplan-menu__picker, .mealplan-menu__panel').forEach((el) => {
+        el.hidden = true;
+      });
+      const sum = form.querySelector('.mealplan-menu__sum');
+      if (sum) sum.hidden = true;
+    };
+    const watchKingOptions = (form) => {
+      if (!form) return;
+      const scan = () => {
+        if (formHasYmq(form) || formHasYmq(week) || document.querySelector('.mealplan-menu__detail [class*="ymq"], .mealplan-menu__detail [id*="ymq"]')) {
+          adoptKingOptions(form);
+          return true;
+        }
+        return false;
+      };
+      if (scan()) return;
+      const mo = new MutationObserver(() => {
+        if (scan()) mo.disconnect();
+      });
+      mo.observe(week, { childList: true, subtree: true });
+      // YMQ sometimes mounts just outside the form; also watch the detail panel.
+      const detail = week.querySelector('.mealplan-menu__detail');
+      if (detail && detail !== form) mo.observe(detail, { childList: true, subtree: true });
+      setTimeout(() => {
+        scan();
+        mo.disconnect();
+      }, 8000);
+    };
+    watchKingOptions(orderForm);
     // King Product owns the options when data-mp-king is set — leave the form
     // alone so Ymq can inject into / submit through it.
-    if (orderForm?.hasAttribute('data-mp-king')) return;
+    if (orderForm?.hasAttribute('data-mp-king') || orderForm?.dataset.mpKingAdopted === '1') return;
     // Skip custom pickers in the theme editor so clicks open area settings.
     if (orderForm && !(window.Shopify && window.Shopify.designMode)) {
       // Custom dropdown UI. A native <select> popup is painted by the OS and
@@ -1082,8 +1140,13 @@
       orderForm.addEventListener('change', syncSum);
       syncSum();
       orderForm.addEventListener('submit', async (event) => {
+        // King / YMQ took over after load — let their cart flow run.
+        if (orderForm.hasAttribute('data-mp-king') || orderForm.dataset.mpKingAdopted === '1') {
+          return;
+        }
         event.preventDefault();
-        const picks = [...orderForm.querySelectorAll('[data-mp-pick]')];
+        const picks = [...orderForm.querySelectorAll('[data-mp-pick]:not([disabled])')];
+        if (!picks.length) return;
         if (picks.some((select) => !select.value)) {
           say('Choose a meal in every dropdown.');
           return;
