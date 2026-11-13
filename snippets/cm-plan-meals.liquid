@@ -189,7 +189,7 @@
         endif
 
         # Short label for the list, gallery, grid and dropdowns. Same rules as
-        # cm-meal-option-label so every preview stays in sync � including +$N
+        # cm-meal-option-label so every preview stays in sync ? including +$N
         # when this meal costs more than the cheapest option.
         assign meal_short = mv.short_name.value | default: mo.short_name.value | strip
         if meal_short == blank
