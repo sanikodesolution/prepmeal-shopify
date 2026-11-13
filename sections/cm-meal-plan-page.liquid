@@ -60,13 +60,12 @@
   # Priority: custom.meal_slots → theme "Order dropdowns" → number in the
   # product title (e.g. "6 Meal Plan" → 6). Cap at 15.
   #
-  # King Product Options override: tag the plan product with `king-options`
-  # (or set metafield custom.use_king_options = true) AFTER assigning a King
-  # Product option set. Theme Meal 1…N dropdowns hide; a cart form shell stays
-  # so King Product can inject its options into the order panel.
+  # King Product Options override (product templates only — YMQ does not inject
+  # on /pages/*). Tag plan product `king-options` (or metafield
+  # custom.use_king_options) AFTER assigning a King option set.
   # ---------------------------------------------------------------
   assign use_king_options = false
-  if plan_product != blank
+  if request.page_type == 'product' and plan_product != blank
     if plan_product.tags contains 'king-options'
       assign use_king_options = true
     endif

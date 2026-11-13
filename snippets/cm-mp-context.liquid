@@ -39,10 +39,11 @@
   endif
   assign plan_meta = plan_product.metafields.custom
 
-  # King Product Options: tag plan product `king-options` (or metafield
-  # custom.use_king_options) to hide theme Meal 1…N dropdowns on pages too.
+  # King Product Options: only on product templates. YMQ does not inject into
+  # /pages/* meal-plan URLs, so forcing king mode there blanks the order box.
+  # Tag plan product `king-options` (or metafield custom.use_king_options).
   assign use_king_options = false
-  if plan_product != blank
+  if request.page_type == 'product' and plan_product != blank
     if plan_product.tags contains 'king-options'
       assign use_king_options = true
     endif
