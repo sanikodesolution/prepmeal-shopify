@@ -60,23 +60,24 @@
   # Priority: custom.meal_slots → theme "Order dropdowns" → number in the
   # product title (e.g. "6 Meal Plan" → 6). Cap at 15.
   #
-  # King Product Options override (product templates only — YMQ does not inject
-  # on /pages/*). Tag plan product `king-options` (or metafield
-  # custom.use_king_options) AFTER assigning a King option set.
+  # External options apps (King Product, Infinite Options, …). Product
+  # templates only — many apps skip /pages/*. Tag `app-options` or legacy
+  # `king-options` (or metafield custom.use_app_options / use_king_options).
   # ---------------------------------------------------------------
-  assign use_king_options = false
+  assign use_app_options = false
   if request.page_type == 'product' and plan_product != blank
-    if plan_product.tags contains 'king-options'
-      assign use_king_options = true
+    if plan_product.tags contains 'app-options' or plan_product.tags contains 'king-options'
+      assign use_app_options = true
     endif
-    assign king_meta = plan_meta.use_king_options.value
-    if king_meta == true or king_meta == 'true' or king_meta == '1'
-      assign use_king_options = true
+    assign app_opt_meta = plan_meta.use_app_options.value | default: plan_meta.use_king_options.value
+    if app_opt_meta == true or app_opt_meta == 'true' or app_opt_meta == '1'
+      assign use_app_options = true
     endif
   endif
+  assign use_king_options = use_app_options
 
   assign picker_count = 0
-  unless use_king_options
+  unless use_app_options
     if plan_meta.meal_slots.value != blank
       assign picker_count = plan_meta.meal_slots.value | plus: 0
     endif
@@ -94,7 +95,7 @@
     endif
   endunless
   assign show_order_box = false
-  if picker_count > 0 or use_king_options
+  if picker_count > 0 or use_app_options
     assign show_order_box = true
   endif
   assign meal_slot_label = plan_meta.meal_slot_label.value | default: 'Meal' | strip
@@ -728,20 +729,20 @@
           <div class="mealplan-menu__detail">
             {%- if show_order_box -%}
               <form
-                class="mealplan-menu__order{% if use_king_options %} mealplan-menu__order--king product-form{% endif %}"
+                class="mealplan-menu__order{% if use_app_options %} mealplan-menu__order--app mealplan-menu__order--king product-form{% endif %}"
                 data-mp-order
-                {% if use_king_options %}data-mp-king="1"{% endif %}
+                {% if use_app_options %}data-mp-app-options="1" data-mp-king="1"{% endif %}
                 data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}"
                 data-product-id="{{ plan_product.id }}"
                 action="{{ routes.cart_add_url }}"
                 method="post"
               >
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
-                {%- if use_king_options -%}
-                  <div class="mealplan-menu__king" data-mp-king-mount data-product-id="{{ plan_product.id }}">
+                {%- if use_app_options -%}
+                  <div class="mealplan-menu__app-options mealplan-menu__king" data-mp-app-options-mount data-mp-king-mount data-product-id="{{ plan_product.id }}">
                     {%- comment -%}
-                      King Product Options (app embed) injects dropdowns here /
-                      into this product form. Theme Meal 1…N selects stay off.
+                      Product-options apps (King, Infinite Options, …) inject here
+                      / into this product form. Theme Meal 1…N selects stay off.
                     {%- endcomment -%}
                   </div>
                 {%- else -%}
@@ -1627,12 +1628,12 @@
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "header", "content": "Customer order box" },
-    { "type": "paragraph", "content": "Prefer editing on the plan product in Admin: set metafield Meal slots (custom.meal_slots) to 6. That controls how many MEAL 1…N dropdowns appear. Theme setting below is only a fallback. To use King Product Options instead: create an option set, assign it to the plan product, then add the product tag king-options (or metafield custom.use_king_options). Theme dropdowns turn off; King injects into the order panel." },
+    { "type": "paragraph", "content": "Prefer editing on the plan product in Admin: set metafield Meal slots (custom.meal_slots) to 6. That controls how many MEAL 1…N dropdowns appear. Theme setting below is only a fallback. To use any product-options app (King Product, Infinite Options, …): assign options to the plan product, then tag it app-options (legacy king-options also works) or set metafield custom.use_app_options. Theme dropdowns turn off on the product page; the app injects into the order panel." },
     { "type": "text", "id": "detail_title", "label": "Order panel title", "info": "Shown above the meal dropdowns, product-page style. Blank uses the plan product's title." },
-    { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: sums the first N meal variant prices (N = order dropdowns), matching what the cart charges when meals have different prices. Off: shows one variant price as-is. Ignored when the plan product uses King Product (tag king-options)." },
+    { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: sums the first N meal variant prices (N = order dropdowns), matching what the cart charges when meals have different prices. Off: shows one variant price as-is. Ignored when the plan product uses an options app (tag app-options)." },
     { "type": "text", "id": "detail_sale_label", "label": "Sale badge label", "default": "Sale" },
-    { "type": "range", "id": "picker_count", "min": 0, "max": 30, "step": 1, "label": "Order dropdowns (fallback)", "default": 0, "info": "Used only when the plan product has no Meal slots metafield and is not tagged king-options. Shows this many MEAL dropdowns. 0 hides the order box." },
-    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Shopify charges this product's price as one line in the cart. Set Meal slots metafield here for easy order-box control. Tag king-options to hand the order box to King Product Options." },
+    { "type": "range", "id": "picker_count", "min": 0, "max": 30, "step": 1, "label": "Order dropdowns (fallback)", "default": 0, "info": "Used only when the plan product has no Meal slots metafield and is not tagged app-options. Shows this many MEAL dropdowns. 0 hides the order box." },
+    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Shopify charges this product's price as one line in the cart. Set Meal slots metafield here for easy order-box control. Tag app-options to hand the order box to a product-options app." },
     { "type": "product", "id": "meals_product", "label": "Meals product", "info": "Single source for every meal preview: the numbered list AND the order dropdowns both read this product's Meal variants. Edit variants here — both sections update together. Falls back to the plan product when blank." },
     { "type": "checkbox", "id": "show_gallery", "label": "Show meal options gallery", "default": true },
     { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },

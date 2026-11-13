@@ -224,17 +224,17 @@
           <div class="mealplan-menu__detail">
             {%- if show_order_box -%}
               <form
-                class="mealplan-menu__order{% if use_king_options %} mealplan-menu__order--king product-form{% endif %}"
+                class="mealplan-menu__order{% if use_app_options %} mealplan-menu__order--app mealplan-menu__order--king product-form{% endif %}"
                 data-mp-order
-                {% if use_king_options %}data-mp-king="1"{% endif %}
+                {% if use_app_options %}data-mp-app-options="1" data-mp-king="1"{% endif %}
                 data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}"
                 data-product-id="{{ plan_product.id }}"
                 action="{{ routes.cart_add_url }}"
                 method="post"
               >
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
-                {%- if use_king_options -%}
-                  <div class="mealplan-menu__king" data-mp-king-mount data-product-id="{{ plan_product.id }}"></div>
+                {%- if use_app_options -%}
+                  <div class="mealplan-menu__app-options mealplan-menu__king" data-mp-app-options-mount data-mp-king-mount data-product-id="{{ plan_product.id }}"></div>
                 {%- else -%}
                   {%- for slot in (1..picker_count) -%}
                     <label class="mealplan-menu__field">

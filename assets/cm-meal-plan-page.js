@@ -829,27 +829,80 @@
     }
 
     const orderForm = week.querySelector('[data-mp-order]');
-    // When King Product / YMQ injects options, hide theme Meal 1…N fields so
-    // customers do not see two stacks of dropdowns.
-    const isYmqNode = (node) => {
+    // When any product-options app injects UI, hide theme Meal 1…N fields so
+    // customers do not see two stacks of dropdowns (King/YMQ, Infinite Options…).
+    const APP_OPTIONS_SEL = [
+      '[data-mp-app-options]',
+      '[data-mp-king]',
+      '[data-mp-app-options-mount]',
+      '[data-mp-king-mount]',
+      '[class*="ymq"]',
+      '[id*="ymq"]',
+      '[data-ymq]',
+      '.ymq-option',
+      '.ymq-options',
+      '[class*="infinite-option"]',
+      '[id*="infinite-option"]',
+      '[class*="infiniteoptions"]',
+      '[class*="bold-option"]',
+      '[id*="bold_option"]',
+      '[class*="product-options"]',
+      '[class*="ProductOptions"]',
+      '[data-product-options]',
+      '[data-option-container]',
+      '[data-hub-option]',
+      '[class*="globo-option"]',
+      '[class*="hulk-option"]',
+      '[class*="kiwiiling"]',
+      'shopify-block[id*="option"]',
+      '.shopify-app-block',
+    ].join(',');
+    const isExternalOptionsNode = (node) => {
       if (!node || node.nodeType !== 1) return false;
+      if (node.matches?.(APP_OPTIONS_SEL)) return true;
       const cls = typeof node.className === 'string' ? node.className : '';
       const id = node.id || '';
-      if (/ymq/i.test(cls) || /ymq/i.test(id)) return true;
-      if (node.matches?.('[class*="ymq"], [id*="ymq"], [data-ymq], .ymq-option, .ymq-options')) return true;
-      return /powered by\s*ymq/i.test(node.textContent || '');
+      if (/(ymq|infinite.?option|bold.?option|product.?option|globo|hulk.?option|kiwiiling|hub.?option)/i.test(`${cls} ${id}`)) {
+        return true;
+      }
+      const text = (node.textContent || '').trim();
+      if (node.children.length === 0 && /powered by\s*(ymq|infinite|bold|globo|hulk)/i.test(text)) return true;
+      return false;
     };
-    const formHasYmq = (form) => {
-      if (!form) return false;
-      if (form.hasAttribute('data-mp-king')) return true;
-      if (form.querySelector('[class*="ymq"], [id*="ymq"], [data-ymq], .ymq-option, .ymq-options')) return true;
-      return Array.from(form.querySelectorAll('*')).some((el) => /powered by\s*ymq/i.test(el.textContent || '') && el.children.length === 0);
+    const scopeHasExternalOptions = (root) => {
+      if (!root) return false;
+      if (root.hasAttribute?.('data-mp-app-options') || root.hasAttribute?.('data-mp-king')) return true;
+      if (root.querySelector?.(APP_OPTIONS_SEL)) return true;
+      // Extra interactive fields an app injected that are not theme meal picks.
+      const extras = root.querySelectorAll?.('select, input:not([type="hidden"]):not([type="submit"]):not([type="button"]), textarea');
+      if (extras) {
+        for (const el of extras) {
+          if (el.matches('[data-mp-pick], [name="id"], [name="quantity"], [name="form_type"]')) continue;
+          if (el.closest('.mealplan-menu__field, .mealplan-menu__picker, .mealplan-menu__sum, .mealplan-menu__cta')) continue;
+          if (el.closest('[data-mp-app-options-mount], [data-mp-king-mount]')) return true;
+          if (isExternalOptionsNode(el) || isExternalOptionsNode(el.parentElement)) return true;
+          // Named properties / options from third-party apps.
+          const name = el.getAttribute('name') || '';
+          if (/^(properties\[|options\[|option_|ymq|po_)/i.test(name) && !/properties\[Meal\s*\d/i.test(name)) {
+            return true;
+          }
+        }
+      }
+      return false;
     };
-    const adoptKingOptions = (form) => {
-      if (!form || form.dataset.mpKingAdopted === '1') return;
+    const adoptAppOptions = (form) => {
+      if (!form || form.dataset.mpAppOptionsAdopted === '1') return;
+      form.dataset.mpAppOptionsAdopted = '1';
       form.dataset.mpKingAdopted = '1';
+      form.setAttribute('data-mp-app-options', '1');
       form.setAttribute('data-mp-king', '1');
-      form.classList.add('mealplan-menu__order--king', 'mealplan-menu__order--king-active', 'product-form');
+      form.classList.add(
+        'mealplan-menu__order--app',
+        'mealplan-menu__order--app-active',
+        'mealplan-menu__order--king',
+        'mealplan-menu__order--king-active',
+        'product-form'
+      );
       form.querySelectorAll('[data-mp-pick]').forEach((select) => {
         select.required = false;
         select.disabled = true;
@@ -864,11 +917,16 @@
       const sum = form.querySelector('.mealplan-menu__sum');
       if (sum) sum.hidden = true;
     };
-    const watchKingOptions = (form) => {
+    const watchAppOptions = (form) => {
       if (!form) return;
+      const detail = week.querySelector('.mealplan-menu__detail');
       const scan = () => {
-        if (formHasYmq(form) || formHasYmq(week) || document.querySelector('.mealplan-menu__detail [class*="ymq"], .mealplan-menu__detail [id*="ymq"]')) {
-          adoptKingOptions(form);
+        if (
+          scopeHasExternalOptions(form)
+          || scopeHasExternalOptions(week)
+          || scopeHasExternalOptions(detail)
+        ) {
+          adoptAppOptions(form);
           return true;
         }
         return false;
@@ -878,18 +936,22 @@
         if (scan()) mo.disconnect();
       });
       mo.observe(week, { childList: true, subtree: true });
-      // YMQ sometimes mounts just outside the form; also watch the detail panel.
-      const detail = week.querySelector('.mealplan-menu__detail');
       if (detail && detail !== form) mo.observe(detail, { childList: true, subtree: true });
       setTimeout(() => {
         scan();
         mo.disconnect();
-      }, 8000);
+      }, 10000);
     };
-    watchKingOptions(orderForm);
-    // King Product owns the options when data-mp-king is set — leave the form
-    // alone so Ymq can inject into / submit through it.
-    if (orderForm?.hasAttribute('data-mp-king') || orderForm?.dataset.mpKingAdopted === '1') return;
+    watchAppOptions(orderForm);
+    // An options app owns the fields — leave the form alone for their cart flow.
+    if (
+      orderForm?.hasAttribute('data-mp-app-options')
+      || orderForm?.hasAttribute('data-mp-king')
+      || orderForm?.dataset.mpAppOptionsAdopted === '1'
+      || orderForm?.dataset.mpKingAdopted === '1'
+    ) {
+      return;
+    }
     // Skip custom pickers in the theme editor so clicks open area settings.
     if (orderForm && !(window.Shopify && window.Shopify.designMode)) {
       // Custom dropdown UI. A native <select> popup is painted by the OS and
@@ -1158,8 +1220,13 @@
       orderForm.addEventListener('change', syncSum);
       syncSum();
       orderForm.addEventListener('submit', async (event) => {
-        // King / YMQ took over after load — let their cart flow run.
-        if (orderForm.hasAttribute('data-mp-king') || orderForm.dataset.mpKingAdopted === '1') {
+        // An options app took over after load — let their cart flow run.
+        if (
+          orderForm.hasAttribute('data-mp-app-options')
+          || orderForm.hasAttribute('data-mp-king')
+          || orderForm.dataset.mpAppOptionsAdopted === '1'
+          || orderForm.dataset.mpKingAdopted === '1'
+        ) {
           return;
         }
         event.preventDefault();
