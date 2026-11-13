@@ -1,0 +1,1 @@
+query { product(id: "gid://shopify/Product/15440654631218") { title handle status tags templateSuffix } }
