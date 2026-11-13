@@ -953,6 +953,13 @@
       });
       const sum = form.querySelector('.mealplan-menu__sum');
       if (sum) sum.hidden = true;
+      // Theme product-variant price ($17 / meal sums) must not compete with King.
+      week.querySelectorAll('[data-mp-buy-price] .mealplan-menu__buy-price, [data-mp-buy-now], [data-mp-buy-was]').forEach((el) => {
+        el.hidden = true;
+      });
+      week.querySelectorAll('[data-mp-buy-price]').forEach((el) => {
+        el.setAttribute('data-mp-buy-app', '1');
+      });
     };
     const watchAppOptions = (form) => {
       if (!form) return;

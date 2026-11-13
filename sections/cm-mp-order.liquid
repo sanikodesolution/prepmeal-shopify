@@ -71,49 +71,49 @@
               endif
               assign detail_price = 0
               assign detail_compare = 0
-              if plan_variant != blank
-                assign detail_price = plan_variant.price
-                assign detail_compare = plan_variant.compare_at_price | default: 0
-              endif
-              # Cart adds each chosen meal as its own line, so the plan total is
-              # the SUM of meal prices — never one meal price × slot count
-              # (that was showing $17 × 6 = $102 when meals are $17 + five $15).
-              # King Product mode keeps a single plan-line price (King handles add-ons).
-              if section.settings.detail_use_plan_total and picker_count > 0
-                assign detail_price = 0
-                assign detail_compare = 0
-                assign detail_meals_counted = 0
-                assign price_source = meals_catalog
-                if price_source == blank
-                  assign price_source = plan_product
+              # King / options-app mode: app owns displayed price — do not paint
+              # Shopify variant prices ($17 first meal, meal sums, …).
+              unless use_app_options
+                if plan_variant != blank
+                  assign detail_price = plan_variant.price
+                  assign detail_compare = plan_variant.compare_at_price | default: 0
                 endif
-                if price_source != blank
-                  for variant in price_source.variants
-                    if detail_meals_counted >= picker_count
-                      break
-                    endif
-                    unless variant.title == 'Default Title'
-                      if variant.price > 0
-                        assign detail_price = detail_price | plus: variant.price
-                        assign v_compare = variant.compare_at_price | default: 0
-                        assign detail_compare = detail_compare | plus: v_compare
-                        assign detail_meals_counted = detail_meals_counted | plus: 1
+                if section.settings.detail_use_plan_total and picker_count > 0
+                  assign detail_price = 0
+                  assign detail_compare = 0
+                  assign detail_meals_counted = 0
+                  assign price_source = meals_catalog
+                  if price_source == blank
+                    assign price_source = plan_product
+                  endif
+                  if price_source != blank
+                    for variant in price_source.variants
+                      if detail_meals_counted >= picker_count
+                        break
                       endif
-                    endunless
-                  endfor
+                      unless variant.title == 'Default Title'
+                        if variant.price > 0
+                          assign detail_price = detail_price | plus: variant.price
+                          assign v_compare = variant.compare_at_price | default: 0
+                          assign detail_compare = detail_compare | plus: v_compare
+                          assign detail_meals_counted = detail_meals_counted | plus: 1
+                        endif
+                      endunless
+                    endfor
+                  endif
+                  if detail_meals_counted == 0 and plan_variant != blank
+                    assign detail_price = plan_variant.price | times: picker_count
+                    assign detail_compare = plan_variant.compare_at_price | default: 0 | times: picker_count
+                  endif
                 endif
-                if detail_meals_counted == 0 and plan_variant != blank
-                  assign detail_price = plan_variant.price | times: picker_count
-                  assign detail_compare = plan_variant.compare_at_price | default: 0 | times: picker_count
-                endif
-              endif
+              endunless
               assign detail_on_sale = false
               if detail_compare > detail_price and detail_price > 0
                 assign detail_on_sale = true
               endif
             -%}
             {%- if detail_title != blank or detail_price > 0 -%}
-              <div class="mealplan-menu__buy" data-mp-buy-price>
+              <div class="mealplan-menu__buy" data-mp-buy-price{% if use_app_options %} data-mp-buy-app="1"{% endif %}>
                 {%- if detail_title != blank -%}
                   <h3 class="mealplan-menu__buy-title">{{ detail_title | escape }}</h3>
                 {%- endif -%}

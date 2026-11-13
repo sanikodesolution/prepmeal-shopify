@@ -578,6 +578,10 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__order--king .mealplan-menu__field,
 .mealplan-menu__order--king .mealplan-menu__picker,
 .mealplan-menu__order--king .mealplan-menu__sum{display:none!important}
+/* King owns price — hide theme variant / meal-sum money. */
+[data-mp-buy-app] .mealplan-menu__buy-price,
+.mealplan-menu__order--app-active ~ * [data-mp-buy-now],
+.mealplan-sec:has(.mealplan-menu__order--app-active) [data-mp-buy-price] .mealplan-menu__buy-price{display:none!important}
 /* King Draft still injects — hide app UI when merchant keeps theme mode. */
 .mealplan-menu__order--theme-lock [class*="ymq"],
 .mealplan-menu__order--theme-lock [id*="ymq"],
