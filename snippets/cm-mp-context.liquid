@@ -39,42 +39,31 @@
   endif
   assign plan_meta = plan_product.metafields.custom
 
-  # External product-options apps (King Product, Infinite Options, etc.):
-  # only force-hide theme Meal dropdowns on product templates — many apps
-  # do not inject into /pages/*. Tag `app-options` (or legacy `king-options`)
-  # or metafield custom.use_app_options / custom.use_king_options.
+  # Theme Meal 1…N dropdowns always render when picker_count > 0.
+  # Product-options apps (King Product, etc.) inject via app embed when their
+  # option set is Active. Theme JS then hides these dropdowns. If the app set
+  # is Draft / missing, nothing injects and the theme list stays visible.
   assign use_app_options = false
-  if request.page_type == 'product' and plan_product != blank
-    if plan_product.tags contains 'app-options' or plan_product.tags contains 'king-options'
-      assign use_app_options = true
-    endif
-    assign app_opt_meta = plan_meta.use_app_options.value | default: plan_meta.use_king_options.value
-    if app_opt_meta == true or app_opt_meta == 'true' or app_opt_meta == '1'
-      assign use_app_options = true
-    endif
-  endif
-  assign use_king_options = use_app_options
+  assign use_king_options = false
 
   assign picker_count = 0
-  unless use_app_options
-    if plan_meta.meal_slots.value != blank
-      assign picker_count = plan_meta.meal_slots.value | plus: 0
+  if plan_meta.meal_slots.value != blank
+    assign picker_count = plan_meta.meal_slots.value | plus: 0
+  endif
+  if picker_count <= 0
+    assign picker_count = section.settings.picker_count | plus: 0
+  endif
+  if picker_count <= 0 and plan_product != blank
+    assign title_lead = plan_product.title | split: ' ' | first | plus: 0
+    if title_lead > 0 and title_lead <= 15
+      assign picker_count = title_lead
     endif
-    if picker_count <= 0
-      assign picker_count = section.settings.picker_count | plus: 0
-    endif
-    if picker_count <= 0 and plan_product != blank
-      assign title_lead = plan_product.title | split: ' ' | first | plus: 0
-      if title_lead > 0 and title_lead <= 15
-        assign picker_count = title_lead
-      endif
-    endif
-    if picker_count > 30
-      assign picker_count = 30
-    endif
-  endunless
+  endif
+  if picker_count > 30
+    assign picker_count = 30
+  endif
   assign show_order_box = false
-  if picker_count > 0 or use_app_options
+  if picker_count > 0
     assign show_order_box = true
   endif
   assign meal_slot_label = plan_meta.meal_slot_label.value | default: 'Meal' | strip
