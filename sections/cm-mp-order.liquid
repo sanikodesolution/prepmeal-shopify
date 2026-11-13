@@ -224,8 +224,9 @@
           <div class="mealplan-menu__detail">
             {%- if show_order_box -%}
               <form
-                class="mealplan-menu__order product-form"
+                class="mealplan-menu__order product-form{% unless use_app_options %} mealplan-menu__order--theme-lock{% endunless %}"
                 data-mp-order
+                {% if use_app_options %}data-mp-allow-app="1"{% else %}data-mp-theme-lock="1"{% endif %}
                 data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}"
                 data-product-id="{{ plan_product.id }}"
                 action="{{ routes.cart_add_url }}"
@@ -233,8 +234,8 @@
               >
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
                 {%- comment -%}
-                  Theme Meal 1…N always render. Active options apps inject into
-                  this form; JS hides theme fields. Draft apps leave theme visible.
+                  Theme Meal 1…N always render. Without app-options tag, JS hides
+                  King/YMQ inject (Draft still injects) and keeps theme fields.
                 {%- endcomment -%}
                 {%- for slot in (1..picker_count) -%}
                   <label class="mealplan-menu__field">

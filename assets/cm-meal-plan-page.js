@@ -829,8 +829,10 @@
     }
 
     const orderForm = week.querySelector('[data-mp-order]');
-    // When any product-options app injects UI, hide theme Meal 1…N fields so
-    // customers do not see two stacks of dropdowns (King/YMQ, Infinite Options…).
+    // King/YMQ still injects while its option set is Draft. Without an explicit
+    // merchant opt-in (data-mp-allow-app), suppress that UI and keep theme Meal
+    // 1…N. With opt-in, adopt injected app fields and hide theme picks.
+    const allowAppOptions = orderForm?.hasAttribute('data-mp-allow-app') === true;
     const APP_OPTIONS_SEL = [
       '[data-mp-app-options]',
       '[data-mp-king]',
@@ -873,7 +875,6 @@
       if (!root) return false;
       if (root.hasAttribute?.('data-mp-app-options') || root.hasAttribute?.('data-mp-king')) return true;
       if (root.querySelector?.(APP_OPTIONS_SEL)) return true;
-      // Extra interactive fields an app injected that are not theme meal picks.
       const extras = root.querySelectorAll?.('select, input:not([type="hidden"]):not([type="submit"]):not([type="button"]), textarea');
       if (extras) {
         for (const el of extras) {
@@ -881,7 +882,6 @@
           if (el.closest('.mealplan-menu__field, .mealplan-menu__picker, .mealplan-menu__sum, .mealplan-menu__cta')) continue;
           if (el.closest('[data-mp-app-options-mount], [data-mp-king-mount]')) return true;
           if (isExternalOptionsNode(el) || isExternalOptionsNode(el.parentElement)) return true;
-          // Named properties / options from third-party apps.
           const name = el.getAttribute('name') || '';
           if (/^(properties\[|options\[|option_|ymq|po_)/i.test(name) && !/properties\[Meal\s*\d/i.test(name)) {
             return true;
@@ -889,6 +889,42 @@
         }
       }
       return false;
+    };
+    const suppressExternalOptions = (root) => {
+      if (!root) return;
+      root.querySelectorAll?.(APP_OPTIONS_SEL).forEach((node) => {
+        if (node.closest?.('[data-mp-pick], .mealplan-menu__field, .mealplan-menu__sum, .mealplan-menu__cta')) return;
+        node.hidden = true;
+        node.setAttribute('data-mp-app-suppressed', '1');
+        if (node.matches?.('select, input, textarea, button')) {
+          node.disabled = true;
+          node.removeAttribute('name');
+          node.removeAttribute('required');
+        }
+      });
+      root.querySelectorAll?.('select, input:not([type="hidden"]):not([type="submit"]):not([type="button"]), textarea').forEach((el) => {
+        if (el.matches('[data-mp-pick], [name="id"], [name="quantity"], [name="form_type"]')) return;
+        if (el.closest('.mealplan-menu__field, .mealplan-menu__picker, .mealplan-menu__sum, .mealplan-menu__cta')) return;
+        if (!isExternalOptionsNode(el) && !isExternalOptionsNode(el.parentElement)) {
+          const name = el.getAttribute('name') || '';
+          if (!/^(properties\[|options\[|option_|ymq|po_)/i.test(name)) return;
+          if (/properties\[Meal\s*\d/i.test(name)) return;
+        }
+        el.hidden = true;
+        el.disabled = true;
+        el.removeAttribute('name');
+        el.removeAttribute('required');
+        el.setAttribute('data-mp-app-suppressed', '1');
+        const wrap = el.closest('[class*="ymq"], [id*="ymq"], .ymq-options, .ymq-option, [class*="infinite-option"], [class*="bold-option"], [class*="globo-option"]');
+        if (wrap) {
+          wrap.hidden = true;
+          wrap.setAttribute('data-mp-app-suppressed', '1');
+        }
+      });
+      root.querySelectorAll?.('a[href*="ymq"], a[href*="YMQ"]').forEach((a) => {
+        a.hidden = true;
+        a.setAttribute('data-mp-app-suppressed', '1');
+      });
     };
     const adoptAppOptions = (form) => {
       if (!form || form.dataset.mpAppOptionsAdopted === '1') return;
@@ -903,6 +939,7 @@
         'mealplan-menu__order--king-active',
         'product-form'
       );
+      form.classList.remove('mealplan-menu__order--theme-lock');
       form.querySelectorAll('[data-mp-pick]').forEach((select) => {
         select.required = false;
         select.disabled = true;
@@ -921,6 +958,12 @@
       if (!form) return;
       const detail = week.querySelector('.mealplan-menu__detail');
       const scan = () => {
+        if (!allowAppOptions) {
+          suppressExternalOptions(form);
+          suppressExternalOptions(detail);
+          suppressExternalOptions(week);
+          return false;
+        }
         if (
           scopeHasExternalOptions(form)
           || scopeHasExternalOptions(week)
@@ -931,16 +974,20 @@
         }
         return false;
       };
-      if (scan()) return;
+      if (scan() && allowAppOptions) return;
       const mo = new MutationObserver(() => {
-        if (scan()) mo.disconnect();
+        if (allowAppOptions) {
+          if (scan()) mo.disconnect();
+        } else {
+          scan();
+        }
       });
       mo.observe(week, { childList: true, subtree: true });
       if (detail && detail !== form) mo.observe(detail, { childList: true, subtree: true });
       setTimeout(() => {
         scan();
         mo.disconnect();
-      }, 10000);
+      }, allowAppOptions ? 10000 : 15000);
     };
     watchAppOptions(orderForm);
     // An options app owns the fields — leave the form alone for their cart flow.

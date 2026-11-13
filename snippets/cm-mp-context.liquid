@@ -39,12 +39,22 @@
   endif
   assign plan_meta = plan_product.metafields.custom
 
-  # Theme Meal 1…N dropdowns always render when picker_count > 0.
-  # Product-options apps (King Product, etc.) inject via app embed when their
-  # option set is Active. Theme JS then hides these dropdowns. If the app set
-  # is Draft / missing, nothing injects and the theme list stays visible.
+  # Theme Meal 1…N is the default. King/YMQ still injects on Draft, so we only
+  # hand the order box to an options app when the merchant opts in via tag or
+  # metafield. Without that, JS suppresses injected app UI and keeps theme picks.
   assign use_app_options = false
-  assign use_king_options = false
+  if plan_product != blank
+    if plan_product.tags contains 'app-options' or plan_product.tags contains 'king-options'
+      assign use_app_options = true
+    endif
+    if plan_meta.use_app_options.value == true or plan_meta.use_app_options.value == 'true'
+      assign use_app_options = true
+    endif
+    if plan_meta.use_king_options.value == true or plan_meta.use_king_options.value == 'true'
+      assign use_app_options = true
+    endif
+  endif
+  assign use_king_options = use_app_options
 
   assign picker_count = 0
   if plan_meta.meal_slots.value != blank

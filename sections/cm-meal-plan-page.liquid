@@ -60,12 +60,22 @@
   # Priority: custom.meal_slots → theme "Order dropdowns" → number in the
   # product title (e.g. "6 Meal Plan" → 6). Cap at 15.
   #
-  # Theme Meal 1…N always render when picker_count > 0. If an options app
-  # (King Product, …) is Active it injects via embed; JS hides theme fields.
-  # Draft / unpublished app sets inject nothing → theme list stays on.
+  # Theme Meal 1…N is default. King/YMQ can still inject while Draft, so only
+  # opt-in (tag app-options / king-options or metafield) hands the box to the app.
   # ---------------------------------------------------------------
   assign use_app_options = false
-  assign use_king_options = false
+  if plan_product != blank
+    if plan_product.tags contains 'app-options' or plan_product.tags contains 'king-options'
+      assign use_app_options = true
+    endif
+    if plan_meta.use_app_options.value == true or plan_meta.use_app_options.value == 'true'
+      assign use_app_options = true
+    endif
+    if plan_meta.use_king_options.value == true or plan_meta.use_king_options.value == 'true'
+      assign use_app_options = true
+    endif
+  endif
+  assign use_king_options = use_app_options
 
   assign picker_count = 0
   if plan_meta.meal_slots.value != blank
@@ -718,8 +728,9 @@
           <div class="mealplan-menu__detail">
             {%- if show_order_box -%}
               <form
-                class="mealplan-menu__order product-form"
+                class="mealplan-menu__order product-form{% unless use_app_options %} mealplan-menu__order--theme-lock{% endunless %}"
                 data-mp-order
+                {% if use_app_options %}data-mp-allow-app="1"{% else %}data-mp-theme-lock="1"{% endif %}
                 data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}"
                 data-product-id="{{ plan_product.id }}"
                 action="{{ routes.cart_add_url }}"
@@ -727,9 +738,9 @@
               >
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
                 {%- comment -%}
-                  Theme Meal 1…N always render. If King Product (or another
-                  options app) is Active, it injects into this form and JS hides
-                  the theme fields. Draft / unpublished apps leave theme visible.
+                  Theme Meal 1…N always render. King/YMQ Draft still injects on
+                  storefront — without app-options tag, JS hides the app UI and
+                  keeps these fields. Tag the product app-options to use King.
                 {%- endcomment -%}
                 {%- for slot in (1..picker_count) -%}
                   <label class="mealplan-menu__field">
@@ -1612,7 +1623,7 @@
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "header", "content": "Customer order box" },
-    { "type": "paragraph", "content": "Prefer editing on the plan product in Admin: set metafield Meal slots (custom.meal_slots) to 6. That controls how many MEAL 1…N dropdowns appear. Theme setting below is only a fallback. Options apps (King Product, Infinite Options, …): keep theme Meal dropdowns as the default. When an app option set is Active it injects into the order form and the theme list hides automatically. Draft / unpublished app sets leave the theme Meal 1…N list visible." },
+    { "type": "paragraph", "content": "Prefer editing on the plan product in Admin: set metafield Meal slots (custom.meal_slots) to 6. That controls how many MEAL 1…N dropdowns appear. Theme setting below is only a fallback. King Product Draft still injects on the storefront — so theme Meal dropdowns stay on by default and King UI is suppressed. To use King live: set the option set Active AND tag the plan product app-options (or king-options / metafield custom.use_app_options)." },
     { "type": "text", "id": "detail_title", "label": "Order panel title", "info": "Shown above the meal dropdowns, product-page style. Blank uses the plan product's title." },
     { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: sums the first N meal variant prices (N = order dropdowns), matching what the cart charges when meals have different prices. Off: shows one variant price as-is. Ignored when the plan product uses an options app (tag app-options)." },
     { "type": "text", "id": "detail_sale_label", "label": "Sale badge label", "default": "Sale" },

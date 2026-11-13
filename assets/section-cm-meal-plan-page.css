@@ -578,6 +578,20 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__order--king .mealplan-menu__field,
 .mealplan-menu__order--king .mealplan-menu__picker,
 .mealplan-menu__order--king .mealplan-menu__sum{display:none!important}
+/* King Draft still injects — hide app UI when merchant keeps theme mode. */
+.mealplan-menu__order--theme-lock [class*="ymq"],
+.mealplan-menu__order--theme-lock [id*="ymq"],
+.mealplan-menu__order--theme-lock [data-ymq],
+.mealplan-menu__order--theme-lock .ymq-option,
+.mealplan-menu__order--theme-lock .ymq-options,
+.mealplan-menu__order--theme-lock [class*="infinite-option"],
+.mealplan-menu__order--theme-lock [class*="bold-option"],
+.mealplan-menu__order--theme-lock [class*="globo-option"],
+.mealplan-menu__order--theme-lock [class*="hulk-option"],
+.mealplan-menu__order--theme-lock [data-mp-app-suppressed],
+.mealplan-menu__detail:has(.mealplan-menu__order--theme-lock) [class*="ymq"],
+.mealplan-menu__detail:has(.mealplan-menu__order--theme-lock) [id*="ymq"],
+.mealplan-menu__detail:has(.mealplan-menu__order--theme-lock) a[href*="ymq"]{display:none!important;visibility:hidden!important}
 .mealplan-menu__field{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;min-width:0}
 /* Only the field's own caption is styled here. A descendant selector would
    also hit the trigger text inside the picker button, forcing uppercase and
