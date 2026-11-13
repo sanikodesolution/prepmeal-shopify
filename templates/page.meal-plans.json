@@ -266,7 +266,7 @@
             "text": "Six meals from the weekly menu.",
             "price_note": "Price at checkout",
             "button_label": "View plan",
-            "link": "/pages/6-meal-plan",
+            "link": "/products/6-meal-plan",
             "image": "shopify://shop_images/mp-food-0.jpg"
           }
         },

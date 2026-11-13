@@ -8,7 +8,27 @@
 {% include 'cm-mp-context' %}
 {%- liquid
   assign s = section.settings
+  # Options apps (King Product, etc.) inject on product URLs. If this page's
+  # content product is tagged app-options / king-options, send shoppers there
+  # so they see app dropdowns instead of the theme Meal 1…N list.
+  assign redirect_app_options = false
+  if request.page_type == 'page' and plan_product != blank and plan_product.url != blank
+    if plan_product.tags contains 'app-options' or plan_product.tags contains 'king-options'
+      assign redirect_app_options = true
+    endif
+  endif
 -%}
+{%- if redirect_app_options -%}
+  <script>
+    (function () {
+      var url = {{ plan_product.url | json }};
+      if (url && window.location.pathname.indexOf('/products/') !== 0) {
+        window.location.replace(url);
+      }
+    })();
+  </script>
+  <noscript><meta http-equiv="refresh" content="0;url={{ plan_product.url }}"></noscript>
+{%- endif -%}
 {%- capture mp_eyebrow_style -%}
   {%- render 'pm-block-type-style', settings: s, prefix: 'eyebrow_' -%}
 {%- endcapture -%}
