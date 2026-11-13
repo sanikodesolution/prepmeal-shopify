@@ -509,6 +509,24 @@
       el.addEventListener('click', () => set(i, 'list'));
     });
     if (canHover.matches && listEl) listEl.addEventListener('mouseleave', clearHoverZoom);
+    // Keep the stage photo visible on first paint (no scroll-reveal gate).
+    // King Product / embedded previews often never fire IntersectionObserver
+    // for sticky frames, which left the left image invisible.
+    if (frame) {
+      frame.classList.add('is-in');
+      frame.classList.remove('mp-reveal');
+    }
+    // If the collage asset fails, fall back to the first meal slide.
+    const allImg = allSlide?.querySelector('img');
+    if (allImg && slides[0]) {
+      const showFirstMeal = () => {
+        if (allImg.naturalWidth > 0) return;
+        set(0, 'list');
+        clearHoverZoom();
+      };
+      if (allImg.complete) showFirstMeal();
+      else allImg.addEventListener('error', showFirstMeal, { once: true });
+    }
 
     // Cursor-following magnifier shared by the stage photo and the lightbox.
     // Scaling about the pointer's own position keeps that pixel pinned at

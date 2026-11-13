@@ -669,9 +669,9 @@
           </div>
           </div>
           <div class="mealplan-menu__stage">
-            <div class="mealplan-menu__frame is-all mp-reveal mp-float-frame" data-mp-frame role="button" tabindex="0" aria-label="Open meal gallery">
+            <div class="mealplan-menu__frame is-all mp-float-frame" data-mp-frame role="button" tabindex="0" aria-label="Open meal gallery">
               <div class="mealplan-menu__slide is-active" data-mp-all>
-                <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all meals" width="800" height="860">
+                <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all meals" width="800" height="860" fetchpriority="high">
               </div>
               {%- if variant_menu -%}
                 {%- for variant in meals_catalog.variants -%}

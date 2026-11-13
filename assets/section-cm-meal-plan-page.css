@@ -500,7 +500,8 @@ color:var(--ben-ink);padding:0 0 0
    running as one long line under the heading. */
 .mealplan-menu__sub{grid-column:1;grid-row:3;justify-self:start;margin:1.6rem 0 0;max-width:31ch;font-size:16px;line-height:1.6;color:var(--mp-muted);text-align:left}
 .mealplan-menu__stage{grid-column:1;grid-row:2;position:sticky;top:40px;z-index:4}
-.mealplan-menu__frame{position:relative;aspect-ratio:1/1;border-radius:36px;overflow:hidden;background:#f6f5f3;box-shadow:0 40px 80px -40px rgba(21,37,28,.35);cursor:zoom-in}
+.mealplan-menu__frame{position:relative;aspect-ratio:1/1;border-radius:36px;overflow:hidden;background:#f6f5f3;box-shadow:0 40px 80px -40px rgba(21,37,28,.35);cursor:zoom-in;opacity:1;transform:none}
+.mealplan-menu__frame.mp-reveal{opacity:1;transform:none}
 .mealplan-menu__frame:focus-visible{outline:2px solid var(--mp-accent);outline-offset:4px}
 .mealplan-menu__slide{position:absolute;inset:0;opacity:0;transform:scale(1.06);transition:opacity .55s ease,transform .8s ease}
 .mealplan-menu__slide.is-active{opacity:1;transform:scale(1);z-index:1}
