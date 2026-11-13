@@ -558,6 +558,9 @@ color:var(--ben-ink);padding:0 0 0
 .mealplan-menu__full li.is-active{background:var(--mp-accent-soft);color:var(--mp-ink)}
 .mealplan-menu__full li.is-active::marker{color:var(--mp-accent)}
 .mealplan-menu__order{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:18px 18px 20px}
+.mealplan-menu__order--king{align-content:start}
+.mealplan-menu__king{display:grid;gap:12px;min-width:0}
+.mealplan-menu__king:empty{min-height:8px}
 .mealplan-menu__field{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;min-width:0}
 /* Only the field's own caption is styled here. A descendant selector would
    also hit the trigger text inside the picker button, forcing uppercase and

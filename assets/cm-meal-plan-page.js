@@ -811,6 +811,9 @@
     }
 
     const orderForm = week.querySelector('[data-mp-order]');
+    // King Product owns the options when data-mp-king is set — leave the form
+    // alone so Ymq can inject into / submit through it.
+    if (orderForm?.hasAttribute('data-mp-king')) return;
     // Skip custom pickers in the theme editor so clicks open area settings.
     if (orderForm && !(window.Shopify && window.Shopify.designMode)) {
       // Custom dropdown UI. A native <select> popup is painted by the OS and

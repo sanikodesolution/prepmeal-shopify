@@ -59,22 +59,44 @@
   # Product admin (metafield) is the easy place for a merchant to change this.
   # Priority: custom.meal_slots → theme "Order dropdowns" → number in the
   # product title (e.g. "6 Meal Plan" → 6). Cap at 15.
+  #
+  # King Product Options override: tag the plan product with `king-options`
+  # (or set metafield custom.use_king_options = true) AFTER assigning a King
+  # Product option set. Theme Meal 1…N dropdowns hide; a cart form shell stays
+  # so King Product can inject its options into the order panel.
   # ---------------------------------------------------------------
-  assign picker_count = 0
-  if plan_meta.meal_slots.value != blank
-    assign picker_count = plan_meta.meal_slots.value | plus: 0
-  endif
-  if picker_count <= 0
-    assign picker_count = section.settings.picker_count | plus: 0
-  endif
-  if picker_count <= 0 and plan_product != blank
-    assign title_lead = plan_product.title | split: ' ' | first | plus: 0
-    if title_lead > 0 and title_lead <= 15
-      assign picker_count = title_lead
+  assign use_king_options = false
+  if plan_product != blank
+    if plan_product.tags contains 'king-options'
+      assign use_king_options = true
+    endif
+    assign king_meta = plan_meta.use_king_options.value
+    if king_meta == true or king_meta == 'true' or king_meta == '1'
+      assign use_king_options = true
     endif
   endif
-  if picker_count > 30
-    assign picker_count = 30
+
+  assign picker_count = 0
+  unless use_king_options
+    if plan_meta.meal_slots.value != blank
+      assign picker_count = plan_meta.meal_slots.value | plus: 0
+    endif
+    if picker_count <= 0
+      assign picker_count = section.settings.picker_count | plus: 0
+    endif
+    if picker_count <= 0 and plan_product != blank
+      assign title_lead = plan_product.title | split: ' ' | first | plus: 0
+      if title_lead > 0 and title_lead <= 15
+        assign picker_count = title_lead
+      endif
+    endif
+    if picker_count > 30
+      assign picker_count = 30
+    endif
+  endunless
+  assign show_order_box = false
+  if picker_count > 0 or use_king_options
+    assign show_order_box = true
   endif
   assign meal_slot_label = plan_meta.meal_slot_label.value | default: 'Meal' | strip
   if meal_slot_label == blank
@@ -539,7 +561,7 @@
             section, plan price right. One row, vertically centred together.
           {%- endcomment -%}
           <div class="mealplan-menu__top">
-          {%- if picker_count > 0 -%}
+          {%- if show_order_box -%}
             {%- liquid
               # The cart charges the variant's own price, so a $0 variant makes
               # the whole plan free. Prefer the selected variant, then the first
@@ -573,7 +595,8 @@
               # Cart adds each chosen meal as its own line, so the plan total is
               # the SUM of meal prices — never one meal price × slot count
               # (that was showing $17 × 6 = $102 when meals are $17 + five $15).
-              if section.settings.detail_use_plan_total
+              # King Product mode keeps a single plan-line price (King handles add-ons).
+              if section.settings.detail_use_plan_total and picker_count > 0
                 assign detail_price = 0
                 assign detail_compare = 0
                 assign detail_meals_counted = 0
@@ -633,7 +656,7 @@
             <p class="mp-eye">{{ c_menu_eyebrow | escape }}</p>
           {%- endif -%}
           <div class="mealplan-menu__head">
-            {%- if picker_count > 0 -%}
+            {%- if show_order_box -%}
               <h4 class="mealplan-h">
                 <button type="button" class="mealplan-menu__title" data-mp-poster>{{ c_menu_heading | escape }}</button>
               </h4>
@@ -665,7 +688,7 @@
                   </div>
                 {%- endfor -%}
               {%- endif -%}
-              {%- if picker_count > 0 -%}
+              {%- if show_order_box -%}
                 <div class="mealplan-menu__sheet" data-mp-sheet hidden>
                   <img src="{{ '10-meal-together.png' | asset_url }}" alt="This week's menu with all 10 meals" width="800" height="1400">
                 </div>
@@ -704,56 +727,73 @@
             {%- endif -%}
           </ol>
           <div class="mealplan-menu__detail">
-            {%- if picker_count > 0 -%}
-              <form class="mealplan-menu__order" data-mp-order data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}" action="{{ routes.cart_add_url }}" method="post">
+            {%- if show_order_box -%}
+              <form
+                class="mealplan-menu__order{% if use_king_options %} mealplan-menu__order--king product-form{% endif %}"
+                data-mp-order
+                {% if use_king_options %}data-mp-king="1"{% endif %}
+                data-mp-plan="{{ plan_product.title | default: 'Meal plan' | escape }}"
+                data-product-id="{{ plan_product.id }}"
+                action="{{ routes.cart_add_url }}"
+                method="post"
+              >
                 <input type="hidden" name="id" value="{{ plan_variant.id }}">
-                {%- for slot in (1..picker_count) -%}
-                  <label class="mealplan-menu__field">
-                    <span>{{ meal_slot_label | escape }} {{ slot }}</span>
-                    <select name="properties[{{ meal_slot_label | escape }} {{ slot }}]" data-mp-pick required>
-                      <option value="" selected>{{ c_picker_placeholder | escape }}</option>
-                      {%- if variant_menu -%}
-                        {%- for variant in meals_catalog.variants -%}
-                          {%- unless variant.title == 'Default Title' -%}
-                            {%- capture opt_label -%}{% render 'cm-meal-option-label', variant: variant, base_cents: meal_base_cents %}{%- endcapture -%}
-                            <option value="{{ variant.title | escape }}"{% if variant.price > 0 %} data-price="{{ variant.price | money | escape }}" data-price-cents="{{ variant.price }}"{% endif %} data-variant-id="{{ variant.id }}">{{ opt_label | strip | escape }}</option>
-                          {%- endunless -%}
-                        {%- endfor -%}
-                      {%- else -%}
-                        {%- for block in menu_blocks -%}
-                          {%- liquid
-                            assign meal_variant = blank
-                            assign meal_source = block.settings.product | default: section.settings.meals_product
-                            if meal_source != blank
-                              for variant in meal_source.variants
-                                if variant.title == block.settings.name
-                                  assign meal_variant = variant
-                                  break
+                {%- if use_king_options -%}
+                  <div class="mealplan-menu__king" data-mp-king-mount data-product-id="{{ plan_product.id }}">
+                    {%- comment -%}
+                      King Product Options (app embed) injects dropdowns here /
+                      into this product form. Theme Meal 1…N selects stay off.
+                    {%- endcomment -%}
+                  </div>
+                {%- else -%}
+                  {%- for slot in (1..picker_count) -%}
+                    <label class="mealplan-menu__field">
+                      <span>{{ meal_slot_label | escape }} {{ slot }}</span>
+                      <select name="properties[{{ meal_slot_label | escape }} {{ slot }}]" data-mp-pick required>
+                        <option value="" selected>{{ c_picker_placeholder | escape }}</option>
+                        {%- if variant_menu -%}
+                          {%- for variant in meals_catalog.variants -%}
+                            {%- unless variant.title == 'Default Title' -%}
+                              {%- capture opt_label -%}{% render 'cm-meal-option-label', variant: variant, base_cents: meal_base_cents %}{%- endcapture -%}
+                              <option value="{{ variant.title | escape }}"{% if variant.price > 0 %} data-price="{{ variant.price | money | escape }}" data-price-cents="{{ variant.price }}"{% endif %} data-variant-id="{{ variant.id }}">{{ opt_label | strip | escape }}</option>
+                            {%- endunless -%}
+                          {%- endfor -%}
+                        {%- else -%}
+                          {%- for block in menu_blocks -%}
+                            {%- liquid
+                              assign meal_variant = blank
+                              assign meal_source = block.settings.product | default: section.settings.meals_product
+                              if meal_source != blank
+                                for variant in meal_source.variants
+                                  if variant.title == block.settings.name
+                                    assign meal_variant = variant
+                                    break
+                                  endif
+                                endfor
+                                if meal_variant == blank and block.settings.product != blank
+                                  assign meal_variant = block.settings.product.selected_or_first_available_variant
                                 endif
-                              endfor
-                              if meal_variant == blank and block.settings.product != blank
-                                assign meal_variant = block.settings.product.selected_or_first_available_variant
                               endif
-                            endif
-                            assign opt_price = 0
-                            if meal_variant != blank
-                              assign opt_price = meal_variant.price
-                            endif
-                            if opt_price <= 0
-                              assign opt_price = block.settings.price | default: 0
-                            endif
-                            if opt_price <= 0
-                              assign opt_price = section.settings.meal_price
-                            endif
-                          -%}
-                          <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}" data-price-cents="{{ opt_price }}"{% endif %}{% if meal_variant != blank %} data-variant-id="{{ meal_variant.id }}"{% endif %}>{{ block.settings.name | escape }}</option>
-                        {%- endfor -%}
-                      {%- endif -%}
-                    </select>
-                  </label>
-                {%- endfor -%}
+                              assign opt_price = 0
+                              if meal_variant != blank
+                                assign opt_price = meal_variant.price
+                              endif
+                              if opt_price <= 0
+                                assign opt_price = block.settings.price | default: 0
+                              endif
+                              if opt_price <= 0
+                                assign opt_price = section.settings.meal_price
+                              endif
+                            -%}
+                            <option value="{{ block.settings.name | escape }}"{% if opt_price > 0 %} data-price="{{ opt_price | money | escape }}" data-price-cents="{{ opt_price }}"{% endif %}{% if meal_variant != blank %} data-variant-id="{{ meal_variant.id }}"{% endif %}>{{ block.settings.name | escape }}</option>
+                          {%- endfor -%}
+                        {%- endif -%}
+                      </select>
+                    </label>
+                  {%- endfor -%}
+                {%- endif -%}
                 <p class="mealplan-menu__order-msg" data-mp-order-msg hidden></p>
-                {%- if any_price -%}
+                {%- if any_price and picker_count > 0 -%}
                   <div class="mealplan-menu__sum">
                     <span class="mealplan-menu__sum-label">{{ c_total_label | default: 'Plan total' | escape }}</span>
                     <span class="mealplan-menu__sum-value" data-mp-sum data-mp-money="{{ 0 | money | escape }}">{{ 0 | money }}</span>
@@ -783,7 +823,7 @@
             {%- endif -%}
           </div>
         </div>
-        {%- if picker_count > 0 -%}
+        {%- if show_order_box -%}
           <div class="mealplan-menu__cursor" data-mp-cursor hidden>
             <img src="{{ '10-meal-together.png' | asset_url }}" alt="" width="80" height="80">
           </div>
@@ -1588,12 +1628,12 @@
     { "type": "textarea", "id": "quality_text", "label": "Quality text", "default": "Chef-cooked every week. Hover a meal to see what's on the plate." },
     { "type": "text", "id": "quality_button", "label": "Menu image button", "default": "See all plans" },
     { "type": "header", "content": "Customer order box" },
-    { "type": "paragraph", "content": "Prefer editing on the plan product in Admin: set metafield Meal slots (custom.meal_slots) to 6. That controls how many MEAL 1…N dropdowns appear. Theme setting below is only a fallback." },
+    { "type": "paragraph", "content": "Prefer editing on the plan product in Admin: set metafield Meal slots (custom.meal_slots) to 6. That controls how many MEAL 1…N dropdowns appear. Theme setting below is only a fallback. To use King Product Options instead: create an option set, assign it to the plan product, then add the product tag king-options (or metafield custom.use_king_options). Theme dropdowns turn off; King injects into the order panel." },
     { "type": "text", "id": "detail_title", "label": "Order panel title", "info": "Shown above the meal dropdowns, product-page style. Blank uses the plan product's title." },
-    { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: sums the first N meal variant prices (N = order dropdowns), matching what the cart charges when meals have different prices. Off: shows one variant price as-is." },
+    { "type": "checkbox", "id": "detail_use_plan_total", "label": "Show the full plan price", "default": true, "info": "On: sums the first N meal variant prices (N = order dropdowns), matching what the cart charges when meals have different prices. Off: shows one variant price as-is. Ignored when the plan product uses King Product (tag king-options)." },
     { "type": "text", "id": "detail_sale_label", "label": "Sale badge label", "default": "Sale" },
-    { "type": "range", "id": "picker_count", "min": 0, "max": 30, "step": 1, "label": "Order dropdowns (fallback)", "default": 0, "info": "Used only when the plan product has no Meal slots metafield. Shows this many MEAL dropdowns. 0 hides the order box." },
-    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Shopify charges this product's price as one line in the cart. Set Meal slots metafield here for easy order-box control." },
+    { "type": "range", "id": "picker_count", "min": 0, "max": 30, "step": 1, "label": "Order dropdowns (fallback)", "default": 0, "info": "Used only when the plan product has no Meal slots metafield and is not tagged king-options. Shows this many MEAL dropdowns. 0 hides the order box." },
+    { "type": "product", "id": "plan_product", "label": "Plan product", "info": "Shopify charges this product's price as one line in the cart. Set Meal slots metafield here for easy order-box control. Tag king-options to hand the order box to King Product Options." },
     { "type": "product", "id": "meals_product", "label": "Meals product", "info": "Single source for every meal preview: the numbered list AND the order dropdowns both read this product's Meal variants. Edit variants here — both sections update together. Falls back to the plan product when blank." },
     { "type": "checkbox", "id": "show_gallery", "label": "Show meal options gallery", "default": true },
     { "type": "text", "id": "gallery_eyebrow", "label": "Gallery eyebrow", "default": "Fresh from our kitchen" },
