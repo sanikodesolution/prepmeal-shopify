@@ -39,21 +39,40 @@
   endif
   assign plan_meta = plan_product.metafields.custom
 
-  assign picker_count = 0
-  if plan_meta.meal_slots.value != blank
-    assign picker_count = plan_meta.meal_slots.value | plus: 0
-  endif
-  if picker_count <= 0
-    assign picker_count = section.settings.picker_count | plus: 0
-  endif
-  if picker_count <= 0 and plan_product != blank
-    assign title_lead = plan_product.title | split: ' ' | first | plus: 0
-    if title_lead > 0 and title_lead <= 15
-      assign picker_count = title_lead
+  # King Product Options: tag plan product `king-options` (or metafield
+  # custom.use_king_options) to hide theme Meal 1…N dropdowns on pages too.
+  assign use_king_options = false
+  if plan_product != blank
+    if plan_product.tags contains 'king-options'
+      assign use_king_options = true
+    endif
+    assign king_meta = plan_meta.use_king_options.value
+    if king_meta == true or king_meta == 'true' or king_meta == '1'
+      assign use_king_options = true
     endif
   endif
-  if picker_count > 30
-    assign picker_count = 30
+
+  assign picker_count = 0
+  unless use_king_options
+    if plan_meta.meal_slots.value != blank
+      assign picker_count = plan_meta.meal_slots.value | plus: 0
+    endif
+    if picker_count <= 0
+      assign picker_count = section.settings.picker_count | plus: 0
+    endif
+    if picker_count <= 0 and plan_product != blank
+      assign title_lead = plan_product.title | split: ' ' | first | plus: 0
+      if title_lead > 0 and title_lead <= 15
+        assign picker_count = title_lead
+      endif
+    endif
+    if picker_count > 30
+      assign picker_count = 30
+    endif
+  endunless
+  assign show_order_box = false
+  if picker_count > 0 or use_king_options
+    assign show_order_box = true
   endif
   assign meal_slot_label = plan_meta.meal_slot_label.value | default: 'Meal' | strip
   if meal_slot_label == blank
