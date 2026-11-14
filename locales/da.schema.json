@@ -1923,6 +1923,10 @@
                 "label": "Lodret"
               }
             },
+            "content": {
+              "label": "Icon with text",
+              "info": "Set the icon or image and the text shown next to it."
+            },
             "heading": {
               "info": "Lad stå tomt for at skjule denne parring"
             },

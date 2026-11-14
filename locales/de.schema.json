@@ -1922,6 +1922,10 @@
                 "label": "Vertikal"
               }
             },
+            "content": {
+              "label": "Icon with text",
+              "info": "Set the icon or image and the text shown next to it."
+            },
             "heading": {
               "info": "Zum Ausblenden dieser Kombination leer lassen"
             },

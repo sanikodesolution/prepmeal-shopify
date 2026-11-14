@@ -1922,6 +1922,10 @@
                 "label": "Verticale"
               }
             },
+            "content": {
+              "label": "Icon with text",
+              "info": "Set the icon or image and the text shown next to it."
+            },
             "heading": {
               "info": "Laisser vide pour masquer ce jumelage"
             },

@@ -1922,6 +1922,10 @@
                 "label": "Vertikalt"
               }
             },
+            "content": {
+              "label": "Icon with text",
+              "info": "Set the icon or image and the text shown next to it."
+            },
             "heading": {
               "info": "La stå tom for å skjule denne sammenkoblingen"
             },

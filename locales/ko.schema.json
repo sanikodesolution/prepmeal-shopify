@@ -1923,6 +1923,10 @@
                 "label": "수직"
               }
             },
+            "content": {
+              "label": "Icon with text",
+              "info": "Set the icon or image and the text shown next to it."
+            },
             "heading": {
               "info": "이 페어링을 숨기려면 비워 둡니다"
             },
