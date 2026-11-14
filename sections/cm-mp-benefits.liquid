@@ -39,14 +39,17 @@
               <ul class="ben__group"{% if pass > 1 %} aria-hidden="true"{% endif %}>
                 {%- if use_benefit_blocks -%}
                   {%- for block in benefit_blocks -%}
-                    <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}{% render 'pm-area-style', block: block %}>
+                    {%- capture ben_area_attrs -%}
+                      {%- render 'pm-area-style', block: block -%}
+                    {%- endcapture -%}
+                    <li class="ben__item"{% if pass == 1 %} {{ block.shopify_attributes }}{% endif %}{{ ben_area_attrs }}>
                       {%- capture ben_title_style -%}
                         {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
                       {%- endcapture -%}
                       {%- capture ben_body_style -%}
                         {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
                       {%- endcapture -%}
-                      <b{{ block.settings.title | escape }}</b>
+                      <b>{{ block.settings.title | escape }}</b>
                       <span
                         {% if ben_body_style != blank %}
                           style="{{ ben_body_style | strip }}"
@@ -64,7 +67,7 @@
                       {%- capture ben_body_style -%}
                         {%- render 'pm-block-type-style', block: block, prefix: 'body_' -%}
                       {%- endcapture -%}
-                      <b{{ cells[0] | escape }}</b>
+                      <b>{{ cells[0] | escape }}</b>
                       <span>{{ cells[1] | escape }}</span>
                     </li>
                   {%- endfor -%}

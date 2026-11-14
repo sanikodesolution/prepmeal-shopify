@@ -288,7 +288,7 @@
 {% if feature_shadow %}
   <style>
     .feature-{{ section.id }} .wrapper-box {
-       box-shadow: 4px 4px 20px {{ feature_shadow_color | hex_to_rgba: 0.2 }};
+       box-shadow: 4px 4px 20px {{ feature_shadow_color | color_modify: 'alpha', 0.2 }};
     }
   </style>
 {% endif %}
@@ -330,7 +330,13 @@
                           {% if lazy %}loading="lazy"{% endif %}
                         >
                       {%- elsif block.settings.feature_image != blank -%}
-                        <img src="{{ block.settings.feature_image | image_url }}" alt="feature-item-{{ forloop.index }}" {% if lazy %}loading="lazy"{% endif %}>
+                        <img
+                          src="{{ block.settings.feature_image | image_url: width: 400 }}"
+                          alt="feature-item-{{ forloop.index }}"
+                          width="{{ block.settings.feature_image.width }}"
+                          height="{{ block.settings.feature_image.height }}"
+                          {% if lazy %}loading="lazy"{% endif %}
+                        >
                       {%- elsif feature_asset != blank -%}
                         <img
                           src="{{ feature_asset | asset_img_url: '400x' }}"
