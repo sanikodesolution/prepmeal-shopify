@@ -1,0 +1,505 @@
+{%- comment -%}
+  Builder Section — thin OS2 wrapper for Elementor-style page building.
+  Renders only theme/app blocks via content_for 'blocks'.
+  Starter presets (hero, two-column, …) are added in a later batch; this
+  batch ships the empty preset and section settings only.
+{%- endcomment -%}
+{%- liquid
+  assign width = section.settings.width | default: 'page'
+  assign custom_max = section.settings.custom_max_width | default: 1200
+  assign direction = section.settings.content_direction | default: 'column'
+  assign gap = section.settings.gap | default: 16
+  assign align = section.settings.align_items | default: 'stretch'
+  assign justify = section.settings.justify_content | default: 'flex-start'
+  assign wrap = section.settings.flex_wrap | default: 'nowrap'
+  assign min_h = section.settings.min_height | default: 0
+  assign pad_t = section.settings.padding_top | default: 40
+  assign pad_b = section.settings.padding_bottom | default: 40
+  assign pad_t_m = section.settings.padding_top_mobile | default: 24
+  assign pad_b_m = section.settings.padding_bottom_mobile | default: 24
+  assign margin_t = section.settings.margin_top | default: 0
+  assign margin_b = section.settings.margin_bottom | default: 0
+  assign text_align = section.settings.text_alignment | default: 'left'
+
+  assign width_class = 'pm-builder__inner--page'
+  case width
+    when 'full'
+      assign width_class = 'pm-builder__inner--full'
+    when 'narrow'
+      assign width_class = 'pm-builder__inner--narrow'
+    when 'custom'
+      assign width_class = 'pm-builder__inner--custom'
+  endcase
+
+  assign hide_class = ''
+  if section.settings.hide_on_mobile
+    assign hide_class = hide_class | append: ' pm-builder--hide-mobile'
+  endif
+  if section.settings.hide_on_desktop
+    assign hide_class = hide_class | append: ' pm-builder--hide-desktop'
+  endif
+
+  assign extra_css = 'padding-top:' | append: pad_t | append: 'px;padding-bottom:' | append: pad_b | append: 'px;'
+  assign extra_css = extra_css | append: 'margin-top:' | append: margin_t | append: 'px;margin-bottom:' | append: margin_b | append: 'px;'
+  if min_h > 0
+    assign extra_css = extra_css | append: 'min-height:' | append: min_h | append: 'px;'
+  endif
+  if width == 'custom' and custom_max > 0
+    assign extra_css = extra_css | append: '--pm-builder-max:' | append: custom_max | append: 'px;'
+  endif
+  assign extra_css = extra_css | append: '--pm-builder-gap:' | append: gap | append: 'px;'
+  assign extra_css = extra_css | append: '--pm-builder-direction:' | append: direction | append: ';'
+  assign extra_css = extra_css | append: '--pm-builder-align:' | append: align | append: ';'
+  assign extra_css = extra_css | append: '--pm-builder-justify:' | append: justify | append: ';'
+  assign extra_css = extra_css | append: '--pm-builder-wrap:' | append: wrap | append: ';'
+  assign extra_css = extra_css | append: '--pm-builder-pad-t-m:' | append: pad_t_m | append: 'px;'
+  assign extra_css = extra_css | append: '--pm-builder-pad-b-m:' | append: pad_b_m | append: 'px;'
+  assign extra_css = extra_css | append: 'text-align:' | append: text_align | append: ';'
+-%}
+<section
+  id="{% if section.settings.anchor_id != blank %}{{ section.settings.anchor_id | handle | escape }}{% else %}pm-builder-{{ section.id }}{% endif %}"
+  class="pm-builder section-{{ section.id }}{% if section.settings.color_scheme != blank %} color-{{ section.settings.color_scheme }}{% endif %} pm-section-bg{% if section.settings.background_video != blank %} pm-builder--has-video{% endif %}{{ hide_class }}{% if section.settings.custom_class != blank %} {{ section.settings.custom_class | escape }}{% endif %}"
+  {% render 'pm-section-style', section: section, extra: extra_css %}
+>
+  {%- if section.settings.background_video != blank -%}
+    <div class="pm-builder__bg-video" aria-hidden="true">
+      {{
+        section.settings.background_video
+        | video_tag:
+          image_size: '1920x',
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          playsinline: true,
+          class: 'pm-builder__bg-video-el'
+      }}
+    </div>
+  {%- endif -%}
+  <div class="pm-builder__inner {{ width_class }}">
+    {% content_for 'blocks' %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .pm-builder {
+    width: 100%;
+    position: relative;
+  }
+
+  .pm-builder__bg-video {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .pm-builder__bg-video-el {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pm-builder--has-video > .pm-builder__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .pm-builder__inner {
+    width: 100%;
+    display: flex;
+    flex-direction: var(--pm-builder-direction, column);
+    flex-wrap: var(--pm-builder-wrap, nowrap);
+    align-items: var(--pm-builder-align, stretch);
+    justify-content: var(--pm-builder-justify, flex-start);
+    gap: var(--pm-builder-gap, 1.6rem);
+    margin-inline: auto;
+    box-sizing: border-box;
+  }
+
+  .pm-builder__inner--full {
+    max-width: none;
+  }
+
+  .pm-builder__inner--page {
+    max-width: var(--page-width);
+    padding-inline: 1.5rem;
+  }
+
+  .pm-builder__inner--narrow {
+    max-width: 72rem;
+    padding-inline: 1.5rem;
+  }
+
+  .pm-builder__inner--custom {
+    max-width: var(--pm-builder-max, 1200px);
+    padding-inline: 1.5rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pm-builder {
+      padding-top: var(--pm-builder-pad-t-m, 2.4rem) !important;
+      padding-bottom: var(--pm-builder-pad-b-m, 2.4rem) !important;
+    }
+
+    .pm-builder--hide-mobile {
+      display: none !important;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .pm-builder--hide-desktop {
+      display: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Builder Section",
+  "tag": "section",
+  "class": "section pm-builder-section",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "options": [
+        { "value": "full", "label": "Full width" },
+        { "value": "page", "label": "Page width" },
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "custom", "label": "Custom max width" }
+      ],
+      "default": "page"
+    },
+    {
+      "type": "range",
+      "id": "custom_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Custom max width",
+      "default": 1200,
+      "info": "Used when Width is Custom max width."
+    },
+    {
+      "type": "select",
+      "id": "content_direction",
+      "label": "Content direction",
+      "options": [
+        { "value": "column", "label": "Vertical" },
+        { "value": "row", "label": "Horizontal" }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "select",
+      "id": "flex_wrap",
+      "label": "Wrap",
+      "options": [
+        { "value": "nowrap", "label": "No wrap" },
+        { "value": "wrap", "label": "Wrap" }
+      ],
+      "default": "nowrap"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "align_items",
+      "label": "Horizontal alignment",
+      "info": "Cross-axis alignment of blocks (items).",
+      "options": [
+        { "value": "stretch", "label": "Stretch" },
+        { "value": "flex-start", "label": "Start" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "End" }
+      ],
+      "default": "stretch"
+    },
+    {
+      "type": "select",
+      "id": "justify_content",
+      "label": "Vertical alignment",
+      "info": "Main-axis alignment. With horizontal direction this becomes left/right.",
+      "options": [
+        { "value": "flex-start", "label": "Start" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "End" },
+        { "value": "space-between", "label": "Space between" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 0,
+      "max": 900,
+      "step": 10,
+      "unit": "px",
+      "label": "Min height",
+      "default": 0,
+      "info": "0 = auto"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top (mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom (mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "paragraph",
+      "content": "Optional band background. Leave blank to use the color scheme only."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Color"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Gradient"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "background_video",
+      "label": "Video",
+      "info": "Shopify-hosted background video. Plays muted and looping."
+    },
+    {
+      "type": "header",
+      "content": "Image layout"
+    },
+    {
+      "type": "select",
+      "id": "background_image_fit",
+      "label": "Size",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "auto", "label": "Original" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "background_image_position",
+      "label": "Position",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top", "label": "Top" },
+        { "value": "bottom", "label": "Bottom" },
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "background_repeat",
+      "label": "Repeat",
+      "options": [
+        { "value": "no-repeat", "label": "No repeat" },
+        { "value": "repeat", "label": "Repeat" },
+        { "value": "repeat-x", "label": "Repeat X" },
+        { "value": "repeat-y", "label": "Repeat Y" }
+      ],
+      "default": "no-repeat"
+    },
+    {
+      "type": "select",
+      "id": "background_attachment",
+      "label": "Scroll",
+      "options": [
+        { "value": "scroll", "label": "Scroll with page" },
+        { "value": "fixed", "label": "Fixed (parallax)" }
+      ],
+      "default": "scroll"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "background_overlay_color",
+      "label": "Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "background_overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Strength",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Advanced background"
+    },
+    {
+      "type": "select",
+      "id": "background_blend_mode",
+      "label": "Blend mode",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "multiply", "label": "Multiply" },
+        { "value": "screen", "label": "Screen" },
+        { "value": "overlay", "label": "Overlay" },
+        { "value": "soft-light", "label": "Soft light" },
+        { "value": "darken", "label": "Darken" },
+        { "value": "lighten", "label": "Lighten" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "background_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "For jump links. Letters, numbers, and hyphens only."
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "Custom CSS class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Builder Section",
+      "category": "Builder"
+    }
+  ]
+}
+{% endschema %}
