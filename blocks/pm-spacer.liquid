@@ -1,17 +1,107 @@
+{%- liquid
+  assign hide_class = ''
+  if block.settings.hide_on_mobile
+    assign hide_class = hide_class | append: ' pm-b--hide-mobile'
+  endif
+  if block.settings.hide_on_desktop
+    assign hide_class = hide_class | append: ' pm-b--hide-desktop'
+  endif
+  assign height = block.settings.height | default: 32
+  assign height_m = block.settings.height_mobile | default: height
+-%}
 <div
-  class="pm-b-spacer"
+  class="pm-b-spacer{{ hide_class }}{% if block.settings.custom_class != blank %} {{ block.settings.custom_class | escape }}{% endif %}"
   {{ block.shopify_attributes }}
-  style="height:{{ block.settings.height }}px;{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}"
+  style="--pm-spacer-h:{{ height }}px;--pm-spacer-h-m:{{ height_m }}px;{% if block.settings.background_color != blank %}background-color:{{ block.settings.background_color }};{% endif %}"
   aria-hidden="true"
 ></div>
 
+{% stylesheet %}
+  .pm-b-spacer {
+    display: block;
+    width: 100%;
+    height: var(--pm-spacer-h, 32px);
+  }
+  @media screen and (max-width: 749px) {
+    .pm-b-spacer {
+      height: var(--pm-spacer-h-m, var(--pm-spacer-h, 32px));
+    }
+  }
+  .pm-b--hide-mobile { }
+  @media screen and (max-width: 749px) {
+    .pm-b--hide-mobile { display: none !important; }
+  }
+  @media screen and (min-width: 750px) {
+    .pm-b--hide-desktop { display: none !important; }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
-  "name": "Spacer",
+  "name": "t:blocks.pm-spacer.name",
   "settings": [
-    { "type": "range", "id": "height", "min": 8, "max": 160, "step": 4, "unit": "px", "label": "Height", "default": 32 },
-    { "type": "color", "id": "background_color", "label": "Background" }
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.content"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 8,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.pm-spacer.settings.height",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 8,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.pm-spacer.settings.height_mobile",
+      "default": 32,
+      "info": "t:blocks.pm-spacer.settings.height_mobile_info"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:blocks.shared.background.color"
+    },
+
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "t:blocks.shared.hide_on_mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "t:blocks.shared.hide_on_desktop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:blocks.shared.custom_class"
+    }
   ],
-  "presets": [{ "name": "Spacer" }]
+  "presets": [
+    {
+      "name": "t:blocks.pm-spacer.name",
+      "category": "t:blocks.categories.content"
+    }
+  ]
 }
 {% endschema %}

@@ -1,0 +1,228 @@
+{%- comment -%}
+  Style 2 — brand (brand fill, dark text, dark icon chip)
+  Fixed style; no style select. Shared settings via identical IDs.
+{%- endcomment -%}
+{% render 'pm-btn-style-render', block: block, style: 'brand' %}
+
+{% stylesheet %}
+  /* Style 2 — brand (brand fill, dark text, dark icon chip) — base look lives in component-pm-button.css (.pm--brand / .pm-s). */
+  .pm-b-btn-style--brand { --pm-btn-style: brand; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.pm-btn-style.name_2",
+  "settings": [
+{
+      "type": "header",
+      "content": "t:blocks.shared.headers.content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:blocks.pm-btn-style.settings.label",
+      "default": "Order now"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:blocks.pm-btn-style.settings.link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "t:blocks.pm-btn-style.settings.open_in_new_tab",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "t:blocks.pm-btn-style.settings.icon"
+    },
+    {
+      "type": "select",
+      "id": "icon_position",
+      "label": "t:blocks.pm-btn-style.settings.icon_position",
+      "options": [
+        { "value": "left", "label": "t:blocks.shared.options.left" },
+        { "value": "right", "label": "t:blocks.shared.options.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.style"
+    },
+    {
+      "type": "select",
+      "id": "size",
+      "label": "t:blocks.pm-btn-style.settings.size",
+      "options": [
+        { "value": "small", "label": "t:blocks.pm-btn-style.settings.size_small" },
+        { "value": "medium", "label": "t:blocks.pm-btn-style.settings.size_medium" },
+        { "value": "large", "label": "t:blocks.pm-btn-style.settings.size_large" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:blocks.pm-btn-style.settings.alignment",
+      "options": [
+        { "value": "left", "label": "t:blocks.shared.options.left" },
+        { "value": "center", "label": "t:blocks.shared.options.center" },
+        { "value": "right", "label": "t:blocks.shared.options.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "t:blocks.pm-btn-style.settings.full_width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "t:blocks.shared.border.radius",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "label": "t:blocks.shared.border.width",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "t:blocks.pm-btn-style.settings.font_size",
+      "default": 16,
+      "info": "t:blocks.pm-btn-style.settings.font_size_info"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:blocks.pm-btn-style.settings.background_color",
+      "info": "t:blocks.pm-btn-style.settings.color_override_info"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "t:blocks.pm-btn-style.settings.text_color",
+      "info": "t:blocks.pm-btn-style.settings.color_override_info"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "t:blocks.pm-btn-style.settings.border_color",
+      "info": "t:blocks.pm-btn-style.settings.color_override_info"
+    },
+    {
+      "type": "color",
+      "id": "hover_background_color",
+      "label": "t:blocks.pm-btn-style.settings.hover_background_color",
+      "info": "t:blocks.pm-btn-style.settings.color_override_info"
+    },
+    {
+      "type": "color",
+      "id": "hover_text_color",
+      "label": "t:blocks.pm-btn-style.settings.hover_text_color",
+      "info": "t:blocks.pm-btn-style.settings.color_override_info"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.pm-btn-style.settings.padding_top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.pm-btn-style.settings.padding_bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.pm-btn-style.settings.padding_left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.pm-btn-style.settings.padding_right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.margin",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "t:blocks.shared.hide_on_mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "t:blocks.shared.hide_on_desktop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:blocks.shared.custom_class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:blocks.pm-btn-style.name_2",
+      "category": "t:blocks.categories.buttons"
+    }
+  ]
+}
+{% endschema %}

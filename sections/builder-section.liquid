@@ -157,7 +157,7 @@
 
 {% schema %}
 {
-  "name": "Builder Section",
+  "name": "t:sections.builder-section.name",
   "tag": "section",
   "class": "section pm-builder-section",
   "blocks": [
@@ -497,8 +497,264 @@
   ],
   "presets": [
     {
-      "name": "Builder Section",
-      "category": "Builder"
+      "name": "t:sections.builder-section.presets.name",
+      "category": "t:sections.builder-section.presets.category"
+    },
+    {
+      "name": "t:sections.builder-section.presets.hero_starter",
+      "category": "t:sections.builder-section.presets.category",
+      "blocks": [
+        {
+          "type": "pm-group",
+          "settings": {
+            "direction": "column",
+            "align_items": "center",
+            "justify_content": "center",
+            "text_align": "center",
+            "gap": 16
+          },
+          "blocks": [
+            {
+              "type": "pm-heading",
+              "settings": {
+                "heading": "Cooked for your week",
+                "heading_tag": "h1",
+                "text_align": "center"
+              }
+            },
+            {
+              "type": "pm-text",
+              "settings": {
+                "text": "<p>Calorie-counted meals, delivered fresh across the GTA.</p>",
+                "text_align": "center"
+              }
+            },
+            {
+              "type": "pm-group",
+              "settings": {
+                "direction": "row",
+                "align_items": "center",
+                "justify_content": "center",
+                "flex_wrap": "wrap",
+                "gap": 12,
+                "width_mode": "fit"
+              },
+              "blocks": [
+                {
+                  "type": "pm-btn-style-1",
+                  "settings": {
+                    "label": "Order now",
+                    "alignment": "center"
+                  }
+                },
+                {
+                  "type": "pm-btn-style-4",
+                  "settings": {
+                    "label": "See the menu",
+                    "alignment": "center"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "t:sections.builder-section.presets.two_column",
+      "category": "t:sections.builder-section.presets.category",
+      "blocks": [
+        {
+          "type": "pm-columns",
+          "settings": {
+            "columns_desktop": 2,
+            "columns_tablet": 2,
+            "columns_mobile": 1,
+            "column_gap": 32,
+            "stack_on_mobile": true
+          },
+          "blocks": [
+            {
+              "type": "pm-image",
+              "settings": {
+                "aspect_ratio": "1 / 1",
+                "image_fit": "cover",
+                "text_align": "center"
+              }
+            },
+            {
+              "type": "pm-group",
+              "settings": {
+                "direction": "column",
+                "align_items": "flex-start",
+                "gap": 16
+              },
+              "blocks": [
+                {
+                  "type": "pm-heading",
+                  "settings": {
+                    "heading": "Real food, ready when you are",
+                    "heading_tag": "h2"
+                  }
+                },
+                {
+                  "type": "pm-text",
+                  "settings": {
+                    "text": "<p>Chef-cooked trays with macros you can trust.</p>"
+                  }
+                },
+                {
+                  "type": "pm-btn-style-2",
+                  "settings": {
+                    "label": "Shop plans"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "t:sections.builder-section.presets.meal_grid",
+      "category": "t:sections.builder-section.presets.category",
+      "blocks": [
+        {
+          "type": "pm-heading",
+          "settings": {
+            "heading": "This week’s menu",
+            "heading_tag": "h2",
+            "text_align": "center"
+          }
+        },
+        {
+          "type": "pm-text",
+          "settings": {
+            "text": "<p>Pick your favorites — we cook and deliver.</p>",
+            "text_align": "center"
+          }
+        },
+        {
+          "type": "pm-columns",
+          "settings": {
+            "columns_desktop": 3,
+            "columns_tablet": 2,
+            "columns_mobile": 1,
+            "column_gap": 24,
+            "stack_on_mobile": true
+          },
+          "blocks": [
+            { "type": "pm-meal-card" },
+            { "type": "pm-meal-card" },
+            { "type": "pm-meal-card" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "t:sections.builder-section.presets.faq",
+      "category": "t:sections.builder-section.presets.category",
+      "blocks": [
+        {
+          "type": "pm-heading",
+          "settings": {
+            "heading": "Questions, answered",
+            "heading_tag": "h2",
+            "text_align": "center"
+          }
+        },
+        {
+          "type": "pm-accordion",
+          "settings": {
+            "allow_multiple": false,
+            "first_open": true,
+            "width": "narrow"
+          },
+          "blocks": [
+            {
+              "type": "_pm-accordion-item",
+              "settings": { "title": "How does delivery work?", "open_by_default": true }
+            },
+            {
+              "type": "_pm-accordion-item",
+              "settings": { "title": "Can I customize meals?" }
+            },
+            {
+              "type": "_pm-accordion-item",
+              "settings": { "title": "What about allergens?" }
+            },
+            {
+              "type": "_pm-accordion-item",
+              "settings": { "title": "How do I reheat?" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "t:sections.builder-section.presets.testimonials",
+      "category": "t:sections.builder-section.presets.category",
+      "blocks": [
+        {
+          "type": "pm-heading",
+          "settings": {
+            "heading": "Loved by busy households",
+            "heading_tag": "h2",
+            "text_align": "center"
+          }
+        },
+        {
+          "type": "pm-columns",
+          "settings": {
+            "columns_desktop": 3,
+            "columns_tablet": 2,
+            "columns_mobile": 1,
+            "column_gap": 24,
+            "stack_on_mobile": true
+          },
+          "blocks": [
+            { "type": "pm-testimonial" },
+            { "type": "pm-testimonial" },
+            { "type": "pm-testimonial" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "t:sections.builder-section.presets.call_to_action",
+      "category": "t:sections.builder-section.presets.category",
+      "blocks": [
+        {
+          "type": "pm-container",
+          "settings": {
+            "width": "narrow"
+          },
+          "blocks": [
+            {
+              "type": "pm-heading",
+              "settings": {
+                "heading": "Ready for easier dinners?",
+                "heading_tag": "h2",
+                "text_align": "center"
+              }
+            },
+            {
+              "type": "pm-text",
+              "settings": {
+                "text": "<p>Start with a plan that fits your week.</p>",
+                "text_align": "center"
+              }
+            },
+            {
+              "type": "pm-btn-style-2",
+              "settings": {
+                "label": "Get started",
+                "alignment": "center"
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

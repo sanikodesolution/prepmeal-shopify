@@ -3405,6 +3405,19 @@
       "presets": {
         "name": "Liste rapide des commandes"
       }
+    },
+    "builder-section": {
+      "name": "Builder Section",
+      "presets": {
+        "name": "Builder Section",
+        "category": "Builder",
+        "hero_starter": "Hero starter",
+        "two_column": "Two column (image + text)",
+        "meal_grid": "Meal grid",
+        "faq": "FAQ",
+        "testimonials": "Testimonials",
+        "call_to_action": "Call to action"
+      }
     }
   },
   "blocks": {
@@ -3419,7 +3432,8 @@
         "layout": "Layout",
         "style": "Style",
         "spacing": "Spacing",
-        "visibility": "Visibility"
+        "visibility": "Visibility",
+        "content": "Content"
       },
       "options": {
         "stretch": "Stretch",
@@ -3474,7 +3488,11 @@
       "margin": "Margin",
       "hide_on_mobile": "Hide on mobile",
       "hide_on_desktop": "Hide on desktop",
-      "custom_class": "Custom CSS class"
+      "custom_class": "Custom CSS class",
+      "empty_placeholder": "Add content in the theme editor",
+      "hide_breakpoint_info": "Uses the theme mobile breakpoint (749px).",
+      "hide_on_mobile_info": "Hides below 750px wide.",
+      "hide_on_desktop_info": "Hides at 750px wide and up."
     },
     "pm-group": {
       "name": "Group",
@@ -3562,6 +3580,235 @@
           "label": "Custom max width",
           "info": "Used when Width is Custom max width."
         }
+      }
+    },
+    "pm-btn-style": {
+      "name_1": "Button Style 1",
+      "name_2": "Button Style 2",
+      "name_3": "Button Style 3",
+      "name_4": "Button Style 4",
+      "settings": {
+        "label": "Label",
+        "link": "Link",
+        "open_in_new_tab": "Open in new tab",
+        "icon": "Icon",
+        "icon_position": "Icon position",
+        "size": "Size",
+        "size_small": "Small",
+        "size_medium": "Medium",
+        "size_large": "Large",
+        "alignment": "Alignment",
+        "full_width": "Full width",
+        "font_size": "Font size",
+        "font_size_info": "Uses the theme button font family. Size only affects this block.",
+        "background_color": "Background",
+        "text_color": "Text",
+        "border_color": "Border",
+        "hover_background_color": "Hover background",
+        "hover_text_color": "Hover text",
+        "color_override_info": "Leave empty to use this style default.",
+        "padding_top": "Padding top",
+        "padding_bottom": "Padding bottom",
+        "padding_left": "Padding left",
+        "padding_right": "Padding right"
+      },
+      "empty": "Add a label or icon"
+    },
+    "pm-heading": {
+      "name": "Heading",
+      "settings": {
+        "heading": "Heading",
+        "heading_tag": "Heading level",
+        "heading_size": "Font size",
+        "heading_weight": "Weight",
+        "text_align": "Alignment",
+        "heading_tag_info": "Choose the semantic level. Visual size is controlled separately."
+      }
+    },
+    "pm-text": {
+      "name": "Text",
+      "settings": {
+        "text": "Text",
+        "text_size": "Font size",
+        "heading_weight": "Weight",
+        "text_align": "Alignment"
+      }
+    },
+    "pm-image": {
+      "name": "Image",
+      "settings": {
+        "image": "Image",
+        "alt": "Alt text",
+        "alt_info": "Describe the image for screen readers. Leave blank to use the media alt text.",
+        "caption": "Caption",
+        "link": "Link",
+        "open_in_new_tab": "Open in new tab",
+        "max_width": "Width",
+        "width_mobile": "Width (mobile)",
+        "aspect_ratio": "Aspect ratio",
+        "ratio_auto": "Original",
+        "image_fit": "Image fit",
+        "loading": "Loading",
+        "loading_lazy": "Lazy (default)",
+        "loading_eager": "Eager (above the fold)",
+        "loading_info": "Use Eager for hero / first-viewport images.",
+        "text_align": "Caption alignment",
+        "caption_color": "Caption color",
+        "caption_size": "Caption size",
+        "product_info": "Link",
+        "link_info": "Optional. Makes the image clickable."
+      }
+    },
+    "pm-spacer": {
+      "name": "Spacer",
+      "settings": {
+        "height": "Height",
+        "height_mobile": "Height (mobile)",
+        "height_mobile_info": "Defaults to the same value as Height when unchanged."
+      }
+    },
+    "pm-rich-text": {
+      "name": "Rich Text",
+      "settings": {
+        "text": "Text",
+        "text_size": "Font size",
+        "text_align": "Alignment",
+        "max_width": "Max width",
+        "max_width_info": "0 = full width of the parent."
+      }
+    },
+    "pm-icon": {
+      "name": "Icon",
+      "settings": {
+        "icon": "Icon image",
+        "icon_info": "Upload a PNG or SVG. Prefer square artwork.",
+        "accessibility_label": "Accessibility label",
+        "link": "Link",
+        "open_in_new_tab": "Open in new tab",
+        "size": "Size",
+        "icon_color": "Color",
+        "icon_color_info": "Optional. Best with monochrome icons; leave empty to keep original colors.",
+        "alignment": "Alignment"
+      }
+    },
+    "pm-video": {
+      "name": "Video",
+      "settings": {
+        "video": "Shopify-hosted video",
+        "video_url": "YouTube or Vimeo URL",
+        "video_url_info": "Used when no Shopify-hosted video is selected.",
+        "cover_image": "Cover image",
+        "accessibility_label": "Accessibility label",
+        "autoplay": "Autoplay",
+        "loop": "Loop",
+        "muted": "Muted",
+        "controls": "Show controls",
+        "aspect_ratio": "Aspect ratio"
+      }
+    },
+    "pm-divider": {
+      "name": "Divider",
+      "settings": {
+        "thickness": "Thickness",
+        "line_style": "Style",
+        "style_solid": "Solid",
+        "style_dashed": "Dashed",
+        "style_dotted": "Dotted",
+        "color": "Color",
+        "width": "Width",
+        "alignment": "Alignment",
+        "spacing": "Vertical spacing"
+      }
+    },
+    "pm-accordion": {
+      "name": "Accordion",
+      "settings": {
+        "allow_multiple": "Allow multiple items open",
+        "first_open": "Open first item by default",
+        "first_open_info": "Also respected when an item has Open by default enabled.",
+        "icon_style": "Icon style",
+        "icon_plus": "Plus / minus",
+        "icon_chevron": "Chevron",
+        "icon_position": "Icon position",
+        "divider_style": "Divider between items",
+        "divider_line": "Line",
+        "divider_space": "Space",
+        "divider_none": "None",
+        "divider_color": "Divider color",
+        "gap": "Gap",
+        "width": "Width",
+        "width_fill": "Fill",
+        "width_page": "Page width",
+        "width_narrow": "Narrow",
+        "width_custom": "Custom max width",
+        "max_width": "Max width",
+        "max_width_info": "Used with Fill or Custom. 0 = no max."
+      }
+    },
+    "pm-accordion-item": {
+      "name": "Accordion Item",
+      "settings": {
+        "title": "Title",
+        "open_by_default": "Open by default",
+        "title_size": "Title size",
+        "title_weight": "Title weight"
+      }
+    },
+    "pm-meal-card": {
+      "name": "Meal Card",
+      "settings": {
+        "image": "Image",
+        "name": "Name",
+        "description": "Short description",
+        "price": "Price",
+        "compare_at_price": "Compare-at price",
+        "calories": "Calories",
+        "protein": "Protein",
+        "carbs": "Carbs",
+        "fat": "Fat",
+        "badge_1": "Badge 1",
+        "badge_2": "Badge 2",
+        "badge_3": "Badge 3",
+        "product": "Linked product",
+        "image_position": "Image position",
+        "image_ratio": "Image ratio",
+        "image_fit": "Image fit",
+        "content_alignment": "Content alignment",
+        "show_price": "Show price",
+        "show_macros": "Show macros",
+        "show_badges": "Show badges",
+        "show_description": "Show description",
+        "card_style": "Card style",
+        "style_flat": "Flat",
+        "style_bordered": "Bordered",
+        "style_shadow": "Shadow",
+        "gap": "Content gap",
+        "hover_effect": "Hover effect",
+        "hover_none": "None",
+        "hover_lift": "Lift",
+        "padding_info": "0 keeps the default card body padding from Prep styles.",
+        "product_info": "When set, the name and image link to this product.",
+        "price_info": "Free-form text so you control currency formatting."
+      }
+    },
+    "pm-testimonial": {
+      "name": "Testimonial",
+      "settings": {
+        "quote": "Quote",
+        "author_name": "Author name",
+        "author_role": "Author role or location",
+        "avatar": "Avatar",
+        "rating": "Rating",
+        "rating_none": "None",
+        "source_label": "Source label",
+        "layout": "Layout",
+        "layout_stacked": "Stacked",
+        "layout_avatar_left": "Avatar left",
+        "alignment": "Alignment",
+        "quote_size": "Quote size",
+        "star_color": "Star color",
+        "star_color_info": "Leave empty to use the Prep brand accent.",
+        "card_style": "Card style"
       }
     }
   }

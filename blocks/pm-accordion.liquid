@@ -1,0 +1,383 @@
+{%- comment -%}
+  Accordion — nestable parent; children are Accordion Item only.
+{%- endcomment -%}
+{%- liquid
+  assign hide_class = ''
+  if block.settings.hide_on_mobile
+    assign hide_class = hide_class | append: ' pm-b--hide-mobile'
+  endif
+  if block.settings.hide_on_desktop
+    assign hide_class = hide_class | append: ' pm-b--hide-desktop'
+  endif
+
+  assign icon_style = block.settings.icon_style | default: 'plus'
+  assign icon_pos = block.settings.icon_position | default: 'right'
+  assign divider = block.settings.divider_style | default: 'line'
+  assign gap = block.settings.gap | default: 0
+  assign pad = block.settings.padding | default: 0
+  assign margin = block.settings.margin | default: 0
+  assign radius = block.settings.border_radius | default: 0
+  assign border_w = block.settings.border_width | default: 0
+  assign max_w = block.settings.max_width | default: 0
+  assign width_mode = block.settings.width | default: 'fill'
+
+  assign wrap_class = 'pm-b-accordion'
+  assign wrap_class = wrap_class | append: ' pm-b-accordion--icon-' | append: icon_style
+  assign wrap_class = wrap_class | append: ' pm-b-accordion--icon-' | append: icon_pos
+  assign wrap_class = wrap_class | append: ' pm-b-accordion--divider-' | append: divider
+  assign wrap_class = wrap_class | append: ' pm-b-accordion--width-' | append: width_mode
+  if block.settings.allow_multiple
+    assign wrap_class = wrap_class | append: ' pm-b-accordion--multi'
+  endif
+  if block.settings.first_open
+    assign wrap_class = wrap_class | append: ' pm-b-accordion--first-open'
+  endif
+  if block.settings.color_scheme != blank
+    assign wrap_class = wrap_class | append: ' color-' | append: block.settings.color_scheme
+  endif
+  if block.settings.custom_class != blank
+    assign wrap_class = wrap_class | append: ' ' | append: block.settings.custom_class
+  endif
+  assign wrap_class = wrap_class | append: hide_class
+
+  assign wrap_style = '--pm-acc-gap:' | append: gap | append: 'px;'
+  assign wrap_style = wrap_style | append: '--pm-acc-radius:' | append: radius | append: 'px;'
+  assign wrap_style = wrap_style | append: '--pm-acc-border-w:' | append: border_w | append: 'px;'
+  if block.settings.border_color != blank
+    assign wrap_style = wrap_style | append: '--pm-acc-border-color:' | append: block.settings.border_color | append: ';'
+  endif
+  if block.settings.divider_color != blank
+    assign wrap_style = wrap_style | append: '--pm-acc-divider-color:' | append: block.settings.divider_color | append: ';'
+  endif
+  if pad > 0
+    assign wrap_style = wrap_style | append: 'padding:' | append: pad | append: 'px;'
+  endif
+  if margin > 0
+    assign wrap_style = wrap_style | append: 'margin:' | append: margin | append: 'px;'
+  endif
+  if width_mode == 'custom' and max_w > 0
+    assign wrap_style = wrap_style | append: 'max-width:' | append: max_w | append: 'px;width:100%;margin-inline:auto;'
+  elsif max_w > 0
+    assign wrap_style = wrap_style | append: 'max-width:' | append: max_w | append: 'px;margin-inline:auto;'
+  endif
+-%}
+<div
+  class="{{ wrap_class | strip }}"
+  style="{{ wrap_style }}"
+  {{ block.shopify_attributes }}
+  data-pm-accordion
+  {% unless block.settings.allow_multiple %}data-pm-accordion-single{% endunless %}
+>
+  {% content_for 'blocks' %}
+</div>
+
+{% stylesheet %}
+  .pm-b-accordion {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--pm-acc-gap, 0);
+    width: 100%;
+    border-radius: var(--pm-acc-radius, 0);
+    border-style: solid;
+    border-width: var(--pm-acc-border-w, 0);
+    border-color: var(--pm-acc-border-color, rgba(var(--color-foreground), 0.15));
+    overflow: hidden;
+  }
+
+  .pm-b-accordion--width-page {
+    max-width: var(--page-width, 120rem);
+    margin-inline: auto;
+  }
+
+  .pm-b-accordion--width-narrow {
+    max-width: 72rem;
+    margin-inline: auto;
+  }
+
+  /* Dividers between items */
+  .pm-b-accordion--divider-line > .pm-b-acc-item + .pm-b-acc-item {
+    border-top: 1px solid var(--pm-acc-divider-color, rgba(var(--color-foreground), 0.12));
+  }
+
+  .pm-b-accordion--divider-space > .pm-b-acc-item + .pm-b-acc-item {
+    margin-top: 0.4rem;
+  }
+
+  .pm-b-accordion--divider-none > .pm-b-acc-item + .pm-b-acc-item {
+    border-top: 0;
+  }
+
+  /* When accordion has outer border + padding, give items horizontal inset */
+  .pm-b-accordion[style*='--pm-acc-border-w'] > .pm-b-acc-item > .pm-b-acc-item__summary,
+  .pm-b-accordion[style*='padding:'] > .pm-b-acc-item > .pm-b-acc-item__summary {
+    padding-inline: 0.4rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pm-b--hide-mobile {
+      display: none !important;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .pm-b--hide-desktop {
+      display: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    function directItems(root) {
+      return Array.prototype.filter.call(root.children, function (el) {
+        return el.matches && el.matches('details[data-pm-acc-item]');
+      });
+    }
+
+    function bindAccordion(root) {
+      if (!root || root.dataset.pmAccBound === '1') return;
+      root.dataset.pmAccBound = '1';
+
+      if (root.classList.contains('pm-b-accordion--first-open')) {
+        var items = directItems(root);
+        if (root.hasAttribute('data-pm-accordion-single')) {
+          items.forEach(function (item, i) {
+            item.open = i === 0;
+          });
+        } else if (items[0]) {
+          items[0].open = true;
+        }
+      }
+
+      if (!root.hasAttribute('data-pm-accordion-single')) return;
+
+      root.addEventListener('toggle', function (event) {
+        var target = event.target;
+        if (!target || !target.matches || !target.matches('details[data-pm-acc-item]')) return;
+        if (target.parentElement !== root) return;
+        if (!target.open) return;
+        directItems(root).forEach(function (item) {
+          if (item !== target) item.open = false;
+        });
+      }, true);
+    }
+
+    function initAll() {
+      document.querySelectorAll('[data-pm-accordion]').forEach(bindAccordion);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+
+    document.addEventListener('shopify:section:load', initAll);
+    document.addEventListener('shopify:block:select', initAll);
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:blocks.pm-accordion.name",
+  "blocks": [
+    { "type": "_pm-accordion-item" }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "allow_multiple",
+      "label": "t:blocks.pm-accordion.settings.allow_multiple",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "first_open",
+      "label": "t:blocks.pm-accordion.settings.first_open",
+      "default": true,
+      "info": "t:blocks.pm-accordion.settings.first_open_info"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.style"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:blocks.shared.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "icon_style",
+      "label": "t:blocks.pm-accordion.settings.icon_style",
+      "options": [
+        { "value": "plus", "label": "t:blocks.pm-accordion.settings.icon_plus" },
+        { "value": "chevron", "label": "t:blocks.pm-accordion.settings.icon_chevron" }
+      ],
+      "default": "plus"
+    },
+    {
+      "type": "select",
+      "id": "icon_position",
+      "label": "t:blocks.pm-accordion.settings.icon_position",
+      "options": [
+        { "value": "left", "label": "t:blocks.shared.options.left" },
+        { "value": "right", "label": "t:blocks.shared.options.right" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "select",
+      "id": "divider_style",
+      "label": "t:blocks.pm-accordion.settings.divider_style",
+      "options": [
+        { "value": "line", "label": "t:blocks.pm-accordion.settings.divider_line" },
+        { "value": "space", "label": "t:blocks.pm-accordion.settings.divider_space" },
+        { "value": "none", "label": "t:blocks.pm-accordion.settings.divider_none" }
+      ],
+      "default": "line"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "t:blocks.pm-accordion.settings.divider_color"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "t:blocks.pm-accordion.settings.gap",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "label": "t:blocks.shared.border.width",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "t:blocks.shared.border.color"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "t:blocks.shared.border.radius",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:blocks.pm-accordion.settings.width",
+      "options": [
+        { "value": "fill", "label": "t:blocks.pm-accordion.settings.width_fill" },
+        { "value": "page", "label": "t:blocks.pm-accordion.settings.width_page" },
+        { "value": "narrow", "label": "t:blocks.pm-accordion.settings.width_narrow" },
+        { "value": "custom", "label": "t:blocks.pm-accordion.settings.width_custom" }
+      ],
+      "default": "fill"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 0,
+      "max": 1200,
+      "step": 40,
+      "unit": "px",
+      "label": "t:blocks.pm-accordion.settings.max_width",
+      "default": 0,
+      "info": "t:blocks.pm-accordion.settings.max_width_info"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.margin",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "t:blocks.shared.hide_on_mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "t:blocks.shared.hide_on_desktop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:blocks.shared.custom_class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:blocks.pm-accordion.name",
+      "category": "t:blocks.categories.content",
+      "blocks": [
+        {
+          "type": "_pm-accordion-item",
+          "settings": {
+            "title": "First question",
+            "open_by_default": true
+          }
+        },
+        {
+          "type": "_pm-accordion-item",
+          "settings": {
+            "title": "Second question"
+          }
+        },
+        {
+          "type": "_pm-accordion-item",
+          "settings": {
+            "title": "Third question"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,152 @@
+{%- liquid
+  assign hide_class = ''
+  if block.settings.hide_on_mobile
+    assign hide_class = hide_class | append: ' pm-b--hide-mobile'
+  endif
+  if block.settings.hide_on_desktop
+    assign hide_class = hide_class | append: ' pm-b--hide-desktop'
+  endif
+  assign thickness = block.settings.thickness | default: 1
+  assign width = block.settings.width | default: 100
+  assign space = block.settings.spacing | default: 24
+  assign style = block.settings.line_style | default: 'solid'
+  assign align = block.settings.alignment | default: 'center'
+-%}
+<div
+  class="pm-b-divider pm-b-divider--align-{{ align }}{{ hide_class }}{% if block.settings.custom_class != blank %} {{ block.settings.custom_class | escape }}{% endif %}"
+  style="--pm-divider-thickness:{{ thickness }}px;--pm-divider-width:{{ width }}%;--pm-divider-space:{{ space }}px;--pm-divider-style:{{ style }};{% if block.settings.color != blank %}--pm-divider-color:{{ block.settings.color }};{% endif %}"
+  {{ block.shopify_attributes }}
+  role="separator"
+  aria-hidden="true"
+>
+  <hr class="pm-b-divider__line">
+</div>
+
+{% stylesheet %}
+  .pm-b-divider {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding-block: var(--pm-divider-space, 24px);
+  }
+  .pm-b-divider--align-left { text-align: left; }
+  .pm-b-divider--align-center { text-align: center; }
+  .pm-b-divider--align-right { text-align: right; }
+  .pm-b-divider__line {
+    display: inline-block;
+    width: var(--pm-divider-width, 100%);
+    max-width: 100%;
+    margin: 0;
+    border: 0;
+    border-top-width: var(--pm-divider-thickness, 1px);
+    border-top-style: var(--pm-divider-style, solid);
+    border-top-color: var(--pm-divider-color, rgba(var(--color-foreground), 0.2));
+  }
+  @media screen and (max-width: 749px) {
+    .pm-b--hide-mobile { display: none !important; }
+  }
+  @media screen and (min-width: 750px) {
+    .pm-b--hide-desktop { display: none !important; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.pm-divider.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.style"
+    },
+    {
+      "type": "range",
+      "id": "thickness",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "label": "t:blocks.pm-divider.settings.thickness",
+      "default": 1
+    },
+    {
+      "type": "select",
+      "id": "line_style",
+      "label": "t:blocks.pm-divider.settings.line_style",
+      "options": [
+        { "value": "solid", "label": "t:blocks.pm-divider.settings.style_solid" },
+        { "value": "dashed", "label": "t:blocks.pm-divider.settings.style_dashed" },
+        { "value": "dotted", "label": "t:blocks.pm-divider.settings.style_dotted" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "t:blocks.pm-divider.settings.color"
+    },
+    {
+      "type": "range",
+      "id": "width",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "t:blocks.pm-divider.settings.width",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:blocks.pm-divider.settings.alignment",
+      "options": [
+        { "value": "left", "label": "t:blocks.shared.options.left" },
+        { "value": "center", "label": "t:blocks.shared.options.center" },
+        { "value": "right", "label": "t:blocks.shared.options.right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.spacing"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.pm-divider.settings.spacing",
+      "default": 24
+    },
+
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "t:blocks.shared.hide_on_mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "t:blocks.shared.hide_on_desktop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:blocks.shared.custom_class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:blocks.pm-divider.name",
+      "category": "t:blocks.categories.content"
+    }
+  ]
+}
+{% endschema %}

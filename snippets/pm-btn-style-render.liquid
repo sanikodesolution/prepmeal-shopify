@@ -1,0 +1,81 @@
+{%- comment -%}
+  Shared render for Button Style 1–4 theme blocks.
+  Pass: block, style ('light'|'brand'|'ink'|'outline')
+{%- endcomment -%}
+{%- liquid
+  assign label = block.settings.label
+  assign link = block.settings.link
+  assign align = block.settings.alignment | default: 'left'
+  assign size = block.settings.size | default: 'medium'
+  assign icon_pos = block.settings.icon_position | default: 'left'
+  assign pad_t = block.settings.padding_top | default: 0
+  assign pad_b = block.settings.padding_bottom | default: 0
+  assign pad_l = block.settings.padding_left | default: 0
+  assign pad_r = block.settings.padding_right | default: 0
+  assign margin = block.settings.margin | default: 0
+  assign radius = block.settings.border_radius
+  assign border_w = block.settings.border_width | default: 0
+  assign font_size = block.settings.font_size | default: 16
+
+  assign wrap_class = 'pm-b-btn-style pm-b-btn-style--' | append: style
+  assign wrap_class = wrap_class | append: ' pm-b-btn-style--align-' | append: align
+  if block.settings.full_width
+    assign wrap_class = wrap_class | append: ' pm-b-btn-style--full'
+  endif
+  if block.settings.hide_on_mobile
+    assign wrap_class = wrap_class | append: ' pm-b-btn-style--hide-mobile'
+  endif
+  if block.settings.hide_on_desktop
+    assign wrap_class = wrap_class | append: ' pm-b-btn-style--hide-desktop'
+  endif
+  if block.settings.custom_class != blank
+    assign wrap_class = wrap_class | append: ' ' | append: block.settings.custom_class
+  endif
+
+  assign wrap_css = 'margin:' | append: margin | append: 'px;'
+  assign wrap_css = wrap_css | append: 'padding-top:' | append: pad_t | append: 'px;'
+  assign wrap_css = wrap_css | append: 'padding-bottom:' | append: pad_b | append: 'px;'
+  assign wrap_css = wrap_css | append: 'padding-left:' | append: pad_l | append: 'px;'
+  assign wrap_css = wrap_css | append: 'padding-right:' | append: pad_r | append: 'px;'
+
+  assign show_btn = false
+  if label != blank or block.settings.icon != blank
+    assign show_btn = true
+  endif
+
+  assign aria = ''
+  if label == blank and block.settings.icon != blank
+    assign aria = 'Button'
+  endif
+-%}
+{%- if show_btn -%}
+  <div
+    class="{{ wrap_class | strip }}"
+    style="{{ wrap_css }}"
+    {{ block.shopify_attributes }}
+  >
+    {% render 'pm-button',
+      label: label,
+      link: link,
+      style: style,
+      open_in_new_tab: block.settings.open_in_new_tab,
+      icon: block.settings.icon,
+      icon_position: icon_pos,
+      size: size,
+      full_width: block.settings.full_width,
+      text_color: block.settings.text_color,
+      bg_color: block.settings.background_color,
+      border_color: block.settings.border_color,
+      border_width: border_w,
+      border_radius: radius,
+      hover_text_color: block.settings.hover_text_color,
+      hover_bg_color: block.settings.hover_background_color,
+      font_size: font_size,
+      aria_label: aria
+    %}
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="pm-b-btn-style pm-b-btn-style--empty" {{ block.shopify_attributes }} style="padding:1rem;border:1px dashed rgba(0,0,0,0.25);text-align:center;">
+    {{ 'sections.builder_starters.empty_button' | t }}
+  </div>
+{%- endif -%}

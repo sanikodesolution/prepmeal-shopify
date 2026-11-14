@@ -1,0 +1,222 @@
+{%- comment -%}
+  Accordion Item — private child of Accordion (no own presets; only via parent).
+  Body accepts any theme/app blocks.
+{%- endcomment -%}
+{%- liquid
+  assign title = block.settings.title | default: 'Accordion item'
+  assign title_size = block.settings.title_size | default: 18
+  assign title_weight = block.settings.title_weight | default: '600'
+  assign open_default = false
+  if block.settings.open_by_default
+    assign open_default = true
+  endif
+-%}
+<details
+  class="pm-b-acc-item"
+  id="pm-acc-item-{{ block.id }}"
+  {{ block.shopify_attributes }}
+  {% if open_default %}open{% endif %}
+  data-pm-acc-item
+>
+  <summary class="pm-b-acc-item__summary">
+    <span
+      class="pm-b-acc-item__title"
+      style="font-size:{{ title_size }}px;{% if title_weight != blank %}font-weight:{{ title_weight }};{% endif %}"
+    >
+      {{ title | escape }}
+    </span>
+    <span class="pm-b-acc-item__icon" aria-hidden="true">
+      <span class="pm-b-acc-item__icon-plus"></span>
+      <span class="pm-b-acc-item__icon-chevron"></span>
+    </span>
+  </summary>
+  <div class="pm-b-acc-item__body">
+    {% content_for 'blocks' %}
+  </div>
+</details>
+
+{% stylesheet %}
+  .pm-b-acc-item {
+    box-sizing: border-box;
+    margin: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .pm-b-acc-item__summary {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    min-height: 4.4rem;
+    padding: 1.2rem 0;
+    cursor: pointer;
+    list-style: none;
+    color: inherit;
+  }
+
+  .pm-b-acc-item__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .pm-b-acc-item__summary::marker {
+    content: '';
+  }
+
+  .pm-b-acc-item__summary:focus {
+    outline: none;
+  }
+
+  .pm-b-acc-item__summary:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .pm-b-acc-item__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    line-height: 1.3;
+  }
+
+  .pm-b-acc-item__icon {
+    position: relative;
+    flex: none;
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  /* Plus / minus — default; accordion parent toggles chevron mode */
+  .pm-b-acc-item__icon-plus,
+  .pm-b-acc-item__icon-plus::before {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: currentColor;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .pm-b-acc-item__icon-plus {
+    width: 1.4rem;
+    height: 0.2rem;
+  }
+
+  .pm-b-acc-item__icon-plus::before {
+    content: '';
+    width: 0.2rem;
+    height: 1.4rem;
+    inset: -0.6rem auto auto 0.6rem;
+  }
+
+  .pm-b-acc-item[open] > .pm-b-acc-item__summary .pm-b-acc-item__icon-plus::before {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  .pm-b-acc-item__icon-chevron {
+    display: none;
+    position: absolute;
+    inset: 0.2rem;
+    border-right: 0.2rem solid currentColor;
+    border-bottom: 0.2rem solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+  }
+
+  .pm-b-accordion--icon-chevron .pm-b-acc-item__icon-plus {
+    display: none;
+  }
+
+  .pm-b-accordion--icon-chevron .pm-b-acc-item__icon-chevron {
+    display: block;
+  }
+
+  .pm-b-accordion--icon-chevron .pm-b-acc-item[open] > .pm-b-acc-item__summary .pm-b-acc-item__icon-chevron {
+    transform: rotate(225deg);
+  }
+
+  .pm-b-accordion--icon-left .pm-b-acc-item__summary {
+    flex-direction: row-reverse;
+  }
+
+  .pm-b-acc-item__body {
+    padding: 0 0 1.6rem;
+  }
+
+  .pm-b-acc-item__body > *:first-child {
+    margin-top: 0;
+  }
+
+  .pm-b-acc-item__body > *:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pm-b-acc-item__icon-plus,
+    .pm-b-acc-item__icon-plus::before,
+    .pm-b-acc-item__icon-chevron {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.pm-accordion-item.name",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:blocks.pm-accordion-item.settings.title",
+      "default": "Accordion item"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_by_default",
+      "label": "t:blocks.pm-accordion-item.settings.open_by_default",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.style"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "t:blocks.pm-accordion-item.settings.title_size",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "t:blocks.pm-accordion-item.settings.title_weight",
+      "options": [
+        { "value": "", "label": "t:blocks.shared.options.theme_default" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:blocks.pm-accordion-item.name"
+    }
+  ]
+}
+{% endschema %}

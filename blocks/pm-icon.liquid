@@ -1,0 +1,210 @@
+{%- liquid
+  assign hide_class = ''
+  if block.settings.hide_on_mobile
+    assign hide_class = hide_class | append: ' pm-b--hide-mobile'
+  endif
+  if block.settings.hide_on_desktop
+    assign hide_class = hide_class | append: ' pm-b--hide-desktop'
+  endif
+  assign size = block.settings.size | default: 48
+  assign align = block.settings.alignment | default: 'left'
+  assign pad = block.settings.padding | default: 0
+  assign margin = block.settings.margin | default: 0
+  assign label = block.settings.accessibility_label | default: 'Icon'
+  assign icon_sizes = size | append: 'px'
+-%}
+{%- if block.settings.icon != blank -%}
+  <div
+    class="pm-b-icon pm-b-icon--align-{{ align }}{{ hide_class }}{% if block.settings.custom_class != blank %} {{ block.settings.custom_class | escape }}{% endif %}"
+    style="--pm-icon-size:{{ size }}px;{% if block.settings.icon_color != blank %}--pm-icon-color:{{ block.settings.icon_color }};{% endif %}{% if pad > 0 %}padding:{{ pad }}px;{% endif %}{% if margin > 0 %}margin:{{ margin }}px;{% endif %}"
+    {{ block.shopify_attributes }}
+  >
+    {%- if block.settings.link != blank -%}
+      <a class="pm-b-icon__link" href="{{ block.settings.link }}"{% if block.settings.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %} aria-label="{{ label | escape }}">
+    {%- endif -%}
+    <span class="pm-b-icon__media"{% unless block.settings.link != blank %} role="img" aria-label="{{ label | escape }}"{% endunless %}>
+      {{
+        block.settings.icon
+        | image_url: width: 200
+        | image_tag:
+          loading: 'lazy',
+          widths: '48, 96, 144, 200',
+          sizes: icon_sizes,
+          alt: label,
+          class: 'pm-b-icon__img'
+      }}
+    </span>
+    {%- if block.settings.link != blank -%}
+      </a>
+    {%- endif -%}
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="pm-b-icon pm-b-icon--empty pm-b-icon--align-{{ align }}{{ hide_class }}" {{ block.shopify_attributes }} style="--pm-icon-size:{{ size }}px;">
+    <span class="pm-b-icon__placeholder" aria-hidden="true"></span>
+  </div>
+{%- endif -%}
+
+{% stylesheet %}
+  .pm-b-icon {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+  }
+  .pm-b-icon--align-left { text-align: left; }
+  .pm-b-icon--align-center { text-align: center; }
+  .pm-b-icon--align-right { text-align: right; }
+  .pm-b-icon__link {
+    display: inline-flex;
+    color: inherit;
+    text-decoration: none;
+  }
+  .pm-b-icon__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+  .pm-b-icon__media {
+    display: inline-flex;
+    width: var(--pm-icon-size, 48px);
+    height: var(--pm-icon-size, 48px);
+    vertical-align: middle;
+    color: var(--pm-icon-color, inherit);
+  }
+  .pm-b-icon__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .pm-b-icon__placeholder {
+    display: inline-block;
+    width: var(--pm-icon-size, 48px);
+    height: var(--pm-icon-size, 48px);
+    border: 1px dashed rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+  }
+  @media screen and (max-width: 749px) {
+    .pm-b--hide-mobile { display: none !important; }
+  }
+  @media screen and (min-width: 750px) {
+    .pm-b--hide-desktop { display: none !important; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.pm-icon.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon",
+      "label": "t:blocks.pm-icon.settings.icon",
+      "info": "t:blocks.pm-icon.settings.icon_info"
+    },
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "t:blocks.pm-icon.settings.accessibility_label",
+      "default": "Icon"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "t:blocks.pm-icon.settings.link"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_in_new_tab",
+      "label": "t:blocks.pm-icon.settings.open_in_new_tab",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.style"
+    },
+    {
+      "type": "range",
+      "id": "size",
+      "min": 16,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.pm-icon.settings.size",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "t:blocks.pm-icon.settings.icon_color",
+      "info": "t:blocks.pm-icon.settings.icon_color_info"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:blocks.pm-icon.settings.alignment",
+      "options": [
+        { "value": "left", "label": "t:blocks.shared.options.left" },
+        { "value": "center", "label": "t:blocks.shared.options.center" },
+        { "value": "right", "label": "t:blocks.shared.options.right" }
+      ],
+      "default": "left"
+    },
+
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.margin",
+      "default": 0
+    },
+
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "t:blocks.shared.hide_on_mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "t:blocks.shared.hide_on_desktop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:blocks.shared.custom_class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:blocks.pm-icon.name",
+      "category": "t:blocks.categories.content"
+    }
+  ]
+}
+{% endschema %}

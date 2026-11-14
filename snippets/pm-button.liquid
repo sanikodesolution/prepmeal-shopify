@@ -14,6 +14,14 @@
   - text_color, bg_color, icon_bg, icon_color: {Color} Theme Editor overrides
   - hover_text_color, hover_bg_color: {Color} Hover overrides (falls back to Theme settings → Buttons)
   - font_size: {Number} px font size from Theme Editor
+  - open_in_new_tab: {Boolean} target=_blank + rel
+  - icon: {Image} optional custom icon image
+  - icon_position: {String} 'left' or 'right' (default: 'left' when icon set)
+  - size: {String} 'small' | 'medium' | 'large' (omit = legacy default)
+  - full_width: {Boolean}
+  - border_radius, border_width: {Number} px overrides (omit = style default)
+  - border_color: {Color}
+  - aria_label: {String} accessible name (esp. icon-only)
 
   Schema fields to add next to any button label/link (copy-paste):
     { "type": "header", "content": "Button style" },
@@ -46,6 +54,20 @@
   assign pm_hover_text = hover_text_color | default: settings.pm_button_hover_text
   assign pm_hover_bg = hover_bg_color | default: settings.pm_button_hover_bg
 
+  assign pm_icon_pos = icon_position | default: 'left'
+
+  if size == 'small'
+    assign pm_class = pm_class | append: ' pm--size-sm'
+  elsif size == 'large'
+    assign pm_class = pm_class | append: ' pm--size-lg'
+  elsif size == 'medium'
+    assign pm_class = pm_class | append: ' pm--size-md'
+  endif
+
+  if full_width
+    assign pm_class = pm_class | append: ' pm--full'
+  endif
+
   assign pm_css = css | default: ''
   if bg_color != blank
     assign pm_css = pm_css | append: '--pm-bg:' | append: bg_color | append: ';background-color:' | append: bg_color | append: ';'
@@ -65,18 +87,78 @@
   if pm_hover_text != blank
     assign pm_css = pm_css | append: '--pm-hover-text:' | append: pm_hover_text | append: ';'
   endif
+  if border_color != blank
+    assign pm_css = pm_css | append: '--pm-border:' | append: border_color | append: ';border-color:' | append: border_color | append: ';'
+  endif
+  if border_width != blank and border_width > 0
+    assign pm_css = pm_css | append: 'border-style:solid;border-width:' | append: border_width | append: 'px;'
+  endif
+  if border_radius != blank
+    assign pm_css = pm_css | append: 'border-radius:' | append: border_radius | append: 'px;'
+  endif
   if font_size != blank and font_size >= 12
     assign pm_css = pm_css | append: 'font-size:' | append: font_size | append: 'px;'
   endif
+
+  assign pm_has_custom_icon = false
+  if icon != blank
+    assign pm_has_custom_icon = true
+  endif
+
+  assign pm_aria = ''
+  if aria_label != blank
+    assign pm_aria = aria_label
+  elsif pm_has_custom_icon and label == blank
+    assign pm_aria = 'Button'
+  endif
 -%}
+{%- capture pm_custom_icon -%}
+  {%- if pm_has_custom_icon -%}
+    <span class="pm-custom-icon" aria-hidden="true">
+      {{
+        icon
+        | image_url: width: 48
+        | image_tag: loading: 'lazy', widths: '24,36,48', sizes: '24px', alt: ''
+      }}
+    </span>
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture pm_label_html -%}
+  {%- if label != blank -%}
+    {{ label | escape }}
+  {%- endif -%}
+{%- endcapture -%}
 {%- capture pm_inner -%}
   {%- if style == 'outline' -%}
-    <span class="pm-z">{{ label | escape }}</span>
+    {%- if pm_has_custom_icon -%}
+      <span class="pm-z pm-z--has-icon pm-z--icon-{{ pm_icon_pos }}">
+        {%- if pm_icon_pos == 'left' -%}{{ pm_custom_icon }}{%- endif -%}
+        {%- if pm_label_html != blank -%}<span class="pm-z__label">{{ pm_label_html }}</span>{%- endif -%}
+        {%- if pm_icon_pos == 'right' -%}{{ pm_custom_icon }}{%- endif -%}
+      </span>
+    {%- else -%}
+      <span class="pm-z">{{ label | escape }}</span>
+    {%- endif -%}
   {%- else -%}
-    <span class="pm-roll">
-      <span>{{ label | escape }}</span>
-      <span aria-hidden="true">{{ label | escape }}</span>
-    </span>
+    {%- if pm_has_custom_icon -%}
+      <span class="pm-roll pm-roll--has-icon pm-roll--icon-{{ pm_icon_pos }}">
+        <span class="pm-roll__row">
+          {%- if pm_icon_pos == 'left' -%}{{ pm_custom_icon }}{%- endif -%}
+          {%- if pm_label_html != blank -%}<span class="pm-roll__label">{{ pm_label_html }}</span>{%- endif -%}
+          {%- if pm_icon_pos == 'right' -%}{{ pm_custom_icon }}{%- endif -%}
+        </span>
+        <span class="pm-roll__row" aria-hidden="true">
+          {%- if pm_icon_pos == 'left' -%}{{ pm_custom_icon }}{%- endif -%}
+          {%- if pm_label_html != blank -%}<span class="pm-roll__label">{{ pm_label_html }}</span>{%- endif -%}
+          {%- if pm_icon_pos == 'right' -%}{{ pm_custom_icon }}{%- endif -%}
+        </span>
+      </span>
+    {%- else -%}
+      <span class="pm-roll">
+        <span>{{ label | escape }}</span>
+        <span aria-hidden="true">{{ label | escape }}</span>
+      </span>
+    {%- endif -%}
     <span class="pm-dot" aria-hidden="true">
       <span class="pm-bg"></span>
       <span class="pm-clip">
@@ -99,6 +181,9 @@
     {% if hidden %}
       hidden
     {% endif %}
+    {% if pm_aria != blank %}
+      aria-label="{{ pm_aria | escape }}"
+    {% endif %}
     {{ attributes }}
   >
     {{ pm_inner }}
@@ -107,6 +192,9 @@
   <a
     {% if link != blank %}
       href="{{ link }}"
+      {% if open_in_new_tab %}
+        target="_blank" rel="noopener noreferrer"
+      {% endif %}
     {% else %}
       role="link" aria-disabled="true"
     {% endif %}
@@ -116,6 +204,9 @@
     {% endif %}
     {% if hidden %}
       hidden
+    {% endif %}
+    {% if pm_aria != blank %}
+      aria-label="{{ pm_aria | escape }}"
     {% endif %}
     {{ attributes }}
   >

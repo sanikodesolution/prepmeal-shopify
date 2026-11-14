@@ -1,0 +1,365 @@
+{{ 'prep-content.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Testimonial — builder block. Reuses prep-testimonial + star-rating snippet
+  visual language from snippets/testimonial-card.liquid + prep-content.css.
+{%- endcomment -%}
+{%- liquid
+  assign hide_class = ''
+  if block.settings.hide_on_mobile
+    assign hide_class = hide_class | append: ' pm-b--hide-mobile'
+  endif
+  if block.settings.hide_on_desktop
+    assign hide_class = hide_class | append: ' pm-b--hide-desktop'
+  endif
+
+  assign quote = block.settings.quote
+  assign quote_is_fallback = false
+  if quote == blank
+    assign quote_is_fallback = true
+    assign quote = 'sections.prep.testimonial_sample_quote' | t
+  endif
+  assign author = block.settings.author_name
+  if author == blank
+    assign author = 'sections.prep.testimonial_sample_author' | t
+  endif
+  assign role = block.settings.author_role
+  if role == blank and request.design_mode
+    assign role = 'sections.prep.testimonial_sample_role' | t
+  endif
+  assign source = block.settings.source_label
+  assign rating = block.settings.rating | default: 'none'
+  assign layout = block.settings.layout | default: 'stacked'
+  assign align = block.settings.alignment | default: 'left'
+  assign quote_size = block.settings.quote_size | default: 16
+  assign card_style = block.settings.card_style | default: 'bordered'
+  assign radius = block.settings.border_radius | default: 12
+  assign pad = block.settings.padding | default: 24
+  assign margin = block.settings.margin | default: 0
+  assign star_color = block.settings.star_color
+-%}
+<figure
+  class="prep pm-b-testimonial pm-b-testimonial--{{ layout }} pm-b-testimonial--style-{{ card_style }} pm-b-testimonial--align-{{ align }}{% if block.settings.color_scheme != blank %} color-{{ block.settings.color_scheme }}{% endif %}{{ hide_class }}{% if block.settings.custom_class != blank %} {{ block.settings.custom_class | escape }}{% endif %}"
+  style="--pm-t-radius:{{ radius }}px;--pm-t-pad:{{ pad }}px;--pm-t-quote-size:{{ quote_size }}px;{% if star_color != blank %}--pm-t-star:{{ star_color }};{% endif %}{% if margin > 0 %}margin:{{ margin }}px;{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.avatar != blank -%}
+    {{
+      block.settings.avatar
+      | image_url: width: 200
+      | image_tag:
+        class: 'prep-testimonial__photo pm-b-testimonial__avatar',
+        loading: 'lazy',
+        widths: '112, 200',
+        sizes: '56px',
+        alt: author
+    }}
+  {%- endif -%}
+
+  <blockquote class="prep-testimonial pm-b-testimonial__quote-wrap">
+    {%- if rating != blank and rating != 'none' -%}
+      {% render 'star-rating', rating: rating, rating_max: 5 %}
+    {%- endif -%}
+
+    <div class="prep-testimonial__review pm-b-testimonial__quote">
+      {%- if quote_is_fallback -%}
+        <p>{{ quote | escape }}</p>
+      {%- else -%}
+        {{ quote }}
+      {%- endif -%}
+    </div>
+
+    <footer class="prep-testimonial__meta">
+      {%- if author != blank -%}
+        <cite class="prep-testimonial__name">{{ author | escape }}</cite>
+      {%- endif -%}
+      {%- if role != blank -%}
+        <p class="prep-testimonial__plan">{{ role | escape }}</p>
+      {%- endif -%}
+      {%- if source != blank -%}
+        <p class="pm-b-testimonial__source">{{ source | escape }}</p>
+      {%- endif -%}
+    </footer>
+  </blockquote>
+</figure>
+
+{% stylesheet %}
+  .pm-b-testimonial {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    gap: 1.2rem;
+    padding: var(--pm-t-pad, 2.4rem);
+    border-radius: var(--pm-t-radius, 1.2rem);
+    background: var(--prep-paper, #fff);
+  }
+
+  .pm-b-testimonial.prep {
+    background: var(--prep-paper, #fff);
+  }
+
+  .pm-b-testimonial--style-flat {
+    border: 0;
+    box-shadow: none;
+  }
+
+  .pm-b-testimonial--style-bordered {
+    border: 1px solid var(--prep-border, rgba(0, 0, 0, 0.12));
+    box-shadow: none;
+  }
+
+  .pm-b-testimonial--style-shadow {
+    border: 0;
+    box-shadow: 0 1.2rem 2.8rem -1.6rem rgba(0, 0, 0, 0.28);
+  }
+
+  .pm-b-testimonial--stacked {
+    flex-direction: column;
+  }
+
+  .pm-b-testimonial--avatar-left {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .pm-b-testimonial--align-center {
+    text-align: center;
+    align-items: center;
+  }
+
+  .pm-b-testimonial--align-center.pm-b-testimonial--avatar-left {
+    text-align: left;
+  }
+
+  .pm-b-testimonial--align-right {
+    text-align: right;
+  }
+
+  .pm-b-testimonial__quote-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    flex: 1;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .pm-b-testimonial__quote {
+    margin: 0;
+    font-size: var(--pm-t-quote-size, 1.6rem);
+    line-height: 1.5;
+  }
+
+  .pm-b-testimonial__source {
+    margin: 0.4rem 0 0;
+    font-size: 0.85em;
+    color: var(--prep-muted, rgba(0, 0, 0, 0.55));
+  }
+
+  .pm-b-testimonial .prep__stars [aria-hidden='true'] {
+    color: var(--pm-t-star, var(--prep-brand, #f5a623));
+  }
+
+  .pm-b-testimonial .prep__stars .prep__star--empty {
+    color: rgba(0, 0, 0, 0.2);
+  }
+
+  .pm-b-testimonial a:focus-visible,
+  .pm-b-testimonial :focus-visible {
+    outline: 3px solid var(--prep-brand, currentColor);
+    outline-offset: 3px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pm-b-testimonial--avatar-left {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .pm-b--hide-mobile {
+      display: none !important;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .pm-b--hide-desktop {
+      display: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.pm-testimonial.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.content"
+    },
+    {
+      "type": "richtext",
+      "id": "quote",
+      "label": "t:blocks.pm-testimonial.settings.quote",
+      "default": "<p>These meals actually taste homemade. Protein is high and I never feel weighed down.</p>"
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "t:blocks.pm-testimonial.settings.author_name",
+      "default": "Sara M."
+    },
+    {
+      "type": "text",
+      "id": "author_role",
+      "label": "t:blocks.pm-testimonial.settings.author_role",
+      "default": "Oakville, ON"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar",
+      "label": "t:blocks.pm-testimonial.settings.avatar"
+    },
+    {
+      "type": "select",
+      "id": "rating",
+      "label": "t:blocks.pm-testimonial.settings.rating",
+      "options": [
+        { "value": "none", "label": "t:blocks.pm-testimonial.settings.rating_none" },
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" }
+      ],
+      "default": "5"
+    },
+    {
+      "type": "text",
+      "id": "source_label",
+      "label": "t:blocks.pm-testimonial.settings.source_label"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.style"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:blocks.shared.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:blocks.pm-testimonial.settings.layout",
+      "options": [
+        { "value": "stacked", "label": "t:blocks.pm-testimonial.settings.layout_stacked" },
+        { "value": "avatar-left", "label": "t:blocks.pm-testimonial.settings.layout_avatar_left" }
+      ],
+      "default": "stacked"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:blocks.pm-testimonial.settings.alignment",
+      "options": [
+        { "value": "left", "label": "t:blocks.shared.options.left" },
+        { "value": "center", "label": "t:blocks.shared.options.center" },
+        { "value": "right", "label": "t:blocks.shared.options.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "quote_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "t:blocks.pm-testimonial.settings.quote_size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "t:blocks.pm-testimonial.settings.star_color",
+      "info": "t:blocks.pm-testimonial.settings.star_color_info"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "t:blocks.pm-testimonial.settings.card_style",
+      "options": [
+        { "value": "flat", "label": "t:blocks.pm-meal-card.settings.style_flat" },
+        { "value": "bordered", "label": "t:blocks.pm-meal-card.settings.style_bordered" },
+        { "value": "shadow", "label": "t:blocks.pm-meal-card.settings.style_shadow" }
+      ],
+      "default": "bordered"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "t:blocks.shared.border.radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.margin",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "t:blocks.shared.hide_on_mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "t:blocks.shared.hide_on_desktop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:blocks.shared.custom_class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:blocks.pm-testimonial.name",
+      "category": "t:blocks.categories.prep_meal"
+    }
+  ]
+}
+{% endschema %}

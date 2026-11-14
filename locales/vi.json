@@ -217,6 +217,10 @@
     }
   },
   "templates": {
+    "404": {
+      "title": "Không tìm thấy trang",
+      "subtext": "404"
+    },
     "search": {
       "no_results": "Không tìm thấy kết quả cho \"{{ terms }}\". Kiểm tra chính tả hoặc sử dụng một từ hoặc cụm từ khác.",
       "results_with_count": {
@@ -260,10 +264,6 @@
         "error_heading": "Vui lòng điều chỉnh các mục sau:",
         "title": "Biểu mẫu liên hệ"
       }
-    },
-    "404": {
-      "title": "Không tìm thấy trang",
-      "subtext": "404"
     }
   },
   "sections": {
@@ -373,6 +373,38 @@
       "min_error": "Mặt hàng này có tối thiểu {{ min }}",
       "max_error": "Mặt hàng này có tối đa {{ max }}",
       "step_error": "Bạn chỉ có thể thêm mặt hàng này theo đơn vị giao dịch {{ step }}"
+    },
+    "prep": {
+      "meal_card_sample_name": "Chicken Biryani Bowl",
+      "meal_card_sample_description": "Calorie-counted, high-protein, low-oil.",
+      "meal_card_sample_price": "$14",
+      "meal_card_sample_badge": "High protein",
+      "testimonial_sample_quote": "These meals actually taste homemade. Protein is high and I never feel weighed down.",
+      "testimonial_sample_author": "Sara M.",
+      "testimonial_sample_role": "Oakville, ON"
+    },
+    "builder_starters": {
+      "hero_heading": "Cooked for your week",
+      "hero_text": "Calorie-counted meals, delivered fresh across the GTA.",
+      "hero_btn_primary": "Order now",
+      "hero_btn_secondary": "See the menu",
+      "two_col_heading": "Real food, ready when you are",
+      "two_col_text": "Chef-cooked trays with macros you can trust.",
+      "two_col_btn": "Shop plans",
+      "meal_heading": "This week’s menu",
+      "meal_text": "Pick your favorites — we cook and deliver.",
+      "faq_heading": "Questions, answered",
+      "faq_1": "How does delivery work?",
+      "faq_2": "Can I customize meals?",
+      "faq_3": "What about allergens?",
+      "faq_4": "How do I reheat?",
+      "testimonials_heading": "Loved by busy households",
+      "cta_heading": "Ready for easier dinners?",
+      "cta_text": "Start with a plan that fits your week.",
+      "cta_btn": "Get started",
+      "empty_button": "Add a label or icon",
+      "empty_heading": "Add a heading",
+      "empty_text": "Add your text"
     }
   },
   "localization": {

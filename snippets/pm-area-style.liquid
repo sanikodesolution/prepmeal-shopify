@@ -86,5 +86,14 @@
   if s.text_align != blank
     assign css = css | append: '--pm-align:' | append: s.text_align | append: ';text-align:' | append: s.text_align | append: ';'
   endif
+  if s.padding != blank and s.padding > 0
+    assign css = css | append: 'padding:' | append: s.padding | append: 'px;'
+  endif
+  if s.margin != blank and s.margin > 0
+    assign css = css | append: 'margin:' | append: s.margin | append: 'px;'
+  endif
+  if s.max_width != blank and s.max_width > 0 and s.image == blank
+    assign css = css | append: 'max-width:' | append: s.max_width | append: 'px;'
+  endif
 -%}
 {%- if css != blank -%} style="{{ css }}"{%- endif -%}

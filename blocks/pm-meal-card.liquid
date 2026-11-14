@@ -1,0 +1,613 @@
+{{ 'prep-content.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Meal Card — builder block. Reuses prep__card / prep__badge / prep__nutrition /
+  prep__tags visual language from snippets/meal-plan-card.liquid + prep-content.css.
+{%- endcomment -%}
+{%- liquid
+  assign hide_class = ''
+  if block.settings.hide_on_mobile
+    assign hide_class = hide_class | append: ' pm-b--hide-mobile'
+  endif
+  if block.settings.hide_on_desktop
+    assign hide_class = hide_class | append: ' pm-b--hide-desktop'
+  endif
+
+  assign name = block.settings.name
+  if name == blank
+    assign name = 'sections.prep.meal_card_sample_name' | t
+  endif
+  assign description = block.settings.description
+  if description == blank and request.design_mode
+    assign description = 'sections.prep.meal_card_sample_description' | t
+  endif
+  assign price = block.settings.price
+  if price == blank and request.design_mode
+    assign price = 'sections.prep.meal_card_sample_price' | t
+  endif
+  assign compare_at = block.settings.compare_at_price
+  assign calories = block.settings.calories
+  assign protein = block.settings.protein
+  assign carbs = block.settings.carbs
+  assign fat = block.settings.fat
+  assign badge_1 = block.settings.badge_1
+  assign badge_2 = block.settings.badge_2
+  assign badge_3 = block.settings.badge_3
+  if badge_1 == blank and badge_2 == blank and badge_3 == blank and request.design_mode
+    assign badge_1 = 'sections.prep.meal_card_sample_badge' | t
+  endif
+
+  assign product = block.settings.product
+  assign card_url = ''
+  if product != blank and product.url != blank
+    assign card_url = product.url
+  endif
+
+  assign image_pos = block.settings.image_position | default: 'top'
+  assign ratio = block.settings.image_ratio | default: '1 / 1'
+  assign fit = block.settings.image_fit | default: 'cover'
+  assign align = block.settings.content_alignment | default: 'left'
+  assign card_style = block.settings.card_style | default: 'bordered'
+  assign hover = block.settings.hover_effect | default: 'none'
+  assign radius = block.settings.border_radius | default: 12
+  assign gap = block.settings.gap | default: 16
+  assign pad = block.settings.padding | default: 0
+  assign margin = block.settings.margin | default: 0
+
+  assign show_price = true
+  if block.settings.show_price == false
+    assign show_price = false
+  endif
+  assign show_macros = true
+  if block.settings.show_macros == false
+    assign show_macros = false
+  endif
+  assign show_badges = true
+  if block.settings.show_badges == false
+    assign show_badges = false
+  endif
+  assign show_description = true
+  if block.settings.show_description == false
+    assign show_description = false
+  endif
+
+  assign has_macros = false
+  if show_macros
+    if calories != blank or protein != blank or carbs != blank or fat != blank
+      assign has_macros = true
+    endif
+  endif
+
+  assign show_badge_overlay = false
+  assign show_tag_list = false
+  if show_badges
+    if badge_1 != blank and image_pos == 'top'
+      assign show_badge_overlay = true
+    endif
+    if badge_2 != blank or badge_3 != blank
+      assign show_tag_list = true
+    endif
+    if badge_1 != blank and image_pos != 'top'
+      assign show_tag_list = true
+    endif
+  endif
+
+  assign alt = block.settings.image.alt | default: name
+  assign img_widths = '400, 700, 1000'
+  assign img_sizes = '(min-width: 990px) 30vw, (min-width: 750px) 45vw, 90vw'
+-%}
+<article
+  class="prep prep__card pm-b-meal-card pm-b-meal-card--img-{{ image_pos }} pm-b-meal-card--style-{{ card_style }} pm-b-meal-card--hover-{{ hover }} pm-b-meal-card--align-{{ align }}{% if block.settings.color_scheme != blank %} color-{{ block.settings.color_scheme }}{% endif %}{{ hide_class }}{% if block.settings.custom_class != blank %} {{ block.settings.custom_class | escape }}{% endif %}"
+  style="--pm-meal-radius:{{ radius }}px;--pm-meal-gap:{{ gap }}px;--pm-meal-ratio:{{ ratio }};--pm-meal-fit:{{ fit }};{% if pad > 0 %}--pm-meal-pad:{{ pad }}px;{% endif %}{% if margin > 0 %}margin:{{ margin }}px;{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  <div class="prep__card-media pm-b-meal-card__media">
+    {%- if block.settings.image != blank -%}
+      {%- if card_url != blank -%}
+        <a class="pm-b-meal-card__media-link" href="{{ card_url }}" aria-label="{{ name | escape }}">
+      {%- endif -%}
+      {{
+        block.settings.image
+        | image_url: width: 1000
+        | image_tag:
+          loading: 'lazy',
+          widths: img_widths,
+          sizes: img_sizes,
+          alt: alt,
+          class: 'pm-b-meal-card__img'
+      }}
+      {%- if card_url != blank -%}
+        </a>
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'prep-plan-card__placeholder pm-b-meal-card__placeholder' }}
+    {%- endif -%}
+    {%- if show_badge_overlay -%}
+      <span class="prep__badge">{{ badge_1 | escape }}</span>
+    {%- endif -%}
+  </div>
+
+  <div class="prep__card-body pm-b-meal-card__body">
+    {%- if name != blank -%}
+      <h3 class="prep__card-title">
+        {%- if card_url != blank -%}
+          <a href="{{ card_url }}">{{ name | escape }}</a>
+        {%- else -%}
+          {{ name | escape }}
+        {%- endif -%}
+      </h3>
+    {%- endif -%}
+
+    {%- if show_description and description != blank -%}
+      <p class="prep__card-text">{{ description | escape | newline_to_br }}</p>
+    {%- endif -%}
+
+    {%- if show_tag_list -%}
+      <ul class="prep__tags" role="list">
+        {%- if badge_1 != blank and image_pos != 'top' -%}
+          <li class="prep__tag">{{ badge_1 | escape }}</li>
+        {%- endif -%}
+        {%- if badge_2 != blank -%}
+          <li class="prep__tag">{{ badge_2 | escape }}</li>
+        {%- endif -%}
+        {%- if badge_3 != blank -%}
+          <li class="prep__tag">{{ badge_3 | escape }}</li>
+        {%- endif -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if has_macros -%}
+      <ul class="prep__nutrition" role="list">
+        {%- if calories != blank -%}
+          <li>
+            <strong>{{ calories | escape }}</strong>
+            <span>{{ 'sections.prep.calories' | t }}</span>
+          </li>
+        {%- endif -%}
+        {%- if protein != blank -%}
+          <li>
+            <strong>{{ protein | escape }}</strong>
+            <span>{{ 'sections.prep.protein' | t }}</span>
+          </li>
+        {%- endif -%}
+        {%- if carbs != blank -%}
+          <li>
+            <strong>{{ carbs | escape }}</strong>
+            <span>{{ 'sections.prep.carbs' | t }}</span>
+          </li>
+        {%- endif -%}
+        {%- if fat != blank -%}
+          <li>
+            <strong>{{ fat | escape }}</strong>
+            <span>{{ 'sections.prep.fat' | t }}</span>
+          </li>
+        {%- endif -%}
+      </ul>
+    {%- endif -%}
+
+    {%- if show_price and price != blank -%}
+      <p class="prep-plan-card__price">
+        <span class="pm-b-meal-card__price">{{ price | escape }}</span>
+        {%- if compare_at != blank -%}
+          <s>{{ compare_at | escape }}</s>
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+
+    <div class="pm-b-meal-card__actions">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</article>
+
+{% stylesheet %}
+  .pm-b-meal-card {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    gap: 0;
+    border-radius: var(--pm-meal-radius, 1.2rem);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .pm-b-meal-card.prep {
+    background: transparent;
+  }
+
+  .pm-b-meal-card--style-flat {
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .pm-b-meal-card--style-bordered {
+    border: 1px solid var(--prep-border, rgba(0, 0, 0, 0.12));
+    box-shadow: none;
+  }
+
+  .pm-b-meal-card--style-shadow {
+    border-color: transparent;
+    box-shadow: 0 1.2rem 2.8rem -1.6rem rgba(0, 0, 0, 0.28);
+  }
+
+  .pm-b-meal-card--hover-lift:hover {
+    transform: translateY(-4px);
+  }
+
+  .pm-b-meal-card--img-top {
+    flex-direction: column;
+  }
+
+  .pm-b-meal-card--img-left,
+  .pm-b-meal-card--img-right {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .pm-b-meal-card--img-right {
+    flex-direction: row-reverse;
+  }
+
+  .pm-b-meal-card__media {
+    aspect-ratio: var(--pm-meal-ratio, 1 / 1);
+    flex: 0 0 auto;
+  }
+
+  .pm-b-meal-card--img-left .pm-b-meal-card__media,
+  .pm-b-meal-card--img-right .pm-b-meal-card__media {
+    width: 42%;
+    min-width: 12rem;
+  }
+
+  .pm-b-meal-card__img,
+  .pm-b-meal-card__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: var(--pm-meal-fit, cover);
+    display: block;
+  }
+
+  .pm-b-meal-card__media-link {
+    display: block;
+    height: 100%;
+    color: inherit;
+  }
+
+  .pm-b-meal-card__media-link:focus-visible {
+    outline: 3px solid var(--prep-brand, currentColor);
+    outline-offset: 3px;
+  }
+
+  .pm-b-meal-card__body {
+    gap: var(--pm-meal-gap, 1.6rem);
+    padding: var(--pm-meal-pad, 2rem);
+  }
+
+  .pm-b-meal-card--align-center .pm-b-meal-card__body {
+    text-align: center;
+    align-items: center;
+  }
+
+  .pm-b-meal-card--align-center .prep__tags,
+  .pm-b-meal-card--align-center .prep__nutrition {
+    justify-content: center;
+  }
+
+  .pm-b-meal-card--align-right .pm-b-meal-card__body {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  .pm-b-meal-card .prep__nutrition {
+    grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr));
+    width: 100%;
+  }
+
+  .pm-b-meal-card__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .pm-b-meal-card .prep__card-title a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pm-b-meal-card--img-left,
+    .pm-b-meal-card--img-right {
+      flex-direction: column;
+    }
+
+    .pm-b-meal-card--img-left .pm-b-meal-card__media,
+    .pm-b-meal-card--img-right .pm-b-meal-card__media {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .pm-b--hide-mobile {
+      display: none !important;
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .pm-b--hide-desktop {
+      display: none !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pm-b-meal-card,
+    .pm-b-meal-card--hover-lift:hover {
+      transition: none;
+      transform: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:blocks.pm-meal-card.name",
+  "blocks": [
+    { "type": "@theme" },
+    { "type": "@app" }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:blocks.pm-meal-card.settings.image"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:blocks.pm-meal-card.settings.name",
+      "default": "Chicken Biryani Bowl"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:blocks.pm-meal-card.settings.description",
+      "default": "Calorie-counted, high-protein, low-oil."
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "t:blocks.pm-meal-card.settings.price",
+      "default": "$14",
+      "info": "t:blocks.pm-meal-card.settings.price_info"
+    },
+    {
+      "type": "text",
+      "id": "compare_at_price",
+      "label": "t:blocks.pm-meal-card.settings.compare_at_price"
+    },
+    {
+      "type": "text",
+      "id": "calories",
+      "label": "t:blocks.pm-meal-card.settings.calories",
+      "default": "520"
+    },
+    {
+      "type": "text",
+      "id": "protein",
+      "label": "t:blocks.pm-meal-card.settings.protein",
+      "default": "42g"
+    },
+    {
+      "type": "text",
+      "id": "carbs",
+      "label": "t:blocks.pm-meal-card.settings.carbs",
+      "default": "48g"
+    },
+    {
+      "type": "text",
+      "id": "fat",
+      "label": "t:blocks.pm-meal-card.settings.fat",
+      "default": "12g"
+    },
+    {
+      "type": "text",
+      "id": "badge_1",
+      "label": "t:blocks.pm-meal-card.settings.badge_1",
+      "default": "High protein"
+    },
+    {
+      "type": "text",
+      "id": "badge_2",
+      "label": "t:blocks.pm-meal-card.settings.badge_2"
+    },
+    {
+      "type": "text",
+      "id": "badge_3",
+      "label": "t:blocks.pm-meal-card.settings.badge_3"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:blocks.pm-meal-card.settings.product",
+      "info": "t:blocks.pm-meal-card.settings.product_info"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "t:blocks.pm-meal-card.settings.image_position",
+      "options": [
+        { "value": "top", "label": "t:blocks.shared.options.top" },
+        { "value": "left", "label": "t:blocks.shared.options.left" },
+        { "value": "right", "label": "t:blocks.shared.options.right" }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "t:blocks.pm-meal-card.settings.image_ratio",
+      "options": [
+        { "value": "1 / 1", "label": "1:1" },
+        { "value": "4 / 3", "label": "4:3" },
+        { "value": "3 / 2", "label": "3:2" },
+        { "value": "16 / 9", "label": "16:9" }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "t:blocks.pm-meal-card.settings.image_fit",
+      "options": [
+        { "value": "cover", "label": "t:blocks.shared.background.fit_cover" },
+        { "value": "contain", "label": "t:blocks.shared.background.fit_contain" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "t:blocks.pm-meal-card.settings.content_alignment",
+      "options": [
+        { "value": "left", "label": "t:blocks.shared.options.left" },
+        { "value": "center", "label": "t:blocks.shared.options.center" },
+        { "value": "right", "label": "t:blocks.shared.options.right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "t:blocks.pm-meal-card.settings.show_price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_macros",
+      "label": "t:blocks.pm-meal-card.settings.show_macros",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badges",
+      "label": "t:blocks.pm-meal-card.settings.show_badges",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "t:blocks.pm-meal-card.settings.show_description",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.style"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:blocks.shared.color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "t:blocks.pm-meal-card.settings.card_style",
+      "options": [
+        { "value": "flat", "label": "t:blocks.pm-meal-card.settings.style_flat" },
+        { "value": "bordered", "label": "t:blocks.pm-meal-card.settings.style_bordered" },
+        { "value": "shadow", "label": "t:blocks.pm-meal-card.settings.style_shadow" }
+      ],
+      "default": "bordered"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "t:blocks.shared.border.radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "t:blocks.pm-meal-card.settings.gap",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "hover_effect",
+      "label": "t:blocks.pm-meal-card.settings.hover_effect",
+      "options": [
+        { "value": "none", "label": "t:blocks.pm-meal-card.settings.hover_none" },
+        { "value": "lift", "label": "t:blocks.pm-meal-card.settings.hover_lift" }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.padding",
+      "default": 0,
+      "info": "t:blocks.pm-meal-card.settings.padding_info"
+    },
+    {
+      "type": "range",
+      "id": "margin",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "t:blocks.shared.margin",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:blocks.shared.headers.visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "t:blocks.shared.hide_on_mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "t:blocks.shared.hide_on_desktop",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "t:blocks.shared.custom_class"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:blocks.pm-meal-card.name",
+      "category": "t:blocks.categories.prep_meal"
+    }
+  ]
+}
+{% endschema %}
