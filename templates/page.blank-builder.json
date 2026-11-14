@@ -587,12 +587,12 @@
               "type": "pm-columns",
               "name": "t:blocks.pm-columns.name",
               "settings": {
-                "columns_desktop": 3,
+                "columns_desktop": 2,
                 "columns_tablet": 2,
                 "columns_mobile": 1,
                 "column_gap": 24,
                 "row_gap": 0,
-                "align_items": "stretch",
+                "align_items": "center",
                 "stack_on_mobile": true,
                 "reverse_on_mobile": false,
                 "color_scheme": "",
@@ -623,8 +623,8 @@
                     "direction": "column",
                     "direction_mobile": "column",
                     "flex_wrap": "nowrap",
-                    "align_items": "stretch",
-                    "justify_content": "flex-start",
+                    "align_items": "center",
+                    "justify_content": "center",
                     "width_mode": "fill",
                     "max_width": 0,
                     "text_align": "",
@@ -677,84 +677,15 @@
                         "text_align": "center"
                       },
                       "blocks": {}
-                    },
-                    "pm_heading_izeeyd": {
-                      "type": "pm-heading",
-                      "name": "Heading",
-                      "settings": {
-                        "heading": "Your heading",
-                        "heading_tag": "h4",
-                        "background_color": "",
-                        "background_gradient": "",
-                        "background_image_fit": "cover",
-                        "background_image_position": "center",
-                        "background_repeat": "no-repeat",
-                        "background_attachment": "scroll",
-                        "background_overlay_color": "#000000",
-                        "background_overlay_opacity": 0,
-                        "background_blend_mode": "normal",
-                        "background_border_radius": 0,
-                        "background_min_height": 0,
-                        "heading_color": "",
-                        "heading_hover_color": "",
-                        "heading_size": 36,
-                        "heading_weight": "700",
-                        "text_align": "left"
-                      },
-                      "blocks": {}
-                    },
-                    "pm_text_gVhJ6f": {
-                      "type": "pm-text",
-                      "name": "Text",
-                      "settings": {
-                        "text": "<p>Add your text. Change color and size anytime in the right panel.</p>",
-                        "background_color": "",
-                        "background_gradient": "",
-                        "background_image_fit": "cover",
-                        "background_image_position": "center",
-                        "background_repeat": "no-repeat",
-                        "background_attachment": "scroll",
-                        "background_overlay_color": "#000000",
-                        "background_overlay_opacity": 0,
-                        "background_blend_mode": "normal",
-                        "background_border_radius": 0,
-                        "background_min_height": 0,
-                        "text_color": "",
-                        "text_hover_color": "",
-                        "text_size": 16,
-                        "heading_weight": "",
-                        "text_align": "left"
-                      },
-                      "blocks": {}
-                    },
-                    "pm_button_4Pc93t": {
-                      "type": "pm-button",
-                      "name": "Button",
-                      "settings": {
-                        "label": "Shop now",
-                        "link": "",
-                        "style": "brand",
-                        "text_color": "",
-                        "bg_color": "",
-                        "hover_text_color": "",
-                        "hover_bg_color": "",
-                        "icon_bg": "",
-                        "icon_color": "",
-                        "font_size": 16,
-                        "text_align": "left"
-                      },
-                      "blocks": {}
                     }
                   },
                   "block_order": [
-                    "pm_image_pWRpAF",
-                    "pm_heading_izeeyd",
-                    "pm_text_gVhJ6f",
-                    "pm_button_4Pc93t"
+                    "pm_image_pWRpAF"
                   ]
                 },
-                "pm_group_J4aLN4": {
+                "pm_group_YM4Ppy": {
                   "type": "pm-group",
+                  "name": "t:blocks.pm-group.name",
                   "settings": {
                     "direction": "column",
                     "direction_mobile": "column",
@@ -780,7 +711,7 @@
                     "background_min_height": 0,
                     "text_color": "",
                     "text_hover_color": "",
-                    "padding": 0,
+                    "padding": 24,
                     "margin": 0,
                     "gap": 16,
                     "gap_mobile": 16,
@@ -789,37 +720,11 @@
                     "custom_class": ""
                   },
                   "blocks": {
-                    "pm_image_CepgJG": {
-                      "type": "pm-image",
-                      "name": "Image",
-                      "settings": {
-                        "image": "shopify://shop_images/balsamic-baked-chicken-thighs.jpg",
-                        "alt": "",
-                        "caption": "",
-                        "max_width": 1200,
-                        "background_color": "",
-                        "background_gradient": "",
-                        "background_image_fit": "cover",
-                        "background_image_position": "center",
-                        "background_repeat": "no-repeat",
-                        "background_attachment": "scroll",
-                        "background_overlay_color": "#000000",
-                        "background_overlay_opacity": 0,
-                        "background_blend_mode": "normal",
-                        "background_border_radius": 0,
-                        "background_min_height": 0,
-                        "text_color": "",
-                        "text_size": 14,
-                        "text_align": "center"
-                      },
-                      "blocks": {}
-                    },
-                    "pm_heading_nUMVXe": {
+                    "pm_heading_i8UrXR": {
                       "type": "pm-heading",
-                      "name": "Heading",
                       "settings": {
                         "heading": "Your heading",
-                        "heading_tag": "h4",
+                        "heading_tag": "h2",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -839,9 +744,8 @@
                       },
                       "blocks": {}
                     },
-                    "pm_text_TxqgMz": {
+                    "pm_text_KzezCP": {
                       "type": "pm-text",
-                      "name": "Text",
                       "settings": {
                         "text": "<p>Add your text. Change color and size anytime in the right panel.</p>",
                         "background_color": "",
@@ -863,7 +767,7 @@
                       },
                       "blocks": {}
                     },
-                    "pm_button_yLqUXq": {
+                    "pm_button_My8VpW": {
                       "type": "pm-button",
                       "name": "Button",
                       "settings": {
@@ -883,153 +787,15 @@
                     }
                   },
                   "block_order": [
-                    "pm_image_CepgJG",
-                    "pm_heading_nUMVXe",
-                    "pm_text_TxqgMz",
-                    "pm_button_yLqUXq"
-                  ]
-                },
-                "pm_group_LafeMg": {
-                  "type": "pm-group",
-                  "settings": {
-                    "direction": "column",
-                    "direction_mobile": "column",
-                    "flex_wrap": "nowrap",
-                    "align_items": "stretch",
-                    "justify_content": "flex-start",
-                    "width_mode": "fill",
-                    "max_width": 0,
-                    "text_align": "",
-                    "color_scheme": "",
-                    "background_color": "",
-                    "background_gradient": "",
-                    "background_image_fit": "cover",
-                    "background_image_position": "center",
-                    "background_repeat": "no-repeat",
-                    "background_attachment": "scroll",
-                    "background_overlay_color": "#000000",
-                    "background_overlay_opacity": 0,
-                    "background_blend_mode": "normal",
-                    "background_border_radius": 0,
-                    "border_width": 0,
-                    "border_color": "",
-                    "background_min_height": 0,
-                    "text_color": "",
-                    "text_hover_color": "",
-                    "padding": 0,
-                    "margin": 0,
-                    "gap": 16,
-                    "gap_mobile": 16,
-                    "hide_on_mobile": false,
-                    "hide_on_desktop": false,
-                    "custom_class": ""
-                  },
-                  "blocks": {
-                    "pm_image_bFRHVn": {
-                      "type": "pm-image",
-                      "name": "Image",
-                      "settings": {
-                        "image": "shopify://shop_images/oven-bbq-salmon.jpg",
-                        "alt": "",
-                        "caption": "",
-                        "max_width": 1200,
-                        "background_color": "",
-                        "background_gradient": "",
-                        "background_image_fit": "cover",
-                        "background_image_position": "center",
-                        "background_repeat": "no-repeat",
-                        "background_attachment": "scroll",
-                        "background_overlay_color": "#000000",
-                        "background_overlay_opacity": 0,
-                        "background_blend_mode": "normal",
-                        "background_border_radius": 0,
-                        "background_min_height": 0,
-                        "text_color": "",
-                        "text_size": 14,
-                        "text_align": "center"
-                      },
-                      "blocks": {}
-                    },
-                    "pm_heading_fbPNJt": {
-                      "type": "pm-heading",
-                      "name": "Heading",
-                      "settings": {
-                        "heading": "Your heading",
-                        "heading_tag": "h4",
-                        "background_color": "",
-                        "background_gradient": "",
-                        "background_image_fit": "cover",
-                        "background_image_position": "center",
-                        "background_repeat": "no-repeat",
-                        "background_attachment": "scroll",
-                        "background_overlay_color": "#000000",
-                        "background_overlay_opacity": 0,
-                        "background_blend_mode": "normal",
-                        "background_border_radius": 0,
-                        "background_min_height": 0,
-                        "heading_color": "",
-                        "heading_hover_color": "",
-                        "heading_size": 36,
-                        "heading_weight": "700",
-                        "text_align": "left"
-                      },
-                      "blocks": {}
-                    },
-                    "pm_text_hQYeDr": {
-                      "type": "pm-text",
-                      "name": "Text",
-                      "settings": {
-                        "text": "<p>Add your text. Change color and size anytime in the right panel.</p>",
-                        "background_color": "",
-                        "background_gradient": "",
-                        "background_image_fit": "cover",
-                        "background_image_position": "center",
-                        "background_repeat": "no-repeat",
-                        "background_attachment": "scroll",
-                        "background_overlay_color": "#000000",
-                        "background_overlay_opacity": 0,
-                        "background_blend_mode": "normal",
-                        "background_border_radius": 0,
-                        "background_min_height": 0,
-                        "text_color": "",
-                        "text_hover_color": "",
-                        "text_size": 16,
-                        "heading_weight": "",
-                        "text_align": "left"
-                      },
-                      "blocks": {}
-                    },
-                    "pm_button_tMXLpY": {
-                      "type": "pm-button",
-                      "name": "Button",
-                      "settings": {
-                        "label": "Shop now",
-                        "link": "",
-                        "style": "brand",
-                        "text_color": "",
-                        "bg_color": "",
-                        "hover_text_color": "",
-                        "hover_bg_color": "",
-                        "icon_bg": "",
-                        "icon_color": "",
-                        "font_size": 16,
-                        "text_align": "left"
-                      },
-                      "blocks": {}
-                    }
-                  },
-                  "block_order": [
-                    "pm_image_bFRHVn",
-                    "pm_heading_fbPNJt",
-                    "pm_text_hQYeDr",
-                    "pm_button_tMXLpY"
+                    "pm_heading_i8UrXR",
+                    "pm_text_KzezCP",
+                    "pm_button_My8VpW"
                   ]
                 }
               },
               "block_order": [
                 "pm_group_YiXj7E",
-                "pm_group_J4aLN4",
-                "pm_group_LafeMg"
+                "pm_group_YM4Ppy"
               ]
             }
           },
