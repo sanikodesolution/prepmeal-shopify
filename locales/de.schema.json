@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "settings_schema": {
     "colors": {
@@ -3395,6 +3404,164 @@
       },
       "presets": {
         "name": "Schnelle Bestellliste"
+      }
+    }
+  },
+  "blocks": {
+    "categories": {
+      "layout": "Layout",
+      "content": "Content",
+      "buttons": "Buttons",
+      "prep_meal": "Prep Meal"
+    },
+    "shared": {
+      "headers": {
+        "layout": "Layout",
+        "style": "Style",
+        "spacing": "Spacing",
+        "visibility": "Visibility"
+      },
+      "options": {
+        "stretch": "Stretch",
+        "start": "Start",
+        "center": "Center",
+        "end": "End",
+        "space_between": "Space between",
+        "theme_default": "Theme default",
+        "left": "Left",
+        "right": "Right",
+        "top": "Top",
+        "bottom": "Bottom"
+      },
+      "color_scheme": {
+        "label": "Color scheme"
+      },
+      "background": {
+        "paragraph": "Optional band background. Leave blank for the color scheme only.",
+        "color": "Color",
+        "gradient": "Gradient",
+        "image": "Image",
+        "image_fit": "Image size",
+        "fit_cover": "Cover",
+        "fit_contain": "Contain",
+        "fit_auto": "Original",
+        "image_position": "Image position",
+        "repeat": "Repeat",
+        "repeat_none": "No repeat",
+        "repeat_all": "Repeat",
+        "repeat_x": "Repeat X",
+        "repeat_y": "Repeat Y",
+        "attachment": "Scroll",
+        "attachment_scroll": "Scroll with page",
+        "attachment_fixed": "Fixed (parallax)",
+        "overlay_color": "Overlay color",
+        "overlay_opacity": "Overlay strength",
+        "blend_mode": "Blend mode"
+      },
+      "border": {
+        "radius": "Corner radius",
+        "width": "Border width",
+        "color": "Border color"
+      },
+      "min_height": {
+        "label": "Min height",
+        "info": "0 = auto"
+      },
+      "text_color": "Text color",
+      "text_hover_color": "Hover text color",
+      "text_hover_color_info": "Clear to keep default.",
+      "padding": "Padding",
+      "margin": "Margin",
+      "hide_on_mobile": "Hide on mobile",
+      "hide_on_desktop": "Hide on desktop",
+      "custom_class": "Custom CSS class"
+    },
+    "pm-group": {
+      "name": "Group",
+      "settings": {
+        "direction": {
+          "label": "Direction",
+          "options__vertical": "Vertical",
+          "options__horizontal": "Horizontal"
+        },
+        "direction_mobile": {
+          "label": "Direction (mobile)"
+        },
+        "flex_wrap": {
+          "label": "Wrap",
+          "options__nowrap": "No wrap",
+          "options__wrap": "Wrap"
+        },
+        "align_items": {
+          "label": "Horizontal alignment"
+        },
+        "justify_content": {
+          "label": "Vertical alignment"
+        },
+        "width_mode": {
+          "label": "Width",
+          "options__fill": "Fill",
+          "options__fit": "Fit content",
+          "options__custom": "Custom max width"
+        },
+        "max_width": {
+          "label": "Max width",
+          "info": "Used with Fill or Custom. 0 = no max."
+        },
+        "text_align": {
+          "label": "Text alignment"
+        },
+        "gap": {
+          "label": "Gap (desktop)"
+        },
+        "gap_mobile": {
+          "label": "Gap (mobile)"
+        }
+      }
+    },
+    "pm-columns": {
+      "name": "Columns",
+      "settings": {
+        "columns_desktop": {
+          "label": "Columns (desktop)"
+        },
+        "columns_tablet": {
+          "label": "Columns (tablet)"
+        },
+        "columns_mobile": {
+          "label": "Columns (mobile)"
+        },
+        "column_gap": {
+          "label": "Column gap"
+        },
+        "row_gap": {
+          "label": "Row gap"
+        },
+        "align_items": {
+          "label": "Vertical alignment of items"
+        },
+        "stack_on_mobile": {
+          "label": "Stack on mobile"
+        },
+        "reverse_on_mobile": {
+          "label": "Reverse order on mobile"
+        }
+      }
+    },
+    "pm-container": {
+      "name": "Container",
+      "settings": {
+        "width": {
+          "label": "Width",
+          "options__full": "Full width",
+          "options__page": "Page width",
+          "options__narrow": "Narrow",
+          "options__custom": "Custom max width"
+        },
+        "custom_max_width": {
+          "label": "Custom max width",
+          "info": "Used when Width is Custom max width."
+        }
       }
     }
   }
