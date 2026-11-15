@@ -3624,6 +3624,7 @@
         "heading": "Heading",
         "heading_tag": "Heading level",
         "heading_size": "Font size",
+        "heading_size_info": "Auto follows the heading level. Choose a size to override it.",
         "heading_weight": "Weight",
         "text_align": "Alignment",
         "heading_tag_info": "Choose the semantic level. Visual size is controlled separately."
