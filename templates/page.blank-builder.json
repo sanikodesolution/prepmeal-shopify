@@ -17,7 +17,11 @@
           "name": "Spacer",
           "settings": {
             "height": 80,
-            "background_color": ""
+            "height_mobile": 32,
+            "background_color": "",
+            "hide_on_mobile": false,
+            "hide_on_desktop": false,
+            "custom_class": ""
           },
           "blocks": {}
         },
@@ -126,7 +130,18 @@
                         "image": "shopify://shop_images/teriyaki-chicken-breast.jpg",
                         "alt": "",
                         "caption": "",
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "color_scheme": "",
                         "max_width": 700,
+                        "width_mobile": 800,
+                        "aspect_ratio": "auto",
+                        "image_fit": "cover",
+                        "image_border_radius": 0,
+                        "loading": "lazy",
+                        "text_align": "center",
+                        "text_color": "",
+                        "text_size": 14,
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -138,9 +153,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "text_color": "",
-                        "text_size": 14,
-                        "text_align": "center"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -149,7 +166,13 @@
                       "name": "Heading",
                       "settings": {
                         "heading": "Your heading",
-                        "heading_tag": "h4",
+                        "heading_tag": "h1",
+                        "color_scheme": "",
+                        "heading_color": "",
+                        "heading_hover_color": "",
+                        "heading_size": 36,
+                        "heading_weight": "700",
+                        "text_align": "left",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -161,11 +184,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "heading_color": "",
-                        "heading_hover_color": "",
-                        "heading_size": 36,
-                        "heading_weight": "700",
-                        "text_align": "left"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -174,6 +197,12 @@
                       "name": "Text",
                       "settings": {
                         "text": "<p>Add your text. Change color and size anytime in the right panel.</p>",
+                        "color_scheme": "",
+                        "text_color": "",
+                        "text_hover_color": "",
+                        "text_size": 16,
+                        "heading_weight": "",
+                        "text_align": "left",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -185,11 +214,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "text_color": "",
-                        "text_hover_color": "",
-                        "text_size": 16,
-                        "heading_weight": "",
-                        "text_align": "left"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -262,7 +291,18 @@
                         "image": "shopify://shop_images/turkey-meatball-marinara.jpg",
                         "alt": "",
                         "caption": "",
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "color_scheme": "",
                         "max_width": 1200,
+                        "width_mobile": 800,
+                        "aspect_ratio": "auto",
+                        "image_fit": "cover",
+                        "image_border_radius": 0,
+                        "loading": "lazy",
+                        "text_align": "center",
+                        "text_color": "",
+                        "text_size": 14,
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -274,9 +314,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "text_color": "",
-                        "text_size": 14,
-                        "text_align": "center"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -285,7 +327,13 @@
                       "name": "Heading",
                       "settings": {
                         "heading": "Your heading",
-                        "heading_tag": "h4",
+                        "heading_tag": "h3",
+                        "color_scheme": "",
+                        "heading_color": "",
+                        "heading_hover_color": "",
+                        "heading_size": 36,
+                        "heading_weight": "700",
+                        "text_align": "left",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -297,11 +345,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "heading_color": "",
-                        "heading_hover_color": "",
-                        "heading_size": 36,
-                        "heading_weight": "700",
-                        "text_align": "left"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -310,6 +358,12 @@
                       "name": "Text",
                       "settings": {
                         "text": "<p>Add your text. Change color and size anytime in the right panel.</p>",
+                        "color_scheme": "",
+                        "text_color": "",
+                        "text_hover_color": "",
+                        "text_size": 16,
+                        "heading_weight": "",
+                        "text_align": "left",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -321,11 +375,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "text_color": "",
-                        "text_hover_color": "",
-                        "text_size": 16,
-                        "heading_weight": "",
-                        "text_align": "left"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -398,7 +452,18 @@
                         "image": "shopify://shop_images/chicken-quinoa-taco-bake.jpg",
                         "alt": "",
                         "caption": "",
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "color_scheme": "",
                         "max_width": 1200,
+                        "width_mobile": 800,
+                        "aspect_ratio": "auto",
+                        "image_fit": "cover",
+                        "image_border_radius": 0,
+                        "loading": "lazy",
+                        "text_align": "center",
+                        "text_color": "",
+                        "text_size": 14,
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -410,9 +475,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "text_color": "",
-                        "text_size": 14,
-                        "text_align": "center"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -421,7 +488,13 @@
                       "name": "Heading",
                       "settings": {
                         "heading": "Your heading",
-                        "heading_tag": "h4",
+                        "heading_tag": "h6",
+                        "color_scheme": "",
+                        "heading_color": "",
+                        "heading_hover_color": "",
+                        "heading_size": 36,
+                        "heading_weight": "700",
+                        "text_align": "left",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -433,11 +506,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "heading_color": "",
-                        "heading_hover_color": "",
-                        "heading_size": 36,
-                        "heading_weight": "700",
-                        "text_align": "left"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -446,6 +519,12 @@
                       "name": "Text",
                       "settings": {
                         "text": "<p>Add your text. Change color and size anytime in the right panel.</p>",
+                        "color_scheme": "",
+                        "text_color": "",
+                        "text_hover_color": "",
+                        "text_size": 16,
+                        "heading_weight": "",
+                        "text_align": "left",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -457,11 +536,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "text_color": "",
-                        "text_hover_color": "",
-                        "text_size": 16,
-                        "heading_weight": "",
-                        "text_align": "left"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -508,7 +587,11 @@
           "name": "Spacer",
           "settings": {
             "height": 80,
-            "background_color": ""
+            "height_mobile": 32,
+            "background_color": "",
+            "hide_on_mobile": false,
+            "hide_on_desktop": false,
+            "custom_class": ""
           },
           "blocks": {}
         }
@@ -660,7 +743,18 @@
                         "image": "shopify://shop_images/ground-beef-enchilada-bowl.jpg",
                         "alt": "",
                         "caption": "",
+                        "link": "",
+                        "open_in_new_tab": false,
+                        "color_scheme": "",
                         "max_width": 700,
+                        "width_mobile": 800,
+                        "aspect_ratio": "auto",
+                        "image_fit": "cover",
+                        "image_border_radius": 0,
+                        "loading": "lazy",
+                        "text_align": "center",
+                        "text_color": "",
+                        "text_size": 14,
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -672,9 +766,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "text_color": "",
-                        "text_size": 14,
-                        "text_align": "center"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     }
@@ -725,6 +821,12 @@
                       "settings": {
                         "heading": "Your heading",
                         "heading_tag": "h2",
+                        "color_scheme": "",
+                        "heading_color": "",
+                        "heading_hover_color": "",
+                        "heading_size": 36,
+                        "heading_weight": "700",
+                        "text_align": "left",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -736,11 +838,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "heading_color": "",
-                        "heading_hover_color": "",
-                        "heading_size": 36,
-                        "heading_weight": "700",
-                        "text_align": "left"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -748,6 +850,12 @@
                       "type": "pm-text",
                       "settings": {
                         "text": "<p>Add your text. Change color and size anytime in the right panel.</p>",
+                        "color_scheme": "",
+                        "text_color": "",
+                        "text_hover_color": "",
+                        "text_size": 16,
+                        "heading_weight": "",
+                        "text_align": "left",
                         "background_color": "",
                         "background_gradient": "",
                         "background_image_fit": "cover",
@@ -759,11 +867,11 @@
                         "background_blend_mode": "normal",
                         "background_border_radius": 0,
                         "background_min_height": 0,
-                        "text_color": "",
-                        "text_hover_color": "",
-                        "text_size": 16,
-                        "heading_weight": "",
-                        "text_align": "left"
+                        "padding": 0,
+                        "margin": 0,
+                        "hide_on_mobile": false,
+                        "hide_on_desktop": false,
+                        "custom_class": ""
                       },
                       "blocks": {}
                     },
@@ -808,7 +916,11 @@
           "name": "Spacer",
           "settings": {
             "height": 80,
-            "background_color": ""
+            "height_mobile": 32,
+            "background_color": "",
+            "hide_on_mobile": false,
+            "hide_on_desktop": false,
+            "custom_class": ""
           },
           "blocks": {}
         }
