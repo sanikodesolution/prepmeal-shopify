@@ -37,12 +37,14 @@
 {%- if has_content or request.design_mode -%}
   <section class="prep prep__section section-{{ section.id }}-padding" id="PrepMealDetails-{{ section.id }}">
     <div class="prep__wrap">
-      {% render 'section-heading',
+      {% render 'pm-section-title',
+        section: section,
         eyebrow: section.settings.eyebrow,
         title: section.settings.heading,
-        text: section.settings.text,
+        subtitle: section.settings.text,
         richtext: true,
-        align: 'left'
+        heading_tag: 'h2',
+        align: section.settings.pm_title_align
       %}
 
       {%- unless has_content -%}
@@ -138,6 +140,57 @@
       "id": "text",
       "label": "Text",
       "default": "<p>Nutrition, ingredients, allergens, and reheat guidance from product metafields.</p>"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.pm_section_title.header"
+    },
+    {
+      "type": "select",
+      "id": "pm_title_align",
+      "label": "t:sections.pm_section_title.settings.align.label",
+      "options": [
+        { "value": "theme", "label": "t:sections.pm_section_title.settings.align.options.theme" },
+        { "value": "left", "label": "t:sections.pm_section_title.settings.align.options.left" },
+        { "value": "center", "label": "t:sections.pm_section_title.settings.align.options.center" },
+        { "value": "right", "label": "t:sections.pm_section_title.settings.align.options.right" }
+      ],
+      "default": "left"
+    },    {
+      "type": "select",
+      "id": "pm_title_size",
+      "label": "t:sections.pm_section_title.settings.size.label",
+      "options": [
+        { "value": "auto", "label": "t:sections.pm_section_title.settings.size.options.auto" },
+        { "value": "small", "label": "t:sections.pm_section_title.settings.size.options.small" },
+        { "value": "medium", "label": "t:sections.pm_section_title.settings.size.options.medium" },
+        { "value": "large", "label": "t:sections.pm_section_title.settings.size.options.large" },
+        { "value": "custom", "label": "t:sections.pm_section_title.settings.size.options.custom" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "color",
+      "id": "pm_title_color",
+      "label": "t:sections.pm_section_title.settings.color.label",
+      "info": "t:sections.pm_section_title.settings.color.info"
+    },
+    {
+      "type": "range",
+      "id": "pm_title_spacing_below",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.pm_section_title.settings.spacing_below.label",
+      "info": "t:sections.pm_section_title.settings.spacing_below.info",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "pm_hide_title",
+      "label": "t:sections.pm_section_title.settings.hide.label",
+      "default": false
     },
     { "type": "checkbox", "id": "show_nutrition", "label": "Show nutrition", "default": true },
     { "type": "checkbox", "id": "show_diet_tags", "label": "Show diet tags", "default": true },

@@ -47,7 +47,7 @@
               style="{{ cp_heading_style | strip }}"
             {% endif %}
           >
-            {{- s.heading | escape -}}
+            {{- s.heading | escape | newline_to_br -}}
           </h1>
         {%- endif -%}
         {%- if s.text != blank -%}
@@ -380,10 +380,11 @@
   },
   "settings": [
     {
-      "type": "text",
+      "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "Questions or comments? Tell us what you're craving."
+      "default": "Questions or comments?\nTell us what you're craving.",
+      "info": "Use a line break to keep the title on two lines."
     },
     {
       "type": "textarea",

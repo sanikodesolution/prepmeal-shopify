@@ -25,11 +25,13 @@
 
   <div class="prep__wrap">
     <div class="prep-hero__content">
-      {% render 'section-heading',
+      {% render 'pm-section-title',
+        section: section,
         title: section.settings.heading,
-        text: section.settings.subheading,
+        subtitle: section.settings.subheading,
         richtext: false,
-        align: 'left'
+        heading_tag: 'h2',
+        align: section.settings.pm_title_align
       %}
 
       {%- if section.settings.button_label != blank or section.settings.secondary_label != blank -%}
@@ -83,6 +85,57 @@
       "id": "subheading",
       "label": "Subheading",
       "default": "Chef-cooked, calorie-counted meals delivered across Hartland."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.pm_section_title.header"
+    },
+    {
+      "type": "select",
+      "id": "pm_title_align",
+      "label": "t:sections.pm_section_title.settings.align.label",
+      "options": [
+        { "value": "theme", "label": "t:sections.pm_section_title.settings.align.options.theme" },
+        { "value": "left", "label": "t:sections.pm_section_title.settings.align.options.left" },
+        { "value": "center", "label": "t:sections.pm_section_title.settings.align.options.center" },
+        { "value": "right", "label": "t:sections.pm_section_title.settings.align.options.right" }
+      ],
+      "default": "left"
+    },    {
+      "type": "select",
+      "id": "pm_title_size",
+      "label": "t:sections.pm_section_title.settings.size.label",
+      "options": [
+        { "value": "auto", "label": "t:sections.pm_section_title.settings.size.options.auto" },
+        { "value": "small", "label": "t:sections.pm_section_title.settings.size.options.small" },
+        { "value": "medium", "label": "t:sections.pm_section_title.settings.size.options.medium" },
+        { "value": "large", "label": "t:sections.pm_section_title.settings.size.options.large" },
+        { "value": "custom", "label": "t:sections.pm_section_title.settings.size.options.custom" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "color",
+      "id": "pm_title_color",
+      "label": "t:sections.pm_section_title.settings.color.label",
+      "info": "t:sections.pm_section_title.settings.color.info"
+    },
+    {
+      "type": "range",
+      "id": "pm_title_spacing_below",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "t:sections.pm_section_title.settings.spacing_below.label",
+      "info": "t:sections.pm_section_title.settings.spacing_below.info",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "pm_hide_title",
+      "label": "t:sections.pm_section_title.settings.hide.label",
+      "default": false
     },
     {
       "type": "image_picker",
