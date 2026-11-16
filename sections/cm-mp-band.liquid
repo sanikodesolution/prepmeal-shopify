@@ -51,14 +51,26 @@
           </div>
         </section>
     {%- endcase -%}
+
+    {%- comment -%} I1 pilot: Option B extension slot (theme blocks). content_for must stay in the section. {%- endcomment -%}
+    {%- if section.settings.show_pm_extra -%}
+      <div class="pm-extension-slot mealplan-wrap">
+        {% content_for 'block', type: 'pm-group', id: 'pm-extra' %}
+      </div>
+    {%- endif -%}
   </div>
 </div>
+
+{% render 'pm-extension-slot' %}
 
 {% schema %}
 {
   "name": "MP Text band",
   "tag": "section",
   "class": "section cm-section",
+  "blocks": [
+    { "type": "pm-group" }
+  ],
   "settings": [
     { "type": "paragraph", "content": "Click this band in the preview to edit these fields." },
     { "type": "select", "id": "layout", "label": "Layout", "default": "story", "options": [
@@ -78,10 +90,35 @@
     { "type": "range", "id": "button_font_size", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Font size", "default": 16 },
     { "type": "image_picker", "id": "image", "label": "Image (CTA layout)" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 0 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 }
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 0 },
+    {
+      "type": "header",
+      "content": "t:sections.pm_extension.header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pm_extra",
+      "label": "t:sections.pm_extension.settings.show",
+      "info": "t:sections.pm_extension.settings.show_info",
+      "default": false
+    }
   ],
   "presets": [
-    { "name": "MP Text band" }
+    {
+      "name": "MP Text band",
+      "blocks": [
+        {
+          "type": "pm-group",
+          "id": "pm-extra",
+          "static": true,
+          "settings": {
+            "padding": 0,
+            "margin": 0,
+            "gap": 16
+          }
+        }
+      ]
+    }
   ]
 }
 {% endschema %}

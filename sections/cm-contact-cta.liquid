@@ -60,14 +60,24 @@
         %}
       {%- endif -%}
     </div>
+    {%- if section.settings.show_pm_extra -%}
+      <div class="pm-extension-slot">
+        {% content_for 'block', type: 'pm-group', id: 'pm-extra' %}
+      </div>
+    {%- endif -%}
   </div>
 </div>
+
+{% render 'pm-extension-slot' %}
 
 {% schema %}
 {
   "name": "CM contact CTA",
   "tag": "section",
   "class": "section cm-section",
+  "blocks": [
+    { "type": "pm-group" }
+  ],
   "settings": [
     { "type": "text", "id": "label", "label": "Label" },
     { "type": "textarea", "id": "heading", "label": "Heading", "default": "Have a Question?" },
@@ -293,11 +303,34 @@
         { "type": "checkbox", "id": "body_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
     { "type": "header", "content": "Section padding" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Top padding", "default": 56 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 56 }
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Bottom padding", "default": 56 },
+    {
+      "type": "header",
+      "content": "t:sections.pm_extension.header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pm_extra",
+      "label": "t:sections.pm_extension.settings.show",
+      "info": "t:sections.pm_extension.settings.show_info",
+      "default": false
+    }
   ],
   "presets": [
     {
-      "name": "CM contact CTA"
+      "name": "CM contact CTA",
+      "blocks": [
+        {
+          "type": "pm-group",
+          "id": "pm-extra",
+          "static": true,
+          "settings": {
+            "padding": 0,
+            "margin": 0,
+            "gap": 16
+          }
+        }
+      ]
     }
   ]
 }

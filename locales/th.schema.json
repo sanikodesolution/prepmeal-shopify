@@ -3422,6 +3422,13 @@
         "testimonials": "Testimonials",
         "call_to_action": "Call to action"
       }
+    },
+    "pm_extension": {
+      "header": "Extra content area",
+      "settings": {
+        "show": "Show extra content area",
+        "show_info": "When on, add Heading, Text, Image, Buttons and other builder blocks below this section’s main content. Leave off to keep the original layout."
+      }
     }
   },
   "blocks": {

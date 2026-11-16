@@ -32,14 +32,24 @@
         </div>
       {%- endif -%}
     </div>
+    {%- if section.settings.show_pm_extra -%}
+      <div class="pm-extension-slot">
+        {% content_for 'block', type: 'pm-group', id: 'pm-extra' %}
+      </div>
+    {%- endif -%}
   </div>
 </div>
+
+{% render 'pm-extension-slot' %}
 
 {% schema %}
 {
   "name": "t:sections.page.name",
   "tag": "section",
   "class": "section",
+  "blocks": [
+    { "type": "pm-group" }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   },
@@ -150,11 +160,34 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "header",
+      "content": "t:sections.pm_extension.header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pm_extra",
+      "label": "t:sections.pm_extension.settings.show",
+      "info": "t:sections.pm_extension.settings.show_info",
+      "default": false
     }
   ],
   "presets": [
     {
-      "name": "t:sections.page.presets.name"
+      "name": "t:sections.page.presets.name",
+      "blocks": [
+        {
+          "type": "pm-group",
+          "id": "pm-extra",
+          "static": true,
+          "settings": {
+            "padding": 0,
+            "margin": 0,
+            "gap": 16
+          }
+        }
+      ]
     }
   ]
 }

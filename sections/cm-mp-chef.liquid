@@ -58,14 +58,24 @@
         </div>
       </div>
     </section>
+    {%- if section.settings.show_pm_extra -%}
+      <div class="pm-extension-slot mealplan-wrap">
+        {% content_for 'block', type: 'pm-group', id: 'pm-extra' %}
+      </div>
+    {%- endif -%}
   </div>
 </div>
+
+{% render 'pm-extension-slot' %}
 
 {% schema %}
 {
   "name": "MP Chef",
   "tag": "section",
   "class": "section cm-section",
+  "blocks": [
+    { "type": "pm-group" }
+  ],
   "settings": [
     {
       "type": "product",
@@ -424,11 +434,34 @@
           { "value": "custom", "label": "Custom mask image" }
         ], "default": "none" },
         { "type": "image_picker", "id": "body_bg_mask_image", "label": "Custom mask image", "info": "Used when Image mask = Custom." },
-        { "type": "checkbox", "id": "body_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." }
+        { "type": "checkbox", "id": "body_bg_clip_text", "label": "Clip background to letters", "default": false, "info": "Fills letter shapes with the background color/image." },
+    {
+      "type": "header",
+      "content": "t:sections.pm_extension.header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pm_extra",
+      "label": "t:sections.pm_extension.settings.show",
+      "info": "t:sections.pm_extension.settings.show_info",
+      "default": false
+    }
   ],
   "presets": [
     {
-      "name": "MP Chef"
+      "name": "MP Chef",
+      "blocks": [
+        {
+          "type": "pm-group",
+          "id": "pm-extra",
+          "static": true,
+          "settings": {
+            "padding": 0,
+            "margin": 0,
+            "gap": 16
+          }
+        }
+      ]
     }
   ]
 }

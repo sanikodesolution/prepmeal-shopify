@@ -1,0 +1,38 @@
+{% comment %}
+  PM Extension Slot — shared wrapper styles for the Option B pattern.
+
+  IMPORTANT (Shopify platform):
+  `{% content_for 'block' %}` must be rendered in the SECTION (or theme block)
+  Liquid file, not from this snippet. Shopify associates static blocks with the
+  parent that contains the content_for tag; community guidance and theme-check
+  also discourage capturing / relocating content_for.
+
+  In each eligible section (no local schema blocks), place:
+
+    {%- if section.settings.show_pm_extra -%}
+      <div class="pm-extension-slot">
+        {% content_for 'block', type: 'pm-group', id: 'pm-extra' %}
+      </div>
+    {%- endif -%}
+
+  And add schema:
+    "blocks": [{ "type": "pm-group" }],
+    checkbox show_pm_extra default false,
+    optional stylesheet: {% render 'pm-extension-slot' %}  (styles only)
+
+  Empty detection: cannot safely detect “pm-group has no children” from the
+  parent section. The checkbox (default off) is the storefront gate so live
+  pages stay unchanged until the merchant opts in.
+{% endcomment %}
+
+{% stylesheet %}
+  .pm-extension-slot {
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 1.5rem;
+  }
+
+  .pm-extension-slot:empty {
+    display: none;
+  }
+{% endstylesheet %}
