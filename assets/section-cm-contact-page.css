@@ -89,9 +89,11 @@
 .cmc__title {
  font-family: var(--font-heading-family), sans-serif;
  font-weight: 400;
- 
- line-height: 1.04;
+ font-size: 40px;
+ line-height: 1.15;
  letter-spacing: -0.01em;
+ /* Caps width so the default heading wraps to two lines */
+ max-width: 11.5em;
  /* px so gap matches preview 1rem (not scaled by heading size) */
  margin: 0 0 16px;
  color: var(--cmc-ink);
@@ -548,7 +550,7 @@
 
  .cmc h1.cmc__title,
  .cmc__title {
- 
+  font-size: 40px;
  }
 }
 
@@ -602,8 +604,8 @@
 
  .cmc h1.cmc__title,
  .cmc__title {
- 
- margin-bottom: 12px;
+  font-size: 40px;
+  margin-bottom: 12px;
  }
 
  .cmc__lead {

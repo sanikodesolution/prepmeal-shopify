@@ -60,6 +60,7 @@
       {{ body_font_italic | font_face: font_display: 'swap' }}
       {{ body_font_bold_italic | font_face: font_display: 'swap' }}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
+      {{ settings.pm_section_title_font | font_face: font_display: 'swap' }}
 
       {% for scheme in settings.color_schemes -%}
         {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
@@ -227,6 +228,30 @@
         --variant-pills-shadow-horizontal-offset: {{ settings.variant_pills_shadow_horizontal_offset }}px;
         --variant-pills-shadow-vertical-offset: {{ settings.variant_pills_shadow_vertical_offset }}px;
         --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
+
+        /* Section titles (Batch J) — defaults match current prep/h2 look */
+        --pm-title-font-family: {{ settings.pm_section_title_font.family }}, {{ settings.pm_section_title_font.fallback_families }};
+        --pm-title-font-style: {{ settings.pm_section_title_font.style }};
+        --pm-title-size-base: {{ settings.pm_section_title_size }}px;
+        --pm-title-size: {{ settings.pm_section_title_size }}px;
+        --pm-title-size-mobile-base: {{ settings.pm_section_title_size_mobile }}px;
+        --pm-title-size-mobile: {{ settings.pm_section_title_size_mobile }}px;
+        --pm-title-weight: {{ settings.pm_section_title_weight }};
+        --pm-title-line-height: {{ settings.pm_section_title_line_height | divided_by: 100.0 }};
+        --pm-title-letter-spacing: {{ settings.pm_section_title_letter_spacing }}px;
+        --pm-title-transform: {{ settings.pm_section_title_text_transform }};
+        --pm-title-color: {{ settings.pm_section_title_color }};
+        --pm-title-eyebrow-size: {{ settings.pm_section_eyebrow_size }}px;
+        --pm-title-eyebrow-weight: {{ settings.pm_section_eyebrow_weight }};
+        --pm-title-eyebrow-color: {{ settings.pm_section_eyebrow_color }};
+        --pm-title-eyebrow-transform: {{ settings.pm_section_eyebrow_text_transform }};
+        --pm-title-eyebrow-letter-spacing: {{ settings.pm_section_eyebrow_letter_spacing }}px;
+        --pm-title-subtitle-size: {{ settings.pm_section_subtitle_size }}px;
+        --pm-title-subtitle-color: {{ settings.pm_section_subtitle_color }};
+        --pm-title-subtitle-max-width: {{ settings.pm_section_subtitle_max_width }}rem;
+        --pm-title-align: {{ settings.pm_section_title_align }};
+        --pm-title-stack-gap: {{ settings.pm_section_title_stack_gap }}px;
+        --pm-title-spacing-below: {{ settings.pm_section_title_spacing_below }}px;
       }
 
       *,

@@ -370,6 +370,102 @@
           }
         }
       }
+    },
+    "section_titles": {
+      "name": "Section titles",
+      "settings": {
+        "paragraph": {
+          "content": "Default look for section title areas (eyebrow, title, subtitle). Sections can override a few options locally. Defaults match the current theme so nothing changes until you edit them."
+        },
+        "header_title": {
+          "content": "Title"
+        },
+        "font": {
+          "label": "Font"
+        },
+        "size": {
+          "label": "Size on desktop"
+        },
+        "size_mobile": {
+          "label": "Size on mobile"
+        },
+        "weight": {
+          "label": "Weight",
+          "options": {
+            "regular": "Regular",
+            "medium": "Medium",
+            "semibold": "Semi-bold",
+            "bold": "Bold",
+            "extrabold": "Extra-bold"
+          }
+        },
+        "line_height": {
+          "label": "Line height"
+        },
+        "letter_spacing": {
+          "label": "Letter spacing"
+        },
+        "text_transform": {
+          "label": "Text transform",
+          "options": {
+            "none": "None",
+            "uppercase": "Uppercase",
+            "lowercase": "Lowercase",
+            "capitalize": "Capitalize"
+          }
+        },
+        "color": {
+          "label": "Color"
+        },
+        "header_eyebrow": {
+          "content": "Eyebrow"
+        },
+        "eyebrow_size": {
+          "label": "Size"
+        },
+        "eyebrow_weight": {
+          "label": "Weight"
+        },
+        "eyebrow_color": {
+          "label": "Color"
+        },
+        "eyebrow_text_transform": {
+          "label": "Text transform"
+        },
+        "eyebrow_letter_spacing": {
+          "label": "Letter spacing"
+        },
+        "header_subtitle": {
+          "content": "Subtitle"
+        },
+        "subtitle_size": {
+          "label": "Size"
+        },
+        "subtitle_color": {
+          "label": "Color"
+        },
+        "subtitle_max_width": {
+          "label": "Max width"
+        },
+        "header_layout": {
+          "content": "Layout"
+        },
+        "align": {
+          "label": "Default alignment",
+          "options": {
+            "left": "Left",
+            "center": "Center",
+            "right": "Right"
+          }
+        },
+        "stack_gap": {
+          "label": "Space between eyebrow, title, and subtitle",
+          "info": "Applied between each line in the title area."
+        },
+        "spacing_below": {
+          "label": "Space below title area"
+        }
+      }
     }
   },
   "sections": {
@@ -3428,6 +3524,41 @@
       "settings": {
         "show": "Show extra content area",
         "show_info": "When on, add Heading, Text, Image, Buttons and other builder blocks below this section’s main content. Leave off to keep the original layout."
+      }
+    },
+    "pm_section_title": {
+      "header": "Title area",
+      "settings": {
+        "align": {
+          "label": "Alignment",
+          "options": {
+            "theme": "Theme default",
+            "left": "Left",
+            "center": "Center",
+            "right": "Right"
+          }
+        },
+        "size": {
+          "label": "Title size",
+          "options": {
+            "auto": "Auto (theme default)",
+            "small": "Small",
+            "medium": "Medium",
+            "large": "Large",
+            "custom": "Custom"
+          }
+        },
+        "color": {
+          "label": "Title color",
+          "info": "Leave empty to use the theme default."
+        },
+        "spacing_below": {
+          "label": "Space below title area",
+          "info": "0 = theme default."
+        },
+        "hide": {
+          "label": "Hide title area"
+        }
       }
     }
   },

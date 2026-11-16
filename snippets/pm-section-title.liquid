@@ -1,0 +1,102 @@
+{%- comment -%}
+  Shared section title area (eyebrow + title + subtitle).
+  Renders nothing when all three are blank, or when hide is true.
+
+  Params:
+  - eyebrow {String}
+  - title {String} — plain or inline richtext HTML
+  - subtitle {String} — plain or HTML when richtext: true
+  - richtext {Boolean} — subtitle is HTML
+  - title_richtext {Boolean} — title is HTML (inline richtext)
+  - heading_tag {String} h1–h6 (default h2)
+  - title_class {String} — extra classes on the heading (e.g. Dawn heading_size)
+  - honor_heading_size {Boolean} — when size is Auto, let title_class sizes win
+  - heading_id {String} — optional id on the heading element
+  - section {Section} — optional; reads override settings when present
+  - align {String} — optional explicit left|center|right|theme
+{%- endcomment -%}
+{%- liquid
+  assign pm_hide = false
+  if section != blank and section.settings.pm_hide_title
+    assign pm_hide = true
+  endif
+
+  assign pm_eyebrow = eyebrow
+  assign pm_title = title
+  assign pm_subtitle = subtitle | default: text
+
+  assign pm_tag = heading_tag | default: 'h2'
+  if pm_tag != 'h1' and pm_tag != 'h2' and pm_tag != 'h3' and pm_tag != 'h4' and pm_tag != 'h5' and pm_tag != 'h6'
+    assign pm_tag = 'h2'
+  endif
+
+  assign pm_align = align
+  if pm_align == blank and section != blank
+    assign pm_align = section.settings.pm_title_align | default: section.settings.heading_alignment
+  endif
+  if pm_align == blank or pm_align == 'theme'
+    assign pm_align = settings.pm_section_title_align | default: 'left'
+  endif
+
+  assign pm_size = 'auto'
+  if section != blank and section.settings.pm_title_size != blank
+    assign pm_size = section.settings.pm_title_size
+  endif
+
+  assign pm_color = ''
+  if section != blank and section.settings.pm_title_color != blank
+    assign pm_color = section.settings.pm_title_color
+  endif
+
+  assign pm_spacing = blank
+  if section != blank and section.settings.pm_title_spacing_below != blank and section.settings.pm_title_spacing_below > 0
+    assign pm_spacing = section.settings.pm_title_spacing_below
+  endif
+
+  assign pm_honor_hs = false
+  if honor_heading_size and pm_size == 'auto'
+    assign pm_honor_hs = true
+  endif
+-%}
+{%- unless pm_hide -%}
+  {%- if pm_eyebrow != blank or pm_title != blank or pm_subtitle != blank -%}
+    {{ 'pm-section-title.css' | asset_url | stylesheet_tag }}
+    {%- capture pm_title_class -%}
+      pm-section-title prep__heading
+      pm-section-title--align-{{ pm_align }}
+      {% if pm_size != 'auto' %}pm-section-title--size-{{ pm_size }}{% endif %}
+      {% if pm_honor_hs %}pm-section-title--honor-heading-size{% endif %}
+    {%- endcapture -%}
+    <header
+      class="{{ pm_title_class | strip }}"
+      {% if pm_color != blank or pm_spacing != blank %}
+        style="{% if pm_color != blank %}--pm-title-color: {{ pm_color }};{% endif %}{% if pm_spacing != blank %}--pm-title-spacing-below: {{ pm_spacing }}px;{% endif %}"
+      {% endif %}
+    >
+      {%- if pm_eyebrow != blank -%}
+        <span class="pm-section-title__eyebrow prep__eyebrow">{{ pm_eyebrow | escape }}</span>
+      {%- endif -%}
+      {%- if pm_title != blank -%}
+        <{{ pm_tag }}
+          class="pm-section-title__heading prep__title{% if title_class != blank %} {{ title_class }}{% endif %}"
+          {% if heading_id != blank %}id="{{ heading_id }}"{% endif %}
+        >
+          {%- if title_richtext -%}
+            {{ pm_title }}
+          {%- else -%}
+            {{ pm_title | escape }}
+          {%- endif -%}
+        </{{ pm_tag }}>
+      {%- endif -%}
+      {%- if pm_subtitle != blank -%}
+        <div class="pm-section-title__sub prep__sub">
+          {%- if richtext -%}
+            {{ pm_subtitle }}
+          {%- else -%}
+            <p>{{ pm_subtitle | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </header>
+  {%- endif -%}
+{%- endunless -%}

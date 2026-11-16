@@ -1516,5 +1516,215 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "t:settings_schema.section_titles.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.section_titles.settings.paragraph.content"
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.section_titles.settings.header_title.content"
+      },
+      {
+        "type": "font_picker",
+        "id": "pm_section_title_font",
+        "label": "t:settings_schema.section_titles.settings.font.label",
+        "default": "plus_jakarta_sans_n7"
+      },
+      {
+        "type": "range",
+        "id": "pm_section_title_size",
+        "min": 20,
+        "max": 72,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.section_titles.settings.size.label",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "pm_section_title_size_mobile",
+        "min": 18,
+        "max": 56,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.section_titles.settings.size_mobile.label",
+        "default": 48
+      },
+      {
+        "type": "select",
+        "id": "pm_section_title_weight",
+        "label": "t:settings_schema.section_titles.settings.weight.label",
+        "options": [
+          { "value": "400", "label": "t:settings_schema.section_titles.settings.weight.options.regular" },
+          { "value": "500", "label": "t:settings_schema.section_titles.settings.weight.options.medium" },
+          { "value": "600", "label": "t:settings_schema.section_titles.settings.weight.options.semibold" },
+          { "value": "700", "label": "t:settings_schema.section_titles.settings.weight.options.bold" },
+          { "value": "800", "label": "t:settings_schema.section_titles.settings.weight.options.extrabold" }
+        ],
+        "default": "700"
+      },
+      {
+        "type": "range",
+        "id": "pm_section_title_line_height",
+        "min": 100,
+        "max": 160,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.section_titles.settings.line_height.label",
+        "default": 115
+      },
+      {
+        "type": "range",
+        "id": "pm_section_title_letter_spacing",
+        "min": -4,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.section_titles.settings.letter_spacing.label",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "pm_section_title_text_transform",
+        "label": "t:settings_schema.section_titles.settings.text_transform.label",
+        "options": [
+          { "value": "none", "label": "t:settings_schema.section_titles.settings.text_transform.options.none" },
+          { "value": "uppercase", "label": "t:settings_schema.section_titles.settings.text_transform.options.uppercase" },
+          { "value": "lowercase", "label": "t:settings_schema.section_titles.settings.text_transform.options.lowercase" },
+          { "value": "capitalize", "label": "t:settings_schema.section_titles.settings.text_transform.options.capitalize" }
+        ],
+        "default": "none"
+      },
+      {
+        "type": "color",
+        "id": "pm_section_title_color",
+        "label": "t:settings_schema.section_titles.settings.color.label",
+        "default": "#1a1a1a"
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.section_titles.settings.header_eyebrow.content"
+      },
+      {
+        "type": "range",
+        "id": "pm_section_eyebrow_size",
+        "min": 10,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.section_titles.settings.eyebrow_size.label",
+        "default": 14
+      },
+      {
+        "type": "select",
+        "id": "pm_section_eyebrow_weight",
+        "label": "t:settings_schema.section_titles.settings.eyebrow_weight.label",
+        "options": [
+          { "value": "400", "label": "t:settings_schema.section_titles.settings.weight.options.regular" },
+          { "value": "500", "label": "t:settings_schema.section_titles.settings.weight.options.medium" },
+          { "value": "600", "label": "t:settings_schema.section_titles.settings.weight.options.semibold" },
+          { "value": "700", "label": "t:settings_schema.section_titles.settings.weight.options.bold" }
+        ],
+        "default": "600"
+      },
+      {
+        "type": "color",
+        "id": "pm_section_eyebrow_color",
+        "label": "t:settings_schema.section_titles.settings.eyebrow_color.label",
+        "default": "#e3931a"
+      },
+      {
+        "type": "select",
+        "id": "pm_section_eyebrow_text_transform",
+        "label": "t:settings_schema.section_titles.settings.eyebrow_text_transform.label",
+        "options": [
+          { "value": "none", "label": "t:settings_schema.section_titles.settings.text_transform.options.none" },
+          { "value": "uppercase", "label": "t:settings_schema.section_titles.settings.text_transform.options.uppercase" },
+          { "value": "lowercase", "label": "t:settings_schema.section_titles.settings.text_transform.options.lowercase" },
+          { "value": "capitalize", "label": "t:settings_schema.section_titles.settings.text_transform.options.capitalize" }
+        ],
+        "default": "uppercase"
+      },
+      {
+        "type": "range",
+        "id": "pm_section_eyebrow_letter_spacing",
+        "min": 0,
+        "max": 8,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.section_titles.settings.eyebrow_letter_spacing.label",
+        "default": 2
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.section_titles.settings.header_subtitle.content"
+      },
+      {
+        "type": "range",
+        "id": "pm_section_subtitle_size",
+        "min": 12,
+        "max": 28,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.section_titles.settings.subtitle_size.label",
+        "default": 16
+      },
+      {
+        "type": "color",
+        "id": "pm_section_subtitle_color",
+        "label": "t:settings_schema.section_titles.settings.subtitle_color.label",
+        "default": "#5a5a6a"
+      },
+      {
+        "type": "range",
+        "id": "pm_section_subtitle_max_width",
+        "min": 20,
+        "max": 80,
+        "step": 2,
+        "unit": "rem",
+        "label": "t:settings_schema.section_titles.settings.subtitle_max_width.label",
+        "default": 56
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.section_titles.settings.header_layout.content"
+      },
+      {
+        "type": "select",
+        "id": "pm_section_title_align",
+        "label": "t:settings_schema.section_titles.settings.align.label",
+        "options": [
+          { "value": "left", "label": "t:settings_schema.section_titles.settings.align.options.left" },
+          { "value": "center", "label": "t:settings_schema.section_titles.settings.align.options.center" },
+          { "value": "right", "label": "t:settings_schema.section_titles.settings.align.options.right" }
+        ],
+        "default": "left"
+      },
+      {
+        "type": "range",
+        "id": "pm_section_title_stack_gap",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.section_titles.settings.stack_gap.label",
+        "info": "t:settings_schema.section_titles.settings.stack_gap.info",
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "pm_section_title_spacing_below",
+        "min": 0,
+        "max": 80,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.section_titles.settings.spacing_below.label",
+        "default": 16
+      }
+    ]
   }
 ]
