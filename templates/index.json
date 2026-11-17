@@ -556,52 +556,6 @@
         "lazy": true
       }
     },
-    "ss_feature_2_zthaBx": {
-      "type": "ss-feature-2",
-      "blocks": {
-        "feature_9fWqJ8": {
-          "type": "feature",
-          "settings": {
-            "title": "Order Online",
-            "text": "Select from our menu each week and place your order online."
-          }
-        },
-        "feature_kcUQtq": {
-          "type": "feature",
-          "settings": {
-            "title": "We Cook For You",
-            "text": "Our chefs will prepare your meals made with authentic ingredients."
-          }
-        },
-        "feature_L7rfW3": {
-          "type": "feature",
-          "settings": {
-            "title": "Doorstep Delivery",
-            "text": "We deliver to your doorstep throughout your area."
-          }
-        },
-        "feature_azb6bU": {
-          "type": "feature",
-          "settings": {
-            "title": "Quick Heat Plans",
-            "text": "Just heat up for 2-3 minutes and enjoy fresh bites."
-          }
-        }
-      },
-      "block_order": [
-        "feature_9fWqJ8",
-        "feature_kcUQtq",
-        "feature_L7rfW3",
-        "feature_azb6bU"
-      ],
-      "name": "SS Feature #2",
-      "settings": {
-        "columns": 4,
-        "icon_size": 80,
-        "padding_top": 40,
-        "padding_bottom": 40
-      }
-    },
     "image_with_text_xVaQp3": {
       "type": "image-with-text",
       "blocks": {
@@ -3097,7 +3051,6 @@
   "order": [
     "image_banner",
     "ss_feature_1_EbPbYE",
-    "ss_feature_2_zthaBx",
     "image_with_text_xVaQp3",
     "cm_parallax_gallery",
     "ss_feature_1_hNtGNi",
