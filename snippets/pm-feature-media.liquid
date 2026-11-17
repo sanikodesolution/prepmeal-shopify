@@ -1,0 +1,22 @@
+{%- comment -%}
+  Renders a feature icon or image.
+  Param: image (an image_picker object)
+  GIFs are output at their original file so the animation is kept.
+  Other formats are resized.
+{%- endcomment -%}
+
+{%- if image != blank -%}
+  {%- assign pm_src = image.src | downcase -%}
+  {%- if pm_src contains '.gif' -%}
+    <img
+      src="{{ image | image_url }}"
+      alt="{{ image.alt | escape }}"
+      width="{{ image.width }}"
+      height="{{ image.height }}"
+      loading="lazy"
+      class="pm-ft__img"
+    >
+  {%- else -%}
+    {{ image | image_url: width: 480 | image_tag: loading: 'lazy', class: 'pm-ft__img', alt: image.alt }}
+  {%- endif -%}
+{%- endif -%}

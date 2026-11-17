@@ -1,0 +1,220 @@
+/* pm-feature.css
+   Shared styles for feature-type2..5.
+   Rules: no font sizes, no font families, no hardcoded colors.
+   Everything inherits from the theme. Tints are derived from currentColor. */
+
+.pm-ft {
+  padding-block: var(--pm-ft-pt, 40px) var(--pm-ft-pb, 40px);
+  color: inherit;
+}
+
+.pm-ft__wrap {
+  max-width: var(--page-width, 1200px);
+  margin-inline: auto;
+  padding-inline: var(--page-margin, 1.25rem);
+}
+
+.pm-ft__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pm-ft__media {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--pm-ft-icon, 96px);
+  height: var(--pm-ft-icon, 96px);
+}
+
+.pm-ft__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pm-ft__title {
+  margin: 0;
+}
+
+.pm-ft__text {
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* ---------- Type 2: soft cards, icon in a round plate ---------- */
+
+.pm-ft2__grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(var(--pm-ft-cols, 4), minmax(0, 1fr));
+}
+
+.pm-ft2__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.875rem;
+  padding: 1.75rem;
+  border-radius: 1.5rem;
+  border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  background: color-mix(in srgb, currentColor 4%, transparent);
+}
+
+.pm-ft2__icon {
+  box-sizing: content-box;
+  padding: 0.875rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+/* ---------- Type 3: hairline list, icon left, 2 columns ---------- */
+
+.pm-ft3__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 3rem;
+}
+
+.pm-ft3__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem;
+  padding-block: 1.75rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.pm-ft3__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* ---------- Type 4: numbered steps with a connecting line ---------- */
+
+.pm-ft4__list {
+  display: grid;
+  grid-template-columns: repeat(var(--pm-ft-cols, 4), minmax(0, 1fr));
+  gap: 1.5rem;
+  counter-reset: pm-step;
+}
+
+.pm-ft4__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.875rem;
+  text-align: center;
+  counter-increment: pm-step;
+}
+
+.pm-ft4__num {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pm-ft4__num::before {
+  content: counter(pm-step);
+}
+
+.pm-ft4__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 1.375rem;
+  left: calc(50% + 2.25rem);
+  width: calc(100% + 1.5rem - 4.5rem);
+  border-top: 2px dashed color-mix(in srgb, currentColor 30%, transparent);
+}
+
+/* ---------- Type 5: bento tiles ---------- */
+
+.pm-ft5__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.pm-ft5__tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.pm-ft5__tile:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+  padding: 2rem;
+  border-radius: 2rem;
+  background: color-mix(in srgb, currentColor 9%, transparent);
+}
+
+.pm-ft5__tile:first-child .pm-ft__media {
+  width: calc(var(--pm-ft-icon, 96px) * 1.6);
+  height: calc(var(--pm-ft-icon, 96px) * 1.6);
+}
+
+.pm-ft5__tile:nth-child(4) {
+  grid-column: span 2;
+}
+
+.pm-ft5__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 989px) {
+  .pm-ft2__grid,
+  .pm-ft4__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pm-ft4__step::after {
+    display: none;
+  }
+
+  .pm-ft5__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pm-ft5__tile:first-child {
+    grid-row: auto;
+  }
+
+  .pm-ft5__tile:nth-child(4) {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 749px) {
+  .pm-ft2__grid,
+  .pm-ft3__list,
+  .pm-ft4__list,
+  .pm-ft5__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pm-ft5__tile:first-child {
+    grid-column: auto;
+  }
+}

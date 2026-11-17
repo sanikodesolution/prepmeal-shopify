@@ -1,0 +1,64 @@
+{{ 'pm-feature.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="pm-ft pm-ft5"
+  style="--pm-ft-icon: {{ section.settings.icon_size }}px; --pm-ft-pt: {{ section.settings.padding_top }}px; --pm-ft-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="pm-ft__wrap">
+    <ul class="pm-ft__list pm-ft5__grid" role="list">
+      {%- for block in section.blocks -%}
+        <li class="pm-ft5__tile" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <span class="pm-ft__media">
+              {% render 'pm-feature-media', image: block.settings.image %}
+            </span>
+          {%- endif -%}
+          <div class="pm-ft5__body">
+            {%- if block.settings.title != blank -%}
+              <h3 class="pm-ft__title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="pm-ft__text">{{ block.settings.text | escape | newline_to_br }}</p>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SS Feature #5",
+  "tag": "section",
+  "class": "feature-type5",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "range", "id": "icon_size", "label": "Icon size", "min": 48, "max": 120, "step": 8, "unit": "px", "default": 72 },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Icon or GIF" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Order Online" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Select from our menu each week and place your order online." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Feature #5",
+      "blocks": [
+        { "type": "feature", "settings": { "title": "Order Online", "text": "Select from our menu each week and place your order online." } },
+        { "type": "feature", "settings": { "title": "We Cook For You", "text": "Our chefs will prepare your meals made with authentic ingredients." } },
+        { "type": "feature", "settings": { "title": "Doorstep Delivery", "text": "We deliver to your doorstep throughout your area." } },
+        { "type": "feature", "settings": { "title": "Quick Heat Plans", "text": "Just heat up for 2-3 minutes and enjoy fresh bites." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
