@@ -7,16 +7,21 @@
 
 {%- if image != blank -%}
   {%- assign pm_src = image.src | downcase -%}
+  {%- assign pm_lazy = lazy | default: true -%}
   {%- if pm_src contains '.gif' -%}
     <img
       src="{{ image | image_url }}"
       alt="{{ image.alt | escape }}"
       width="{{ image.width }}"
       height="{{ image.height }}"
-      loading="lazy"
+      {% if pm_lazy %}loading="lazy"{% endif %}
       class="pm-ft__img"
     >
   {%- else -%}
-    {{ image | image_url: width: 480 | image_tag: loading: 'lazy', class: 'pm-ft__img', alt: image.alt }}
+    {%- if pm_lazy -%}
+      {{ image | image_url: width: 480 | image_tag: loading: 'lazy', class: 'pm-ft__img', alt: image.alt }}
+    {%- else -%}
+      {{ image | image_url: width: 480 | image_tag: class: 'pm-ft__img', alt: image.alt }}
+    {%- endif -%}
   {%- endif -%}
 {%- endif -%}

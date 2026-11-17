@@ -4,13 +4,19 @@
    Everything inherits from the theme. Tints are derived from currentColor. */
 
 .pm-ft {
-  padding-block: var(--pm-ft-pt, 40px) var(--pm-ft-pb, 40px);
+  /* Section padding comes from Theme Editor (same as Feature #1). */
+  padding-block: 0;
   color: inherit;
 }
 
 .pm-ft__wrap {
   max-width: var(--page-width, 1200px);
   margin-inline: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pm-ft__wrap.page-width {
   padding-inline: var(--page-margin, 1.25rem);
 }
 
@@ -42,7 +48,6 @@
 
 .pm-ft__text {
   margin: 0;
-  opacity: 0.8;
 }
 
 /* ---------- Type 2: soft cards, icon in a round plate ---------- */

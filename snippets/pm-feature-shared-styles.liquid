@@ -1,0 +1,305 @@
+{%- comment -%}
+  Shared section CSS for SS Feature #2–#5 (same sidebar controls as SS Feature #1).
+  Font size / color / line-height apply only when set; 0 or blank = theme inherit.
+{%- endcomment -%}
+{%- liquid
+  assign padding_horizontal = section.settings.padding_horizontal
+  assign padding_horizontal_mobile = section.settings.padding_horizontal_mobile
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign border_color = section.settings.border_color
+  assign border_thickness = section.settings.border_thickness
+  assign margin_top = section.settings.margin_top
+  assign margin_bottom = section.settings.margin_bottom
+  assign full_width = section.settings.full_width
+
+  assign feature_row = section.settings.feature_row
+  assign feature_row_mobile = section.settings.feature_row_mobile
+  assign feature_gap_mobile = section.settings.feature_gap_mobile
+  assign feature_gap = section.settings.feature_gap
+  assign feature_padding_vertical = section.settings.feature_padding_vertical
+  assign feature_padding_horizontal = section.settings.feature_padding_horizontal
+  assign feature_border_thickness = section.settings.feature_border_thickness
+  assign feature_border_color = section.settings.feature_border_color
+  assign feature_bg = section.settings.feature_bg
+  assign feature_radius = section.settings.feature_radius
+  assign feature_shadow_color = section.settings.feature_shadow_color
+  assign feature_shadow = section.settings.feature_shadow
+
+  assign feature_heading_size = section.settings.feature_heading_size
+  assign feature_heading_size_mobile = section.settings.feature_heading_size_mobile
+  assign feature_heading_color = section.settings.feature_heading_color
+  assign feature_heading_custom = section.settings.feature_heading_custom
+  assign feature_heading_font = section.settings.feature_heading_font
+  assign feature_heading_height = section.settings.feature_heading_height
+  assign feature_heading_weight = section.settings.feature_heading_weight
+  assign feature_heading_letter_spacing = section.settings.feature_heading_letter_spacing
+  assign feature_heading_pt = section.settings.feature_heading_padding_top
+  assign feature_heading_pb = section.settings.feature_heading_padding_bottom
+  assign feature_heading_pl = section.settings.feature_heading_padding_left
+  assign feature_heading_pr = section.settings.feature_heading_padding_right
+  assign feature_heading_mt = section.settings.feature_heading_mt
+  assign feature_heading_mb = section.settings.feature_heading_margin_bottom
+  assign feature_heading_ml = section.settings.feature_heading_margin_left
+  assign feature_heading_mr = section.settings.feature_heading_margin_right
+
+  assign feature_text_size = section.settings.feature_text_size
+  assign feature_text_size_mobile = section.settings.feature_text_size_mobile
+  assign feature_text_color = section.settings.feature_text_color
+  assign feature_text_custom = section.settings.feature_text_custom
+  assign feature_text_font = section.settings.feature_text_font
+  assign feature_text_height = section.settings.feature_text_height
+  assign feature_text_weight = section.settings.feature_text_weight
+  assign feature_text_letter_spacing = section.settings.feature_text_letter_spacing
+  assign feature_text_pt = section.settings.feature_text_padding_top
+  assign feature_text_pb = section.settings.feature_text_padding_bottom
+  assign feature_text_pl = section.settings.feature_text_padding_left
+  assign feature_text_pr = section.settings.feature_text_padding_right
+  assign feature_text_mt = section.settings.feature_text_mt
+  assign feature_text_mb = section.settings.feature_text_margin_bottom
+  assign feature_text_ml = section.settings.feature_text_margin_left
+  assign feature_text_mr = section.settings.feature_text_margin_right
+
+  assign feature_icon_size_mobile = section.settings.feature_icon_size_mobile
+  assign feature_icon_size = section.settings.feature_icon_size
+  assign feature_icon_color = section.settings.feature_icon_color
+-%}
+{% style %}
+  {{ feature_text_font | font_face: font_display: 'swap' }}
+  {{ feature_heading_font | font_face: font_display: 'swap' }}
+
+  .section-{{ section.id }} {
+    border-top: solid {{ border_color }} {{ border_thickness }}px;
+    border-bottom: solid {{ border_color }} {{ border_thickness }}px;
+    margin-top: {{ margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }}-settings {
+    margin: 0 auto;
+    padding-top: {{ padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .feature-{{ section.id }} .pm-ft__list {
+    gap: {{ feature_gap_mobile }}px;
+  }
+
+  .feature-{{ section.id }}.pm-ft2 .pm-ft2__grid,
+  .feature-{{ section.id }}.pm-ft4 .pm-ft4__list {
+    grid-template-columns: repeat({{ feature_row_mobile }}, minmax(0, 1fr));
+  }
+
+  .feature-{{ section.id }}.pm-ft3 .pm-ft3__list {
+    grid-template-columns: repeat({{ feature_row_mobile }}, minmax(0, 1fr));
+  }
+
+  .feature-{{ section.id }} .pm-ft2__card,
+  .feature-{{ section.id }} .pm-ft5__tile {
+    {%- if feature_bg != blank -%}
+    background-color: {{ feature_bg }};
+    {%- endif -%}
+    {%- if feature_border_thickness > 0 -%}
+    border: {{ feature_border_thickness }}px solid {{ feature_border_color }};
+    {%- endif -%}
+    border-radius: {{ feature_radius }}px;
+    {%- if feature_padding_vertical > 0 or feature_padding_horizontal > 0 -%}
+    padding: {{ feature_padding_vertical | times: 0.75 | round: 0 }}px {{ feature_padding_horizontal | times: 0.75 | round: 0 }}px;
+    {%- endif -%}
+  }
+
+  .feature-{{ section.id }} .pm-ft__media {
+    width: min(100%, {{ feature_icon_size_mobile }}px);
+    height: min(100%, {{ feature_icon_size_mobile }}px);
+  }
+
+  .feature-{{ section.id }} .pm-ft__media svg path {
+    fill: {{ feature_icon_color }};
+  }
+
+  .feature-{{ section.id }} .pm-ft__title {
+    margin-top: {{ feature_heading_mt | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ feature_heading_mb | times: 0.75 | round: 0 }}px;
+    margin-left: {{ feature_heading_ml | times: 0.75 | round: 0 }}px;
+    margin-right: {{ feature_heading_mr | times: 0.75 | round: 0 }}px;
+    padding-top: {{ feature_heading_pt | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ feature_heading_pb | times: 0.75 | round: 0 }}px;
+    padding-left: {{ feature_heading_pl | times: 0.75 | round: 0 }}px;
+    padding-right: {{ feature_heading_pr | times: 0.75 | round: 0 }}px;
+    letter-spacing: {{ feature_heading_letter_spacing }}px;
+    text-transform: unset;
+    transition: color 0.25s ease;
+    {%- if feature_heading_size_mobile > 0 -%}
+    font-size: {{ feature_heading_size_mobile }}px;
+    {%- endif -%}
+    {%- if feature_heading_color != blank -%}
+    color: {{ feature_heading_color }};
+    {%- endif -%}
+    {%- if feature_heading_height > 0 -%}
+    line-height: {{ feature_heading_height }}%;
+    {%- endif -%}
+    {%- if feature_heading_weight != blank and feature_heading_weight != 'inherit' -%}
+    font-weight: {{ feature_heading_weight }};
+    {%- endif -%}
+  }
+
+  {%- if section.settings.feature_heading_hover_color != blank -%}
+  .feature-{{ section.id }} .pm-ft__title:hover {
+    color: {{ section.settings.feature_heading_hover_color }};
+  }
+  {%- endif -%}
+
+  .feature-{{ section.id }} .pm-ft__text {
+    margin-top: {{ feature_text_mt | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ feature_text_mb | times: 0.75 | round: 0 }}px;
+    margin-left: {{ feature_text_ml | times: 0.75 | round: 0 }}px;
+    margin-right: {{ feature_text_mr | times: 0.75 | round: 0 }}px;
+    padding-top: {{ feature_text_pt | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ feature_text_pb | times: 0.75 | round: 0 }}px;
+    padding-left: {{ feature_text_pl | times: 0.75 | round: 0 }}px;
+    padding-right: {{ feature_text_pr | times: 0.75 | round: 0 }}px;
+    letter-spacing: {{ feature_text_letter_spacing }}px;
+    text-transform: unset;
+    opacity: 1;
+    transition: color 0.25s ease;
+    {%- if feature_text_size_mobile > 0 -%}
+    font-size: {{ feature_text_size_mobile }}px;
+    {%- endif -%}
+    {%- if feature_text_color != blank -%}
+    color: {{ feature_text_color }};
+    {%- endif -%}
+    {%- if feature_text_height > 0 -%}
+    line-height: {{ feature_text_height }}%;
+    {%- endif -%}
+    {%- if feature_text_weight != blank and feature_text_weight != 'inherit' -%}
+    font-weight: {{ feature_text_weight }};
+    {%- endif -%}
+  }
+
+  {%- if section.settings.feature_text_hover_color != blank -%}
+  .feature-{{ section.id }} .pm-ft__text:hover,
+  .feature-{{ section.id }} .pm-ft__text:hover * {
+    color: {{ section.settings.feature_text_hover_color }};
+  }
+  {%- endif -%}
+
+  .feature-{{ section.id }} .pm-ft__hit {
+    display: contents;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  @media (min-width: 990px) {
+    .section-{{ section.id }} {
+      margin-top: {{ margin_top }}px;
+      margin-bottom: {{ margin_bottom }}px;
+    }
+
+    .section-{{ section.id }}-settings {
+      padding-top: {{ padding_top }}px;
+      padding-bottom: {{ padding_bottom }}px;
+    }
+
+    .feature-{{ section.id }} .pm-ft__list {
+      gap: {{ feature_gap }}px;
+    }
+
+    .feature-{{ section.id }}.pm-ft2 .pm-ft2__grid,
+    .feature-{{ section.id }}.pm-ft4 .pm-ft4__list {
+      grid-template-columns: repeat({{ feature_row }}, minmax(0, 1fr));
+    }
+
+    .feature-{{ section.id }}.pm-ft3 .pm-ft3__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    {%- if feature_padding_vertical > 0 or feature_padding_horizontal > 0 -%}
+    .feature-{{ section.id }} .pm-ft2__card,
+    .feature-{{ section.id }} .pm-ft5__tile {
+      padding: {{ feature_padding_vertical }}px {{ feature_padding_horizontal }}px;
+    }
+    {%- endif -%}
+
+    .feature-{{ section.id }} .pm-ft__media {
+      width: min(100%, {{ feature_icon_size }}px);
+      height: min(100%, {{ feature_icon_size }}px);
+    }
+
+    .feature-{{ section.id }} .pm-ft__title {
+      margin-top: {{ feature_heading_mt }}px;
+      margin-bottom: {{ feature_heading_mb }}px;
+      margin-left: {{ feature_heading_ml }}px;
+      margin-right: {{ feature_heading_mr }}px;
+      padding-top: {{ feature_heading_pt }}px;
+      padding-bottom: {{ feature_heading_pb }}px;
+      padding-left: {{ feature_heading_pl }}px;
+      padding-right: {{ feature_heading_pr }}px;
+      {%- if feature_heading_size > 0 -%}
+      font-size: {{ feature_heading_size }}px;
+      {%- endif -%}
+    }
+
+    .feature-{{ section.id }} .pm-ft__text {
+      margin-top: {{ feature_text_mt }}px;
+      margin-bottom: {{ feature_text_mb }}px;
+      margin-left: {{ feature_text_ml }}px;
+      margin-right: {{ feature_text_mr }}px;
+      padding-top: {{ feature_text_pt }}px;
+      padding-bottom: {{ feature_text_pb }}px;
+      padding-left: {{ feature_text_pl }}px;
+      padding-right: {{ feature_text_pr }}px;
+      {%- if feature_text_size > 0 -%}
+      font-size: {{ feature_text_size }}px;
+      {%- endif -%}
+    }
+  }
+{% endstyle %}
+
+{%- if feature_heading_custom -%}
+  <style>
+    .feature-{{ section.id }} .pm-ft__title {
+      font-family: {{ feature_heading_font.family }}, {{ feature_heading_font.fallback_families }};
+      font-style: {{ feature_heading_font.style }};
+      {% if feature_heading_weight == blank or feature_heading_weight == 'inherit' %}
+        font-weight: {{ feature_heading_font.weight }};
+      {% endif %}
+    }
+  </style>
+{%- endif -%}
+
+{%- if feature_text_custom -%}
+  <style>
+    .feature-{{ section.id }} .pm-ft__text {
+      font-family: {{ feature_text_font.family }}, {{ feature_text_font.fallback_families }};
+      font-style: {{ feature_text_font.style }};
+      {% if feature_text_weight == blank or feature_text_weight == 'inherit' %}
+        font-weight: {{ feature_text_font.weight }};
+      {% endif %}
+    }
+  </style>
+{%- endif -%}
+
+{%- if full_width -%}
+  <style>
+    .section-{{ section.id }}-settings {
+      max-width: none;
+      padding-left: {{ padding_horizontal_mobile }}rem;
+      padding-right: {{ padding_horizontal_mobile }}rem;
+    }
+    @media (min-width: 768px) {
+      .section-{{ section.id }}-settings {
+        padding-left: {{ padding_horizontal }}rem;
+        padding-right: {{ padding_horizontal }}rem;
+      }
+    }
+  </style>
+{%- endif -%}
+
+{%- if feature_shadow -%}
+  <style>
+    .feature-{{ section.id }} .pm-ft2__card,
+    .feature-{{ section.id }} .pm-ft5__tile {
+      box-shadow: 4px 4px 20px {{ feature_shadow_color | color_modify: 'alpha', 0.2 }};
+    }
+  </style>
+{%- endif -%}
