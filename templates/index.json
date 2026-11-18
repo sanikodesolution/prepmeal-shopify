@@ -564,7 +564,7 @@
           "settings": {
             "title": "Order Online",
             "text": "Select from our menu each week and place your order online.",
-            "image": "shopify://shop_images/cm-step-order.png",
+            "image": "shopify://shop_images/cm-step-order_a07cba04-92fc-4d85-973c-3763904e0987.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -632,7 +632,7 @@
           "settings": {
             "title": "We Cook For You",
             "text": "Our chefs will prepare your meals made with authentic ingredients.",
-            "image": "shopify://shop_images/cm-step-cook.png",
+            "image": "shopify://shop_images/cm-step-cook_8df95797-c47a-49a4-9f58-868a0a8b949e.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -700,7 +700,7 @@
           "settings": {
             "title": "Doorstep Delivery",
             "text": "We deliver to your doorstep throughout your area.",
-            "image": "shopify://shop_images/cm-step-delivery.png",
+            "image": "shopify://shop_images/cm-step-delivery_9f01368e-6c9f-4bfc-8b2f-c61b80e56d49.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -768,7 +768,7 @@
           "settings": {
             "title": "Quick Heat Plans",
             "text": "Just heat up for 2-3 minutes and enjoy fresh bites.",
-            "image": "shopify://shop_images/cm-step-heat.png",
+            "image": "shopify://shop_images/cm-step-heat_7151c1bf-efb8-4d60-bb73-34eb43fb3d63.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -910,7 +910,7 @@
         "feature_d9ViWd": {
           "type": "feature",
           "settings": {
-            "image": "shopify://shop_images/cm-step-order.png",
+            "image": "shopify://shop_images/cm-step-order_a07cba04-92fc-4d85-973c-3763904e0987.gif",
             "title": "Order Online",
             "text": "Select from our menu each week and place your order online.",
             "feature_url": "",
@@ -978,7 +978,7 @@
         "feature_w6bXm9": {
           "type": "feature",
           "settings": {
-            "image": "shopify://shop_images/cm-step-cook.png",
+            "image": "shopify://shop_images/cm-step-cook_8df95797-c47a-49a4-9f58-868a0a8b949e.gif",
             "title": "We Cook For You",
             "text": "Our chefs will prepare your meals made with authentic ingredients.",
             "feature_url": "",
@@ -1046,7 +1046,7 @@
         "feature_Ch9WQM": {
           "type": "feature",
           "settings": {
-            "image": "shopify://shop_images/cm-step-delivery.png",
+            "image": "shopify://shop_images/cm-step-delivery_9f01368e-6c9f-4bfc-8b2f-c61b80e56d49.gif",
             "title": "Doorstep Delivery",
             "text": "We deliver to your doorstep throughout your area.",
             "feature_url": "",
@@ -1263,7 +1263,7 @@
           "settings": {
             "title": "Order Online",
             "text": "Select from our menu each week and place your order online.",
-            "image": "shopify://shop_images/cm-step-order.png",
+            "image": "shopify://shop_images/cm-step-order_a07cba04-92fc-4d85-973c-3763904e0987.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -1331,7 +1331,7 @@
           "settings": {
             "title": "We Cook For You",
             "text": "Our chefs will prepare your meals made with authentic ingredients.",
-            "image": "shopify://shop_images/cm-step-cook.png",
+            "image": "shopify://shop_images/cm-step-cook_8df95797-c47a-49a4-9f58-868a0a8b949e.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -1399,7 +1399,7 @@
           "settings": {
             "title": "Doorstep Delivery",
             "text": "We deliver to your doorstep throughout your area.",
-            "image": "shopify://shop_images/cm-step-delivery.png",
+            "image": "shopify://shop_images/cm-step-delivery_9f01368e-6c9f-4bfc-8b2f-c61b80e56d49.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -1467,7 +1467,7 @@
           "settings": {
             "title": "Quick Heat Plans",
             "text": "Just heat up for 2-3 minutes and enjoy fresh bites.",
-            "image": "shopify://shop_images/cm-step-heat.png",
+            "image": "shopify://shop_images/cm-step-heat_7151c1bf-efb8-4d60-bb73-34eb43fb3d63.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -1611,7 +1611,7 @@
           "settings": {
             "title": "Order Online",
             "text": "Select from our menu each week and place your order online.",
-            "image": "shopify://shop_images/cm-step-order.png",
+            "image": "shopify://shop_images/cm-step-order_a07cba04-92fc-4d85-973c-3763904e0987.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -1679,7 +1679,7 @@
           "settings": {
             "title": "We Cook For You",
             "text": "Our chefs will prepare your meals made with authentic ingredients.",
-            "image": "shopify://shop_images/cm-step-cook.png",
+            "image": "shopify://shop_images/cm-step-cook_8df95797-c47a-49a4-9f58-868a0a8b949e.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
@@ -1747,7 +1747,7 @@
           "settings": {
             "title": "Doorstep Delivery",
             "text": "We deliver to your doorstep throughout your area.",
-            "image": "shopify://shop_images/cm-step-delivery.png",
+            "image": "shopify://shop_images/cm-step-delivery_9f01368e-6c9f-4bfc-8b2f-c61b80e56d49.gif",
             "feature_url": "",
             "hide_image": false,
             "title_color": "",
