@@ -94,11 +94,26 @@
     grid-template-columns: repeat({{ feature_row_mobile }}, minmax(0, 1fr));
   }
 
+  {%- if feature_bg != blank -%}
+  .feature-{{ section.id }} .pm-ft2__card,
+  .feature-{{ section.id }} .pm-ft2__card:first-child,
+  .feature-{{ section.id }} .pm-ft4__step,
+  .feature-{{ section.id }} .pm-ft5__tile,
+  .feature-{{ section.id }} .pm-ft5__tile:first-child,
+  .feature-{{ section.id }} .pm-ft5__tile:nth-child(4),
+  .feature-{{ section.id }} .pm-jny__item {
+    background: {{ feature_bg }};
+    background-color: {{ feature_bg }};
+  }
+
+  .feature-{{ section.id }} .pm-jny__plate {
+    --pm-jny-bg: {{ feature_bg }};
+    background: {{ feature_bg }};
+  }
+  {%- endif -%}
+
   .feature-{{ section.id }} .pm-ft2__card,
   .feature-{{ section.id }} .pm-ft5__tile {
-    {%- if feature_bg != blank -%}
-    background-color: {{ feature_bg }};
-    {%- endif -%}
     {%- if feature_border_thickness > 0 -%}
     border: {{ feature_border_thickness }}px solid {{ feature_border_color }};
     {%- endif -%}
@@ -107,6 +122,19 @@
     padding: {{ feature_padding_vertical | times: 0.75 | round: 0 }}px {{ feature_padding_horizontal | times: 0.75 | round: 0 }}px;
     {%- endif -%}
   }
+
+  {%- if feature_bg != blank -%}
+  .feature-{{ section.id }} .pm-ft4__step,
+  .feature-{{ section.id }} .pm-jny__item {
+    {%- if feature_border_thickness > 0 -%}
+    border: {{ feature_border_thickness }}px solid {{ feature_border_color }};
+    {%- endif -%}
+    border-radius: {{ feature_radius }}px;
+    {%- if feature_padding_vertical > 0 or feature_padding_horizontal > 0 -%}
+    padding: {{ feature_padding_vertical | times: 0.75 | round: 0 }}px {{ feature_padding_horizontal | times: 0.75 | round: 0 }}px;
+    {%- endif -%}
+  }
+  {%- endif -%}
 
   .feature-{{ section.id }} .pm-ft__media {
     width: min(100%, {{ feature_icon_size_mobile }}px);
@@ -218,6 +246,12 @@
     .feature-{{ section.id }} .pm-ft5__tile {
       padding: {{ feature_padding_vertical }}px {{ feature_padding_horizontal }}px;
     }
+    {%- if feature_bg != blank -%}
+    .feature-{{ section.id }} .pm-ft4__step,
+    .feature-{{ section.id }} .pm-jny__item {
+      padding: {{ feature_padding_vertical }}px {{ feature_padding_horizontal }}px;
+    }
+    {%- endif -%}
     {%- endif -%}
 
     .feature-{{ section.id }} .pm-ft__media {
@@ -298,7 +332,9 @@
 {%- if feature_shadow -%}
   <style>
     .feature-{{ section.id }} .pm-ft2__card,
-    .feature-{{ section.id }} .pm-ft5__tile {
+    .feature-{{ section.id }} .pm-ft4__step,
+    .feature-{{ section.id }} .pm-ft5__tile,
+    .feature-{{ section.id }} .pm-jny__item {
       box-shadow: 4px 4px 20px {{ feature_shadow_color | color_modify: 'alpha', 0.2 }};
     }
   </style>
