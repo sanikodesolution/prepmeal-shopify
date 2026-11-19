@@ -1,0 +1,192 @@
+/* Feature type 3 — "sticker step cards"
+   Used by SS Feature #3. Scoped under .pm-fx2 so it never touches other feature types. */
+
+.pm-fx2 {
+  --fx2-gap-x: 28px;
+  --fx2-ink: currentColor;
+  padding: var(--fx2-pt, 40px) 0 var(--fx2-pb, 40px);
+}
+
+.pm-fx2__wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.pm-fx2__list {
+  list-style: none;
+  margin: 0;
+  /* room for the icons that overlap the top edge of each card */
+  padding: calc(var(--fx2-icon) / 2) 0 0;
+  display: grid;
+  grid-template-columns: repeat(var(--fx2-cols, 4), minmax(0, 1fr));
+  gap: calc(var(--fx2-icon) / 2 + 28px) var(--fx2-gap-x);
+  counter-reset: fx2;
+}
+
+/* ---------- Card ---------- */
+.pm-fx2__card {
+  position: relative;
+  counter-increment: fx2;
+  text-align: center;
+  padding: calc(var(--fx2-icon) / 2 + 22px) 22px 34px;
+  background: var(--fx2-card, #fff);
+  border: 1.5px solid color-mix(in srgb, var(--fx2-accent) 28%, transparent);
+  border-radius: 28px 28px 28px 8px;
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--fx2-accent) 16%, transparent);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.pm-fx2__card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pm-fx2__card:hover {
+  transform: translate(-3px, -3px);
+  border-color: var(--fx2-accent);
+  box-shadow: 10px 10px 0 color-mix(in srgb, var(--fx2-accent) 24%, transparent);
+}
+
+/* ---------- Big outlined step number ---------- */
+.pm-fx2--numbers .pm-fx2__card::before {
+  content: counter(fx2, decimal-leading-zero);
+  position: absolute;
+  right: 16px;
+  bottom: 6px;
+  z-index: 0;
+  font-size: 68px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--fx2-accent) 30%, transparent);
+  pointer-events: none;
+  transition: -webkit-text-stroke-color 0.35s ease;
+}
+
+.pm-fx2--numbers .pm-fx2__card:hover::before {
+  -webkit-text-stroke-color: color-mix(in srgb, var(--fx2-accent) 65%, transparent);
+}
+
+/* ---------- Blob icon with orbiting dashed ring ---------- */
+.pm-fx2__icon {
+  position: absolute;
+  top: calc(var(--fx2-icon) / -2);
+  left: 50%;
+  z-index: 2;
+  width: var(--fx2-icon);
+  height: var(--fx2-icon);
+  transform: translateX(-50%);
+  display: grid;
+  place-items: center;
+  padding: 18%;
+  box-sizing: border-box;
+  background: color-mix(in srgb, var(--fx2-accent) 14%, var(--fx2-card, #fff));
+  border-radius: 42% 58% 55% 45% / 50% 45% 55% 50%;
+  box-shadow: 0 0 0 6px var(--fx2-card, #fff);
+  transition: border-radius 0.6s ease, background 0.35s ease;
+}
+
+.pm-fx2__icon::before {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border: 2px dashed color-mix(in srgb, var(--fx2-accent) 55%, transparent);
+  border-radius: 55% 45% 42% 58% / 45% 55% 50% 50%;
+  pointer-events: none;
+  animation: pm-fx2-spin 26s linear infinite;
+}
+
+.pm-fx2__card:hover .pm-fx2__icon {
+  border-radius: 55% 45% 45% 55% / 45% 55% 45% 55%;
+  background: color-mix(in srgb, var(--fx2-accent) 22%, var(--fx2-card, #fff));
+}
+
+.pm-fx2__icon img,
+.pm-fx2__icon svg,
+.pm-fx2__icon video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---------- Text ---------- */
+.pm-fx2__title {
+  margin: 6px 0 0;
+  font-size: clamp(18px, 1.5vw, 22px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pm-fx2__title::after {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 3px;
+  margin: 12px auto 0;
+  background: var(--fx2-accent);
+  border-radius: 3px;
+  transition: width 0.35s ease;
+}
+
+.pm-fx2__card:hover .pm-fx2__title::after {
+  width: 56px;
+}
+
+.pm-fx2__text {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.65;
+  opacity: 0.8;
+}
+
+/* ---------- Dashed connector between icons (desktop only) ---------- */
+@media (min-width: 990px) {
+  .pm-fx2--line .pm-fx2__card:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: calc(50% + var(--fx2-icon) / 2 + 14px);
+    width: calc(100% + var(--fx2-gap-x) - var(--fx2-icon) - 28px);
+    border-top: 2px dashed color-mix(in srgb, var(--fx2-accent) 45%, transparent);
+    pointer-events: none;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 989px) {
+  .pm-fx2__list {
+    grid-template-columns: repeat(min(var(--fx2-cols, 4), 2), minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 549px) {
+  .pm-fx2__list {
+    grid-template-columns: 1fr;
+  }
+  .pm-fx2__card {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+@keyframes pm-fx2-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-fx2__icon::before { animation: none; }
+  .pm-fx2__card,
+  .pm-fx2__icon,
+  .pm-fx2__title::after { transition: none; }
+  .pm-fx2__card:hover { transform: none; }
+}
+
+
+.pm-fx2__hit {
+  display: contents;
+  color: inherit;
+  text-decoration: none;
+}
