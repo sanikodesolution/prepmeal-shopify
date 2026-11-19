@@ -97,6 +97,7 @@
   {%- if feature_bg != blank -%}
   .feature-{{ section.id }} .pm-ft2__card,
   .feature-{{ section.id }} .pm-ft2__card:first-child,
+  .feature-{{ section.id }} .pm-fx2__card,
   .feature-{{ section.id }} .pm-ft4__step,
   .feature-{{ section.id }} .pm-ft5__tile,
   .feature-{{ section.id }} .pm-ft5__tile:first-child,
@@ -106,6 +107,10 @@
     background-color: {{ feature_bg }};
   }
 
+  .feature-{{ section.id }}.pm-fx2 {
+    --fx2-card: {{ feature_bg }};
+  }
+
   .feature-{{ section.id }} .pm-jny__plate {
     --pm-jny-bg: {{ feature_bg }};
     background: {{ feature_bg }};
@@ -113,6 +118,7 @@
   {%- endif -%}
 
   .feature-{{ section.id }} .pm-ft2__card,
+  .feature-{{ section.id }} .pm-fx2__card,
   .feature-{{ section.id }} .pm-ft5__tile {
     {%- if feature_border_thickness > 0 -%}
     border: {{ feature_border_thickness }}px solid {{ feature_border_color }};
@@ -332,6 +338,7 @@
 {%- if feature_shadow -%}
   <style>
     .feature-{{ section.id }} .pm-ft2__card,
+    .feature-{{ section.id }} .pm-fx2__card,
     .feature-{{ section.id }} .pm-ft4__step,
     .feature-{{ section.id }} .pm-ft5__tile,
     .feature-{{ section.id }} .pm-jny__item {
