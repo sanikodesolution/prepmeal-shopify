@@ -1,0 +1,97 @@
+/* Content split 1-4. No font-size, color or line-height is set: typography comes from the theme. */
+.ps{--ps-check:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12.5l5 5L20 6.5' fill='none' stroke='black' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");--ps-arrow:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 17L17 7M9 7h8v8' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background:var(--ps-bg);padding:var(--ps-pt,48px) 0 var(--ps-pb,48px)}
+.ps__wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.ps__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(32px,5vw,72px);align-items:center}
+.ps__img{display:block;width:100%;height:100%;object-fit:cover}
+.ps__badge{display:inline-flex;align-items:center;gap:.7em;margin:0 0 16px;padding:.45em 1.1em;border:1px solid color-mix(in srgb,var(--ps-accent) 55%,transparent);background:color-mix(in srgb,var(--ps-accent) 14%,transparent);border-radius:999px;text-transform:uppercase;letter-spacing:.14em}
+.ps__dot{flex:none;width:.7em;height:.7em;border-radius:50%;background:var(--ps-accent);box-shadow:0 0 0 .22em color-mix(in srgb,var(--ps-accent) 30%,transparent)}
+.ps__heading{margin:0 0 20px}
+.ps__points{list-style:none;margin:0 0 28px;padding:0}
+.ps__point{display:flex;align-items:flex-start;gap:.7em}
+.ps__body{margin:0}
+.ps__label{text-transform:uppercase}
+.ps__check{flex:none;width:1.1em;height:1.1em;margin-top:.2em;background:var(--ps-accent);-webkit-mask:var(--ps-check) center/contain no-repeat;mask:var(--ps-check) center/contain no-repeat}
+.ps__btn{display:inline-flex;align-items:center;gap:1.1em;padding:.55em .55em .55em 1.7em;background:var(--ps-accent);border-radius:999px;text-decoration:none;box-shadow:0 12px 24px -10px color-mix(in srgb,var(--ps-accent) 70%,transparent);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+.ps__btn:hover{transform:translateY(-2px)}
+.ps__btn-arrow{position:relative;flex:none;width:2.4em;height:2.4em;border-radius:50%;background:var(--ps-ink);transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.ps__btn-arrow::after{content:"";position:absolute;inset:28%;background:#fff;-webkit-mask:var(--ps-arrow) center/contain no-repeat;mask:var(--ps-arrow) center/contain no-repeat}
+.ps__btn:hover .ps__btn-arrow{transform:rotate(45deg)}
+.ps__panel-title,.ps__panel-text{margin:0}
+.ps__panel-title{text-transform:uppercase}
+.ps__panel-text{margin-top:.6em;font-style:italic}
+
+/* 1 - Sticker overlap: hard-shadow image, tilted panel hanging over the edge */
+.ps-a__content .ps__points{margin-bottom:32px}
+.ps-a__point{padding:14px 0;border-bottom:2px dashed color-mix(in srgb,var(--ps-ink) 25%,transparent)}
+.ps-a__point:first-child{border-top:2px dashed color-mix(in srgb,var(--ps-ink) 25%,transparent)}
+.ps-a .ps__btn{border:2px solid var(--ps-ink);box-shadow:4px 4px 0 var(--ps-ink)}
+.ps-a .ps__btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ps-ink)}
+.ps-a__media{position:relative}
+.ps-a__figure{aspect-ratio:4/5;overflow:hidden;border:2px solid var(--ps-ink);border-radius:24px;box-shadow:8px 8px 0 var(--ps-accent)}
+.ps-a .ps__panel{position:absolute;left:-40px;bottom:36px;width:min(64%,320px);padding:20px 24px;background:var(--ps-accent);border:2px solid var(--ps-ink);border-radius:16px;box-shadow:6px 6px 0 var(--ps-ink);transform:rotate(-2deg);transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.ps-a__media:hover .ps__panel{transform:rotate(0) translateY(-4px)}
+.ps-a.ps--rev .ps-a__media{order:-1}
+.ps-a.ps--rev .ps__panel{left:auto;right:-40px}
+
+/* 2 - Leaf ribbon: leaf-shaped image with a vertical accent ribbon */
+.ps-b__figure{position:relative;aspect-ratio:4/5;overflow:hidden;border:2px solid var(--ps-ink);border-radius:28px 120px 28px 120px}
+.ps-b__media{position:relative}
+.ps-b .ps__panel{position:absolute;left:0;top:0;bottom:0;display:flex;flex-direction:row-reverse;align-items:center;justify-content:center;gap:16px;padding:0 20px;background:var(--ps-accent);border-right:2px solid var(--ps-ink);border-radius:26px 0 0 26px;writing-mode:vertical-rl;transform:rotate(180deg)}
+.ps-b .ps__panel-text{margin:0}
+.ps-b__point{padding:12px 0}
+.ps-b__point+.ps-b__point{border-top:1px solid color-mix(in srgb,var(--ps-ink) 18%,transparent)}
+.ps-b .ps__check{padding:.25em;box-sizing:content-box;width:.9em;height:.9em;background:var(--ps-accent);border-radius:50%;-webkit-mask:none;mask:none;position:relative}
+.ps-b .ps__check::after{content:"";position:absolute;inset:.1em;background:var(--ps-ink);-webkit-mask:var(--ps-check) center/70% no-repeat;mask:var(--ps-check) center/70% no-repeat}
+.ps-b.ps--rev .ps-b__media{order:1}
+.ps-b.ps--rev .ps__panel{left:auto;right:0;border-right:0;border-left:2px solid var(--ps-ink);border-radius:0 26px 26px 0}
+
+/* 3 - Numbered stamp: round image, numbered rows, rotating ring stamp */
+.ps-c__content .ps__points{counter-reset:psc;border-bottom:2px solid var(--ps-ink)}
+.ps-c__point{counter-increment:psc;gap:1em;align-items:center;padding:16px 0;border-top:2px solid var(--ps-ink)}
+.ps-c__num{flex:none;display:grid;place-items:center;width:2.6em;height:2.6em;background:var(--ps-accent);border:2px solid var(--ps-ink);border-radius:50%}
+.ps-c__num::before{content:counter(psc,decimal-leading-zero)}
+.ps-c .ps__btn{border-radius:14px}
+.ps-c .ps__btn-arrow{border-radius:10px}
+.ps-c__media{position:relative;max-width:520px;width:100%;justify-self:center}
+.ps-c__figure{aspect-ratio:1;overflow:hidden;border:2px solid var(--ps-ink);border-radius:50%}
+.ps-c .ps__panel{position:absolute;left:-4%;bottom:-2%;display:flex;flex-direction:column;align-items:center;justify-content:center;width:48%;aspect-ratio:1;box-sizing:border-box;padding:8%;text-align:center;background:var(--ps-accent);border:2px solid var(--ps-ink);border-radius:50%}
+.ps-c .ps__panel::before{content:"";position:absolute;inset:-9px;border:2px dashed color-mix(in srgb,var(--ps-ink) 50%,transparent);border-radius:50%;animation:ps-spin 30s linear infinite;pointer-events:none}
+.ps-c.ps--rev .ps-c__media{order:-1}
+.ps-c.ps--rev .ps__panel{left:auto;right:-4%}
+@keyframes ps-spin{to{transform:rotate(360deg)}}
+
+/* 4 - Hero card: full-bleed image, white content card, tilted sticker */
+.ps-d__card{position:relative;display:grid;align-items:center;min-height:clamp(480px,48vw,640px);overflow:hidden;border:2px solid var(--ps-ink);border-radius:28px}
+.ps-d__bg{position:absolute;inset:0}
+.ps-d__content{position:relative;z-index:1;box-sizing:border-box;width:min(56%,560px);margin:clamp(16px,3vw,32px);padding:clamp(20px,3vw,36px);background:#fff;border:2px solid var(--ps-ink);border-radius:22px;box-shadow:6px 6px 0 var(--ps-accent)}
+.ps-d__content .ps__points{margin-bottom:24px}
+.ps-d__point{padding:8px 0}
+.ps-d .ps__btn{border:2px solid var(--ps-ink)}
+.ps-d .ps__panel{position:absolute;z-index:1;top:24px;right:24px;max-width:min(260px,36%);padding:18px 20px;background:var(--ps-accent);border:2px solid var(--ps-ink);border-radius:16px;box-shadow:5px 5px 0 var(--ps-ink);transform:rotate(3deg);transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.ps-d__card:hover .ps__panel{transform:rotate(0)}
+
+/* Responsive */
+@media(max-width:989px){
+  .ps-a .ps__panel{left:16px;bottom:16px}
+  .ps-a.ps--rev .ps__panel{left:auto;right:16px}
+  .ps-c .ps__panel{left:0}
+  .ps-c.ps--rev .ps__panel{right:0}
+}
+@media(max-width:749px){
+  .ps__grid{grid-template-columns:1fr}
+  .ps-a.ps--rev .ps-a__media,.ps-c.ps--rev .ps-c__media{order:0}
+  .ps-b.ps--rev .ps-b__media{order:0}
+  .ps-b .ps__panel,.ps-b.ps--rev .ps__panel{top:auto;left:0;right:0;bottom:0;flex-direction:column;gap:6px;padding:16px 20px;writing-mode:horizontal-tb;transform:none;text-align:center;border:0;border-top:2px solid var(--ps-ink);border-radius:0}
+  .ps-d__card{display:flex;flex-direction:column;min-height:0}
+  .ps-d__bg{position:relative;inset:auto;aspect-ratio:4/3}
+  .ps-d__content{width:auto;margin:-40px 16px 16px}
+  .ps-d .ps__panel{top:16px;right:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  .ps *,.ps *::before,.ps *::after{transition:none!important;animation:none!important}
+  .ps-a__media:hover .ps__panel,.ps-d__card:hover .ps__panel,.ps__btn:hover{transform:none}
+}
+
+/* Theme page-width inside about splits */
+.pm-about-split .ps__wrap.page-width{padding-left:max(20px, var(--page-width-padding, 0px));padding-right:max(20px, var(--page-width-padding, 0px));max-width:var(--page-width)}
+.pm-about-split .ps__btn-wrap{margin-top:4px}

@@ -95,52 +95,43 @@
         "row_4"
       ]
     },
-    "about_values": {
+    "about_split": {
       "type": "ss-about-1",
       "blocks": {
-        "value_1": {
-          "type": "value",
+        "point_1": {
+          "type": "point",
           "settings": {
-            "title": "Chef-Crafted Meals",
-            "text": "Cooked fresh by our kitchen team, never frozen."
+            "label": "Global Flavours, Classical Technique",
+            "text": "With over 40 years of experience, Matt blends classical training with decades spent in diverse kitchens to create dishes inspired by many cultures while still feeling familiar and enjoyable."
           }
         },
-        "value_2": {
-          "type": "value",
+        "point_2": {
+          "type": "point",
           "settings": {
-            "title": "High Protein, Balanced",
-            "text": "Macros portioned so every plate works for your goals."
+            "label": "Premium, Honest Ingredients",
+            "text": "Every meal starts with clean, thoughtful components, including some organic and locally sourced items, chosen for real flavor and quality."
           }
         },
-        "value_3": {
-          "type": "value",
+        "point_3": {
+          "type": "point",
           "settings": {
-            "title": "Clean Ingredients",
-            "text": "No fillers — real food that tastes like it should."
-          }
-        },
-        "value_4": {
-          "type": "value",
-          "settings": {
-            "title": "Delivered Fresh Weekly",
-            "text": "Packed the same day and delivered across Lake Country."
+            "label": "Meal Prep Made Easy for Real Life",
+            "text": "Skip the prep. Get fully prepared meals brought to your door each week, ready to heat and enjoy when you need something easy and good."
           }
         }
       },
-      "block_order": ["value_1", "value_2", "value_3", "value_4"],
+      "block_order": ["point_1", "point_2", "point_3"],
       "settings": {
+        "badge": "Premium ingredients. Crafted with purpose.",
+        "heading": "Healthy Made Delicious",
+        "button_label": "View Menu",
+        "button_link": "/collections/all",
+        "panel_title": "Healthy Meals\nDone Right",
+        "panel_text": "Build With The Ingredients Your Body Deserves",
         "accent": "#F5A623",
         "ink": "#111111",
-        "bg": "#f6efe8",
-        "eyebrow": "What We Stand For",
-        "heading": "Real Food. Cooked With Care.",
-        "text": "Four promises behind every Prepmeal container.",
-        "pm_title_align": "center",
-        "pm_title_size": "auto",
-        "pm_title_spacing_below": 28,
-        "pm_hide_title": false,
-        "feature_row": 2,
-        "feature_icon_size": 64,
+        "bg": "#ffffff",
+        "reverse": false,
         "padding_top": 48,
         "padding_bottom": 48
       }
@@ -161,7 +152,7 @@
   },
   "order": [
     "story",
-    "about_values",
+    "about_split",
     "usp",
     "cta"
   ]
