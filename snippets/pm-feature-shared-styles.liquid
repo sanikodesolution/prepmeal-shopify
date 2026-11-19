@@ -98,6 +98,11 @@
   .feature-{{ section.id }} .pm-ft2__card,
   .feature-{{ section.id }} .pm-ft2__card:first-child,
   .feature-{{ section.id }} .pm-fx2__card,
+  .feature-{{ section.id }} .pf-a__item,
+  .feature-{{ section.id }} .pf-b__item,
+  .feature-{{ section.id }} .pf-c__item,
+  .feature-{{ section.id }} .pf-c__item:nth-child(even),
+  .feature-{{ section.id }} .pf-d__item,
   .feature-{{ section.id }} .pm-ft4__step,
   .feature-{{ section.id }} .pm-ft5__tile,
   .feature-{{ section.id }} .pm-ft5__tile:first-child,
@@ -119,6 +124,8 @@
 
   .feature-{{ section.id }} .pm-ft2__card,
   .feature-{{ section.id }} .pm-fx2__card,
+  .feature-{{ section.id }} .pf-a__item,
+  .feature-{{ section.id }} .pf-c__item,
   .feature-{{ section.id }} .pm-ft5__tile {
     {%- if feature_border_thickness > 0 -%}
     border: {{ feature_border_thickness }}px solid {{ feature_border_color }};
@@ -339,6 +346,8 @@
   <style>
     .feature-{{ section.id }} .pm-ft2__card,
     .feature-{{ section.id }} .pm-fx2__card,
+    .feature-{{ section.id }} .pf-a__item,
+    .feature-{{ section.id }} .pf-c__item,
     .feature-{{ section.id }} .pm-ft4__step,
     .feature-{{ section.id }} .pm-ft5__tile,
     .feature-{{ section.id }} .pm-jny__item {
