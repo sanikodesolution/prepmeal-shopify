@@ -2,8 +2,8 @@
 {% render 'pm-feature-shared-styles', section: section %}
 
 {%- liquid
-  assign pf_cols = section.settings.feature_row | default: 4
-  assign pf_icon = section.settings.feature_icon_size | default: 84
+  assign pf_cols = section.settings.feature_row | default: 2
+  assign pf_icon = section.settings.feature_icon_size | default: 64
   assign pf_bg = section.settings.bg
   if pf_bg == blank
     assign pf_bg = section.settings.background_color
@@ -13,7 +13,7 @@
 -%}
 
 <div
-  class="section-{{ section.id }} feature-{{ section.id }} pf pf-d"
+  class="section-{{ section.id }} feature-{{ section.id }} pf pf-a"
   style="
     background-color:{{ section.settings.background_color }};
     background-image: {{ section.settings.background_gradient }};
@@ -29,16 +29,17 @@
   <div class="section-{{ section.id }}-settings pf__wrap{% unless section.settings.full_width %} page-width{% endunless %}">
     <ul class="pf__list" role="list">
       {%- for block in section.blocks -%}
-        <li class="pf-d__item" {{ block.shopify_attributes }}>
+        <li class="pf-a__item" {{ block.shopify_attributes }}>
           {%- if block.settings.feature_url != blank -%}
             <a class="pf__hit" href="{{ block.settings.feature_url }}">
           {%- endif -%}
           {%- unless block.settings.hide_image -%}
             {%- if block.settings.image != blank -%}
-              <span class="pf__icon pf-d__icon"><span class="pf-d__media">{% render 'pm-feature-media', image: block.settings.image, lazy: section.settings.lazy %}</span></span>
+              <span class="pf__icon pf-a__icon">{% render 'pm-feature-media', image: block.settings.image, lazy: section.settings.lazy %}</span>
             {%- endif -%}
           {%- endunless -%}
-          {%- if block.settings.title != blank or block.settings.feature_title != blank -%}
+          <div class="pf-a__body">
+            {%- if block.settings.title != blank or block.settings.feature_title != blank -%}
             {%- assign item_title = block.settings.title | default: block.settings.feature_title -%}
             {%- capture feature_title_style -%}
               {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}
@@ -58,6 +59,7 @@
               {% if feature_body_style != blank %}style="{{ feature_body_style | strip }}"{% endif %}
             >{{ item_text | escape | newline_to_br }}</div>
           {%- endif -%}
+          </div>
           {%- if block.settings.feature_url != blank -%}
             </a>
           {%- endif -%}
@@ -69,14 +71,14 @@
 
 {% schema %}
 {
-  "name": "SS Feature #6 (Star)",
+  "name": "SS Feature #6 (Pill)",
   "tag": "section",
   "class": "feature-type6",
   "max_blocks": 8,
   "settings": [
     {
       "type": "header",
-      "content": "Layout — Star badge"
+      "content": "Layout — Pill cards"
     },
     {
       "type": "paragraph",
@@ -98,7 +100,7 @@
       "type": "color",
       "id": "bg",
       "label": "Strip background color",
-      "default": "#ffffff",
+      "default": "#f6efe8",
       "info": "Background behind the feature items. Section background color below can layer on top if set."
     },
     {
@@ -112,7 +114,7 @@
       "max": 5,
       "step": 1,
       "label": "Feature per row",
-      "default": 4
+      "default": 2
     },
     {
       "type": "range",
@@ -575,7 +577,7 @@
       "step": 2,
       "unit": "px",
       "label": "Size",
-      "default": 84
+      "default": 64
     },
     {
       "type": "range",
@@ -1677,7 +1679,7 @@
   ],
   "presets": [
     {
-      "name": "SS Feature #6 (Star)",
+      "name": "SS Feature #6 (Pill)",
       "blocks": [
         {
           "type": "feature",
