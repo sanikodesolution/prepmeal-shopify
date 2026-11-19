@@ -47,6 +47,8 @@
 .pf-d__media svg,
 .pf-d__media video{display:block;width:100%;height:100%;object-fit:contain}
 .pf__title{margin:0}
+.pf-a .pf__title,
+.pf-a .pm-ft__title{margin-top:0!important}
 .pf__text{margin:8px 0 0}
 
 /* Pill cards (SS Feature #6) */
