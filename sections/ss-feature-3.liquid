@@ -32,9 +32,9 @@
             <a class="pm-fx2__hit" href="{{ block.settings.feature_url }}">
           {%- endif -%}
           {%- unless block.settings.hide_image -%}
-            {%- if block.settings.image != blank -%}
+            {%- if block.settings.image != blank or block.settings.feature_image_asset != blank -%}
               <span class="pm-fx2__icon">
-                {% render 'pm-feature-media', image: block.settings.image, lazy: section.settings.lazy %}
+                {% render 'pm-feature-media', image: block.settings.image, asset: block.settings.feature_image_asset, lazy: section.settings.lazy %}
               </span>
             {%- endif -%}
           {%- endunless -%}
@@ -755,7 +755,14 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Icon or GIF"
+          "label": "Icon or GIF",
+          "info": "Upload PNG/JPG/GIF. If a GIF does not show, also set the theme-assets filename below (same as SS Feature #1)."
+        },
+        {
+          "type": "text",
+          "id": "feature_image_asset",
+          "label": "Icon from theme assets (GIF)",
+          "info": "Filename in theme assets, e.g. my-icon.gif. Use this for animated GIFs — stays visible and animated even if the image picker shows a still."
         },
         {
           "type": "text",

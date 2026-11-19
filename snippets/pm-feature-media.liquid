@@ -1,27 +1,78 @@
 {%- comment -%}
   Renders a feature icon or image.
-  Param: image (an image_picker object)
-  GIFs are output at their original file so the animation is kept.
-  Other formats are resized.
+  Params:
+    - image: image_picker object (optional if asset is set)
+    - asset: theme assets filename, e.g. "icon.gif" (preferred for animated GIFs)
+    - alt: optional alt text
+    - lazy: load lazily (default true; pass false to disable)
+  GIFs use the original file URL so animation is kept and CDN re-encode is avoided.
 {%- endcomment -%}
 
-{%- if image != blank -%}
-  {%- assign pm_src = image.src | downcase -%}
-  {%- assign pm_lazy = lazy | default: true -%}
-  {%- if pm_src contains '.gif' -%}
-    <img
-      src="{{ image | image_url }}"
-      alt="{{ image.alt | escape }}"
-      width="{{ image.width }}"
-      height="{{ image.height }}"
-      {% if pm_lazy %}loading="lazy"{% endif %}
-      class="pm-ft__img"
-    >
+{%- liquid
+  assign pm_lazy = true
+  if lazy == false
+    assign pm_lazy = false
+  endif
+
+  assign pm_alt = alt | default: ''
+  if pm_alt == blank and image != blank
+    assign pm_alt = image.alt | default: ''
+  endif
+
+  assign pm_asset = asset | default: '' | strip
+  assign pm_asset_ext = ''
+  if pm_asset != blank
+    assign pm_asset_ext = pm_asset | split: '.' | last | downcase
+  endif
+
+  assign pm_is_gif = false
+  if pm_asset != blank and pm_asset_ext == 'gif'
+    assign pm_is_gif = true
+  endif
+
+  if image != blank and pm_is_gif == false
+    assign pm_src_check = image.src | split: '?' | first | downcase
+    if pm_src_check contains '.gif'
+      assign pm_is_gif = true
+    endif
+  endif
+-%}
+
+{%- if pm_asset != blank and pm_asset_ext == 'gif' -%}
+  <img
+    src="{{ pm_asset | asset_url }}"
+    alt="{{ pm_alt | escape }}"
+    width="400"
+    height="400"
+    {% if pm_lazy %}loading="lazy"{% endif %}
+    decoding="async"
+    class="pm-ft__img"
+  >
+{%- elsif image != blank and pm_is_gif -%}
+  {%- comment -%} Use original CDN path (not image_url resize) so GIF stays visible + animated. {%- endcomment -%}
+  <img
+    src="{{ image.src }}"
+    alt="{{ pm_alt | escape }}"
+    width="{{ image.width | default: 400 }}"
+    height="{{ image.height | default: 400 }}"
+    {% if pm_lazy %}loading="lazy"{% endif %}
+    decoding="async"
+    class="pm-ft__img"
+  >
+{%- elsif pm_asset != blank and image == blank -%}
+  <img
+    src="{{ pm_asset | asset_img_url: '400x' }}"
+    alt="{{ pm_alt | escape }}"
+    width="400"
+    height="400"
+    {% if pm_lazy %}loading="lazy"{% endif %}
+    decoding="async"
+    class="pm-ft__img"
+  >
+{%- elsif image != blank -%}
+  {%- if pm_lazy -%}
+    {{ image | image_url: width: 480 | image_tag: loading: 'lazy', decoding: 'async', class: 'pm-ft__img', alt: pm_alt }}
   {%- else -%}
-    {%- if pm_lazy -%}
-      {{ image | image_url: width: 480 | image_tag: loading: 'lazy', class: 'pm-ft__img', alt: image.alt }}
-    {%- else -%}
-      {{ image | image_url: width: 480 | image_tag: class: 'pm-ft__img', alt: image.alt }}
-    {%- endif -%}
+    {{ image | image_url: width: 480 | image_tag: decoding: 'async', class: 'pm-ft__img', alt: pm_alt }}
   {%- endif -%}
 {%- endif -%}
