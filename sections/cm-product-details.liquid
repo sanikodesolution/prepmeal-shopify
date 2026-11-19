@@ -266,7 +266,7 @@
 
       {%- capture mealplan_form_id -%}MealplanPdForm-{{ section.id }}{%- endcapture -%}
       {%- capture mealplan_fields -%}
-            <input type="hidden" name="properties[Dish]" value="{{ active_dish_name | escape }}" data-pd-dish-prop {% unless active_dish_name != blank %}disabled{% endunless %}>
+            <input type="hidden" name="properties[Dish]" value="{{ active_dish_name | escape }}" data-pd-dish-prop{% if active_dish_name == blank %} disabled{% endif %}>
             {%- liquid
               assign show_dish_options = false
               if product != blank and product.has_only_default_variant == false and is_meal_catalog == false
