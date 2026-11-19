@@ -225,9 +225,14 @@
   {%- endif -%}
 
   .feature-{{ section.id }} .pm-ft__hit {
-    display: contents;
+    display: flex;
+    flex-direction: column;
+    align-items: inherit;
+    gap: inherit;
     color: inherit;
     text-decoration: none;
+    width: 100%;
+    min-width: 0;
   }
 
   @media (min-width: 990px) {

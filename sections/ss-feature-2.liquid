@@ -13,9 +13,9 @@
           <a class="pm-ft__hit" href="{{ block.settings.feature_url }}">
           {%- endif -%}
           {%- unless block.settings.hide_image -%}
-          {%- if block.settings.image != blank -%}
+          {%- if block.settings.image != blank or block.settings.feature_image_asset != blank -%}
             <span class="pm-ft__media pm-ft2__icon">
-              {% render 'pm-feature-media', image: block.settings.image, lazy: section.settings.lazy %}
+              {% render 'pm-feature-media', image: block.settings.image, asset: block.settings.feature_image_asset, lazy: section.settings.lazy %}
             </span>
           {%- endif -%}
           {%- endunless -%}
@@ -718,8 +718,14 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Icon",
-          "info": "PNG/JPG/GIF. GIFs stay animated on the storefront."
+          "label": "Icon or GIF",
+          "info": "PNG/JPG/GIF from Files. If a GIF fails to show, put the theme-assets filename in the field below."
+        },
+        {
+          "type": "text",
+          "id": "feature_image_asset",
+          "label": "Icon from theme assets (GIF)",
+          "info": "Filename in theme assets, e.g. my-icon.gif. Best for animated GIFs."
         },
         {
           "type": "url",
