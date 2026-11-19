@@ -45,20 +45,20 @@
 .ps-b.ps--rev .ps-b__media{order:1}
 .ps-b.ps--rev .ps__panel{left:auto;right:0;border-right:0;border-left:2px solid var(--ps-ink);border-radius:0 26px 26px 0}
 
-/* 3 - Numbered stamp: round image, numbered rows, rotating ring stamp */
+/* 3 - Numbered stamp: rounded image with offset dashed frame, numbered rows, cut-out round stamp */
 .ps-c__content .ps__points{counter-reset:psc;border-bottom:2px solid var(--ps-ink)}
 .ps-c__point{counter-increment:psc;gap:1em;align-items:center;padding:16px 0;border-top:2px solid var(--ps-ink)}
 .ps-c__num{flex:none;display:grid;place-items:center;width:2.6em;height:2.6em;background:var(--ps-accent);border:2px solid var(--ps-ink);border-radius:50%}
 .ps-c__num::before{content:counter(psc,decimal-leading-zero)}
 .ps-c .ps__btn{border-radius:14px}
 .ps-c .ps__btn-arrow{border-radius:10px}
-.ps-c__media{position:relative;max-width:520px;width:100%;justify-self:center}
-.ps-c__figure{aspect-ratio:1;overflow:hidden;border:2px solid var(--ps-ink);border-radius:50%}
-.ps-c .ps__panel{position:absolute;left:-4%;bottom:-2%;display:flex;flex-direction:column;align-items:center;justify-content:center;width:48%;aspect-ratio:1;box-sizing:border-box;padding:8%;text-align:center;background:var(--ps-accent);border:2px solid var(--ps-ink);border-radius:50%}
-.ps-c .ps__panel::before{content:"";position:absolute;inset:-9px;border:2px dashed color-mix(in srgb,var(--ps-ink) 50%,transparent);border-radius:50%;animation:ps-spin 30s linear infinite;pointer-events:none}
-.ps-c.ps--rev .ps-c__media{order:-1}
-.ps-c.ps--rev .ps__panel{left:auto;right:-4%}
-@keyframes ps-spin{to{transform:rotate(360deg)}}
+.ps-c__media{position:relative;max-width:480px;width:100%;justify-self:center;margin-right:16px}
+.ps-c__media::before{content:"";position:absolute;inset:0;transform:translate(14px,14px);border:2px dashed color-mix(in srgb,var(--ps-ink) 45%,transparent);border-radius:32px;pointer-events:none}
+.ps-c__figure{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--ps-bg);border:2px solid var(--ps-ink);border-radius:32px}
+.ps-c .ps__panel{position:absolute;left:-8%;bottom:8%;display:flex;flex-direction:column;align-items:center;justify-content:center;width:44%;aspect-ratio:1;box-sizing:border-box;padding:7%;text-align:center;background:var(--ps-accent);border-radius:50%;box-shadow:0 0 0 6px var(--ps-bg),0 0 0 8px var(--ps-ink)}
+.ps-c.ps--rev .ps-c__media{order:-1;margin:0 0 0 16px}
+.ps-c.ps--rev .ps-c__media::before{transform:translate(-14px,14px)}
+.ps-c.ps--rev .ps__panel{left:auto;right:-8%}
 
 /* 4 - Hero card: full-bleed image, white content card, tilted sticker */
 .ps-d__card{position:relative;display:grid;align-items:center;min-height:clamp(480px,48vw,640px);overflow:hidden;border:2px solid var(--ps-ink);border-radius:28px}
@@ -74,8 +74,8 @@
 @media(max-width:989px){
   .ps-a .ps__panel{left:16px;bottom:16px}
   .ps-a.ps--rev .ps__panel{left:auto;right:16px}
-  .ps-c .ps__panel{left:0}
-  .ps-c.ps--rev .ps__panel{right:0}
+  .ps-c .ps__panel{left:-3%}
+  .ps-c.ps--rev .ps__panel{right:-3%}
 }
 @media(max-width:749px){
   .ps__grid{grid-template-columns:1fr}
@@ -95,3 +95,6 @@
 /* Theme page-width inside about splits */
 .pm-about-split .ps__wrap.page-width{padding-left:max(20px, var(--page-width-padding, 0px));padding-right:max(20px, var(--page-width-padding, 0px));max-width:var(--page-width)}
 .pm-about-split .ps__btn-wrap{margin-top:4px}
+@media(max-width:749px){
+  .ps-c__media,.ps-c.ps--rev .ps-c__media{margin:0}
+}
