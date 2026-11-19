@@ -441,7 +441,15 @@
         } else if (afterAdd === 'drawer' && drawer && typeof drawer.open === 'function') {
           drawer.querySelector('#CartDrawer-Overlay')?.addEventListener('click', () => drawer.close(), { once: true });
           drawer.open(btn);
-          if (typeof drawer.showAddedBanner === 'function') drawer.showAddedBanner(data.items && data.items[0]);
+          if (typeof drawer.showAddedBanner === 'function') {
+            const added = data.items && data.items[0];
+            const dishName = added?.properties?.Dish || items[0]?.properties?.Dish || '';
+            drawer.showAddedBanner({
+              ...added,
+              product_title: dishName || added?.variant_title || added?.product_title,
+              title: dishName || added?.variant_title || added?.title,
+            });
+          }
         }
       } catch (error) {
         btn.dataset.cartOk = '';

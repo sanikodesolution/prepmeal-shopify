@@ -16,10 +16,19 @@
         {%- if settings.show_vendor -%}
           <p class="caption-with-letter-spacing light">{{ item.product.vendor }}</p>
         {%- endif -%}
-        <h3 class="cart-notification-product__name h4">{{ item.product.title | escape }}</h3>
+        {%- liquid
+          assign pm_hide_meal_meta = false
+          if item.properties.Dish != blank
+            assign pm_hide_meal_meta = true
+          elsif item.product.options.size == 1 and item.product.options.first == 'Meal'
+            assign pm_hide_meal_meta = true
+          endif
+        -%}
+        <h3 class="cart-notification-product__name h4">{%- render 'pm-cart-line-title', item: item -%}</h3>
         <dl>
           {%- unless item.product.has_only_default_variant -%}
             {%- for option in item.options_with_values -%}
+              {%- if pm_hide_meal_meta and option.name == 'Meal' -%}{%- continue -%}{%- endif -%}
               <div class="product-option">
                 <dt>{{ option.name }}:</dt>
                 <dd>{{ option.value }}</dd>
@@ -29,6 +38,7 @@
           {%- for property in item.properties -%}
             {%- assign property_first_char = property.first | slice: 0 -%}
             {%- if property.last != blank and property_first_char != '_' -%}
+              {%- if pm_hide_meal_meta and property.first == 'Dish' -%}{%- continue -%}{%- endif -%}
               <div class="product-option">
                 <dt>{{ property.first }}:</dt>
                 <dd>

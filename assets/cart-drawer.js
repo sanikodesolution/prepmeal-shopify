@@ -101,7 +101,12 @@ class CartDrawer extends HTMLElement {
     const banner = this.querySelector('.cart-drawer__added-banner');
     if (!banner) return;
 
-    const title = parsedState?.product_title || parsedState?.title || '';
+    const props = parsedState?.properties || {};
+    const dish = props.Dish || props.dish || '';
+    const variantTitle = parsedState?.variant_title && parsedState.variant_title !== 'Default Title'
+      ? parsedState.variant_title
+      : '';
+    const title = dish || variantTitle || parsedState?.product_title || parsedState?.title || '';
     const textEl = banner.querySelector('.cart-drawer__added-banner-text');
     if (textEl) {
       textEl.textContent = title ? `${title} added to cart` : 'Added to cart';

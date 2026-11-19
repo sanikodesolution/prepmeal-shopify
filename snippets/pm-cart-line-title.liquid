@@ -1,0 +1,14 @@
+{%- comment -%}
+  Shopper-facing cart line title.
+  Meal-plan products (option "Meal") show the dish / variant name instead of "6 Meal Plan".
+  Usage: {% render 'pm-cart-line-title', item: item %}
+{%- endcomment -%}
+{%- liquid
+  assign pm_cart_title = item.product.title
+  if item.properties.Dish != blank
+    assign pm_cart_title = item.properties.Dish
+  elsif item.product.options.size == 1 and item.product.options.first == 'Meal' and item.variant.title != blank and item.variant.title != 'Default Title'
+    assign pm_cart_title = item.variant.title
+  endif
+-%}
+{{- pm_cart_title | escape -}}
