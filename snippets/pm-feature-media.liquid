@@ -47,13 +47,13 @@
 {%- elsif image != blank and pm_is_gif -%}
   <img
     class="pm-ft__img"
-    src="{{ image | image_url: width: image.width }}"
+    src="{{ image | image_url: width: 800 }}"
     alt="{{ pm_alt | escape }}"
-    width="{{ image.width | default: 400 }}"
-    height="{{ image.height | default: 400 }}"
+    width="800"
+    height="800"
     {% if pm_lazy %}loading="lazy"{% endif %}
   >
-{%- elsif pm_asset != blank %}
+{%- elsif pm_asset != blank -%}
   <img
     class="pm-ft__img"
     src="{{ pm_asset | asset_img_url: '400x' }}"
@@ -67,8 +67,8 @@
     class="pm-ft__img"
     src="{{ image | image_url: width: 480 }}"
     alt="{{ pm_alt | escape }}"
-    width="{{ image.width | default: 480 }}"
-    height="{{ image.height | default: 480 }}"
+    width="480"
+    height="480"
     {% if pm_lazy %}loading="lazy"{% endif %}
   >
 {%- endif -%}

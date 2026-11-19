@@ -3,8 +3,15 @@
 
 {%- liquid
   assign fx2_cols = section.settings.feature_row | default: section.settings.columns | default: 4
+  if fx2_cols == blank or fx2_cols < 1
+    assign fx2_cols = 4
+  endif
   assign fx2_icon = section.settings.feature_icon_size | default: section.settings.icon_size | default: 80
-  assign fx2_card = section.settings.feature_bg | default: section.settings.card_bg
+  if fx2_icon == blank or fx2_icon < 24
+    assign fx2_icon = 80
+  endif
+  assign fx2_card = section.settings.feature_bg | default: section.settings.card_bg | default: '#ffffff'
+  assign fx2_accent = section.settings.accent | default: '#e4572e'
   assign show_line = false
   if section.settings.show_connector and section.blocks.size <= fx2_cols and section.blocks.size > 1
     assign show_line = true
@@ -20,7 +27,7 @@
     --fx2-icon: {{ fx2_icon }}px;
     --fx2-pt: {{ section.settings.padding_top }}px;
     --fx2-pb: {{ section.settings.padding_bottom }}px;
-    --fx2-accent: {{ section.settings.accent }};
+    --fx2-accent: {{ fx2_accent }};
     --fx2-card: {{ fx2_card }};
   "
 >
@@ -28,9 +35,7 @@
     <ul class="pm-fx2__list" role="list">
       {%- for block in section.blocks -%}
         <li class="pm-fx2__card" {{ block.shopify_attributes }}>
-          {%- if block.settings.feature_url != blank -%}
-            <a class="pm-fx2__hit" href="{{ block.settings.feature_url }}">
-          {%- endif -%}
+          {%- comment -%} Icon stays outside the link so absolute positioning is not clipped. {%- endcomment -%}
           {%- unless block.settings.hide_image -%}
             {%- if block.settings.image != blank or block.settings.feature_image_asset != blank -%}
               <span class="pm-fx2__icon">
@@ -38,6 +43,9 @@
               </span>
             {%- endif -%}
           {%- endunless -%}
+          {%- if block.settings.feature_url != blank -%}
+            <a class="pm-fx2__hit" href="{{ block.settings.feature_url }}">
+          {%- endif -%}
           {%- if block.settings.title != blank -%}
             {%- capture feature_title_style -%}
               {%- render 'pm-block-type-style', block: block, prefix: 'title_' -%}

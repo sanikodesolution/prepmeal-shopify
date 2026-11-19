@@ -17,11 +17,12 @@
   list-style: none;
   margin: 0;
   /* room for the icons that overlap the top edge of each card */
-  padding: calc(var(--fx2-icon) / 2) 0 0;
+  padding: calc(var(--fx2-icon, 80px) / 2) 0 0;
   display: grid;
   grid-template-columns: repeat(var(--fx2-cols, 4), minmax(0, 1fr));
-  gap: calc(var(--fx2-icon) / 2 + 28px) var(--fx2-gap-x);
+  gap: calc(var(--fx2-icon, 80px) / 2 + 28px) var(--fx2-gap-x);
   counter-reset: fx2;
+  overflow: visible;
 }
 
 /* ---------- Card ---------- */
@@ -29,15 +30,16 @@
   position: relative;
   counter-increment: fx2;
   text-align: center;
-  padding: calc(var(--fx2-icon) / 2 + 22px) 22px 34px;
+  padding: calc(var(--fx2-icon, 80px) / 2 + 22px) 22px 34px;
   background: var(--fx2-card, #fff);
-  border: 1.5px solid color-mix(in srgb, var(--fx2-accent) 28%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--fx2-accent, #e4572e) 28%, transparent);
   border-radius: 28px 28px 28px 8px;
-  box-shadow: 6px 6px 0 color-mix(in srgb, var(--fx2-accent) 16%, transparent);
+  box-shadow: 6px 6px 0 color-mix(in srgb, var(--fx2-accent, #e4572e) 16%, transparent);
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  overflow: visible;
 }
 
-.pm-fx2__card > * {
+.pm-fx2__card > *:not(.pm-fx2__icon) {
   position: relative;
   z-index: 1;
 }
@@ -72,27 +74,31 @@
 /* ---------- Blob icon with orbiting dashed ring ---------- */
 .pm-fx2__icon {
   position: absolute;
-  top: calc(var(--fx2-icon) / -2);
+  top: calc(var(--fx2-icon, 80px) / -2);
   left: 50%;
-  z-index: 2;
-  width: var(--fx2-icon);
-  height: var(--fx2-icon);
+  z-index: 3;
+  width: var(--fx2-icon, 80px);
+  height: var(--fx2-icon, 80px);
   transform: translateX(-50%);
-  display: grid;
-  place-items: center;
-  padding: 18%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
-  background: color-mix(in srgb, var(--fx2-accent) 14%, var(--fx2-card, #fff));
+  padding: 0;
+  background: color-mix(in srgb, var(--fx2-accent, #e4572e) 14%, var(--fx2-card, #fff));
   border-radius: 42% 58% 55% 45% / 50% 45% 55% 50%;
   box-shadow: 0 0 0 6px var(--fx2-card, #fff);
   transition: border-radius 0.6s ease, background 0.35s ease;
+  overflow: visible;
+  pointer-events: none;
 }
 
 .pm-fx2__icon::before {
   content: "";
   position: absolute;
   inset: -9px;
-  border: 2px dashed color-mix(in srgb, var(--fx2-accent) 55%, transparent);
+  z-index: 0;
+  border: 2px dashed color-mix(in srgb, var(--fx2-accent, #e4572e) 55%, transparent);
   border-radius: 55% 45% 42% 58% / 45% 55% 50% 50%;
   pointer-events: none;
   animation: pm-fx2-spin 26s linear infinite;
@@ -100,19 +106,20 @@
 
 .pm-fx2__card:hover .pm-fx2__icon {
   border-radius: 55% 45% 45% 55% / 45% 55% 45% 55%;
-  background: color-mix(in srgb, var(--fx2-accent) 22%, var(--fx2-card, #fff));
+  background: color-mix(in srgb, var(--fx2-accent, #e4572e) 22%, var(--fx2-card, #fff));
 }
 
 .pm-fx2__icon img,
+.pm-fx2__icon .pm-ft__img,
 .pm-fx2__icon svg,
 .pm-fx2__icon video {
   position: relative;
   z-index: 1;
   display: block;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
+  width: 64%;
+  height: 64%;
+  max-width: 64%;
+  max-height: 64%;
   object-fit: contain;
 }
 
