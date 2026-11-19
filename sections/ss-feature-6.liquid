@@ -3,10 +3,19 @@
 
 {%- liquid
   assign pf_cols = section.settings.feature_row | default: 2
+  if pf_cols == blank or pf_cols < 1
+    assign pf_cols = 2
+  endif
   assign pf_icon = section.settings.feature_icon_size | default: 64
+  if pf_icon == blank or pf_icon < 24
+    assign pf_icon = 64
+  endif
   assign pf_bg = section.settings.bg
   if pf_bg == blank
     assign pf_bg = section.settings.background_color
+  endif
+  if pf_bg == blank
+    assign pf_bg = '#f6efe8'
   endif
   assign pf_accent = section.settings.accent | default: '#F5A623'
   assign pf_ink = section.settings.ink | default: '#111111'
@@ -30,14 +39,16 @@
     <ul class="pf__list" role="list">
       {%- for block in section.blocks -%}
         <li class="pf-a__item" {{ block.shopify_attributes }}>
+          {%- unless block.settings.hide_image -%}
+            {%- if block.settings.image != blank or block.settings.feature_image_asset != blank -%}
+              <span class="pf__icon pf-a__icon">
+                {% render 'pm-feature-media', image: block.settings.image, asset: block.settings.feature_image_asset, lazy: section.settings.lazy %}
+              </span>
+            {%- endif -%}
+          {%- endunless -%}
           {%- if block.settings.feature_url != blank -%}
             <a class="pf__hit" href="{{ block.settings.feature_url }}">
           {%- endif -%}
-          {%- unless block.settings.hide_image -%}
-            {%- if block.settings.image != blank or block.settings.feature_image_asset != blank -%}
-              <span class="pf__icon pf-a__icon">{% render 'pm-feature-media', image: block.settings.image, asset: block.settings.feature_image_asset, lazy: section.settings.lazy %}</span>
-            {%- endif -%}
-          {%- endunless -%}
           <div class="pf-a__body">
             {%- if block.settings.title != blank or block.settings.feature_title != blank -%}
             {%- assign item_title = block.settings.title | default: block.settings.feature_title -%}
