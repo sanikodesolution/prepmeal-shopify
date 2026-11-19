@@ -129,11 +129,14 @@
   }
   .mealplan-pd__thumbs::-webkit-scrollbar { display: none; }
   .mealplan-pd__thumb {
+    position: relative;
     flex: 0 0 calc((100% - 3 * var(--pd-thumb-gap) - 22px) / 4);
     width: calc((100% - 3 * var(--pd-thumb-gap) - 22px) / 4);
     aspect-ratio: 1;
     height: auto;
+    min-height: 64px;
     padding: 0;
+    margin: 0;
     scroll-snap-align: start;
     border: 2px solid transparent;
     border-radius: 10px;
@@ -141,9 +144,21 @@
     background: var(--pd-soft);
     cursor: pointer;
     opacity: .72;
+    appearance: none;
+    -webkit-appearance: none;
+    line-height: 0;
+    font-size: 0;
     transition: transform .4s var(--pd-ease), opacity .3s ease, border-color .3s ease, box-shadow .3s ease;
   }
-  .mealplan-pd__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mealplan-pd__thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    max-width: none;
+  }
   .mealplan-pd--blend .mealplan-pd__thumb img { mix-blend-mode: multiply; }
   .mealplan-pd__thumb:hover { transform: translateY(-4px); opacity: 1; }
   .mealplan-pd__thumb.is-active { border-color: var(--pd-accent); opacity: 1; box-shadow: 0 10px 22px -12px rgba(245, 166, 35, .8); }
@@ -495,8 +510,15 @@
     mix-blend-mode: normal;
     box-shadow: 0 38px 64px -24px rgba(21, 19, 15, .55), 0 12px 24px -12px rgba(21, 19, 15, .3);
   }
-  .mealplan-pd--plate .mealplan-pd__thumb { padding: 7px; }
-  .mealplan-pd--plate .mealplan-pd__thumb img { border-radius: 50%; mix-blend-mode: normal; box-shadow: 0 8px 14px -8px rgba(21, 19, 15, .5); }
+  .mealplan-pd--plate .mealplan-pd__thumb { padding: 0; }
+  .mealplan-pd--plate .mealplan-pd__thumb img {
+    inset: 7px;
+    width: auto;
+    height: auto;
+    border-radius: 50%;
+    mix-blend-mode: normal;
+    box-shadow: 0 8px 14px -8px rgba(21, 19, 15, .5);
+  }
 
   @media (max-width: 900px) {
     .mealplan-pd__inner { grid-template-columns: minmax(0, 1fr); }
