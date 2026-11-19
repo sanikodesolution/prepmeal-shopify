@@ -58,7 +58,7 @@
   .pf-a__item:hover,.pf-c__item:hover{transform:none}
 }
 
-/* About sections ï¿½ title spacing inside the shared feature strip */
+/* About sections — title spacing inside the shared feature strip */
 .pm-about .pm-section-title{margin:0 0 var(--pm-title-spacing-below,28px);max-width:42rem}
 .pm-about .pm-section-title--align-center{margin-left:auto;margin-right:auto;text-align:center}
 .pm-about .pm-section-title--align-right{margin-left:auto;text-align:right}
