@@ -4,12 +4,18 @@
 
 {%- assign product = section.settings.product -%}
 {%- if product == blank -%}
+  {%- assign product = all_products['5-meal-plan'] -%}
+{%- endif -%}
+{%- if product == blank -%}
   {%- assign product = all_products['5-meals'] -%}
 {%- endif -%}
 {%- if product == blank -%}
   {%- assign product = all_products['6-meal-plan'] -%}
 {%- endif -%}
 {%- assign plan_10 = section.settings.product_10 -%}
+{%- if plan_10 == blank -%}
+  {%- assign plan_10 = all_products['10-meal-plan'] -%}
+{%- endif -%}
 {%- if plan_10 == blank -%}
   {%- assign plan_10 = all_products['10-meals'] -%}
 {%- endif -%}
@@ -23,6 +29,10 @@
 {%- assign current = product.selected_or_first_available_variant -%}
 {%- assign variant_10 = plan_10.selected_or_first_available_variant | default: current -%}
 {%- assign variant_custom = plan_custom.selected_or_first_available_variant | default: current -%}
+{%- assign is_meal_catalog = false -%}
+{%- if product != blank and product.has_only_default_variant == false and product.options.size == 1 and product.options.first == 'Meal' -%}
+  {%- assign is_meal_catalog = true -%}
+{%- endif -%}
 
 {%- assign dishes = section.blocks | where: 'type', 'dish' -%}
 {%- comment -%} Dynamic fallbacks: section setting -> product metafield (custom.*) -> product data {%- endcomment -%}
@@ -31,6 +41,24 @@
 {%- assign pd_protein = product.metafields.custom.protein.value | default: section.settings.protein -%}
 {%- assign pd_carbs = product.metafields.custom.carbs.value | default: section.settings.carbs -%}
 {%- assign pd_fat = product.metafields.custom.fat.value | default: section.settings.fat -%}
+{%- comment -%} Resolve the first dish's purchasable variant so price/ATC match the visible dish. {%- endcomment -%}
+{%- assign active_variant = current -%}
+{%- assign active_dish_name = '' -%}
+{%- if dishes.size > 0 -%}
+  {%- assign first_dish_block = dishes | first -%}
+  {%- assign active_dish_name = first_dish_block.settings.name | default: pd_title -%}
+  {%- if first_dish_block.settings.product != blank -%}
+    {%- assign active_variant = first_dish_block.settings.product.selected_or_first_available_variant | default: current -%}
+  {%- elsif is_meal_catalog -%}
+    {%- for variant in product.variants -%}
+      {%- assign opt_label = variant.option1 | default: variant.title -%}
+      {%- if opt_label == active_dish_name or variant.title == active_dish_name -%}
+        {%- assign active_variant = variant -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endif -%}
 {%- capture pd_eyebrow_style -%}
   {%- render 'pm-block-type-style', settings: section.settings, prefix: 'eyebrow_' -%}
 {%- endcapture -%}
@@ -46,7 +74,7 @@
 {%- capture pd_note_style -%}
   {%- render 'pm-block-type-style', settings: section.settings, prefix: 'note_' -%}
 {%- endcapture -%}
-<section class="mealplan-pd mealplan-pd--plate" id="MealplanPd-{{ section.id }}" data-mealplan-pd data-anim="true">
+<section class="mealplan-pd mealplan-pd--plate{% if is_meal_catalog %} mealplan-pd--catalog{% endif %}" id="MealplanPd-{{ section.id }}" data-mealplan-pd data-anim="true"{% if is_meal_catalog %} data-pd-catalog="1"{% endif %} data-after-add="drawer">
   <div class="mealplan-pd__inner">
     <div class="mealplan-pd__gallery">
       <div class="mealplan-pd__stagewrap">
@@ -74,6 +102,18 @@
                   assign photo_url = photo_asset | asset_url
                 endif
                 assign dish_name = block.settings.name | default: pd_title
+                assign dish_variant = blank
+                if block.settings.product != blank
+                  assign dish_variant = block.settings.product.selected_or_first_available_variant
+                elsif is_meal_catalog
+                  for variant in product.variants
+                    assign opt_label = variant.option1 | default: variant.title
+                    if opt_label == dish_name or variant.title == dish_name
+                      assign dish_variant = variant
+                      break
+                    endif
+                  endfor
+                endif
               -%}
               <div class="mealplan-pd__slide{% if forloop.first %} is-active{% endif %}" data-pd-slide
                 data-name="{{ dish_name | escape }}"
@@ -81,7 +121,14 @@
                 data-cal="{{ block.settings.cal | default: pd_cal | escape }}"
                 data-protein="{{ block.settings.protein | default: pd_protein | escape }}"
                 data-carbs="{{ block.settings.carbs | default: pd_carbs | escape }}"
-                data-fat="{{ block.settings.fat | default: pd_fat | escape }}">
+                data-fat="{{ block.settings.fat | default: pd_fat | escape }}"
+                {% if dish_variant != blank %}
+                  data-variant-id="{{ dish_variant.id }}"
+                  data-price="{{ dish_variant.price | money | escape }}"
+                  data-available="{% if dish_variant.available %}true{% else %}false{% endif %}"
+                  {% if dish_variant.compare_at_price > dish_variant.price %}data-compare="{{ dish_variant.compare_at_price | money | escape }}"{% endif %}
+                  data-media-id="{{ dish_variant.featured_media.id | default: 0 }}"
+                {% endif %}>
                 <img src="{{ photo_url }}" alt="{{ block.settings.image.alt | default: dish_name | escape }}" width="900" height="900"{% unless forloop.first %} loading="lazy"{% endunless %}>
               </div>
             {%- endfor -%}
@@ -141,18 +188,18 @@
         {% endif %}
       >{{ first_dish.settings.name | default: pd_title | escape }}</h2>
       <div class="mealplan-pd__priceRow" data-pd-reveal>
-        {%- if product != blank -%}
+        {%- if product != blank or active_variant != blank -%}
           <span
             class="mealplan-pd__price"
             data-pd-price
             {% if pd_price_style != blank %}
               style="{{ pd_price_style | strip }}"
             {% endif %}
-          >{{ current.price | money }}</span>
-          <s class="mealplan-pd__compare" data-pd-compare {% unless current.compare_at_price > current.price %}hidden{% endunless %}>
-            {%- if current.compare_at_price > current.price -%}{{ current.compare_at_price | money }}{%- endif -%}
+          >{{ active_variant.price | default: current.price | money }}</span>
+          <s class="mealplan-pd__compare" data-pd-compare {% unless active_variant.compare_at_price > active_variant.price %}hidden{% endunless %}>
+            {%- if active_variant.compare_at_price > active_variant.price -%}{{ active_variant.compare_at_price | money }}{%- endif -%}
           </s>
-          <span class="mealplan-pd__sold" data-pd-sold {% if current.available %}hidden{% endif %}>Sold out</span>
+          <span class="mealplan-pd__sold" data-pd-sold {% if active_variant.available %}hidden{% endif %}>Sold out</span>
         {%- else -%}
           <span
             class="mealplan-pd__price"
@@ -219,16 +266,23 @@
 
       {%- capture mealplan_form_id -%}MealplanPdForm-{{ section.id }}{%- endcapture -%}
       {%- capture mealplan_fields -%}
+            <input type="hidden" name="properties[Dish]" value="{{ active_dish_name | escape }}" data-pd-dish-prop {% unless active_dish_name != blank %}disabled{% endunless %}>
             {%- liquid
               assign show_dish_options = false
-              if product != blank and product.has_only_default_variant == false
+              if product != blank and product.has_only_default_variant == false and is_meal_catalog == false
                 assign show_dish_options = true
-                if product.options.size == 1 and product.options.first == 'Meal'
-                  assign show_dish_options = false
-                endif
               endif
             -%}
-            {%- if show_dish_options -%}
+            {%- if is_meal_catalog and dishes.size > 0 -%}
+              {%- comment -%} Dish thumbs drive the purchasable variant — no pack radios that force a full plan. {%- endcomment -%}
+              <p class="mealplan-pd__pickHint" data-pd-reveal>Choose a dish above, then add it to your cart.</p>
+              {%- if dishes.size > 1 -%}
+                <label class="mealplan-pd__customToggle" data-pd-reveal>
+                  <input type="checkbox" data-pd-custom-toggle value="1">
+                  <span>{{ section.settings.custom_heading | default: 'Build your custom meal' | escape }}</span>
+                </label>
+              {%- endif -%}
+            {%- elsif show_dish_options -%}
               {%- for option in product.options_with_values -%}
                 <fieldset class="mealplan-pd__opt" data-pd-reveal data-pd-option>
                   <legend class="mealplan-pd__optHead">{{ option.name | escape }} <span data-pd-selected>{{ option.selected_value | escape }}</span></legend>
@@ -269,7 +323,7 @@
               </fieldset>
             {%- endif -%}
             {%- if dishes.size > 0 -%}
-              <div class="mealplan-pd__custom" data-pd-custom data-label="{{ section.settings.custom_label | escape }}" data-min="1" aria-hidden="true">
+              <div class="mealplan-pd__custom" data-pd-custom data-label="{{ section.settings.custom_label | escape }}" data-min="1" aria-hidden="true"{% if is_meal_catalog %} data-pd-custom-mode="toggle"{% endif %}>
                 <div class="mealplan-pd__customInner">
                 <div class="mealplan-pd__customBox">
                   <div class="mealplan-pd__customHead">
@@ -287,8 +341,21 @@
                         else
                           assign dish_url = photo_asset | asset_url
                         endif
+                        assign dish_name = block.settings.name | escape
+                        assign dish_variant = blank
+                        if block.settings.product != blank
+                          assign dish_variant = block.settings.product.selected_or_first_available_variant
+                        elsif is_meal_catalog
+                          for variant in product.variants
+                            assign opt_label = variant.option1 | default: variant.title
+                            if opt_label == block.settings.name or variant.title == block.settings.name
+                              assign dish_variant = variant
+                              break
+                            endif
+                          endfor
+                        endif
                       -%}
-                      <li class="mealplan-pd__dish" data-dish="{{ block.settings.name | escape }}" data-n="0" {{ block.shopify_attributes }}>
+                      <li class="mealplan-pd__dish" data-dish="{{ block.settings.name | escape }}" data-n="0"{% if dish_variant != blank %} data-variant-id="{{ dish_variant.id }}"{% endif %} {{ block.shopify_attributes }}>
                         <span class="mealplan-pd__dishMain">
                           <img class="mealplan-pd__dishPhoto" src="{{ dish_url }}" alt="" width="84" height="84" loading="lazy">
                           <span class="mealplan-pd__dishName">{{ block.settings.name | escape }}</span>
@@ -304,19 +371,19 @@
                   <input type="hidden" name="properties[Custom order]" value="" data-pd-custom-summary disabled>
                   <label for="MealplanPdNotes-{{ section.id }}">Special requests (optional)</label>
                   <textarea id="MealplanPdNotes-{{ section.id }}" name="properties[Special requests]" rows="3" placeholder="e.g. less spicy, no peanuts, extra roti." data-pd-custom-text disabled></textarea>
-                  <p class="mealplan-pd__customHint">Pick the dishes and how many of each. We will confirm your order before cooking.</p>
+                  <p class="mealplan-pd__customHint">Pick the dishes and how many of each. Only those meals are added to the cart.</p>
                 </div>
                 </div>
               </div>
             {%- endif -%}
             <div class="mealplan-pd__buy" data-pd-reveal>
-              <div class="mealplan-pd__qty">
+              <div class="mealplan-pd__qty" data-pd-qty-wrap>
                 <button type="button" class="mealplan-pd__qbtn" data-pd-minus aria-label="Decrease quantity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
                 <input class="mealplan-pd__qinput" type="number" name="quantity" value="1" min="1" inputmode="numeric" aria-label="Quantity" data-pd-qty>
                 <button type="button" class="mealplan-pd__qbtn" data-pd-plus aria-label="Increase quantity"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
               </div>
-              <button type="submit" name="add" class="mealplan-pd__btn" data-pd-btn data-label="Add to cart" {% if product != blank and current.available == false %}disabled{% endif %}>
-                <span data-pd-btnlabel>{% if product == blank or current.available %}Add to cart{% else %}Sold out{% endif %}</span>
+              <button type="submit" name="add" class="mealplan-pd__btn" data-pd-btn data-label="Add to cart" {% if active_variant != blank and active_variant.available == false %}disabled{% endif %}>
+                <span data-pd-btnlabel>{% if active_variant == blank or active_variant.available %}Add to cart{% else %}Sold out{% endif %}</span>
                 <svg class="mealplan-pd__btnArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 {%- render 'loading-spinner' -%}
               </button>
@@ -335,7 +402,7 @@
       {%- if product != blank -%}
         <product-form class="product-form" data-section-id="{{ section.id }}">
           {%- form 'product', product, id: mealplan_form_id, class: 'mealplan-pd__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
-            <input type="hidden" name="id" class="product-variant-id" value="{{ current.id | default: 67956374241586 }}" data-pd-vid>
+            <input type="hidden" name="id" class="product-variant-id" value="{{ active_variant.id | default: current.id | default: 67956374241586 }}" data-pd-vid>
             {{ mealplan_fields }}
           {%- endform -%}
         </product-form>
@@ -344,6 +411,7 @@
             {%- for variant in product.variants -%}
               {
                 "id": {{ variant.id }},
+                "title": {{ variant.title | json }},
                 "options": {{ variant.options | json }},
                 "available": {{ variant.available | json }},
                 "price": {{ variant.price | money | json }},
@@ -356,10 +424,10 @@
         </script>
       {%- else -%}
         <form class="mealplan-pd__form" id="{{ mealplan_form_id }}" action="{{ routes.cart_add_url }}" method="post">
-          <input type="hidden" name="id" value="{{ current.id | default: 67956374241586 }}" data-pd-vid>
+          <input type="hidden" name="id" value="{{ active_variant.id | default: current.id | default: 67956374241586 }}" data-pd-vid>
           {{ mealplan_fields }}
         </form>
-        <script type="application/json" data-pd-variants>[{"id":{{ current.id | default: 67956374241586 }},"options":["5 Meals"],"available":true,"price":{{ current.price | money | default: '$64.99' | json }},"compare":null,"save":0,"media":0},{"id":{{ variant_10.id | default: current.id | default: 67956374241586 }},"options":["10 Meals"],"available":true,"price":{{ variant_10.price | money | default: '$119.99' | json }},"compare":null,"save":0,"media":0},{"id":{{ variant_custom.id | default: current.id | default: 67956374241586 }},"options":[{{ section.settings.custom_label | json }}],"available":true,"price":{{ variant_custom.price | money | default: '$99.99' | json }},"compare":null,"save":0,"media":0}]</script>
+        <script type="application/json" data-pd-variants>[{"id":{{ active_variant.id | default: current.id | default: 67956374241586 }},"title":"5 Meals","options":["5 Meals"],"available":true,"price":{{ active_variant.price | default: current.price | money | default: '$64.99' | json }},"compare":null,"save":0,"media":0},{"id":{{ variant_10.id | default: current.id | default: 67956374241586 }},"title":"10 Meals","options":["10 Meals"],"available":true,"price":{{ variant_10.price | money | default: '$119.99' | json }},"compare":null,"save":0,"media":0},{"id":{{ variant_custom.id | default: current.id | default: 67956374241586 }},"title":{{ section.settings.custom_label | json }},"options":[{{ section.settings.custom_label | json }}],"available":true,"price":{{ variant_custom.price | money | default: '$99.99' | json }},"compare":null,"save":0,"media":0}]</script>
       {%- endif -%}
 
       {%- liquid
@@ -419,9 +487,9 @@
   "tag": "section",
   "class": "section",
   "settings": [
-    { "type": "product", "id": "product", "label": "5 meal product", "info": "Added when 5 Meals is selected. Defaults to the 5-meal-plan product." },
-    { "type": "product", "id": "product_10", "label": "10 meal product", "info": "Added when 10 Meals is selected. Defaults to the 10-meal-plan product." },
-    { "type": "product", "id": "product_custom", "label": "Custom meal product", "info": "Added for Custom Meal, with the chosen dishes. Defaults to the 5 meal product." },
+    { "type": "product", "id": "product", "label": "Plan / meal product", "info": "If this product uses a Meal option (dish variants), the gallery selection is what gets added to cart. Otherwise used for the 5 Meals pack. Defaults to 5-meal-plan, then 6-meal-plan." },
+    { "type": "product", "id": "product_10", "label": "10 meal product", "info": "Added when 10 Meals is selected (pack mode only). Defaults to the 10-meal-plan product." },
+    { "type": "product", "id": "product_custom", "label": "Custom meal product", "info": "Fallback pack product for Custom Meal mode when dishes are not sold as Meal variants." },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Chef cooked, fresh weekly" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Chicken Biryani with Raita", "info": "Used when a dish has no name. Leave blank to use the product title." },
     { "type": "text", "id": "badge", "label": "Badge text", "default": "Fresh • Chef cooked • Never frozen • " },
@@ -774,7 +842,8 @@
       "type": "dish",
       "name": "Dish",
       "settings": [
-        { "type": "text", "id": "name", "label": "Name", "default": "Chicken Biryani with Raita" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Chicken Biryani with Raita", "info": "Must match the Meal variant name on the plan product when no dish product is set." },
+        { "type": "product", "id": "product", "label": "Dish product", "info": "Optional. When set, Add to cart uses this product. Otherwise the theme matches a Meal variant on the section product by name." },
         { "type": "image_picker", "id": "image", "label": "Image", "info": "Optional. When empty, the theme image below is used." },
         { "type": "text", "id": "image_asset", "label": "Theme image filename", "default": "mp-food-0.jpg", "info": "Fallback file in the theme assets folder, such as mp-food-0.jpg." },
         { "type": "textarea", "id": "description", "label": "Description", "info": "Shown when this dish is active. Leave blank for the section description." },

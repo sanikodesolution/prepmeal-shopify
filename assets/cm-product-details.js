@@ -63,6 +63,7 @@
         }
       });
       if (onDish) onDish(slides[i]);
+      if (!customOn()) applyDishPurchase(slides[i]);
     };
     markThumbs(cur);
     thumbs.forEach((thumb, i) => {
@@ -99,6 +100,10 @@
     const customSum = root.querySelector('[data-pd-custom-summary]');
     const totalEl = root.querySelector('[data-pd-custom-total]');
     const dishes = [...root.querySelectorAll('[data-dish]')];
+    const dishProp = root.querySelector('[data-pd-dish-prop]');
+    const qtyWrap = root.querySelector('[data-pd-qty-wrap]');
+    const customToggle = root.querySelector('[data-pd-custom-toggle]');
+    const isCatalog = root.getAttribute('data-pd-catalog') === '1';
     const customLabel = (customBox?.getAttribute('data-label') || '').toLowerCase();
     const customMin = parseInt(customBox?.getAttribute('data-min') || '1', 10) || 1;
     let customCollapsed = false;
@@ -107,7 +112,66 @@
     let customLabelEl = null;
 
     const selectedOptions = () => [...fieldsets, ...planSets].map((fs) => fs.querySelector('input:checked')?.value || null);
-    const customOn = () => customBox && customLabel && selectedOptions().some((value) => value && value.toLowerCase() === customLabel);
+    const customOn = () => {
+      if (customToggle) return !!customToggle.checked;
+      return !!(customBox && customLabel && selectedOptions().some((value) => value && value.toLowerCase() === customLabel));
+    };
+    const normalizeName = (value) => String(value || '')
+      .toLowerCase()
+      .replace(/&/g, ' and ')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+    const matchVariant = (name) => {
+      const needle = normalizeName(name);
+      if (!needle || !variants.length) return null;
+      const exact = variants.find((item) => normalizeName(item.options?.[0]) === needle || normalizeName(item.title) === needle);
+      if (exact) return exact;
+      return variants.find((item) => {
+        const label = normalizeName(item.options?.[0] || item.title);
+        return label && (needle.startsWith(label) || label.startsWith(needle) || needle.includes(label) || label.includes(needle));
+      }) || null;
+    };
+    const variantFromSlide = (slide) => {
+      if (!slide) return null;
+      if (slide.dataset.variantId) {
+        const byId = variants.find((item) => String(item.id) === String(slide.dataset.variantId));
+        if (byId) return byId;
+        return {
+          id: Number(slide.dataset.variantId),
+          available: slide.dataset.available !== 'false',
+          price: slide.dataset.price || '',
+          compare: slide.dataset.compare || null,
+          save: 0,
+          options: [slide.dataset.name || ''],
+          title: slide.dataset.name || '',
+        };
+      }
+      return matchVariant(slide.dataset.name);
+    };
+    const applyDishPurchase = (slide) => {
+      const next = variantFromSlide(slide);
+      if (dishProp) {
+        const name = slide?.dataset?.name || next?.options?.[0] || next?.title || '';
+        dishProp.value = name;
+        dishProp.disabled = !name || customOn();
+      }
+      if (!next) return;
+      if (vid) {
+        vid.value = String(next.id);
+        vid.disabled = next.available === false;
+      }
+      if (priceEl && (next.price || slide?.dataset?.price)) priceEl.textContent = next.price || slide.dataset.price;
+      if (compareEl) {
+        const compare = next.compare || slide?.dataset?.compare || '';
+        compareEl.hidden = !compare;
+        if (compare) compareEl.textContent = compare;
+      }
+      if (soldEl) soldEl.hidden = next.available !== false;
+      if (btn && btnLabel) {
+        btn.disabled = next.available === false || !next.id;
+        if (btn.dataset.cartOk !== 'true') btnLabel.textContent = next.available === false ? 'Sold out' : 'Add to cart';
+      }
+    };
     const dishTotal = () => {
       let total = 0;
       const parts = [];
@@ -139,7 +203,15 @@
       if (customText) customText.disabled = !on;
       if (customSum) customSum.disabled = !on;
       customBox.querySelectorAll('button').forEach((button) => { button.disabled = !on; });
+      if (qtyWrap) qtyWrap.hidden = !!on;
+      if (dishProp) dishProp.disabled = !!on || !dishProp.value;
+      if (!on) applyDishPurchase(slides[cur] || slides.find((slide) => slide.classList.contains('is-active')));
     };
+    customToggle?.addEventListener('change', () => {
+      if (msg) msg.textContent = '';
+      syncCustom();
+    });
+    if (!customOn()) applyDishPurchase(slides[cur] || slides[0]);
 
     dishes.forEach((li) => {
       const bump = (delta) => {
@@ -253,6 +325,17 @@
     });
 
     const form = root.querySelector('form');
+    const formProperties = (extra = {}) => {
+      const props = Object.fromEntries(
+        [...new FormData(form).entries()]
+          .filter(([key, value]) => key.startsWith('properties[') && value)
+          .map(([key, value]) => [key.slice(11, -1), value])
+      );
+      // Pack radios must not ride along when buying a single selected dish.
+      if (isCatalog || extra.Dish) delete props['Meal plan'];
+      if (customOn()) delete props.Dish;
+      return { ...props, ...extra };
+    };
     form?.addEventListener('submit', async (event) => {
       if (customOn() && dishTotal() < customMin) {
         event.preventDefault();
@@ -264,18 +347,48 @@
       event.stopImmediatePropagation();
       if (!btn || btn.classList.contains('loading')) return;
 
-      const checkedPlans = [...form.querySelectorAll('[data-pd-plan] input:checked, [data-pd-option] input:checked')];
       const idInput = form.querySelector('[name="id"]');
       if (idInput) idInput.disabled = false;
-      const selectedValues = checkedPlans.map((input) => input.value);
-      const exact = variants.find((item) => item.options.length === selectedValues.length && item.options.every((option, index) => option === selectedValues[index]));
-      const named = variants.find((item) => selectedValues.some((value) => item.options.includes(value)));
-      const fromRadio = checkedPlans.map((input) => input.getAttribute('data-variant-id')).find((id) => id);
-      const variantId = exact?.id || fromRadio || named?.id || idInput?.value || variants.find((item) => item.id)?.id;
-      if (idInput && variantId) idInput.value = variantId;
-      if (!variantId) {
-        if (msg) msg.textContent = 'Choose a meal plan, then add it to the cart.';
-        return;
+      const qty = Math.max(1, parseInt(form.querySelector('[name="quantity"]')?.value, 10) || 1);
+      let items = [];
+
+      if (customOn()) {
+        dishes.forEach((li) => {
+          const count = parseInt(li.getAttribute('data-n') || '0', 10) || 0;
+          if (count < 1) return;
+          const name = li.getAttribute('data-dish') || '';
+          const id = li.dataset.variantId || matchVariant(name)?.id;
+          if (!id) return;
+          items.push({
+            id: Number(id),
+            quantity: count,
+            properties: formProperties({ Dish: name }),
+          });
+        });
+        if (!items.length) {
+          if (msg) msg.textContent = 'Choose at least one dish, then add it to the cart.';
+          return;
+        }
+      } else {
+        const activeSlide = slides[cur] || slides.find((slide) => slide.classList.contains('is-active'));
+        const fromSlide = variantFromSlide(activeSlide);
+        const checkedPlans = [...form.querySelectorAll('[data-pd-plan] input:checked, [data-pd-option] input:checked')];
+        const selectedValues = checkedPlans.map((input) => input.value);
+        const exact = variants.find((item) => item.options.length === selectedValues.length && item.options.every((option, index) => option === selectedValues[index]));
+        const named = variants.find((item) => selectedValues.some((value) => item.options.includes(value)));
+        const fromRadio = checkedPlans.map((input) => input.getAttribute('data-variant-id')).find((id) => id);
+        const variantId = fromSlide?.id || exact?.id || fromRadio || named?.id || idInput?.value || variants.find((item) => item.id)?.id;
+        if (idInput && variantId) idInput.value = variantId;
+        if (!variantId) {
+          if (msg) msg.textContent = isCatalog ? 'Choose a dish, then add it to the cart.' : 'Choose a meal plan, then add it to the cart.';
+          return;
+        }
+        const dishName = activeSlide?.dataset?.name || fromSlide?.options?.[0] || fromSlide?.title || dishProp?.value || '';
+        items = [{
+          id: Number(variantId),
+          quantity: qty,
+          properties: formProperties(dishName ? { Dish: dishName } : {}),
+        }];
       }
 
       btn.classList.add('loading');
@@ -293,15 +406,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({
-            items: [{
-              id: Number(variantId),
-              quantity: Math.max(1, parseInt(form.querySelector('[name="quantity"]')?.value, 10) || 1),
-              properties: Object.fromEntries(
-                [...new FormData(form).entries()]
-                  .filter(([key, value]) => key.startsWith('properties[') && value)
-                  .map(([key, value]) => [key.slice(11, -1), value])
-              ),
-            }],
+            items,
             sections: sectionIds,
             sections_url: window.location.pathname,
           }),
