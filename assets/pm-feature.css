@@ -9,15 +9,21 @@
   color: inherit;
 }
 
+/* Match theme section container (.page-width / --page-width). */
 .pm-ft__wrap {
-  max-width: var(--page-width, 1200px);
-  margin-inline: auto;
   width: 100%;
   box-sizing: border-box;
+  margin-inline: auto;
 }
 
 .pm-ft__wrap.page-width {
-  padding-inline: var(--page-margin, 1.25rem);
+  max-width: var(--page-width);
+  padding-inline: 1.2rem;
+}
+
+.pm-ft__wrap:not(.page-width) {
+  max-width: none;
+  padding-inline: 1.2rem;
 }
 
 .pm-ft__list {

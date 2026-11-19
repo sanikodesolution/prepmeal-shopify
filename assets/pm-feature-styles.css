@@ -2,8 +2,10 @@
    No font-size, color or line-height is set here: typography comes from the theme. */
 /* Vertical padding comes from Theme Editor (section-settings), same as Feature #1. */
 .pf{background:var(--pf-bg);padding:0}
-.pf__wrap{max-width:1200px;margin:0 auto;width:100%;box-sizing:border-box}
-.pf__wrap:not(.page-width){padding-inline:20px}
+/* Match theme section container (.page-width / --page-width). */
+.pf__wrap{width:100%;box-sizing:border-box;margin-inline:auto}
+.pf__wrap.page-width{max-width:var(--page-width);padding-inline:1.2rem}
+.pf__wrap:not(.page-width){max-width:none;padding-inline:1.2rem}
 .pf__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(var(--pf-cols,4),minmax(0,1fr));gap:var(--pf-gap,28px);overflow:visible}
 .pf__icon{
   display:flex;
@@ -100,4 +102,3 @@
 
 .pf__hit{display:block;color:inherit;text-decoration:none;min-width:0}
 .pf-a__item > .pf__hit{flex:1 1 auto;min-width:0}
-.pf .page-width{max-width:var(--page-width,1200px);margin-inline:auto}

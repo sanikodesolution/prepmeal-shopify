@@ -7,10 +7,19 @@
   padding: var(--fx2-pt, 40px) 0 var(--fx2-pb, 40px);
 }
 
+/* Match theme section container (.page-width / --page-width). */
 .pm-fx2__wrap {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-inline: auto;
+}
+.pm-fx2__wrap.page-width {
+  max-width: var(--page-width);
+  padding-inline: 1.2rem;
+}
+.pm-fx2__wrap:not(.page-width) {
+  max-width: none;
+  padding-inline: 1.2rem;
 }
 
 .pm-fx2__list {
