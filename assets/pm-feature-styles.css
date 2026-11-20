@@ -1,47 +1,90 @@
 /* Feature types 3-6 — shared base + four scoped designs.
    No font-size, color or line-height is set here: typography comes from the theme. */
-.pf{background:var(--pf-bg);padding:var(--pf-pt,40px) 0 var(--pf-pb,40px)}
-.pf__wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-.pf__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(var(--pf-cols,4),minmax(0,1fr));gap:var(--pf-gap,28px)}
-.pf__icon{display:block;flex:none;width:var(--pf-icon);height:var(--pf-icon);box-sizing:border-box}
-.pf__icon img,.pf__icon svg,.pf__icon video{display:block;width:100%;height:100%;object-fit:contain}
+/* Vertical padding comes from Theme Editor (section-settings), same as Feature #1. */
+.pf{background:var(--pf-bg);padding:0}
+/* Match theme section container (.page-width / --page-width). */
+.pf__wrap{width:100%;box-sizing:border-box;margin-inline:auto}
+.pf__wrap.page-width{max-width:var(--page-width);padding-inline:1.2rem}
+.pf__wrap:not(.page-width){max-width:none;padding-inline:1.2rem}
+.pf__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(var(--pf-cols,4),minmax(0,1fr));gap:var(--pf-gap,28px);overflow:visible}
+.pf__icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  width:var(--pf-icon,64px);
+  height:var(--pf-icon,64px);
+  min-width:var(--pf-icon,64px);
+  min-height:var(--pf-icon,64px);
+  box-sizing:border-box;
+  padding:0;
+  overflow:hidden;
+}
+.pf__icon img,
+.pf__icon .pm-ft__img,
+.pf__icon svg,
+.pf__icon video{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:68%;
+  height:68%;
+  max-width:68%;
+  max-height:68%;
+  object-fit:contain;
+}
+.pf-d__media{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:50%;
+  height:50%;
+}
+.pf-d__media img,
+.pf-d__media .pm-ft__img,
+.pf-d__media svg,
+.pf-d__media video{display:block;width:100%;height:100%;object-fit:contain}
 .pf__title{margin:0}
+.pf-a .pf__title,
+.pf-a .pm-ft__title{margin-top:0!important}
 .pf__text{margin:8px 0 0}
 
-/* Type 3 - pill cards */
-.pf-a__item{display:flex;align-items:center;gap:16px;padding:10px 24px 10px 10px;background:#fff;border:2px solid var(--pf-ink);border-radius:calc(var(--pf-icon)/2 + 12px);box-shadow:4px 4px 0 var(--pf-accent);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
-.pf-a__item:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--pf-accent)}
-.pf-a__icon{border-radius:50%;background:var(--pf-accent);padding:16%;transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
+/* Pill cards (SS Feature #6) */
+.pf-a__item{display:flex;align-items:center;gap:16px;padding:10px 24px 10px 10px;background:#fff;border:2px solid var(--pf-ink,#111);border-radius:calc(var(--pf-icon,64px)/2 + 12px);box-shadow:4px 4px 0 var(--pf-accent,#F5A623);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s;overflow:visible;min-width:0}
+.pf-a__item:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--pf-accent,#F5A623)}
+.pf-a__icon{border-radius:50%;background:var(--pf-accent,#F5A623);transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
 .pf-a__item:hover .pf-a__icon{transform:rotate(-8deg) scale(1.06)}
+.pf-a__body{min-width:0;flex:1 1 auto}
 
-/* Type 4 - accent band */
+/* Accent band (SS Feature #7) */
 .pf-b .pf__list{--pf-gap:32px}
-.pf-b__item{position:relative;text-align:center;padding:6px 12px}
-.pf-b__item+.pf-b__item::before{content:"";position:absolute;left:calc(var(--pf-gap)/-2);top:12%;bottom:12%;border-left:1px dashed color-mix(in srgb,var(--pf-ink) 35%,transparent)}
-.pf-b__icon{margin:0 auto 20px;border-radius:50%;background:#fff;padding:20%;box-shadow:0 0 0 6px var(--pf-bg),0 0 0 8px var(--pf-ink);transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
+.pf-b__item{position:relative;text-align:center;padding:6px 12px;overflow:visible}
+.pf-b__item+.pf-b__item::before{content:"";position:absolute;left:calc(var(--pf-gap)/-2);top:12%;bottom:12%;border-left:1px dashed color-mix(in srgb,var(--pf-ink,#111) 35%,transparent)}
+.pf-b__icon{margin:0 auto 20px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px var(--pf-bg,#fff),0 0 0 8px var(--pf-ink,#111);transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
 .pf-b__item:hover .pf-b__icon{transform:translateY(-4px) rotate(-6deg)}
 .pf-b .pf__title{text-transform:uppercase;letter-spacing:.08em}
-.pf-b .pf__title::after{content:"";display:block;width:0;height:2px;margin:10px auto 0;background:var(--pf-ink);transition:width .35s}
+.pf-b .pf__title::after{content:"";display:block;width:0;height:2px;margin:10px auto 0;background:var(--pf-ink,#111);transition:width .35s}
 .pf-b__item:hover .pf__title::after{width:28px}
 
-/* Type 5 - arch cards */
-.pf-c__item{position:relative;box-sizing:border-box;text-align:center;padding:36px 16px 32px;background:var(--pf-accent);border:2px solid var(--pf-ink);border-radius:50% 50% 28px 28px/38% 38% 28px 28px;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
-.pf-c__item::before{content:"";position:absolute;inset:6px;border:1.5px dashed color-mix(in srgb,var(--pf-ink) 45%,transparent);border-radius:inherit;pointer-events:none}
+/* Arch cards (SS Feature #8) */
+.pf-c__item{position:relative;box-sizing:border-box;text-align:center;padding:36px 16px 32px;background:var(--pf-accent,#F5A623);border:2px solid var(--pf-ink,#111);border-radius:50% 50% 28px 28px/38% 38% 28px 28px;transition:transform .4s cubic-bezier(.2,.8,.2,1);overflow:visible}
+.pf-c__item::before{content:"";position:absolute;inset:6px;border:1.5px dashed color-mix(in srgb,var(--pf-ink,#111) 45%,transparent);border-radius:inherit;pointer-events:none}
 .pf-c__item:nth-child(even){background:#fff}
 .pf-c__item:hover{transform:translateY(-8px)}
-.pf-c__icon{margin:0 auto 18px;border-radius:50%;background:#fff;padding:20%;transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
-.pf-c__item:nth-child(even) .pf-c__icon{background:var(--pf-accent)}
+.pf-c__icon{margin:0 auto 18px;border-radius:50%;background:#fff;transition:transform .4s cubic-bezier(.3,1.4,.5,1)}
+.pf-c__item:nth-child(even) .pf-c__icon{background:var(--pf-accent,#F5A623)}
 .pf-c__item:hover .pf-c__icon{transform:scale(1.08) rotate(6deg)}
 
-/* Type 6 - star badge */
+/* Star badge (SS Feature #9) */
 .pf-d .pf__list{counter-reset:pfd}
-.pf-d__item{counter-increment:pfd;text-align:center;padding:0 8px 22px;border-bottom:2px dotted color-mix(in srgb,var(--pf-ink) 30%,transparent)}
-.pf-d__icon{position:relative;margin:0 auto 20px;display:grid;place-items:center}
-.pf-d__icon::before,.pf-d__icon::after{content:"";position:absolute;inset:14%;background:var(--pf-accent);border-radius:24%;transition:transform .6s cubic-bezier(.3,1.3,.5,1)}
+.pf-d__item{counter-increment:pfd;text-align:center;padding:0 8px 22px;border-bottom:2px dotted color-mix(in srgb,var(--pf-ink,#111) 30%,transparent);overflow:visible}
+.pf-d__icon{position:relative;margin:0 auto 20px;overflow:visible}
+.pf-d__icon::before,.pf-d__icon::after{content:"";position:absolute;inset:14%;z-index:0;background:var(--pf-accent,#F5A623);border-radius:24%;transition:transform .6s cubic-bezier(.3,1.3,.5,1)}
 .pf-d__icon::after{transform:rotate(45deg)}
 .pf-d__item:hover .pf-d__icon::before{transform:rotate(22deg)}
 .pf-d__item:hover .pf-d__icon::after{transform:rotate(67deg)}
-.pf-d__media{position:relative;z-index:1;display:block;width:50%;height:50%}
 .pf-d .pf__title::before{content:counter(pfd,decimal-leading-zero);display:block;margin-bottom:6px;letter-spacing:.2em;opacity:.55}
 
 @media(max-width:989px){
@@ -57,3 +100,7 @@
   .pf *,.pf *::before,.pf *::after{transition:none!important;animation:none!important}
   .pf-a__item:hover,.pf-c__item:hover{transform:none}
 }
+
+
+.pf__hit{display:block;color:inherit;text-decoration:none;min-width:0}
+.pf-a__item > .pf__hit{flex:1 1 auto;min-width:0}
