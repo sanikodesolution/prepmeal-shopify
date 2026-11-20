@@ -1,0 +1,307 @@
+﻿{{ 'pm-contact-styles.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+<section id="ContactSplit-{{ section.id }}" class="section-{{ section.id }} pm-contact-split pc pc-c"
+  style="--pc-accent: {{ s.accent }}; --pc-ink: {{ s.ink }}; --pc-bg: {{ s.bg }}; --pc-card: {{ s.card }}; --pc-pt: {{ s.padding_top }}px; --pc-pb: {{ s.padding_bottom }}px;"
+>
+<div class="pc-c__band">
+  <div class="pc__wrap page-width">
+    <div class="pc-c__top"><div>{%- if s.heading != blank -%}<h2 class="pc__heading">{{ s.heading | escape }}</h2>{%- endif -%}{%- if s.intro != blank -%}<p class="pc__intro">{{ s.intro | escape | newline_to_br }}</p>{%- endif -%}</div>{%- if s.stamp_text != blank -%}<div class="pc__stamp"><span>{{ s.stamp_text | escape }}</span></div>{%- endif -%}</div>
+    <div class="pc-c__reach">{%- if s.card_title != blank -%}<h3 class="pc__card-title">{{ s.card_title | escape }}</h3>{%- endif -%}<ul class="pc__list pc-c__infos" role="list">
+{%- for block in section.blocks -%}
+  <li class="pc__info pc-c__info" {{ block.shopify_attributes }}>
+    <span class="pc__ico"><span class="pc__glyph pc__glyph--{{ block.settings.icon }}" aria-hidden="true"></span></span>
+    <div class="pc__info-body">
+      {%- if block.settings.label != blank -%}<span class="pc__info-label">{{ block.settings.label | escape }}</span>{%- endif -%}
+      {%- if block.settings.link != blank -%}<a class="pc__info-value" href="{{ block.settings.link }}">{{ block.settings.value | escape }}</a>{%- else -%}<span class="pc__info-value">{{ block.settings.value | escape }}</span>{%- endif -%}
+    </div>
+  </li>
+{%- endfor -%}
+</ul></div>
+  </div>
+</div>
+<div class="pc__wrap page-width">
+  <div class="pc-c__card">
+    <div class="pc-c__cardhead">{%- if s.form_title != blank -%}<h3 class="pc__card-title">{{ s.form_title | escape }}</h3>{%- endif -%}
+{%- if s.form_note != blank -%}<p class="pc__form-note">{{ s.form_note | escape }}</p>{%- endif -%}</div>
+    {%- form 'contact', class: 'pc__form' -%}
+  {%- if form.posted_successfully? -%}<p class="pc__success" role="status">{{ s.success_text | escape }}</p>{%- endif -%}
+  {%- if form.errors -%}<div class="pc__errors" role="alert">{{ form.errors | default_errors }}</div>{%- endif -%}
+  <div class="pc__fields">
+    <div class="pc__field pc-c__field pc__field--name"><input class="pc__input" id="pc-name-{{ section.id }}" name="contact[name]" type="text" placeholder=" " autocomplete="name"><label for="pc-name-{{ section.id }}">{{ s.name_label | escape }}</label></div>
+    <div class="pc__field pc-c__field pc__field--email"><input class="pc__input" id="pc-email-{{ section.id }}" name="contact[email]" type="email" placeholder=" " autocomplete="email" required aria-required="true"><label for="pc-email-{{ section.id }}">{{ s.email_label | escape }} *</label></div>
+    <div class="pc__field pc-c__field pc__field--phone"><input class="pc__input" id="pc-phone-{{ section.id }}" name="contact[phone]" type="tel" placeholder=" " autocomplete="tel"><label for="pc-phone-{{ section.id }}">{{ s.phone_label | escape }}</label></div>
+    <div class="pc__field pc-c__field pc__field--comment"><textarea class="pc__input" id="pc-comment-{{ section.id }}" name="contact[body]" rows="5" placeholder=" "></textarea><label for="pc-comment-{{ section.id }}">{{ s.comment_label | escape }}</label></div>
+  </div>
+  <div class="pc__foot">
+    <button type="submit" class="pc__submit"><span>{{ s.submit_label | escape }}</span><span class="pc__btn-arrow" aria-hidden="true"></span></button>
+    {%- if s.privacy_note != blank -%}<p class="pc__privacy">{{ s.privacy_note | escape }}</p>{%- endif -%}
+  </div>
+{%- endform -%}
+  </div>
+  <div class="pc-c__after">{%- if s.card_note != blank -%}<p class="pc__note">{{ s.card_note | escape | newline_to_br }}</p>{%- endif -%}<div class="pc-c__actions">{%- if s.facebook != blank or s.instagram != blank -%}
+<ul class="pc__socials" role="list">
+  {%- if s.facebook != blank -%}<li><a class="pc__soc" href="{{ s.facebook }}" target="_blank" rel="noopener" aria-label="Facebook"><span class="pc__glyph pc__glyph--facebook" aria-hidden="true"></span></a></li>{%- endif -%}
+  {%- if s.instagram != blank -%}<li><a class="pc__soc" href="{{ s.instagram }}" target="_blank" rel="noopener" aria-label="Instagram"><span class="pc__glyph pc__glyph--instagram" aria-hidden="true"></span></a></li>{%- endif -%}
+</ul>
+{%- endif -%}{%- if s.cta_label != blank -%}<a class="pc__btn" href="{{ s.cta_link | default: '#' }}">{{ s.cta_label | escape }}</a>{%- endif -%}</div></div>
+</div>
+</section>
+
+{% schema %}
+{
+  "name": "SS Contact #3 (Band)",
+  "tag": "section",
+  "class": "contact-type3",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Questions or comments? Tell us what you're craving."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text",
+      "default": "Ask about meal plans, custom orders or delivery. A real person from the kitchen will get back to you."
+    },
+    {
+      "type": "text",
+      "id": "stamp_text",
+      "label": "Round badge text",
+      "default": "40+ years of culinary mastery"
+    },
+    {
+      "type": "header",
+      "content": "Contact info"
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Title",
+      "default": "Reach the kitchen"
+    },
+    {
+      "type": "textarea",
+      "id": "card_note",
+      "label": "Note",
+      "default": "Planning a custom meal plan or a private chef night? Add your dates and headcount in the message and we'll send a quote within a day."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Talk to the kitchen"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "Button link",
+      "info": "Use a normal link or tel:+19203551137 / mailto:you@example.com"
+    },
+    {
+      "type": "url",
+      "id": "facebook",
+      "label": "Facebook link"
+    },
+    {
+      "type": "url",
+      "id": "instagram",
+      "label": "Instagram link"
+    },
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form title",
+      "default": "Your message"
+    },
+    {
+      "type": "text",
+      "id": "form_note",
+      "label": "Form note",
+      "default": "We reply within one business day"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "label": "Name label",
+      "default": "Name"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "label": "Email label",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "phone_label",
+      "label": "Phone label",
+      "default": "Phone number"
+    },
+    {
+      "type": "text",
+      "id": "comment_label",
+      "label": "Comment label",
+      "default": "Comment"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Send Message"
+    },
+    {
+      "type": "text",
+      "id": "privacy_note",
+      "label": "Privacy note",
+      "default": "We never share your details."
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "label": "Success message",
+      "default": "Thanks for reaching out! We'll get back to you within one business day."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "accent",
+      "label": "Accent color",
+      "default": "#F5A623"
+    },
+    {
+      "type": "color",
+      "id": "ink",
+      "label": "Line color (borders, icons, shadows)",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Section background",
+      "default": "#FFF8EC"
+    },
+    {
+      "type": "color",
+      "id": "card",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "info",
+      "name": "Info row",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "phone",
+          "options": [
+            {
+              "value": "phone",
+              "label": "Phone"
+            },
+            {
+              "value": "pin",
+              "label": "Location"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "mail",
+              "label": "Email"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Call us"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Text",
+          "default": "+1 (920) 355-1137"
+        },
+        {
+          "type": "text",
+          "id": "link",
+          "label": "Link (optional)",
+          "info": "e.g. tel:+19203551137"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Contact #3 (Band)",
+      "blocks": [
+        {
+          "type": "info",
+          "settings": {
+            "icon": "phone",
+            "label": "Call us",
+            "value": "+1 (920) 355-1137"
+          }
+        },
+        {
+          "type": "info",
+          "settings": {
+            "icon": "pin",
+            "label": "Delivery area",
+            "value": "We deliver across Milwaukee"
+          }
+        },
+        {
+          "type": "info",
+          "settings": {
+            "icon": "clock",
+            "label": "Order deadline",
+            "value": "Order by Thursday for next week's delivery"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -409,10 +409,266 @@
         "accent": "#f5a623",
         "navy": "#0b1b36"
       }
+    },
+    "contact_ticket": {
+      "type": "ss-contact-1",
+      "blocks": {
+        "info_phone": {
+          "type": "info",
+          "settings": {
+            "icon": "phone",
+            "label": "Call us",
+            "value": "+1 (920) 355-1137",
+            "link": "tel:+19203551137"
+          }
+        },
+        "info_area": {
+          "type": "info",
+          "settings": {
+            "icon": "pin",
+            "label": "Delivery area",
+            "value": "We deliver across Milwaukee",
+            "link": ""
+          }
+        },
+        "info_deadline": {
+          "type": "info",
+          "settings": {
+            "icon": "clock",
+            "label": "Order deadline",
+            "value": "Order by Thursday for next week's delivery",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "info_phone",
+        "info_area",
+        "info_deadline"
+      ],
+      "settings": {
+        "heading": "Questions or comments? Tell us what you're craving.",
+        "intro": "Ask about meal plans, custom orders or delivery. A real person from the kitchen will get back to you.",
+        "stamp_text": "40+ years of culinary mastery",
+        "card_title": "Reach the kitchen",
+        "card_note": "Planning a custom meal plan or a private chef night? Add your dates and headcount in the message and we'll send a quote within a day.",
+        "cta_label": "Talk to the kitchen",
+        "cta_link": "tel:+19203551137",
+        "facebook": "",
+        "instagram": "",
+        "form_title": "Your message",
+        "form_note": "We reply within one business day.",
+        "name_label": "Name",
+        "email_label": "Email",
+        "phone_label": "Phone",
+        "comment_label": "Message",
+        "submit_label": "Send message",
+        "success_text": "Thanks — your note is in the kitchen. We'll get back to you soon.",
+        "privacy_note": "We only use your details to reply.",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFF8EC",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "contact_bubble": {
+      "type": "ss-contact-2",
+      "blocks": {
+        "info_phone": {
+          "type": "info",
+          "settings": {
+            "icon": "phone",
+            "label": "Call us",
+            "value": "+1 (920) 355-1137",
+            "link": "tel:+19203551137"
+          }
+        },
+        "info_area": {
+          "type": "info",
+          "settings": {
+            "icon": "pin",
+            "label": "Delivery area",
+            "value": "We deliver across Milwaukee",
+            "link": ""
+          }
+        },
+        "info_deadline": {
+          "type": "info",
+          "settings": {
+            "icon": "clock",
+            "label": "Order deadline",
+            "value": "Order by Thursday for next week's delivery",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "info_phone",
+        "info_area",
+        "info_deadline"
+      ],
+      "settings": {
+        "heading": "Questions or comments? Tell us what you're craving.",
+        "intro": "Ask about meal plans, custom orders or delivery. A real person from the kitchen will get back to you.",
+        "stamp_text": "40+ years of culinary mastery",
+        "card_title": "Reach the kitchen",
+        "card_note": "Planning a custom meal plan or a private chef night? Add your dates and headcount in the message and we'll send a quote within a day.",
+        "cta_label": "Talk to the kitchen",
+        "cta_link": "tel:+19203551137",
+        "facebook": "",
+        "instagram": "",
+        "form_title": "Your message",
+        "form_note": "We reply within one business day.",
+        "name_label": "Name",
+        "email_label": "Email",
+        "phone_label": "Phone",
+        "comment_label": "Message",
+        "submit_label": "Send message",
+        "success_text": "Thanks — your note is in the kitchen. We'll get back to you soon.",
+        "privacy_note": "We only use your details to reply.",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFF8EC",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "contact_band": {
+      "type": "ss-contact-3",
+      "blocks": {
+        "info_phone": {
+          "type": "info",
+          "settings": {
+            "icon": "phone",
+            "label": "Call us",
+            "value": "+1 (920) 355-1137",
+            "link": "tel:+19203551137"
+          }
+        },
+        "info_area": {
+          "type": "info",
+          "settings": {
+            "icon": "pin",
+            "label": "Delivery area",
+            "value": "We deliver across Milwaukee",
+            "link": ""
+          }
+        },
+        "info_deadline": {
+          "type": "info",
+          "settings": {
+            "icon": "clock",
+            "label": "Order deadline",
+            "value": "Order by Thursday for next week's delivery",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "info_phone",
+        "info_area",
+        "info_deadline"
+      ],
+      "settings": {
+        "heading": "Questions or comments? Tell us what you're craving.",
+        "intro": "Ask about meal plans, custom orders or delivery. A real person from the kitchen will get back to you.",
+        "stamp_text": "40+ years of culinary mastery",
+        "card_title": "Reach the kitchen",
+        "card_note": "Planning a custom meal plan or a private chef night? Add your dates and headcount in the message and we'll send a quote within a day.",
+        "cta_label": "Talk to the kitchen",
+        "cta_link": "tel:+19203551137",
+        "facebook": "",
+        "instagram": "",
+        "form_title": "Your message",
+        "form_note": "We reply within one business day.",
+        "name_label": "Name",
+        "email_label": "Email",
+        "phone_label": "Phone",
+        "comment_label": "Message",
+        "submit_label": "Send message",
+        "success_text": "Thanks — your note is in the kitchen. We'll get back to you soon.",
+        "privacy_note": "We only use your details to reply.",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFF8EC",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "contact_bento": {
+      "type": "ss-contact-4",
+      "blocks": {
+        "info_phone": {
+          "type": "info",
+          "settings": {
+            "icon": "phone",
+            "label": "Call us",
+            "value": "+1 (920) 355-1137",
+            "link": "tel:+19203551137"
+          }
+        },
+        "info_area": {
+          "type": "info",
+          "settings": {
+            "icon": "pin",
+            "label": "Delivery area",
+            "value": "We deliver across Milwaukee",
+            "link": ""
+          }
+        },
+        "info_deadline": {
+          "type": "info",
+          "settings": {
+            "icon": "clock",
+            "label": "Order deadline",
+            "value": "Order by Thursday for next week's delivery",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "info_phone",
+        "info_area",
+        "info_deadline"
+      ],
+      "settings": {
+        "heading": "Questions or comments? Tell us what you're craving.",
+        "intro": "Ask about meal plans, custom orders or delivery. A real person from the kitchen will get back to you.",
+        "stamp_text": "40+ years of culinary mastery",
+        "card_title": "Reach the kitchen",
+        "card_note": "Planning a custom meal plan or a private chef night? Add your dates and headcount in the message and we'll send a quote within a day.",
+        "cta_label": "Talk to the kitchen",
+        "cta_link": "tel:+19203551137",
+        "facebook": "",
+        "instagram": "",
+        "form_title": "Your message",
+        "form_note": "We reply within one business day.",
+        "name_label": "Name",
+        "email_label": "Email",
+        "phone_label": "Phone",
+        "comment_label": "Message",
+        "submit_label": "Send message",
+        "success_text": "Thanks — your note is in the kitchen. We'll get back to you soon.",
+        "privacy_note": "We only use your details to reply.",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFF8EC",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
     }
   },
   "order": [
     "main",
-    "contact_page"
+    "contact_page",
+    "contact_ticket",
+    "contact_bubble",
+    "contact_band",
+    "contact_bento"
   ]
 }
