@@ -124,6 +124,7 @@
       "settings": {
         "badge": "Premium ingredients. Crafted with purpose.",
         "heading": "Healthy Made Delicious",
+        "heading_font_size": 40,
         "button_label": "View Menu",
         "button_link": "/collections/all",
         "panel_title": "Healthy Meals\nDone Right",

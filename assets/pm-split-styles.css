@@ -94,6 +94,7 @@
 
 /* Theme page-width inside about splits */
 .pm-about-split .ps__wrap.page-width{padding-left:max(20px, var(--page-width-padding, 0px));padding-right:max(20px, var(--page-width-padding, 0px));max-width:var(--page-width)}
+.pm-about-split .ps__heading{font-size:40px}
 .pm-about-split .ps__btn-wrap{margin-top:4px}
 @media(max-width:749px){
   .ps-c__media,.ps-c.ps--rev .ps-c__media{margin:0}
