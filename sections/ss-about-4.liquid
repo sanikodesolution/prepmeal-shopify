@@ -20,7 +20,7 @@
 {%- endif -%}</div>
   {%- if s.panel_title != blank or s.panel_text != blank -%}
 <div class="ps__panel">
-  {%- if s.panel_title != blank -%}<h3 class="ps__panel-title"{% if panel_title_style != blank %} style="{{ panel_title_style | strip }}"{% endif %}>{{ s.panel_title | escape | newline_to_br }}</h3>{%- endif -%}
+  {%- if s.panel_title != blank -%}<h5 class="ps__panel-title"{% if panel_title_style != blank %} style="{{ panel_title_style | strip }}"{% endif %}>{{ s.panel_title | escape | newline_to_br }}</h5>{%- endif -%}
   {%- if s.panel_text != blank -%}<p class="ps__panel-text"{% if panel_text_style != blank %} style="{{ panel_text_style | strip }}"{% endif %}>{{ s.panel_text | escape | newline_to_br }}</p>{%- endif -%}
 </div>
 {%- endif -%}
