@@ -20,7 +20,7 @@
   </li>
 {%- endfor -%}
 </ul>
-      <div class="pc-d__tile pc-d__more">{%- if s.card_title != blank -%}<h3 class="pc__card-title">{{ s.card_title | escape }}</h3>{%- endif -%}{%- if s.card_note != blank -%}<p class="pc__note">{{ s.card_note | escape | newline_to_br }}</p>{%- endif -%}<div class="pc-d__actions">{%- if s.facebook != blank or s.instagram != blank -%}
+      <div class="pc-d__tile pc-d__more">{%- if s.card_title != blank -%}<h4 class="pc__card-title">{{ s.card_title | escape }}</h4>{%- endif -%}{%- if s.card_note != blank -%}<p class="pc__note">{{ s.card_note | escape | newline_to_br }}</p>{%- endif -%}<div class="pc-d__actions">{%- if s.facebook != blank or s.instagram != blank -%}
 <ul class="pc__socials" role="list">
   {%- if s.facebook != blank -%}<li><a class="pc__soc" href="{{ s.facebook }}" target="_blank" rel="noopener" aria-label="Facebook"><span class="pc__glyph pc__glyph--facebook" aria-hidden="true"></span></a></li>{%- endif -%}
   {%- if s.instagram != blank -%}<li><a class="pc__soc" href="{{ s.instagram }}" target="_blank" rel="noopener" aria-label="Instagram"><span class="pc__glyph pc__glyph--instagram" aria-hidden="true"></span></a></li>{%- endif -%}
@@ -28,7 +28,7 @@
 {%- endif -%}{%- if s.cta_label != blank -%}<a class="pc__btn" href="{{ s.cta_link | default: '#' }}">{{ s.cta_label | escape }}</a>{%- endif -%}</div></div>
     </div>
     <div class="pc-d__tile pc-d__form">
-      <div class="pc-d__formhead">{%- if s.form_title != blank -%}<h3 class="pc__card-title">{{ s.form_title | escape }}</h3>{%- endif -%}
+      <div class="pc-d__formhead">{%- if s.form_title != blank -%}<h4 class="pc__card-title">{{ s.form_title | escape }}</h4>{%- endif -%}
 {%- if s.form_note != blank -%}<p class="pc__form-note">{{ s.form_note | escape }}</p>{%- endif -%}</div>
       {%- form 'contact', class: 'pc__form' -%}
   {%- if form.posted_successfully? -%}<p class="pc__success" role="status">{{ s.success_text | escape }}</p>{%- endif -%}

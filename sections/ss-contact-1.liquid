@@ -11,7 +11,7 @@
   </div>
   <div class="pc-a__grid">
     <div class="pc-a__card">
-      {%- if s.card_title != blank -%}<h3 class="pc__card-title">{{ s.card_title | escape }}</h3>{%- endif -%}
+      {%- if s.card_title != blank -%}<h4 class="pc__card-title">{{ s.card_title | escape }}</h4>{%- endif -%}
       <ul class="pc__list pc-a__infos" role="list">
 {%- for block in section.blocks -%}
   <li class="pc__info pc-a__info" {{ block.shopify_attributes }}>
@@ -31,7 +31,7 @@
 {%- endif -%}{%- if s.cta_label != blank -%}<a class="pc__btn" href="{{ s.cta_link | default: '#' }}">{{ s.cta_label | escape }}</a>{%- endif -%}</div>
     </div>
     <div class="pc-a__formcard">
-      <div class="pc-a__formhead">{%- if s.form_title != blank -%}<h3 class="pc__card-title">{{ s.form_title | escape }}</h3>{%- endif -%}
+      <div class="pc-a__formhead">{%- if s.form_title != blank -%}<h4 class="pc__card-title">{{ s.form_title | escape }}</h4>{%- endif -%}
 {%- if s.form_note != blank -%}<p class="pc__form-note">{{ s.form_note | escape }}</p>{%- endif -%}</div>
       {%- form 'contact', class: 'pc__form' -%}
   {%- if form.posted_successfully? -%}<p class="pc__success" role="status">{{ s.success_text | escape }}</p>{%- endif -%}

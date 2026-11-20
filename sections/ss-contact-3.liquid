@@ -7,7 +7,7 @@
 <div class="pc-c__band">
   <div class="pc__wrap page-width">
     <div class="pc-c__top"><div>{%- if s.heading != blank -%}<h2 class="pc__heading">{{ s.heading | escape }}</h2>{%- endif -%}{%- if s.intro != blank -%}<p class="pc__intro">{{ s.intro | escape | newline_to_br }}</p>{%- endif -%}</div>{%- if s.stamp_text != blank -%}<div class="pc__stamp"><span>{{ s.stamp_text | escape }}</span></div>{%- endif -%}</div>
-    <div class="pc-c__reach">{%- if s.card_title != blank -%}<h3 class="pc__card-title">{{ s.card_title | escape }}</h3>{%- endif -%}<ul class="pc__list pc-c__infos" role="list">
+    <div class="pc-c__reach">{%- if s.card_title != blank -%}<h4 class="pc__card-title">{{ s.card_title | escape }}</h4>{%- endif -%}<ul class="pc__list pc-c__infos" role="list">
 {%- for block in section.blocks -%}
   <li class="pc__info pc-c__info" {{ block.shopify_attributes }}>
     <span class="pc__ico"><span class="pc__glyph pc__glyph--{{ block.settings.icon }}" aria-hidden="true"></span></span>
@@ -22,7 +22,7 @@
 </div>
 <div class="pc__wrap page-width">
   <div class="pc-c__card">
-    <div class="pc-c__cardhead">{%- if s.form_title != blank -%}<h3 class="pc__card-title">{{ s.form_title | escape }}</h3>{%- endif -%}
+    <div class="pc-c__cardhead">{%- if s.form_title != blank -%}<h4 class="pc__card-title">{{ s.form_title | escape }}</h4>{%- endif -%}
 {%- if s.form_note != blank -%}<p class="pc__form-note">{{ s.form_note | escape }}</p>{%- endif -%}</div>
     {%- form 'contact', class: 'pc__form' -%}
   {%- if form.posted_successfully? -%}<p class="pc__success" role="status">{{ s.success_text | escape }}</p>{%- endif -%}
