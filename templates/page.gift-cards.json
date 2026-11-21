@@ -40,7 +40,8 @@
         "strip_speed": 28,
         "accent": "#f5a623",
         "ink": "#14213d",
-        "paper": "#fffdf8"
+        "paper": "#fffdf8",
+        "product": "gift-card"
       }
     },
     "gift_card_how": {
@@ -189,7 +190,8 @@
         "accent": "#F5A623",
         "ink": "#111111",
         "bg": "#FFFCF5",
-        "card": "#ffffff"
+        "card": "#ffffff",
+        "product": "gift-card"
       }
     },
     "giftcard_stage": {
@@ -214,7 +216,8 @@
         "bg": "#FFFCF5",
         "card": "#ffffff",
         "padding_top": 56,
-        "padding_bottom": 56
+        "padding_bottom": 56,
+        "product": "gift-card"
       }
     },
     "giftcard_wrapped": {
@@ -239,7 +242,8 @@
         "bg": "#FFFCF5",
         "card": "#ffffff",
         "padding_top": 56,
-        "padding_bottom": 56
+        "padding_bottom": 56,
+        "product": "gift-card"
       }
     },
     "giftcard_live": {
@@ -264,7 +268,8 @@
         "bg": "#FFFCF5",
         "card": "#ffffff",
         "padding_top": 56,
-        "padding_bottom": 56
+        "padding_bottom": 56,
+        "product": "gift-card"
       }
     }
   },
