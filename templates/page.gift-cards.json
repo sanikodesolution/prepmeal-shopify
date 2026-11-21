@@ -130,8 +130,7 @@
             "author": "Jordan M.",
             "rating": 5,
             "date": "Mar 12, 2026",
-            "text": "Bought this for my sister. She said the meals tasted homemade and she actually looked unstressed for once.",
-            "image": "shopify://shop_images/mp-food-0.jpg"
+            "text": "Bought this for my sister. She said the meals tasted homemade and she actually looked unstressed for once."
           }
         },
         "review_2": {
@@ -140,8 +139,7 @@
             "author": "Priya S.",
             "rating": 5,
             "date": "Feb 28, 2026",
-            "text": "Perfect birthday gift. The email delivery was instant and the $50 covered almost a full week of dinners.",
-            "image": "shopify://shop_images/mp-food-1.jpg"
+            "text": "Perfect birthday gift. The email delivery was instant and the $50 covered almost a full week of dinners."
           }
         }
       },
@@ -170,12 +168,114 @@
         "padding_top": 40,
         "padding_bottom": 72
       }
+    },
+    "giftcard_fan": {
+      "type": "ss-giftcard-1",
+      "settings": {
+        "heading": "Give someone a week off from cooking.",
+        "text": "A Chef Matt's Meals gift card lets them pick from the rotating menu and get fresh, chef-made meals delivered to their home.",
+        "amount_label": "Choose an amount",
+        "note": "Close to a full 5-meal plan, which starts at .",
+        "button_label": "Add Gift Card To Cart",
+        "fine": "Secure checkout. Delivered by email, so it arrives in minutes.",
+        "card_logo": "CM",
+        "card_brand": "Meals",
+        "card_tag": "Fresh meal prep",
+        "card_gift": "Gift",
+        "card_word": "Card",
+        "card_fine": "Redeemable on any meal plan",
+        "show_ticker": false,
+        "ticker_text": "Real ingredients. Real flavour. Real Chef Matt.",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFFCF5",
+        "card": "#ffffff"
+      }
+    },
+    "giftcard_stage": {
+      "type": "ss-giftcard-2",
+      "settings": {
+        "heading": "Give someone a week off from cooking.",
+        "text": "A Chef Matt's Meals gift card lets them pick from the rotating menu and get fresh, chef-made meals delivered to their home.",
+        "amount_label": "Choose an amount",
+        "note": "Close to a full 5-meal plan, which starts at .",
+        "button_label": "Add Gift Card To Cart",
+        "fine": "Secure checkout. Delivered by email, so it arrives in minutes.",
+        "card_logo": "CM",
+        "card_brand": "Meals",
+        "card_tag": "Fresh meal prep",
+        "card_gift": "Gift",
+        "card_word": "Card",
+        "card_fine": "Redeemable on any meal plan",
+        "show_ticker": false,
+        "ticker_text": "Real ingredients. Real flavour. Real Chef Matt.",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFFCF5",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "giftcard_wrapped": {
+      "type": "ss-giftcard-3",
+      "settings": {
+        "heading": "Give someone a week off from cooking.",
+        "text": "A Chef Matt's Meals gift card lets them pick from the rotating menu and get fresh, chef-made meals delivered to their home.",
+        "amount_label": "Choose an amount",
+        "note": "Close to a full 5-meal plan, which starts at .",
+        "button_label": "Add Gift Card To Cart",
+        "fine": "Secure checkout. Delivered by email, so it arrives in minutes.",
+        "card_logo": "CM",
+        "card_brand": "Meals",
+        "card_tag": "Fresh meal prep",
+        "card_gift": "Gift",
+        "card_word": "Card",
+        "card_fine": "Redeemable on any meal plan",
+        "show_ticker": false,
+        "ticker_text": "Real ingredients. Real flavour. Real Chef Matt.",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFFCF5",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "giftcard_live": {
+      "type": "ss-giftcard-4",
+      "settings": {
+        "heading": "Give someone a week off from cooking.",
+        "text": "A Chef Matt's Meals gift card lets them pick from the rotating menu and get fresh, chef-made meals delivered to their home.",
+        "amount_label": "Choose an amount",
+        "note": "Close to a full 5-meal plan, which starts at .",
+        "button_label": "Add Gift Card To Cart",
+        "fine": "Secure checkout. Delivered by email, so it arrives in minutes.",
+        "card_logo": "CM",
+        "card_brand": "Meals",
+        "card_tag": "Fresh meal prep",
+        "card_gift": "Gift",
+        "card_word": "Card",
+        "card_fine": "Redeemable on any meal plan",
+        "show_ticker": false,
+        "ticker_text": "Real ingredients. Real flavour. Real Chef Matt.",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFFCF5",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
     }
   },
   "order": [
     "gift_card",
     "gift_card_how",
     "gift_card_faq",
-    "gift_card_reviews"
+    "gift_card_reviews",
+    "giftcard_fan",
+    "giftcard_stage",
+    "giftcard_wrapped",
+    "giftcard_live"
   ]
 }

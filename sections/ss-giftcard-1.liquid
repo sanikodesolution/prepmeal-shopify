@@ -1,0 +1,217 @@
+{{ 'pm-giftcard-styles.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'pm-giftcard.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign s = section.settings
+  assign gift_product = s.product | default: product
+  if gift_product != blank
+    assign current_variant = gift_product.selected_or_first_available_variant
+    assign price_full = current_variant.price | money
+    assign price_short = current_variant.price | money_without_trailing_zeros
+  else
+    assign price_full = 5000 | money
+    assign price_short = 5000 | money_without_trailing_zeros
+  endif
+-%}
+<section
+  id="GiftCardSplit-{{ section.id }}" class="section-{{ section.id }} pm-giftcard-split gc gc-a"
+  data-gc
+  style="--gc-accent: {{ s.accent }}; --gc-ink: {{ s.ink }}; --gc-bg: {{ s.bg }}; --gc-card: {{ s.card }};"
+>
+<div class="gc-a__grid page-width">
+  <div class="gc-a__visual"><div class="gc-a__stack"><span class="gc-a__ghost gc-a__ghost--1"></span><span class="gc-a__ghost gc-a__ghost--2"></span>{%- if s.card_image != blank -%}<div class="gc__cardimg">{{ s.card_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '300, 450, 600, 900', class: 'gc__cardimg-el' }}</div>{%- else -%}<div class="gc__card" aria-hidden="true"><span class="gc__logo">{{ s.card_logo | escape }}</span><span class="gc__brand"><b>{{ s.card_brand | escape }}</b><i>{{ s.card_tag | escape }}</i></span><span class="gc__gift">{{ s.card_gift | escape }}</span><span class="gc__word">{{ s.card_word | escape }}</span><span class="gc__cardfine">{{ s.card_fine | escape }}</span><span class="gc__ribbon"></span><span class="gc__bow"><i></i></span></div>{%- endif -%}</div></div>
+  <div class="gc-a__content">{%- if s.heading != blank -%}<h2 class="gc__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+{%- if s.text != blank -%}<p class="gc__text">{{ s.text | escape | newline_to_br }}</p>{%- endif -%}<p class="gc__price"><strong data-gc-price>{{ price_full }}</strong> <span class="gc__cur">{{ cart.currency.iso_code }}</span></p>{%- if gift_product != blank -%}
+{%- form 'product', gift_product, class: 'gc__form' -%}
+<input type="hidden" name="id" value="{{ current_variant.id }}" data-gc-id>
+<fieldset class="gc__fieldset"><legend class="gc__legend">{{ s.amount_label | escape }}</legend><div class="gc-a__options gc__options">
+{%- if gift_product != blank -%}
+  {%- for variant in gift_product.variants -%}
+    <label class="gc__opt"><input class="gc__radio" type="radio" name="gc-amount-{{ section.id }}" value="{{ variant.id }}" data-price="{{ variant.price | money }}" data-amount="{{ variant.price | money_without_trailing_zeros }}" data-available="{{ variant.available }}"{% if variant.id == current_variant.id %} checked{% endif %}{% unless variant.available %} disabled{% endunless %}><span class="gc__opt-text">{{ variant.price | money_without_trailing_zeros }}</span></label>
+  {%- endfor -%}
+{%- else -%}
+  {%- assign demo_amounts = '10,25,50,100' | split: ',' -%}
+  {%- for amount in demo_amounts -%}
+    <label class="gc__opt"><input class="gc__radio" type="radio" name="gc-amount-{{ section.id }}" value="" data-price="{{ amount | times: 100 | money }}" data-amount="{{ amount | times: 100 | money_without_trailing_zeros }}" data-available="true"{% if amount == '50' %} checked{% endif %}><span class="gc__opt-text">{{ amount | times: 100 | money_without_trailing_zeros }}</span></label>
+  {%- endfor -%}
+{%- endif -%}
+</div></fieldset>{%- if s.note != blank -%}<p class="gc__note">{{ s.note | escape }}</p>{%- endif -%}<div class="gc__actions"><button type="submit" name="add" class="gc__submit" data-gc-submit{% unless current_variant.available %} disabled{% endunless %}><span>{{ s.button_label | escape }}</span><span class="gc__arrow" aria-hidden="true"></span></button></div>
+{%- endform -%}
+{%- else -%}
+<div class="gc__form">
+<fieldset class="gc__fieldset"><legend class="gc__legend">{{ s.amount_label | escape }}</legend><div class="gc-a__options gc__options">
+{%- if gift_product != blank -%}
+  {%- for variant in gift_product.variants -%}
+    <label class="gc__opt"><input class="gc__radio" type="radio" name="gc-amount-{{ section.id }}" value="{{ variant.id }}" data-price="{{ variant.price | money }}" data-amount="{{ variant.price | money_without_trailing_zeros }}" data-available="{{ variant.available }}"{% if variant.id == current_variant.id %} checked{% endif %}{% unless variant.available %} disabled{% endunless %}><span class="gc__opt-text">{{ variant.price | money_without_trailing_zeros }}</span></label>
+  {%- endfor -%}
+{%- else -%}
+  {%- assign demo_amounts = '10,25,50,100' | split: ',' -%}
+  {%- for amount in demo_amounts -%}
+    <label class="gc__opt"><input class="gc__radio" type="radio" name="gc-amount-{{ section.id }}" value="" data-price="{{ amount | times: 100 | money }}" data-amount="{{ amount | times: 100 | money_without_trailing_zeros }}" data-available="true"{% if amount == '50' %} checked{% endif %}><span class="gc__opt-text">{{ amount | times: 100 | money_without_trailing_zeros }}</span></label>
+  {%- endfor -%}
+{%- endif -%}
+</div></fieldset>{%- if s.note != blank -%}<p class="gc__note">{{ s.note | escape }}</p>{%- endif -%}<div class="gc__actions"><button type="button" class="gc__submit" disabled><span>{{ s.button_label | escape }}</span><span class="gc__arrow" aria-hidden="true"></span></button></div>
+</div>
+{%- endif -%}{%- if s.fine != blank -%}<p class="gc__fine">{{ s.fine | escape }}</p>{%- endif -%}</div>
+</div>
+{%- if s.show_ticker and s.ticker_text != blank -%}
+<div class="gc__ticker" aria-hidden="true"><div class="gc__track">
+  {%- for i in (1..2) -%}<div class="gc__group">{%- for j in (1..5) -%}<span>{{ s.ticker_text | escape }}</span>{%- endfor -%}</div>{%- endfor -%}
+</div></div>
+{%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "SS Gift card #1 (Fan)",
+  "tag": "section",
+  "class": "giftcard-type1",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Gift card product",
+      "info": "Leave empty on a product template to use that page's product. Each variant becomes an amount."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Give someone a week off from cooking."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "A Chef Matt's Meals gift card lets them pick from the rotating menu and get fresh, chef-made meals delivered to their home."
+    },
+    {
+      "type": "text",
+      "id": "amount_label",
+      "label": "Amount label",
+      "default": "Choose an amount"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note",
+      "default": "Close to a full 5-meal plan, which starts at $60."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Add Gift Card To Cart"
+    },
+    {
+      "type": "text",
+      "id": "fine",
+      "label": "Small text",
+      "default": "Secure checkout. Delivered by email, so it arrives in minutes."
+    },
+    {
+      "type": "header",
+      "content": "Gift card artwork"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_image",
+      "label": "Card image (optional)",
+      "info": "Replaces the drawn card below."
+    },
+    {
+      "type": "text",
+      "id": "card_logo",
+      "label": "Logo letters",
+      "default": "CM"
+    },
+    {
+      "type": "text",
+      "id": "card_brand",
+      "label": "Brand name",
+      "default": "Meals"
+    },
+    {
+      "type": "text",
+      "id": "card_tag",
+      "label": "Brand tagline",
+      "default": "Fresh meal prep"
+    },
+    {
+      "type": "text",
+      "id": "card_gift",
+      "label": "Big word 1",
+      "default": "Gift"
+    },
+    {
+      "type": "text",
+      "id": "card_word",
+      "label": "Big word 2",
+      "default": "Card"
+    },
+    {
+      "type": "text",
+      "id": "card_fine",
+      "label": "Card small text",
+      "default": "Redeemable on any meal plan"
+    },
+    {
+      "type": "header",
+      "content": "Scrolling strip"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ticker",
+      "label": "Show scrolling strip",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "ticker_text",
+      "label": "Strip text",
+      "default": "Real ingredients. Real flavour. Real Chef Matt."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "accent",
+      "label": "Accent color",
+      "default": "#F5A623"
+    },
+    {
+      "type": "color",
+      "id": "ink",
+      "label": "Line color (borders, ribbons, shadows)",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Section background",
+      "default": "#FFFCF5"
+    },
+    {
+      "type": "color",
+      "id": "card",
+      "label": "Card background",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS Gift card #1 (Fan)"
+    }
+  ]
+}
+{% endschema %}
