@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -213,12 +222,308 @@
         "label": "Ready?",
         "button_link": "/collections/all"
       }
+    },
+    "howitworks_stepper": {
+      "type": "ss-howitworks-1",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "icon": "menu",
+            "title": "Browse this week's menu",
+            "text": "View the current menu and select items according to your preference.",
+            "button_style": "filled"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "icon": "cart",
+            "title": "Pick your meals",
+            "text": "Select your meals according to your preferred plan, then click",
+            "button_label": "Add To Cart",
+            "button_style": "filled"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "icon": "calendar",
+            "title": "Choose your delivery dates",
+            "text": "Select your delivery dates, then click",
+            "button_label": "Checkout",
+            "button_style": "outline"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "icon": "user",
+            "title": "Add your details",
+            "text": "Fill out your contact and delivery information.",
+            "button_style": "filled"
+          }
+        },
+        "step_5": {
+          "type": "step",
+          "settings": {
+            "icon": "card",
+            "title": "Review and pay",
+            "text": "Review your order summary and total bill, then click",
+            "button_label": "Pay Now",
+            "button_style": "filled"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "step_5"
+      ],
+      "settings": {
+        "badge": "Four simple steps",
+        "heading": "From Our Kitchen to Your Fridge",
+        "intro": "From this week's menu to your door, in a few taps.",
+        "cta_label": "Order Your Meals",
+        "cta_link": "shopify://collections/all",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFFFFF",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "howitworks_stairs": {
+      "type": "ss-howitworks-2",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "icon": "menu",
+            "title": "Browse this week's menu",
+            "text": "View the current menu and select items according to your preference.",
+            "button_style": "filled"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "icon": "cart",
+            "title": "Pick your meals",
+            "text": "Select your meals according to your preferred plan, then click",
+            "button_label": "Add To Cart",
+            "button_style": "filled"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "icon": "calendar",
+            "title": "Choose your delivery dates",
+            "text": "Select your delivery dates, then click",
+            "button_label": "Checkout",
+            "button_style": "outline"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "icon": "user",
+            "title": "Add your details",
+            "text": "Fill out your contact and delivery information.",
+            "button_style": "filled"
+          }
+        },
+        "step_5": {
+          "type": "step",
+          "settings": {
+            "icon": "card",
+            "title": "Review and pay",
+            "text": "Review your order summary and total bill, then click",
+            "button_label": "Pay Now",
+            "button_style": "filled"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "step_5"
+      ],
+      "settings": {
+        "badge": "Four simple steps",
+        "heading": "From Our Kitchen to Your Fridge",
+        "intro": "From this week's menu to your door, in a few taps.",
+        "cta_label": "Order Your Meals",
+        "cta_link": "shopify://collections/all",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFFFFF",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "howitworks_bento": {
+      "type": "ss-howitworks-3",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "icon": "menu",
+            "title": "Browse this week's menu",
+            "text": "View the current menu and select items according to your preference.",
+            "button_style": "filled"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "icon": "cart",
+            "title": "Pick your meals",
+            "text": "Select your meals according to your preferred plan, then click",
+            "button_label": "Add To Cart",
+            "button_style": "filled"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "icon": "calendar",
+            "title": "Choose your delivery dates",
+            "text": "Select your delivery dates, then click",
+            "button_label": "Checkout",
+            "button_style": "outline"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "icon": "user",
+            "title": "Add your details",
+            "text": "Fill out your contact and delivery information.",
+            "button_style": "filled"
+          }
+        },
+        "step_5": {
+          "type": "step",
+          "settings": {
+            "icon": "card",
+            "title": "Review and pay",
+            "text": "Review your order summary and total bill, then click",
+            "button_label": "Pay Now",
+            "button_style": "filled"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "step_5"
+      ],
+      "settings": {
+        "badge": "Four simple steps",
+        "heading": "From Our Kitchen to Your Fridge",
+        "intro": "From this week's menu to your door, in a few taps.",
+        "cta_label": "Order Your Meals",
+        "cta_link": "shopify://collections/all",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFFFFF",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "howitworks_timeline": {
+      "type": "ss-howitworks-4",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "icon": "menu",
+            "title": "Browse this week's menu",
+            "text": "View the current menu and select items according to your preference.",
+            "button_style": "filled"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "icon": "cart",
+            "title": "Pick your meals",
+            "text": "Select your meals according to your preferred plan, then click",
+            "button_label": "Add To Cart",
+            "button_style": "filled"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "icon": "calendar",
+            "title": "Choose your delivery dates",
+            "text": "Select your delivery dates, then click",
+            "button_label": "Checkout",
+            "button_style": "outline"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "icon": "user",
+            "title": "Add your details",
+            "text": "Fill out your contact and delivery information.",
+            "button_style": "filled"
+          }
+        },
+        "step_5": {
+          "type": "step",
+          "settings": {
+            "icon": "card",
+            "title": "Review and pay",
+            "text": "Review your order summary and total bill, then click",
+            "button_label": "Pay Now",
+            "button_style": "filled"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "step_5"
+      ],
+      "settings": {
+        "badge": "Four simple steps",
+        "heading": "From Our Kitchen to Your Fridge",
+        "intro": "From this week's menu to your door, in a few taps.",
+        "cta_label": "Order Your Meals",
+        "cta_link": "shopify://collections/all",
+        "accent": "#F5A623",
+        "ink": "#111111",
+        "bg": "#FFFFFF",
+        "card": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
     }
   },
   "order": [
     "hero",
     "steps",
     "good_to_know",
-    "cta"
+    "cta",
+    "howitworks_stepper",
+    "howitworks_stairs",
+    "howitworks_bento",
+    "howitworks_timeline"
   ]
 }

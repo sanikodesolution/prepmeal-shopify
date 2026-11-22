@@ -1,0 +1,254 @@
+{{ 'pm-howitworks-styles.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+<section
+  id="HowItWorksSplit-{{ section.id }}" class="section-{{ section.id }} pm-howitworks-split hw hw-c"
+  style="--hw-n: {{ section.blocks.size }}; --hw-accent: {{ s.accent }}; --hw-ink: {{ s.ink }}; --hw-bg: {{ s.bg }}; --hw-card: {{ s.card }}; --hw-pt: {{ s.padding_top }}px; --hw-pb: {{ s.padding_bottom }}px;"
+>
+<div class="hw__wrap page-width"><div class="hw-c__head"><div>{%- if s.badge != blank -%}<p class="hw__badge"><span class="hw__dot" aria-hidden="true"></span>{{ s.badge | escape }}</p>{%- endif -%}{%- if s.heading != blank -%}<h2 class="hw__heading">{{ s.heading | escape }}</h2>{%- endif -%}{%- if s.intro != blank -%}<p class="hw__intro">{{ s.intro | escape }}</p>{%- endif -%}</div>{%- if s.cta_label != blank -%}<a class="hw__cta" href="{{ s.cta_link | default: '#' }}"><span>{{ s.cta_label | escape }}</span><span class="hw__arrow" aria-hidden="true"></span></a>{%- endif -%}</div><ul class="hw__list hw-c__list" role="list">
+{%- for block in section.blocks -%}
+<li class="hw__step hw-c__step" style="--i: {{ forloop.index0 }}" {{ block.shopify_attributes }}><div class="hw-c__top"><span class="hw__ico"><span class="hw__glyph hw__glyph--{{ block.settings.icon }}" aria-hidden="true"></span></span><span class="hw__num">{{ forloop.index }}</span></div>{%- if block.settings.title != blank -%}<h3 class="hw__title">{{ block.settings.title | escape }}</h3>{%- endif -%}{%- if block.settings.text != blank -%}<p class="hw__text">{{ block.settings.text | escape }}</p>{%- endif -%}{%- if block.settings.button_label != blank -%}<a class="hw__btn hw__btn--{{ block.settings.button_style }}" href="{{ block.settings.button_link | default: '#' }}">{{ block.settings.button_label | escape }}</a>{%- endif -%}</li>
+{%- endfor -%}
+</ul></div>
+</section>
+
+{% schema %}
+{
+  "name": "SS How #3 (Bento)",
+  "tag": "section",
+  "class": "howitworks-type3",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge",
+      "default": "Four simple steps"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From Our Kitchen to Your Fridge"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro text",
+      "default": "From this week's menu to your door, in a few taps."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Order Your Meals"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "accent",
+      "label": "Accent color",
+      "default": "#F5A623"
+    },
+    {
+      "type": "color",
+      "id": "ink",
+      "label": "Line color (borders, shadows, rails)",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Section background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card",
+      "label": "Card background",
+      "default": "#FFF8EC"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "menu",
+          "options": [
+            {
+              "value": "menu",
+              "label": "Menu"
+            },
+            {
+              "value": "cart",
+              "label": "Cart"
+            },
+            {
+              "value": "calendar",
+              "label": "Calendar"
+            },
+            {
+              "value": "user",
+              "label": "User"
+            },
+            {
+              "value": "card",
+              "label": "Card"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "chef",
+              "label": "Chef"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "bag",
+              "label": "Bag"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Browse this week's menu"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "View the current menu and select items according to your preference."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label (optional)"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "default": "filled",
+          "options": [
+            {
+              "value": "filled",
+              "label": "Filled"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SS How #3 (Bento)",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "icon": "menu",
+            "title": "Browse this week's menu",
+            "text": "View the current menu and select items according to your preference.",
+                        "button_style": "filled"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "cart",
+            "title": "Pick your meals",
+            "text": "Select your meals according to your preferred plan, then click",
+            "button_label": "Add To Cart",
+            "button_style": "filled"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "calendar",
+            "title": "Choose your delivery dates",
+            "text": "Select your delivery dates, then click",
+            "button_label": "Checkout",
+            "button_style": "outline"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "user",
+            "title": "Add your details",
+            "text": "Fill out your contact and delivery information.",
+                        "button_style": "filled"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "icon": "card",
+            "title": "Review and pay",
+            "text": "Review your order summary and total bill, then click",
+            "button_label": "Pay Now",
+            "button_style": "filled"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
