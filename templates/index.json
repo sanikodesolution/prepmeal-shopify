@@ -155,7 +155,7 @@
         "button"
       ],
       "settings": {
-        "hero_style": "prep",
+        "hero_style": "market",
         "badge_text": "Delivered fresh",
         "show_visual": true,
         "visual_image_1": "shopify://shop_images/plate-chicken-veggies.png",

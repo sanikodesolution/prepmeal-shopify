@@ -2,6 +2,15 @@
 {%- if section.settings.hero_style == 'prep' -%}
   {{ 'section-banner-prep.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
+{%- if section.settings.hero_style == 'editorial' -%}
+  {{ 'section-banner-editorial.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{%- if section.settings.hero_style == 'studio' -%}
+  {{ 'section-banner-studio.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{%- if section.settings.hero_style == 'market' -%}
+  {{ 'section-banner-market.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
 
 {%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
   {%- style -%}
@@ -83,7 +92,7 @@
 
 <div
   id="Banner-{{ section.id }}"
-  class="pm-section-bg banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if section.settings.hero_style == 'prep' %} banner--prep{% if section.settings.show_visual %} banner--prep-plates{% endif %}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  class="pm-section-bg banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if section.settings.hero_style == 'prep' %} banner--prep{% if section.settings.show_visual %} banner--prep-plates{% endif %}{% elsif section.settings.hero_style == 'editorial' %} banner--editorial{% elsif section.settings.hero_style == 'studio' %} banner--studio{% elsif section.settings.hero_style == 'market' %} banner--market{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
   {% render 'pm-section-style', section: section %}
 >
   {%- if section.settings.image != blank -%}
@@ -219,6 +228,10 @@
                   assign pm_style_2 = 'outline'
                   if section.settings.hero_style == 'prep'
                     assign pm_style_2 = 'brand'
+                  elsif section.settings.hero_style == 'studio'
+                    assign pm_style_2 = 'ink'
+                  elsif section.settings.hero_style == 'market'
+                    assign pm_style_2 = 'light'
                   endif
                   render 'pm-button', label: block.settings.button_label_2, link: block.settings.button_link_2, style: pm_style_2, text_color: block.settings.button_text_2, bg_color: block.settings.button_bg_2, icon_bg: block.settings.button_icon_bg_2, icon_color: block.settings.button_icon_color_2, font_size: block.settings.button_font_size_2, hover_text_color: block.settings.button_hover_text_2, hover_bg_color: block.settings.button_hover_bg_2
                 -%}
@@ -275,6 +288,34 @@
       </div>
     {%- endif -%}
   {%- endif -%}
+  {%- if section.settings.hero_style == 'studio' and section.settings.badge_text != blank -%}
+    <div class="banner-studio__badge" aria-label="{{ section.settings.badge_text | escape }}">
+      <span class="banner-studio__badge-dot" aria-hidden="true"></span>
+      <span>{{ section.settings.badge_text | escape }}</span>
+    </div>
+  {%- endif -%}
+  {%- if section.settings.hero_style == 'market' and section.settings.show_visual -%}
+    <div class="banner-market__visual" aria-label="Chef-prepared meals">
+      <span class="banner-market__backdrop" aria-hidden="true"></span>
+      <div class="banner-market__grid">
+        {%- for i in (1..3) -%}
+          {%- liquid
+            assign market_image_key = 'visual_image_' | append: i
+            assign market_image = section.settings[market_image_key]
+            if market_image != blank
+              assign market_image_url = market_image | image_url: width: 900
+            else
+              assign market_image_url = 'cm-hero-banner.jpg' | asset_img_url: '1800x'
+            endif
+          -%}
+          <span class="banner-market__tile banner-market__tile--{{ i }}" style="background-image:url('{{ market_image_url }}')" aria-hidden="true"></span>
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.badge_text != blank -%}
+        <span class="banner-market__badge"><span aria-hidden="true"></span>{{ section.settings.badge_text | escape }}</span>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 </div>
 
 {% schema %}
@@ -292,7 +333,10 @@
       "label": "Banner style",
       "options": [
         { "value": "default", "label": "Default" },
-        { "value": "prep", "label": "Prep meal (text left, navy gradient)" }
+        { "value": "prep", "label": "Prep meal (text left, navy gradient)" },
+        { "value": "editorial", "label": "Style 2 — Editorial" },
+        { "value": "studio", "label": "Style 3 — Fresh Studio" },
+        { "value": "market", "label": "Style 4 — Market Collage" }
       ],
       "default": "default"
     },
@@ -300,14 +344,14 @@
       "type": "text",
       "id": "badge_text",
       "label": "Floating badge text",
-      "info": "Shown on the right side in the Prep meal style.",
+      "info": "Shown with the Prep meal and Fresh Studio styles.",
       "default": "Delivered fresh"
     },
     {
       "type": "checkbox",
       "id": "show_visual",
-      "label": "Show plate circles",
-      "info": "Prep meal style only. Hidden on mobile.",
+      "label": "Show food photo collage",
+      "info": "Used by Prep meal and Market Collage styles.",
       "default": true
     },
     {
