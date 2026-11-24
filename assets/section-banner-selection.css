@@ -1,0 +1,195 @@
+/* Style 6: Chef's Selection — an editorial menu card with a layered food portrait. */
+.banner--selection {
+  --selection-ink: #183b32;
+  --selection-paper: #f6f1e6;
+  --selection-orange: #e9873d;
+  position: relative;
+  min-height: clamp(58rem, 59vw, 74rem);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 2.4rem;
+  background: var(--selection-paper);
+}
+
+.banner--selection::after { opacity: 0 !important; }
+.banner--selection .banner__media { display: none; }
+.banner--selection::before {
+  position: absolute;
+  top: -24rem;
+  right: 6%;
+  width: 78rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(24, 59, 50, .12);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4rem rgba(24, 59, 50, .025), 0 0 0 9rem rgba(24, 59, 50, .02);
+  content: '';
+}
+
+.banner--selection .banner__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: inherit;
+  max-width: 132rem;
+  margin-inline: auto;
+  padding: clamp(5rem, 8vw, 10rem);
+  justify-content: flex-start;
+}
+
+.banner--selection .banner__box {
+  width: min(50%, 57rem);
+  max-width: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+
+.banner--selection .banner__text.subtitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2rem;
+  color: #a6562e;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+.banner--selection .banner__text.subtitle::before { width: 3.5rem; height: 1px; background: var(--selection-orange); content: ''; }
+.banner--selection .banner__heading {
+  max-width: 10ch;
+  margin: 0;
+  color: var(--selection-ink);
+  font-size: clamp(5.2rem, 6.4vw, 8.2rem);
+  font-weight: 600;
+  letter-spacing: -.07em;
+  line-height: .91;
+  text-wrap: balance;
+}
+.banner--selection .banner__text:not(.subtitle) { max-width: 40ch; margin: 2rem 0 0; color: #576b61; font-size: 1.65rem; line-height: 1.65; }
+.banner--selection .banner__text p { margin: 0; color: inherit; }
+.banner--selection .banner__buttons { gap: 1rem; margin-top: 2.8rem; }
+.banner--selection .banner__buttons > * { flex: 0 0 auto; }
+.banner--selection .banner__buttons .pm.pm--light {
+  --pm-bg: #fffdf6;
+  --pm-text: var(--selection-ink);
+  --pm-accent-text: var(--selection-ink);
+  --pm-icon-bg: var(--selection-ink);
+  --pm-icon-text: #fff;
+  --pm-hover-bg: var(--selection-orange);
+  --pm-hover-text: #fff;
+  background: #fffdf6;
+  color: var(--selection-ink);
+  box-shadow: 0 .8rem 2.4rem rgba(24, 59, 50, .13);
+}
+
+.banner-selection__visual {
+  position: absolute;
+  top: 5%;
+  right: 4%;
+  bottom: 5%;
+  z-index: 1;
+  width: 44%;
+}
+.banner-selection__halo {
+  position: absolute;
+  top: 3%;
+  right: 4%;
+  width: min(48vw, 59rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #dce4d6;
+}
+.banner-selection__dish {
+  position: absolute;
+  display: block;
+  border: .7rem solid #fffdf7;
+  background-color: #d8dfd3;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 2.4rem 5.5rem rgba(24, 59, 50, .18);
+}
+.banner-selection__dish--1 {
+  top: 8%; right: 13%; width: 69%; height: 78%;
+  border-radius: 47% 47% 2rem 2rem;
+  transform: rotate(2.5deg);
+}
+.banner-selection__dish--2 {
+  bottom: 3%; left: 0; width: 39%; height: 39%;
+  border-radius: 50%; transform: rotate(-8deg);
+}
+.banner-selection__dish--3 {
+  right: 0; bottom: 1%; width: 33%; height: 31%;
+  border-radius: 50%; transform: rotate(7deg);
+}
+.banner-selection__seal {
+  position: absolute;
+  top: 12%; left: 0;
+  display: flex;
+  width: 14rem;
+  aspect-ratio: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 50%;
+  outline: 1px solid var(--selection-orange);
+  outline-offset: .5rem;
+  background: var(--selection-orange);
+  color: var(--selection-ink);
+  text-align: center;
+  transform: rotate(-12deg);
+}
+.banner-selection__seal span:first-child { font-size: 1.1rem; font-weight: 700; letter-spacing: .16em; }
+.banner-selection__seal strong { font-size: 1.55rem; letter-spacing: .05em; }
+.banner-selection__seal span:last-child { max-width: 14ch; margin-top: .6rem; font-size: 1.15rem; font-weight: 700; letter-spacing: .06em; line-height: 1.35; }
+.banner-selection__caption {
+  position: absolute;
+  right: 4%;
+  bottom: 0;
+  display: grid;
+  gap: .45rem;
+  padding: 1.45rem 1.9rem;
+  border-radius: .8rem;
+  background: var(--selection-ink);
+  color: #fffdf7;
+  transform: rotate(-2deg);
+}
+.banner-selection__caption span { color: #f4bd57; font-size: 1.25rem; font-weight: 700; letter-spacing: .1em; }
+.banner-selection__caption strong { font-size: 1.8rem; font-weight: 500; }
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .banner--selection { min-height: 70rem; }
+  .banner--selection .banner__content { padding: 5rem 4rem; }
+  .banner--selection .banner__box { width: 54%; }
+  .banner--selection .banner__heading { font-size: clamp(5rem, 7vw, 6.8rem); }
+  .banner-selection__visual { right: 1%; width: 44%; }
+  .banner-selection__seal { width: 9rem; }
+}
+
+@media screen and (max-width: 749px) {
+  .banner--selection { display: flex; min-height: 0; flex-direction: column; border-radius: 1.6rem; }
+  .banner--selection.banner--medium, .banner--selection.banner--large { min-height: 0; }
+  .banner--selection::before { top: 23rem; right: -13rem; width: 42rem; }
+  .banner--selection .banner__content { min-height: 0; padding: 3.4rem 2.4rem 2.4rem; }
+  .banner--selection .banner__box { width: 100%; }
+  .banner--selection .banner__text.subtitle { margin-bottom: 1.2rem; font-size: .95rem; }
+  .banner--selection .banner__heading { max-width: 11ch; font-size: clamp(4rem, 11vw, 5.4rem); line-height: .98; }
+  .banner--selection .banner__text:not(.subtitle) { margin-top: 1.4rem; font-size: 1.5rem; }
+  .banner--selection .banner__buttons { flex-wrap: wrap; margin-top: 2rem; }
+  .banner-selection__visual { position: relative; top: auto; right: auto; bottom: auto; order: 1; width: 100%; height: 34rem; margin: 0 auto 2rem; }
+  .banner-selection__halo { top: 2%; right: 12%; width: 72%; }
+  .banner-selection__dish--1 { top: 8%; right: 19%; width: 59%; height: 77%; border-width: .55rem; }
+  .banner-selection__dish--2 { bottom: 1%; left: 8%; width: 32%; height: 37%; border-width: .45rem; }
+  .banner-selection__dish--3 { right: 10%; bottom: 0; width: 27%; height: 29%; border-width: .45rem; }
+  .banner-selection__seal { top: 4%; left: 4%; width: 9.5rem; }
+  .banner-selection__seal span:first-child { font-size: .9rem; }
+  .banner-selection__seal strong { font-size: 1.2rem; }
+  .banner-selection__seal span:last-child { max-width: 15ch; font-size: .95rem; letter-spacing: .04em; }
+  .banner-selection__caption { right: 6%; bottom: -1rem; padding: 1.15rem 1.35rem; }
+  .banner-selection__caption span { font-size: 1.1rem; }
+  .banner-selection__caption strong { font-size: 1.4rem; }
+}

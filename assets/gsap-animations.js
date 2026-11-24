@@ -230,6 +230,55 @@
     const tl = timeline(section, 'top 80%');
     if (!transparentBox) add(tl, box, { autoAlpha: 0, y: 60, scale: 0.96, duration: 1 }, 0);
 
+    // Animate each banner's art direction as well as its shared copy and image.
+    // Style-specific artwork below covers all custom banner visual treatments.
+    const studioBadge = section.querySelector('.banner-studio__badge');
+    const marketBackdrop = section.querySelector('.banner-market__backdrop');
+    const marketTiles = all(section, '.banner-market__tile');
+    const marketBadge = section.querySelector('.banner-market__badge');
+    const tablePhotos = all(section, '.banner-table__photo');
+    const tableIndex = section.querySelector('.banner-table__index');
+    const selectionHalo = section.querySelector('.banner-selection__halo');
+    const selectionDishes = all(section, '.banner-selection__dish');
+    const selectionSeal = section.querySelector('.banner-selection__seal');
+    const selectionCaption = section.querySelector('.banner-selection__caption');
+    const pickOrbit = section.querySelector('.banner-chef-pick__orbit');
+    const pickPhoto = section.querySelector('.banner-chef-pick__photo');
+    const pickStamp = section.querySelector('.banner-chef-pick__stamp');
+    const pickCaption = section.querySelector('.banner-chef-pick__caption');
+    const plateStudioOrbits = all(section, '.banner-plate-studio__orbit');
+    const plateStudioPhoto = section.querySelector('.banner-plate-studio__plate');
+    const plateStudioNote = section.querySelector('.banner-plate-studio__note');
+    const plateStudioNumber = section.querySelector('.banner-plate-studio__number');
+    const harvestPhoto = section.querySelector('.banner-harvest__photo');
+    const harvestEdge = section.querySelector('.banner-harvest__edge');
+    const harvestBadge = section.querySelector('.banner-harvest__badge');
+    const harvestVertical = section.querySelector('.banner-harvest__vertical');
+    const harvestNumber = section.querySelector('.banner-harvest__number');
+    add(tl, studioBadge, { autoAlpha: 0, y: 28, scale: 0.86, rotate: -5, duration: 0.8, ease: 'back.out(1.7)' }, 0.45);
+    add(tl, marketBackdrop, { autoAlpha: 0, scale: 0.78, duration: 1.2, ease: 'power3.out' }, 0.1);
+    add(tl, marketTiles, { autoAlpha: 0, y: 46, scale: 0.9, duration: 1, stagger: 0.14, ease: 'power3.out' }, 0.3);
+    add(tl, marketBadge, { autoAlpha: 0, y: 18, scale: 0.85, duration: 0.7, ease: 'back.out(1.8)' }, 0.85);
+    add(tl, tablePhotos, { autoAlpha: 0, y: 36, scale: 0.93, duration: 0.9, stagger: 0.13, ease: 'power3.out' }, 0.25);
+    add(tl, tableIndex, { autoAlpha: 0, y: 14, duration: 0.65, ease: 'power2.out' }, 0.75);
+    add(tl, selectionHalo, { autoAlpha: 0, scale: 0.78, duration: 1.2, ease: 'power3.out' }, 0.1);
+    add(tl, selectionDishes, { autoAlpha: 0, y: 34, scale: 0.9, duration: 1, stagger: 0.15, ease: 'power3.out' }, 0.25);
+    add(tl, selectionSeal, { autoAlpha: 0, scale: 0.65, rotate: 8, duration: 0.8, ease: 'back.out(1.8)' }, 0.55);
+    add(tl, selectionCaption, { autoAlpha: 0, y: 18, duration: 0.7, ease: 'power2.out' }, 0.8);
+    add(tl, pickOrbit, { autoAlpha: 0, scale: 0.86, rotate: -5, duration: 1.1, ease: 'power3.out' }, 0.1);
+    add(tl, pickPhoto, { autoAlpha: 0, scale: 1.08, clipPath: 'inset(8% 8% 8% 8% round 48% 48% 2rem 2rem)', duration: 1.35, ease: 'power3.out' }, 0.2);
+    add(tl, pickStamp, { autoAlpha: 0, scale: 0.65, rotate: 12, duration: 0.8, ease: 'back.out(1.8)' }, 0.65);
+    add(tl, pickCaption, { autoAlpha: 0, x: 24, duration: 0.75, ease: 'power2.out' }, 0.85);
+    add(tl, plateStudioOrbits, { autoAlpha: 0, scale: 0.8, rotate: 18, duration: 1.2, stagger: 0.12, ease: 'power3.out' }, 0.1);
+    add(tl, plateStudioPhoto, { autoAlpha: 0, scale: 0.72, clipPath: 'circle(0% at 50% 50%)', duration: 1.25, ease: 'power3.out' }, 0.25);
+    add(tl, plateStudioNote, { autoAlpha: 0, y: 24, rotate: 2, duration: 0.75, ease: 'back.out(1.5)' }, 0.75);
+    add(tl, plateStudioNumber, { autoAlpha: 0, x: 30, duration: 0.9, ease: 'power2.out' }, 0.45);
+    add(tl, harvestPhoto, { autoAlpha: 0, x: -36, scale: 1.06, duration: 1.25, ease: 'power3.out' }, 0.15);
+    add(tl, harvestEdge, { scaleY: 0, transformOrigin: 'bottom right', duration: 0.8, ease: 'power3.out' }, 0.45);
+    add(tl, harvestBadge, { autoAlpha: 0, y: 20, scale: 0.92, duration: 0.75, ease: 'back.out(1.6)' }, 0.65);
+    add(tl, harvestVertical, { autoAlpha: 0, y: -18, duration: 0.75, ease: 'power2.out' }, 0.5);
+    add(tl, harvestNumber, { autoAlpha: 0, x: 30, duration: 0.9, ease: 'power2.out' }, 0.4);
+
     let pins = [];
     const subtitles = all(box, '.banner__text').filter((text) => {
       const paragraph = text.querySelector('p');

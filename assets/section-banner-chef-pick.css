@@ -1,0 +1,181 @@
+/* Style 7: Chef's Pick is a dramatic supper-club feature with one hero photograph. */
+.banner--chef-pick {
+  --pick-green: #173b32;
+  --pick-paper: #f9f4e9;
+  --pick-orange: #eea13b;
+  position: relative;
+  min-height: clamp(62rem, 62vw, 78rem);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 2.4rem;
+  background: var(--pick-green);
+}
+.banner--chef-pick::after { opacity: 0 !important; }
+.banner--chef-pick .banner__media { display: none; }
+.banner--chef-pick::before {
+  position: absolute;
+  top: -10rem;
+  right: 38%;
+  width: 46rem;
+  aspect-ratio: 1;
+  border: 1px solid rgba(249, 244, 233, .14);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4rem rgba(249,244,233,.025), 0 0 0 9rem rgba(249,244,233,.02);
+  content: '';
+}
+.banner--chef-pick .banner__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: inherit;
+  max-width: 132rem;
+  margin-inline: auto;
+  padding: clamp(5rem, 8vw, 10rem);
+  justify-content: flex-start;
+}
+.banner--chef-pick .banner__box {
+  width: min(48%, 56rem);
+  max-width: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+.banner--chef-pick .banner__text.subtitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2rem;
+  color: var(--pick-orange);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.banner--chef-pick .banner__text.subtitle::before { width: 3.5rem; height: 1px; background: var(--pick-orange); content: ''; }
+.banner--chef-pick .banner__heading {
+  max-width: 9ch;
+  margin: 0;
+  color: var(--pick-paper);
+  font-size: clamp(5.2rem, 6.6vw, 8.4rem);
+  font-weight: 600;
+  letter-spacing: -.07em;
+  line-height: .91;
+  text-wrap: balance;
+}
+.banner--chef-pick .banner__text:not(.subtitle) { max-width: 39ch; margin: 2rem 0 0; color: rgba(249,244,233,.76); font-size: 1.65rem; line-height: 1.65; }
+.banner--chef-pick .banner__text p { margin: 0; color: inherit; }
+.banner--chef-pick .banner__buttons { gap: 1rem; margin-top: 2.8rem; }
+.banner--chef-pick .banner__buttons > * { flex: 0 0 auto; }
+.banner--chef-pick .banner__buttons .pm.pm--light {
+  --pm-bg: #f9f4e9;
+  --pm-text: var(--pick-green);
+  --pm-accent-text: var(--pick-green);
+  --pm-icon-bg: var(--pick-orange);
+  --pm-icon-text: #18221e;
+  --pm-hover-bg: var(--pick-orange);
+  --pm-hover-text: #18221e;
+  background: var(--pick-paper);
+  color: var(--pick-green);
+}
+.banner--chef-pick .banner__buttons .pm.pm--brand {
+  --pm-bg: var(--pick-orange);
+  --pm-text: #18221e;
+  --pm-accent-text: #18221e;
+  --pm-hover-bg: #f9f4e9;
+  --pm-hover-text: var(--pick-green);
+}
+.banner-chef-pick__visual {
+  position: absolute;
+  top: 5%;
+  right: 4%;
+  bottom: 5%;
+  z-index: 1;
+  width: 45%;
+}
+.banner-chef-pick__orbit {
+  position: absolute;
+  top: 1%;
+  right: 0;
+  width: 88%;
+  height: 94%;
+  border: 1px solid rgba(238,161,59,.8);
+  border-radius: 48% 48% 2rem 2rem;
+  transform: rotate(5deg);
+}
+.banner-chef-pick__photo {
+  position: absolute;
+  inset: 4% 7% 2% 7%;
+  display: block;
+  border: .65rem solid rgba(249,244,233,.9);
+  border-radius: 46% 46% 1.8rem 1.8rem;
+  background-color: #d8dfd3;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 2.5rem 6rem rgba(0,0,0,.24);
+}
+.banner-chef-pick__stamp {
+  position: absolute;
+  top: 12%;
+  left: 0;
+  display: flex;
+  width: 12rem;
+  aspect-ratio: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(249,244,233,.5);
+  border-radius: 50%;
+  outline: 1px solid var(--pick-orange);
+  outline-offset: .5rem;
+  background: var(--pick-orange);
+  color: var(--pick-green);
+  text-align: center;
+  transform: rotate(-10deg);
+}
+.banner-chef-pick__stamp span { font-size: 1.1rem; font-weight: 700; letter-spacing: .12em; }
+.banner-chef-pick__stamp strong { font-size: 4rem; font-weight: 600; letter-spacing: -.08em; line-height: .95; }
+.banner-chef-pick__caption {
+  position: absolute;
+  right: 0;
+  bottom: 4%;
+  display: grid;
+  gap: .5rem;
+  padding: 1.7rem 2.2rem;
+  border-left: 2px solid var(--pick-orange);
+  background: var(--pick-green);
+  color: var(--pick-paper);
+}
+.banner-chef-pick__caption span { color: var(--pick-orange); font-size: 1.25rem; font-weight: 700; letter-spacing: .1em; }
+.banner-chef-pick__caption strong { font-size: 2rem; font-weight: 500; }
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .banner--chef-pick { min-height: 70rem; }
+  .banner--chef-pick .banner__content { padding: 5rem 4rem; }
+  .banner--chef-pick .banner__box { width: 51%; }
+  .banner--chef-pick .banner__heading { font-size: clamp(5rem, 7vw, 6.8rem); }
+  .banner-chef-pick__visual { right: 1%; width: 43%; }
+  .banner-chef-pick__stamp { width: 9rem; }
+}
+@media screen and (max-width: 749px) {
+  .banner--chef-pick { display: flex; min-height: 0; flex-direction: column; border-radius: 1.6rem; }
+  .banner--chef-pick.banner--medium, .banner--chef-pick.banner--large { min-height: 0; }
+  .banner--chef-pick::before { top: 24rem; right: -20rem; width: 42rem; }
+  .banner--chef-pick .banner__content { min-height: 0; padding: 3.4rem 2.4rem 2.4rem; }
+  .banner--chef-pick .banner__box { width: 100%; }
+  .banner--chef-pick .banner__text.subtitle { margin-bottom: 1.2rem; font-size: .95rem; }
+  .banner--chef-pick .banner__heading { max-width: 10ch; font-size: clamp(4rem, 11vw, 5.4rem); line-height: .98; }
+  .banner--chef-pick .banner__text:not(.subtitle) { margin-top: 1.4rem; font-size: 1.5rem; }
+  .banner--chef-pick .banner__buttons { flex-wrap: wrap; margin-top: 2rem; }
+  .banner-chef-pick__visual { position: relative; top: auto; right: auto; bottom: auto; order: 1; width: 100%; height: 36rem; margin: 0 auto 2.5rem; }
+  .banner-chef-pick__orbit { top: 1%; right: 6%; width: 84%; height: 92%; }
+  .banner-chef-pick__photo { inset: 4% 12% 3%; border-width: .55rem; }
+  .banner-chef-pick__stamp { top: 10%; left: 4%; width: 9.5rem; }
+  .banner-chef-pick__stamp span { font-size: .95rem; letter-spacing: .08em; }
+  .banner-chef-pick__stamp strong { font-size: 3rem; }
+  .banner-chef-pick__caption { right: 6%; bottom: 0; padding: 1.2rem 1.5rem; }
+  .banner-chef-pick__caption span { font-size: 1.1rem; letter-spacing: .08em; }
+  .banner-chef-pick__caption strong { font-size: 1.5rem; }
+}
