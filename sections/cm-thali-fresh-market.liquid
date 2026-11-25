@@ -1,0 +1,41 @@
+{{ 'section-cm-thali-wheel.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cm-thali-wheel.js' | asset_url }}" defer="defer"></script>
+{% render 'cm-thali-design-layout', section: section, design: 'market' %}
+
+{% schema %}
+{
+  "name": "Fresh market",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "text", "id": "label", "label": "Eyebrow", "default": "This Week at ChefMatts" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pick Your Flavor" },
+    { "type": "text", "id": "heading_accent", "label": "Accent word", "default": "Flavor" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>A new menu every week, cooked by Chef Matt. Choose the plates you want and we bring them to your door.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Meal plate", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Meal image" },
+      { "type": "text", "id": "image_asset", "label": "Theme asset filename" },
+      { "type": "text", "id": "title", "label": "Meal title", "default": "Chicken Biryani with Raita" }
+    ] }
+  ],
+  "presets": [
+    { "name": "Fresh market", "settings": { "button_link": "shopify://collections/meal-plans" }, "blocks": [
+      { "type": "item", "settings": { "image_asset": "mp-food-0.jpg", "title": "Chicken Biryani with Raita" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-1.jpg", "title": "Tandoori Chicken Leg with Veg Jalfrezi" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-2.jpg", "title": "Butter Chicken with Aloo Methi" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-3.jpg", "title": "Coconut Fish Curry with Jeera Aloo" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-4.jpg", "title": "Lamb Korma with Green Salad" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-5.jpg", "title": "Chana Masala with Jeera Aloo" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-6.jpg", "title": "Palak Paneer with Aloo Gobi" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-7.jpg", "title": "Dal Makhani with Bhindi Masala" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-8.jpg", "title": "Malai Kofta with Rajma" } },
+      { "type": "item", "settings": { "image_asset": "mp-food-9.jpg", "title": "Baingan Bharta with Rajma Masala" } }
+    ] }
+  ]
+}
+{% endschema %}
