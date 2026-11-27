@@ -1,7 +1,6 @@
-/* Style 5: The Weekly Table uses the food photo as a full-bleed backdrop. */
+/* Style 5: The Weekly Table pairs a deep green field with a large food portrait. */
 .banner--table {
   --table-ink: #173b32;
-  --table-paper: #f6f1e5;
   --table-orange: #e77b42;
   position: relative;
   min-height: clamp(60rem, 58vw, 76rem);
@@ -11,16 +10,15 @@
   background: var(--table-ink);
 }
 .banner--table::after {
-  z-index: 1;
-  opacity: 1 !important;
-  background: linear-gradient(90deg, rgba(13,34,28,.86) 0%, rgba(13,34,28,.68) 40%, rgba(13,34,28,.18) 74%, rgba(13,34,28,.08) 100%);
+  opacity: 0 !important;
+  background: transparent;
 }
 .banner--table::before {
   position: absolute;
-  top: -25%;
-  right: -9%;
-  z-index: 1;
-  width: min(52vw, 66rem);
+  top: -18%;
+  right: 4%;
+  z-index: 0;
+  width: min(46vw, 58rem);
   aspect-ratio: 1;
   border: 1px solid rgba(255,255,255,.24);
   border-radius: 50%;
@@ -31,10 +29,14 @@
 .banner--table .banner__media { display: none; }
 .banner-table__background {
   position: absolute;
-  inset: 0;
-  z-index: 0;
+  inset: 5% 5% 5% auto;
+  z-index: 1;
+  width: 41%;
   overflow: hidden;
+  border: .7rem solid rgba(255,253,247,.88);
+  border-radius: 44% 44% 1.6rem 1.6rem;
   background-color: var(--table-ink);
+  box-shadow: 0 2.4rem 6rem rgba(0,0,0,.24);
 }
 .banner-table__background-image {
   position: absolute;
@@ -44,7 +46,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.015);
+  transform: scale(1.04);
 }
 .banner--table .banner__content {
   position: relative;
@@ -53,12 +55,12 @@
   min-height: inherit;
   max-width: 144rem;
   margin-inline: auto;
-  padding: clamp(4.5rem, 7vw, 9rem);
+  padding: clamp(4.5rem, 6.5vw, 8.5rem) 8%;
   align-items: center;
   justify-content: flex-start;
 }
 .banner--table .banner__box {
-  width: min(78%, 96rem);
+  width: min(58%, 78rem);
   max-width: none;
   padding: 0;
   border: 0;
@@ -87,17 +89,17 @@
   content: '';
 }
 .banner--table .banner__heading {
-  max-width: 14ch;
+  max-width: 13ch;
   margin: 0;
   color: #fffdf7;
-  font-size: clamp(4.8rem, 6.1vw, 8.2rem);
+  font-size: clamp(4.8rem, 5.8vw, 7.8rem);
   font-weight: 600;
   letter-spacing: -.07em;
   line-height: .94;
   text-wrap: balance;
 }
 .banner--table .banner__text:not(.subtitle) {
-  max-width: 52ch;
+  max-width: 48ch;
   margin: 2rem 0 0;
   color: rgba(255,253,247,.9);
   font-size: clamp(1.55rem, 1.35vw, 1.8rem);
@@ -139,26 +141,31 @@
 }
 
 @media screen and (min-width: 750px) and (max-width: 989px) {
-  .banner--table .banner__box { width: min(82%, 76rem); }
-  .banner--table .banner__heading { font-size: clamp(5rem, 7vw, 7rem); }
+  .banner--table .banner-table__background { right: 3%; width: 40%; }
+  .banner--table .banner__box { width: 58%; }
+  .banner--table .banner__heading { font-size: clamp(4.8rem, 6.4vw, 6.2rem); }
 }
 
 @media screen and (max-width: 749px) {
   .banner--table {
     display: flex;
-    min-height: 64rem;
+    min-height: 76rem;
     flex-direction: column;
     border-radius: 1.5rem;
   }
   .banner--table.banner--medium,
-  .banner--table.banner--large { min-height: 64rem; }
-  .banner--table::after {
-    background: linear-gradient(0deg, rgba(13,34,28,.88) 0%, rgba(13,34,28,.76) 46%, rgba(13,34,28,.12) 100%);
+  .banner--table.banner--large { min-height: 76rem; }
+  .banner--table::before { top: 2rem; right: -8rem; width: 32rem; }
+  .banner--table .banner-table__background {
+    inset: 2rem 2rem auto;
+    width: auto;
+    height: 28rem;
+    border-width: .5rem;
+    border-radius: 13rem 1.2rem 1.2rem 1.2rem;
   }
-  .banner--table::before { top: -9rem; right: -14rem; width: 34rem; }
   .banner--table .banner__content {
-    min-height: 64rem;
-    padding: 3.2rem 2.4rem;
+    min-height: 76rem;
+    padding: 31rem 2.4rem 3.2rem;
     align-items: flex-end;
   }
   .banner--table .banner__box { width: 100%; }
