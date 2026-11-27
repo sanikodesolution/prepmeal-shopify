@@ -303,7 +303,17 @@
         assign table_background_url = 'cm-hero-banner.jpg' | asset_url
       endif
     -%}
-    <div class="banner-table__background" style="background-image:url('{{ table_background_url }}')" aria-hidden="true"></div>
+    <div class="banner-table__background" aria-hidden="true">
+      <img
+        class="banner-table__background-image"
+        src="{{ table_background_url }}"
+        alt=""
+        width="2400"
+        height="1400"
+        loading="eager"
+        fetchpriority="high"
+      >
+    </div>
   {%- endif -%}
   {%- if section.settings.hero_style == 'prep' -%}
     {%- if section.settings.show_visual or section.settings.badge_text != blank -%}
