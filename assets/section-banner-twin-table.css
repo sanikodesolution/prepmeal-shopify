@@ -1,0 +1,160 @@
+/* Style 13: a clear editorial copy column beside a layered food collage. */
+.banner--twin-table {
+  --twin-ink: #193b32;
+  --twin-paper: #f3eadb;
+  position: relative;
+  min-height: clamp(54rem, 57vw, 72rem);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 2.4rem;
+  background: var(--twin-paper);
+}
+
+.banner--twin-table::after { display: none; }
+.banner--twin-table::before {
+  position: absolute;
+  top: 8%;
+  right: -8%;
+  z-index: 0;
+  width: 47%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(25, 59, 50, .1);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3.5rem rgba(25, 59, 50, .025), 0 0 0 8rem rgba(25, 59, 50, .018);
+  content: '';
+  pointer-events: none;
+}
+
+.banner--twin-table .banner__content {
+  position: relative;
+  z-index: 2;
+  width: 57%;
+  height: 100%;
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+  padding: clamp(4rem, 6vw, 8rem) 2% clamp(4rem, 6vw, 8rem) 6%;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.banner--twin-table .banner__box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 70rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+
+.banner--twin-table .banner__text.subtitle {
+  margin: 0 0 1.6rem;
+  color: #9f542e;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.banner--twin-table .banner__heading {
+  max-width: 13ch;
+  margin: 0;
+  color: var(--twin-ink);
+  font-size: clamp(4.4rem, 5vw, 7.2rem);
+  letter-spacing: -.065em;
+  line-height: .96;
+  text-wrap: balance;
+}
+
+.banner--twin-table .banner__text:not(.subtitle) {
+  max-width: 40ch;
+  margin: 1.8rem 0 0;
+  color: #58675d;
+  font-size: 1.6rem;
+  line-height: 1.65;
+}
+
+.banner--twin-table .banner__text p { margin: 0; }
+.banner--twin-table .banner__buttons { gap: 1rem; margin: 2.4rem 0 0; }
+
+.banner--twin-table .banner__media {
+  position: absolute;
+  z-index: 1;
+  display: block;
+  height: auto;
+  overflow: hidden;
+  border: .7rem solid #fffdf7;
+  background: #d7ded1;
+  box-shadow: 0 1.8rem 4.5rem rgba(23, 56, 47, .18);
+}
+
+.banner--twin-table .banner__media img { width: 100%; height: 100%; object-fit: cover; }
+.banner--twin-table .banner__media:first-child {
+  top: 12%;
+  right: 7%;
+  bottom: 13%;
+  width: 37%;
+  border-radius: 13rem 1rem 1rem 1rem;
+  transform: rotate(1deg);
+}
+.banner--twin-table .banner__media:nth-of-type(2) {
+  top: 43%;
+  right: 33%;
+  bottom: 8%;
+  width: 25%;
+  border-radius: 1rem 8rem 1rem 1rem;
+  transform: rotate(-2deg);
+}
+
+@media (max-width: 989px) {
+  .banner--twin-table { min-height: 76rem; border-radius: 1.8rem; }
+  .banner--twin-table.banner--medium,
+  .banner--twin-table.banner--large { min-height: 76rem; }
+  .banner--twin-table::before { top: auto; right: -14%; bottom: -3%; width: 62%; }
+  .banner--twin-table .banner__content {
+    width: 100%;
+    height: 62%;
+    padding: 4.5rem 6% 2rem;
+  }
+  .banner--twin-table .banner__box { max-width: 68rem; }
+  .banner--twin-table .banner__heading { max-width: 15ch; font-size: clamp(4.4rem, 7vw, 6.6rem); }
+  .banner--twin-table .banner__media:first-child {
+    top: 63%; right: 5%; bottom: 5%; width: 48%;
+    border-radius: 9rem 1rem 1rem 1rem;
+  }
+  .banner--twin-table .banner__media:nth-of-type(2) {
+    top: 68%; right: 47%; bottom: 8%; width: 37%;
+    border-radius: 1rem 7rem 1rem 1rem;
+  }
+}
+
+@media (max-width: 749px) {
+  .banner--twin-table,
+  .banner--twin-table.banner--medium,
+  .banner--twin-table.banner--large { min-height: 72rem; border-radius: 1.4rem; }
+  .banner--twin-table::before { right: -24%; bottom: 0; width: 82%; }
+  .banner--twin-table .banner__content {
+    height: 64%;
+    padding: 3.4rem 2.4rem 1rem;
+  }
+  .banner--twin-table .banner__text.subtitle { margin-bottom: 1.2rem; font-size: .95rem; }
+  .banner--twin-table .banner__heading { max-width: 12ch; font-size: clamp(3.8rem, 10vw, 5.6rem); line-height: .98; }
+  .banner--twin-table .banner__text:not(.subtitle) { max-width: 38ch; margin-top: 1.4rem; font-size: 1.5rem; }
+  .banner--twin-table .banner__buttons { gap: .8rem; margin-top: 1.8rem; }
+  .banner--twin-table .banner__media:first-child {
+    top: 67%; right: 2.4rem; bottom: 2rem; width: 52%;
+    border-width: .5rem; border-radius: 7rem .8rem .8rem .8rem;
+  }
+  .banner--twin-table .banner__media:nth-of-type(2) {
+    top: 72%; right: 47%; bottom: 3.5rem; width: 38%;
+    border-width: .5rem; border-radius: .8rem 6rem .8rem .8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner--twin-table .banner__media { transform: none; }
+}
