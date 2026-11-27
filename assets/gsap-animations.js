@@ -1304,6 +1304,9 @@
     { match: '[data-cm]', run: chefMatt },
     { match: '.announcement-bar-section', run: announcementBar },
     { match: '.section-header', run: header },
+    // The home carousel owns its own GSAP timeline; keep the generic banner
+    // reveal/parallax from competing with slide transitions.
+    { match: '.home-banner-slider', run: () => {} },
     { match: '.feature-type1', run: featureGrid },
     { match: '.image-with-text', run: imageWithText },
     { match: '.banner', run: imageBanner },

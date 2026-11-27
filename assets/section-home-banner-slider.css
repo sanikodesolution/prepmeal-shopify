@@ -1,0 +1,126 @@
+.home-banner-slider {
+  --hbs-height: clamp(54rem, 58vw, 72rem);
+  position: relative;
+  width: 100%;
+  max-width: 144rem;
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+.home-banner-slider__viewport {
+  position: relative;
+  height: var(--hbs-height);
+  min-height: var(--hbs-height);
+  overflow: hidden;
+  border-radius: 2.4rem;
+  isolation: isolate;
+  background: #f6f1e7;
+  box-shadow: 0 1.5rem 5rem rgba(20,45,35,.12);
+  touch-action: pan-y;
+}
+.home-banner-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: var(--hbs-height) !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: clip-path, transform, opacity;
+}
+.home-banner-slide.is-active {
+  z-index: 1;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.home-banner-slide .banner__content { min-height: 100%; }
+.home-banner-slide.banner--twin-table .banner__content { min-height: 0; }
+.home-banner-slide .banner__media img { width: 100%; height: 100%; object-fit: cover; }
+.home-banner-slide.banner--bistro-split,
+.home-banner-slide.banner--full-bleed,
+.home-banner-slide.banner--editorial-card,
+.home-banner-slide.banner--twin-table { min-height: var(--hbs-height) !important; }
+.home-banner-slider .banner__buttons { gap: 1rem; }
+.home-banner-slider .home-banner-slider__cta { --pm-hover-bg: #17382f; }
+.home-banner-slider__controls {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  width: fit-content;
+  min-height: 5.6rem;
+  margin: 1.2rem auto 0;
+  padding: .5rem 1rem;
+  border: 1px solid rgba(24,59,50,.12);
+  border-radius: 99rem;
+  background: #fffdf8;
+  box-shadow: 0 .7rem 2.5rem rgba(24,59,50,.08);
+}
+.home-banner-slider__arrow,
+.home-banner-slider__toggle {
+  display: grid;
+  flex: 0 0 3.8rem;
+  width: 3.8rem;
+  height: 3.8rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #183b32;
+  cursor: pointer;
+  transition: color .2s ease, background-color .2s ease, transform .2s ease;
+}
+.home-banner-slider__arrow:hover,
+.home-banner-slider__toggle:hover { transform: scale(1.08); background: #e9eee5; }
+.home-banner-slider__arrow svg,
+.home-banner-slider__toggle svg { width: 2rem; height: 2rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.home-banner-slider__toggle { position: relative; }
+.home-banner-slider__play { display: none; }
+.home-banner-slider__toggle[aria-pressed="true"] .home-banner-slider__pause { display: none; }
+.home-banner-slider__toggle[aria-pressed="true"] .home-banner-slider__play { display: block; }
+.home-banner-slider__arrow:focus-visible,
+.home-banner-slider__toggle:focus-visible { outline: .2rem solid #df8240; outline-offset: .3rem; }
+.home-banner-slider__progress {
+  position: absolute;
+  right: 2rem;
+  bottom: -.2rem;
+  left: 2rem;
+  display: block;
+  height: .2rem;
+  overflow: hidden;
+  border-radius: 99rem;
+  background: rgba(24,59,50,.1);
+}
+.home-banner-slider__progress > span { display: block; width: 100%; height: 100%; transform: scaleX(0); transform-origin: left center; background: #df8240; }
+.home-banner-slide .banner__heading,
+.home-banner-slide .banner__text,
+.home-banner-slide .banner__buttons { will-change: transform, opacity; }
+.home-banner-slider__word-window { display: inline-block; overflow: hidden; margin-bottom: -.08em; padding-bottom: .08em; vertical-align: bottom; }
+.home-banner-slider__word { display: inline-block; will-change: transform; }
+.home-banner-slide .banner__media img { transform: scale(1); will-change: transform; }
+.home-banner-slider__arrow:disabled,
+.home-banner-slider__toggle:disabled { opacity: .45; cursor: default; }
+
+@media(max-width: 749px) {
+  .home-banner-slider { --hbs-height: 68rem; padding-inline: 1.2rem; }
+  .home-banner-slider__viewport { border-radius: 1.5rem; }
+  .home-banner-slide { border-radius: 1.5rem; }
+  .home-banner-slide.banner--bistro-split .banner__content,
+  .home-banner-slide.banner--editorial-card .banner__content,
+  .home-banner-slide.banner--twin-table .banner__content { min-height: 0; }
+  .home-banner-slider__controls { min-height: 5rem; gap: 1.1rem; margin-top: .9rem; padding: .4rem .7rem; }
+  .home-banner-slider__arrow,
+  .home-banner-slider__toggle { flex-basis: 3.5rem; width: 3.5rem; height: 3.5rem; }
+}
+@media(max-width: 380px) {
+  .home-banner-slider { --hbs-height: 72rem; }
+  .home-banner-slider__controls { gap: .7rem; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .home-banner-slider__arrow,
+  .home-banner-slider__toggle { transition: none; }
+  .home-banner-slider__word { will-change: auto; }
+}

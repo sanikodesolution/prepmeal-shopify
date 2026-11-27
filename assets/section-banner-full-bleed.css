@@ -1,0 +1,63 @@
+/* Style 11: a cinematic full-photo banner with copy in a clear, high-contrast panel. */
+.banner--full-bleed {
+  position: relative;
+  min-height: clamp(54rem, 58vw, 74rem);
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 2.4rem;
+  background: #193b32;
+}
+.banner--full-bleed::before {
+  position: absolute;
+  top: -31%;
+  right: -6%;
+  z-index: 1;
+  width: min(58vw, 74rem);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255,253,247,.35);
+  border-radius: 50%;
+  box-shadow: 0 0 0 4rem rgba(255,253,247,.07), 0 0 0 9rem rgba(255,253,247,.035);
+  content: '';
+  pointer-events: none;
+}
+.banner--full-bleed::after {
+  z-index: 1;
+  opacity: 1 !important;
+  background: linear-gradient(90deg, rgba(15,35,29,.82) 0%, rgba(15,35,29,.55) 44%, rgba(15,35,29,.04) 100%);
+}
+.banner--full-bleed .banner__media { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.banner--full-bleed .banner__media img { width: 100%; height: 100%; object-fit: cover; }
+.banner--full-bleed .banner__media:nth-of-type(n+2) { display: none; }
+.banner--full-bleed .banner__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: inherit;
+  max-width: 132rem;
+  margin-inline: auto;
+  padding: clamp(4rem, 8vw, 10rem);
+  justify-content: flex-start;
+}
+.banner--full-bleed .banner__box {
+  width: min(62%, 67rem);
+  max-width: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+.banner--full-bleed .banner__heading { max-width: 12ch; margin: 0; color: #fffdf7; font-size: clamp(4.8rem, 6.7vw, 8.8rem); letter-spacing: -.07em; line-height: .93; text-wrap: balance; }
+.banner--full-bleed .banner__text.subtitle { margin: 0 0 1.8rem; color: #f4c58d; font-size: 1.15rem; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+.banner--full-bleed .banner__text:not(.subtitle) { max-width: 42ch; margin-top: 2rem; color: rgba(255,253,247,.9); font-size: 1.65rem; line-height: 1.6; }
+.banner--full-bleed .banner__text p { margin: 0; }
+.banner--full-bleed .banner__buttons { gap: 1rem; margin-top: 2.8rem; }
+@media(max-width: 749px) {
+  .banner--full-bleed { min-height: 58rem; border-radius: 1.4rem; }
+  .banner--full-bleed .banner__content { min-height: inherit; padding: 3rem 2.4rem; }
+  .banner--full-bleed::before { top: -11rem; right: -13rem; width: 34rem; }
+  .banner--full-bleed .banner__box { width: 100%; }
+  .banner--full-bleed .banner__heading { font-size: clamp(4.4rem, 12vw, 6rem); }
+  .banner--full-bleed .banner__text:not(.subtitle) { margin-top: 1.5rem; font-size: 1.5rem; }
+  .banner--full-bleed::after { background: linear-gradient(0deg, rgba(15,35,29,.82), rgba(15,35,29,.18)); }
+}

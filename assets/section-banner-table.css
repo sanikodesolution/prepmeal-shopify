@@ -1,57 +1,57 @@
-/* Style 5: The Weekly Table sets the message above a wide menu-photo strip. */
+/* Style 5: The Weekly Table uses the food photo as a full-bleed backdrop. */
 .banner--table {
   --table-ink: #173b32;
   --table-paper: #f6f1e5;
   --table-orange: #e77b42;
-  min-height: clamp(82rem, 76vw, 96rem);
+  position: relative;
+  min-height: clamp(60rem, 58vw, 76rem);
   overflow: hidden;
   isolation: isolate;
   border-radius: 2.4rem;
-  background: var(--table-paper);
+  background: var(--table-ink);
 }
-
 .banner--table::after {
-  opacity: 0 !important;
-  background: transparent;
+  z-index: 1;
+  opacity: 1 !important;
+  background: linear-gradient(90deg, rgba(13,34,28,.86) 0%, rgba(13,34,28,.68) 40%, rgba(13,34,28,.18) 74%, rgba(13,34,28,.08) 100%);
 }
-
 .banner--table::before {
   position: absolute;
-  top: 8%;
-  right: -5%;
-  z-index: 0;
-  width: 34rem;
+  top: -25%;
+  right: -9%;
+  z-index: 1;
+  width: min(52vw, 66rem);
   aspect-ratio: 1;
-  border: 1px solid rgba(23, 59, 50, .1);
+  border: 1px solid rgba(255,255,255,.24);
   border-radius: 50%;
+  box-shadow: 0 0 0 3.5rem rgba(255,255,255,.045), 0 0 0 8rem rgba(255,255,255,.025);
   content: '';
+  pointer-events: none;
 }
-
-.banner--table.banner--medium,
-.banner--table.banner--large {
-  min-height: clamp(96rem, 76vw, 108rem);
-}
-
 .banner--table .banner__media { display: none; }
-
+.banner-table__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--table-ink);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: scale(1.015);
+}
 .banner--table .banner__content {
+  position: relative;
+  z-index: 2;
   width: 100%;
-  max-width: 132rem;
-  min-height: 0;
+  min-height: inherit;
+  max-width: 144rem;
   margin-inline: auto;
-  padding: clamp(4rem, 6vw, 8rem);
-  align-items: flex-start;
+  padding: clamp(4.5rem, 7vw, 9rem);
+  align-items: center;
   justify-content: flex-start;
 }
-
 .banner--table .banner__box {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(28rem, .75fr);
-  grid-template-rows: auto auto auto;
-  column-gap: clamp(3rem, 7vw, 9rem);
-  row-gap: 1.4rem;
-  align-items: end;
-  width: 100%;
+  width: min(70%, 82rem);
   max-width: none;
   padding: 0;
   border: 0;
@@ -60,206 +60,103 @@
   box-shadow: none;
   text-align: left;
 }
-
 .banner--table .banner__text.subtitle {
-  grid-column: 1 / -1;
-  grid-row: 1;
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin: 0;
-  color: #a9562e;
-  font-size: 1.1rem;
+  gap: 1.2rem;
+  margin: 0 0 2rem;
+  color: #ffd197;
+  font-size: 1.15rem;
   font-weight: 700;
-  letter-spacing: .16em;
+  letter-spacing: .17em;
   line-height: 1.4;
   text-transform: uppercase;
 }
-
 .banner--table .banner__text.subtitle::before {
-  width: 3.4rem;
+  width: 4rem;
   height: 1px;
+  flex: 0 0 4rem;
   background: var(--table-orange);
   content: '';
 }
-
 .banner--table .banner__heading {
-  grid-column: 1;
-  grid-row: 2;
-  max-width: 11ch;
+  max-width: 13ch;
   margin: 0;
-  color: var(--table-ink);
-  font-size: clamp(5rem, 5.4vw, 6.8rem);
+  color: #fffdf7;
+  font-size: clamp(5rem, 6.6vw, 8.8rem);
   font-weight: 600;
-  letter-spacing: -.065em;
-  line-height: .93;
+  letter-spacing: -.07em;
+  line-height: .94;
   text-wrap: balance;
 }
-
 .banner--table .banner__text:not(.subtitle) {
-  grid-column: 2;
-  grid-row: 2;
-  max-width: 39ch;
-  margin: 0 0 .2rem;
-  color: #52665c;
-  font-size: 1.65rem;
+  max-width: 48ch;
+  margin: 2rem 0 0;
+  color: rgba(255,253,247,.9);
+  font-size: clamp(1.55rem, 1.35vw, 1.8rem);
   line-height: 1.65;
 }
-
 .banner--table .banner__text p { margin: 0; color: inherit; }
-
 .banner--table .banner__buttons {
-  grid-column: 2;
-  grid-row: 3;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: flex-start;
   gap: 1rem;
-  margin: 0;
+  margin: 2.8rem 0 0;
 }
-
 .banner--table .banner__buttons > * { flex: 0 0 auto; }
-
+.banner--table .banner__buttons .pm.pm--brand {
+  --pm-bg: var(--table-orange);
+  --pm-text: #fff;
+  --pm-accent-text: #fff;
+  --pm-icon-bg: #fff;
+  --pm-icon-text: var(--table-ink);
+  --pm-hover-bg: #fffdf7;
+  --pm-hover-text: var(--table-ink);
+  background: var(--table-orange);
+  color: #fff;
+  box-shadow: 0 1rem 2.8rem rgba(0,0,0,.2);
+}
 .banner--table .banner__buttons .pm.pm--light {
-  --pm-bg: #fffdf6;
-  --pm-text: var(--table-ink);
-  --pm-accent-text: var(--table-ink);
-  --pm-icon-bg: var(--table-ink);
-  --pm-icon-text: #fff;
-  --pm-hover-bg: var(--table-orange);
-  --pm-hover-text: #fff;
-  background: #fffdf6;
-  color: var(--table-ink);
-  box-shadow: 0 1rem 2.4rem rgba(23, 59, 50, .12);
-}
-
-.banner-table__gallery {
-  position: absolute;
-  right: clamp(3rem, 6vw, 8rem);
-  bottom: 4%;
-  left: clamp(3rem, 6vw, 8rem);
-  z-index: 1;
-  display: grid;
-  grid-template-columns: 1.15fr .9fr 1fr;
-  gap: clamp(1rem, 1.8vw, 2rem);
-  height: clamp(22rem, 27vw, 31rem);
-}
-
-.banner-table__photo {
-  display: block;
-  min-width: 0;
-  min-height: 0;
-  border: .65rem solid #fffdf6;
-  border-radius: 2rem;
-  background-color: #d8dfd3;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: 0 1.6rem 4rem rgba(23, 59, 50, .16);
-}
-
-.banner-table__photo--1 { transform: translateY(1.2rem) rotate(-1.5deg); }
-.banner-table__photo--2 { transform: translateY(-1rem) rotate(1deg); }
-.banner-table__photo--3 { transform: translateY(.6rem) rotate(1.5deg); }
-
-.banner-table__index {
-  position: absolute;
-  right: 2%;
-  bottom: -1.2rem;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
-  padding: 1.2rem 1.8rem;
-  border-radius: 999px;
-  background: var(--table-ink);
-  color: #fffdf6;
-  box-shadow: 0 1rem 2.4rem rgba(23, 59, 50, .18);
-  transform: rotate(-2deg);
-}
-
-.banner-table__index span {
-  color: rgba(255, 253, 246, .75);
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-}
-
-.banner-table__index strong {
-  color: #f5bf56;
-  font-size: 1.3rem;
-  letter-spacing: .05em;
+  --pm-bg: rgba(255,255,255,.12);
+  --pm-text: #fffdf7;
+  --pm-accent-text: #fffdf7;
+  --pm-icon-bg: #fffdf7;
+  --pm-icon-text: var(--table-ink);
+  --pm-hover-bg: #fffdf7;
+  --pm-hover-text: var(--table-ink);
+  border: 1px solid rgba(255,255,255,.55);
+  background: rgba(255,255,255,.12);
+  color: #fffdf7;
+  backdrop-filter: blur(8px);
 }
 
 @media screen and (min-width: 750px) and (max-width: 989px) {
-  .banner--table.banner--medium,
-  .banner--table.banner--large { min-height: 104rem; }
-  .banner--table .banner__content { padding: 4.5rem 3.2rem; }
-  .banner--table .banner__box { grid-template-columns: minmax(0, 1fr) minmax(25rem, .8fr); column-gap: 3rem; }
-  .banner--table .banner__heading { font-size: clamp(4.8rem, 6.4vw, 5.8rem); }
-  .banner--table .banner__text:not(.subtitle) { font-size: 1.5rem; }
-  .banner--table .banner__buttons { flex-wrap: wrap; }
-  .banner--table .banner__buttons--multiple:has(.pm) { flex-wrap: wrap; max-width: 100%; }
-  .banner--table .banner__buttons--multiple:has(.pm) > * { flex: 0 0 auto; min-width: 0; }
-  .banner-table__gallery { right: 3.2rem; left: 3.2rem; height: 25rem; }
+  .banner--table .banner__box { width: min(76%, 72rem); }
+  .banner--table .banner__heading { font-size: clamp(5rem, 7vw, 7rem); }
 }
 
 @media screen and (max-width: 749px) {
   .banner--table {
     display: flex;
-    min-height: 0;
+    min-height: 64rem;
     flex-direction: column;
-    overflow: hidden;
-    border-radius: 1.6rem;
+    border-radius: 1.5rem;
   }
-
   .banner--table.banner--medium,
-  .banner--table.banner--large { min-height: 0; }
-
-  .banner--table::before { display: block !important; top: 2rem; right: -20rem; width: 32rem; }
-
+  .banner--table.banner--large { min-height: 64rem; }
+  .banner--table::after {
+    background: linear-gradient(0deg, rgba(13,34,28,.88) 0%, rgba(13,34,28,.76) 46%, rgba(13,34,28,.12) 100%);
+  }
+  .banner--table::before { top: -9rem; right: -14rem; width: 34rem; }
   .banner--table .banner__content {
-    order: 0;
-    align-items: flex-start;
-    padding: 3.2rem 2.4rem 2rem;
+    min-height: 64rem;
+    padding: 3.2rem 2.4rem;
+    align-items: flex-end;
   }
-
-  .banner--table .banner__box,
-  .banner--table:not(.banner--mobile-bottom):not(.email-signup-banner) .banner__box {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto;
-    gap: 1.2rem;
-    width: 100%;
-    max-width: none;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  .banner--table .banner__text.subtitle { grid-column: 1; grid-row: 1; font-size: 1rem; }
-  .banner--table .banner__heading { grid-column: 1; grid-row: 2; max-width: 12ch; font-size: clamp(3.8rem, 10vw, 4.8rem); line-height: .99; }
-  .banner--table .banner__text:not(.subtitle) { grid-column: 1; grid-row: 3; max-width: 38ch; margin: 0; font-size: 1.5rem; }
-  .banner--table .banner__buttons { grid-column: 1; grid-row: 4; gap: .8rem; margin-top: .8rem; }
-
-  .banner-table__gallery {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    left: auto;
-    order: 1;
-    grid-template-columns: 1.05fr .9fr 1fr;
-    gap: .8rem;
-    width: calc(100% - 3.2rem);
-    height: 20rem;
-    margin: 0 auto 3.2rem;
-  }
-
-  .banner-table__photo { border-width: .45rem; border-radius: 1.2rem; }
-  .banner-table__photo--1 { transform: translateY(.7rem) rotate(-1deg); }
-  .banner-table__photo--2 { transform: translateY(-.5rem); }
-  .banner-table__photo--3 { transform: translateY(.5rem) rotate(1deg); }
-  .banner-table__index { right: 1rem; bottom: -.7rem; gap: .8rem; padding: .9rem 1.2rem; }
-  .banner-table__index span { font-size: .85rem; }
-  .banner-table__index strong { font-size: 1.1rem; }
+  .banner--table .banner__box { width: 100%; }
+  .banner--table .banner__text.subtitle { margin-bottom: 1.4rem; font-size: 1rem; }
+  .banner--table .banner__heading { max-width: 13ch; font-size: clamp(4.2rem, 11.5vw, 5.8rem); line-height: .97; }
+  .banner--table .banner__text:not(.subtitle) { max-width: 42ch; margin-top: 1.5rem; font-size: 1.5rem; }
+  .banner--table .banner__buttons { gap: .8rem; margin-top: 2rem; }
 }

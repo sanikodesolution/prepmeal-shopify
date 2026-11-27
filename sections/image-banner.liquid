@@ -26,6 +26,18 @@
 {%- if section.settings.hero_style == 'harvest-letter' -%}
   {{ 'section-banner-harvest-letter.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
+{%- if section.settings.hero_style == 'bistro-split' -%}
+  {{ 'section-banner-bistro-split.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{%- if section.settings.hero_style == 'full-bleed' -%}
+  {{ 'section-banner-full-bleed.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{%- if section.settings.hero_style == 'editorial-card' -%}
+  {{ 'section-banner-editorial-card.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+{%- if section.settings.hero_style == 'twin-table' -%}
+  {{ 'section-banner-twin-table.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
 
 {%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
   {%- style -%}
@@ -107,7 +119,7 @@
 
 <div
   id="Banner-{{ section.id }}"
-  class="pm-section-bg banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if section.settings.hero_style == 'prep' %} banner--prep{% if section.settings.show_visual %} banner--prep-plates{% endif %}{% elsif section.settings.hero_style == 'editorial' %} banner--editorial{% elsif section.settings.hero_style == 'studio' %} banner--studio{% elsif section.settings.hero_style == 'market' %} banner--market{% elsif section.settings.hero_style == 'table' %} banner--table{% elsif section.settings.hero_style == 'selection' %} banner--selection{% elsif section.settings.hero_style == 'chef-pick' %} banner--chef-pick{% elsif section.settings.hero_style == 'plate-studio' %} banner--plate-studio{% elsif section.settings.hero_style == 'harvest-letter' %} banner--harvest-letter{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  class="pm-section-bg banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if section.settings.hero_style == 'prep' %} banner--prep{% if section.settings.show_visual %} banner--prep-plates{% endif %}{% elsif section.settings.hero_style == 'editorial' %} banner--editorial{% elsif section.settings.hero_style == 'studio' %} banner--studio{% elsif section.settings.hero_style == 'market' %} banner--market{% elsif section.settings.hero_style == 'table' %} banner--table{% elsif section.settings.hero_style == 'selection' %} banner--selection{% elsif section.settings.hero_style == 'chef-pick' %} banner--chef-pick{% elsif section.settings.hero_style == 'plate-studio' %} banner--plate-studio{% elsif section.settings.hero_style == 'harvest-letter' %} banner--harvest-letter{% elsif section.settings.hero_style == 'bistro-split' %} banner--bistro-split{% elsif section.settings.hero_style == 'full-bleed' %} banner--full-bleed{% elsif section.settings.hero_style == 'editorial-card' %} banner--editorial-card{% elsif section.settings.hero_style == 'twin-table' %} banner--twin-table{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
   {% render 'pm-section-style', section: section %}
 >
   {%- if section.settings.image != blank -%}
@@ -280,6 +292,19 @@
       {%- endfor -%}
     </div>
   </div>
+  {%- if section.settings.hero_style == 'table' -%}
+    {%- liquid
+      assign table_background = section.settings.image
+      if table_background != blank
+        assign table_background_url = table_background | image_url: width: 2400
+      elsif section.settings.image_asset != blank
+        assign table_background_url = section.settings.image_asset | asset_url
+      else
+        assign table_background_url = 'cm-hero-banner.jpg' | asset_url
+      endif
+    -%}
+    <div class="banner-table__background" style="background-image:url('{{ table_background_url }}')" aria-hidden="true"></div>
+  {%- endif -%}
   {%- if section.settings.hero_style == 'prep' -%}
     {%- if section.settings.show_visual or section.settings.badge_text != blank -%}
       <div class="banner-prep__visual{% if section.settings.show_visual %} banner-prep__visual--plates{% endif %}">
@@ -339,23 +364,6 @@
       {%- if section.settings.badge_text != blank -%}
         <span class="banner-market__badge"><span aria-hidden="true"></span>{{ section.settings.badge_text | escape }}</span>
       {%- endif -%}
-    </div>
-  {%- endif -%}
-  {%- if section.settings.hero_style == 'table' and section.settings.show_visual -%}
-    <div class="banner-table__gallery" aria-label="A selection of this week's chef-prepared meals">
-      {%- for i in (1..3) -%}
-        {%- liquid
-          assign table_image_key = 'visual_image_' | append: i
-          assign table_image = section.settings[table_image_key]
-          if table_image != blank
-            assign table_image_url = table_image | image_url: width: 1200
-          else
-            assign table_image_url = 'cm-hero-banner.jpg' | asset_img_url: '1800x'
-          endif
-        -%}
-        <span class="banner-table__photo banner-table__photo--{{ i }}" style="background-image:url('{{ table_image_url }}')" aria-hidden="true"></span>
-      {%- endfor -%}
-      <span class="banner-table__index"><span>THE WEEKLY TABLE</span><strong>01 — 03</strong></span>
     </div>
   {%- endif -%}
   {%- if section.settings.hero_style == 'selection' and section.settings.show_visual -%}
@@ -452,7 +460,11 @@
         { "value": "selection", "label": "Style 6 — Chef’s Selection" },
         { "value": "chef-pick", "label": "Style 7 — Chef’s Pick" },
         { "value": "plate-studio", "label": "Style 8 — Plate Studio" },
-        { "value": "harvest-letter", "label": "Style 9 — The Harvest Letter" }
+        { "value": "harvest-letter", "label": "Style 9 — The Harvest Letter" },
+        { "value": "bistro-split", "label": "Style 10 — Bistro Split" },
+        { "value": "full-bleed", "label": "Style 11 — Full Bleed" },
+        { "value": "editorial-card", "label": "Style 12 — Editorial Card" },
+        { "value": "twin-table", "label": "Style 13 — Twin Table" }
       ],
       "default": "default"
     },
@@ -467,7 +479,7 @@
       "type": "checkbox",
       "id": "show_visual",
       "label": "Show food photo collage",
-      "info": "Used by Prep meal, Market Collage, Weekly Table, Chef’s Selection, Chef’s Pick, Plate Studio, and Harvest Letter styles.",
+      "info": "Used by Prep meal, Market Collage, Chef’s Selection, Chef’s Pick, Plate Studio, and Harvest Letter styles.",
       "default": true
     },
     {

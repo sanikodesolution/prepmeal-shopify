@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home banner design preview</title>
+  <link rel="stylesheet" href="../assets/section-image-banner.css">
+  <link rel="stylesheet" href="../assets/section-banner-bistro-split.css">
+  <link rel="stylesheet" href="../assets/section-banner-full-bleed.css">
+  <link rel="stylesheet" href="../assets/section-banner-editorial-card.css">
+  <link rel="stylesheet" href="../assets/section-banner-twin-table.css">
+  <script src="../assets/gsap.min.js" defer></script>
+  <style>
+    * { box-sizing: border-box; }
+    html { font-size: 62.5%; background: #f5f3ee; }
+    body { margin: 0; padding: 2.4rem; color: #183b32; font-family: Jost, Arial, sans-serif; }
+    .preview-shell { max-width: 144rem; margin: 0 auto; }
+    .preview-controls { display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.2rem; }
+    .preview-controls button { display: grid; width: 4.4rem; height: 4.4rem; place-items: center; border: 1px solid #bac4b8; border-radius: 50%; background: #fffdf7; color: #183b32; cursor: pointer; }
+    .preview-controls svg { width: 2rem; height: 2rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .preview-controls .play-icon { display: none; }
+    .preview-controls [aria-pressed="true"] .pause-icon { display: none; }
+    .preview-controls [aria-pressed="true"] .play-icon { display: block; }
+    .preview-stage { overflow: hidden; border-radius: 2.4rem; box-shadow: 0 1.5rem 5rem rgba(20,45,35,.12); }
+    .preview-progress { height: .3rem; margin: 1rem 1rem 0; overflow: hidden; border-radius: 99rem; background: #dce2d8; }
+    .preview-progress span { display: block; width: 100%; height: 100%; transform: scaleX(0); transform-origin: left; background: #df8240; }
+    .banner { display: flex; position: relative; width: 100%; min-height: clamp(54rem, 58vw, 72rem); }
+    .banner__media img { display: block; }
+    .banner__content { display: flex; align-items: center; }
+    .banner__box { margin: 0; }
+    .banner__heading { font-family: 'Plus Jakarta Sans', Jost, Arial, sans-serif; }
+    .banner__text p { margin: 0; }
+    .banner__buttons { display: flex; flex-wrap: wrap; }
+    .banner__buttons a { display: inline-flex; align-items: center; justify-content: center; min-height: 4.8rem; border-radius: 99rem; padding: 0 2rem; background: #e98a45; color: #fff; font: 600 1.45rem Jost, Arial, sans-serif; text-decoration: none; }
+    .banner__buttons a + a { border: 1px solid currentColor; background: transparent; color: #183b32; }
+    .banner--full-bleed .banner__buttons a + a { color: white; }
+    .banner--full-bleed .banner__buttons a:first-child { background: #e98a45; color: white; }
+    .banner--editorial-card .banner__buttons a + a { color: #183b32; }
+    @media(max-width: 749px) {
+      body { padding: 1.2rem; }
+      .preview-controls { gap: .8rem; }
+      .preview-controls button { width: 4rem; height: 4rem; }
+      .preview-stage { border-radius: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="preview-shell">
+    <div class="preview-controls" aria-label="Banner slider controls">
+      <button type="button" data-prev aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m0 0 7 7m-7-7 7-7"/></svg></button>
+      <button type="button" data-toggle aria-label="Pause automatic slide show" aria-pressed="false"><svg class="pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14"/></svg><svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7z"/></svg></button>
+      <button type="button" data-next aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m0 0-7-7m7 7-7 7"/></svg></button>
+    </div>
+    <div class="preview-progress" aria-hidden="true"><span></span></div>
+    <div class="preview-stage">
+      <section id="home-banner" class="banner banner--bistro-split">
+        <div class="banner__media"><img src="../assets/cm-hero-banner.jpg" alt="Chef-crafted meals on a table"></div>
+        <div class="banner__media" hidden><img src="../assets/chimichurri-steak.jpg" alt="Chimichurri steak"></div>
+        <div class="banner__content">
+          <div class="banner__box">
+            <div class="banner__text subtitle"><p>Global flavors. Chef-crafted. Delivered fresh.</p></div>
+            <h2 class="banner__heading">Healthy gourmet meal prep you can feel good about</h2>
+            <div class="banner__text"><p>Chef-crafted meals from around the world, delivered fresh to your door every week.</p></div>
+            <div class="banner__buttons">
+              <a href="#">Order your meal plan</a>
+              <a href="#">How it works</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script>
+    const banner = document.querySelector('#home-banner');
+    const media = banner.querySelectorAll('.banner__media');
+    const previous = document.querySelector('[data-prev]');
+    const next = document.querySelector('[data-next]');
+    const toggle = document.querySelector('[data-toggle]');
+    const progress = document.querySelector('.preview-progress span');
+    const styles = ['bistro-split', 'full-bleed', 'editorial-card', 'twin-table'];
+    let active = 0;
+    let timer;
+    let paused = false;
+    function setStyle(index, animate = true) {
+      active = (index + styles.length) % styles.length;
+      const style = styles[active];
+      banner.className = `banner banner--${style}`;
+      media[1].hidden = !['bistro-split', 'twin-table'].includes(style);
+      if (window.gsap && animate) {
+        const image = banner.querySelector('.banner__media img');
+        const copy = banner.querySelectorAll('.banner__text, .banner__heading, .banner__buttons');
+        gsap.killTweensOf([banner, image, ...copy].filter(Boolean));
+        gsap.set(banner, { clipPath: 'inset(0 0 0 100%)' });
+        if (image) gsap.set(image, { scale: 1.12 });
+        gsap.set(copy, { autoAlpha: 0, y: 22 });
+        const transition = gsap.timeline({ onComplete: () => gsap.set(banner, { clearProps: 'clipPath,transform' }) });
+        transition.to(banner, { clipPath: 'inset(0)', duration: 1, ease: 'power4.inOut' }, 0)
+          .to(copy, { autoAlpha: 1, y: 0, duration: .7, stagger: .08, ease: 'power3.out' }, .3);
+        if (image) transition.to(image, { scale: 1, duration: 1.4, ease: 'power2.out' }, 0);
+      }
+      schedule();
+    }
+    function schedule() {
+      clearTimeout(timer);
+      if (window.gsap) gsap.killTweensOf(progress);
+      if (paused) return;
+      if (window.gsap) {
+        gsap.set(progress, { scaleX: 0 });
+        gsap.to(progress, { scaleX: 1, duration: 7, ease: 'none', onComplete: () => setStyle(active + 1) });
+      } else {
+        timer = setTimeout(() => setStyle(active + 1), 7000);
+      }
+    }
+    previous.addEventListener('click', () => setStyle(active - 1));
+    next.addEventListener('click', () => setStyle(active + 1));
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      toggle.setAttribute('aria-pressed', String(paused));
+      toggle.setAttribute('aria-label', paused ? 'Play automatic slide show' : 'Pause automatic slide show');
+      schedule();
+    });
+    setStyle(0, false);
+  </script>
+</body>
+</html>
