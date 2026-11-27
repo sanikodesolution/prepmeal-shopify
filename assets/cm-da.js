@@ -117,6 +117,9 @@
     if (!list || !moreItem || !btn || list.dataset.daPlaces === 'true') return;
     var textEl = moreItem.querySelector('[data-da-places-text]');
     var countEl = moreItem.querySelector('[data-da-places-count]');
+    var root = list.closest('.da');
+    var moreLabel = root && root.getAttribute('data-da-more-label') || 'More locations';
+    var lessLabel = root && root.getAttribute('data-da-less-label') || 'Show less';
     var zones = [];
     Array.prototype.forEach.call(list.children, function (li) {
       if (li.querySelector('.da__zone')) zones.push(li);
@@ -145,7 +148,7 @@
     }
 
     function label() {
-      if (textEl) textEl.textContent = open ? 'Show less' : 'More locations';
+      if (textEl) textEl.textContent = open ? lessLabel : moreLabel;
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (countEl) countEl.textContent = open ? '' : '+' + hidden.length;
     }

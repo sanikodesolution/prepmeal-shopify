@@ -6202,156 +6202,156 @@
       }
     },
     "cm_delivery_areas": {
-      "type": "cm-delivery-areas",
+      "type": "cm-delivery-market",
       "blocks": {
         "area_1": {
           "type": "area",
           "settings": {
-            "name": "Hartland"
+            "name": "Hartland", "latitude": "43.1051", "longitude": "-88.3420"
           }
         },
         "area_2": {
           "type": "area",
           "settings": {
-            "name": "Delafield"
+            "name": "Delafield", "latitude": "43.0608", "longitude": "-88.4037"
           }
         },
         "area_3": {
           "type": "area",
           "settings": {
-            "name": "Pewaukee"
+            "name": "Pewaukee", "latitude": "43.0806", "longitude": "-88.2612"
           }
         },
         "area_4": {
           "type": "area",
           "settings": {
-            "name": "Waukesha"
+            "name": "Waukesha", "latitude": "43.0117", "longitude": "-88.2315"
           }
         },
         "area_5": {
           "type": "area",
           "settings": {
-            "name": "Sussex"
+            "name": "Sussex", "latitude": "43.1336", "longitude": "-88.2223"
           }
         },
         "area_6": {
           "type": "area",
           "settings": {
-            "name": "Merton"
+            "name": "Merton", "latitude": "43.1422", "longitude": "-88.3107"
           }
         },
         "area_7": {
           "type": "area",
           "settings": {
-            "name": "Nashotah"
+            "name": "Nashotah", "latitude": "43.0961", "longitude": "-88.4018"
           }
         },
         "area_8": {
           "type": "area",
           "settings": {
-            "name": "Okauchee Lake"
+            "name": "Okauchee Lake", "latitude": "43.1136", "longitude": "-88.4401"
           }
         },
         "area_9": {
           "type": "area",
           "settings": {
-            "name": "Oconomowoc"
+            "name": "Oconomowoc", "latitude": "43.1117", "longitude": "-88.4993"
           }
         },
         "area_10": {
           "type": "area",
           "settings": {
-            "name": "Oconomowoc Lake"
+            "name": "Oconomowoc Lake", "latitude": "43.0947", "longitude": "-88.4576"
           }
         },
         "area_11": {
           "type": "area",
           "settings": {
-            "name": "Chenequa"
+            "name": "Chenequa", "latitude": "43.1236", "longitude": "-88.3815"
           }
         },
         "area_12": {
           "type": "area",
           "settings": {
-            "name": "Lisbon"
+            "name": "Lisbon", "latitude": "43.1550", "longitude": "-88.2501"
           }
         },
         "area_13": {
           "type": "area",
           "settings": {
-            "name": "Lannon"
+            "name": "Lannon", "latitude": "43.1492", "longitude": "-88.1626"
           }
         },
         "area_14": {
           "type": "area",
           "settings": {
-            "name": "Menomonee Falls"
+            "name": "Menomonee Falls", "latitude": "43.1789", "longitude": "-88.1173"
           }
         },
         "area_15": {
           "type": "area",
           "settings": {
-            "name": "Brookfield"
+            "name": "Brookfield", "latitude": "43.0606", "longitude": "-88.1065"
           }
         },
         "area_16": {
           "type": "area",
           "settings": {
-            "name": "Elm Grove"
+            "name": "Elm Grove", "latitude": "43.0431", "longitude": "-88.0787"
           }
         },
         "area_17": {
           "type": "area",
           "settings": {
-            "name": "Wales"
+            "name": "Wales", "latitude": "43.0042", "longitude": "-88.3770"
           }
         },
         "area_18": {
           "type": "area",
           "settings": {
-            "name": "Dousman"
+            "name": "Dousman", "latitude": "43.0136", "longitude": "-88.4723"
           }
         },
         "area_19": {
           "type": "area",
           "settings": {
-            "name": "Summit"
+            "name": "Summit", "latitude": "43.0578", "longitude": "-88.4612"
           }
         },
         "area_20": {
           "type": "area",
           "settings": {
-            "name": "Lake Country"
+            "name": "Lake Country", "latitude": "43.0800", "longitude": "-88.4500"
           }
         },
         "area_21": {
           "type": "area",
           "settings": {
-            "name": "Stone Bank"
+            "name": "Stone Bank", "latitude": "43.1306", "longitude": "-88.4701"
           }
         },
         "area_22": {
           "type": "area",
           "settings": {
-            "name": "North Lake"
+            "name": "North Lake", "latitude": "43.1503", "longitude": "-88.3712"
           }
         },
         "area_23": {
           "type": "area",
           "settings": {
-            "name": "Mapleton"
+            "name": "Mapleton", "latitude": "43.0680", "longitude": "-88.4200"
           }
         },
         "area_24": {
           "type": "area",
           "settings": {
-            "name": "Genesee"
+            "name": "Genesee", "latitude": "42.9689", "longitude": "-88.3654"
           }
         },
         "area_25": {
           "type": "area",
           "settings": {
-            "name": "Mukwonago"
+            "name": "Mukwonago", "latitude": "42.8667", "longitude": "-88.3334"
           }
         },
         "feat_1": {

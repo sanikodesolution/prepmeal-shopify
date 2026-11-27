@@ -94,15 +94,15 @@
 .da .da__zone:hover svg { animation: da-pin .6s ease; }
 .da .da__check { margin-top: 12px; padding-top: 0; border-top: 0; }
 .da .da__check-label { display: block; margin-bottom: 12px; font-size: 12px; font-weight: 600; letter-spacing: 2.2px; text-transform: uppercase; color: #8a736c; }
-.da .da__check-row { display: flex; gap: 10px; align-items: flex-start; }
+.da .da__check-row { display: flex; gap: 10px; align-items: stretch; }
 .da .da__check-field { position: relative; flex: 1; min-width: 0; }
-.da .da__check-input { width: 100%; border: 0; border-radius: 4px; background: #f6ebe6; color: #2a1a1f; font: inherit; font-size: 15px; padding: 14px 16px; }
+.da .da__check-input { box-sizing: border-box; width: 100%; height: 52px; min-height: 52px; border: 0; border-radius: 4px; background: #f6ebe6; color: #2a1a1f; font: inherit; font-size: 15px; line-height: 20px; padding: 0 16px; }
 .da .da__suggest { position: absolute; z-index: 40; left: 0; right: 0; top: calc(100% + 6px); margin: 0; padding: 6px; list-style: none; max-height: 240px; overflow-y: auto; background: #fff; border: 1px solid #eadfd8; border-radius: 8px; box-shadow: 0 16px 36px rgba(42, 26, 31, .12); }
 .da .da__suggest button { width: 100%; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 0; border-radius: 6px; background: transparent; color: #2a1a1f; font: inherit; font-size: 15px; text-align: left; cursor: pointer; }
 .da .da__suggest button:hover, .da .da__suggest button.is-active { background: #f6ebe6; }
 .da .da__suggest button svg { width: 12px; height: 12px; flex: none; fill: #6e1f36; }
 .da .da__check-input:focus { outline: 2px solid #6e1f36; outline-offset: 1px; }
-.da .da__check-btn { flex: none; border: 0; border-radius: 4px; background: #6e1f36; color: #fff; font: inherit; font-size: 15px; font-weight: 600; padding: 14px 28px; cursor: pointer; }
+.da .da__check-btn { display: inline-flex; flex: none; align-items: center; justify-content: center; box-sizing: border-box; height: 52px; min-height: 52px; border: 0; border-radius: 4px; background: #6e1f36; color: #fff; font: inherit; font-size: 15px; font-weight: 600; line-height: 20px; padding: 0 28px; cursor: pointer; }
 .da .da__check-btn:hover { background: #521627; }
 .da .da__check-btn:disabled { opacity: .6; cursor: wait; }
 .da .da__check-result { margin-top: 14px; padding: 14px 16px; border-radius: 4px; border-left: 4px solid #6e1f36; background: #f8f1ee; font-size: 14px; line-height: 1.55; color: #4d3d42; }
@@ -127,7 +127,74 @@
 .da .da__region { margin-bottom: 16px; }
 .da .da__region h5 { margin: 0 0 6px; font-family: var(--font-heading-family), sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #6e1f36; }
 .da .da__region p, .da .da__more-note { margin: 0; font-size: 14px; line-height: 1.7; color: #4d3d42; }
+.da .da__coverage-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.da .da__coverage-list li { padding: 6px 11px; border: 1px solid #eadfd8; border-radius: 999px; background: #fff; color: #4d3d42; font-size: 13px; line-height: 1.4; }
 .da .da__more-note { margin-top: 16px; padding-top: 14px; border-top: 1px solid #eadfd8; color: #8a736c; }
+
+/* Four alternate art directions. All presets keep the same area list, address
+   checker, full coverage details, map, and delivery feature content. */
+.da--design-market { --da-bg: #f3efe2; --da-card: #fffdf7; --da-navy: #21483b; --da-orange: #c7783d; }
+.da--design-market .da__card { border: 0; border-radius: 28px; box-shadow: 0 24px 60px rgba(34, 60, 45, .12); }
+.da--design-market .da__corner { opacity: .55; filter: saturate(.72); }
+.da--design-market .da__mapwrap { border-radius: 8px; box-shadow: none; }
+.da--design-market .da__bar { border-radius: 10px; background: #21483b; }
+.da--design-market .da__title { letter-spacing: -.04em; }
+
+.da--design-modern { --da-bg: #102a2b; --da-card: #f7f8f3; --da-navy: #173c3a; --da-orange: #db8a49; color: #173c3a; }
+.da--design-modern .da__card { border: 0; border-radius: 20px; padding: clamp(28px, 5vw, 64px); text-align: left; box-shadow: 0 24px 70px rgba(0, 0, 0, .22); }
+.da--design-modern .da__card { display: grid; grid-template-columns: minmax(0, .95fr) minmax(360px, 1.05fr); column-gap: clamp(24px, 4vw, 54px); align-items: start; }
+.da--design-modern .da__kicker, .da--design-modern .da__title, .da--design-modern .da__sub, .da--design-modern .da__cta, .da--design-modern .da__deliver { grid-column: 1; }
+.da--design-modern .da__mapwrap { grid-column: 2; grid-row: 1 / span 5; align-self: stretch; width: 100%; min-height: 460px; margin: 0; }
+.da--design-modern .da__map { height: 460px; }
+.da--design-modern .da__kicker { border-radius: 5px; text-transform: uppercase; letter-spacing: .16em; }
+.da--design-modern .da__sub { justify-content: flex-start; }
+.da--design-modern .da__deliver { margin-left: 0; margin-right: 0; }
+.da--design-modern .da__deliver-label { color: #173c3a; }
+.da--design-modern .da__mapwrap { width: 100%; margin-top: 24px; border-radius: 14px; }
+.da--design-modern .da__map { height: 360px; }
+.da--design-modern .da__bar { width: 100%; max-width: min(calc(var(--sw) - 80px), 1200px); border-radius: 14px; background: #db8a49; color: #172d2d; }
+.da--design-modern .da__corner { opacity: .18; }
+
+.da--design-postcard { --da-bg: #f6e6df; --da-card: #fff9f4; --da-navy: #663d46; --da-orange: #d77962; }
+.da--design-postcard .da__card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 18px; border: 2px dashed rgba(102, 61, 70, .38); border-radius: 42px 12px 42px 12px; box-shadow: 9px 10px 0 rgba(102, 61, 70, .08); text-align: center; }
+.da--design-postcard .da__kicker, .da--design-postcard .da__title, .da--design-postcard .da__sub { grid-column: 1 / -1; }
+.da--design-postcard .da__deliver { grid-column: 1 / -1; margin: 4px 0 0; }
+.da--design-postcard .da__mapwrap { grid-column: 1 / -1; width: 100%; min-height: 250px; margin: 20px 0 0; }
+.da--design-postcard .da__map { height: 250px; }
+.da--design-postcard .da__cta { grid-column: 1 / -1; justify-self: center; }
+.da--design-postcard .da__corner { opacity: .38; filter: saturate(.65); }
+.da--design-postcard .da__kicker { background: #f8e7df; border-color: #e7b7a8; color: #663d46; }
+.da--design-postcard .da__mapwrap { border-radius: 28px; border: 3px solid #fff; box-shadow: 0 8px 24px rgba(102, 61, 70, .12); }
+.da--design-postcard .da__bar { background: #663d46; border-radius: 16px 4px 16px 4px; }
+
+.da--design-route { --da-bg: #e9f0e8; --da-card: #fbfdf8; --da-navy: #25483c; --da-orange: #e28a3c; }
+.da--design-route .da__card { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: 0 clamp(22px, 4vw, 50px); align-items: start; border: 1px solid #b9cbbb; border-radius: 24px; box-shadow: 0 20px 50px rgba(37, 72, 60, .12); background-image: linear-gradient(90deg, transparent 0 64px, rgba(70, 125, 91, .07) 65px 66px, transparent 67px); }
+.da--design-route .da__mapwrap { grid-column: 1; grid-row: 1 / span 5; align-self: stretch; width: 100%; min-height: 440px; margin: 0; }
+.da--design-route .da__map { height: 440px; }
+.da--design-route .da__kicker, .da--design-route .da__title, .da--design-route .da__sub { grid-column: 2; text-align: left; margin-left: 0; }
+.da--design-route .da__kicker { position: relative; justify-self: start; }
+.da--design-route .da__title { max-width: 700px; }
+.da--design-route .da__sub { justify-content: flex-start; }
+.da--design-route .da__deliver { grid-column: 2; max-width: none; padding: 18px 22px; margin: 10px 0 0; border: 1px solid #d5e2d4; border-radius: 16px; background: #f3f8f0; }
+.da--design-route .da__deliver-pills { gap: 9px; }
+.da--design-route .da__zone { border: 1px solid #d5e2d4; background: #eff5ed; color: #25483c; }
+.da--design-route .da__mapwrap { border: 2px solid #d7e3d5; border-radius: 24px; }
+.da--design-route .da__map { background-color: #edf4e9; }
+.da--design-route .da__bar { background: #25483c; border-radius: 18px; }
+.da--design-route .da__deco--brush-l, .da--design-route .da__deco--brush-r { opacity: .48; }
+
+@media (max-width: 749px) {
+  .da--design-modern .da__card, .da--design-postcard .da__card, .da--design-route .da__card { display: block; text-align: center; padding: 28px 18px; }
+  .da--design-modern .da__sub { justify-content: center; }
+  .da--design-modern .da__deliver { margin-left: auto; margin-right: auto; }
+  .da--design-modern .da__mapwrap, .da--design-postcard .da__mapwrap, .da--design-route .da__mapwrap { min-height: 0; margin: 20px auto 0; }
+  .da--design-modern .da__map, .da--design-postcard .da__map, .da--design-route .da__map { height: 280px; }
+  .da--design-route .da__kicker, .da--design-route .da__title, .da--design-route .da__sub { margin-left: 0; text-align: center; }
+  .da--design-route .da__sub { justify-content: center; }
+  .da--design-route .da__deliver { padding: 14px; }
+  .da--design-modern .da__map { height: 260px; }
+}
+
 .da .da__areas { list-style: none; margin: 0 auto; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 16px; max-width: 980px; }
 .da .da__pill {
   display: inline-flex; align-items: center; gap: 12px; background: #fff;

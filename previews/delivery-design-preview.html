@@ -1,0 +1,138 @@
+<div id="delivery-design-preview">
+  <style>
+    #delivery-design-preview {
+      --ink: #173c35;
+      --muted: #68746d;
+      --accent: #c87945;
+      --paper: #fffdf8;
+      --canvas: #f3efe4;
+      --line: #e4dfd2;
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", "Jost", sans-serif;
+    }
+    #delivery-design-preview * { box-sizing: border-box; }
+    #delivery-design-preview .delivery-preview__head { margin-bottom: 14px; }
+    #delivery-design-preview .delivery-preview__eyebrow { color: var(--muted); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+    #delivery-design-preview .delivery-preview__tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 20px; }
+    #delivery-design-preview .delivery-preview__tab { border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); padding: 9px 14px; font: inherit; font-size: 12px; font-weight: 700; }
+    #delivery-design-preview .delivery-preview__tab[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+    #delivery-design-preview .delivery-preview__section { --surface: var(--paper); --background: var(--canvas); --accent: #c87945; --ink: #173c35; --shape: 26px; --trim: solid; background: var(--background); border-radius: 20px; padding: clamp(20px, 4vw, 48px); overflow: hidden; transition: background .25s ease, color .25s ease; }
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] { --surface: #f9faf6; --background: #173a3b; --accent: #d68a51; --ink: #173a3b; --shape: 16px; }
+    #delivery-design-preview .delivery-preview__section[data-design="postcard"] { --surface: #fff8f2; --background: #f3e2db; --accent: #cf7865; --ink: #68464b; --shape: 34px 10px 34px 10px; --trim: dashed; }
+    #delivery-design-preview .delivery-preview__section[data-design="route"] { --surface: #fbfdf8; --background: #e8efe7; --accent: #df8b45; --ink: #25483c; --shape: 22px; }
+    #delivery-design-preview .delivery-preview__card { max-width: 980px; margin: 0 auto; padding: clamp(22px, 4vw, 42px); border: 1px var(--trim) color-mix(in srgb, var(--ink) 18%, transparent); border-radius: var(--shape); background: var(--surface); box-shadow: 0 18px 44px color-mix(in srgb, var(--ink) 10%, transparent); text-align: center; }
+    #delivery-design-preview .delivery-preview__kicker { display: inline-block; padding: 7px 13px; border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, white); color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    #delivery-design-preview h2 { margin: 14px 0 7px; color: var(--ink); font-size: clamp(27px, 4vw, 42px); font-weight: 800; letter-spacing: -.055em; line-height: 1.05; }
+    #delivery-design-preview .delivery-preview__subtitle { margin: 0 0 24px; color: var(--muted); font-size: 15px; }
+    #delivery-design-preview .delivery-preview__subtitle em { color: var(--accent); font-style: normal; font-weight: 700; }
+    #delivery-design-preview .delivery-preview__label { margin: 0 0 12px; color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-align: left; text-transform: uppercase; }
+    #delivery-design-preview .delivery-preview__areas { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    #delivery-design-preview .delivery-preview__areas li { border: 1px solid var(--line); border-radius: 999px; background: var(--surface); padding: 7px 11px; color: var(--ink); font-size: 12px; }
+    #delivery-design-preview .delivery-preview__check { display: flex; gap: 8px; margin: 20px auto 0; max-width: 660px; text-align: left; }
+    #delivery-design-preview .delivery-preview__check input { min-width: 0; flex: 1; box-sizing: border-box; height: 48px; min-height: 48px; border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 0 14px; color: #243d37; font: inherit; font-size: 13px; line-height: 20px; }
+    #delivery-design-preview .delivery-preview__check button { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 48px; min-height: 48px; border: 0; border-radius: 8px; background: var(--ink); color: #fff; padding: 0 19px; font: inherit; font-size: 13px; font-weight: 700; line-height: 20px; }
+    #delivery-design-preview .delivery-preview__map { position: relative; height: 170px; margin: 22px auto 0; max-width: 860px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); border-radius: calc(var(--shape) * .65); background-color: #dce8d7; background-image: linear-gradient(32deg, transparent 47%, rgba(255,255,255,.88) 48% 50%, transparent 51%), linear-gradient(118deg, transparent 38%, rgba(255,255,255,.8) 39% 41%, transparent 42%), repeating-linear-gradient(0deg, transparent 0 35px, rgba(97,137,103,.1) 36px 37px); }
+    #delivery-design-preview .delivery-preview__map::before { position: absolute; top: -35%; left: 48%; width: 110px; height: 180%; border: 18px solid rgba(115,177,192,.55); border-radius: 50%; content: ""; transform: rotate(31deg); }
+    #delivery-design-preview .delivery-preview__pin { position: absolute; width: 13px; height: 13px; border: 3px solid #fff; border-radius: 50%; background: var(--accent); box-shadow: 0 2px 8px #233a3040; }
+    #delivery-design-preview .delivery-preview__pin:nth-child(1) { top: 28%; left: 34%; }
+    #delivery-design-preview .delivery-preview__pin:nth-child(2) { top: 58%; left: 52%; }
+    #delivery-design-preview .delivery-preview__pin:nth-child(3) { top: 27%; left: 72%; }
+    #delivery-design-preview .delivery-preview__map-caption { position: absolute; bottom: 10px; left: 12px; border-radius: 6px; background: #ffffffdf; padding: 6px 9px; color: #29463a; font-size: 10px; font-weight: 700; }
+    #delivery-design-preview .delivery-preview__legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px 17px; margin: 10px 0 0; color: var(--muted); font-size: 10px; }
+    #delivery-design-preview .delivery-preview__features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; max-width: 980px; margin: 18px auto 0; overflow: hidden; border-radius: 12px; background: color-mix(in srgb, var(--ink) 20%, transparent); }
+    #delivery-design-preview .delivery-preview__feature { min-height: 74px; padding: 14px 10px; background: var(--ink); color: #fff; text-align: center; }
+    #delivery-design-preview .delivery-preview__feature strong, #delivery-design-preview .delivery-preview__feature span { display: block; }
+    #delivery-design-preview .delivery-preview__feature strong { font-size: 11px; }
+    #delivery-design-preview .delivery-preview__feature span { margin-top: 4px; color: #ffffffbd; font-size: 10px; }
+    #delivery-design-preview .delivery-preview__section[data-design="market"] .delivery-preview__card { box-shadow: 0 24px 56px #34523a1a; }
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__card,
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 26px; text-align: left; }
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__kicker,
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] h2,
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__subtitle,
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__label,
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__areas,
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__check { grid-column: 1; }
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__label { margin-top: 8px; }
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__map { grid-column: 2; grid-row: 1 / span 5; align-self: stretch; height: 100%; min-height: 350px; margin: 0; }
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__legend { grid-column: 2; }
+    #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__areas { justify-content: flex-start; }
+    #delivery-design-preview .delivery-preview__section[data-design="postcard"] .delivery-preview__card { box-shadow: 8px 9px 0 #68464b13; }
+    #delivery-design-preview .delivery-preview__section[data-design="postcard"] .delivery-preview__kicker { border-radius: 5px; }
+    #delivery-design-preview .delivery-preview__section[data-design="postcard"] .delivery-preview__map { border-width: 4px; border-style: double; }
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__map { grid-column: 1; grid-row: 1 / span 6; align-self: stretch; height: 100%; min-height: 350px; margin: 0; }
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__legend { grid-column: 1; }
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__kicker,
+    #delivery-design-preview .delivery-preview__section[data-design="route"] h2,
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__subtitle,
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__label,
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__areas,
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__check { grid-column: 2; }
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__areas { justify-content: flex-start; }
+    #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__map { border-width: 2px; }
+    @media (max-width: 650px) {
+      #delivery-design-preview .delivery-preview__features { grid-template-columns: repeat(2, 1fr); }
+      #delivery-design-preview .delivery-preview__check { flex-direction: column; }
+      #delivery-design-preview .delivery-preview__check button { height: 48px; min-height: 48px; }
+      #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__card { text-align: center; }
+      #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__label { text-align: center; }
+      #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__card,
+      #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__card { display: block; text-align: center; }
+      #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__map,
+      #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__map { min-height: 0; height: 170px; margin-top: 20px; }
+      #delivery-design-preview .delivery-preview__section[data-design="modern"] .delivery-preview__areas,
+      #delivery-design-preview .delivery-preview__section[data-design="route"] .delivery-preview__areas { justify-content: center; }
+    }
+  </style>
+  <div class="delivery-preview__head">
+    <div class="delivery-preview__eyebrow">PrepMeal · Four standalone delivery sections</div>
+  </div>
+  <div class="delivery-preview__tabs" role="group" aria-label="Preview one of four separate delivery sections">
+    <button class="delivery-preview__tab cursor-interaction" type="button" data-design="market" aria-pressed="true">Market editorial</button>
+    <button class="delivery-preview__tab cursor-interaction" type="button" data-design="modern" aria-pressed="false">Modern map</button>
+    <button class="delivery-preview__tab cursor-interaction" type="button" data-design="postcard" aria-pressed="false">Neighborhood postcard</button>
+    <button class="delivery-preview__tab cursor-interaction" type="button" data-design="route" aria-pressed="false">Delivery route</button>
+  </div>
+  <section class="delivery-preview__section" data-design="market" aria-label="We Deliver homepage section preview">
+    <div class="delivery-preview__card">
+      <span class="delivery-preview__kicker">We Deliver</span>
+      <h2>Delivery Areas</h2>
+      <p class="delivery-preview__subtitle">Delivering fresh, healthy meals <em>to your neighborhood</em></p>
+      <p class="delivery-preview__label">We deliver to</p>
+      <ul class="delivery-preview__areas">
+        <li>Hartland</li><li>Delafield</li><li>Pewaukee</li><li>Waukesha</li><li>Sussex</li><li>Merton</li><li>Nashotah</li><li>Okauchee Lake</li><li>Oconomowoc</li><li>Oconomowoc Lake</li><li>Chenequa</li><li>Lisbon</li><li>Lannon</li><li>Menomonee Falls</li><li>Brookfield</li><li>Elm Grove</li><li>Wales</li><li>Dousman</li><li>Summit</li><li>Lake Country</li><li>Stone Bank</li><li>North Lake</li><li>Mapleton</li><li>Genesee</li><li>Mukwonago</li>
+      </ul>
+      <form class="delivery-preview__check" onsubmit="return false">
+        <input aria-label="Check your address or postal code" placeholder="Search a delivery area">
+        <button class="cursor-interaction" type="button">Check</button>
+      </form>
+      <div class="delivery-preview__map" role="img" aria-label="Illustrated map of delivery areas around Hartland">
+        <i class="delivery-preview__pin" aria-hidden="true"></i><i class="delivery-preview__pin" aria-hidden="true"></i><i class="delivery-preview__pin" aria-hidden="true"></i>
+        <span class="delivery-preview__map-caption">Hartland · Lake Country delivery zone</span>
+      </div>
+      <div class="delivery-preview__legend"><span>● Our kitchen</span><span>● Delivery areas</span><span>○ Delivery zone</span></div>
+    </div>
+    <div class="delivery-preview__features">
+      <div class="delivery-preview__feature"><strong>On Time Delivery</strong><span>Always on schedule</span></div>
+      <div class="delivery-preview__feature"><strong>Fresh &amp; Healthy</strong><span>Made with care</span></div>
+      <div class="delivery-preview__feature"><strong>Wide Area Coverage</strong><span>Near you always</span></div>
+      <div class="delivery-preview__feature"><strong>Made With Love</strong><span>For a healthier you</span></div>
+    </div>
+  </section>
+  <script>
+    (() => {
+      const root = document.getElementById("delivery-design-preview");
+      if (!root) return;
+      const section = root.querySelector(".delivery-preview__section");
+      root.querySelectorAll("[data-design]").forEach((button) => {
+        if (!button.classList.contains("delivery-preview__tab")) return;
+        button.addEventListener("click", () => {
+          section.dataset.design = button.dataset.design;
+          root.querySelectorAll(".delivery-preview__tab").forEach((tab) => {
+            tab.setAttribute("aria-pressed", String(tab === button));
+          });
+        });
+      });
+    })();
+  </script>
+</div>

@@ -71,8 +71,27 @@
     try { names = JSON.parse(node ? node.textContent : '[]'); } catch (e) { names = []; }
     return names.map(function (item) {
       var pair = COORDS[norm(item.n)];
-      return pair ? { n: item.n, lat: pair[0], lng: pair[1] } : null;
+      var lat = Number(item.lat) || (pair && pair[0]);
+      var lng = Number(item.lng) || (pair && pair[1]);
+      return lat && lng ? { n: item.n, lat: lat, lng: lng } : null;
     }).filter(Boolean);
+  }
+
+  function mapConfig(el) {
+    var root = el.closest('.da');
+    var lat = root && parseFloat(root.getAttribute('data-da-kitchen-lat'));
+    var lng = root && parseFloat(root.getAttribute('data-da-kitchen-lng'));
+    var radius = root && parseFloat(root.getAttribute('data-da-radius'));
+    return {
+      root: root,
+      hub: {
+        lat: isFinite(lat) ? lat : HUB.lat,
+        lng: isFinite(lng) ? lng : HUB.lng,
+        label: root && root.getAttribute('data-da-kitchen-label') || HUB.label,
+        sub: root && root.getAttribute('data-da-kitchen-sub') || HUB.sub
+      },
+      radius: isFinite(radius) && radius > 0 ? radius : RADIUS_MI
+    };
   }
 
   function draw(el) {
@@ -80,8 +99,10 @@
     el._daMap = true;
     loadLeaflet().then(function (L) {
       el.innerHTML = '';
+      var config = mapConfig(el);
+      var hub = config.hub;
       var map = L.map(el, {
-        center: [HUB.lat, HUB.lng],
+        center: [hub.lat, hub.lng],
         zoom: 10,
         scrollWheelZoom: false,
         zoomControl: true,
@@ -91,8 +112,8 @@
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
-      var ring = L.circle([HUB.lat, HUB.lng], {
-        radius: RADIUS_MI * 1609.34,
+      var ring = L.circle([hub.lat, hub.lng], {
+        radius: config.radius * 1609.34,
         color: BRAND,
         weight: 2,
         opacity: 0.75,
@@ -113,22 +134,24 @@
           .bindPopup('<b>' + esc(c.n) + '</b><br>We deliver here');
       });
       el._daState = { map: map, marks: marks };
-      L.circleMarker([HUB.lat, HUB.lng], {
+      L.circleMarker([hub.lat, hub.lng], {
         radius: 9,
         color: '#ffffff',
         weight: 3,
         fillColor: NAVY,
         fillOpacity: 1
       }).addTo(map)
-        .bindTooltip(esc(HUB.label), { direction: 'top', offset: [0, -9] })
-        .bindPopup('<b>' + esc(HUB.label) + '</b><br>' + esc(HUB.sub));
+        .bindTooltip(esc(hub.label), { direction: 'top', offset: [0, -9] })
+        .bindPopup('<b>' + esc(hub.label) + '</b><br>' + esc(hub.sub));
       map.fitBounds(ring.getBounds(), { padding: [16, 16] });
       map.on('focus click', function () { map.scrollWheelZoom.enable(); });
       map.on('blur mouseout', function () { map.scrollWheelZoom.disable(); });
       setTimeout(function () { map.invalidateSize(); }, 300);
       window.addEventListener('resize', function () { map.invalidateSize(); });
     }).catch(function () {
-      el.innerHTML = '<div class="da__map-fallback">The map could not load.</div>';
+      var config = mapConfig(el);
+      var error = config.root && config.root.getAttribute('data-da-map-error') || 'The delivery map could not load.';
+      el.innerHTML = '<div class="da__map-fallback">' + esc(error) + '</div>';
       el._daMap = false;
     });
   }
@@ -138,13 +161,12 @@
     var h = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
     return 2 * 3958.8 * Math.asin(Math.sqrt(h));
   }
-  function findPlace(q) {
+  function findPlace(q, places) {
     var k = norm(q);
-    if (COORDS[k]) return k;
-    var keys = Object.keys(COORDS);
-    for (var i = 0; i < keys.length; i++) {
-      if (k.indexOf(keys[i]) !== -1 || keys[i].indexOf(k) === 0) return keys[i];
-    }
+    var dynamicKey = places.find(function (name) { return norm(name) === k; });
+    if (dynamicKey) return norm(dynamicKey);
+    dynamicKey = places.find(function (name) { return k && norm(name).indexOf(k) === 0; });
+    if (dynamicKey) return norm(dynamicKey);
     return '';
   }
   function showResult(box, miss, html) {
@@ -182,6 +204,19 @@
     var input = form.querySelector('input');
     var btn = form.querySelector('button');
     var places = mapPlaces(block);
+    var config = mapConfig(mapEl || block);
+    var root = config.root || block.closest('.da');
+    var hub = config.hub;
+    var country = (root && root.getAttribute('data-da-country') || 'US').toLowerCase();
+    var region = root && root.getAttribute('data-da-region') || hub.sub;
+    var messages = {
+      yes: root && root.getAttribute('data-da-msg-yes') || 'Yes, we deliver to {place}.',
+      no: root && root.getAttribute('data-da-msg-no') || '{place} is outside our regular delivery area.',
+      fail: root && root.getAttribute('data-da-msg-fail') || 'We could not find that address. Try a city we deliver to.'
+    };
+    var detail = root && root.getAttribute('data-da-msg-detail') || 'Your meals can be delivered to this area.';
+    var checking = root && root.getAttribute('data-da-msg-checking') || 'Checking your address...';
+    function message(template, place) { return esc(String(template).replace(/\{place\}/g, place)); }
     var active = -1;
 
     function hideList() {
@@ -207,9 +242,9 @@
     function pick(name) {
       input.value = name;
       hideList();
-      var key = findPlace(name);
+      var key = findPlace(name, places);
       if (!key) return;
-      showResult(box, false, '<strong>Yes, we deliver to ' + esc(name) + '.</strong>Your meals can be delivered to this area.');
+      showResult(box, false, '<strong>' + message(messages.yes, name) + '</strong>' + esc(detail));
       focusPlace(mapEl, key);
     }
 
@@ -242,31 +277,32 @@
       hideList();
       var q = input.value.trim();
       if (!q) return;
-      var key = findPlace(q);
+      var key = findPlace(q, places);
       if (key) {
         var chosen = places.filter(function (name) { return norm(name) === key; })[0];
         var label = chosen || key.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
-        showResult(box, false, '<strong>Yes, we deliver to ' + esc(label) + '.</strong>Your meals can be delivered to this area.');
+        showResult(box, false, '<strong>' + message(messages.yes, label) + '</strong>' + esc(detail));
         focusPlace(mapEl, key);
         return;
       }
       btn.disabled = true;
-      showResult(box, false, '<strong>Checking your address...</strong>');
-      var url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=us&q=' + encodeURIComponent(q + ', Wisconsin');
+      showResult(box, false, '<strong>' + esc(checking) + '</strong>');
+      var query = region ? q + ', ' + region : q;
+      var url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1' + (country ? '&countrycodes=' + encodeURIComponent(country) : '') + '&q=' + encodeURIComponent(query);
       fetch(url, { headers: { Accept: 'application/json' } }).then(function (r) { return r.json(); }).then(function (rows) {
         var hit = rows && rows[0];
         if (!hit) {
-          showResult(box, true, '<strong>We could not find that address.</strong>Try a city we deliver to, such as Hartland or Delafield.');
+          showResult(box, true, '<strong>' + message(messages.fail, q) + '</strong>');
           return;
         }
-        var d = miles([HUB.lat, HUB.lng], [+hit.lat, +hit.lon]);
-        if (d <= RADIUS_MI) {
-          showResult(box, false, '<strong>Yes, we deliver to ' + esc(q) + '.</strong>About ' + d.toFixed(1) + ' miles from our Hartland kitchen.');
+        var d = miles([hub.lat, hub.lng], [+hit.lat, +hit.lon]);
+        if (d <= config.radius) {
+          showResult(box, false, '<strong>' + message(messages.yes, q) + '</strong>About ' + d.toFixed(1) + ' miles from ' + esc(hub.label) + '.');
         } else {
-          showResult(box, true, '<strong>' + esc(q) + ' is about ' + d.toFixed(1) + ' miles from our kitchen.</strong>That is outside our regular delivery area.');
+          showResult(box, true, '<strong>' + esc(q) + ' is about ' + d.toFixed(1) + ' miles from ' + esc(hub.label) + '.</strong>' + message(messages.no, q));
         }
       }).catch(function () {
-        showResult(box, true, '<strong>We could not find that address.</strong>Try a city we deliver to, such as Hartland or Delafield.');
+        showResult(box, true, '<strong>' + message(messages.fail, q) + '</strong>');
       }).then(function () { btn.disabled = false; });
     });
   }
