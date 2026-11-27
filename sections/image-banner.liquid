@@ -200,14 +200,24 @@
             {%- capture banner_type_style -%}
               {%- render 'pm-block-type-style', block: block -%}
             {%- endcapture -%}
+            {%- assign plate_studio_heading_plain = block.settings.heading | strip_html | strip -%}
+            {%- assign plate_studio_three_line_title = false -%}
+            {%- if section.settings.hero_style == 'plate-studio' and plate_studio_heading_plain == 'Healthy gourmet meal prep you can feel good about' -%}
+              {%- assign plate_studio_three_line_title = true -%}
+            {%- endif -%}
             <h2
-              class="banner__heading inline-richtext {{ block.settings.heading_size }}"
+              class="banner__heading inline-richtext {{ block.settings.heading_size }}{% if plate_studio_three_line_title %} plate-studio__heading--three-lines{% endif %}"
+              {% if plate_studio_three_line_title %}aria-label="{{ block.settings.heading | escape }}"{% endif %}
               {% if banner_type_style != blank %}
                 style="{{ banner_type_style | strip }}"
               {% endif %}
               {{ block.shopify_attributes }}
             >
-              {{ block.settings.heading }}
+              {%- if plate_studio_three_line_title -%}
+                <span>Healthy gourmet</span><span>meal prep you can</span><span>feel good about</span>
+              {%- else -%}
+                {{ block.settings.heading }}
+              {%- endif -%}
             </h2>
           {%- when 'text' -%}
             {%- capture banner_type_style -%}
