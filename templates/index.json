@@ -155,7 +155,7 @@
         "button"
       ],
       "settings": {
-        "hero_style": "harvest-letter",
+        "hero_style": "table",
         "badge_text": "Delivered fresh",
         "show_visual": true,
         "visual_image_1": "shopify://shop_images/plate-chicken-veggies.png",
@@ -6207,151 +6207,201 @@
         "area_1": {
           "type": "area",
           "settings": {
-            "name": "Hartland", "latitude": "43.1051", "longitude": "-88.3420"
+            "name": "Hartland",
+            "latitude": "43.1051",
+            "longitude": "-88.3420"
           }
         },
         "area_2": {
           "type": "area",
           "settings": {
-            "name": "Delafield", "latitude": "43.0608", "longitude": "-88.4037"
+            "name": "Delafield",
+            "latitude": "43.0608",
+            "longitude": "-88.4037"
           }
         },
         "area_3": {
           "type": "area",
           "settings": {
-            "name": "Pewaukee", "latitude": "43.0806", "longitude": "-88.2612"
+            "name": "Pewaukee",
+            "latitude": "43.0806",
+            "longitude": "-88.2612"
           }
         },
         "area_4": {
           "type": "area",
           "settings": {
-            "name": "Waukesha", "latitude": "43.0117", "longitude": "-88.2315"
+            "name": "Waukesha",
+            "latitude": "43.0117",
+            "longitude": "-88.2315"
           }
         },
         "area_5": {
           "type": "area",
           "settings": {
-            "name": "Sussex", "latitude": "43.1336", "longitude": "-88.2223"
+            "name": "Sussex",
+            "latitude": "43.1336",
+            "longitude": "-88.2223"
           }
         },
         "area_6": {
           "type": "area",
           "settings": {
-            "name": "Merton", "latitude": "43.1422", "longitude": "-88.3107"
+            "name": "Merton",
+            "latitude": "43.1422",
+            "longitude": "-88.3107"
           }
         },
         "area_7": {
           "type": "area",
           "settings": {
-            "name": "Nashotah", "latitude": "43.0961", "longitude": "-88.4018"
+            "name": "Nashotah",
+            "latitude": "43.0961",
+            "longitude": "-88.4018"
           }
         },
         "area_8": {
           "type": "area",
           "settings": {
-            "name": "Okauchee Lake", "latitude": "43.1136", "longitude": "-88.4401"
+            "name": "Okauchee Lake",
+            "latitude": "43.1136",
+            "longitude": "-88.4401"
           }
         },
         "area_9": {
           "type": "area",
           "settings": {
-            "name": "Oconomowoc", "latitude": "43.1117", "longitude": "-88.4993"
+            "name": "Oconomowoc",
+            "latitude": "43.1117",
+            "longitude": "-88.4993"
           }
         },
         "area_10": {
           "type": "area",
           "settings": {
-            "name": "Oconomowoc Lake", "latitude": "43.0947", "longitude": "-88.4576"
+            "name": "Oconomowoc Lake",
+            "latitude": "43.0947",
+            "longitude": "-88.4576"
           }
         },
         "area_11": {
           "type": "area",
           "settings": {
-            "name": "Chenequa", "latitude": "43.1236", "longitude": "-88.3815"
+            "name": "Chenequa",
+            "latitude": "43.1236",
+            "longitude": "-88.3815"
           }
         },
         "area_12": {
           "type": "area",
           "settings": {
-            "name": "Lisbon", "latitude": "43.1550", "longitude": "-88.2501"
+            "name": "Lisbon",
+            "latitude": "43.1550",
+            "longitude": "-88.2501"
           }
         },
         "area_13": {
           "type": "area",
           "settings": {
-            "name": "Lannon", "latitude": "43.1492", "longitude": "-88.1626"
+            "name": "Lannon",
+            "latitude": "43.1492",
+            "longitude": "-88.1626"
           }
         },
         "area_14": {
           "type": "area",
           "settings": {
-            "name": "Menomonee Falls", "latitude": "43.1789", "longitude": "-88.1173"
+            "name": "Menomonee Falls",
+            "latitude": "43.1789",
+            "longitude": "-88.1173"
           }
         },
         "area_15": {
           "type": "area",
           "settings": {
-            "name": "Brookfield", "latitude": "43.0606", "longitude": "-88.1065"
+            "name": "Brookfield",
+            "latitude": "43.0606",
+            "longitude": "-88.1065"
           }
         },
         "area_16": {
           "type": "area",
           "settings": {
-            "name": "Elm Grove", "latitude": "43.0431", "longitude": "-88.0787"
+            "name": "Elm Grove",
+            "latitude": "43.0431",
+            "longitude": "-88.0787"
           }
         },
         "area_17": {
           "type": "area",
           "settings": {
-            "name": "Wales", "latitude": "43.0042", "longitude": "-88.3770"
+            "name": "Wales",
+            "latitude": "43.0042",
+            "longitude": "-88.3770"
           }
         },
         "area_18": {
           "type": "area",
           "settings": {
-            "name": "Dousman", "latitude": "43.0136", "longitude": "-88.4723"
+            "name": "Dousman",
+            "latitude": "43.0136",
+            "longitude": "-88.4723"
           }
         },
         "area_19": {
           "type": "area",
           "settings": {
-            "name": "Summit", "latitude": "43.0578", "longitude": "-88.4612"
+            "name": "Summit",
+            "latitude": "43.0578",
+            "longitude": "-88.4612"
           }
         },
         "area_20": {
           "type": "area",
           "settings": {
-            "name": "Lake Country", "latitude": "43.0800", "longitude": "-88.4500"
+            "name": "Lake Country",
+            "latitude": "43.0800",
+            "longitude": "-88.4500"
           }
         },
         "area_21": {
           "type": "area",
           "settings": {
-            "name": "Stone Bank", "latitude": "43.1306", "longitude": "-88.4701"
+            "name": "Stone Bank",
+            "latitude": "43.1306",
+            "longitude": "-88.4701"
           }
         },
         "area_22": {
           "type": "area",
           "settings": {
-            "name": "North Lake", "latitude": "43.1503", "longitude": "-88.3712"
+            "name": "North Lake",
+            "latitude": "43.1503",
+            "longitude": "-88.3712"
           }
         },
         "area_23": {
           "type": "area",
           "settings": {
-            "name": "Mapleton", "latitude": "43.0680", "longitude": "-88.4200"
+            "name": "Mapleton",
+            "latitude": "43.0680",
+            "longitude": "-88.4200"
           }
         },
         "area_24": {
           "type": "area",
           "settings": {
-            "name": "Genesee", "latitude": "42.9689", "longitude": "-88.3654"
+            "name": "Genesee",
+            "latitude": "42.9689",
+            "longitude": "-88.3654"
           }
         },
         "area_25": {
           "type": "area",
           "settings": {
-            "name": "Mukwonago", "latitude": "42.8667", "longitude": "-88.3334"
+            "name": "Mukwonago",
+            "latitude": "42.8667",
+            "longitude": "-88.3334"
           }
         },
         "feat_1": {
@@ -6657,6 +6707,33 @@
         "subheading_accent": "to your neighborhood",
         "button_label": "",
         "button_link": "shopify://collections/meal-plans",
+        "areas_label": "We deliver to",
+        "more_areas_label": "More locations",
+        "less_areas_label": "Show less",
+        "check_label": "Check your address or postal code",
+        "check_placeholder": "Search a delivery area",
+        "check_button": "Check",
+        "coverage_label": "See every city and neighbourhood we serve",
+        "coverage_heading": "Delivery areas",
+        "coverage_note": "Don't see your area? Contact us and we'll let you know if we can deliver to you.",
+        "map_aria_label": "Map of our delivery areas",
+        "map_loading_label": "Loading our delivery map...",
+        "map_error_label": "The delivery map could not load.",
+        "legend_kitchen": "Our kitchen",
+        "legend_areas": "Delivery areas",
+        "legend_zone": "Delivery zone",
+        "kitchen_label": "Chef Matt's Kitchen",
+        "kitchen_sub": "Hartland, WI",
+        "kitchen_lat": "43.1051",
+        "kitchen_lng": "-88.3420",
+        "zone_radius_miles": 20,
+        "lookup_country": "US",
+        "lookup_region": "Wisconsin",
+        "lookup_success": "Yes, we deliver to {place}.",
+        "lookup_delivered_detail": "Your meals can be delivered to this area.",
+        "lookup_checking": "Checking your address...",
+        "lookup_outside": "{place} is outside our regular delivery area.",
+        "lookup_not_found": "We could not find that address. Try a city we deliver to.",
         "plate_tl": "shopify://shop_images/cm-da-plate-tl.webp",
         "plate_tl_alt": "Fresh vegetables plate",
         "plate_tr": "shopify://shop_images/cm-da-plate-tr.webp",
